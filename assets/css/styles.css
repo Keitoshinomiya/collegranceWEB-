@@ -427,38 +427,7 @@ body {
   background: linear-gradient(135deg, var(--white) 0%, var(--soft-cream) 100%);
 }
 
-/* プロフェッショナルカードグリッド */
-.professional-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  margin-top: 40px;
-}
 
-.professional-card {
-  background: var(--white);
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  transition: var(--transition);
-  position: relative;
-}
-
-.professional-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(90, 185, 190, 0.15);
-}
-
-.professional-card .card-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: var(--transition);
-}
-
-.professional-card:hover .card-image {
-  transform: scale(1.02);
-}
 
 /* 香り別ラベルデザインセクション */
 .fragrance-design-section {
@@ -1169,16 +1138,7 @@ html {
     border-radius: 10px;
   }
   
-  /* プロフェッショナルカードのモバイル対応 */
-  .professional-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-    margin-top: 30px;
-  }
-  
-  .professional-card {
-    border-radius: 12px;
-  }
+
   
   /* 新セクションのモバイル対応 */
   .fragrance-design-section,

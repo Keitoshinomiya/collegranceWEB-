@@ -427,80 +427,122 @@ body {
   background: linear-gradient(135deg, var(--white) 0%, var(--soft-cream) 100%);
 }
 
-/* Enhanced Trust Icons */
-.trust-icon.professional {
+/* プロフェッショナルカードグリッド */
+.professional-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.professional-card {
+  background: var(--white);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: var(--transition);
   position: relative;
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--main-color) 0%, #4AA4A9 100%);
-  box-shadow: 0 10px 25px rgba(90, 185, 190, 0.3);
+}
+
+.professional-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(90, 185, 190, 0.15);
+}
+
+.professional-card .card-image {
+  width: 100%;
+  height: auto;
+  display: block;
   transition: var(--transition);
 }
 
-.trust-icon.professional:hover {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 15px 35px rgba(90, 185, 190, 0.4);
+.professional-card:hover .card-image {
+  transform: scale(1.02);
 }
 
-.trust-icon.professional .icon-bg {
+/* 香り別ラベルデザインセクション */
+.fragrance-design-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, var(--soft-cream) 0%, #f8f9fa 100%);
+}
+
+.fragrance-design-content {
+  text-align: center;
+}
+
+.fragrance-design-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  transition: var(--transition);
+}
+
+.fragrance-design-image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+}
+
+/* ライフスタイルストーリーセクション */
+.lifestyle-story-section {
+  padding: 80px 0;
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.lifestyle-story-section::before {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  opacity: 0.2;
-  background-size: cover;
-  background-position: center;
+  background: linear-gradient(135deg, rgba(90, 185, 190, 0.02) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(90, 185, 190, 0.02) 100%);
+  z-index: 1;
 }
 
-.trust-icon.professional .icon-bg.lab {
-  background-image: linear-gradient(45deg, rgba(255,255,255,0.3) 0%, rgba(90, 185, 190, 0.3) 100%);
-}
-
-.trust-icon.professional .icon-bg.quality {
-  background-image: linear-gradient(45deg, rgba(255,255,255,0.3) 0%, rgba(212, 175, 55, 0.3) 100%);
-}
-
-.trust-icon.professional .icon-bg.authentic {
-  background-image: linear-gradient(45deg, rgba(255,255,255,0.3) 0%, rgba(139, 123, 107, 0.3) 100%);
-}
-
-.trust-icon.professional .icon-bg.expert {
-  background-image: linear-gradient(45deg, rgba(255,255,255,0.3) 0%, rgba(90, 185, 190, 0.3) 100%);
-}
-
-.trust-icon.professional .icon-text {
+.lifestyle-story-content {
   position: relative;
   z-index: 2;
-  font-size: 2rem;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  text-align: center;
 }
 
-.trust-item.enhanced {
-  position: relative;
-  overflow: hidden;
-}
-
-.trust-item.enhanced::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(90, 185, 190, 0.1), transparent);
+.lifestyle-story-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 25px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
   transition: var(--transition);
 }
 
-.trust-item.enhanced:hover::before {
-  left: 100%;
-  transition: left 0.6s;
+.lifestyle-story-image:hover {
+  transform: scale(1.01);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.18);
+}
+
+/* サステナブルセクション */
+.sustainable-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, var(--soft-cream) 50%, #f8f9fa 100%);
+  position: relative;
+}
+
+.sustainable-content {
+  text-align: center;
+}
+
+.sustainable-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 25px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  transition: var(--transition);
+}
+
+.sustainable-image:hover {
+  transform: scale(1.01);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.15);
 }
 
 .trust-item h3 {
@@ -1127,27 +1169,28 @@ html {
     border-radius: 10px;
   }
   
-  .trust-icon.professional {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 15px;
+  /* プロフェッショナルカードのモバイル対応 */
+  .professional-cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 30px;
   }
   
-  .trust-icon.professional .icon-text {
-    font-size: 1.5rem;
+  .professional-card {
+    border-radius: 12px;
   }
   
-  .trust-item.enhanced {
-    padding: 25px 20px;
+  /* 新セクションのモバイル対応 */
+  .fragrance-design-section,
+  .lifestyle-story-section,
+  .sustainable-section {
+    padding: 40px 0;
   }
   
-  .trust-item h3 {
-    font-size: 1.1rem;
-    margin-bottom: 12px;
-  }
-  
-  .trust-item p {
-    font-size: 0.95rem;
-    line-height: 1.6;
+  .fragrance-design-image,
+  .lifestyle-story-image,
+  .sustainable-image {
+    max-width: 95%;
+    border-radius: 15px;
   }
 }

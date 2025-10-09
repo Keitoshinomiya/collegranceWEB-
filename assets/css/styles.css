@@ -745,6 +745,14 @@ body {
   line-height: 1.8;
 }
 
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
 .cta-buttons .btn-primary {
   background: var(--white);
   color: var(--main-color);
@@ -752,6 +760,18 @@ body {
 
 .cta-buttons .btn-primary:hover {
   background: var(--light-gray);
+  transform: translateY(-3px);
+}
+
+.cta-buttons .btn-secondary {
+  background: transparent;
+  color: var(--white);
+  border: 2px solid var(--white);
+}
+
+.cta-buttons .btn-secondary:hover {
+  background: var(--white);
+  color: var(--main-color);
   transform: translateY(-3px);
 }
 

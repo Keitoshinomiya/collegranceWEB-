@@ -145,16 +145,16 @@ body {
   transition: var(--transition);
 }
 
-/* Hero Section */
+/* Hero Section - Enhanced Large Visual */
 .hero {
-  padding: 120px 0 80px;
+  padding: 140px 0 100px;
   background: linear-gradient(135deg, 
     var(--soft-cream) 0%, 
     rgba(245, 245, 220, 0.7) 25%,
     rgba(90, 185, 190, 0.1) 50%,
     var(--sub-color-2) 75%,
     rgba(235, 230, 95, 0.2) 100%);
-  min-height: 100vh;
+  min-height: 120vh; /* 大きく拡張 */
   display: flex;
   align-items: center;
   position: relative;
@@ -174,41 +174,67 @@ body {
 
 .hero .container {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 60px;
+  grid-template-columns: 1fr 1.2fr; /* 画像を大きく */
+  gap: 80px; /* スペースを広く */
   align-items: center;
   position: relative;
   z-index: 2;
+  max-width: 1400px; /* コンテナを大きく */
 }
 
 .hero-title .main-message {
   display: block;
   font-family: var(--font-brand);
-  font-size: 4rem;
-  font-weight: 600;
+  font-size: 5.5rem; /* さらに大きく */
+  font-weight: 700;
   color: var(--main-color);
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  animation: fadeInUp 1s ease-out;
 }
 
 .hero-title .sub-message {
   display: block;
   font-family: var(--font-brand);
-  font-size: 3rem;
-  font-weight: 500;
+  font-size: 4rem; /* さらに大きく */
+  font-weight: 600;
   color: var(--text-dark);
+  animation: fadeInUp 1s ease-out 0.2s both;
 }
 
 .hero-description {
-  font-size: 1.1rem;
+  font-size: 1.3rem; /* 大きく */
   color: var(--text-light);
-  margin: 30px 0 40px;
+  margin: 40px 0 50px; /* マージンも大きく */
   line-height: 1.8;
+  font-weight: 400;
+  animation: fadeInUp 1s ease-out 0.4s both;
 }
 
 .hero-cta {
   display: flex;
-  gap: 20px;
+  gap: 25px;
   flex-wrap: wrap;
+  margin-top: 60px;
+  animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+.hero-cta .btn-quiz {
+  font-size: 1.3rem;
+  padding: 18px 40px;
+  border-radius: 35px;
+}
+
+.hero-cta .btn-primary {
+  font-size: 1.2rem;
+  padding: 16px 35px;
+  border-radius: 35px;
+}
+
+.hero-cta .btn-secondary {
+  font-size: 1.1rem;
+  padding: 16px 35px;
+  border-radius: 35px;
 }
 
 .btn-primary, .btn-secondary {
@@ -291,30 +317,78 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.hero-image::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  right: -50px;
+  bottom: -50px;
+  background: radial-gradient(circle, rgba(90, 185, 190, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse 4s ease-in-out infinite;
 }
 
 .main-hero-image {
   width: 100%;
-  max-width: 500px;
+  max-width: 650px; /* より大きく */
   height: auto;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  border-radius: 25px; /* 角丸も大きく */
+  box-shadow: 0 30px 60px rgba(0,0,0,0.2); /* シャドウを強く */
   transition: var(--transition);
-}
-
-.main-hero-image {
-  animation: float 3s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
+  animation: float 4s ease-in-out infinite, fadeInRight 1.2s ease-out;
 }
 
 .main-hero-image:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+  transform: translateY(-15px) scale(1.02); /* ホバーエフェクト強化 */
+  box-shadow: 0 40px 80px rgba(0,0,0,0.25);
   animation-play-state: paused;
 }
 
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
   50% {
     transform: translateY(-15px);
@@ -850,17 +924,42 @@ body {
     display: flex;
   }
   
+  .hero {
+    min-height: 100vh;
+    padding: 120px 0 80px;
+  }
+  
   .hero .container {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: 50px;
+    max-width: 100%;
   }
   
   .hero-title .main-message {
-    font-size: 3rem;
+    font-size: 3.8rem; /* モバイルでも大きく */
   }
   
   .hero-title .sub-message {
-    font-size: 2.5rem;
+    font-size: 3rem; /* モバイルでも大きく */
+  }
+  
+  .hero-description {
+    font-size: 1.15rem;
+    margin: 35px 0 45px;
+  }
+  
+  .hero-cta {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .hero-cta .btn-quiz,
+  .hero-cta .btn-primary,
+  .hero-cta .btn-secondary {
+    width: 100%;
+    max-width: 280px;
   }
   
   .about-content {
@@ -869,7 +968,7 @@ body {
   }
   
   .main-hero-image {
-    max-width: 350px;
+    max-width: 450px; /* モバイルでも大きく */
   }
   
   .trust-grid {

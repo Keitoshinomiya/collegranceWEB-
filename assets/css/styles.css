@@ -907,7 +907,22 @@ body {
   opacity: 0.6;
 }
 
-/* Responsive Design */
+/* Tablet Design */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .brand-title .main-message {
+    font-size: 4.2rem;
+  }
+  
+  .brand-title .sub-message {
+    font-size: 3rem;
+  }
+  
+  .hero-main-image {
+    max-height: 75vh;
+  }
+}
+
+/* Mobile Design */
 @media (max-width: 768px) {
   .nav-menu {
     display: none;
@@ -918,7 +933,8 @@ body {
   }
   
   .hero-main-image {
-    max-height: 70vh;
+    max-height: 60vh; /* モバイルでより適切な高さ */
+    object-position: center; /* フォーカス位置調整 */
   }
   
   .brand-message-section {
@@ -954,6 +970,26 @@ body {
   .about-content {
     grid-template-columns: 1fr;
     text-align: center;
+  }
+}
+
+/* Extra Small Mobile (iPhone SE etc.) */
+@media (max-width: 375px) {
+  .brand-title .main-message {
+    font-size: 2.8rem;
+  }
+  
+  .brand-title .sub-message {
+    font-size: 2.2rem;
+  }
+  
+  .brand-description {
+    font-size: 1rem;
+    margin: 25px 0 35px;
+  }
+  
+  .hero-main-image {
+    max-height: 50vh;
   }
   
   .trust-grid {

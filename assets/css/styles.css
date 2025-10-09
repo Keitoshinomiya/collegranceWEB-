@@ -145,54 +145,24 @@ body {
   transition: var(--transition);
 }
 
-/* Hero Section with Background Slider */
+/* Hero Section - Clean Image Only */
 .hero {
-  min-height: 120vh;
-  display: flex;
-  align-items: center;
+  width: 100%;
   position: relative;
   overflow: hidden;
 }
 
-/* Hero Slider */
-.hero-slider {
-  position: absolute;
-  top: 0;
-  left: 0;
+.hero-image-container {
   width: 100%;
-  height: 100%;
-  z-index: 1;
+  position: relative;
 }
 
-.hero-slide {
-  position: absolute;
-  top: 0;
-  left: 0;
+.hero-main-image {
   width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0;
-  transition: opacity 2s ease-in-out;
-}
-
-.hero-slide.active {
-  opacity: 1;
-}
-
-.slide-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, 
-    rgba(245, 245, 220, 0.8) 0%, 
-    rgba(90, 185, 190, 0.6) 25%,
-    rgba(90, 185, 190, 0.4) 50%,
-    rgba(245, 245, 220, 0.7) 75%,
-    rgba(235, 230, 95, 0.5) 100%);
+  height: auto;
+  max-height: 90vh;
+  object-fit: cover;
+  display: block;
 }
 
 .hero::before {
@@ -206,34 +176,41 @@ body {
   opacity: 0.7;
 }
 
-/* Hero Content */
-.hero-content {
+/* Brand Message Section */
+.brand-message-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, 
+    var(--soft-cream) 0%, 
+    rgba(245, 245, 220, 0.7) 25%,
+    rgba(90, 185, 190, 0.1) 50%,
+    var(--sub-color-2) 75%,
+    rgba(235, 230, 95, 0.2) 100%);
+  text-align: center;
   position: relative;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
 }
 
-.hero .container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 20px;
+.brand-message-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" patternUnits="userSpaceOnUse" width="100" height="100"><circle cx="25" cy="25" r="1" fill="rgba(139,123,107,0.03)"/><circle cx="75" cy="75" r="1.5" fill="rgba(90,185,190,0.05)"/><circle cx="50" cy="10" r="0.5" fill="rgba(212,175,55,0.04)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.7;
+}
+
+.brand-message-content {
   position: relative;
   z-index: 2;
-}
-
-.hero-text {
-  max-width: 800px;
-  text-align: center;
+  max-width: 900px;
   margin: 0 auto;
 }
 
-.hero-title .main-message {
+.brand-title .main-message {
   display: block;
   font-family: var(--font-brand);
-  font-size: 5.5rem; /* さらに大きく */
+  font-size: 5rem;
   font-weight: 700;
   color: var(--main-color);
   margin-bottom: 15px;
@@ -241,82 +218,52 @@ body {
   animation: fadeInUp 1s ease-out;
 }
 
-.hero-title .sub-message {
+.brand-title .sub-message {
   display: block;
   font-family: var(--font-brand);
-  font-size: 4rem; /* さらに大きく */
+  font-size: 3.5rem;
   font-weight: 600;
   color: var(--text-dark);
   animation: fadeInUp 1s ease-out 0.2s both;
 }
 
-.hero-description {
-  font-size: 1.3rem; /* 大きく */
+.brand-description {
+  font-size: 1.2rem;
   color: var(--text-light);
-  margin: 40px 0 50px; /* マージンも大きく */
+  margin: 40px 0 50px;
   line-height: 1.8;
   font-weight: 400;
   animation: fadeInUp 1s ease-out 0.4s both;
 }
 
-.hero-cta {
+.brand-cta {
   display: flex;
+  justify-content: center;
   gap: 25px;
   flex-wrap: wrap;
-  margin-top: 60px;
+  margin-top: 50px;
   animation: fadeInUp 1s ease-out 0.6s both;
 }
 
-.hero-cta .btn-quiz {
-  font-size: 1.3rem;
-  padding: 18px 40px;
-  border-radius: 35px;
-}
-
-.hero-cta .btn-primary {
+.brand-cta .btn-quiz {
   font-size: 1.2rem;
-  padding: 16px 35px;
-  border-radius: 35px;
+  padding: 18px 35px;
+  border-radius: 30px;
 }
 
-.hero-cta .btn-secondary {
+.brand-cta .btn-primary {
   font-size: 1.1rem;
-  padding: 16px 35px;
-  border-radius: 35px;
+  padding: 16px 30px;
+  border-radius: 30px;
 }
 
-/* Slider Navigation */
-.slider-nav {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 15px;
-  z-index: 15;
+.brand-cta .btn-secondary {
+  font-size: 1rem;
+  padding: 16px 30px;
+  border-radius: 30px;
 }
 
-.slider-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid var(--white);
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  opacity: 0.6;
-}
 
-.slider-dot:hover {
-  opacity: 0.8;
-  transform: scale(1.1);
-}
-
-.slider-dot.active {
-  background: var(--white);
-  opacity: 1;
-  transform: scale(1.2);
-}
 
 .btn-primary, .btn-secondary {
   padding: 15px 30px;
@@ -970,47 +917,38 @@ body {
     display: flex;
   }
   
-  .hero {
-    min-height: 100vh;
+  .hero-main-image {
+    max-height: 70vh;
   }
   
-  .hero-content {
-    padding: 120px 20px 80px;
+  .brand-message-section {
+    padding: 60px 0;
   }
   
-  .hero-title .main-message {
-    font-size: 3.5rem;
+  .brand-title .main-message {
+    font-size: 3.2rem;
   }
   
-  .hero-title .sub-message {
-    font-size: 2.8rem;
+  .brand-title .sub-message {
+    font-size: 2.5rem;
   }
   
-  .hero-description {
+  .brand-description {
     font-size: 1.1rem;
     margin: 30px 0 40px;
   }
   
-  .hero-cta {
+  .brand-cta {
     flex-direction: column;
     gap: 20px;
     align-items: center;
   }
   
-  .hero-cta .btn-quiz,
-  .hero-cta .btn-primary,
-  .hero-cta .btn-secondary {
+  .brand-cta .btn-quiz,
+  .brand-cta .btn-primary,
+  .brand-cta .btn-secondary {
     width: 100%;
     max-width: 280px;
-  }
-  
-  .slider-nav {
-    bottom: 30px;
-  }
-  
-  .slider-dot {
-    width: 12px;
-    height: 12px;
   }
   
   .about-content {

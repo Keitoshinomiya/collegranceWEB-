@@ -145,20 +145,54 @@ body {
   transition: var(--transition);
 }
 
-/* Hero Section - Enhanced Large Visual */
+/* Hero Section with Background Slider */
 .hero {
-  padding: 140px 0 100px;
-  background: linear-gradient(135deg, 
-    var(--soft-cream) 0%, 
-    rgba(245, 245, 220, 0.7) 25%,
-    rgba(90, 185, 190, 0.1) 50%,
-    var(--sub-color-2) 75%,
-    rgba(235, 230, 95, 0.2) 100%);
-  min-height: 120vh; /* 大きく拡張 */
+  min-height: 120vh;
   display: flex;
   align-items: center;
   position: relative;
   overflow: hidden;
+}
+
+/* Hero Slider */
+.hero-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+.hero-slide.active {
+  opacity: 1;
+}
+
+.slide-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+    rgba(245, 245, 220, 0.8) 0%, 
+    rgba(90, 185, 190, 0.6) 25%,
+    rgba(90, 185, 190, 0.4) 50%,
+    rgba(245, 245, 220, 0.7) 75%,
+    rgba(235, 230, 95, 0.5) 100%);
 }
 
 .hero::before {
@@ -172,14 +206,28 @@ body {
   opacity: 0.7;
 }
 
-.hero .container {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr; /* 画像を大きく */
-  gap: 80px; /* スペースを広く */
+/* Hero Content */
+.hero-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
   align-items: center;
+}
+
+.hero .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
   position: relative;
   z-index: 2;
-  max-width: 1400px; /* コンテナを大きく */
+}
+
+.hero-text {
+  max-width: 800px;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .hero-title .main-message {
@@ -235,6 +283,39 @@ body {
   font-size: 1.1rem;
   padding: 16px 35px;
   border-radius: 35px;
+}
+
+/* Slider Navigation */
+.slider-nav {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 15;
+}
+
+.slider-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.6;
+}
+
+.slider-dot:hover {
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+
+.slider-dot.active {
+  background: var(--white);
+  opacity: 1;
+  transform: scale(1.2);
 }
 
 .btn-primary, .btn-secondary {
@@ -313,42 +394,7 @@ body {
   box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
 }
 
-.hero-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
 
-.hero-image::before {
-  content: '';
-  position: absolute;
-  top: -50px;
-  left: -50px;
-  right: -50px;
-  bottom: -50px;
-  background: radial-gradient(circle, rgba(90, 185, 190, 0.1) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: pulse 4s ease-in-out infinite;
-}
-
-.main-hero-image {
-  width: 100%;
-  max-width: 650px; /* より大きく */
-  height: auto;
-  border-radius: 25px; /* 角丸も大きく */
-  box-shadow: 0 30px 60px rgba(0,0,0,0.2); /* シャドウを強く */
-  transition: var(--transition);
-  position: relative;
-  z-index: 2;
-  animation: float 4s ease-in-out infinite, fadeInRight 1.2s ease-out;
-}
-
-.main-hero-image:hover {
-  transform: translateY(-15px) scale(1.02); /* ホバーエフェクト強化 */
-  box-shadow: 0 40px 80px rgba(0,0,0,0.25);
-  animation-play-state: paused;
-}
 
 @keyframes float {
   0%, 100% {
@@ -926,27 +972,23 @@ body {
   
   .hero {
     min-height: 100vh;
-    padding: 120px 0 80px;
   }
   
-  .hero .container {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 50px;
-    max-width: 100%;
+  .hero-content {
+    padding: 120px 20px 80px;
   }
   
   .hero-title .main-message {
-    font-size: 3.8rem; /* モバイルでも大きく */
+    font-size: 3.5rem;
   }
   
   .hero-title .sub-message {
-    font-size: 3rem; /* モバイルでも大きく */
+    font-size: 2.8rem;
   }
   
   .hero-description {
-    font-size: 1.15rem;
-    margin: 35px 0 45px;
+    font-size: 1.1rem;
+    margin: 30px 0 40px;
   }
   
   .hero-cta {
@@ -962,13 +1004,18 @@ body {
     max-width: 280px;
   }
   
+  .slider-nav {
+    bottom: 30px;
+  }
+  
+  .slider-dot {
+    width: 12px;
+    height: 12px;
+  }
+  
   .about-content {
     grid-template-columns: 1fr;
     text-align: center;
-  }
-  
-  .main-hero-image {
-    max-width: 450px; /* モバイルでも大きく */
   }
   
   .trust-grid {

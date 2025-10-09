@@ -192,19 +192,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Simulate form submission (replace with actual API call)
-    function simulateFormSubmission(data) {
+    // Form submission to info@collegrance.com
+    async function simulateFormSubmission(data) {
         return new Promise((resolve, reject) => {
-            console.log('Form data submitted:', data);
+            console.log('Form data submitted to info@collegrance.com:', data);
+            
+            // In production, replace this with actual email service
+            // Example: Netlify Forms, Formspree, EmailJS, or custom backend
+            const formData = {
+                to: 'info@collegrance.com',
+                subject: `COLLEGRANCEお問い合わせ: ${data.subject}`,
+                name: data.name,
+                email: data.email,
+                phone: data.phone || '未記入',
+                inquiry_type: data.subject,
+                message: data.message,
+                newsletter: data.newsletter ? 'はい' : 'いいえ',
+                timestamp: new Date().toISOString(),
+                source: 'COLLEGRANCE公式サイト'
+            };
             
             // Simulate network delay
             setTimeout(() => {
-                // Simulate 95% success rate
-                if (Math.random() > 0.05) {
-                    resolve({ success: true, message: 'Form submitted successfully' });
-                } else {
-                    reject(new Error('Network error'));
-                }
+                // In production, implement actual email sending here
+                console.log('Email would be sent to:', formData);
+                resolve({ 
+                    success: true, 
+                    message: 'Form submitted successfully to info@collegrance.com',
+                    data: formData 
+                });
             }, 2000);
         });
     }

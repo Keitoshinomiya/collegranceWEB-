@@ -56,6 +56,7 @@
                         けれど<strong>COLLEGRANCE</strong>となら、きっと見つかるはずです。
                     </p>
                     <div class="hero-cta">
+                        <button id="fragranceQuiz" class="btn-quiz">✨ 香水診断を受ける</button>
                         <a href="#" class="btn-primary">Amazonストアで商品を見る</a>
                         <a href="#trust" class="btn-secondary">安心・品質について</a>
                     </div>
@@ -75,6 +76,25 @@
             <div class="section-header">
                 <h2>安心・品質へのこだわり</h2>
                 <p class="section-subtitle">正規品のみ取り扱い、専門知識と許可に基づいた徹底した品質管理</p>
+            </div>
+            
+            <div class="trust-stats">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="200">0</div>
+                    <div class="stat-label">取扱ブランド数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="10000">0</div>
+                    <div class="stat-label">満足いただいたお客様</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="99">0</div>
+                    <div class="stat-label">品質管理レベル（%）</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="1000">0</div>
+                    <div class="stat-label">1本あたりの価格（円）</div>
+                </div>
             </div>
             
             <div class="trust-grid">
@@ -243,6 +263,63 @@
             </div>
         </div>
     </footer>
+
+    <!-- Fragrance Quiz Modal -->
+    <div id="fragranceQuizModal" class="quiz-modal">
+        <div class="quiz-content">
+            <span class="quiz-close">&times;</span>
+            <div class="quiz-header">
+                <h2>あなたにぴったりの香りを見つけよう</h2>
+                <p>3つの簡単な質問で理想の香りをご提案します</p>
+            </div>
+            
+            <div class="quiz-step" id="step1">
+                <h3>どんなシーンで香水を使いたいですか？</h3>
+                <div class="quiz-options">
+                    <button class="quiz-option" data-answer="business">👔 オフィス・ビジネス</button>
+                    <button class="quiz-option" data-answer="casual">☕ カジュアル・デイリー</button>
+                    <button class="quiz-option" data-answer="evening">🌙 夜・デート</button>
+                    <button class="quiz-option" data-answer="special">✨ 特別な日</button>
+                </div>
+            </div>
+            
+            <div class="quiz-step" id="step2" style="display:none;">
+                <h3>好みの香りのタイプは？</h3>
+                <div class="quiz-options">
+                    <button class="quiz-option" data-answer="floral">🌸 フローラル（花の香り）</button>
+                    <button class="quiz-option" data-answer="citrus">🍊 シトラス（爽やか）</button>
+                    <button class="quiz-option" data-answer="woody">🌿 ウッディ（木の香り）</button>
+                    <button class="quiz-option" data-answer="oriental">🕯️ オリエンタル（重厚）</button>
+                </div>
+            </div>
+            
+            <div class="quiz-step" id="step3" style="display:none;">
+                <h3>香りの強さはどれくらいがお好み？</h3>
+                <div class="quiz-options">
+                    <button class="quiz-option" data-answer="light">🌟 ほのかに香る</button>
+                    <button class="quiz-option" data-answer="medium">⭐ 適度にしっかり</button>
+                    <button class="quiz-option" data-answer="strong">✨ 印象的に</button>
+                </div>
+            </div>
+            
+            <div class="quiz-result" id="quizResult" style="display:none;">
+                <h3>あなたにおすすめの香りタイプ</h3>
+                <div class="result-content">
+                    <div class="result-image">
+                        <img id="resultImage" src="" alt="おすすめの香り">
+                    </div>
+                    <div class="result-text">
+                        <h4 id="resultTitle"></h4>
+                        <p id="resultDescription"></p>
+                        <div class="result-brands" id="resultBrands"></div>
+                    </div>
+                </div>
+                <div class="result-cta">
+                    <a href="#" class="btn-primary">この香りをAmazonで探す</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- JavaScript -->
     <script src="assets/js/script.js"></script>

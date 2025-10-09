@@ -90,6 +90,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Trust Section Counter Animation
     const trustCounters = document.querySelectorAll('.trust-item');
+    const statCounters = document.querySelectorAll('.stat-number');
+    
     const trustObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -97,6 +99,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, { threshold: 0.5 });
+    
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                statsObserver.unobserve(entry.target); // Only animate once
+            }
+        });
+    }, { threshold: 0.7 });
+    
+    statCounters.forEach(counter => {
+        statsObserver.observe(counter);
+    });
     
     trustCounters.forEach(counter => {
         trustObserver.observe(counter);
@@ -109,6 +124,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 icon.style.animation = 'bounce 0.6s ease';
             }, 200);
         }
+    }
+    
+    function animateCounter(counter) {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2000; // 2 seconds
+        const steps = 60;
+        const stepValue = target / steps;
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += stepValue;
+            if (current >= target) {
+                counter.textContent = target.toLocaleString();
+                clearInterval(timer);
+            } else {
+                counter.textContent = Math.floor(current).toLocaleString();
+            }
+        }, duration / steps);
     }
     
     // Parallax Effect for Hero Section
@@ -243,6 +276,136 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
     document.head.appendChild(style);
+    
+    // Fragrance Quiz Implementation
+    const fragranceQuizButton = document.getElementById('fragranceQuiz');
+    const quizModal = document.getElementById('fragranceQuizModal');
+    const closeQuiz = document.querySelector('.quiz-close');
+    
+    let quizAnswers = {};
+    let currentStep = 1;
+    
+    // Quiz data for recommendations
+    const fragranceDatabase = {
+        'business-floral-light': {
+            title: 'エレガント・フローラル',
+            description: 'オフィスにぴったりの上品で洗練された花の香り。周りに好印象を与える、控えめで美しい香りです。',
+            image: 'https://page.gensparksite.com/v1/base64_upload/a91efc7711a29355588d6c5cd2f6c60a',
+            brands: ['エルメス', 'ディプティック', 'ルラボ']
+        },
+        'business-citrus-light': {
+            title: 'フレッシュ・シトラス',
+            description: 'ビジネスシーンに最適な清潔感のある爽やかな香り。集中力を高め、清々しい印象を与えます。',
+            image: 'https://page.gensparksite.com/v1/base64_upload/ca1fe49ee5836bbff9bd373169332662',
+            brands: ['エルメス', 'メゾンマルジェラ']
+        },
+        'evening-oriental-medium': {
+            title: 'セクシー・オリエンタル',
+            description: '夜のデートにぴったりの魅惑的で印象的な香り。大人の魅力を引き出す深みのある香りです。',
+            image: 'https://page.gensparksite.com/v1/base64_upload/be264a989fb392963e99b537560ff311',
+            brands: ['ルラボ', 'ディプティック']
+        },
+        'casual-woody-medium': {
+            title: 'ナチュラル・ウッディ',
+            description: 'デイリーユースにぴったりの温かみのある木の香り。自然体で親しみやすい印象を与えます。',
+            image: 'https://page.gensparksite.com/v1/base64_upload/8c2c90b4e84d97eba6f4375b3057d5db',
+            brands: ['エルメス', 'ルラボ', 'メゾンマルジェラ']
+        },
+        // Default fallback
+        'default': {
+            title: 'バランス・クラシック',
+            description: 'どんなシーンにも合う万能な香り。上品で洗練された、誰からも愛される香りです。',
+            image: 'https://page.gensparksite.com/v1/base64_upload/a5e9db2030063924bb2b93f58db6a186',
+            brands: ['エルメス', 'ルラボ', 'ディプティック']
+        }
+    };
+    
+    if (fragranceQuizButton) {
+        fragranceQuizButton.addEventListener('click', function() {
+            quizModal.style.display = 'block';
+            currentStep = 1;
+            quizAnswers = {};
+            showStep(1);
+        });
+    }
+    
+    if (closeQuiz) {
+        closeQuiz.addEventListener('click', function() {
+            quizModal.style.display = 'none';
+        });
+    }
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === quizModal) {
+            quizModal.style.display = 'none';
+        }
+    });
+    
+    function showStep(stepNumber) {
+        // Hide all steps
+        document.querySelectorAll('.quiz-step').forEach(step => {
+            step.style.display = 'none';
+        });
+        
+        // Show current step
+        const currentStepElement = document.getElementById(`step${stepNumber}`);
+        if (currentStepElement) {
+            currentStepElement.style.display = 'block';
+        }
+        
+        // Add event listeners to options
+        const options = currentStepElement.querySelectorAll('.quiz-option');
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                const answer = this.getAttribute('data-answer');
+                
+                if (stepNumber === 1) {
+                    quizAnswers.scene = answer;
+                    currentStep = 2;
+                    showStep(2);
+                } else if (stepNumber === 2) {
+                    quizAnswers.type = answer;
+                    currentStep = 3;
+                    showStep(3);
+                } else if (stepNumber === 3) {
+                    quizAnswers.strength = answer;
+                    showResult();
+                }
+            });
+        });
+    }
+    
+    function showResult() {
+        // Hide all steps
+        document.querySelectorAll('.quiz-step').forEach(step => {
+            step.style.display = 'none';
+        });
+        
+        // Show result
+        const resultElement = document.getElementById('quizResult');
+        resultElement.style.display = 'block';
+        
+        // Generate recommendation key
+        const recommendationKey = `${quizAnswers.scene}-${quizAnswers.type}-${quizAnswers.strength}`;
+        
+        // Get recommendation (fallback to default if specific combination not found)
+        const recommendation = fragranceDatabase[recommendationKey] || fragranceDatabase['default'];
+        
+        // Update result content
+        document.getElementById('resultImage').src = recommendation.image;
+        document.getElementById('resultTitle').textContent = recommendation.title;
+        document.getElementById('resultDescription').textContent = recommendation.description;
+        
+        const brandsContainer = document.getElementById('resultBrands');
+        brandsContainer.innerHTML = '';
+        recommendation.brands.forEach(brand => {
+            const brandTag = document.createElement('span');
+            brandTag.className = 'brand-tag';
+            brandTag.textContent = brand;
+            brandsContainer.appendChild(brandTag);
+        });
+    }
     
     // Console log for debugging
     console.log('COLLEGRANCE website initialized');

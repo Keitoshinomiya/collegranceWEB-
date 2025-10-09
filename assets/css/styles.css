@@ -235,20 +235,18 @@ body {
   align-items: center;
 }
 
-.bottle-placeholder {
-  width: 400px;
-  height: 500px;
-  background: linear-gradient(145deg, var(--soft-cream), var(--sub-color-2));
+.main-hero-image {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
   border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--warm-taupe);
-  font-style: italic;
-  text-align: center;
-  padding: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  border: 2px solid rgba(139, 123, 107, 0.1);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  transition: var(--transition);
+}
+
+.main-hero-image:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.2);
 }
 
 /* Trust Section */
@@ -372,19 +370,17 @@ body {
   line-height: 1.7;
 }
 
-.image-placeholder {
+.about-main-image {
   width: 100%;
-  height: 400px;
-  background: linear-gradient(145deg, var(--muted-gold), var(--sub-color-1));
+  height: auto;
   border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--warm-taupe);
-  font-style: italic;
-  text-align: center;
   box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-  border: 2px solid rgba(212, 175, 55, 0.2);
+  transition: var(--transition);
+}
+
+.about-main-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
 /* Service Section */
@@ -414,9 +410,17 @@ body {
   border-color: var(--main-color);
 }
 
-.service-icon {
-  font-size: 3rem;
+.service-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
   margin-bottom: 20px;
+  transition: var(--transition);
+}
+
+.service-image:hover {
+  transform: scale(1.05);
 }
 
 .service-card h3 {
@@ -489,6 +493,27 @@ body {
   background: linear-gradient(135deg, var(--main-color) 0%, #4a9fa4 100%);
   color: var(--white);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-background-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.1;
+  z-index: 1;
+}
+
+.cta-bg-logo {
+  width: 300px;
+  height: auto;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 2;
 }
 
 .cta-content h2 {
@@ -609,9 +634,8 @@ body {
     text-align: center;
   }
   
-  .bottle-placeholder {
-    width: 300px;
-    height: 400px;
+  .main-hero-image {
+    max-width: 350px;
   }
   
   .trust-grid {
@@ -648,9 +672,16 @@ body {
     font-size: 2rem;
   }
   
-  .bottle-placeholder {
-    width: 250px;
-    height: 300px;
+  .main-hero-image {
+    max-width: 280px;
+  }
+  
+  .service-image {
+    height: 150px;
+  }
+  
+  .cta-bg-logo {
+    width: 200px;
   }
   
   .brands-grid {

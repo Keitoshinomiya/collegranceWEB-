@@ -708,13 +708,53 @@ body {
   box-shadow: 0 20px 50px rgba(90, 185, 190, 0.15);
 }
 
+/* Product header for brand and color badge */
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 .product-brand {
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--main-color);
   letter-spacing: 1px;
-  margin-bottom: 10px;
   text-transform: uppercase;
+}
+
+/* Color classification badges */
+.color-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  border: 2px solid rgba(255,255,255,0.8);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: var(--transition);
+}
+
+.color-badge.color-a {
+  background-color: #EBE65F;
+}
+
+.color-badge.color-b {
+  background-color: #FAF5BE;
+}
+
+.color-badge.color-c {
+  background-color: #5AB9BE;
+  color: var(--white);
+}
+
+.color-badge.color-d {
+  background-color: #FFC3B9;
 }
 
 .product-name {
@@ -728,7 +768,8 @@ body {
 
 .product-details {
   display: flex;
-  gap: 15px;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-bottom: 15px;
 }
 
@@ -748,6 +789,50 @@ body {
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 500;
+}
+
+.product-origin {
+  background: rgba(139, 134, 134, 0.1);
+  color: #8B8686;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Fragrance notes section */
+.fragrance-notes {
+  background: rgba(90, 185, 190, 0.05);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(90, 185, 190, 0.1);
+}
+
+.notes-section {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.notes-section:last-child {
+  margin-bottom: 0;
+}
+
+.notes-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--main-color);
+  min-width: 50px;
+  flex-shrink: 0;
+}
+
+.notes-text {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  line-height: 1.4;
+  flex: 1;
 }
 
 .product-description {
@@ -1159,7 +1244,36 @@ body {
   
   .product-details {
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
+  }
+  
+  .product-header {
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .color-badge {
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
+  }
+  
+  .fragrance-notes {
+    padding: 12px;
+  }
+  
+  .notes-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .notes-label {
+    font-size: 0.75rem;
+  }
+  
+  .notes-text {
+    font-size: 0.75rem;
   }
   
   .lineup-footer {

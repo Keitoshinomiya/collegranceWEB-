@@ -699,18 +699,48 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.product-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  border: 2px solid rgba(90, 185, 190, 0.1);
   transition: var(--transition);
-  border-radius: 15px;
 }
 
-.product-image:hover img {
-  transform: scale(1.05);
+.product-image:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(90, 185, 190, 0.15);
+  border-color: var(--main-color);
+}
+
+/* Product Placeholder Styling */
+.product-placeholder {
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.placeholder-brand {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--main-color);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.placeholder-name {
+  font-family: var(--font-elegant);
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  font-weight: 500;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.placeholder-type {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  background: rgba(90, 185, 190, 0.1);
+  padding: 4px 12px;
+  border-radius: 12px;
+  display: inline-block;
 }
 
 .product-card::before {
@@ -1304,6 +1334,24 @@ body {
   .product-image {
     height: 150px;
     margin-bottom: 15px;
+  }
+  
+  .product-placeholder {
+    padding: 15px;
+  }
+  
+  .placeholder-brand {
+    font-size: 0.8rem;
+  }
+  
+  .placeholder-name {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+  
+  .placeholder-type {
+    font-size: 0.75rem;
+    padding: 3px 8px;
   }
   
   .lineup-footer {

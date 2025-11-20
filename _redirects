@@ -1,0 +1,15 @@
+# Netlify Redirects Configuration
+# COLLEGRANCE Website
+
+# 特定商取引法ページへのクリーンURL対応
+/tokushoho    /tokushoho.html    200
+
+# その他のページもクリーンURL対応
+/contact      /contact.html      200
+
+# 旧URLから新URLへのリダイレクト（必要に応じて追加）
+# /old-page    /new-page          301
+
+# SPAフォールバック（404時にindex.htmlへ）
+# ただし、存在するHTMLファイルは優先
+/*    /index.html    404

@@ -1,0 +1,78 @@
+# Netlify Configuration File
+# COLLEGRANCE Website Deployment Settings
+
+[build]
+  # 静的HTMLサイトなのでビルドコマンドは不要
+  command = ""
+  
+  # 公開するディレクトリ（ルートディレクトリ）
+  publish = "."
+  
+  # 本番環境の設定
+  [build.environment]
+    NODE_VERSION = "18"
+
+# ブランチごとのデプロイ設定
+[context.production]
+  publish = "."
+  
+[context.deploy-preview]
+  publish = "."
+
+# HTTPヘッダーの設定（セキュリティとパフォーマンス）
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    
+# CSS・JSファイルのキャッシュ設定
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTMLファイルのキャッシュ設定
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# 画像ファイルのキャッシュ設定
+[[headers]]
+  for = "/assets/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# リダイレクト設定
+[[redirects]]
+  from = "/tokushoho"
+  to = "/tokushoho.html"
+  status = 200
+  force = false
+
+# 404エラーページの設定（存在する場合）
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404
+
+# フォーム送信の設定（将来的なお問い合わせフォーム用）
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true

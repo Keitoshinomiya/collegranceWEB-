@@ -1,0 +1,305 @@
+/* 特定商取引法ページ専用CSS */
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --accent-color: #d4af37;
+    --text-color: #333;
+    --text-light: #666;
+    --border-color: #e0e0e0;
+    --bg-light: #f9f9f9;
+    --warning-bg: #fff3cd;
+    --warning-border: #ffc107;
+}
+
+/* メインコンテンツ */
+.tokushoho-main {
+    padding: 100px 0 80px;
+    background-color: #fff;
+    min-height: 80vh;
+}
+
+.tokushoho-main .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ヘッダー部分 */
+.tokushoho-header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.tokushoho-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.tokushoho-header .updated-date {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-weight: 400;
+}
+
+/* コンテンツエリア */
+.tokushoho-content {
+    line-height: 1.8;
+}
+
+/* セクション */
+.tokushoho-section {
+    margin-bottom: 50px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tokushoho-section.last-section {
+    border-bottom: none;
+}
+
+.tokushoho-section h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-left: 15px;
+    border-left: 4px solid var(--accent-color);
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.tokushoho-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    margin-top: 25px;
+}
+
+.tokushoho-section p {
+    margin-bottom: 12px;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.tokushoho-section a {
+    color: var(--accent-color);
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.tokushoho-section a:hover {
+    color: var(--primary-color);
+}
+
+/* リスト */
+.tokushoho-section ul {
+    margin: 15px 0;
+    padding-left: 25px;
+}
+
+.tokushoho-section ul li {
+    margin-bottom: 10px;
+    color: var(--text-color);
+    line-height: 1.7;
+}
+
+/* サブセクション */
+.subsection {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: var(--bg-light);
+    border-radius: 8px;
+}
+
+.subsection h3:first-child {
+    margin-top: 0;
+}
+
+/* 注釈・補足 */
+.note {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-style: italic;
+    margin-top: 8px;
+}
+
+.important {
+    font-weight: 600;
+    color: var(--accent-color);
+    padding: 15px;
+    background-color: #fffbf0;
+    border-left: 4px solid var(--accent-color);
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+/* 警告ボックス */
+.warning-box {
+    background-color: var(--warning-bg);
+    border: 2px solid var(--warning-border);
+    border-radius: 8px;
+    padding: 25px;
+    margin: 20px 0;
+}
+
+.warning-box p {
+    margin-bottom: 15px;
+}
+
+.warning-box strong {
+    color: var(--primary-color);
+    font-size: 1.05rem;
+}
+
+.warning-box ul {
+    margin-top: 15px;
+}
+
+.warning-box ul li {
+    margin-bottom: 10px;
+    color: #856404;
+}
+
+/* お問い合わせ情報 */
+.contact-info {
+    background-color: var(--bg-light);
+    padding: 25px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.contact-info p {
+    margin-bottom: 12px;
+    font-size: 1rem;
+}
+
+.contact-info strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.contact-link {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 25px;
+    background-color: var(--accent-color);
+    color: white !important;
+    text-decoration: none !important;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.contact-link:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* ページトップへ戻るボタン */
+.back-to-top {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 2px solid var(--border-color);
+}
+
+.btn-secondary {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: var(--secondary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* ロゴリンク */
+.logo a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .tokushoho-main {
+        padding: 80px 0 60px;
+    }
+
+    .tokushoho-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .tokushoho-section h2 {
+        font-size: 1.3rem;
+        padding-left: 12px;
+    }
+
+    .tokushoho-section h3 {
+        font-size: 1.1rem;
+    }
+
+    .tokushoho-section p,
+    .tokushoho-section ul li {
+        font-size: 0.95rem;
+    }
+
+    .subsection {
+        padding: 15px;
+    }
+
+    .warning-box {
+        padding: 20px 15px;
+    }
+
+    .contact-info {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tokushoho-main .container {
+        padding: 0 15px;
+    }
+
+    .tokushoho-header {
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+    }
+
+    .tokushoho-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .tokushoho-section {
+        margin-bottom: 35px;
+        padding-bottom: 30px;
+    }
+
+    .tokushoho-section h2 {
+        font-size: 1.2rem;
+        padding-left: 10px;
+        border-left-width: 3px;
+    }
+
+    .warning-box {
+        padding: 15px;
+    }
+
+    .contact-link,
+    .btn-secondary {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+}

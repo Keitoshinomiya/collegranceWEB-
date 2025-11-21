@@ -87,7 +87,7 @@ body {
 }
 
 .logo-image {
-  height: 50px;
+  height: 38px;
   width: auto;
   display: block;
   transition: var(--transition);
@@ -1308,7 +1308,7 @@ body {
 /* Extra Small Mobile (iPhone SE etc.) */
 @media (max-width: 375px) {
   .logo-image {
-    height: 35px;
+    height: 28px;
   }
   
   .brand-title .main-message {

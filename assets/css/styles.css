@@ -1,13 +1,13 @@
-/* COLLEGRANCE - Refined Brand Style (Ver. 3.0 - Le Labo Inspired) */
+/* COLLEGRANCE - Refined Brand Style (Ver. 3.1 - Le Labo Inspired Fixes) */
 
 :root {
   /* Color Palette - Industrial & Minimal */
   --color-text-main: #1a1a1a;      /* Charcoal Black */
   --color-text-sub: #555555;       /* Dark Gray */
-  --color-accent: #1a1a1a;         /* Accent is also Black for uniformity, or very dark green if needed */
+  --color-accent: #1a1a1a;         /* Accent is also Black for uniformity */
   --color-bg: #ffffff;
   --color-bg-light: #f4f4f4;       /* Concrete/Paper Light Gray */
-  --color-border: #1a1a1a;         /* Stronger borders */
+  --color-border: #e0e0e0;         /* Lighter border for subtle divisions */
   
   /* Typography */
   --font-serif: 'Noto Serif JP', serif;
@@ -237,7 +237,6 @@ h1, h2, h3, h4 {
   left: 0;
   width: 100%;
   height: 100%;
-  /* Using a subtle noise/texture or placeholder */
   background-color: #f4f4f4;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
   z-index: 0;
@@ -486,7 +485,7 @@ h1, h2, h3, h4 {
 .reviews-section {
   padding: var(--spacing-section) 0;
   background-color: var(--color-bg-light);
-  overflow: hidden; /* Hide scrollbar overflow from container */
+  overflow: hidden;
 }
 
 .reviews-carousel {
@@ -500,21 +499,20 @@ h1, h2, h3, h4 {
   gap: 30px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding-bottom: 20px; /* Space for scrollbar if visible */
+  padding-bottom: 20px;
   -webkit-overflow-scrolling: touch;
-  /* Hide scrollbar */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+ */
-  padding-left: max(40px, calc((100% - var(--container-width)) / 2 + 40px)); /* Center align start */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-left: max(40px, calc((100% - var(--container-width)) / 2 + 40px));
   padding-right: 40px;
 }
 
 .reviews-track::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none;
 }
 
 .review-card {
-  flex: 0 0 400px; /* Fixed width for carousel items */
+  flex: 0 0 400px;
   background: #fff;
   padding: 50px;
   border: 1px solid transparent;
@@ -542,7 +540,7 @@ h1, h2, h3, h4 {
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  min-height: 2.4em; /* Align heights */
+  min-height: 2.4em;
 }
 
 .review-text {
@@ -550,19 +548,6 @@ h1, h2, h3, h4 {
   font-size: 1rem;
   line-height: 2;
   margin-bottom: 30px;
-}
-
-@media (max-width: 768px) {
-  .review-card {
-    flex: 0 0 85vw; /* Mobile width */
-    padding: 30px;
-  }
-  
-  .reviews-track {
-    padding-left: 20px;
-    padding-right: 20px;
-    gap: 15px;
-  }
 }
 
 /* Product Lineup (Simple for Top) */
@@ -610,34 +595,253 @@ h1, h2, h3, h4 {
   text-align: center;
 }
 
-/* Trust & Footer (Existing, adjusted spacing) */
+/* Trust Section */
 .trust-section {
   padding: var(--spacing-section) 0;
 }
 
 .trust-stats {
-  display: flex;
-  justify-content: center;
-  gap: 80px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
   margin-bottom: 80px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 60px 20px;
+  border-right: 1px solid #eee;
+}
+
+.stat-item:last-child {
+  border-right: none;
 }
 
 .stat-number {
-  font-family: var(--font-eng);
-  font-size: 3.5rem;
+  font-family: var(--font-mono); /* Changed to Mono for industrial look */
+  font-size: 4rem; /* Increased size */
+  font-weight: 700;
   line-height: 1;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  color: var(--color-text-main);
 }
 
 .stat-label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--color-text-sub);
+  text-transform: uppercase;
 }
 
+.certification-showcase {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.certification-showcase img {
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px solid #eee;
+  padding: 10px;
+}
+
+/* About Section Fix */
+.about-section {
+  padding: var(--spacing-section) 0;
+}
+
+.about-content {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  flex-direction: row-reverse; /* Image on right */
+}
+
+.about-text {
+  flex: 1;
+}
+
+.about-image {
+  flex: 1;
+}
+
+.about-text h2 {
+  font-family: var(--font-eng);
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+.key-features {
+  margin-top: 40px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 40px;
+}
+
+.feature-item {
+  margin-bottom: 30px;
+}
+
+.feature-item h4 {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  letter-spacing: 0.1em;
+}
+
+/* Service Section */
+.service-section {
+  padding: var(--spacing-section) 0;
+  background-color: #fafafa;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.service-card {
+  background: #fff;
+  padding: 0 0 30px 0;
+  border: 1px solid #eee;
+}
+
+.service-image {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.service-card h3 {
+  font-size: 1.2rem;
+  margin: 0 20px 10px;
+}
+
+.service-card p {
+  font-size: 0.9rem;
+  color: var(--color-text-sub);
+  margin: 0 20px;
+  line-height: 1.6;
+}
+
+/* Brands Section Fix */
+.brands-section {
+  padding: var(--spacing-section) 0;
+}
+
+.brands-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 columns */
+  gap: 20px;
+  text-align: center;
+}
+
+.brand-card {
+  padding: 30px 10px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.brand-card:hover {
+  border-color: var(--color-border);
+  background-color: #fafafa;
+}
+
+.brand-logo {
+  font-family: var(--font-eng);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.brand-card p {
+  font-size: 0.75rem;
+  color: var(--color-text-sub);
+}
+
+/* CTA Section Fix */
+.cta-section {
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+  background-color: #1a1a1a; /* Dark background for contrast */
+  color: #fff;
+  text-align: center;
+}
+
+.cta-background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+.cta-background-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(120%);
+}
+
+.cta-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cta-content h2 {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+.cta-content p {
+  font-size: 1.1rem;
+  margin-bottom: 50px;
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.cta-buttons .btn-primary {
+  background-color: #fff;
+  color: #1a1a1a;
+  border-color: #fff;
+}
+
+.cta-buttons .btn-primary:hover {
+  background-color: transparent;
+  color: #fff;
+}
+
+.cta-buttons .btn-secondary {
+  border-color: #fff;
+  color: #fff;
+}
+
+.cta-buttons .btn-secondary:hover {
+  background-color: #fff;
+  color: #1a1a1a;
+}
+
+
+/* Footer */
 .footer {
   padding: 100px 0 40px;
   border-top: 1px solid var(--color-text-main);
+  background-color: #fff;
 }
 
 .footer-content {
@@ -652,9 +856,9 @@ h1, h2, h3, h4 {
   margin-bottom: 15px;
 }
 
-/* Modal (Keep existing logic but update styles) */
+/* Modal */
 .quiz-modal {
-  display: none; /* Controlled by JS */
+  display: none;
   position: fixed;
   z-index: 2000;
   left: 0;
@@ -724,18 +928,34 @@ h1, h2, h3, h4 {
     gap: 40px;
   }
   
-  .philosophy-content {
+  .philosophy-content, .about-content {
     flex-direction: column;
   }
   
-  .trust-stats {
-    flex-direction: column;
-    gap: 40px;
-    align-items: center;
+  .about-content {
+      flex-direction: column-reverse; /* Image top on mobile usually, but here let's keep logic simple */
   }
-}
-n: column;
-    gap: 40px;
-    align-items: center;
+  
+  .trust-stats {
+    grid-template-columns: 1fr 1fr; /* 2x2 grid on mobile */
+    border: none;
+  }
+  
+  .stat-item {
+      border-right: none;
+      border-bottom: 1px solid #eee;
+      padding: 30px 10px;
+  }
+
+  .brands-grid {
+      grid-template-columns: 1fr 1fr;
+  }
+  
+  .service-grid {
+      grid-template-columns: 1fr;
+  }
+  
+  .cta-buttons {
+      flex-direction: column;
   }
 }

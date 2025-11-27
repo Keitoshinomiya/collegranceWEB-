@@ -345,6 +345,27 @@ h1, h2, h3, h4 {
   text-align: center;
 }
 
+/* Category Icons */
+.cat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%; /* 丸くする */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--color-text-main);
+  margin-bottom: 15px;
+  border: 1px solid rgba(0,0,0,0.1); /* 薄い枠線を入れてもいいかも */
+}
+
+.icon-citrus { background-color: #FFC3B9; } /* C */
+.icon-warm   { background-color: #FAF5BE; } /* W */
+.icon-clean  { background-color: #5AB9BE; } /* M */
+.icon-floral { background-color: #EBE65F; } /* F */
+
 .cat-info {
   display: flex;
   flex-direction: column;

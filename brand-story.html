@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRAND STORY - COLLEGRANCE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        .story-hero {
+            height: 60vh;
+            background-image: url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .story-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+        }
+        .story-title {
+            position: relative;
+            z-index: 1;
+            color: #fff;
+            font-family: var(--font-eng);
+            font-size: 4rem;
+            letter-spacing: 0.2em;
+        }
+        .story-content {
+            padding: 120px 0;
+        }
+        .story-block {
+            max-width: 800px;
+            margin: 0 auto 120px;
+            text-align: center;
+        }
+        .story-block h2 {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            font-family: var(--font-serif);
+        }
+        .story-block p {
+            font-size: 1.1rem;
+            line-height: 2.4;
+            color: var(--color-text-sub);
+            font-family: var(--font-serif);
+        }
+        .story-image-wide {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            margin-bottom: 120px;
+            filter: sepia(20%) grayscale(20%);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <a href="index.html">
+                        <img src="assets/images/logo.png" alt="COLLEGRANCE" class="logo-image">
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="brand-story.html">STORY</a></li>
+                    <li><a href="product-list.html">COLLECTION</a></li>
+                    <li><a href="index.html#trust">QUALITY</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="story-hero">
+        <h1 class="story-title">THE STORY</h1>
+    </div>
+
+    <section class="story-content">
+        <div class="container">
+            <div class="story-block">
+                <h2>香りは、もっと自由になれる。</h2>
+                <p>
+                    かつて、香水は特別な日のためのものでした。<br>
+                    高価なボトル、限られた選択肢、そして失敗できないプレッシャー。<br>
+                    <br>
+                    私たちは考えました。<br>
+                    もっと気軽に、もっと自由に、世界中の香りを楽しめたなら。<br>
+                    それはまるで、お気に入りの音楽をプレイリストに追加するように。<br>
+                    その日の気分で、ジャケットを羽織るように。
+                </p>
+            </div>
+
+            <img src="https://images.unsplash.com/photo-1615634260167-c8ecede63373?q=80&w=2000&auto=format&fit=crop" alt="Lab" class="story-image-wide">
+
+            <div class="story-block">
+                <h2>ラボから、あなたへ。</h2>
+                <p>
+                    COLLEGRANCE（コレグランス）は、<br>
+                    「Collection」と「Fragrance」を掛け合わせた造語です。<br>
+                    <br>
+                    私たちは、徹底した品質管理のもと、<br>
+                    世界中の名香を1.5mlの小分けサイズでお届けします。<br>
+                    <br>
+                    これは単なる「お試し」ではありません。<br>
+                    新しい自分と出会うための、小さな冒険の始まりです。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>COLLEGRANCE</h3>
+                    <p>香りはえらべる。もっと自由に。</p>
+                </div>
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="contact.html">お問い合わせ</a></li>
+                        <li><a href="tokushoho.html">特定商取引法に基づく表記</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 COLLEGRANCE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

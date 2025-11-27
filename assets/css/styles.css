@@ -784,6 +784,87 @@ h1, h2, h3, h4 {
   color: var(--color-text-sub);
 }
 
+/* LINE Concierge Section - REFINED */
+.line-concierge-section {
+  padding: 120px 0;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.line-concierge-card {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px;
+  background: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+}
+
+.concierge-title {
+  font-family: var(--font-eng);
+  font-size: 3rem;
+  margin-bottom: 30px;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+}
+
+.concierge-divider {
+  width: 60px;
+  height: 1px;
+  background-color: var(--color-text-main);
+  margin: 30px auto;
+}
+
+.concierge-text {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--color-text-sub);
+  margin-bottom: 50px;
+  line-height: 2.2;
+}
+
+.btn-line-concierge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 80px;
+  background-color: var(--color-text-main);
+  color: #fff;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  min-width: 300px;
+}
+
+.btn-line-concierge:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.btn-label {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.btn-sub {
+  font-size: 0.7rem;
+  opacity: 0.8;
+  font-family: var(--font-sans);
+  letter-spacing: 0.1em;
+}
+
+.line-id-text {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-sub);
+  margin-top: 20px;
+  letter-spacing: 0.1em;
+}
+
 /* CTA Section Fix */
 .cta-section {
   padding: 100px 0;

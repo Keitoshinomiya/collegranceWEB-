@@ -496,18 +496,36 @@ h1, h2, h3, h4 {
 
 .review-card {
   background: #fff;
-  padding: 60px;
+  padding: 50px;
   border: 1px solid transparent;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .review-card:hover {
   border-color: var(--color-text-main);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.review-stars {
+  color: var(--color-text-main);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.review-product {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-sub);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .review-text {
   font-family: var(--font-serif);
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 2;
   margin-bottom: 30px;
 }

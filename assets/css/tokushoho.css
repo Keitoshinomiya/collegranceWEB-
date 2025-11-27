@@ -1,28 +1,16 @@
-/* 特定商取引法ページ専用CSS */
-
-:root {
-    --primary-color: #2c3e50;
-    --secondary-color: #34495e;
-    --accent-color: #d4af37;
-    --text-color: #333;
-    --text-light: #666;
-    --border-color: #e0e0e0;
-    --bg-light: #f9f9f9;
-    --warning-bg: #fff3cd;
-    --warning-border: #ffc107;
-}
+/* 特定商取引法ページ専用CSS - Refined */
 
 /* メインコンテンツ */
 .tokushoho-main {
     padding: 100px 0 80px;
-    background-color: #fff;
+    background-color: var(--color-bg);
     min-height: 80vh;
 }
 
 .tokushoho-main .container {
-    max-width: 900px;
+    max-width: 800px; /* 少し狭めて読みやすく */
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
 }
 
 /* ヘッダー部分 */
@@ -30,33 +18,34 @@
     text-align: center;
     margin-bottom: 60px;
     padding-bottom: 30px;
-    border-bottom: 2px solid var(--accent-color);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .tokushoho-header h1 {
+    font-family: var(--font-serif);
     font-size: 2rem;
-    font-weight: 700;
-    color: var(--primary-color);
+    font-weight: 500;
+    color: var(--color-text-main);
     margin-bottom: 15px;
-    font-family: 'Noto Sans JP', sans-serif;
 }
 
 .tokushoho-header .updated-date {
-    font-size: 0.9rem;
-    color: var(--text-light);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--color-text-sub);
     font-weight: 400;
 }
 
 /* コンテンツエリア */
 .tokushoho-content {
-    line-height: 1.8;
+    line-height: 2;
 }
 
 /* セクション */
 .tokushoho-section {
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     padding-bottom: 40px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .tokushoho-section.last-section {
@@ -64,57 +53,61 @@
 }
 
 .tokushoho-section h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--primary-color);
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-text-main);
     margin-bottom: 20px;
     padding-left: 15px;
-    border-left: 4px solid var(--accent-color);
-    font-family: 'Noto Sans JP', sans-serif;
+    border-left: 1px solid var(--color-text-main);
+    letter-spacing: 0.05em;
 }
 
 .tokushoho-section h3 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--secondary-color);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-main);
     margin-bottom: 15px;
-    margin-top: 25px;
+    margin-top: 30px;
 }
 
 .tokushoho-section p {
     margin-bottom: 12px;
-    color: var(--text-color);
-    font-size: 1rem;
+    color: var(--color-text-sub);
+    font-size: 0.95rem;
+    font-family: var(--font-sans);
 }
 
 .tokushoho-section a {
-    color: var(--accent-color);
+    color: var(--color-text-main);
     text-decoration: underline;
     transition: color 0.3s ease;
 }
 
 .tokushoho-section a:hover {
-    color: var(--primary-color);
+    color: var(--color-accent);
 }
 
 /* リスト */
 .tokushoho-section ul {
     margin: 15px 0;
-    padding-left: 25px;
+    padding-left: 20px;
+    list-style: disc inside;
 }
 
 .tokushoho-section ul li {
     margin-bottom: 10px;
-    color: var(--text-color);
-    line-height: 1.7;
+    color: var(--color-text-sub);
+    font-size: 0.95rem;
 }
 
 /* サブセクション */
 .subsection {
     margin: 30px 0;
-    padding: 20px;
-    background-color: var(--bg-light);
-    border-radius: 8px;
+    padding: 30px;
+    background-color: var(--color-bg-light);
+    border-radius: 0;
 }
 
 .subsection h3:first-child {
@@ -123,29 +116,29 @@
 
 /* 注釈・補足 */
 .note {
-    font-size: 0.9rem;
-    color: var(--text-light);
-    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--color-text-sub);
     margin-top: 8px;
 }
 
 .important {
-    font-weight: 600;
-    color: var(--accent-color);
-    padding: 15px;
-    background-color: #fffbf0;
-    border-left: 4px solid var(--accent-color);
-    margin: 15px 0;
-    border-radius: 4px;
+    font-weight: 500;
+    color: var(--color-text-main);
+    padding: 20px;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-left: none;
+    margin: 20px 0;
+    border-radius: 0;
 }
 
 /* 警告ボックス */
 .warning-box {
-    background-color: var(--warning-bg);
-    border: 2px solid var(--warning-border);
-    border-radius: 8px;
-    padding: 25px;
-    margin: 20px 0;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    padding: 30px;
+    margin: 30px 0;
 }
 
 .warning-box p {
@@ -153,52 +146,50 @@
 }
 
 .warning-box strong {
-    color: var(--primary-color);
-    font-size: 1.05rem;
-}
-
-.warning-box ul {
-    margin-top: 15px;
+    color: var(--color-text-main);
+    font-weight: 500;
 }
 
 .warning-box ul li {
-    margin-bottom: 10px;
-    color: #856404;
+    color: var(--color-text-sub);
 }
 
 /* お問い合わせ情報 */
 .contact-info {
-    background-color: var(--bg-light);
-    padding: 25px;
-    border-radius: 8px;
-    margin-top: 20px;
+    background-color: var(--color-bg-light);
+    padding: 30px;
+    border-radius: 0;
+    margin-top: 30px;
 }
 
 .contact-info p {
     margin-bottom: 12px;
-    font-size: 1rem;
+    font-size: 0.95rem;
 }
 
 .contact-info strong {
-    color: var(--primary-color);
-    font-weight: 600;
+    color: var(--color-text-main);
+    font-weight: 500;
 }
 
 .contact-link {
     display: inline-block;
-    margin-top: 15px;
-    padding: 12px 25px;
-    background-color: var(--accent-color);
-    color: white !important;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background-color: var(--color-text-main);
+    color: #fff !important;
     text-decoration: none !important;
-    border-radius: 5px;
+    border-radius: 0;
     font-weight: 500;
     transition: all 0.3s ease;
+    font-size: 0.9rem;
 }
 
 .contact-link:hover {
-    background-color: var(--primary-color);
-    transform: translateY(-2px);
+    background-color: #fff;
+    color: var(--color-text-main) !important;
+    border: 1px solid var(--color-text-main);
+    transform: none;
 }
 
 /* ページトップへ戻るボタン */
@@ -206,29 +197,25 @@
     text-align: center;
     margin-top: 60px;
     padding-top: 40px;
-    border-top: 2px solid var(--border-color);
+    border-top: 1px solid var(--color-border);
 }
 
 .btn-secondary {
     display: inline-block;
-    padding: 12px 30px;
-    background-color: var(--secondary-color);
-    color: white;
+    padding: 12px 40px;
+    background-color: transparent;
+    color: var(--color-text-main);
     text-decoration: none;
-    border-radius: 5px;
+    border: 1px solid var(--color-border);
+    border-radius: 0;
     font-weight: 500;
     transition: all 0.3s ease;
 }
 
 .btn-secondary:hover {
-    background-color: var(--primary-color);
-    transform: translateY(-2px);
-}
-
-/* ロゴリンク */
-.logo a {
-    color: inherit;
-    text-decoration: none;
+    border-color: var(--color-text-main);
+    background-color: transparent;
+    transform: none;
 }
 
 /* レスポンシブデザイン */
@@ -242,64 +229,23 @@
     }
 
     .tokushoho-section h2 {
-        font-size: 1.3rem;
+        font-size: 1rem;
         padding-left: 12px;
     }
 
     .tokushoho-section h3 {
-        font-size: 1.1rem;
-    }
-
-    .tokushoho-section p,
-    .tokushoho-section ul li {
         font-size: 0.95rem;
     }
 
     .subsection {
-        padding: 15px;
+        padding: 20px;
     }
 
     .warning-box {
-        padding: 20px 15px;
+        padding: 20px;
     }
 
     .contact-info {
         padding: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .tokushoho-main .container {
-        padding: 0 15px;
-    }
-
-    .tokushoho-header {
-        margin-bottom: 40px;
-        padding-bottom: 20px;
-    }
-
-    .tokushoho-header h1 {
-        font-size: 1.3rem;
-    }
-
-    .tokushoho-section {
-        margin-bottom: 35px;
-        padding-bottom: 30px;
-    }
-
-    .tokushoho-section h2 {
-        font-size: 1.2rem;
-        padding-left: 10px;
-        border-left-width: 3px;
-    }
-
-    .warning-box {
-        padding: 15px;
-    }
-
-    .contact-link,
-    .btn-secondary {
-        padding: 10px 20px;
-        font-size: 0.95rem;
     }
 }

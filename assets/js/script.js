@@ -256,3 +256,55 @@ document.addEventListener('DOMContentLoaded', function() {
         cookieBanner.style.display = 'none';
     }
 }); // End of DOMContentLoaded
+
+/* Carousel Navigation */
+function scrollCarousel(type, direction) {
+    const trackId = type + 'Track';
+    const track = document.getElementById(trackId);
+    
+    if (!track) return;
+    
+    // Determine item width
+    let item = track.querySelector('.carousel-item') || track.querySelector('.review-card');
+    if (!item) return;
+    
+    // Get style to find gap
+    const style = window.getComputedStyle(track);
+    const gap = parseInt(style.columnGap || style.gap || '30');
+    
+    const itemWidth = item.offsetWidth;
+    const scrollAmount = (itemWidth + gap) * direction;
+    
+    track.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+    });
+    
+    // Update scroll hint visibility
+    updateScrollState(type);
+}
+
+function updateScrollState(type) {
+    const track = document.getElementById(type + 'Track');
+    const container = track.closest('.carousel-container');
+    if (!track || !container) return;
+    
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    
+    if (track.scrollLeft < maxScroll - 10) {
+        container.classList.add('can-scroll-right');
+    } else {
+        container.classList.remove('can-scroll-right');
+    }
+}
+
+// Add scroll listeners to update state
+document.addEventListener('DOMContentLoaded', () => {
+    ['ranking', 'reviews'].forEach(type => {
+        const track = document.getElementById(type + 'Track');
+        if (track) {
+            track.addEventListener('scroll', () => updateScrollState(type));
+            updateScrollState(type); // Initial check
+        }
+    });
+});

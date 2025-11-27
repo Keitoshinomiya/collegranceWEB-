@@ -482,24 +482,45 @@ h1, h2, h3, h4 {
   font-size: 1.2rem;
 }
 
-/* Reviews Section */
+/* Reviews Carousel */
 .reviews-section {
   padding: var(--spacing-section) 0;
   background-color: var(--color-bg-light);
+  overflow: hidden; /* Hide scrollbar overflow from container */
 }
 
-.reviews-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+.reviews-carousel {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.reviews-track {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 20px; /* Space for scrollbar if visible */
+  -webkit-overflow-scrolling: touch;
+  /* Hide scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+  padding-left: max(40px, calc((100% - var(--container-width)) / 2 + 40px)); /* Center align start */
+  padding-right: 40px;
+}
+
+.reviews-track::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 .review-card {
+  flex: 0 0 400px; /* Fixed width for carousel items */
   background: #fff;
   padding: 50px;
   border: 1px solid transparent;
   transition: all 0.3s ease;
   position: relative;
+  scroll-snap-align: start;
 }
 
 .review-card:hover {
@@ -521,6 +542,7 @@ h1, h2, h3, h4 {
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  min-height: 2.4em; /* Align heights */
 }
 
 .review-text {
@@ -530,11 +552,17 @@ h1, h2, h3, h4 {
   margin-bottom: 30px;
 }
 
-.review-author {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--color-text-sub);
-  text-align: right;
+@media (max-width: 768px) {
+  .review-card {
+    flex: 0 0 85vw; /* Mobile width */
+    padding: 30px;
+  }
+  
+  .reviews-track {
+    padding-left: 20px;
+    padding-right: 20px;
+    gap: 15px;
+  }
 }
 
 /* Product Lineup (Simple for Top) */

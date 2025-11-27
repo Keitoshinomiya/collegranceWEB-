@@ -175,6 +175,46 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+
+    // 6. Trust Stats Counter Animation
+    const statsSection = document.querySelector('.trust-stats');
+    if (statsSection) {
+        const options = {
+            root: null,
+            threshold: 0.5 // Trigger when 50% visible
+        };
+        
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.stat-number');
+                    
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        const duration = 2000; // Animation duration in ms
+                        const increment = target / (duration / 16); // 60fps
+                        
+                        let current = 0;
+                        const updateCounter = () => {
+                            current += increment;
+                            if (current < target) {
+                                counter.innerText = Math.ceil(current).toLocaleString();
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                counter.innerText = target.toLocaleString();
+                            }
+                        };
+                        
+                        updateCounter();
+                    });
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+        
+        observer.observe(statsSection);
+    }
     
     console.log('COLLEGRANCE website loaded.');
 });

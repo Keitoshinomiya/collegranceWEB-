@@ -1187,80 +1187,97 @@ h1, h2, h3, h4 {
   left: 10px;
   top: -10px;
 }
-/* Video Background Section Styling */
-.video-section {
-  position: relative;
-  height: 600px; /* Adjust based on design needs */
+/* Video Split Section Styling (Refined for Vertical Video) */
+.video-split-section {
+  padding: 100px 0;
   overflow: hidden;
+}
+
+.video-split-section.bg-light {
+  background-color: #fafafa;
+}
+
+.split-content {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  text-align: center;
+  gap: 80px;
 }
 
-.video-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
+.split-content.reverse {
+  flex-direction: row-reverse;
 }
 
-.bg-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Le Labo Style Filter for Video to match images */
-  filter: sepia(10%) grayscale(20%) contrast(95%) brightness(90%);
-}
-
-.video-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3); /* Dark overlay for text readability */
-  z-index: 1;
-}
-
-.video-content {
+.split-media {
+  flex: 0 0 360px; /* Fixed width for vertical video look */
   position: relative;
-  z-index: 2;
-  padding: 20px;
+  border-radius: 4px; /* Slight rounding for "card" feel */
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
-.video-title {
+.vertical-video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 9/16; /* Vertical Aspect Ratio */
+  object-fit: cover;
+  display: block;
+  filter: sepia(10%) grayscale(10%) contrast(95%); /* Consistent filter */
+}
+
+.split-text {
+  flex: 1;
+  max-width: 500px;
+  text-align: left;
+}
+
+.split-title {
   font-family: var(--font-eng);
-  font-size: 3.5rem;
-  margin-bottom: 20px;
-  letter-spacing: 0.15em;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  color: #fff; /* Explicitly white */
-}
-
-.video-subtitle {
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
+  font-size: 3rem;
+  margin-bottom: 15px;
   letter-spacing: 0.1em;
-  opacity: 0.9;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  color: #fff;
+  line-height: 1.1;
+  color: var(--color-text-main);
 }
 
-/* Mobile Responsive for Video */
+.split-subtitle {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--color-text-sub);
+  margin-bottom: 30px;
+  letter-spacing: 0.1em;
+}
+
+.split-desc {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 2.2;
+  color: var(--color-text-sub);
+}
+
+/* Mobile Responsive for Split Video */
 @media (max-width: 768px) {
-  .video-section {
-    height: 400px;
+  .video-split-section {
+    padding: 60px 0;
   }
 
-  .video-title {
-    font-size: 2.2rem;
+  .split-content, .split-content.reverse {
+    flex-direction: column;
+    gap: 40px;
   }
 
-  .video-subtitle {
-    font-size: 1rem;
+  .split-media {
+    flex: 0 0 auto;
+    width: 80%; /* Slightly smaller on mobile */
+    max-width: 300px;
+  }
+
+  .split-text {
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .split-title {
+    font-size: 2.4rem;
   }
 }

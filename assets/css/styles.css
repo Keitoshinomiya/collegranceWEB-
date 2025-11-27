@@ -1,118 +1,197 @@
-/* COLLEGRANCE Sophisticated Brand Website Styles */
+/* COLLEGRANCE - Refined Brand Style (Ver. 2.0) */
 
 :root {
-  /* Brand Colors - Sophisticated Palette */
-  --main-color: #4A8E94;           /* Deep Sage - 少し彩度を落とし深みを出した色 */
-  --accent-gold: #C5A059;          /* Muted Gold - 高級感のあるアクセント */
+  /* Color Palette - Minimal & Sophisticated */
+  --color-text-main: #1a1a1a;      /* 限りなく黒に近いグレー */
+  --color-text-sub: #666666;       /* サブテキスト */
+  --color-accent: #4A8E94;         /* Brand Green (Deep Sage) - ポイント使いのみ */
+  --color-bg: #ffffff;             /* 背景は白で統一 */
+  --color-bg-light: #fafafa;       /* わずかなニュアンス用 */
+  --color-border: #e0e0e0;         /* 繊細な境界線 */
   
-  /* Neutrals */
-  --text-dark: #111111;            /* ほぼ黒、漆黒 */
-  --text-gray: #555555;            /* 読みやすいグレー */
-  --text-light: #888888;           /* 控えめなグレー */
-  --white: #ffffff;
-  --bg-light: #f9f9f9;             /* 極めて薄いグレー */
-  --border-color: #e5e5e5;
+  /* Typography - Consistent Worldview */
+  /* 見出し・ブランドイメージ: 明朝体で「上質・王道」を表現 */
+  --font-serif: 'Noto Serif JP', serif;
+  /* 本文・情報: ゴシック体で「視認性・モダン」を表現 */
+  --font-sans: 'Noto Sans JP', sans-serif;
+  /* 欧文アクセント: 上品なセリフ体 */
+  --font-eng: 'Cormorant Garamond', serif;
   
-  /* Typography */
-  --font-serif: 'Cormorant Garamond', serif;  /* 見出し用エレガントフォント */
-  --font-sans: 'Noto Sans JP', sans-serif;    /* 本文用 */
-  --font-eng: 'Lato', sans-serif;             /* 英数字アクセント */
+  /* Spacing */
+  --spacing-section: 120px;
+  --spacing-content: 60px;
   
-  /* Spacing & Layout */
-  --section-padding: 100px 0;      /* 余白を広げてラグジュアリーに */
-  --container-max-width: 1200px;
-  --border-radius-sm: 2px;         /* シャープな角丸 */
-  --border-radius-md: 4px;
-  
-  /* Transitions */
-  --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  /* Layout */
+  --container-width: 1100px;       /* 読みやすさを考慮して少し狭める */
+  --header-height: 80px;
 }
 
+/* Reset & Base */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: var(--font-sans);
-  line-height: 1.8; /* 行間を広げて読みやすく */
-  color: var(--text-dark);
-  background-color: var(--white);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  color: var(--text-dark);
-  line-height: 1.3;
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-main);
+  background-color: var(--color-bg);
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
   text-decoration: none;
   color: inherit;
-  transition: var(--transition);
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+a:hover {
+  opacity: 0.7;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 ul {
   list-style: none;
 }
 
-.container {
-  max-width: var(--container-max-width);
-  margin: 0 auto;
-  padding: 0 40px;
+/* Typography Utilities */
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
 }
 
-/* Header Styles - Minimalist */
+.section-header {
+  text-align: center;
+  margin-bottom: 80px;
+  position: relative;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.section-subtitle {
+  font-family: var(--font-eng);
+  font-size: 1rem;
+  color: var(--color-accent); /* ここだけポイント色 */
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* Container */
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+}
+
+/* Buttons - Minimal Style */
+.btn-primary, .btn-secondary, .btn-quiz {
+  display: inline-block;
+  padding: 12px 40px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+/* メインボタン: 黒背景・白文字で引き締める */
+.btn-primary {
+  background-color: var(--color-text-main);
+  color: #fff;
+  border: 1px solid var(--color-text-main);
+}
+
+.btn-primary:hover {
+  background-color: #fff;
+  color: var(--color-text-main);
+  opacity: 1;
+}
+
+/* サブボタン: 線のみ */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-text-main);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-text-main);
+  opacity: 1;
+}
+
+/* クイズボタン: アクセントカラーを控えめに使用 */
+.btn-quiz {
+  background-color: var(--color-bg-light);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+}
+
+.btn-quiz:hover {
+  background-color: var(--color-accent);
+  color: #fff;
+  opacity: 1;
+}
+
+/* Header */
 .header {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  background: rgba(255, 255, 255, 0.98);
+  width: 100%;
+  height: var(--header-height);
+  background-color: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid var(--color-border);
   z-index: 1000;
-  border-bottom: 1px solid var(--border-color);
-  transition: var(--transition);
-}
-
-.navbar {
-  padding: 20px 0;
-}
-
-.navbar .container {
   display: flex;
   align-items: center;
+}
+
+.header .container {
+  width: 100%;
+  display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .logo-image {
-  height: 28px; /* 少し控えめに */
+  height: 24px; /* 控えめなサイズに */
   width: auto;
-  display: block;
 }
 
 .nav-menu {
   display: flex;
-  align-items: center;
   gap: 40px;
 }
 
 .nav-menu a {
-  font-family: var(--font-sans);
   font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  color: var(--text-gray);
-  position: relative;
+  color: var(--color-text-main);
   font-weight: 400;
+  position: relative;
 }
 
-.nav-menu a:hover {
-  color: var(--text-dark);
-}
-
+/* ナビゲーションのホバーエフェクト: 下線のみアクセントカラー */
 .nav-menu a::after {
   content: '';
   position: absolute;
@@ -120,668 +199,656 @@ ul {
   left: 0;
   width: 0;
   height: 1px;
-  background: var(--text-dark);
-  transition: var(--transition);
+  background-color: var(--color-accent);
+  transition: width 0.3s ease;
+}
+
+.nav-menu a:hover {
+  opacity: 1;
+  color: var(--color-accent);
 }
 
 .nav-menu a:hover::after {
   width: 100%;
 }
 
-.cta-button {
-  background: var(--text-dark) !important;
-  color: var(--white) !important;
-  padding: 10px 24px;
-  border-radius: var(--border-radius-sm);
-  font-size: 0.8rem !important;
-  letter-spacing: 0.05em;
+.nav-menu .cta-button {
+  padding: 8px 20px;
+  background-color: var(--color-text-main);
+  color: #fff !important;
+  font-size: 0.8rem;
 }
 
-.cta-button:hover {
-  background: var(--main-color) !important;
-  color: var(--white) !important;
-  transform: none !important;
-}
-
-.nav-menu a.cta-button::after {
+.nav-menu .cta-button::after {
   display: none;
 }
 
 .hamburger {
   display: none;
-  flex-direction: column;
   cursor: pointer;
-  gap: 6px;
 }
 
-.hamburger span {
-  width: 24px;
-  height: 1px;
-  background: var(--text-dark);
-  transition: var(--transition);
-}
-
-/* Hero Section - Editorial Style */
+/* Hero Section */
 .hero {
-  width: 100%;
   height: 100vh;
   min-height: 600px;
-  position: relative;
-  overflow: hidden;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: var(--header-height);
 }
 
 .hero-image-container {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .hero-main-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  filter: brightness(0.95); /* 少し落ち着かせる */
+  object-fit: cover; /* 崩れ防止の要 */
+  object-position: center;
 }
 
-/* Brand Message Section - Minimal & Typography Focused */
+/* Brand Message */
 .brand-message-section {
-  padding: 120px 0;
-  background: var(--white);
+  padding: var(--spacing-section) 0;
   text-align: center;
 }
 
-.brand-message-content {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
 .brand-title {
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
-.brand-title .main-message {
+.main-message {
   display: block;
+  font-size: 3.5rem;
   font-family: var(--font-serif);
-  font-size: 4.5rem;
-  color: var(--text-dark);
   margin-bottom: 10px;
-  letter-spacing: -0.02em;
+  font-weight: 500;
 }
 
-.brand-title .sub-message {
+.sub-message {
   display: block;
-  font-family: var(--font-sans);
-  font-size: 1.1rem;
-  color: var(--text-gray);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-top: 20px;
+  font-size: 1.2rem;
+  font-family: var(--font-serif);
+  color: var(--color-text-sub);
 }
 
 .brand-description {
+  max-width: 700px;
+  margin: 0 auto 60px;
   font-size: 1rem;
-  color: var(--text-gray);
+  color: var(--color-text-sub);
   line-height: 2.2;
-  margin-bottom: 60px;
-  font-weight: 300;
 }
 
 .brand-cta {
   display: flex;
   justify-content: center;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
-/* Sophisticated Button Styles */
-.btn-primary, .btn-secondary, .btn-quiz {
-  padding: 14px 32px;
-  border-radius: var(--border-radius-sm);
-  text-decoration: none;
-  font-size: 0.9rem;
-  letter-spacing: 0.05em;
-  transition: var(--transition);
-  display: inline-block;
-  text-align: center;
-  cursor: pointer;
-  border: 1px solid transparent;
-}
-
-.btn-quiz {
-  background: var(--accent-gold);
-  color: var(--white);
-  box-shadow: none;
-}
-
-.btn-quiz:hover {
-  background: #b3904d;
-  transform: translateY(-2px);
-}
-
-.btn-primary {
-  background: var(--text-dark);
-  color: var(--white);
-}
-
-.btn-primary:hover {
-  background: var(--main-color);
-  transform: translateY(-2px);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--text-dark);
-  border: 1px solid var(--border-color);
-}
-
-.btn-secondary:hover {
-  border-color: var(--text-dark);
-  background: transparent;
-}
-
-/* Section Headers */
-.section-header {
-  text-align: center;
-  margin-bottom: 80px;
-}
-
-.section-header h2 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  letter-spacing: 0.05em;
-}
-
-.section-subtitle {
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
-  color: var(--text-light);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-/* Trust Section - Clean Grid */
+/* Trust Section - Simple Grid */
 .trust-section {
-  padding: var(--section-padding);
-  background: var(--bg-light);
+  padding: var(--spacing-section) 0;
+  background-color: var(--color-bg-light); /* ここだけ薄いグレーで区切り */
 }
 
 .trust-stats {
   display: flex;
   justify-content: center;
-  gap: 80px;
-  margin-bottom: 100px;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 80px;
+  gap: 100px;
+  margin-bottom: 80px;
+  flex-wrap: wrap;
 }
 
 .stat-item {
   text-align: center;
-  background: transparent;
-  padding: 0;
-  box-shadow: none;
-  color: var(--text-dark);
-}
-
-.stat-item:hover {
-  transform: none;
-  box-shadow: none;
 }
 
 .stat-number {
-  font-family: var(--font-serif);
-  font-size: 3.5rem;
-  font-weight: 400;
-  color: var(--text-dark);
-  margin-bottom: 10px;
+  font-family: var(--font-eng);
+  font-size: 3rem;
+  color: var(--color-text-main);
   display: block;
+  line-height: 1;
+  margin-bottom: 10px;
 }
 
 .stat-label {
-  font-size: 0.85rem;
-  color: var(--text-gray);
-  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+  color: var(--color-text-sub);
+  letter-spacing: 0.1em;
 }
 
 .certification-showcase {
-  background: var(--white);
-  padding: 60px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius-sm);
-  box-shadow: none;
+  text-align: center;
   margin-top: 60px;
+  padding: 40px;
+  background: #fff;
+  border: 1px solid var(--color-border);
 }
 
 .certification-image {
-  box-shadow: none;
-  border: 1px solid var(--border-color);
+  max-width: 80%;
+  margin: 0 auto;
+  border: 1px solid var(--color-border); /* 画像に枠線をつけて整える */
 }
 
-.certification-image:hover {
-  transform: none;
-}
-
-/* Image Sections (Fragrance Design, Lifestyle etc) */
+/* Image Sections - Full width logic but contained */
 .fragrance-design-section,
 .lifestyle-story-section,
 .sustainable-section {
-  padding: var(--section-padding);
-  background: var(--white);
+  padding: var(--spacing-section) 0;
+}
+
+/* 画像とテキストのバランスを整える */
+.fragrance-design-content,
+.lifestyle-story-content,
+.sustainable-content {
+  text-align: center;
 }
 
 .fragrance-design-image,
 .lifestyle-story-image,
 .sustainable-image {
-  border-radius: var(--border-radius-sm);
-  box-shadow: none;
-  filter: brightness(0.98);
+  margin: 0 auto;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.05); /* ほんのりとした影で浮遊感 */
 }
 
-.fragrance-design-image:hover,
-.lifestyle-story-image:hover,
-.sustainable-image:hover {
-  transform: none;
-  filter: brightness(1);
-}
-
-/* About Section - Split Layout */
+/* About Section */
 .about-section {
-  padding: var(--section-padding);
-  background: var(--white);
+  padding: var(--spacing-section) 0;
 }
 
 .about-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr; /* 左右2分割 */
   gap: 80px;
   align-items: center;
 }
 
 .about-text h2 {
-  font-size: 2.8rem;
+  font-size: 2.4rem;
   margin-bottom: 40px;
 }
 
 .brand-story {
-  font-size: 1rem;
-  color: var(--text-gray);
-  margin-bottom: 50px;
+  margin-bottom: 40px;
+  color: var(--color-text-sub);
 }
 
-.key-features {
-  gap: 40px;
+.feature-item {
+  margin-bottom: 30px;
+  padding-left: 20px;
+  border-left: 1px solid var(--color-accent); /* アクセントカラーの線 */
 }
 
 .feature-item h4 {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  color: var(--text-dark);
-  margin-bottom: 15px;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
 }
 
 .feature-item p {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  color: var(--color-text-sub);
 }
 
-.about-main-image {
-  border-radius: var(--border-radius-sm);
-  box-shadow: none;
-}
-
-.about-main-image:hover {
-  transform: none;
-}
-
-/* Product Lineup - Minimal Card */
+/* Product Lineup - Clean Grid */
 .product-lineup-section {
-  padding: var(--section-padding);
-  background: var(--bg-light);
+  padding: var(--spacing-section) 0;
+  border-top: 1px solid var(--color-border);
 }
 
 .product-grid {
-  gap: 2px; /* Grid lines approach */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 自動折り返し */
+  gap: 40px;
+  margin-top: 60px;
 }
 
 .product-card {
-  background: var(--white);
-  border-radius: 0;
-  padding: 40px 30px;
-  box-shadow: none;
-  border: 1px solid transparent;
-  transition: var(--transition);
+  background: #fff;
+  transition: transform 0.3s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-  z-index: 10;
-}
-
-.product-card::before {
-  display: none;
+  transform: translateY(-5px); /* 控えめな動き */
 }
 
 .product-image {
-  background: var(--bg-light);
-  border-radius: var(--border-radius-sm);
-  border: none;
-  height: 240px;
+  background-color: var(--color-bg-light);
+  height: 280px; /* 高さを固定して崩れ防止 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-.product-image:hover {
-  transform: none;
-  box-shadow: none;
+.product-placeholder {
+  text-align: center;
+  padding: 20px;
+}
+
+.placeholder-brand {
+  font-family: var(--font-eng);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-sub);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.placeholder-name {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.placeholder-type {
+  font-size: 0.7rem;
+  color: var(--color-text-sub);
+  border: 1px solid var(--color-border);
+  padding: 2px 8px;
+  display: inline-block;
 }
 
 .product-header {
-  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
 }
 
 .product-brand {
   font-size: 0.75rem;
-  color: var(--text-light);
   letter-spacing: 0.1em;
+  color: var(--color-text-sub);
+  text-transform: uppercase;
 }
 
 .product-name {
-  font-size: 1.6rem;
-  font-weight: 400;
-  margin: 10px 0 15px;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 15px;
 }
 
 .product-details {
-  gap: 10px;
-}
-
-.product-type, .product-volume, .product-origin {
-  background: transparent;
-  color: var(--text-gray);
-  padding: 0;
-  border-radius: 0;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
   font-size: 0.8rem;
-  font-weight: 400;
-}
-
-.product-type::after, .product-volume::after {
-  content: '/';
-  margin-left: 10px;
-  color: var(--border-color);
+  color: var(--color-text-sub);
 }
 
 .fragrance-notes {
-  background: transparent;
-  border: none;
-  border-top: 1px solid var(--border-color);
-  border-radius: 0;
-  padding: 20px 0;
-  margin: 20px 0;
+  margin-bottom: 25px;
+  font-size: 0.85rem;
+}
+
+.notes-section {
+  display: flex;
+  margin-bottom: 5px;
 }
 
 .notes-label {
-  color: var(--text-dark);
-  font-weight: 400;
-  font-family: var(--font-serif);
+  min-width: 60px;
+  color: var(--color-text-sub);
+}
+
+.product-description {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text-sub);
+  margin-bottom: 25px;
+  min-height: 3em; /* 高さ揃え */
 }
 
 .product-link {
-  background: transparent;
-  color: var(--text-dark);
-  border: 1px solid var(--text-dark);
-  border-radius: var(--border-radius-sm);
-  padding: 12px 0;
-  justify-content: center;
-  gap: 10px;
+  display: block;
+  text-align: center;
+  padding: 10px 0;
+  border: 1px solid var(--color-border);
+  font-size: 0.85rem;
+  color: var(--color-text-main);
+  transition: all 0.3s ease;
 }
 
 .product-link:hover {
-  background: var(--text-dark);
-  color: var(--white);
-  transform: none;
-  box-shadow: none;
+  border-color: var(--color-text-main);
+  background-color: var(--color-text-main);
+  color: #fff;
 }
 
-.product-code {
-  display: none; /* 洗練さを出すためにコードは非表示 */
+.product-link span {
+  margin: 0 5px;
 }
 
-.color-badge {
-  border: none;
-  box-shadow: none;
-  width: 12px;
-  height: 12px;
-  color: transparent; /* 文字は隠す */
+.product-code, .color-badge {
+  display: none; /* シンプルにするため非表示 */
 }
 
 /* Service Section */
 .service-section {
-  padding: var(--section-padding);
-  background: var(--white);
+  padding: var(--spacing-section) 0;
+  background-color: var(--color-bg-light);
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3列固定 */
+  gap: 40px;
 }
 
 .service-card {
-  background: var(--white);
-  padding: 0;
-  border: none;
-  text-align: left;
+  background: #fff;
+  padding: 40px;
+  text-align: center;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
 }
 
 .service-card:hover {
-  transform: none;
-  box-shadow: none;
-  border: none;
+  border-color: var(--color-border);
 }
 
 .service-image {
-  height: 300px;
-  border-radius: var(--border-radius-sm);
+  height: 180px;
+  object-fit: cover;
+  margin-bottom: 30px;
 }
 
 .service-card h3 {
-  font-size: 1.4rem;
-  margin-top: 20px;
-  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  margin-bottom: 15px;
 }
 
-/* Brands Section - Logos Grid */
+.service-card .price {
+  color: var(--color-accent); /* ポイント使い */
+  font-family: var(--font-eng);
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+/* Brands Section */
 .brands-section {
-  background: var(--bg-light);
-  padding: 80px 0;
+  padding: var(--spacing-section) 0;
 }
 
 .brands-grid {
-  gap: 1px; /* Grid lines */
-  background: var(--border-color); /* Lines color */
-  border: 1px solid var(--border-color);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  text-align: center;
 }
 
 .brand-card {
-  background: var(--white);
-  border: none;
-  border-radius: 0;
-  padding: 60px 20px;
-}
-
-.brand-card:hover {
-  transform: none;
-  box-shadow: none;
-  background: #fcfcfc;
+  padding: 30px 10px;
+  border: 1px solid var(--color-border);
 }
 
 .brand-logo {
-  color: var(--text-dark);
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
+  font-family: var(--font-eng);
+  font-size: 1.2rem;
+  margin-bottom: 10px;
 }
 
-/* CTA Section - Elegant Dark */
+/* CTA Section */
 .cta-section {
-  background: var(--text-dark);
-  color: var(--white);
-  padding: 120px 0;
+  padding: var(--spacing-section) 0;
+  background-color: var(--color-text-main); /* 黒背景で締める */
+  color: #fff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .cta-background-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   opacity: 0.05;
+  width: 300px;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-content h2 {
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+.cta-content p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 40px;
 }
 
 .cta-buttons .btn-primary {
-  background: var(--white);
-  color: var(--text-dark);
-  border: 1px solid var(--white);
+  background-color: #fff;
+  color: var(--color-text-main);
+  border-color: #fff;
 }
 
 .cta-buttons .btn-primary:hover {
-  background: transparent;
-  color: var(--white);
+  background-color: transparent;
+  color: #fff;
 }
 
 .cta-buttons .btn-secondary {
-  border-color: rgba(255,255,255,0.3);
-  color: rgba(255,255,255,0.8);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
 }
 
 .cta-buttons .btn-secondary:hover {
-  border-color: var(--white);
-  color: var(--white);
+  border-color: #fff;
 }
 
-/* Footer - Minimal */
+/* Footer */
 .footer {
-  background: var(--white);
-  color: var(--text-dark);
-  padding: 100px 0 40px;
-  border-top: 1px solid var(--border-color);
+  padding: 80px 0 40px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.85rem;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 60px;
+  margin-bottom: 60px;
 }
 
 .footer-brand h3 {
-  color: var(--text-dark);
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 
-.footer-brand p {
-  color: var(--text-gray);
-  font-style: normal;
+.footer h4 {
   font-size: 0.9rem;
-}
-
-.footer-info h4, .footer-links h4 {
-  color: var(--text-dark);
-  font-size: 0.9rem;
-  text-transform: uppercase;
+  margin-bottom: 20px;
   letter-spacing: 0.1em;
 }
 
-.footer-info p, .footer-links ul li a {
-  color: var(--text-gray);
-  font-size: 0.9rem;
+.footer ul li {
+  margin-bottom: 10px;
 }
 
-.footer-links ul li a:hover {
-  color: var(--main-color);
+.footer ul li a {
+  color: var(--color-text-sub);
+}
+
+.footer ul li a:hover {
+  color: var(--color-text-main);
 }
 
 .footer-bottom {
-  border-top: none;
-  margin-top: 60px;
+  text-align: center;
+  color: var(--color-text-sub);
+  font-size: 0.75rem;
 }
 
-.footer-bottom p {
-  font-size: 0.8rem;
-  color: var(--text-light);
+/* Modal & Utilities (Quiz) */
+.quiz-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
 }
 
-/* Fragrance Quiz Modal - Sophisticated */
 .quiz-content {
-  border-radius: var(--border-radius-sm);
-  box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+  background: #fff;
+  margin: 5% auto;
+  padding: 60px;
+  border: 1px solid var(--color-text-main);
+  width: 90%;
+  max-width: 700px;
+  position: relative;
+  text-align: center;
 }
 
-.quiz-header h2 {
-  color: var(--text-dark);
+.quiz-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 40px;
 }
 
 .quiz-option {
-  background: var(--white);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius-sm);
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
 }
 
 .quiz-option:hover {
-  border-color: var(--text-dark);
-  background: var(--text-dark);
-  color: var(--white);
-  transform: none;
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
-/* Responsive Adjustments */
+/* Quiz Result Styles */
+.result-content {
+  display: flex;
+  gap: 40px;
+  text-align: left;
+  margin-top: 40px;
+  align-items: flex-start;
+}
+
+.result-image img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.result-text h4 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+}
+
+.brand-tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border: 1px solid var(--color-border);
+  margin-right: 8px;
+  margin-top: 10px;
+  color: var(--color-text-sub);
+}
+
+/* Mobile Responsive */
 @media (max-width: 768px) {
-  .header {
-    background: var(--white);
+  :root {
+    --spacing-section: 80px;
+  }
+  
+  .container {
+    padding: 0 20px;
+  }
+  
+  .header .nav-menu {
+    display: none; /* ハンバーガーメニュー実装までは非表示か、簡易表示 */
+  }
+  
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
   
   .hamburger span {
-    background: var(--text-dark);
+    width: 24px;
+    height: 1px;
+    background-color: var(--color-text-main);
   }
   
-  .brand-title .main-message {
-    font-size: 3rem;
+  /* Mobile Nav Logic (Requires JS class toggle) */
+  .nav-menu.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--color-border);
+    align-items: center;
+  }
+
+  .brand-message-section .main-message {
+    font-size: 2.5rem;
   }
   
   .trust-stats {
     flex-direction: column;
     gap: 40px;
-    padding-bottom: 40px;
-    margin-bottom: 60px;
   }
   
-  .stat-number {
-    font-size: 2.5rem;
-  }
-  
-  .about-content {
+  .about-content,
+  .service-grid,
+  .product-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .brands-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .result-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .footer-content {
+    flex-direction: column;
     gap: 40px;
   }
-  
-  .hero-main-image {
-    height: 100%;
-    object-position: center;
-  }
-  
-  .cta-section {
-    padding: 80px 0;
-  }
-  
-  .nav-menu {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 80%;
-    height: 100vh;
-    background: var(--white);
-    flex-direction: column;
-    justify-content: center;
-    transition: 0.4s ease;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.05);
-  }
-  
-  .nav-menu.active {
-    right: 0;
-  }
-}
-
-/* Added missing styles for JS dynamic elements */
-.brand-tag {
-  display: inline-block;
-  background: var(--bg-light);
-  color: var(--text-dark);
-  padding: 6px 16px;
-  border-radius: var(--border-radius-sm);
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  border: 1px solid var(--border-color);
-  margin-right: 8px;
-  margin-bottom: 8px;
 }

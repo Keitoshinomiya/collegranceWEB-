@@ -255,6 +255,48 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cookieBanner) {
         cookieBanner.style.display = 'none';
     }
+
+    // 9. Mobile Note Toggle for Product Collection
+    const productCards = document.querySelectorAll('.product-card-simple');
+    
+    productCards.forEach(card => {
+        const imageContainer = card.querySelector('.product-image-container');
+        if(imageContainer) {
+            imageContainer.addEventListener('click', function(e) {
+                // Only for mobile/tablet touch interaction where hover doesn't exist
+                if (window.matchMedia('(hover: none)').matches) {
+                     // Prevent default action if needed, but image usually doesn't have one unless wrapped
+                     // e.preventDefault(); 
+                     card.classList.toggle('show-notes');
+                }
+            });
+        }
+    });
+    
+    // 10. Filter Logic
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filterValue = this.getAttribute('data-filter');
+            const items = document.querySelectorAll('.product-card-simple');
+            
+            items.forEach(item => {
+                const itemColor = item.getAttribute('data-color');
+                // Allow displaying all or matching color
+                // Normalize case just to be safe
+                if (filterValue === 'all' || (itemColor && itemColor.toLowerCase() === filterValue.toLowerCase())) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+
 }); // End of DOMContentLoaded
 
 /* Carousel Navigation */

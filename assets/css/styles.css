@@ -675,9 +675,9 @@ h1, h2, h3, h4 {
   border-right: none;
 }
 
-.stat-number {
+.stat-number, .stat-number-text {
   font-family: var(--font-mono); /* Changed to Mono for industrial look */
-  font-size: 4rem; /* Increased size */
+  font-size: 3.5rem; /* Increased size */
   font-weight: 700;
   line-height: 1;
   margin-bottom: 15px;

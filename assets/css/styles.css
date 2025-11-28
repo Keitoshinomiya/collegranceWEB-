@@ -462,12 +462,30 @@ h1, h2, h3, h4 {
 
 .rank-badge {
   position: absolute;
-  top: -10px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-text-main); /* 黒背景 */
+  color: #fff;
   font-family: var(--font-eng);
-  font-size: 4rem;
-  color: rgba(0,0,0,0.1);
-  z-index: 0;
+  font-size: 1.4rem;
+  border-radius: 50%;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  font-weight: 500;
+}
+
+.rank-badge::before {
+    content: "No.";
+    font-size: 0.5em;
+    margin-right: 2px;
+    margin-top: 2px;
+    opacity: 0.8;
+    font-family: var(--font-mono);
 }
 
 .rank-image {
@@ -1216,12 +1234,14 @@ h1, h2, h3, h4 {
   opacity: 1;
 }
 
-/* Ranking Badge Adjustment for Carousel */
+/* Ranking Badge Adjustment for Carousel (Removed Override) */
+/*
 .ranking-item.carousel-item .rank-badge {
   font-size: 3rem;
   left: 10px;
   top: -10px;
 }
+*/
 /* Video Split Section Styling (Refined for Vertical Video) */
 .video-split-section {
   padding: 100px 0;

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANOTHER 13 - COLLEGRANCE</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        .pdp-hero {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 90px;
+        }
+        .pdp-image-col {
+            flex: 1;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pdp-image-col img {
+            width: 60%;
+            max-width: 500px;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1));
+        }
+        .pdp-info-col {
+            flex: 1;
+            padding: 80px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .pdp-brand {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            color: var(--color-text-sub);
+            letter-spacing: 0.2em;
+            margin-bottom: 20px;
+        }
+        .pdp-title {
+            font-family: var(--font-eng);
+            font-size: 4rem;
+            line-height: 1;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        .pdp-notes {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+            border-top: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
+            padding: 20px 0;
+        }
+        .note-item {
+            flex: 1;
+        }
+        .note-label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            margin-bottom: 5px;
+            color: var(--color-text-sub);
+        }
+        .note-value {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+        }
+        .pdp-desc {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 2.2;
+            margin-bottom: 50px;
+            color: var(--color-text-sub);
+        }
+        .pdp-actions {
+            display: flex;
+            gap: 20px;
+            flex-direction: column;
+        }
+        .pdp-price {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .spec-table {
+            width: 100%;
+            margin-top: 60px;
+            border-collapse: collapse;
+        }
+        .spec-table th, .spec-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        .spec-table th {
+            width: 150px;
+            font-family: var(--font-mono);
+            color: var(--color-text-sub);
+            font-weight: normal;
+        }
+        @media (max-width: 768px) {
+            .pdp-hero { flex-direction: column; }
+            .pdp-info-col { padding: 40px 20px; }
+            .pdp-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <a href="index.html">
+                        <img src="assets/images/logo.png" alt="COLLEGRANCE" class="logo-image">
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="brand-story.html">STORY</a></li>
+                    <li><a href="product-list.html">COLLECTION</a></li>
+                    <li><a href="index.html#trust">QUALITY</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pdp-hero">
+        <div class="pdp-image-col">
+            <img src="https://sspark.genspark.ai/cfimages?u1=GNNMibQ%2FHNqIHh7sYWIqX4UXkdkwgTF4V4NK8aKAYCG%2FOOWB3zCtuH5Dbr73xoqoB1geXD0rCcLNv2lbYK%2BmyiIM4CRXW3AABzje2b9WwtVbJt5mBsogJNXmCvkD5QLEb2Xrf9OsDIr%2B7FprGxwCRmrD3z4hvbOT0w%3D%3D&u2=nHXbzp92ctTdG1eF&width=2560" alt="LE LABO Another 13">
+        </div>
+        <div class="pdp-info-col">
+            <span class="pdp-brand">LE LABO</span>
+            <h1 class="pdp-title">ANOTHER 13</h1>
+            
+            <div class="pdp-notes">
+                <div class="note-item">
+                    <span class="note-label">TOP</span>
+                    <span class="note-value">Pear, Apple</span>
+                </div>
+                <div class="note-item">
+                    <span class="note-label">MIDDLE</span>
+                    <span class="note-value">Ambrette, Jasmine</span>
+                </div>
+                <div class="note-item">
+                    <span class="note-label">BASE</span>
+                    <span class="note-value">Ambroxan, Musk</span>
+                </div>
+            </div>
+            
+            <div class="pdp-desc">
+                <p>英国のファッション・アート・カルチャー雑誌「AnOther Magazine」とのコラボレーションによって生まれた、アニマルムスクを中心とした香り。<br>
+                都会的でシャープな輝きを放ちながらも、どこか温かみのある、中毒性の高い香りです。</p>
+            </div>
+            
+            <div class="pdp-actions">
+                <div class="pdp-price">¥1,500 <span style="font-size: 0.8rem; color: #888;">(tax included)</span></div>
+                <a href="https://www.amazon.co.jp/dp/B0FSKQLTQN" class="btn-primary" style="width: 100%;" target="_blank">ADD TO CART (AMAZON)</a>
+            </div>
+
+            <table class="spec-table">
+                <tr>
+                    <th>CAPACITY</th>
+                    <td>1.5ml (Atomizer)</td>
+                </tr>
+                <tr>
+                    <th>ORIGIN</th>
+                    <td>USA</td>
+                </tr>
+                <tr>
+                    <th>CATEGORY</th>
+                    <td>Eau de Parfum</td>
+                </tr>
+            </table>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>COLLEGRANCE</h3>
+                    <p>香りはえらべる。もっと自由に。</p>
+                </div>
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="contact.html">お問い合わせ</a></li>
+                        <li><a href="tokushoho.html">特定商取引法に基づく表記</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 COLLEGRANCE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

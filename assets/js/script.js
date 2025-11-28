@@ -1,31 +1,40 @@
-// COLLEGRANCE Website JavaScript
+// COLLEGRANCE Refined Website JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Mobile Navigation Toggle
+    // 1. Mobile Navigation
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     
     if (hamburger && navMenu) {
         hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
+            // Toggle active class on both hamburger and menu
+            const isActive = navMenu.classList.contains('active');
+            
+            if (isActive) {
+                navMenu.classList.remove('active');
+                // hamburger icon animation logic if needed (currently CSS handles simple lines)
+            } else {
+                navMenu.classList.add('active');
+            }
         });
         
-        // Close mobile menu when clicking on links
+        // Close menu when clicking a link
         document.querySelectorAll('.nav-menu a').forEach(link => {
             link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
                 navMenu.classList.remove('active');
             });
         });
     }
     
-    // Smooth Scrolling for Anchor Links
+    // 2. Smooth Scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const target = document.querySelector(targetId);
             if (target) {
                 const headerHeight = document.querySelector('.header').offsetHeight;
                 const targetPosition = target.offsetTop - headerHeight - 20;
@@ -38,440 +47,306 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Fade In Animation on Scroll
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+    // 3. Header Scroll Effect (Minimal)
+    const header = document.querySelector('.header');
+    if (header) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 1px 5px rgba(0,0,0,0.05)';
+            } else {
+                header.style.boxShadow = 'none';
             }
         });
-    }, observerOptions);
-    
-    // Add fade-in class to sections and observe them
-    document.querySelectorAll('section, .trust-item, .service-card, .brand-card').forEach(el => {
-        el.classList.add('fade-in');
-        observer.observe(el);
-    });
-    
-    // Header Background Change on Scroll
-    const header = document.querySelector('.header');
-    let lastScrollTop = 0;
-    
-    window.addEventListener('scroll', function() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (scrollTop > 100) {
-            header.style.background = 'rgba(255, 255, 255, 0.98)';
-            header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
-        } else {
-            header.style.background = 'rgba(255, 255, 255, 0.95)';
-            header.style.boxShadow = 'none';
-        }
-        
-        lastScrollTop = scrollTop;
-    });
-    
-    // Dynamic Amazon Store URL (You'll need to replace with actual URL)
-    const amazonStoreURL = 'https://www.amazon.co.jp/stores/COLLEGRANCE/page/F9EFF672-A578-4332-A93B-CDE6DB8F22D0';
-    
-    // Update all Amazon store links
-    document.querySelectorAll('a[href="#"]').forEach(link => {
-        if (link.textContent.includes('Amazon') || link.classList.contains('cta-button')) {
+    }
+
+    // 4. Amazon Link Updater
+    const amazonStoreURL = 'http://www.amazon.co.jp/collegrance';
+    document.querySelectorAll('a').forEach(link => {
+        // Only target specific placeholder links
+        if (link.getAttribute('href') === '#' && (link.textContent.includes('Amazon') || link.classList.contains('btn-primary'))) {
             link.href = amazonStoreURL;
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
         }
     });
     
-    // Trust Section Counter Animation
-    const trustCounters = document.querySelectorAll('.trust-item');
-    const statCounters = document.querySelectorAll('.stat-number');
-    
-    const trustObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateTrustItem(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-    
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounter(entry.target);
-                statsObserver.unobserve(entry.target); // Only animate once
-            }
-        });
-    }, { threshold: 0.7 });
-    
-    statCounters.forEach(counter => {
-        statsObserver.observe(counter);
-    });
-    
-    trustCounters.forEach(counter => {
-        trustObserver.observe(counter);
-    });
-    
-    function animateTrustItem(item) {
-        const icon = item.querySelector('.trust-icon');
-        if (icon) {
-            setTimeout(() => {
-                icon.style.animation = 'bounce 0.6s ease';
-            }, 200);
-        }
-    }
-    
-    function animateCounter(counter) {
-        const target = parseInt(counter.getAttribute('data-target'));
-        const duration = 2000; // 2 seconds
-        const steps = 60;
-        const stepValue = target / steps;
-        let current = 0;
-        
-        const timer = setInterval(() => {
-            current += stepValue;
-            if (current >= target) {
-                counter.textContent = target.toLocaleString();
-                clearInterval(timer);
-            } else {
-                counter.textContent = Math.floor(current).toLocaleString();
-            }
-        }, duration / steps);
-    }
-    
-    // Parallax Effect for Hero Section
-    const hero = document.querySelector('.hero');
-    const heroImage = document.querySelector('.bottle-placeholder');
-    
-    if (hero && heroImage) {
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const rate = scrolled * -0.5;
-            
-            if (scrolled < hero.offsetHeight) {
-                heroImage.style.transform = `translateY(${rate}px)`;
-            }
-        });
-    }
-    
-    // Form Validation (if contact form is added later)
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
-    
-    // Lazy Loading for Images (when images are added)
-    function lazyLoadImages() {
-        const images = document.querySelectorAll('img[data-src]');
-        
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src;
-                    img.classList.remove('loading');
-                    imageObserver.unobserve(img);
-                }
-            });
-        });
-        
-        images.forEach(img => {
-            img.classList.add('loading');
-            imageObserver.observe(img);
-        });
-    }
-    
-    // Call lazy loading
-    lazyLoadImages();
-    
-    // Performance optimized scroll handler
-    let ticking = false;
-    
-    function updateScrollEffects() {
-        // Update any scroll-based effects here
-        ticking = false;
-    }
-    
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(updateScrollEffects);
-            ticking = true;
-        }
-    });
-    
-    // Add click tracking for analytics (when implemented)
-    function trackClick(eventName, properties = {}) {
-        // Analytics tracking would go here
-        console.log('Track click:', eventName, properties);
-    }
-    
-    // Track CTA clicks
-    document.querySelectorAll('.btn-primary, .btn-secondary, .cta-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const buttonText = this.textContent.trim();
-            trackClick('cta_click', {
-                button_text: buttonText,
-                section: this.closest('section')?.className || 'header'
-            });
-        });
-    });
-    
-    // Add bounce animation keyframes
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes bounce {
-            0%, 20%, 60%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-20px);
-            }
-            80% {
-                transform: translateY(-10px);
-            }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translate3d(0, 40px, 0);
-            }
-            to {
-                opacity: 1;
-                transform: translate3d(0, 0, 0);
-            }
-        }
-        
-        .nav-menu.active {
-            display: flex !important;
-            position: fixed;
-            top: 70px;
-            left: 0;
-            width: 100%;
-            height: calc(100vh - 70px);
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding-top: 50px;
-            gap: 30px;
-        }
-        
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // Fragrance Quiz Implementation
-    const fragranceQuizButton = document.getElementById('fragranceQuiz');
+    // 5. Fragrance Quiz Logic
     const quizModal = document.getElementById('fragranceQuizModal');
-    const closeQuiz = document.querySelector('.quiz-close');
+    const startBtn = document.getElementById('fragranceQuiz');
+    const closeBtn = document.querySelector('.quiz-close');
     
-    let quizAnswers = {};
-    let currentStep = 1;
-    
-    // Quiz data for recommendations
-    const fragranceDatabase = {
-        'business-floral-light': {
-            title: 'エレガント・フローラル',
-            description: 'オフィスにぴったりの上品で洗練された花の香り。周りに好印象を与える、控えめで美しい香りです。',
-            image: 'https://page.gensparksite.com/v1/base64_upload/a91efc7711a29355588d6c5cd2f6c60a',
-            brands: ['エルメス', 'ディプティック', 'ルラボ']
-        },
-        'business-citrus-light': {
-            title: 'フレッシュ・シトラス',
-            description: 'ビジネスシーンに最適な清潔感のある爽やかな香り。集中力を高め、清々しい印象を与えます。',
-            image: 'https://page.gensparksite.com/v1/base64_upload/ca1fe49ee5836bbff9bd373169332662',
-            brands: ['エルメス', 'メゾンマルジェラ']
-        },
-        'evening-oriental-medium': {
-            title: 'セクシー・オリエンタル',
-            description: '夜のデートにぴったりの魅惑的で印象的な香り。大人の魅力を引き出す深みのある香りです。',
-            image: 'https://page.gensparksite.com/v1/base64_upload/be264a989fb392963e99b537560ff311',
-            brands: ['ルラボ', 'ディプティック']
-        },
-        'casual-woody-medium': {
-            title: 'ナチュラル・ウッディ',
-            description: 'デイリーユースにぴったりの温かみのある木の香り。自然体で親しみやすい印象を与えます。',
-            image: 'https://page.gensparksite.com/v1/base64_upload/8c2c90b4e84d97eba6f4375b3057d5db',
-            brands: ['エルメス', 'ルラボ', 'メゾンマルジェラ']
-        },
-        // Default fallback
-        'default': {
-            title: 'バランス・クラシック',
-            description: 'どんなシーンにも合う万能な香り。上品で洗練された、誰からも愛される香りです。',
-            image: 'https://page.gensparksite.com/v1/base64_upload/a5e9db2030063924bb2b93f58db6a186',
-            brands: ['エルメス', 'ルラボ', 'ディプティック']
-        }
-    };
-    
-    if (fragranceQuizButton) {
-        fragranceQuizButton.addEventListener('click', function() {
+    if (quizModal && startBtn) {
+        startBtn.addEventListener('click', () => {
             quizModal.style.display = 'block';
+            resetQuiz();
+        });
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                quizModal.style.display = 'none';
+            });
+        }
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === quizModal) {
+                quizModal.style.display = 'none';
+            }
+        });
+        
+        // Quiz State
+        let currentStep = 1;
+        let answers = {};
+        
+        // Database
+        const recommendations = {
+            'business-floral-light': {
+                title: 'エレガント・フローラル',
+                description: 'オフィスにぴったりの上品で洗練された花の香り。周りに好印象を与える、控えめで美しい香りです。',
+                image: 'https://page.gensparksite.com/v1/base64_upload/a91efc7711a29355588d6c5cd2f6c60a',
+                brands: ['エルメス', 'ディプティック', 'ルラボ']
+            },
+            'business-citrus-light': {
+                title: 'フレッシュ・シトラス',
+                description: 'ビジネスシーンに最適な清潔感のある爽やかな香り。集中力を高め、清々しい印象を与えます。',
+                image: 'https://page.gensparksite.com/v1/base64_upload/ca1fe49ee5836bbff9bd373169332662',
+                brands: ['エルメス', 'メゾンマルジェラ']
+            },
+            'default': {
+                title: 'バランス・クラシック',
+                description: 'どんなシーンにも合う万能な香り。上品で洗練された、誰からも愛される香りです。',
+                image: 'https://page.gensparksite.com/v1/base64_upload/a5e9db2030063924bb2b93f58db6a186',
+                brands: ['エルメス', 'ルラボ', 'ディプティック']
+            }
+        };
+        
+        function resetQuiz() {
             currentStep = 1;
-            quizAnswers = {};
-            showStep(1);
-        });
-    }
-    
-    if (closeQuiz) {
-        closeQuiz.addEventListener('click', function() {
-            quizModal.style.display = 'none';
-        });
-    }
-    
-    // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === quizModal) {
-            quizModal.style.display = 'none';
-        }
-    });
-    
-    function showStep(stepNumber) {
-        // Hide all steps
-        document.querySelectorAll('.quiz-step').forEach(step => {
-            step.style.display = 'none';
-        });
-        
-        // Show current step
-        const currentStepElement = document.getElementById(`step${stepNumber}`);
-        if (currentStepElement) {
-            currentStepElement.style.display = 'block';
+            answers = {};
+            document.querySelectorAll('.quiz-step').forEach(el => el.style.display = 'none');
+            document.getElementById('quizResult').style.display = 'none';
+            document.getElementById('step1').style.display = 'block';
         }
         
-        // Add event listeners to options
-        const options = currentStepElement.querySelectorAll('.quiz-option');
-        options.forEach(option => {
-            option.addEventListener('click', function() {
-                const answer = this.getAttribute('data-answer');
+        // Option Click Handler
+        document.querySelectorAll('.quiz-option').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const answer = this.dataset.answer;
                 
-                if (stepNumber === 1) {
-                    quizAnswers.scene = answer;
-                    currentStep = 2;
-                    showStep(2);
-                } else if (stepNumber === 2) {
-                    quizAnswers.type = answer;
-                    currentStep = 3;
-                    showStep(3);
-                } else if (stepNumber === 3) {
-                    quizAnswers.strength = answer;
+                if (currentStep === 1) {
+                    answers.scene = answer;
+                    goToStep(2);
+                } else if (currentStep === 2) {
+                    answers.type = answer;
+                    goToStep(3);
+                } else if (currentStep === 3) {
+                    answers.strength = answer;
                     showResult();
                 }
             });
         });
-    }
-    
-    function showResult() {
-        // Hide all steps
-        document.querySelectorAll('.quiz-step').forEach(step => {
-            step.style.display = 'none';
-        });
         
-        // Show result
-        const resultElement = document.getElementById('quizResult');
-        resultElement.style.display = 'block';
+        function goToStep(step) {
+            document.getElementById(`step${currentStep}`).style.display = 'none';
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).style.display = 'block';
+        }
         
-        // Generate recommendation key
-        const recommendationKey = `${quizAnswers.scene}-${quizAnswers.type}-${quizAnswers.strength}`;
-        
-        // Get recommendation (fallback to default if specific combination not found)
-        const recommendation = fragranceDatabase[recommendationKey] || fragranceDatabase['default'];
-        
-        // Update result content
-        document.getElementById('resultImage').src = recommendation.image;
-        document.getElementById('resultTitle').textContent = recommendation.title;
-        document.getElementById('resultDescription').textContent = recommendation.description;
-        
-        const brandsContainer = document.getElementById('resultBrands');
-        brandsContainer.innerHTML = '';
-        recommendation.brands.forEach(brand => {
-            const brandTag = document.createElement('span');
-            brandTag.className = 'brand-tag';
-            brandTag.textContent = brand;
-            brandsContainer.appendChild(brandTag);
-        });
-    }
-    
-    // Console log for debugging
-    console.log('COLLEGRANCE website initialized');
-    console.log('Trust in quality, trust in COLLEGRANCE');
-});
-
-// Utility Functions
-const ColleGranceUtils = {
-    // Smooth scroll to element
-    scrollToElement: function(selector, offset = 80) {
-        const element = document.querySelector(selector);
-        if (element) {
-            const elementPosition = element.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - offset;
+        function showResult() {
+            document.getElementById(`step${currentStep}`).style.display = 'none';
+            const resultDiv = document.getElementById('quizResult');
+            resultDiv.style.display = 'block';
             
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
+            // Logic to pick recommendation
+            const key = `${answers.scene}-${answers.type}-${answers.strength}`;
+            const data = recommendations[key] || recommendations['default'];
+            
+            // Render
+            document.getElementById('resultImage').src = data.image;
+            document.getElementById('resultTitle').textContent = data.title;
+            document.getElementById('resultDescription').textContent = data.description;
+            
+            const brandsDiv = document.getElementById('resultBrands');
+            brandsDiv.innerHTML = '';
+            data.brands.forEach(b => {
+                const span = document.createElement('span');
+                span.className = 'brand-tag';
+                span.textContent = b;
+                brandsDiv.appendChild(span);
             });
         }
-    },
-    
-    // Check if element is in viewport
-    isInViewport: function(element) {
-        const rect = element.getBoundingClientRect();
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-    },
-    
-    // Debounce function
-    debounce: function(func, wait, immediate) {
-        let timeout;
-        return function executedFunction() {
-            const context = this;
-            const args = arguments;
-            const later = function() {
-                timeout = null;
-                if (!immediate) func.apply(context, args);
-            };
-            const callNow = immediate && !timeout;
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-            if (callNow) func.apply(context, args);
-        };
-    },
-    
-    // Throttle function
-    throttle: function(func, limit) {
-        let inThrottle;
-        return function() {
-            const args = arguments;
-            const context = this;
-            if (!inThrottle) {
-                func.apply(context, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
-            }
-        };
     }
-};
 
-// Export utils for global access
-window.ColleGranceUtils = ColleGranceUtils;
+    // 6. Trust Stats Counter Animation
+    const statsSection = document.querySelector('.trust-stats');
+    if (statsSection) {
+        const options = {
+            root: null,
+            threshold: 0.5 // Trigger when 50% visible
+        };
+        
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.stat-number');
+                    
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        const duration = 2000; // Animation duration in ms
+                        const increment = target / (duration / 16); // 60fps
+                        
+                        let current = 0;
+                        const updateCounter = () => {
+                            current += increment;
+                            if (current < target) {
+                                counter.innerText = Math.ceil(current).toLocaleString();
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                counter.innerText = target.toLocaleString();
+                            }
+                        };
+                        
+                        updateCounter();
+                    });
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+        
+        observer.observe(statsSection);
+    }
+    
+    console.log('COLLEGRANCE website loaded.');
+    // 7. Ranking Carousel Logic (Drag to Scroll)
+    const slider = document.querySelector('.ranking-track');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
 
-// Clean Hero Section - No slider functionality needed
+    if (slider) {
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('active');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2; // Scroll-fast
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    }
+
+    // 8. Remove unwanted Cookie Banner if exists
+    const cookieBanner = document.getElementById('cookie-consent-banner') || document.querySelector('.cookie-banner');
+    if (cookieBanner) {
+        cookieBanner.style.display = 'none';
+    }
+
+    // 9. Mobile Note Toggle for Product Collection
+    const productCards = document.querySelectorAll('.product-card-simple');
+    
+    productCards.forEach(card => {
+        const imageContainer = card.querySelector('.product-image-container');
+        if(imageContainer) {
+            imageContainer.addEventListener('click', function(e) {
+                // Only for mobile/tablet touch interaction where hover doesn't exist
+                if (window.matchMedia('(hover: none)').matches) {
+                     // Prevent default action if needed, but image usually doesn't have one unless wrapped
+                     // e.preventDefault(); 
+                     card.classList.toggle('show-notes');
+                }
+            });
+        }
+    });
+    
+    // 10. Filter Logic
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filterValue = this.getAttribute('data-filter');
+            const items = document.querySelectorAll('.product-card-simple');
+            
+            items.forEach(item => {
+                const itemColor = item.getAttribute('data-color');
+                // Allow displaying all or matching color
+                // Normalize case just to be safe
+                if (filterValue === 'all' || (itemColor && itemColor.toLowerCase() === filterValue.toLowerCase())) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+
+}); // End of DOMContentLoaded
+
+/* Carousel Navigation */
+function scrollCarousel(type, direction) {
+    const trackId = type + 'Track';
+    const track = document.getElementById(trackId);
+    
+    if (!track) return;
+    
+    // Determine item width
+    let item = track.querySelector('.carousel-item') || track.querySelector('.review-card');
+    if (!item) return;
+    
+    // Get style to find gap
+    const style = window.getComputedStyle(track);
+    const gap = parseInt(style.columnGap || style.gap || '30');
+    
+    const itemWidth = item.offsetWidth;
+    const scrollAmount = (itemWidth + gap) * direction;
+    
+    track.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+    });
+    
+    // Update scroll hint visibility
+    updateScrollState(type);
+}
+
+function updateScrollState(type) {
+    const track = document.getElementById(type + 'Track');
+    const container = track.closest('.carousel-container');
+    if (!track || !container) return;
+    
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    
+    if (track.scrollLeft < maxScroll - 10) {
+        container.classList.add('can-scroll-right');
+    } else {
+        container.classList.remove('can-scroll-right');
+    }
+}
+
+// Add scroll listeners to update state
+document.addEventListener('DOMContentLoaded', () => {
+    ['ranking', 'reviews'].forEach(type => {
+        const track = document.getElementById(type + 'Track');
+        if (track) {
+            track.addEventListener('scroll', () => updateScrollState(type));
+            updateScrollState(type); // Initial check
+        }
+    });
+});

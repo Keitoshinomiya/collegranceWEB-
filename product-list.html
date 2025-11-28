@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COLLECTION - COLLEGRANCE</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        /* Page Specific Styles */
+        .page-header {
+            padding: 180px 0 80px;
+            text-align: center;
+            background-color: #f8f8f8;
+        }
+        .page-title {
+            font-family: var(--font-eng);
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+        .filter-bar {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .filter-group {
+            display: flex;
+            gap: 30px;
+        }
+        .filter-item {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .product-list-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px 20px;
+            margin-bottom: 100px;
+        }
+        .pl-card {
+            cursor: pointer;
+        }
+        .pl-image {
+            background: #fff;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        .pl-image img {
+            transition: transform 0.6s ease;
+        }
+        .pl-card:hover .pl-image img {
+            transform: scale(1.05);
+        }
+        .pl-info {
+            text-align: center;
+        }
+        .pl-brand {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--color-text-sub);
+            display: block;
+            margin-bottom: 5px;
+        }
+        .pl-name {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        .pl-price {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--color-text-sub);
+        }
+        @media (max-width: 768px) {
+            .product-list-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <a href="index.html">
+                        <img src="assets/images/logo.png" alt="COLLEGRANCE" class="logo-image">
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="brand-story.html">STORY</a></li>
+                    <li><a href="product-list.html">COLLECTION</a></li>
+                    <li><a href="index.html#trust">QUALITY</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                    <li><a href="#" class="cta-button">AMAZON</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">COLLECTION</h1>
+            <p>全ラインナップ</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Filter -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <span class="filter-item active">ALL</span>
+                <span class="filter-item">CITRUS & GREEN</span>
+                <span class="filter-item">WARM & GOURMAND</span>
+                <span class="filter-item">CLEAN MUSK</span>
+                <span class="filter-item">FLORAL & FRUITY</span>
+            </div>
+            <div class="filter-group">
+                <span class="filter-item">SORT: POPULAR</span>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-list-grid">
+            <!-- Item 1 -->
+            <div class="pl-card" onclick="location.href='product-detail.html'">
+                <div class="pl-image">
+                    <img src="https://sspark.genspark.ai/cfimages?u1=n1e%2ByaeoqYa9jIsnhzE23vlwRD9jMMyMOb7UFsBK%2BIh6xaJwymh7fbeelixyNe83KhLJ0bOIc%2BHmcXIaje%2BI8jUou8qS7fyc6YIADyHC%2FwKLsXe4%2FUkDVRiUNetOk4YbKYXqdcY%3D&u2=bH9LyJXZ1MFbcyUV&width=2560" alt="BYREDO Blanche">
+                </div>
+                <div class="pl-info">
+                    <span class="pl-brand">BYREDO</span>
+                    <span class="pl-name">Blanche</span>
+                    <span class="pl-price">¥1,200</span>
+                </div>
+            </div>
+            <!-- Item 2 -->
+            <div class="pl-card" onclick="location.href='product-detail.html'">
+                <div class="pl-image">
+                    <img src="https://sspark.genspark.ai/cfimages?u1=GNNMibQ%2FHNqIHh7sYWIqX4UXkdkwgTF4V4NK8aKAYCG%2FOOWB3zCtuH5Dbr73xoqoB1geXD0rCcLNv2lbYK%2BmyiIM4CRXW3AABzje2b9WwtVbJt5mBsogJNXmCvkD5QLEb2Xrf9OsDIr%2B7FprGxwCRmrD3z4hvbOT0w%3D%3D&u2=nHXbzp92ctTdG1eF&width=2560" alt="LE LABO Another 13">
+                </div>
+                <div class="pl-info">
+                    <span class="pl-brand">LE LABO</span>
+                    <span class="pl-name">Another 13</span>
+                    <span class="pl-price">¥1,500</span>
+                </div>
+            </div>
+            <!-- Item 3 -->
+            <div class="pl-card" onclick="location.href='product-detail.html'">
+                <div class="pl-image">
+                    <img src="https://sspark.genspark.ai/cfimages?u1=N%2Fsh2eMrEMWCbjmE6yA%2BRLbkQWy67Jt%2BHvaSh%2Fgr8imI8rH7c3%2Bwseek7WPhGolUBw3bViGS19s582D15Y2E%2FIE9wLlEsIVTRrgAuMpGfg3DGbL6gHhHtuA%3D&u2=wxAgbB0PJJku2oGV&width=2560" alt="Maison Margiela Lazy Sunday Morning">
+                </div>
+                <div class="pl-info">
+                    <span class="pl-brand">Maison Margiela</span>
+                    <span class="pl-name">Lazy Sunday Morning</span>
+                    <span class="pl-price">¥1,200</span>
+                </div>
+            </div>
+            <!-- Item 4 -->
+            <div class="pl-card" onclick="location.href='product-detail.html'">
+                <div class="pl-image">
+                    <img src="https://sspark.genspark.ai/cfimages?u1=CcCT9ELqPVzRdJKB5wd2ppPAwI%2FECyCrOYlNpoTFdrMfuwmA%2BSPEheaA%2B34haWtm8RwCVS6XfHH0xwc9ypccMUz2lSDHNQNsa%2F5RkaLoLUw%3D&u2=QtSxpuicQDMu9EvW&width=2560" alt="HERMÈS ナイルの庭">
+                </div>
+                <div class="pl-info">
+                    <span class="pl-brand">HERMÈS</span>
+                    <span class="pl-name">Un Jardin sur le Nil</span>
+                    <span class="pl-price">¥1,300</span>
+                </div>
+            </div>
+            <!-- Item 5 -->
+            <div class="pl-card" onclick="location.href='product-detail.html'">
+                <div class="pl-image">
+                    <img src="https://sspark.genspark.ai/cfimages?u1=to9RteDGgfqgTdwHb%2FO410wX63XjkJ9ci8KZpSzRjpUyevs4wIqmnCn1xuIh4AvOPkF3aesHHpQ3V7s55pAqKd3d9tFGM%2FKsTaNzXmOL3oXJS2g1fPOmczOO1wV8i6JZBisU0ZU%3D&u2=uha5ubk6fcC%2BO5HX&width=2560" alt="DIPTYQUE Orpheon">
+                </div>
+                <div class="pl-info">
+                    <span class="pl-brand">DIPTYQUE</span>
+                    <span class="pl-name">Orpheon</span>
+                    <span class="pl-price">¥1,400</span>
+                </div>
+            </div>
+             <!-- Item 6 -->
+             <div class="pl-card" onclick="location.href='product-detail.html'">
+                <div class="pl-image">
+                    <img src="https://sspark.genspark.ai/cfimages?u1=9Cddv8m2o%2FY8tIMNDWkovgJJC4bM83iHMDupiViqlGGvfm5PZoJSNxis0uf609prqDYyHXDyalGjVZApQynVVXTU3DJrToUTmm1F2e9WDWEoFcG%2F9NAUY3kctTL7juiS12KNwgLqu0Utaj1rCDNxXHMXtJXRmrjI0A%3D%3D&u2=ayDuFFH4moumNLLs&width=2560" alt="TIFFANY & CO. Rose Gold">
+                </div>
+                <div class="pl-info">
+                    <span class="pl-brand">TIFFANY & CO.</span>
+                    <span class="pl-name">Rose Gold</span>
+                    <span class="pl-price">¥1,200</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>COLLEGRANCE</h3>
+                    <p>香りはえらべる。もっと自由に。</p>
+                </div>
+                <div class="footer-info">
+                    <h4>運営会社</h4>
+                    <p>合同会社ヤシノミ</p>
+                    <p>化粧品製造販売業許可取得済み</p>
+                </div>
+                <div class="footer-links">
+                    <h4>リンク</h4>
+                    <ul>
+                        <li><a href="contact.html">お問い合わせ</a></li>
+                        <li><a href="http://www.amazon.co.jp/collegrance" target="_blank" rel="noopener">Amazonストア</a></li>
+                        <li><a href="tokushoho.html">特定商取引法に基づく表記</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 COLLEGRANCE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

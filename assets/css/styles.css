@@ -576,12 +576,47 @@ h1, h2, h3, h4 {
   padding: var(--spacing-section) 0;
 }
 
-.product-grid-simple {
+/* Product Grid Collection (4 columns) */
+.product-grid-collection {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
   margin-bottom: 60px;
 }
+
+@media (max-width: 992px) {
+  .product-grid-collection {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .product-grid-collection {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile is better for collection */
+    gap: 15px;
+  }
+}
+
+/* Badge for Type */
+.product-type-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  padding: 4px 8px;
+  border: 1px solid #eee;
+  color: #888;
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+}
+
+.product-card-simple img {
+    width: 100%; /* Fill the card width */
+    aspect-ratio: 1; /* Ensure square */
+    object-fit: contain; /* Keep aspect ratio */
+    padding: 20px; /* Padding inside the gray box if needed, or just white */
+    background-color: #fff;
+}
+
 
 .product-card-simple {
   text-align: center;

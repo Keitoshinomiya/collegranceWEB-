@@ -1083,16 +1083,21 @@ h1, h2, h3, h4 {
     gap: 40px;
   }
   
+  .product-grid-collection {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
+    gap: 15px;
+  }
+
   .philosophy-content, .about-content {
     flex-direction: column;
   }
   
   .about-content {
-      flex-direction: column-reverse; /* Image top on mobile usually, but here let's keep logic simple */
+      flex-direction: column-reverse;
   }
   
   .trust-stats {
-    grid-template-columns: 1fr 1fr; /* 2x2 grid on mobile */
+    grid-template-columns: 1fr 1fr;
     border: none;
   }
   
@@ -1113,6 +1118,44 @@ h1, h2, h3, h4 {
   .cta-buttons {
       flex-direction: column;
   }
+}
+
+/* Small Mobile Fix (iPhone/Pixel vertical) */
+@media (max-width: 500px) {
+    .product-grid-collection {
+        grid-template-columns: 1fr; /* Force 1 column for Pro look & readability */
+        gap: 40px;
+    }
+    
+    .product-card-simple {
+        padding: 0;
+        border: none; /* Cleaner look */
+        border-bottom: 1px solid #f4f4f4; /* Divider instead of box */
+        padding-bottom: 40px;
+    }
+    
+    .product-card-simple:last-child {
+        border-bottom: none;
+    }
+    
+    .product-image-container {
+        width: 80%;
+        margin: 0 auto 20px;
+        min-height: auto; /* Let it flow naturally */
+    }
+    
+    .notes-overlay {
+        /* On 1-column mobile, we can make the overlay cleaner or partial?
+           Actually, 1 column gives enough width for the current overlay. */
+        padding: 10px;
+    }
+    
+    .mobile-tap-hint {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+    }
 }
 /* Ranking Carousel (Updated) */
 .ranking-carousel {
@@ -1851,7 +1894,7 @@ h1, h2, h3, h4 {
 
 .note-value {
     flex: 1;
-    word-break: break-word; /* Prevent overflow */
+    word-break: normal; /* Don't break aggressively if we have space */
 }
 
 /* Color Categorization Indicator */
@@ -1905,10 +1948,11 @@ h1, h2, h3, h4 {
     display: none;
     font-size: 0.65rem;
     color: #aaa;
-    margin-top: 8px;
+    margin-top: 12px; /* Increased spacing */
     font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    pointer-events: none; /* Prevent clicking text */
 }
 
 @media (max-width: 768px) {

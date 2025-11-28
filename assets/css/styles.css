@@ -610,8 +610,23 @@ h1, h2, h3, h4 {
 
 @media (max-width: 768px) {
   .product-grid-collection {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile is better for collection */
-    gap: 15px;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding-bottom: 30px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .product-grid-collection::-webkit-scrollbar {
+    display: none;
+  }
+
+  .product-card-simple {
+    flex: 0 0 45%; /* Tablet: ~2 items */
+    scroll-snap-align: start;
+    max-width: none; /* Reset max-width constraint if any */
   }
 }
 
@@ -1123,36 +1138,38 @@ h1, h2, h3, h4 {
 /* Small Mobile Fix (iPhone/Pixel vertical) */
 @media (max-width: 500px) {
     .product-grid-collection {
-        grid-template-columns: 1fr; /* Force 1 column for Pro look & readability */
-        gap: 40px;
+        /* Carousel adjustments for mobile */
+        gap: 15px;
     }
     
     .product-card-simple {
-        padding: 0;
-        border: none; /* Cleaner look */
-        border-bottom: 1px solid #f4f4f4; /* Divider instead of box */
-        padding-bottom: 40px;
+        flex: 0 0 80%; /* Mobile: 1 main item + peek */
+        scroll-snap-align: center;
+        
+        /* Restore card look for carousel */
+        padding: 20px;
+        border: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        background: #fff;
     }
     
     .product-card-simple:last-child {
-        border-bottom: none;
+        border-bottom: 1px solid #eee;
     }
     
     .product-image-container {
-        width: 80%;
-        margin: 0 auto 20px;
-        min-height: auto; /* Let it flow naturally */
+        width: 100%; /* Full width in card */
+        margin: 0 auto 15px;
+        min-height: auto;
     }
     
     .notes-overlay {
-        /* On 1-column mobile, we can make the overlay cleaner or partial?
-           Actually, 1 column gives enough width for the current overlay. */
         padding: 10px;
     }
     
     .mobile-tap-hint {
-        margin-top: 15px;
-        margin-bottom: 10px;
+        margin-top: 10px;
+        margin-bottom: 5px;
         font-size: 0.7rem;
         letter-spacing: 0.1em;
     }

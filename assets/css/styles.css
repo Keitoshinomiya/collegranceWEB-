@@ -10,10 +10,10 @@
   --color-border: #e0e0e0;         /* Lighter border for subtle divisions */
   
   /* Typography */
-  --font-serif: 'Noto Serif JP', serif;
-  --font-sans: 'Noto Sans JP', sans-serif;
-  --font-eng: 'Courier Prime', monospace; /* Le Labo Style = Monospace */
-  --font-mono: 'Courier Prime', monospace; /* Industrial/Lab feel */
+  --font-serif: 'Zen Kaku Gothic Antique', sans-serif; /* Unified Brand Font */
+  --font-sans: 'Zen Kaku Gothic Antique', sans-serif;  /* Unified Brand Font */
+  --font-eng: 'Zen Kaku Gothic Antique', sans-serif;   /* Unified Brand Font (Replacing Courier for consistency) */
+  --font-mono: 'Zen Kaku Gothic Antique', sans-serif;  /* Unified Brand Font */
   
   /* Spacing */
   --spacing-section: 140px;
@@ -1075,6 +1075,18 @@ h1, h2, h3, h4 {
   :root {
     --spacing-section: 80px;
     --header-height: 70px;
+  }
+
+  /* Fix for LINE Concierge Card Padding and Button on Mobile */
+  .line-concierge-card {
+    padding: 40px 20px;
+    width: 100%;
+  }
+
+  .btn-line-concierge {
+    width: 100%;
+    min-width: auto;
+    padding: 20px;
   }
 
   .hero-catch-main {

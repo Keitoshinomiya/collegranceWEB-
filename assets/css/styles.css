@@ -1668,3 +1668,25 @@ h1, h2, h3, h4 {
     color: #8c8c8c;
     text-decoration: underline;
 }
+
+/* Mega Menu Layout Fix */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 100%; /* Ensure full height of nav */
+}
+
+/* Ensure mega menu aligns relative to full width */
+@media (min-width: 992px) {
+    .header .container {
+        position: static; /* Reset relative positioning for mega menu to span full width */
+    }
+    
+    .nav-brand {
+        margin-right: auto; /* Push menu to right if flexbox */
+        /* But in our layout, it's justify-content: space-between */
+    }
+}

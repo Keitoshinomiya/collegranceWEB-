@@ -297,6 +297,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // 11. Category Discovery to Collection Filter Link
+    const categoryItems = document.querySelectorAll('.category-item');
+    categoryItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            // Let the smooth scroll (anchor link) happen naturally
+            // But update the filter
+            const targetColor = this.getAttribute('data-filter-target');
+            if (targetColor) {
+                const filterBtn = document.querySelector(`.filter-btn[data-filter="${targetColor}"]`);
+                if (filterBtn) {
+                    // Trigger click on the corresponding filter button
+                    setTimeout(() => {
+                        filterBtn.click();
+                    }, 100); // Slight delay to ensure scroll starts smoothly
+                }
+            }
+        });
+    });
+
 }); // End of DOMContentLoaded
 
 /* Carousel Navigation */

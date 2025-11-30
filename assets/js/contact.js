@@ -144,14 +144,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Collect form data
         const formData = new FormData(form);
-        const data = {};
-        for (let [key, value] of formData.entries()) {
-            data[key] = value;
-        }
         
         try {
-            // Simulate API call (replace with actual endpoint)
-            await simulateFormSubmission(data);
+            // Submit to Netlify
+            await submitToNetlify(formData);
             
             // Show success message
             showSuccessMessage();
@@ -192,36 +188,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Form submission to info@collegrance.com
-    async function simulateFormSubmission(data) {
-        return new Promise((resolve, reject) => {
-            console.log('Form data submitted to info@collegrance.com:', data);
-            
-            // In production, replace this with actual email service
-            // Example: Netlify Forms, Formspree, EmailJS, or custom backend
-            const formData = {
-                to: 'info@collegrance.com',
-                subject: `COLLEGRANCEお問い合わせ: ${data.subject}`,
-                name: data.name,
-                email: data.email,
-                phone: data.phone || '未記入',
-                inquiry_type: data.subject,
-                message: data.message,
-                newsletter: data.newsletter ? 'はい' : 'いいえ',
-                timestamp: new Date().toISOString(),
-                source: 'COLLEGRANCE公式サイト'
-            };
-            
-            // Simulate network delay
-            setTimeout(() => {
-                // In production, implement actual email sending here
-                console.log('Email would be sent to:', formData);
-                resolve({ 
-                    success: true, 
-                    message: 'Form submitted successfully to info@collegrance.com',
-                    data: formData 
-                });
-            }, 2000);
+    // Form submission to Netlify
+    async function submitToNetlify(formData) {
+        return fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(formData).toString()
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response;
         });
     }
     

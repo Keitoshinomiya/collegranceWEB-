@@ -100,7 +100,8 @@
 
                 <!-- Contact Form -->
                 <div class="contact-form">
-                    <form id="contactForm" class="form">
+                    <form id="contactForm" class="form" name="contact" method="POST" data-netlify="true" netlify>
+                        <input type="hidden" name="form-name" value="contact" />
                         <div class="form-header">
                             <h2>お問い合わせフォーム</h2>
                             <p>下記のフォームに必要事項をご記入ください</p>

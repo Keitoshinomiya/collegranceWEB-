@@ -10,10 +10,10 @@
   --color-border: #e0e0e0;         /* Lighter border for subtle divisions */
   
   /* Typography */
-  --font-serif: 'Noto Serif JP', serif;
-  --font-sans: 'Noto Sans JP', sans-serif;
-  --font-eng: 'Cormorant Garamond', serif;
-  --font-mono: 'Courier Prime', monospace; /* Industrial/Lab feel */
+  --font-serif: 'Zen Kaku Gothic Antique', sans-serif; /* Unified Brand Font */
+  --font-sans: 'Zen Kaku Gothic Antique', sans-serif;  /* Unified Brand Font */
+  --font-eng: 'Zen Kaku Gothic Antique', sans-serif;   /* Unified Brand Font (Replacing Courier for consistency) */
+  --font-mono: 'Zen Kaku Gothic Antique', sans-serif;  /* Unified Brand Font */
   
   /* Spacing */
   --spacing-section: 140px;
@@ -77,7 +77,7 @@ img:hover {
 
 /* Typography Utilities */
 h1, h2, h3, h4 {
-  font-family: var(--font-serif);
+  font-family: var(--font-eng);
   font-weight: 400;
   line-height: 1.3;
   letter-spacing: 0.1em;
@@ -190,7 +190,7 @@ h1, h2, h3, h4 {
 }
 
 .nav-menu a {
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--color-text-main);
   font-weight: 500;
@@ -462,12 +462,30 @@ h1, h2, h3, h4 {
 
 .rank-badge {
   position: absolute;
-  top: -10px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-text-main); /* 黒背景 */
+  color: #fff;
   font-family: var(--font-eng);
-  font-size: 4rem;
-  color: rgba(0,0,0,0.1);
-  z-index: 0;
+  font-size: 1.4rem;
+  border-radius: 50%;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  font-weight: 500;
+}
+
+.rank-badge::before {
+    content: "No.";
+    font-size: 0.5em;
+    margin-right: 2px;
+    margin-top: 2px;
+    opacity: 0.8;
+    font-family: var(--font-mono);
 }
 
 .rank-image {
@@ -592,8 +610,23 @@ h1, h2, h3, h4 {
 
 @media (max-width: 768px) {
   .product-grid-collection {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile is better for collection */
-    gap: 15px;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding-bottom: 30px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .product-grid-collection::-webkit-scrollbar {
+    display: none;
+  }
+
+  .product-card-simple {
+    flex: 0 0 45%; /* Tablet: ~2 items */
+    scroll-snap-align: start;
+    max-width: none; /* Reset max-width constraint if any */
   }
 }
 
@@ -1044,6 +1077,18 @@ h1, h2, h3, h4 {
     --header-height: 70px;
   }
 
+  /* Fix for LINE Concierge Card Padding and Button on Mobile */
+  .line-concierge-card {
+    padding: 40px 20px;
+    width: 100%;
+  }
+
+  .btn-line-concierge {
+    width: 100%;
+    min-width: auto;
+    padding: 20px;
+  }
+
   .hero-catch-main {
     font-size: 2.2rem;
   }
@@ -1065,16 +1110,21 @@ h1, h2, h3, h4 {
     gap: 40px;
   }
   
+  .product-grid-collection {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
+    gap: 15px;
+  }
+
   .philosophy-content, .about-content {
     flex-direction: column;
   }
   
   .about-content {
-      flex-direction: column-reverse; /* Image top on mobile usually, but here let's keep logic simple */
+      flex-direction: column-reverse;
   }
   
   .trust-stats {
-    grid-template-columns: 1fr 1fr; /* 2x2 grid on mobile */
+    grid-template-columns: 1fr 1fr;
     border: none;
   }
   
@@ -1095,6 +1145,46 @@ h1, h2, h3, h4 {
   .cta-buttons {
       flex-direction: column;
   }
+}
+
+/* Small Mobile Fix (iPhone/Pixel vertical) */
+@media (max-width: 500px) {
+    .product-grid-collection {
+        /* Carousel adjustments for mobile */
+        gap: 15px;
+    }
+    
+    .product-card-simple {
+        flex: 0 0 80%; /* Mobile: 1 main item + peek */
+        scroll-snap-align: center;
+        
+        /* Restore card look for carousel */
+        padding: 20px;
+        border: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        background: #fff;
+    }
+    
+    .product-card-simple:last-child {
+        border-bottom: 1px solid #eee;
+    }
+    
+    .product-image-container {
+        width: 100%; /* Full width in card */
+        margin: 0 auto 15px;
+        min-height: auto;
+    }
+    
+    .notes-overlay {
+        padding: 10px;
+    }
+    
+    .mobile-tap-hint {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+    }
 }
 /* Ranking Carousel (Updated) */
 .ranking-carousel {
@@ -1216,12 +1306,14 @@ h1, h2, h3, h4 {
   opacity: 1;
 }
 
-/* Ranking Badge Adjustment for Carousel */
+/* Ranking Badge Adjustment for Carousel (Removed Override) */
+/*
 .ranking-item.carousel-item .rank-badge {
   font-size: 3rem;
   left: 10px;
   top: -10px;
 }
+*/
 /* Video Split Section Styling (Refined for Vertical Video) */
 .video-split-section {
   padding: 100px 0;
@@ -1362,7 +1454,7 @@ h1, h2, h3, h4 {
 }
 
 .journal-category {
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   font-weight: 500;
@@ -1370,7 +1462,7 @@ h1, h2, h3, h4 {
 }
 
 .journal-title {
-  font-family: 'Noto Serif JP', serif;
+  font-family: var(--font-serif);
   font-size: 1.4rem;
   font-weight: 500;
   line-height: 1.4;
@@ -1379,7 +1471,7 @@ h1, h2, h3, h4 {
 }
 
 .journal-excerpt {
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.95rem;
   line-height: 1.8;
   color: #555;
@@ -1390,7 +1482,7 @@ h1, h2, h3, h4 {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.9rem;
   color: var(--color-text-main);
   text-decoration: none;
@@ -1544,7 +1636,7 @@ h1, h2, h3, h4 {
 }
 
 .mega-menu-title {
-    font-family: 'Noto Serif JP', serif;
+    font-family: var(--font-serif);
     font-size: 0.9rem;
     color: #666;
     margin-bottom: 25px;
@@ -1566,7 +1658,7 @@ h1, h2, h3, h4 {
 }
 
 .mega-menu-list li a {
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.95rem;
     color: #333;
     text-decoration: none;
@@ -1585,7 +1677,7 @@ h1, h2, h3, h4 {
     font-size: 0.75rem;
     color: #999;
     margin-top: 2px;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-serif);
     font-style: italic;
 }
 
@@ -1612,7 +1704,7 @@ h1, h2, h3, h4 {
 }
 
 .mega-menu-list.brand-list li a {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-serif);
     font-size: 1.1rem;
     letter-spacing: 0.05em;
 }
@@ -1654,7 +1746,7 @@ h1, h2, h3, h4 {
 }
 
 .featured-info h4 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-serif);
     font-size: 1.4rem;
     margin: 0 0 5px;
     font-weight: 600;
@@ -1831,7 +1923,7 @@ h1, h2, h3, h4 {
 
 .note-value {
     flex: 1;
-    word-break: break-word; /* Prevent overflow */
+    word-break: normal; /* Don't break aggressively if we have space */
 }
 
 /* Color Categorization Indicator */
@@ -1885,10 +1977,11 @@ h1, h2, h3, h4 {
     display: none;
     font-size: 0.65rem;
     color: #aaa;
-    margin-top: 8px;
+    margin-top: 12px; /* Increased spacing */
     font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    pointer-events: none; /* Prevent clicking text */
 }
 
 @media (max-width: 768px) {

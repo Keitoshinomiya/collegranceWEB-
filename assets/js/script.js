@@ -263,12 +263,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const imageContainer = card.querySelector('.product-image-container');
         if(imageContainer) {
             imageContainer.addEventListener('click', function(e) {
-                // Only for mobile/tablet touch interaction where hover doesn't exist
-                if (window.matchMedia('(hover: none)').matches) {
-                     // Prevent default action if needed, but image usually doesn't have one unless wrapped
-                     // e.preventDefault(); 
-                     card.classList.toggle('show-notes');
-                }
+                // Toggle notes on click for both mobile and desktop (allows pinning on desktop)
+                card.classList.toggle('show-notes');
             });
         }
     });
@@ -294,6 +290,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     item.style.display = 'none';
                 }
             });
+        });
+    });
+
+    // 11. Category Discovery to Collection Filter Link
+    const categoryItems = document.querySelectorAll('.category-item');
+    categoryItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            // Let the smooth scroll (anchor link) happen naturally
+            // But update the filter
+            const targetColor = this.getAttribute('data-filter-target');
+            if (targetColor) {
+                const filterBtn = document.querySelector(`.filter-btn[data-filter="${targetColor}"]`);
+                if (filterBtn) {
+                    // Trigger click on the corresponding filter button
+                    setTimeout(() => {
+                        filterBtn.click();
+                    }, 100); // Slight delay to ensure scroll starts smoothly
+                }
+            }
         });
     });
 

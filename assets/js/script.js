@@ -30,8 +30,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // 2. Smooth Scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
             const targetId = this.getAttribute('href');
+            // If the href has changed to a real URL (not starting with #), allow default behavior
+            if (!targetId || !targetId.startsWith('#')) return;
+
+            e.preventDefault();
             if (targetId === '#') return;
             
             const target = document.querySelector(targetId);
@@ -72,52 +75,293 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 5. Fragrance Quiz Logic
     const quizModal = document.getElementById('fragranceQuizModal');
-    const startBtn = document.getElementById('fragranceQuiz');
+    // Fix: Select by class since ID doesn't exist
+    const startBtns = document.querySelectorAll('.btn-quiz'); 
     const closeBtn = document.querySelector('.quiz-close');
     
-    if (quizModal && startBtn) {
-        startBtn.addEventListener('click', () => {
-            quizModal.style.display = 'block';
-            resetQuiz();
+    // Attach to all quiz buttons (if multiple)
+    if (quizModal) {
+        startBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default if it's a link
+                quizModal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent background scroll
+                resetQuiz();
+            });
         });
         
         if (closeBtn) {
             closeBtn.addEventListener('click', () => {
                 quizModal.style.display = 'none';
+                document.body.style.overflow = ''; // Restore background scroll
             });
         }
         
         window.addEventListener('click', (e) => {
             if (e.target === quizModal) {
                 quizModal.style.display = 'none';
+                document.body.style.overflow = ''; // Restore background scroll
             }
         });
+
+        // Fix: Add explicit listeners for Result Screen buttons
+        const resultCloseBtn = document.getElementById('btn-quiz-close-result');
+        const resultRestartBtn = document.getElementById('btn-quiz-restart');
+
+        if (resultCloseBtn) {
+            resultCloseBtn.addEventListener('click', () => {
+                quizModal.style.display = 'none';
+                document.body.style.overflow = ''; // Restore background scroll
+            });
+        }
+
+        if (resultRestartBtn) {
+            resultRestartBtn.addEventListener('click', () => {
+                resetQuiz();
+            });
+        }
         
         // Quiz State
         let currentStep = 1;
         let answers = {};
         
-        // Database
-        const recommendations = {
-            'business-floral-light': {
-                title: 'エレガント・フローラル',
-                description: 'オフィスにぴったりの上品で洗練された花の香り。周りに好印象を与える、控えめで美しい香りです。',
-                image: 'https://page.gensparksite.com/v1/base64_upload/a91efc7711a29355588d6c5cd2f6c60a',
-                brands: ['エルメス', 'ディプティック', 'ルラボ']
+        // 17 Products Database (High Precision)
+        const products = [
+            {
+                id: 'byredo-blanche',
+                brand: 'BYREDO',
+                name: 'Blanche',
+                type: 'clean',
+                strength: 'medium',
+                vibe: 'clean',
+                scenes: ['business', 'casual'],
+                notes: { top: 'Aldehydes, Rose', mid: 'Peony, Lily of the Valley', base: 'Musk, Sandalwood, Amber' },
+                desc: '「白」という色を香りで表現。洗い立てのシーツのような清潔感と、透明感のあるフローラルが調和した香り。誰からも愛されるピュアな印象を与えます。',
+                image: 'https://www.genspark.ai/api/files/s/nJheUsxg',
+                link: 'https://www.amazon.co.jp/dp/B0FRG5XX2Q'
             },
-            'business-citrus-light': {
-                title: 'フレッシュ・シトラス',
-                description: 'ビジネスシーンに最適な清潔感のある爽やかな香り。集中力を高め、清々しい印象を与えます。',
-                image: 'https://page.gensparksite.com/v1/base64_upload/ca1fe49ee5836bbff9bd373169332662',
-                brands: ['エルメス', 'メゾンマルジェラ']
+            {
+                id: 'ck-one',
+                brand: 'Calvin Klein',
+                name: 'ck one',
+                type: 'citrus',
+                strength: 'light',
+                vibe: 'cute',
+                scenes: ['casual', 'business'],
+                notes: { top: 'Bergamot, Pineapple', mid: 'Jasmine, Violet', base: 'Musk, Amber' },
+                desc: '世界中で愛されるシトラスの金字塔。親しみやすく、誰からも好感を持たれる爽やかな香り。リラックスしたい休日やカジュアルな日常に最適です。',
+                image: 'assets/images/placeholder.svg',
+                link: 'https://www.amazon.co.jp/dp/B0FSKMB6HR'
             },
-            'default': {
-                title: 'バランス・クラシック',
-                description: 'どんなシーンにも合う万能な香り。上品で洗練された、誰からも愛される香りです。',
-                image: 'https://page.gensparksite.com/v1/base64_upload/a5e9db2030063924bb2b93f58db6a186',
-                brands: ['エルメス', 'ルラボ', 'ディプティック']
+            {
+                id: 'dior-hypnotic',
+                brand: 'DIOR',
+                name: 'Hypnotic Poison',
+                type: 'warm',
+                strength: 'strong',
+                vibe: 'sensual',
+                scenes: ['evening', 'special'],
+                notes: { top: 'Coconut, Plum, Apricot', mid: 'Rosewood, Jasmine', base: 'Vanilla, Almond, Musk' },
+                desc: '甘く魅惑的なバニラとアーモンドの香り。ミステリアスで官能的な印象を残したい、特別な夜やデートにぴったりの一本です。',
+                image: 'assets/images/placeholder.svg',
+                link: 'https://www.amazon.co.jp/dp/B0FSKNF4QC'
+            },
+            {
+                id: 'dior-sauvage',
+                brand: 'DIOR',
+                name: 'Sauvage',
+                type: 'citrus', 
+                strength: 'medium',
+                vibe: 'mature',
+                scenes: ['special', 'evening', 'business'],
+                notes: { top: 'Bergamot, Pepper', mid: 'Lavender, Patchouli', base: 'Ambroxan, Cedar' },
+                desc: '広大な大地にインスパイアされた、力強くフレッシュな香り。スパイシーさと爽やかさが同居し、自信に満ちた大人の男性像を演出します。',
+                image: 'https://www.genspark.ai/api/files/s/fb85MU3T',
+                link: 'https://www.amazon.co.jp/dp/B0FSKQW44P'
+            },
+            {
+                id: 'diptyque-orpheon',
+                brand: 'DIPTYQUE',
+                name: 'Orpheon',
+                type: 'warm', 
+                strength: 'strong',
+                vibe: 'mature',
+                scenes: ['evening', 'special', 'casual'],
+                notes: { top: 'Juniper Berry', mid: 'Jasmine', base: 'Cedar, Tonka Bean' },
+                desc: '60年代のパリのバーをイメージした香り。ウッディでパウダリーな温かみがあり、知的で洗練された大人の雰囲気を醸し出します。',
+                image: 'https://www.genspark.ai/api/files/s/vp9T20D5',
+                link: 'https://www.amazon.co.jp/dp/B0FSKMB6HG'
+            },
+            {
+                id: 'dg-lightblue',
+                brand: 'Dolce & Gabbana',
+                name: 'Light Blue',
+                type: 'citrus',
+                strength: 'light',
+                vibe: 'cute',
+                scenes: ['casual', 'business'],
+                notes: { top: 'Lemon, Apple', mid: 'Jasmine, White Rose', base: 'Cedar, Musk' },
+                desc: '地中海の陽光と海を感じさせる、これ以上ないほど爽やかな香り。甘すぎず、性別を問わず夏やリフレッシュしたい時に最高の一本です。',
+                image: 'assets/images/placeholder.svg',
+                link: 'https://www.amazon.co.jp/dp/B0FSKNWDG8'
+            },
+            {
+                id: 'hermes-nile',
+                brand: 'HERMÈS',
+                name: 'Un Jardin sur le Nil',
+                type: 'citrus',
+                strength: 'light',
+                vibe: 'mature',
+                scenes: ['business', 'casual'],
+                notes: { top: 'Green Mango, Citrus', mid: 'Lotus, Calamus', base: 'Sycamore, Incense' },
+                desc: '「ナイルの庭」。グリーンマンゴーの瑞々しさとロータスの透明感。知的で上品、決して邪魔にならない美しい香りはオフィスワークに最適です。',
+                image: 'https://www.genspark.ai/api/files/s/DOHTLWiS',
+                link: 'https://www.amazon.co.jp/dp/B0FSKQGK6Z'
+            },
+            {
+                id: 'issey-miyake',
+                brand: 'ISSEY MIYAKE',
+                name: "L'Eau d'Issey",
+                type: 'clean',
+                strength: 'light',
+                vibe: 'clean',
+                scenes: ['business', 'casual'],
+                notes: { top: 'Lotus, Rose', mid: 'Lily, White Flowers', base: 'Precious Woods' },
+                desc: '「水の香り」を追求した名作。透明感あふれるホワイトフローラルとアクアティックなノートは、清潔感そのものです。',
+                image: 'assets/images/placeholder.svg',
+                link: 'https://www.amazon.co.jp/dp/B0FSKRJKJ7'
+            },
+            {
+                id: 'jo-malone-pear',
+                brand: 'Jo Malone London',
+                name: 'English Pear & Freesia',
+                type: 'floral',
+                strength: 'light',
+                vibe: 'cute',
+                scenes: ['business', 'casual', 'date'],
+                notes: { top: 'Pear', mid: 'Freesia', base: 'Patchouli, Amber' },
+                desc: '熟した洋梨の瑞々しさとフリージアの優しさ。甘すぎず、フルーティーで上品な香りは、誰からも好かれる好感度No.1フレグランスです。',
+                image: 'https://www.genspark.ai/api/files/s/IFBdt0Cn',
+                link: 'https://www.amazon.co.jp/dp/B0FSKNWSN5'
+            },
+            {
+                id: 'le-labo-another13',
+                brand: 'LE LABO',
+                name: 'Another 13',
+                type: 'clean',
+                strength: 'strong',
+                vibe: 'sensual',
+                scenes: ['special', 'casual', 'evening'],
+                notes: { top: 'Pear, Citrus', mid: 'Ambrette, Jasmine', base: 'Ambroxan, Musk' },
+                desc: '都会的で中毒性のあるムスクの香り。つける人によって香り立ちが変わり、あなたの「体臭」を最高に魅力的に演出するスキンセントです。',
+                image: 'assets/images/placeholder.svg',
+                link: 'https://www.amazon.co.jp/dp/B0FSKQLTQN'
+            },
+            {
+                id: 'loewe-001-woman',
+                brand: 'LOEWE',
+                name: '001 Woman',
+                type: 'warm',
+                strength: 'medium',
+                vibe: 'cute',
+                scenes: ['date', 'evening', 'casual'],
+                notes: { top: 'Bergamot, Pink Pepper', mid: 'Sandalwood, Jasmine', base: 'Vanilla, Amber' },
+                desc: '「朝の光」をイメージ。バニラとサンダルウッドの温かみのある甘さが、リラックスした幸福感を与えてくれます。',
+                image: 'https://www.genspark.ai/api/files/s/jPYDoHfq',
+                link: 'https://www.amazon.co.jp/dp/B0FSKPQPZ7'
+            },
+            {
+                id: 'loewe-001-man',
+                brand: 'LOEWE',
+                name: '001 Man',
+                type: 'citrus',
+                strength: 'medium',
+                vibe: 'mature',
+                scenes: ['business', 'casual', 'date'],
+                notes: { top: 'Cardamom, Bergamot', mid: 'Cypress, Sandalwood', base: 'Violet, Patchouli' },
+                desc: '清潔感のあるウッディノート。落ち着きと知性を感じさせる香りは、ビジネスシーンや大人の休日にマッチします。女性の愛用者も多い香り。',
+                image: 'assets/images/LOW-Man-EDT.jpg',
+                link: 'https://www.amazon.co.jp/dp/B0FSKQ8QV8'
+            },
+            {
+                id: 'margiela-lazy',
+                brand: 'Maison Margiela',
+                name: 'Lazy Sunday Morning',
+                type: 'clean',
+                strength: 'medium',
+                vibe: 'clean',
+                scenes: ['casual', 'date', 'business'],
+                notes: { top: 'Aldehydes, Pear', mid: 'Iris, Rose, Orange Blossom', base: 'White Musk, Patchouli' },
+                desc: '日曜日の朝、洗い立てのリネンのシーツに包まれる至福の時間。フローラルムスクの柔らかい香りが、心までリラックスさせてくれます。',
+                image: 'https://www.genspark.ai/api/files/s/9Me7p2e2',
+                link: 'https://www.amazon.co.jp/dp/B0FSKSJVDC'
+            },
+            {
+                id: 'tiffany-rose',
+                brand: 'TIFFANY & CO.',
+                name: 'Rose Gold',
+                type: 'floral',
+                strength: 'medium',
+                vibe: 'cute',
+                scenes: ['business', 'date', 'special'],
+                notes: { top: 'Blackcurrant', mid: 'Blue Rose', base: 'Ambrette Seed' },
+                desc: 'ティファニーらしい透明感と輝きのあるローズの香り。甘すぎず、凛とした上品さがあり、自分に自信を与えてくれる一本です。',
+                image: 'https://www.genspark.ai/api/files/s/F9efsgG0',
+                link: 'https://www.amazon.co.jp/dp/B0FSKRCH5G'
+            },
+            {
+                id: 'ysl-libre',
+                brand: 'YVES SAINT LAURENT',
+                name: 'LIBRE',
+                type: 'floral',
+                strength: 'strong',
+                vibe: 'sensual',
+                scenes: ['special', 'evening', 'business'],
+                notes: { top: 'Lavender, Tangerine', mid: 'Orange Blossom', base: 'Vanilla, Tonka Bean' },
+                desc: 'マスキュリンなラベンダーとフェミニンなオレンジブロッサムの衝突。自立したカッコいい女性を演出する、華やかでセクシーな香り。',
+                image: 'assets/images/YSL-Libre-EDP.jpg',
+                link: 'https://www.amazon.co.jp/dp/B0FSKSG813'
+            },
+            {
+                id: 'margiela-jazz',
+                brand: 'Maison Margiela',
+                name: 'Jazz Club',
+                type: 'warm',
+                strength: 'strong',
+                vibe: 'sensual',
+                scenes: ['evening', 'date', 'special'],
+                notes: { top: 'Pink Pepper, Lemon', mid: 'Rum, Vetiver', base: 'Tobacco, Vanilla' },
+                desc: 'ブルックリンのジャズクラブ。ラム酒とタバコの葉、レザーの香り。甘くスモーキーでダンディな香りは、秋冬の夜に深く寄り添います。',
+                image: 'assets/images/placeholder.svg',
+                link: 'https://www.amazon.co.jp/dp/B0FSKQBBXN'
+            },
+            {
+                id: 'diptyque-fleur',
+                brand: 'DIPTYQUE',
+                name: 'Fleur de Peau',
+                type: 'clean', 
+                strength: 'medium',
+                vibe: 'sensual',
+                scenes: ['casual', 'date', 'business'],
+                notes: { top: 'Bergamot, Pink Pepper', mid: 'Iris, Rose', base: 'Musk, Ambrette' },
+                desc: '「肌の花」。コットンのような柔らかさと、アイリスのパウダリーな甘さが肌に溶け込みます。優しく包み込まれるような、極上のムスク体験。',
+                image: 'https://www.genspark.ai/api/files/s/OgDXm3Dh',
+                link: 'https://www.amazon.co.jp/dp/B0FSKQWRJM'
+            },
+            {
+                id: 'thoo-the-time',
+                brand: 'THE HOUSE OF OUD',
+                name: 'The Time',
+                type: 'clean',
+                strength: 'medium',
+                vibe: 'mature',
+                scenes: ['business', 'casual', 'special'],
+                notes: { top: 'Bergamot, Chamomile', mid: 'Blue Tea, Verbena', base: 'Black Tea, Musk' },
+                desc: '「現在」という瞬間を大切にするための香り。ブルーティーとバーベナが織りなす、静寂で知的なティーノート。心を落ち着かせたい時に。',
+                image: 'assets/images/THO-TheTime-EDP.jpg',
+                link: 'https://www.amazon.co.jp/dp/B0FSKQ4X3M'
             }
-        };
+        ];
         
         function resetQuiz() {
             currentStep = 1;
@@ -140,6 +384,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     goToStep(3);
                 } else if (currentStep === 3) {
                     answers.strength = answer;
+                    goToStep(4); // Add Step 4 Logic
+                } else if (currentStep === 4) {
+                    answers.vibe = answer;
                     showResult();
                 }
             });
@@ -148,7 +395,64 @@ document.addEventListener('DOMContentLoaded', function() {
         function goToStep(step) {
             document.getElementById(`step${currentStep}`).style.display = 'none';
             currentStep = step;
-            document.getElementById(`step${currentStep}`).style.display = 'block';
+            const nextStep = document.getElementById(`step${currentStep}`);
+            if(nextStep) nextStep.style.display = 'block';
+        }
+        
+        function calculateBestMatch(userAnswers) {
+            // Enhanced Logic for High Precision
+            // 1. Vibe Match (Most Important): +20 points
+            // 2. Type Match: +15 points
+            // 3. Strength Match: +10 points
+            // 4. Scene Match: +5 points
+            
+            let bestProduct = null;
+            let maxScore = -1;
+            
+            // Randomize products array slightly to vary results for ties
+            const shuffledProducts = products.sort(() => 0.5 - Math.random());
+            
+            shuffledProducts.forEach(p => {
+                let score = 0;
+                
+                // Vibe Score (Step 4)
+                if (p.vibe === userAnswers.vibe) {
+                    score += 20;
+                }
+                
+                // Type Score (Step 2)
+                if (p.type === userAnswers.type) {
+                    score += 15;
+                } else if (
+                    // Partial matches
+                    (userAnswers.type === 'clean' && p.type === 'citrus') || 
+                    (userAnswers.type === 'citrus' && p.type === 'clean') ||
+                    (userAnswers.type === 'floral' && p.type === 'warm')
+                ) {
+                    score += 3; 
+                }
+                
+                // Strength Score (Step 3)
+                if (p.strength === userAnswers.strength) {
+                    score += 10;
+                } else if (
+                    (userAnswers.strength === 'medium' && (p.strength === 'light' || p.strength === 'strong'))
+                ) {
+                    score += 4; 
+                }
+                
+                // Scene Score (Step 1)
+                if (p.scenes.includes(userAnswers.scene)) {
+                    score += 5;
+                }
+                
+                if (score > maxScore) {
+                    maxScore = score;
+                    bestProduct = p;
+                }
+            });
+            
+            return bestProduct;
         }
         
         function showResult() {
@@ -156,23 +460,25 @@ document.addEventListener('DOMContentLoaded', function() {
             const resultDiv = document.getElementById('quizResult');
             resultDiv.style.display = 'block';
             
-            // Logic to pick recommendation
-            const key = `${answers.scene}-${answers.type}-${answers.strength}`;
-            const data = recommendations[key] || recommendations['default'];
+            // Calculate
+            const bestMatch = calculateBestMatch(answers);
+            
+            if (!bestMatch) return; 
             
             // Render
-            document.getElementById('resultImage').src = data.image;
-            document.getElementById('resultTitle').textContent = data.title;
-            document.getElementById('resultDescription').textContent = data.description;
+            document.getElementById('resultImage').src = bestMatch.image;
+            document.getElementById('resultBrand').textContent = bestMatch.brand;
+            document.getElementById('resultTitle').textContent = bestMatch.name;
+            document.getElementById('resultDescription').textContent = bestMatch.desc;
             
-            const brandsDiv = document.getElementById('resultBrands');
-            brandsDiv.innerHTML = '';
-            data.brands.forEach(b => {
-                const span = document.createElement('span');
-                span.className = 'brand-tag';
-                span.textContent = b;
-                brandsDiv.appendChild(span);
-            });
+            // Notes
+            document.getElementById('resultTop').textContent = bestMatch.notes.top;
+            document.getElementById('resultMid').textContent = bestMatch.notes.mid;
+            document.getElementById('resultBase').textContent = bestMatch.notes.base;
+            
+            // Link
+            const linkBtn = document.getElementById('resultLink');
+            linkBtn.href = bestMatch.link;
         }
     }
 

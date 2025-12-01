@@ -1039,16 +1039,18 @@ h1, h2, h3, h4 {
   width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.95);
+  overflow-y: auto; /* Scrollable */
+  -webkit-overflow-scrolling: touch;
+  padding: 20px 0;
 }
 
 .quiz-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  margin: 40px auto;
   width: 90%;
   max-width: 800px;
   text-align: center;
+  /* No fixed positioning to allow scrolling */
 }
 
 .quiz-options {
@@ -2138,4 +2140,173 @@ h1, h2, h3, h4 {
     0% { transform: translateX(20px); opacity: 0; }
     20% { opacity: 1; }
     100% { transform: translateX(-40px); opacity: 0; }
+}
+
+/* Quiz Result Refined Styles */
+.quiz-result-heading {
+    font-family: var(--font-eng);
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: var(--color-text-main);
+}
+
+.result-match-label {
+    display: inline-block;
+    background: var(--color-text-main);
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    letter-spacing: 0.1em;
+    margin-bottom: 15px;
+    font-family: var(--font-mono);
+}
+
+.result-header-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.result-brand-name {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--color-text-sub);
+    font-family: var(--font-mono);
+    letter-spacing: 0.1em;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+#resultTitle {
+    font-size: 1.8rem;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.result-notes-box {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.result-note-row {
+    display: flex;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+.result-note-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.r-note-label {
+    font-family: var(--font-mono);
+    font-weight: bold;
+    width: 60px;
+    flex-shrink: 0;
+    color: #999;
+    font-size: 0.7rem;
+    align-self: center;
+}
+
+.r-note-val {
+    flex: 1;
+    color: #333;
+}
+
+.result-text {
+    text-align: left; /* Override center */
+}
+
+#resultDescription {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .result-content {
+        flex-direction: column;
+    }
+    .result-text, .result-header-group {
+        text-align: center;
+    }
+    .result-notes-box {
+        text-align: left;
+    }
+    #resultTitle {
+        font-size: 1.5rem;
+    }
+}
+
+/* Result CTA Styles */
+.result-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin-top: 30px;
+    width: 100%;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.amazon-cta-btn {
+    width: 100%;
+    max-width: 320px;
+    padding: 16px 0;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    background-color: #FF9900; /* Amazon Color or just Black? Let's stick to brand black but emphasize */
+    background-color: var(--color-text-main); 
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.amazon-cta-btn::after {
+    content: "↗";
+    font-family: sans-serif;
+}
+
+.amazon-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    background-color: #000;
+}
+
+.result-sub-actions {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    width: 100%;
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: #888;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: color 0.3s;
+    border-bottom: 1px solid transparent;
+}
+
+.btn-text:hover {
+    color: var(--color-text-main);
+    border-bottom-color: var(--color-text-main);
 }

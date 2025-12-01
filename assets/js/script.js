@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'casual'],
                 notes: { top: 'Aldehydes, Rose', mid: 'Peony, Lily of the Valley', base: 'Musk, Sandalwood, Amber' },
                 desc: '「白」という色を香りで表現。洗い立てのシーツのような清潔感と、透明感のあるフローラルが調和した香り。誰からも愛されるピュアな印象を与えます。',
-                image: 'https://www.genspark.ai/api/files/s/nJheUsxg',
+                image: 'assets/images/placeholder.svg',
                 link: 'https://www.amazon.co.jp/dp/B0FRG5XX2Q'
             },
             {
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['special', 'evening', 'business'],
                 notes: { top: 'Bergamot, Pepper', mid: 'Lavender, Patchouli', base: 'Ambroxan, Cedar' },
                 desc: '広大な大地にインスパイアされた、力強くフレッシュな香り。スパイシーさと爽やかさが同居し、自信に満ちた大人の男性像を演出します。',
-                image: 'https://www.genspark.ai/api/files/s/fb85MU3T',
+                image: 'assets/images/placeholder.svg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKQW44P'
             },
             {
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['evening', 'special', 'casual'],
                 notes: { top: 'Juniper Berry', mid: 'Jasmine', base: 'Cedar, Tonka Bean' },
                 desc: '60年代のパリのバーをイメージした香り。ウッディでパウダリーな温かみがあり、知的で洗練された大人の雰囲気を醸し出します。',
-                image: 'https://www.genspark.ai/api/files/s/vp9T20D5',
+                image: 'assets/images/placeholder.svg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKMB6HG'
             },
             {
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'casual'],
                 notes: { top: 'Green Mango, Citrus', mid: 'Lotus, Calamus', base: 'Sycamore, Incense' },
                 desc: '「ナイルの庭」。グリーンマンゴーの瑞々しさとロータスの透明感。知的で上品、決して邪魔にならない美しい香りはオフィスワークに最適です。',
-                image: 'https://www.genspark.ai/api/files/s/DOHTLWiS',
+                image: 'assets/images/placeholder.svg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKQGK6Z'
             },
             {
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'casual', 'date'],
                 notes: { top: 'Pear', mid: 'Freesia', base: 'Patchouli, Amber' },
                 desc: '熟した洋梨の瑞々しさとフリージアの優しさ。甘すぎず、フルーティーで上品な香りは、誰からも好かれる好感度No.1フレグランスです。',
-                image: 'https://www.genspark.ai/api/files/s/IFBdt0Cn',
+                image: 'assets/images/placeholder.svg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKNWSN5'
             },
             {
@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['date', 'evening', 'casual'],
                 notes: { top: 'Bergamot, Pink Pepper', mid: 'Sandalwood, Jasmine', base: 'Vanilla, Amber' },
                 desc: '「朝の光」をイメージ。バニラとサンダルウッドの温かみのある甘さが、リラックスした幸福感を与えてくれます。',
-                image: 'https://www.genspark.ai/api/files/s/jPYDoHfq',
+                image: 'assets/images/placeholder.svg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKPQPZ7'
             },
             {
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'casual', 'date'],
                 notes: { top: 'Cardamom, Bergamot', mid: 'Cypress, Sandalwood', base: 'Violet, Patchouli' },
                 desc: '清潔感のあるウッディノート。落ち着きと知性を感じさせる香りは、ビジネスシーンや大人の休日にマッチします。女性の愛用者も多い香り。',
-                image: 'assets/images/LOW-Man-EDT.jpg',
+                image: 'assets/images/placeholder.svg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKQ8QV8'
             },
             {
@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['casual', 'date', 'business'],
                 notes: { top: 'Aldehydes, Pear', mid: 'Iris, Rose, Orange Blossom', base: 'White Musk, Patchouli' },
                 desc: '日曜日の朝、洗い立てのリネンのシーツに包まれる至福の時間。フローラルムスクの柔らかい香りが、心までリラックスさせてくれます。',
-                image: 'https://www.genspark.ai/api/files/s/9Me7p2e2',
+                image: 'assets/images/placeholder.svg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKSJVDC'
             },
             {
@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'date', 'special'],
                 notes: { top: 'Blackcurrant', mid: 'Blue Rose', base: 'Ambrette Seed' },
                 desc: 'ティファニーらしい透明感と輝きのあるローズの香り。甘すぎず、凛とした上品さがあり、自分に自信を与えてくれる一本です。',
-                image: 'https://www.genspark.ai/api/files/s/F9efsgG0',
+                image: 'assets/images/placeholder.svg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKRCH5G'
             },
             {
@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['special', 'evening', 'business'],
                 notes: { top: 'Lavender, Tangerine', mid: 'Orange Blossom', base: 'Vanilla, Tonka Bean' },
                 desc: 'マスキュリンなラベンダーとフェミニンなオレンジブロッサムの衝突。自立したカッコいい女性を演出する、華やかでセクシーな香り。',
-                image: 'assets/images/YSL-Libre-EDP.jpg',
+                image: 'assets/images/placeholder.svg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKSG813'
             },
             {
@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['casual', 'date', 'business'],
                 notes: { top: 'Bergamot, Pink Pepper', mid: 'Iris, Rose', base: 'Musk, Ambrette' },
                 desc: '「肌の花」。コットンのような柔らかさと、アイリスのパウダリーな甘さが肌に溶け込みます。優しく包み込まれるような、極上のムスク体験。',
-                image: 'https://www.genspark.ai/api/files/s/OgDXm3Dh',
+                image: 'assets/images/placeholder.svg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKQWRJM'
             },
             {
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'casual', 'special'],
                 notes: { top: 'Bergamot, Chamomile', mid: 'Blue Tea, Verbena', base: 'Black Tea, Musk' },
                 desc: '「現在」という瞬間を大切にするための香り。ブルーティーとバーベナが織りなす、静寂で知的なティーノート。心を落ち着かせたい時に。',
-                image: 'assets/images/THO-TheTime-EDP.jpg',
+                image: 'assets/images/placeholder.svg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKQ4X3M'
             }
         ];

@@ -691,7 +691,7 @@ h1, h2, h3, h4 {
 
 .trust-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0;
   margin-bottom: 80px;
   border-top: 1px solid #eee;
@@ -2033,4 +2033,109 @@ h1, h2, h3, h4 {
     width: 120px;
     margin-bottom: 20px;
   }
+}
+
+/* Delivery Animation for Trust Section */
+.stat-animation-container {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.truck-anim {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    animation: driveIn 4s infinite ease-in-out;
+}
+
+.truck-body {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 35px;
+    height: 20px;
+    border: 2px solid var(--color-text-main);
+    background: #fff;
+    z-index: 2;
+}
+
+.truck-cab {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 20px;
+    height: 15px;
+    border: 2px solid var(--color-text-main);
+    border-left: none;
+    border-radius: 0 5px 0 0;
+    background: #fff;
+    z-index: 2;
+}
+
+.truck-wheel {
+    position: absolute;
+    bottom: 0;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--color-text-main);
+    border-radius: 50%;
+    background: #fff;
+    z-index: 3;
+    /* Simple spin effect using dashed border trick or just rotation */
+    border-top-color: transparent; 
+    animation: spin 0.5s infinite linear;
+}
+
+.wheel-back { left: 5px; }
+.wheel-front { right: 10px; }
+
+.wind-lines span {
+    position: absolute;
+    height: 1px;
+    background: var(--color-text-main);
+    opacity: 0;
+    border-radius: 1px;
+}
+
+.wind-lines span:nth-child(1) {
+    top: 0px;
+    left: -15px;
+    width: 15px;
+    animation: wind 1s infinite linear 0.2s;
+}
+
+.wind-lines span:nth-child(2) {
+    top: 10px;
+    left: -10px;
+    width: 10px;
+    animation: wind 1s infinite linear 0.5s;
+}
+
+.wind-lines span:nth-child(3) {
+    top: 22px;
+    left: -20px;
+    width: 20px;
+    animation: wind 1s infinite linear 0s;
+}
+
+@keyframes driveIn {
+    0% { transform: translateX(-150%); opacity: 0; }
+    15% { transform: translateX(0); opacity: 1; }
+    85% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(150%); opacity: 0; }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes wind {
+    0% { transform: translateX(20px); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateX(-40px); opacity: 0; }
 }

@@ -280,6 +280,8 @@ h1, h2, h3, h4 {
   .hero-bg-image {
     filter: blur(2px) brightness(0.95);
     transform: scale(1.05);
+    /* Adjust position to focus on upper center (where faces usually are) */
+    background-position: center 20%; 
   }
 }
 

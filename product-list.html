@@ -14,7 +14,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COLLECTION | COLLEGRANCE</title>
-    <meta name="description" content="COLLEGRANCEの香水コレクション一覧。エルメス、ルラボ、マルジェラなどの高級ブランド香水を1.5mlからお試しいただけます。">
+    <meta name="description" content="COLLEGRANCE(コレグランス)の香水コレクション一覧。エルメス・ルラボ・マルジェラなどの高級ブランド香水を1.5mlからお試しいただけます。">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,17 +42,17 @@
                     <ul class="nav-menu">
                         <!-- 1. SHOP -->
                         <li class="nav-item-has-megamenu">
-                            <a href="product-list.html" class="nav-link-megamenu">SHOP</a>
+                            <a href="index.html#products" class="nav-link-megamenu">SHOP</a>
                             <div class="mega-menu">
                                 <div class="mega-menu-inner container">
                                     <div class="mega-menu-grid">
                                         <div class="mega-menu-column">
                                             <h3 class="mega-menu-title">CATEGORY</h3>
                                             <ul class="mega-menu-list">
-                                                <li><a href="#">シトラス & グリーン <span class="en-sub">Citrus & Green</span></a></li>
-                                                <li><a href="#">フローラル & フルーティ <span class="en-sub">Floral & Fruity</span></a></li>
-                                                <li><a href="#">ウッディ & スパイシー <span class="en-sub">Woody & Spicy</span></a></li>
-                                                <li><a href="#">ムスク & サボン <span class="en-sub">Musk & Savon</span></a></li>
+                                                <li><a href="index.html#products">シトラス & グリーン <span class="en-sub">Citrus & Green</span></a></li>
+                                                <li><a href="index.html#products">フローラル & フルーティ <span class="en-sub">Floral & Fruity</span></a></li>
+                                                <li><a href="index.html#products">ウッディ & スパイシー <span class="en-sub">Woody & Spicy</span></a></li>
+                                                <li><a href="index.html#products">ムスク & サボン <span class="en-sub">Musk & Savon</span></a></li>
                                                 <li class="mt-2"><a href="product-list.html" class="view-all">すべての商品を見る &rarr;</a></li>
                                             </ul>
                                         </div>
@@ -182,602 +182,458 @@
         </nav>
     </header>
 
-    <!-- Page Header -->
-    <div class="page-header">
+    <!-- Product Lineup Section -->
+    <section class="product-lineup-section" style="padding-top: 150px;">
         <div class="container">
-            <h1 class="page-title">COLLECTION</h1>
-            <p class="section-subtitle">厳選された世界の一流ブランドフレグランス</p>
-        </div>
-    </div>
+            <div class="section-header">
+                <h2>COLLECTION</h2>
+                <p class="section-subtitle">全ラインナップ</p>
+            </div>
+            
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="all">ALL</button>
+                <button class="filter-btn" data-filter="#EBE65F"><span class="filter-color-dot" style="background:#EBE65F"></span>Citrus & Green</button>
+                <button class="filter-btn" data-filter="#FAF5BE"><span class="filter-color-dot" style="background:#FAF5BE"></span>Warm & Gourmand</button>
+                <button class="filter-btn" data-filter="#5AB9BE"><span class="filter-color-dot" style="background:#5AB9BE"></span>Clean Musk & Aquatic</button>
+                <button class="filter-btn" data-filter="#FFC3B9"><span class="filter-color-dot" style="background:#FFC3B9"></span>Floral & Fruity</button>
+            </div>
+            
+            <div class="product-grid-collection">
+                <div class="product-card-simple" data-color="#5AB9BE">
+                    <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/BYR-Blanche-EDP.jpg" alt="BYREDO Blanche">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Aldehydes, Rose</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Peony, Lily of the Valley</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Musk, Sandalwood, Amber</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">BYREDO</span>
+                        <span class="name">Blanche</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FRG5XX2Q" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
+                    </div>
+                </div>
 
-    <div class="container" id="products">
-        <div class="filter-container">
-            <button class="filter-btn active" data-filter="all">ALL</button>
-            <button class="filter-btn" data-filter="#EBE65F"><span class="filter-color-dot" style="background:#EBE65F"></span>Citrus & Green</button>
-            <button class="filter-btn" data-filter="#FAF5BE"><span class="filter-color-dot" style="background:#FAF5BE"></span>Warm & Gourmand</button>
-            <button class="filter-btn" data-filter="#5AB9BE"><span class="filter-color-dot" style="background:#5AB9BE"></span>Clean Musk & Aquatic</button>
-            <button class="filter-btn" data-filter="#FFC3B9"><span class="filter-color-dot" style="background:#FFC3B9"></span>Floral & Fruity</button>
-        </div>
-        
-        <div class="product-grid-collection">
-        <div class="product-card-simple" data-color="#5AB9BE">
-            <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
-            <div class="product-image-container">
-                <img src="assets/images/BYR-Blanche-EDP.jpg" alt="BYREDO Blanche">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Aldehydes, Rose</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Peony, Lily of the Valley</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Musk, Sandalwood, Amber</span>
+                <div class="product-card-simple" data-color="#EBE65F">
+                    <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/placeholder.svg" alt="Calvin Klein ck one">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Bergamot, Pineapple</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Jasmine, Violet</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Musk, Amber</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">BYREDO</span>
-                <span class="name">Blanche</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FRG5XX2Q" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#EBE65F">
-            <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
-            <div class="product-image-container">
-                <img src="assets/images/placeholder.svg" alt="Calvin Klein ck one">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Bergamot, Pineapple</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Jasmine, Violet</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Musk, Amber</span>
-                        </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">Calvin Klein</span>
+                        <span class="name">ck one</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKMB6HR" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
                     </div>
                 </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">Calvin Klein</span>
-                <span class="name">ck one</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKMB6HR" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#FAF5BE">
-            <span class="product-type-badge" style="border-left: 3px solid #FAF5BE">EDT</span>
-            <div class="product-image-container">
-                <img src="assets/images/placeholder.svg" alt="DIOR Hypnotic Poison">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Coconut, Plum, Apricot</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Rosewood, Jasmine</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Vanilla, Almond, Musk</span>
+
+                <div class="product-card-simple" data-color="#FAF5BE">
+                    <span class="product-type-badge" style="border-left: 3px solid #FAF5BE">EDT</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/placeholder.svg" alt="DIOR Hypnotic Poison">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Coconut, Plum, Apricot</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Rosewood, Jasmine</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Vanilla, Almond, Musk</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">DIOR</span>
-                <span class="name">Hypnotic Poison</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKNF4QC" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#EBE65F">
-            <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
-            <div class="product-image-container">
-                <img src="assets/images/DIO-Sauvage-EDT.jpg" alt="DIOR Sauvage">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Bergamot, Pepper</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Lavender, Patchouli</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Ambroxan, Cedar</span>
-                        </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">DIOR</span>
+                        <span class="name">Hypnotic Poison</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKNF4QC" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
                     </div>
                 </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">DIOR</span>
-                <span class="name">Sauvage</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKQW44P" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#FAF5BE">
-            <span class="product-type-badge" style="border-left: 3px solid #FAF5BE">EDP</span>
-            <div class="product-image-container">
-                <img src="assets/images/placeholder.svg" alt="DIPTYQUE Orpheon">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Juniper Berry</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Jasmine</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Cedar, Tonka Bean</span>
+
+                <div class="product-card-simple" data-color="#EBE65F">
+                    <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/DIO-Sauvage-EDT.jpg" alt="DIOR Sauvage">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Bergamot, Pepper</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Lavender, Patchouli</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Ambroxan, Cedar</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">DIPTYQUE</span>
-                <span class="name">Orpheon</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKMB6HG" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#EBE65F">
-            <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
-            <div class="product-image-container">
-                <img src="assets/images/placeholder.svg" alt="Dolce & Gabbana Light Blue">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Lemon, Apple</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Jasmine, White Rose</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Cedar, Musk</span>
-                        </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">DIOR</span>
+                        <span class="name">Sauvage</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKQW44P" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
                     </div>
                 </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">Dolce & Gabbana</span>
-                <span class="name">Light Blue</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKNWDG8" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#EBE65F">
-            <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
-            <div class="product-image-container">
-                <img src="assets/images/HRM-Nile-EDT.jpg" alt="HERMÈS Un Jardin sur le Nil">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Green Mango, Citrus</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Lotus, Calamus</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Sycamore, Incense</span>
+
+                <div class="product-card-simple" data-color="#FAF5BE">
+                    <span class="product-type-badge" style="border-left: 3px solid #FAF5BE">EDP</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/placeholder.svg" alt="DIPTYQUE Orpheon">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Juniper Berry</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Jasmine</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Cedar, Tonka Bean</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">HERMÈS</span>
-                <span class="name">Un Jardin sur le Nil</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKQGK6Z" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#5AB9BE">
-            <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDT</span>
-            <div class="product-image-container">
-                <img src="assets/images/placeholder.svg" alt="ISSEY MIYAKE L'Eau d'Issey">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Lotus, Rose</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Lily, White Flowers</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Precious Woods</span>
-                        </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">DIPTYQUE</span>
+                        <span class="name">Orpheon</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKMB6HG" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
                     </div>
                 </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">ISSEY MIYAKE</span>
-                <span class="name">L'Eau d'Issey</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKRJKJ7" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#FFC3B9">
-            <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">Cologne</span>
-            <div class="product-image-container">
-                <img src="assets/images/JML-EnglishPear-C.jpg" alt="Jo Malone London English Pear & Freesia">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Pear</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Freesia</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Patchouli, Amber</span>
+
+                <div class="product-card-simple" data-color="#EBE65F">
+                    <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/placeholder.svg" alt="Dolce & Gabbana Light Blue">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Lemon, Apple</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Jasmine, White Rose</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Cedar, Musk</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">Jo Malone London</span>
-                <span class="name">English Pear & Freesia</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKNWSN5" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#5AB9BE">
-            <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
-            <div class="product-image-container">
-                <img src="assets/images/placeholder.svg" alt="LE LABO Another 13">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Pear, Citrus</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Ambrette, Jasmine</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Ambroxan, Musk</span>
-                        </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">Dolce & Gabbana</span>
+                        <span class="name">Light Blue</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKNWDG8" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
                     </div>
                 </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">LE LABO</span>
-                <span class="name">Another 13</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKQLTQN" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#FFC3B9">
-            <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">EDT</span>
-            <div class="product-image-container">
-                <img src="assets/images/placeholder.svg" alt="LOEWE 001 Woman">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Bergamot, Pink Pepper</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Sandalwood, Jasmine</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Vanilla, Amber</span>
+
+                <div class="product-card-simple" data-color="#EBE65F">
+                    <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/HRM-Nile-EDT.jpg" alt="HERMÈS Un Jardin sur le Nil">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Green Mango, Citrus</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Lotus, Calamus</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Sycamore, Incense</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">LOEWE</span>
-                <span class="name">001 Woman</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKPQPZ7" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#EBE65F">
-            <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
-            <div class="product-image-container">
-                <img src="assets/images/LOW-Man-EDT.jpg" alt="LOEWE 001 Man">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Cardamom, Bergamot</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Cypress, Sandalwood</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Violet, Patchouli</span>
-                        </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">HERMÈS</span>
+                        <span class="name">Un Jardin sur le Nil</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKQGK6Z" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
                     </div>
                 </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">LOEWE</span>
-                <span class="name">001 Man</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKQ8QV8" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#5AB9BE">
-            <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDT</span>
-            <div class="product-image-container">
-                <img src="assets/images/MRG-LazySun-EDT.jpg" alt="Maison Margiela Lazy Sunday Morning">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Aldehydes, Pear</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Iris, Rose, Orange Blossom</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">White Musk, Patchouli</span>
+
+                <div class="product-card-simple" data-color="#5AB9BE">
+                    <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDT</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/placeholder.svg" alt="ISSEY MIYAKE L'Eau d'Issey">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Lotus, Rose</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Lily, White Flowers</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Precious Woods</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">Maison Margiela</span>
-                <span class="name">Lazy Sunday Morning</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKSJVDC" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#FFC3B9">
-            <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">EDP</span>
-            <div class="product-image-container">
-                <img src="assets/images/TFFY-RoseGold-EDP.jpg" alt="TIFFANY & CO. Rose Gold">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Blackcurrant</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Blue Rose</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Ambrette Seed</span>
-                        </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">ISSEY MIYAKE</span>
+                        <span class="name">L'Eau d'Issey</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKRJKJ7" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
                     </div>
                 </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">TIFFANY & CO.</span>
-                <span class="name">Rose Gold</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKRCH5G" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#FFC3B9">
-            <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">EDP</span>
-            <div class="product-image-container">
-                <img src="assets/images/YSL-Libre-EDP.jpg" alt="YVES SAINT LAURENT LIBRE">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Lavender, Tangerine</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Orange Blossom</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Vanilla, Tonka Bean</span>
+
+                <div class="product-card-simple" data-color="#FFC3B9">
+                    <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">Cologne</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/JML-EnglishPear-C.jpg" alt="Jo Malone London English Pear & Freesia">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Pear</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Freesia</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Patchouli, Amber</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">YVES SAINT LAURENT</span>
-                <span class="name">LIBRE</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKSG813" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#FAF5BE">
-            <span class="product-type-badge" style="border-left: 3px solid #FAF5BE">EDT</span>
-            <div class="product-image-container">
-                <img src="assets/images/placeholder.svg" alt="Maison Margiela Jazz Club">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Pink Pepper, Lemon</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Rum, Vetiver</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Tobacco, Vanilla</span>
-                        </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">Jo Malone London</span>
+                        <span class="name">English Pear & Freesia</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKNWSN5" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
                     </div>
                 </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">Maison Margiela</span>
-                <span class="name">Jazz Club</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKQBBXN" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#5AB9BE">
-            <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
-            <div class="product-image-container">
-                <img src="assets/images/DPTY-FdPeau-EDP.jpg" alt="DIPTYQUE Fleur de Peau">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Bergamot, Pink Pepper</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Iris, Rose</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Musk, Ambrette</span>
+
+                <div class="product-card-simple" data-color="#5AB9BE">
+                    <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/placeholder.svg" alt="LE LABO Another 13">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Pear, Citrus</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Ambrette, Jasmine</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Ambroxan, Musk</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">DIPTYQUE</span>
-                <span class="name">Fleur de Peau</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKQWRJM" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
-            </div>
-        </div>
-        <div class="product-card-simple" data-color="#5AB9BE">
-            <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
-            <div class="product-image-container">
-                <img src="assets/images/THO-TheTime-EDP.jpg" alt="THE HOUSE OF OUD The Time">
-                <div class="notes-overlay">
-                    <div class="notes-title">FRAGRANCE NOTES</div>
-                    <div class="notes-list">
-                        <div class="notes-row">
-                            <span class="note-label">TOP</span>
-                            <span class="note-value">Bergamot, Chamomile</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">MID</span>
-                            <span class="note-value">Blue Tea, Verbena</span>
-                        </div>
-                        <div class="notes-row">
-                            <span class="note-label">BASE</span>
-                            <span class="note-value">Black Tea, Musk</span>
-                        </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">LE LABO</span>
+                        <span class="name">Another 13</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKQLTQN" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
                     </div>
                 </div>
-            </div>
-            <p class="mobile-tap-hint">Tap image for notes</p>
-            <div class="product-info-simple">
-                <span class="brand">THE HOUSE OF OUD</span>
-                <span class="name">The Time</span>
-            </div>
-            <div class="product-actions">
-                <a href="https://www.amazon.co.jp/dp/B0FSKQ4X3M" target="_blank" class="btn-product amazon-btn">Amazon</a>
-                <a href="#" class="btn-product stripe-btn">Buy Full</a>
+
+                <div class="product-card-simple" data-color="#FFC3B9">
+                    <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">EDT</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/placeholder.svg" alt="LOEWE 001 Woman">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Bergamot, Pink Pepper</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Sandalwood, Jasmine</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Vanilla, Amber</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">LOEWE</span>
+                        <span class="name">001 Woman</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKPQPZ7" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
+                    </div>
+                </div>
+
+                <div class="product-card-simple" data-color="#EBE65F">
+                    <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/LOW-Man-EDT.jpg" alt="LOEWE 001 Man">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Cardamom, Bergamot</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Cypress, Sandalwood</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Violet, Patchouli</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">LOEWE</span>
+                        <span class="name">001 Man</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKQ8QV8" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
+                    </div>
+                </div>
+
+                <div class="product-card-simple" data-color="#5AB9BE">
+                    <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDT</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/MRG-LazySun-EDT.jpg" alt="Maison Margiela Lazy Sunday Morning">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Aldehydes, Pear</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Iris, Rose, Orange Blossom</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">White Musk, Patchouli</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">Maison Margiela</span>
+                        <span class="name">Lazy Sunday Morning</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKSJVDC" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
+                    </div>
+                </div>
+
+                <div class="product-card-simple" data-color="#FFC3B9">
+                    <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">EDP</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/TFFY-RoseGold-EDP.jpg" alt="TIFFANY & CO. Rose Gold">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Blackcurrant</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Blue Rose</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Ambrette Seed</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">TIFFANY & CO.</span>
+                        <span class="name">Rose Gold</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKRCH5G" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
+                    </div>
+                </div>
+
+                <div class="product-card-simple" data-color="#FFC3B9">
+                    <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">EDP</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/YSL-Libre-EDP.jpg" alt="YVES SAINT LAURENT LIBRE">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Lavender, Tangerine</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Orange Blossom</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Vanilla, Tonka Bean</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">YVES SAINT LAURENT</span>
+                        <span class="name">LIBRE</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKSG813" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
+                    </div>
+                </div>
+
+                <div class="product-card-simple" data-color="#FAF5BE">
+                    <span class="product-type-badge" style="border-left: 3px solid #FAF5BE">EDT</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/placeholder.svg" alt="Maison Margiela Jazz Club">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Pink Pepper, Lemon</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Rum, Vetiver</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Tobacco, Vanilla</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">Maison Margiela</span>
+                        <span class="name">Jazz Club</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKQBBXN" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
+                    </div>
+                </div>
+
+                <div class="product-card-simple" data-color="#5AB9BE">
+                    <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/DPTY-FdPeau-EDP.jpg" alt="DIPTYQUE Fleur de Peau">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Bergamot, Pink Pepper</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Iris, Rose</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Musk, Ambrette</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">DIPTYQUE</span>
+                        <span class="name">Fleur de Peau</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKQWRJM" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
+                    </div>
+                </div>
+                
+                <div class="product-card-simple" data-color="#5AB9BE">
+                    <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
+                    <div class="product-image-container">
+                        <img src="assets/images/THO-TheTime-EDP.jpg" alt="THE HOUSE OF OUD The Time">
+                        <div class="notes-overlay">
+                            <div class="notes-title">FRAGRANCE NOTES</div>
+                            <div class="notes-list">
+                                <div class="notes-row"><span class="note-label">TOP</span><span class="note-value">Bergamot, Chamomile</span></div>
+                                <div class="notes-row"><span class="note-label">MID</span><span class="note-value">Blue Tea, Verbena</span></div>
+                                <div class="notes-row"><span class="note-label">BASE</span><span class="note-value">Black Tea, Musk</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <div class="product-info-simple">
+                        <span class="brand">THE HOUSE OF OUD</span>
+                        <span class="name">The Time</span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://www.amazon.co.jp/dp/B0FSKQ4X3M" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                        <a href="#" class="btn-product stripe-btn">Buy Full</a>
+                    </div>
+                </div>
+
             </div>
         </div>
-        </div>
-    </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -905,7 +761,6 @@
         <span class="line-fab-text">LINEで相談する</span>
     </a>
 
-    <!-- JavaScript -->
     <script src="assets/js/script.js"></script>
 </body>
 </html>

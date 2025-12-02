@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'casual'],
                 notes: { top: 'Aldehydes, Rose', mid: 'Peony, Lily of the Valley', base: 'Musk, Sandalwood, Amber' },
                 desc: '「白」という色を香りで表現。洗い立てのシーツのような清潔感と、透明感のあるフローラルが調和した香り。誰からも愛されるピュアな印象を与えます。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/BYR-Blanche-EDP.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FRG5XX2Q'
             },
             {
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['special', 'evening', 'business'],
                 notes: { top: 'Bergamot, Pepper', mid: 'Lavender, Patchouli', base: 'Ambroxan, Cedar' },
                 desc: '広大な大地にインスパイアされた、力強くフレッシュな香り。スパイシーさと爽やかさが同居し、自信に満ちた大人の男性像を演出します。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/DIO-Sauvage-EDT.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKQW44P'
             },
             {
@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'date', 'special'],
                 notes: { top: 'Blackcurrant', mid: 'Blue Rose', base: 'Ambrette Seed' },
                 desc: 'ティファニーらしい透明感と輝きのあるローズの香り。甘すぎず、凛とした上品さがあり、自分に自信を与えてくれる一本です。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/TFFY-RoseGold-EDP.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKRCH5G'
             },
             {
@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['casual', 'date', 'business'],
                 notes: { top: 'Bergamot, Pink Pepper', mid: 'Iris, Rose', base: 'Musk, Ambrette' },
                 desc: '「肌の花」。コットンのような柔らかさと、アイリスのパウダリーな甘さが肌に溶け込みます。優しく包み込まれるような、極上のムスク体験。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/DPTY-FdPeau-EDP.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKQWRJM'
             },
             {

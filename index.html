@@ -27,7 +27,44 @@
     <link rel="stylesheet" href="assets/css/styles.css">
     
     <!-- Favicon -->
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="assets/images/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+
+    <!-- OGP / Social Media Tags -->
+    <meta property="og:title" content="COLLEGRANCE | 高級ブランド香水のお試し・小分け専門店">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://collegrance.com/">
+    <meta property="og:image" content="https://collegrance.com/assets/images/hero-main.jpg">
+    <meta property="og:description" content="失敗しない香水選び。COLLEGRANCE(コレグランス)は、エルメス・ルラボ・マルジェラなどの高級ブランド香水を1.5mlからお試しできる小分け通販サイトです。">
+    <meta property="og:site_name" content="COLLEGRANCE (コレグランス)">
+    <meta property="og:locale" content="ja_JP">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="COLLEGRANCE | 高級ブランド香水のお試し・小分け専門店">
+    <meta name="twitter:description" content="失敗しない香水選び。高級ブランド香水を1.5mlからお試しできる小分け通販サイト。">
+    <meta name="twitter:image" content="https://collegrance.com/assets/images/hero-main.jpg">
+
+    <!-- Structured Data (JSON-LD) for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "OnlineStore",
+      "name": "COLLEGRANCE (コレグランス)",
+      "image": "https://collegrance.com/assets/images/logo.png",
+      "description": "高級ブランド香水のお試し・小分け専門店。エルメス、ルラボ、マルジェラなどの正規品を1.5mlからお届けします。",
+      "brand": {
+        "@type": "Brand",
+        "name": "COLLEGRANCE"
+      },
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "JPY",
+        "price": "680",
+        "availability": "https://schema.org/InStock"
+      }
+    }
+    </script>
 </head>
 <body>
     <!-- Header -->
@@ -74,7 +111,7 @@
                                             <h3 class="mega-menu-title">FEATURED</h3>
                                             <a href="#" class="featured-card">
                                                 <div class="featured-image">
-                                                    <img src="https://sspark.genspark.ai/cfimages?u1=N%2Fsh2eMrEMWCbjmE6yA%2BRLbkQWy67Jt%2BHvaSh%2Fgr8imI8rH7c3%2Bwseek7WPhGolUBw3bViGS19s582D15Y2E%2FIE9wLlEsIVTRrgAuMpGfg3DGbL6gHhHtuA%3D&u2=wxAgbB0PJJku2oGV&width=2560" alt="Lazy Sunday Morning">
+                                                    <img src="assets/images/MRG-LazySun-EDT.jpg" alt="Lazy Sunday Morning">
                                                 </div>
                                                 <div class="featured-info">
                                                     <h4>Lazy Sunday Morning</h4>
@@ -130,16 +167,16 @@
     
                         <!-- 3. JOURNAL (New Mega Menu) -->
                         <li class="nav-item-has-megamenu">
-                            <a href="#journal" class="nav-link-megamenu">JOURNAL</a>
+                            <a href="journal.html" class="nav-link-megamenu">JOURNAL</a>
                             <div class="mega-menu">
                                 <div class="mega-menu-inner container">
                                     <div class="mega-menu-grid">
                                         <div class="mega-menu-column">
                                             <h3 class="mega-menu-title">TOPICS</h3>
                                             <ul class="mega-menu-list">
-                                                <li><a href="#">すべての記事 <span class="en-sub">All Stories</span></a></li>
-                                                <li><a href="#">香りの知識 <span class="en-sub">Knowledge</span></a></li>
-                                                <li><a href="#">インタビュー <span class="en-sub">Interview</span></a></li>
+                                                <li><a href="journal.html">すべての記事 <span class="en-sub">All Stories</span></a></li>
+                                                <li><a href="journal.html">香りの知識 <span class="en-sub">Knowledge</span></a></li>
+                                                <li><a href="journal.html">インタビュー <span class="en-sub">Interview</span></a></li>
                                             </ul>
                                         </div>
                                         <div class="mega-menu-column">
@@ -152,7 +189,7 @@
                                         </div>
                                         <div class="mega-menu-column featured-column">
                                             <h3 class="mega-menu-title">LATEST STORY</h3>
-                                            <a href="#journal" class="featured-card">
+                                            <a href="article-scent-layering.html" class="featured-card">
                                                 <div class="featured-image">
                                                     <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&w=600&q=80" alt="Scent Layering">
                                                 </div>
@@ -186,16 +223,17 @@
     <!-- Hero Section - Textured Background & Centered Bottle -->
     <section class="hero">
         <div class="hero-bg-texture"></div>
+        
+        <div class="hero-bottle-container">
+            <div class="hero-bg-image" style="background-image: url('assets/images/hero-main.jpg');"></div>
+        </div>
+
         <div class="hero-content container">
             <div class="hero-text">
                 <h1 class="brand-title">
                     <span class="hero-catch-main">香りはえらべる。</span>
                     <span class="hero-catch-sub">もっと自由に。</span>
                 </h1>
-            </div>
-            
-            <div class="hero-bottle-container">
-                <img src="assets/images/placeholder.svg" alt="COLLEGRANCE Signature" class="hero-bottle-image">
             </div>
 
             <div class="hero-cta-group">
@@ -325,7 +363,7 @@
                     <div class="ranking-item carousel-item">
                         <div class="rank-badge">1</div>
                         <div class="rank-image">
-                            <img src="assets/images/placeholder.svg" alt="Maison Margiela Lazy Sunday Morning">
+                            <img src="assets/images/MRG-LazySun-EDT.jpg" alt="Maison Margiela Lazy Sunday Morning">
                         </div>
                         <div class="rank-info">
                             <span class="rank-brand">Maison Margiela</span>
@@ -340,7 +378,7 @@
                     <div class="ranking-item carousel-item">
                         <div class="rank-badge">2</div>
                         <div class="rank-image">
-                            <img src="assets/images/placeholder.svg" alt="HERMÈS Un Jardin sur le Nil">
+                            <img src="assets/images/HRM-Nile-EDT.jpg" alt="HERMÈS Un Jardin sur le Nil">
                         </div>
                         <div class="rank-info">
                             <span class="rank-brand">HERMÈS</span>
@@ -385,7 +423,7 @@
                     <div class="ranking-item carousel-item">
                         <div class="rank-badge">5</div>
                         <div class="rank-image">
-                            <img src="assets/images/placeholder.svg" alt="Jo Malone London English Pear & Freesia">
+                            <img src="assets/images/JML-EnglishPear-C.jpg" alt="Jo Malone London English Pear & Freesia">
                         </div>
                         <div class="rank-info">
                             <span class="rank-brand">Jo Malone London</span>
@@ -605,7 +643,7 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1595867665659-620d3d84a320?auto=format&fit=crop&w=1500&q=80" alt="COLLEGRANCEアトマイザーコレクション" class="about-main-image" loading="lazy">
+                    <img src="assets/images/about-collection.jpg" alt="COLLEGRANCEアトマイザーコレクション" class="about-main-image" loading="lazy">
                 </div>
             </div>
         </div>
@@ -632,7 +670,7 @@
     <div class="product-card-simple" data-color="#5AB9BE">
         <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
         <div class="product-image-container">
-            <img src="assets/images/placeholder.svg" alt="BYREDO Blanche">
+            <img src="assets/images/BYR-Blanche-EDP.jpg" alt="BYREDO Blanche">
             <!-- Overlay for Notes -->
             <div class="notes-overlay">
                 <div class="notes-title">FRAGRANCE NOTES</div>
@@ -731,7 +769,7 @@
     <div class="product-card-simple" data-color="#EBE65F">
         <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
         <div class="product-image-container">
-            <img src="assets/images/placeholder.svg" alt="DIOR Sauvage">
+            <img src="assets/images/DIO-Sauvage-EDT.jpg" alt="DIOR Sauvage">
             <!-- Overlay for Notes -->
             <div class="notes-overlay">
                 <div class="notes-title">FRAGRANCE NOTES</div>
@@ -830,7 +868,7 @@
     <div class="product-card-simple" data-color="#EBE65F">
         <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
         <div class="product-image-container">
-            <img src="assets/images/placeholder.svg" alt="HERMÈS Un Jardin sur le Nil">
+            <img src="assets/images/HRM-Nile-EDT.jpg" alt="HERMÈS Un Jardin sur le Nil">
             <!-- Overlay for Notes -->
             <div class="notes-overlay">
                 <div class="notes-title">FRAGRANCE NOTES</div>
@@ -896,7 +934,7 @@
     <div class="product-card-simple" data-color="#FFC3B9">
         <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">Cologne</span>
         <div class="product-image-container">
-            <img src="assets/images/placeholder.svg" alt="Jo Malone London English Pear & Freesia">
+            <img src="assets/images/JML-EnglishPear-C.jpg" alt="Jo Malone London English Pear & Freesia">
             <!-- Overlay for Notes -->
             <div class="notes-overlay">
                 <div class="notes-title">FRAGRANCE NOTES</div>
@@ -995,7 +1033,7 @@
     <div class="product-card-simple" data-color="#EBE65F">
         <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
         <div class="product-image-container">
-            <img src="assets/images/placeholder.svg" alt="LOEWE 001 Man">
+            <img src="assets/images/LOW-Man-EDT.jpg" alt="LOEWE 001 Man">
             <!-- Overlay for Notes -->
             <div class="notes-overlay">
                 <div class="notes-title">FRAGRANCE NOTES</div>
@@ -1028,7 +1066,7 @@
     <div class="product-card-simple" data-color="#5AB9BE">
         <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDT</span>
         <div class="product-image-container">
-            <img src="assets/images/placeholder.svg" alt="Maison Margiela Lazy Sunday Morning">
+            <img src="assets/images/MRG-LazySun-EDT.jpg" alt="Maison Margiela Lazy Sunday Morning">
             <!-- Overlay for Notes -->
             <div class="notes-overlay">
                 <div class="notes-title">FRAGRANCE NOTES</div>
@@ -1061,7 +1099,7 @@
     <div class="product-card-simple" data-color="#FFC3B9">
         <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">EDP</span>
         <div class="product-image-container">
-            <img src="assets/images/placeholder.svg" alt="TIFFANY & CO. Rose Gold">
+            <img src="assets/images/TFFY-RoseGold-EDP.jpg" alt="TIFFANY & CO. Rose Gold">
             <!-- Overlay for Notes -->
             <div class="notes-overlay">
                 <div class="notes-title">FRAGRANCE NOTES</div>
@@ -1094,7 +1132,7 @@
     <div class="product-card-simple" data-color="#FFC3B9">
         <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">EDP</span>
         <div class="product-image-container">
-            <img src="assets/images/placeholder.svg" alt="YVES SAINT LAURENT LIBRE">
+            <img src="assets/images/YSL-Libre-EDP.jpg" alt="YVES SAINT LAURENT LIBRE">
             <!-- Overlay for Notes -->
             <div class="notes-overlay">
                 <div class="notes-title">FRAGRANCE NOTES</div>
@@ -1160,7 +1198,7 @@
     <div class="product-card-simple" data-color="#5AB9BE">
         <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
         <div class="product-image-container">
-            <img src="assets/images/placeholder.svg" alt="DIPTYQUE Fleur de Peau">
+            <img src="assets/images/DPTY-FdPeau-EDP.jpg" alt="DIPTYQUE Fleur de Peau">
             <!-- Overlay for Notes -->
             <div class="notes-overlay">
                 <div class="notes-title">FRAGRANCE NOTES</div>
@@ -1190,6 +1228,39 @@
             <a href="#" class="btn-product stripe-btn">Buy Full</a>
         </div>
     </div>
+    <div class="product-card-simple" data-color="#5AB9BE">
+        <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
+        <div class="product-image-container">
+            <img src="assets/images/THO-TheTime-EDP.jpg" alt="THE HOUSE OF OUD The Time">
+            <!-- Overlay for Notes -->
+            <div class="notes-overlay">
+                <div class="notes-title">FRAGRANCE NOTES</div>
+                <div class="notes-list">
+                    <div class="notes-row">
+                        <span class="note-label">TOP</span>
+                        <span class="note-value">Bergamot, Chamomile</span>
+                    </div>
+                    <div class="notes-row">
+                        <span class="note-label">MID</span>
+                        <span class="note-value">Blue Tea, Verbena</span>
+                    </div>
+                    <div class="notes-row">
+                        <span class="note-label">BASE</span>
+                        <span class="note-value">Black Tea, Musk</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="mobile-tap-hint">Tap image for notes</p>
+        <div class="product-info-simple">
+            <span class="brand">THE HOUSE OF OUD</span>
+            <span class="name">The Time</span>
+        </div>
+        <div class="product-actions">
+            <a href="https://www.amazon.co.jp/dp/B0FSKQ4X3M" target="_blank" class="btn-product amazon-btn">Amazon</a>
+            <a href="#" class="btn-product stripe-btn">Buy Full</a>
+        </div>
+    </div>
 </div>
             <div class="lineup-footer">
                  <a href="product-list.html" class="btn-primary lineup-cta">VIEW ALL COLLECTION</a>
@@ -1207,21 +1278,21 @@
             
             <div class="service-grid">
                 <div class="service-card">
-                    <img src="assets/images/placeholder.svg" alt="香水テスト体験" class="service-image" loading="lazy">
+                    <img src="assets/images/service-bottles.jpg" alt="香水テスト体験" class="service-image" loading="lazy">
                     <h3>小分けボトル 1.5ml</h3>
                     <p class="price">約1,000円 / 本</p>
                     <p>通常の1/10以下の価格設定で、高級ブランドの香水を気軽にお試しいただけます</p>
                 </div>
                 
                 <div class="service-card">
-                    <img src="assets/images/placeholder.svg" alt="COLLEGRANCE厳選ラインナップ" class="service-image" loading="lazy">
+                    <img src="assets/images/service-selection.jpg" alt="COLLEGRANCE厳選ラインナップ" class="service-image" loading="lazy">
                     <h3>厳選された17種類</h3>
                     <p class="price">プロが選び抜いた至高の香り</p>
                     <p>世界中の数ある名香の中から、本当に価値のある17種類だけを厳選しました</p>
                 </div>
                 
                 <div class="service-card">
-                    <img src="assets/images/placeholder.svg" alt="ミニマルデザイン" class="service-image" loading="lazy">
+                    <img src="assets/images/service-minimal.jpg" alt="ミニマルデザイン" class="service-image" loading="lazy">
                     <h3>ミニマルデザイン</h3>
                     <p class="price">プレゼントにも最適</p>
                     <p>手になじむボトル形状と高級感のあるパッケージで、ギフトとしてもお使いいただけます</p>
@@ -1239,44 +1310,54 @@
         </div>
         
         <div class="journal-grid">
-            <!-- Article 1 (SEO Focus: Trial/Fail-proof) -->
+            <!-- Article 1: Seasonal Trend -->
             <article class="journal-card">
                 <div class="journal-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1654524437870-58365dea153b?auto=format&fit=crop&w=800&q=80" alt="香水選びで失敗しない方法" class="journal-image">
+                    <a href="article-seasonal-trend.html">
+                        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80" alt="2025春トレンド" class="journal-image">
+                    </a>
+                </div>
+                <div class="journal-content">
+                    <span class="journal-category">TREND</span>
+                    <a href="article-seasonal-trend.html"><h3 class="journal-title">2025年春のトレンド！「お試し香水」で先取りする、桜とフローラルの新作特集</h3></a>
+                    <p class="journal-excerpt">もうすぐ春。重たいウッディから軽やかなフローラルへ衣替えしませんか？今年注目の「透明感のある桜」や「生花系フローラル」をいち早くチェック。</p>
+                    <a href="article-seasonal-trend.html" class="journal-link">Read more <span class="arrow">→</span></a>
+                </div>
+            </article>
+
+            <!-- Article 2: Gift Guide -->
+            <article class="journal-card">
+                <div class="journal-image-wrapper">
+                    <a href="article-gift-guide.html">
+                        <img src="https://images.unsplash.com/photo-1513116476489-7635e79feb27?auto=format&fit=crop&w=800&q=80" alt="香水ギフト" class="journal-image">
+                    </a>
+                </div>
+                <div class="journal-content">
+                    <span class="journal-category">LIFESTYLE</span>
+                    <a href="article-gift-guide.html"><h3 class="journal-title">失敗しないプレゼント選び。おしゃれな「お試し香水ギフト」が喜ばれる5つの理由</h3></a>
+                    <p class="journal-excerpt">香水のプレゼントはハードルが高い？いいえ、ミニサイズなら「センスがいい」と喜ばれる最高のプチギフトになります。相手に気を遣わせない贈り方のコツ。</p>
+                    <a href="article-gift-guide.html" class="journal-link">Read more <span class="arrow">→</span></a>
+                </div>
+            </article>
+            
+            <!-- Article 3: Cost Performance -->
+            <article class="journal-card">
+                <div class="journal-image-wrapper">
+                    <a href="article-full-vs-trial.html">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=80" alt="フルボトル vs お試しサイズ" class="journal-image">
+                    </a>
                 </div>
                 <div class="journal-content">
                     <span class="journal-category">KNOWLEDGE</span>
-                    <h3 class="journal-title">【プロが解説】香水選びで失敗しないための「お試しサイズ」活用術</h3>
-                    <p class="journal-excerpt">「いい香りだと思って買ったのに、家でつけると何だか違う…」そんな経験はありませんか？高級香水こそ1.5mlの小分けで試すべき3つの理由と、賢い選び方を徹底解説。</p>
-                    <a href="article-trial-perfume.html" class="journal-link">Read more <span class="arrow">→</span></a>
+                    <a href="article-full-vs-trial.html"><h3 class="journal-title">高級香水は「お試し香水」が賢い！フルボトル購入前に知っておきたいコスパの真実</h3></a>
+                    <p class="journal-excerpt">憧れのブランド香水、いきなり3万円出すのは勇気がいりますよね。1.5mlサイズなら10分の1以下の価格で、使い切れる量だけ賢く楽しめます。</p>
+                    <a href="article-full-vs-trial.html" class="journal-link">Read more <span class="arrow">→</span></a>
                 </div>
             </article>
-            
-            <!-- Article 2 (SEO Focus: Popular Ranking) -->
-            <article class="journal-card">
-                <div class="journal-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1718466044521-d38654f3ba0a?auto=format&fit=crop&w=800&q=80" alt="2025年人気香水ランキング" class="journal-image">
-                </div>
-                <div class="journal-content">
-                    <span class="journal-category">RANKING</span>
-                    <h3 class="journal-title">2025年最新｜香水初心者におすすめの人気ブランドTOP5と失敗しない選び方</h3>
-                    <p class="journal-excerpt">マルジェラ、ジョーマローン、SHIRO...今みんなが選んでいるブランドはこれ！初めての一本で迷ったらチェックしたい、絶対にハズさない鉄板ラインナップをプロが厳選。</p>
-                    <a href="article-brand-ranking.html" class="journal-link">Read more <span class="arrow">→</span></a>
-                </div>
-            </article>
-            
-            <!-- Article 3 (SEO Focus: How to wear) -->
-            <article class="journal-card">
-                <div class="journal-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1754770343024-4ff245479610?auto=format&fit=crop&w=800&q=80" alt="香水の正しいつけ方" class="journal-image">
-                </div>
-                <div class="journal-content">
-                    <span class="journal-category">HOW TO</span>
-                    <h3 class="journal-title">【初心者必見】香水をつける場所と量は？つけ直しに便利なアトマイザー活用術</h3>
-                    <p class="journal-excerpt">「つけすぎて香害になっていないか不安...」そんな悩みを解決。手首、お腹、足首など場所による香りの違いや、外出先でのスマートなつけ直しマナーを徹底解説します。</p>
-                    <a href="article-how-to-wear.html" class="journal-link">Read more <span class="arrow">→</span></a>
-                </div>
-            </article>
+        </div>
+        
+        <div class="journal-footer" style="text-align: center; margin-top: 40px;">
+            <a href="journal.html" class="btn-secondary">VIEW ALL STORIES</a>
         </div>
     </div>
 </section>
@@ -1358,7 +1439,7 @@
             <span class="quiz-close">&times;</span>
             <div class="quiz-header">
                 <h2>あなたにぴったりの香りを見つけよう</h2>
-                <p>3つの簡単な質問で理想の香りをご提案します</p>
+                <p>4つの簡単な質問で理想の香りをご提案します</p>
             </div>
             
             <div class="quiz-step" id="step1">
@@ -1390,20 +1471,53 @@
                 </div>
             </div>
             
+            <div class="quiz-step" id="step4" style="display:none;">
+                <h3>あなたが香りに求めるイメージは？</h3>
+                <div class="quiz-options">
+                    <button class="quiz-option" data-answer="clean">清潔感・ピュア</button>
+                    <button class="quiz-option" data-answer="mature">知性・大人っぽさ</button>
+                    <button class="quiz-option" data-answer="cute">優しさ・愛らしさ</button>
+                    <button class="quiz-option" data-answer="sensual">色気・個性的</button>
+                </div>
+            </div>
+            
             <div class="quiz-result" id="quizResult" style="display:none;">
-                <h3>あなたにおすすめの香りタイプ</h3>
+                <h3 class="quiz-result-heading">あなたにおすすめの香りタイプ</h3>
                 <div class="result-content">
                     <div class="result-image">
                         <img id="resultImage" src="" alt="おすすめの香り">
                     </div>
                     <div class="result-text">
-                        <h4 id="resultTitle"></h4>
+                        <div class="result-match-label">PERFECT MATCH</div>
+                        <div class="result-header-group">
+                            <span id="resultBrand" class="result-brand-name">BRAND</span>
+                            <h4 id="resultTitle">Product Name</h4>
+                        </div>
+                        
+                        <div class="result-notes-box">
+                            <div class="result-note-row">
+                                <span class="r-note-label">TOP</span>
+                                <span id="resultTop" class="r-note-val"></span>
+                            </div>
+                            <div class="result-note-row">
+                                <span class="r-note-label">MIDDLE</span>
+                                <span id="resultMid" class="r-note-val"></span>
+                            </div>
+                            <div class="result-note-row">
+                                <span class="r-note-label">LAST</span>
+                                <span id="resultBase" class="r-note-val"></span>
+                            </div>
+                        </div>
+
                         <p id="resultDescription"></p>
-                        <div class="result-brands" id="resultBrands"></div>
                     </div>
                 </div>
                 <div class="result-cta">
-                    <a href="#" class="btn-primary">この香りをAmazonで探す</a>
+                    <a href="javascript:void(0)" id="resultLink" class="btn-primary amazon-cta-btn" target="_blank" rel="noopener">この香りをAmazonで見る</a>
+                    <div class="result-sub-actions">
+                        <button class="btn-text" id="btn-quiz-close-result">閉じる</button>
+                        <button class="btn-text" id="btn-quiz-restart">もう一度診断する</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -237,7 +237,7 @@
             </div>
 
             <div class="hero-cta-group">
-                <button onclick="document.getElementById('fragranceQuizModal').style.display='block'" class="btn-quiz">香水診断を受ける</button>
+                <button onclick="gtag('event', 'quiz_start', {'event_category': 'engagement', 'event_label': 'hero_quiz_btn'}); document.getElementById('fragranceQuizModal').style.display='block'" class="btn-quiz">香水診断を受ける</button>
                 <a href="#products" class="btn-primary">COLLECTIONを見る</a>
             </div>
         </div>
@@ -370,7 +370,7 @@
                             <span class="rank-name">Lazy Sunday Morning</span>
                         </div>
                         <div class="product-actions">
-                            <a href="http://www.amazon.co.jp/collegrance" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                            <a href="http://www.amazon.co.jp/collegrance" target="_blank" class="btn-product amazon-btn" onclick="gtag('event', 'click_amazon', {'event_category': 'ecommerce', 'event_label': 'ranking_1_lazy_sunday_morning'});">Amazon</a>
                             <a href="#" class="btn-product stripe-btn">Buy Full</a>
                         </div>
                     </div>
@@ -1527,7 +1527,7 @@
     </div>
 
     <!-- LINE Floating Action Button -->
-    <a href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" class="line-fab">
+    <a href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" class="line-fab" onclick="gtag('event', 'click_line', {'event_category': 'conversion', 'event_label': 'floating_fab'});">
         <div class="line-fab-icon">L</div>
         <span class="line-fab-text">LINEで相談する</span>
     </a>

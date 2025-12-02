@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'casual', 'date'],
                 notes: { top: 'Cardamom, Bergamot', mid: 'Cypress, Sandalwood', base: 'Violet, Patchouli' },
                 desc: '清潔感のあるウッディノート。落ち着きと知性を感じさせる香りは、ビジネスシーンや大人の休日にマッチします。女性の愛用者も多い香り。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/LOW-Man-EDT.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKQ8QV8'
             },
             {
@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['special', 'evening', 'business'],
                 notes: { top: 'Lavender, Tangerine', mid: 'Orange Blossom', base: 'Vanilla, Tonka Bean' },
                 desc: 'マスキュリンなラベンダーとフェミニンなオレンジブロッサムの衝突。自立したカッコいい女性を演出する、華やかでセクシーな香り。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/YSL-Libre-EDP.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKSG813'
             },
             {
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'casual', 'special'],
                 notes: { top: 'Bergamot, Chamomile', mid: 'Blue Tea, Verbena', base: 'Black Tea, Musk' },
                 desc: '「現在」という瞬間を大切にするための香り。ブルーティーとバーベナが織りなす、静寂で知的なティーノート。心を落ち着かせたい時に。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/THO-TheTime-EDP.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKQ4X3M'
             }
         ];

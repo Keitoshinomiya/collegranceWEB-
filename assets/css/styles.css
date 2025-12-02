@@ -94,6 +94,7 @@ h1, h2, h3, h4 {
   margin-bottom: 15px;
   text-transform: uppercase;
   letter-spacing: 0.15em;
+  word-break: break-word; /* Prevent overflow for long English words */
 }
 
 .section-subtitle {
@@ -101,6 +102,9 @@ h1, h2, h3, h4 {
   font-size: 0.9rem;
   color: var(--color-text-sub);
   letter-spacing: 0.1em;
+  word-break: keep-all; /* Japanese readable break */
+  overflow-wrap: break-word;
+  display: inline-block;
 }
 
 /* Buttons */
@@ -292,15 +296,23 @@ h1, h2, h3, h4 {
 
 .hero-catch-main {
   font-size: 3.5rem;
-  display: block;
+  display: inline-block;
   line-height: 1.2;
+  color: #ffffff;
+  text-shadow: 0 2px 15px rgba(0,0,0,0.7);
+  letter-spacing: 0.05em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .hero-catch-sub {
   font-size: 1.5rem;
-  display: block;
+  display: inline-block;
   margin-top: 15px;
-  color: var(--color-text-sub);
+  color: rgba(255,255,255,0.95);
+  text-shadow: 0 2px 15px rgba(0,0,0,0.7);
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .hero-cta-group {
@@ -320,6 +332,8 @@ h1, h2, h3, h4 {
   font-size: 1rem;
   color: var(--color-text-sub);
   line-height: 2.4;
+  word-break: keep-all; /* Optimize for Japanese reading */
+  overflow-wrap: break-word;
 }
 
 .brand-cta {
@@ -911,6 +925,8 @@ h1, h2, h3, h4 {
   color: var(--color-text-sub);
   margin-bottom: 50px;
   line-height: 2.2;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .btn-line-concierge {
@@ -1135,17 +1151,19 @@ h1, h2, h3, h4 {
   }
 
   .hero-catch-main {
-    font-size: 2.4rem;
+    font-size: 2.0rem; /* Adjusted for mobile to prevent awkward breaks */
     color: #ffffff;
-    text-shadow: 0 2px 15px rgba(0,0,0,0.7); /* Strong shadow for visibility */
+    text-shadow: 0 2px 15px rgba(0,0,0,0.7);
     letter-spacing: 0.05em;
+    white-space: nowrap; /* Force single line on mobile */
   }
 
   .hero-catch-sub {
-    font-size: 1.1rem;
+    font-size: 1.0rem;
     color: rgba(255,255,255,0.95);
     text-shadow: 0 2px 15px rgba(0,0,0,0.7);
     margin-top: 8px;
+    white-space: nowrap; /* Force single line on mobile */
   }
 
   /* Stack buttons and improve visibility on image */

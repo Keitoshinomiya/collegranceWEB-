@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'casual'],
                 notes: { top: 'Green Mango, Citrus', mid: 'Lotus, Calamus', base: 'Sycamore, Incense' },
                 desc: '「ナイルの庭」。グリーンマンゴーの瑞々しさとロータスの透明感。知的で上品、決して邪魔にならない美しい香りはオフィスワークに最適です。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/HRM-Nile-EDT.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKQGK6Z'
             },
             {
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'casual', 'date'],
                 notes: { top: 'Pear', mid: 'Freesia', base: 'Patchouli, Amber' },
                 desc: '熟した洋梨の瑞々しさとフリージアの優しさ。甘すぎず、フルーティーで上品な香りは、誰からも好かれる好感度No.1フレグランスです。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/JML-EnglishPear-C.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKNWSN5'
             },
             {
@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['casual', 'date', 'business'],
                 notes: { top: 'Aldehydes, Pear', mid: 'Iris, Rose, Orange Blossom', base: 'White Musk, Patchouli' },
                 desc: '日曜日の朝、洗い立てのリネンのシーツに包まれる至福の時間。フローラルムスクの柔らかい香りが、心までリラックスさせてくれます。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/MRG-LazySun-EDT.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKSJVDC'
             },
             {

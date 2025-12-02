@@ -2420,3 +2420,141 @@ h1, h2, h3, h4 {
     color: var(--color-text-main);
     border-bottom-color: var(--color-text-main);
 }
+
+/* ==========================================================================
+   Special Campaign Section
+   ========================================================================== */
+.campaign-section {
+    padding: 100px 0;
+    background-color: #f4f4f4;
+    border-top: 1px solid #eee;
+}
+
+.campaign-inner {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    background: #fff;
+    padding: 60px;
+    border: 1px solid #eee;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+}
+
+.campaign-image-box {
+    flex: 1;
+    max-width: 500px;
+}
+
+.campaign-img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    filter: sepia(5%) grayscale(5%) contrast(105%);
+}
+
+.campaign-content {
+    flex: 1;
+}
+
+.campaign-label {
+    display: inline-block;
+    background: #1a1a1a;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    letter-spacing: 0.15em;
+    margin-bottom: 20px;
+}
+
+.campaign-title {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+
+.campaign-text {
+    font-size: 1rem;
+    color: var(--color-text-sub);
+    margin-bottom: 40px;
+    line-height: 1.9;
+}
+
+.campaign-steps {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 15px;
+}
+
+.c-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.c-step-num {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ccc;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+.c-step-desc {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.c-step-arrow {
+    color: #ccc;
+    font-size: 0.8rem;
+}
+
+.campaign-btn {
+    min-width: 240px;
+}
+
+/* Mobile Responsive for Campaign */
+@media (max-width: 768px) {
+    .campaign-section {
+        padding: 60px 0;
+    }
+    
+    .campaign-inner {
+        flex-direction: column;
+        padding: 30px 20px;
+        gap: 30px;
+    }
+    
+    .campaign-image-box {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .campaign-title {
+        font-size: 1.8rem;
+    }
+    
+    .campaign-steps {
+        gap: 5px;
+    }
+    
+    .c-step-desc {
+        font-size: 0.75rem;
+    }
+    
+    .c-step-arrow {
+        font-size: 0.6rem;
+    }
+    
+    .campaign-btn {
+        width: 100%;
+    }
+}

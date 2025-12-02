@@ -618,6 +618,46 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // 12. Campaign Modal Logic (Auto Popup)
+    const campaignModal = document.getElementById('campaignModal');
+    if (campaignModal) {
+        const cCloseBtn = campaignModal.querySelector('.campaign-modal-close');
+        const cActionBtn = campaignModal.querySelector('.c-modal-btn');
+        const hasSeenCampaign = sessionStorage.getItem('hasSeenCampaignModal');
+
+        // Show modal after 1.5 seconds if not seen in this session
+        if (!hasSeenCampaign) {
+            setTimeout(() => {
+                campaignModal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+                // Mark as seen
+                sessionStorage.setItem('hasSeenCampaignModal', 'true');
+            }, 1500);
+        }
+
+        // Close logic
+        const closeCampaignModal = () => {
+            campaignModal.style.display = 'none';
+            document.body.style.overflow = '';
+        };
+
+        if (cCloseBtn) {
+            cCloseBtn.addEventListener('click', closeCampaignModal);
+        }
+
+        // If user clicks CTA, close modal and scroll (default anchor behavior handles scroll)
+        if (cActionBtn) {
+            cActionBtn.addEventListener('click', closeCampaignModal);
+        }
+
+        // Close on outside click
+        window.addEventListener('click', (e) => {
+            if (e.target === campaignModal) {
+                closeCampaignModal();
+            }
+        });
+    }
+
 }); // End of DOMContentLoaded
 
 /* Carousel Navigation */

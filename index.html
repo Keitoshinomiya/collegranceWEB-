@@ -1367,6 +1367,44 @@
 
 
     <!-- LINE Concierge Section -->
+    <!-- Special Campaign Section -->
+    <section class="campaign-section" id="campaign">
+        <div class="container">
+            <div class="campaign-inner">
+                <div class="campaign-image-box">
+                    <img src="assets/images/campaign_case_2.jpg" alt="オリジナル香水ケース" class="campaign-img">
+                </div>
+                <div class="campaign-content">
+                    <div class="campaign-label">SPECIAL GIFT</div>
+                    <h2 class="campaign-title">購入者様全員プレゼント<br>オリジナル香水ケース</h2>
+                    <p class="campaign-text">
+                        COLLEGRANCEで商品をご購入後、公式LINEのアンケートにお答えいただいた方全員に、
+                        持ち運びに便利な「オリジナル香水ケース」をプレゼントいたします。
+                        <br>
+                        大切な香水を、より安全に、よりおしゃれに持ち歩けます。
+                    </p>
+                    <div class="campaign-steps">
+                        <div class="c-step">
+                            <div class="c-step-num">01</div>
+                            <div class="c-step-desc">商品を購入</div>
+                        </div>
+                        <div class="c-step-arrow">▶</div>
+                        <div class="c-step">
+                            <div class="c-step-num">02</div>
+                            <div class="c-step-desc">LINEアンケート回答</div>
+                        </div>
+                        <div class="c-step-arrow">▶</div>
+                        <div class="c-step">
+                            <div class="c-step-num">03</div>
+                            <div class="c-step-desc">もれなくプレゼント</div>
+                        </div>
+                    </div>
+                    <a href="#products" class="btn-primary campaign-btn" onclick="gtag('event', 'click_campaign', {'event_category': 'promotion', 'event_label': 'case_giveaway'});">対象商品を見る</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="line-concierge-section">
         <div class="container">
             <div class="line-concierge-card">
@@ -1521,6 +1559,28 @@
                         <button class="btn-text" id="btn-quiz-close-result">閉じる</button>
                         <button class="btn-text" id="btn-quiz-restart">もう一度診断する</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Campaign Modal (Auto Popup) -->
+    <div id="campaignModal" class="campaign-modal">
+        <div class="campaign-modal-content">
+            <span class="campaign-modal-close">&times;</span>
+            <div class="campaign-modal-body">
+                <div class="c-modal-image">
+                    <img src="assets/images/campaign_case_2.jpg" alt="オリジナル香水ケースプレゼント">
+                </div>
+                <div class="c-modal-text">
+                    <span class="c-modal-label">LIMITED OFFER</span>
+                    <h3>購入者様全員に<br>プレゼント</h3>
+                    <p>
+                        今なら商品をご購入後、公式LINEのアンケートに答えるだけで<br>
+                        <strong>「オリジナル香水ケース」</strong>がもらえます。
+                    </p>
+                    <a href="#products" class="btn-primary c-modal-btn" onclick="gtag('event', 'click_campaign_modal', {'event_category': 'promotion', 'event_label': 'case_giveaway_modal'});">キャンペーン詳細・対象商品へ</a>
+                    <div class="c-modal-note">※なくなり次第終了</div>
                 </div>
             </div>
         </div>

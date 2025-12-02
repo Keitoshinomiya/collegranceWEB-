@@ -1567,6 +1567,15 @@ h1, h2, h3, h4 {
   color: #666;
 }
 
+.journal-date {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #999;
+  margin-bottom: 4px;
+  letter-spacing: 0.05em;
+}
+
 .journal-title {
   font-family: var(--font-serif);
   font-size: 1.4rem;

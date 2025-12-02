@@ -2,14 +2,14 @@
 <html lang="ja">
 <head>
     <!-- Google Analytics (GA4) -->
-    <!-- ※ G-XXXXXXXXXX の部分をお客様の測定IDに書き換えてください -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <!-- ※ G-6DM95225F6 の部分をお客様の測定IDに書き換えてください -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', 'G-XXXXXXXXXX');
+      gtag('config', 'G-6DM95225F6');
     </script>
 
     <meta charset="UTF-8">
@@ -191,7 +191,7 @@
                                             <h3 class="mega-menu-title">LATEST STORY</h3>
                                             <a href="article-scent-layering.html" class="featured-card">
                                                 <div class="featured-image">
-                                                    <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&w=600&q=80" alt="Scent Layering">
+                                                    <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=600&q=80" alt="Scent Layering">
                                                 </div>
                                                 <div class="featured-info">
                                                     <h4>Scent Layering</h4>
@@ -237,7 +237,7 @@
             </div>
 
             <div class="hero-cta-group">
-                <button onclick="document.getElementById('fragranceQuizModal').style.display='block'" class="btn-quiz">香水診断を受ける</button>
+                <button onclick="gtag('event', 'quiz_start', {'event_category': 'engagement', 'event_label': 'hero_quiz_btn'}); document.getElementById('fragranceQuizModal').style.display='block'" class="btn-quiz">香水診断を受ける</button>
                 <a href="#products" class="btn-primary">COLLECTIONを見る</a>
             </div>
         </div>
@@ -370,7 +370,7 @@
                             <span class="rank-name">Lazy Sunday Morning</span>
                         </div>
                         <div class="product-actions">
-                            <a href="http://www.amazon.co.jp/collegrance" target="_blank" class="btn-product amazon-btn">Amazon</a>
+                            <a href="http://www.amazon.co.jp/collegrance" target="_blank" class="btn-product amazon-btn" onclick="gtag('event', 'click_amazon', {'event_category': 'ecommerce', 'event_label': 'ranking_1_lazy_sunday_morning'});">Amazon</a>
                             <a href="#" class="btn-product stripe-btn">Buy Full</a>
                         </div>
                     </div>
@@ -408,7 +408,7 @@
                     <div class="ranking-item carousel-item">
                         <div class="rank-badge">4</div>
                         <div class="rank-image">
-                            <img src="assets/images/placeholder.svg" alt="DIPTYQUE Orpheon">
+                            <img src="assets/images/DPTY-Orpheon-EDP.jpg" alt="DIPTYQUE Orpheon">
                         </div>
                         <div class="rank-info">
                             <span class="rank-brand">DIPTYQUE</span>
@@ -802,7 +802,7 @@
     <div class="product-card-simple" data-color="#FAF5BE">
         <span class="product-type-badge" style="border-left: 3px solid #FAF5BE">EDP</span>
         <div class="product-image-container">
-            <img src="assets/images/placeholder.svg" alt="DIPTYQUE Orpheon">
+            <img src="assets/images/DPTY-Orpheon-EDP.jpg" alt="DIPTYQUE Orpheon">
             <!-- Overlay for Notes -->
             <div class="notes-overlay">
                 <div class="notes-title">FRAGRANCE NOTES</div>
@@ -1000,7 +1000,7 @@
     <div class="product-card-simple" data-color="#FFC3B9">
         <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">EDT</span>
         <div class="product-image-container">
-            <img src="assets/images/placeholder.svg" alt="LOEWE 001 Woman">
+            <img src="assets/images/LOW-Woman-EDP.jpg" alt="LOEWE 001 Woman">
             <!-- Overlay for Notes -->
             <div class="notes-overlay">
                 <div class="notes-title">FRAGRANCE NOTES</div>
@@ -1313,45 +1313,48 @@
             <!-- Article 1: Seasonal Trend -->
             <article class="journal-card">
                 <div class="journal-image-wrapper">
-                    <a href="article-seasonal-trend.html">
+                    <a href="article-seasonal-trend.html" onclick="gtag('event', 'select_content', {'content_type': 'article', 'item_id': 'seasonal_trend_2025'});">
                         <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80" alt="2025春トレンド" class="journal-image">
                     </a>
                 </div>
                 <div class="journal-content">
+                    <span class="journal-date">2025.11.30</span>
                     <span class="journal-category">TREND</span>
-                    <a href="article-seasonal-trend.html"><h3 class="journal-title">2025年春のトレンド！「お試し香水」で先取りする、桜とフローラルの新作特集</h3></a>
+                    <a href="article-seasonal-trend.html" onclick="gtag('event', 'select_content', {'content_type': 'article', 'item_id': 'seasonal_trend_2025'});"><h3 class="journal-title">2025年春のトレンド！「お試し香水」で先取りする、桜とフローラルの新作特集</h3></a>
                     <p class="journal-excerpt">もうすぐ春。重たいウッディから軽やかなフローラルへ衣替えしませんか？今年注目の「透明感のある桜」や「生花系フローラル」をいち早くチェック。</p>
-                    <a href="article-seasonal-trend.html" class="journal-link">Read more <span class="arrow">→</span></a>
+                    <a href="article-seasonal-trend.html" class="journal-link" onclick="gtag('event', 'select_content', {'content_type': 'article', 'item_id': 'seasonal_trend_2025'});">Read more <span class="arrow">→</span></a>
                 </div>
             </article>
 
             <!-- Article 2: Gift Guide -->
             <article class="journal-card">
                 <div class="journal-image-wrapper">
-                    <a href="article-gift-guide.html">
+                    <a href="article-gift-guide.html" onclick="gtag('event', 'select_content', {'content_type': 'article', 'item_id': 'gift_guide'});">
                         <img src="https://images.unsplash.com/photo-1513116476489-7635e79feb27?auto=format&fit=crop&w=800&q=80" alt="香水ギフト" class="journal-image">
                     </a>
                 </div>
                 <div class="journal-content">
+                    <span class="journal-date">2025.11.25</span>
                     <span class="journal-category">LIFESTYLE</span>
-                    <a href="article-gift-guide.html"><h3 class="journal-title">失敗しないプレゼント選び。おしゃれな「お試し香水ギフト」が喜ばれる5つの理由</h3></a>
+                    <a href="article-gift-guide.html" onclick="gtag('event', 'select_content', {'content_type': 'article', 'item_id': 'gift_guide'});"><h3 class="journal-title">失敗しないプレゼント選び。おしゃれな「お試し香水ギフト」が喜ばれる5つの理由</h3></a>
                     <p class="journal-excerpt">香水のプレゼントはハードルが高い？いいえ、ミニサイズなら「センスがいい」と喜ばれる最高のプチギフトになります。相手に気を遣わせない贈り方のコツ。</p>
-                    <a href="article-gift-guide.html" class="journal-link">Read more <span class="arrow">→</span></a>
+                    <a href="article-gift-guide.html" class="journal-link" onclick="gtag('event', 'select_content', {'content_type': 'article', 'item_id': 'gift_guide'});">Read more <span class="arrow">→</span></a>
                 </div>
             </article>
             
             <!-- Article 3: Cost Performance -->
             <article class="journal-card">
                 <div class="journal-image-wrapper">
-                    <a href="article-full-vs-trial.html">
+                    <a href="article-full-vs-trial.html" onclick="gtag('event', 'select_content', {'content_type': 'article', 'item_id': 'full_vs_trial'});">
                         <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=80" alt="フルボトル vs お試しサイズ" class="journal-image">
                     </a>
                 </div>
                 <div class="journal-content">
+                    <span class="journal-date">2025.10.20</span>
                     <span class="journal-category">KNOWLEDGE</span>
-                    <a href="article-full-vs-trial.html"><h3 class="journal-title">高級香水は「お試し香水」が賢い！フルボトル購入前に知っておきたいコスパの真実</h3></a>
+                    <a href="article-full-vs-trial.html" onclick="gtag('event', 'select_content', {'content_type': 'article', 'item_id': 'full_vs_trial'});"><h3 class="journal-title">高級香水は「お試し香水」が賢い！フルボトル購入前に知っておきたいコスパの真実</h3></a>
                     <p class="journal-excerpt">憧れのブランド香水、いきなり3万円出すのは勇気がいりますよね。1.5mlサイズなら10分の1以下の価格で、使い切れる量だけ賢く楽しめます。</p>
-                    <a href="article-full-vs-trial.html" class="journal-link">Read more <span class="arrow">→</span></a>
+                    <a href="article-full-vs-trial.html" class="journal-link" onclick="gtag('event', 'select_content', {'content_type': 'article', 'item_id': 'full_vs_trial'});">Read more <span class="arrow">→</span></a>
                 </div>
             </article>
         </div>
@@ -1524,7 +1527,7 @@
     </div>
 
     <!-- LINE Floating Action Button -->
-    <a href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" class="line-fab">
+    <a href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" class="line-fab" onclick="gtag('event', 'click_line', {'event_category': 'conversion', 'event_label': 'floating_fab'});">
         <div class="line-fab-icon">L</div>
         <span class="line-fab-text">LINEで相談する</span>
     </a>

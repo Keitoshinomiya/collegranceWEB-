@@ -1113,6 +1113,22 @@ h1, h2, h3, h4 {
   color: #fff;
 }
 
+/* Sub-page Header */
+.page-header {
+  padding: 160px 0 60px;
+  text-align: center;
+  background-color: var(--color-bg-light);
+  margin-bottom: 60px;
+}
+
+.page-title {
+  font-family: var(--font-eng);
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   :root {

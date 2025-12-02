@@ -1121,12 +1121,56 @@ h1, h2, h3, h4 {
     padding: 20px;
   }
 
+  .hero-content {
+    position: absolute;
+    bottom: 12%; /* Position at bottom area */
+    left: 0;
+    width: 100%;
+    padding: 0 20px;
+    gap: 25px;
+  }
+
+  .hero-text h1 {
+    margin-bottom: 10px;
+  }
+
   .hero-catch-main {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
+    color: #ffffff;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.7); /* Strong shadow for visibility */
+    letter-spacing: 0.05em;
   }
 
   .hero-catch-sub {
     font-size: 1.1rem;
+    color: rgba(255,255,255,0.95);
+    text-shadow: 0 2px 15px rgba(0,0,0,0.7);
+    margin-top: 8px;
+  }
+
+  /* Stack buttons and improve visibility on image */
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    gap: 12px;
+  }
+
+  .btn-quiz {
+    width: 100%;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    font-weight: 700;
+  }
+
+  .btn-primary {
+    width: 100%;
+    background-color: rgba(0,0,0,0.4); /* Semi-transparent black */
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.6);
   }
   
   .nav-menu { display: none; }

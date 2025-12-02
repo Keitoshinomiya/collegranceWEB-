@@ -280,8 +280,8 @@ h1, h2, h3, h4 {
   .hero-bg-image {
     filter: blur(2px) brightness(0.95);
     transform: scale(1.05);
-    /* Shift left and keep upper focus as requested */
-    background-position: 25% 20%; 
+    /* Shift right as requested (showing the right side of the image) */
+    background-position: 75% 20%; 
   }
 }
 

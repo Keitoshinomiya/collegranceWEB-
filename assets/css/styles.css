@@ -258,19 +258,19 @@ h1, h2, h3, h4 {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
   margin: 0;
   z-index: 0;
 }
 
 .hero-bottle-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
   /* User requested blur effect + full screen */
-  filter: blur(3px) brightness(0.95) sepia(5%);
-  transform: scale(1.05); /* Prevent blur edges */
+  filter: blur(4px) brightness(0.9) sepia(5%);
+  transform: scale(1.1); /* Prevent blur edges */
 }
 
 .hero-text h1 {
@@ -1110,10 +1110,6 @@ h1, h2, h3, h4 {
 
   .hero-catch-sub {
     font-size: 1.1rem;
-  }
-
-  .hero-bottle-container {
-    width: 140px;
   }
   
   .nav-menu { display: none; }

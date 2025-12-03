@@ -719,7 +719,55 @@ document.addEventListener('DOMContentLoaded', function() {
             // Check if href is empty, #, or just placeholder
             if (!href || href === '#' || href.trim() === '') {
                 e.preventDefault();
-                alert('このフルボトルは、現在供給不安定により、取り扱いはございません。');
+                
+                // Remove existing tooltips
+                const existingTooltip = document.querySelector('.unavailable-tooltip');
+                if (existingTooltip) existingTooltip.remove();
+
+                // Create tooltip element
+                const tooltip = document.createElement('div');
+                tooltip.className = 'unavailable-tooltip';
+                tooltip.textContent = 'このフルボトルは、現在供給不安定により、取り扱いはございません。';
+                
+                // Append to body
+                document.body.appendChild(tooltip);
+
+                // Calculate Position
+                const rect = this.getBoundingClientRect();
+                const scrollY = window.scrollY || window.pageYOffset;
+                const scrollX = window.scrollX || window.pageXOffset;
+
+                // Initial rendering to get size
+                const tooltipRect = tooltip.getBoundingClientRect();
+                
+                // Position: Center above the button
+                // Top: Button Top + Scroll - Tooltip Height - Gap (10px)
+                let topPos = rect.top + scrollY - tooltipRect.height - 10;
+                // Left: Button Left + Scroll + (Button Width / 2) - (Tooltip Width / 2)
+                let leftPos = rect.left + scrollX + (rect.width / 2) - (tooltipRect.width / 2);
+
+                // Boundary checks (Mobile fix)
+                if (leftPos < 10) leftPos = 10;
+                if (leftPos + tooltipRect.width > window.innerWidth - 10) {
+                    leftPos = window.innerWidth - tooltipRect.width - 10;
+                }
+
+                tooltip.style.top = topPos + 'px';
+                tooltip.style.left = leftPos + 'px';
+                
+                // Trigger reflow for transition
+                void tooltip.offsetWidth;
+                
+                // Show
+                tooltip.classList.add('visible');
+
+                // Remove after delay
+                setTimeout(() => {
+                    tooltip.classList.remove('visible');
+                    setTimeout(() => {
+                        if (tooltip.parentNode) tooltip.parentNode.removeChild(tooltip);
+                    }, 300);
+                }, 3000);
             }
         });
     });

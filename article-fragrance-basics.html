@@ -88,54 +88,79 @@
             flex-shrink: 0;
         }
 
-        /* Pyramid Diagram */
+        /* Pyramid Diagram - Corrected Layout */
         .pyramid-container {
             display: flex;
             justify-content: center;
             margin: 40px auto;
             width: 100%;
             max-width: 500px;
+            padding: 0 10px; /* Ensure side padding on mobile */
         }
         .pyramid {
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            align-items: center; /* Center align all levels */
         }
         .pyramid-level {
             text-align: center;
             color: white;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             position: relative;
+            box-sizing: border-box;
         }
+        
+        /* Triangle: Top Note */
         .pyramid-top {
-            height: 80px;
-            background: #E6B89C; /* Lightest */
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            width: 60%; /* Make it visually smaller at top by clipping, but here we simulate with width if simpler or clip path */
-            margin: 0 auto;
+            width: 44%; /* Relative to container */
+            height: 120px; /* Taller to accommodate text at bottom */
+            background: #E6B89C;
             clip-path: polygon(50% 0, 100% 100%, 0 100%);
-            padding-top: 20px;
+            margin-bottom: -1px; /* Prevent gap */
+            justify-content: flex-end; /* Push text to the wider bottom area */
+            padding-bottom: 15px; 
+            z-index: 3;
         }
+
+        /* Trapezoid: Middle Note */
         .pyramid-middle {
-            height: 100px;
-            background: #D4A373; /* Medium */
-            width: 80%;
-            margin: 0 auto;
-            clip-path: polygon(25% 0, 75% 0, 100% 100%, 0% 100%);
-        }
-        .pyramid-base {
-            height: 120px;
-            background: #9C6644; /* Darkest */
-            width: 100%;
+            width: 72%;
+            height: 110px;
+            background: #D4A373;
+            /* Top width matches Top's bottom (approx). 
+               Calculation: 72% width * 60% visible = ~43.2% matches Top's 44% */
             clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
+            margin-bottom: -1px;
+            justify-content: center;
+            padding-top: 10px; /* Push text down from narrow top */
+            z-index: 2;
         }
-        .level-title { font-weight: bold; font-size: 1rem; margin-bottom: 5px; }
-        .level-time { font-size: 0.8rem; opacity: 0.9; }
-        .level-desc { font-size: 0.8rem; opacity: 0.9; margin-top: 4px; }
+
+        /* Trapezoid: Base Note */
+        .pyramid-base {
+            width: 100%;
+            height: 110px;
+            background: #9C6644;
+            /* Top width matches Middle's bottom (72%) */
+            clip-path: polygon(14% 0, 86% 0, 100% 100%, 0% 100%);
+            justify-content: center;
+            padding-top: 5px;
+            z-index: 1;
+        }
+
+        .level-title { font-weight: bold; font-size: 1rem; margin: 0 0 4px 0; line-height: 1.2; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .level-time { font-size: 0.8rem; opacity: 0.95; margin-bottom: 2px; font-family: 'Courier Prime', monospace; }
+        .level-desc { font-size: 0.8rem; opacity: 0.95; line-height: 1.3; margin-top: 2px; }
+
+        @media (max-width: 480px) {
+            .pyramid-top { height: 110px; }
+            .pyramid-middle, .pyramid-base { height: 100px; }
+            .level-title { font-size: 0.9rem; }
+            .level-time, .level-desc { font-size: 0.7rem; }
+        }
 
         .cta-box { background: #333; color: #fff; padding: 50px; text-align: center; margin-top: 80px; border-radius: 4px; }
         .cta-box h3 { color: #fff; margin-top: 0; }

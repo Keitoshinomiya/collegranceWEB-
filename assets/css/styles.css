@@ -2622,3 +2622,94 @@ h1, h2, h3, h4 {
     padding-bottom: 80px;
   }
 }
+
+/* --- Service & Journal Carousel Styles --- */
+
+/* Service Carousel */
+.service-carousel {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.service-track {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-left: max(40px, calc((100% - var(--container-width)) / 2 + 40px));
+  padding-right: 40px;
+}
+
+.service-track::-webkit-scrollbar {
+  display: none;
+}
+
+.service-card {
+  flex: 0 0 320px;
+  scroll-snap-align: start;
+  height: auto; /* Allow content to dictate height */
+  /* Existing styles override or adjustment */
+  margin-bottom: 0; /* Remove bottom margin if any from grid */
+}
+
+/* Journal Carousel */
+.journal-carousel {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.journal-track {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-left: max(40px, calc((100% - var(--container-width)) / 2 + 40px));
+  padding-right: 40px;
+}
+
+.journal-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Update Journal Card for Carousel */
+.journal-card {
+  flex: 0 0 340px;
+  scroll-snap-align: start;
+  margin-bottom: 0; /* Reset grid margin */
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.journal-image-wrapper {
+    width: 100%;
+    aspect-ratio: 3/2;
+    margin-bottom: 20px;
+}
+
+/* Mobile Responsiveness for New Carousels */
+@media (max-width: 768px) {
+  .service-track, .journal-track {
+    gap: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .service-card {
+    flex: 0 0 280px; /* Slightly smaller on mobile */
+  }
+  
+  .journal-card {
+    flex: 0 0 280px;
+  }
+}

@@ -1269,27 +1269,33 @@
                 <p class="section-subtitle">気になる香りを、カジュアルにトライしてみる</p>
             </div>
             
-            <div class="service-grid">
-                <div class="service-card">
-                    <img src="assets/images/service-bottles.jpg" alt="香水テスト体験" class="service-image" loading="lazy">
-                    <h3>小分けボトル 1.5ml</h3>
-                    <p class="price">約1,000円 / 本</p>
-                    <p>通常の1/10以下の価格設定で、高級ブランドの香水を気軽にお試しいただけます</p>
+            <div class="carousel-container">
+                <button class="carousel-nav prev" aria-label="Previous" onclick="scrollCarousel('service', -1)">&#8592;</button>
+                <div class="service-carousel" id="serviceCarousel">
+                    <div class="service-track" id="serviceTrack">
+                        <div class="service-card">
+                            <img src="assets/images/service-bottles.jpg" alt="香水テスト体験" class="service-image" loading="lazy">
+                            <h3>小分けボトル 1.5ml</h3>
+                            <p class="price">約1,000円 / 本</p>
+                            <p>通常の1/10以下の価格設定で、高級ブランドの香水を気軽にお試しいただけます</p>
+                        </div>
+                        
+                        <div class="service-card">
+                            <img src="assets/images/service-selection.jpg" alt="COLLEGRANCE厳選ラインナップ" class="service-image" loading="lazy">
+                            <h3>厳選された17種類</h3>
+                            <p class="price">プロが選び抜いた至高の香り</p>
+                            <p>世界中の数ある名香の中から、本当に価値のある17種類だけを厳選しました</p>
+                        </div>
+                        
+                        <div class="service-card">
+                            <img src="assets/images/service-minimal.jpg" alt="ミニマルデザイン" class="service-image" loading="lazy">
+                            <h3>ミニマルデザイン</h3>
+                            <p class="price">プレゼントにも最適</p>
+                            <p>手になじむボトル形状と高級感のあるパッケージで、ギフトとしてもお使いいただけます</p>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="service-card">
-                    <img src="assets/images/service-selection.jpg" alt="COLLEGRANCE厳選ラインナップ" class="service-image" loading="lazy">
-                    <h3>厳選された17種類</h3>
-                    <p class="price">プロが選び抜いた至高の香り</p>
-                    <p>世界中の数ある名香の中から、本当に価値のある17種類だけを厳選しました</p>
-                </div>
-                
-                <div class="service-card">
-                    <img src="assets/images/service-minimal.jpg" alt="ミニマルデザイン" class="service-image" loading="lazy">
-                    <h3>ミニマルデザイン</h3>
-                    <p class="price">プレゼントにも最適</p>
-                    <p>手になじむボトル形状と高級感のあるパッケージで、ギフトとしてもお使いいただけます</p>
-                </div>
+                <button class="carousel-nav next" aria-label="Next" onclick="scrollCarousel('service', 1)">&#8594;</button>
             </div>
         </div>
     </section>
@@ -1302,8 +1308,14 @@
             <p class="section-subtitle">香りと暮らしの読みもの</p>
         </div>
         
-        <div class="journal-grid" id="top-journal-grid">
-            <!-- Articles will be dynamically loaded here -->
+        <div class="carousel-container">
+            <button class="carousel-nav prev" aria-label="Previous" onclick="scrollCarousel('journal', -1)">&#8592;</button>
+            <div class="journal-carousel" id="journalCarousel">
+                <div class="journal-track" id="journalTrack">
+                    <!-- Articles will be dynamically loaded here -->
+                </div>
+            </div>
+            <button class="carousel-nav next" aria-label="Next" onclick="scrollCarousel('journal', 1)">&#8594;</button>
         </div>
         
         <div class="journal-footer" style="text-align: center; margin-top: 40px;">

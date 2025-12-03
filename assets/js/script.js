@@ -664,7 +664,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const sortedArticles = window.journalArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
         
         // A. Top Page Journal Section (Top 3)
-        const journalGrid = document.getElementById('top-journal-grid');
+        const journalGrid = document.getElementById('journalTrack');
         if (journalGrid) {
             const latestArticles = sortedArticles.slice(0, 3);
             let journalHTML = '';
@@ -782,7 +782,7 @@ function scrollCarousel(type, direction) {
     if (!track) return;
     
     // Determine item width
-    let item = track.querySelector('.carousel-item') || track.querySelector('.review-card');
+    let item = track.querySelector('.carousel-item') || track.querySelector('.review-card') || track.querySelector('.service-card') || track.querySelector('.journal-card');
     if (!item) return;
     
     // Get style to find gap
@@ -817,7 +817,7 @@ function updateScrollState(type) {
 
 // Add scroll listeners to update state
 document.addEventListener('DOMContentLoaded', () => {
-    ['ranking', 'reviews'].forEach(type => {
+    ['ranking', 'reviews', 'service', 'journal'].forEach(type => {
         const track = document.getElementById(type + 'Track');
         if (track) {
             track.addEventListener('scroll', () => updateScrollState(type));

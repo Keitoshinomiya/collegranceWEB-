@@ -94,7 +94,8 @@ h1, h2, h3, h4 {
   margin-bottom: 15px;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  word-break: break-word; /* Prevent overflow for long English words */
+  word-break: normal; /* Changed from break-word to prevent awkward splits */
+  overflow-wrap: normal; /* Ensure words don't break mid-word unless necessary */
 }
 
 .section-subtitle {
@@ -1137,6 +1138,13 @@ h1, h2, h3, h4 {
   :root {
     --spacing-section: 80px;
     --header-height: 70px;
+  }
+
+  /* Prevent Title Breaking */
+  .section-header h2 {
+    font-size: 2rem; /* Reduce size for mobile */
+    word-break: normal;
+    overflow-wrap: normal;
   }
 
   .hero {
@@ -2837,6 +2845,16 @@ h1, h2, h3, h4 {
   @keyframes floatArrow {
       0%, 100% { transform: translateX(0); }
       50% { transform: translateX(5px); }
+  }
+
+  /* FAB Mobile Expanded Style */
+  .fab-item.expanded {
+      width: 200px;
+      padding-right: 20px;
+  }
+  
+  .fab-item.expanded .fab-text {
+      opacity: 1;
   }
 }
 

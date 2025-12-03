@@ -772,6 +772,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // 15. FAB Mobile Behavior (Double Tap Logic)
+    const fabItems = document.querySelectorAll('.fab-item');
+    
+    fabItems.forEach(fab => {
+        fab.addEventListener('click', function(e) {
+            // Mobile width check
+            if (window.innerWidth <= 768) {
+                // Check if already expanded
+                if (this.classList.contains('expanded')) {
+                    // Already expanded, allow default link behavior (navigate)
+                    return;
+                } else {
+                    // Not expanded, prevent navigation and expand
+                    e.preventDefault();
+                    
+                    // Collapse other FABs
+                    fabItems.forEach(other => {
+                        if (other !== this) other.classList.remove('expanded');
+                    });
+                    
+                    this.classList.add('expanded');
+                }
+            }
+        });
+    });
+    
+    // Collapse FAB on outside click
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768 && !e.target.closest('.fab-container')) {
+            fabItems.forEach(fab => fab.classList.remove('expanded'));
+        }
+    });
+
 }); // End of DOMContentLoaded
 
 /* Carousel Navigation */

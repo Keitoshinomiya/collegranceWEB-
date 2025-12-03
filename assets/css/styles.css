@@ -2839,3 +2839,11 @@ h1, h2, h3, h4 {
       50% { transform: translateX(5px); }
   }
 }
+
+/* Hide carousel nav arrows on PC for Service and Journal (only 3 items, no scroll needed) */
+@media (min-width: 769px) {
+    #service .carousel-nav,
+    #journal .carousel-nav {
+        display: none !important;
+    }
+}

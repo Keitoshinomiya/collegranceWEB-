@@ -2713,3 +2713,50 @@ h1, h2, h3, h4 {
     flex: 0 0 280px;
   }
 }
+
+/* --- Mobile Carousel UX Improvements (Apple-style Peek & Snap) --- */
+@media (max-width: 768px) {
+  /* Common Track Styles for Mobile */
+  .service-track, .journal-track, .ranking-track, .reviews-track, .product-grid-collection {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    /* Center Snap Logic:
+       Gap: 16px
+       Padding: Left/Right to center the 85vw card
+       (100vw - 85vw) / 2 = 7.5vw padding
+    */
+    gap: 16px;
+    padding: 0 calc(7.5vw) 40px !important; /* Override inline/other styles */
+    scroll-padding: 0 calc(7.5vw);
+  }
+
+  /* Card Styles for Mobile */
+  .service-card, .journal-card, .ranking-item.carousel-item, .review-card, .product-card-simple {
+    flex: 0 0 85vw !important; /* Force 85% width to show next item peek */
+    max-width: 400px;
+    scroll-snap-align: center !important; /* Snap to center */
+    margin: 0 !important;
+    border-radius: 8px; /* Soften edges if not already */
+  }
+  
+  /* Ranking Card Specific Fix */
+  .ranking-item.carousel-item {
+      padding-bottom: 20px; /* Space for shadow */
+  }
+
+  /* Review Card Specific Fix */
+  .review-card {
+      padding: 30px; /* Adjust padding for mobile */
+  }
+  
+  /* Visual Hint: Gradient Fade on Right (simulated via ::after on container) */
+  .service-carousel, .journal-carousel, .ranking-carousel, .reviews-carousel {
+      position: relative;
+  }
+  
+  /* Ensure container allows overflow-x but hides vertical overflow */
+  .carousel-container {
+      overflow: hidden;
+  }
+}

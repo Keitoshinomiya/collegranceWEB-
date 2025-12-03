@@ -46,6 +46,26 @@ document.addEventListener('DOMContentLoaded', function() {
             field.addEventListener('input', () => clearError(fieldName));
         }
     });
+
+    // Order Number Toggle Logic
+    const subjectSelect = document.getElementById('subject');
+    const orderNumberGroup = document.getElementById('orderNumberGroup');
+    const orderNumberInput = document.getElementById('order_number');
+
+    if (subjectSelect && orderNumberGroup) {
+        subjectSelect.addEventListener('change', function() {
+            const val = this.value;
+            // Show order number field for specific inquiry types
+            // product, quality, order, shipping, return usually imply potential existing orders
+            if (['product', 'quality', 'order', 'shipping', 'return'].includes(val)) {
+                orderNumberGroup.style.display = 'block';
+                // Optional: Animation logic could go here
+            } else {
+                orderNumberGroup.style.display = 'none';
+                if (orderNumberInput) orderNumberInput.value = ''; // Clear value when hidden
+            }
+        });
+    }
     
     // Form submission
     form.addEventListener('submit', handleSubmit);

@@ -672,8 +672,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const dateStr = article.date.replace(/-/g, '.');
                 journalHTML += `
                     <a href="${article.link}" class="journal-card">
-                        <div class="journal-image">
-                            <img src="${article.image}" alt="${article.title}">
+                        <div class="journal-image-wrapper">
+                            <div class="journal-image">
+                                <img src="${article.image}" alt="${article.title}" style="width:100%; height:100%; object-fit:cover;">
+                            </div>
                         </div>
                         <div class="journal-info">
                             <span class="journal-category">${article.category}</span>
@@ -709,6 +711,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+
+    // 14. Handle "Buy Full" Links with No Supply
+    document.querySelectorAll('.stripe-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            // Check if href is empty, #, or just placeholder
+            if (!href || href === '#' || href.trim() === '') {
+                e.preventDefault();
+                alert('このフルボトルは、現在供給不安定により、取り扱いはございません。');
+            }
+        });
+    });
 
 }); // End of DOMContentLoaded
 

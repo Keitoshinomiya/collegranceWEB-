@@ -183,7 +183,7 @@ h1, h2, h3, h4 {
 }
 
 .logo-image {
-  height: 28px;
+  height: 50px;
   width: auto;
   filter: none; /* Logo shouldn't have filters */
 }

@@ -190,10 +190,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Form submission to Netlify
     async function submitToNetlify(formData) {
-        return fetch("/", {
+        const params = new URLSearchParams(formData);
+        
+        // Safety check: Ensure form-name is included
+        if (!params.has('form-name')) {
+            params.append('form-name', 'contact');
+        }
+
+        return fetch("/contact.html", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams(formData).toString()
+            body: params.toString()
         }).then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');

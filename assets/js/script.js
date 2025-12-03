@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['date', 'evening', 'casual'],
                 notes: { top: 'Bergamot, Pink Pepper', mid: 'Sandalwood, Jasmine', base: 'Vanilla, Amber' },
                 desc: '「朝の光」をイメージ。バニラとサンダルウッドの温かみのある甘さが、リラックスした幸福感を与えてくれます。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/LOW-Woman-EDP.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKPQPZ7'
             },
             {

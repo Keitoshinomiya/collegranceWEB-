@@ -18,6 +18,22 @@
     <meta name="description" content="【失敗しない香水選び】COLLEGRANCE(コレグランス)は、エルメス・ルラボ・マルジェラなどの高級ブランド香水を1.5mlからお試しできる小分け通販サイトです。フルボトルを買う前に、まずは少量で自分に合うか確認。正規品のみ取扱い、品質管理徹底。">
     <meta name="keywords" content="コレグランス,香水,お試し,小分け,アトマイザー,少量,サンプル,ブランド香水,メゾンマルジェラ,ルラボ,エルメス">
     
+    <!-- Canonical -->
+    <link rel="canonical" href="https://collegrance.com/">
+
+    <!-- Web App Manifest & Theme Color -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Performance: Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+
+    <!-- Preload Critical Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&family=Courier+Prime:wght@400;700&family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" as="style">
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,18 +69,69 @@
       "name": "COLLEGRANCE (コレグランス)",
       "alternateName": "コレグランス",
       "url": "https://collegrance.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://collegrance.com/assets/images/logo.png",
+        "width": 512,
+        "height": 512
+      },
       "image": "https://collegrance.com/assets/images/logo.png",
       "description": "高級ブランド香水のお試し・小分け専門店。エルメス、ルラボ、マルジェラなどの正規品を1.5mlからお届けします。",
+      "foundingDate": "2024",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "JP"
+      },
       "brand": {
         "@type": "Brand",
         "name": "COLLEGRANCE"
       },
-      "offers": {
-        "@type": "Offer",
-        "priceCurrency": "JPY",
-        "price": "680",
-        "availability": "https://schema.org/InStock"
+      "sameAs": [
+        "https://www.instagram.com/collrgrance",
+        "https://twitter.com/collegrance",
+        "https://www.facebook.com/collegrance"
+      ],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://collegrance.com/product-list.html?q={search_term_string}",
+        "query-input": "required name=search_term_string"
       }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": [
+        {
+          "@type": "SiteNavigationElement",
+          "position": 1,
+          "name": "COLLECTION (商品一覧)",
+          "description": "取り扱い香水の一覧。ブランド、香りタイプから探せます。",
+          "url": "https://collegrance.com/product-list.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 2,
+          "name": "OUR STORY (ブランドについて)",
+          "description": "COLLEGRANCEの想いと、品質へのこだわり。",
+          "url": "https://collegrance.com/brand-story.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 3,
+          "name": "JOURNAL (読みもの)",
+          "description": "香りの知識やトレンド情報をお届けするコラム。",
+          "url": "https://collegrance.com/journal.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 4,
+          "name": "CONTACT (お問い合わせ)",
+          "description": "商品やサービスに関するお問い合わせはこちら。",
+          "url": "https://collegrance.com/contact.html"
+        }
+      ]
     }
     </script>
 </head>

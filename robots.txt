@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://collegrance.com/sitemap.xml

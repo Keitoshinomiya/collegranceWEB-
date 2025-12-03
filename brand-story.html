@@ -1,24 +1,41 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-6DM95225F6');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRAND STORY - COLLEGRANCE</title>
+    <title>OUR STORY - COLLEGRANCE | ブランドについて</title>
+    <meta name="description" content="COLLEGRANCE（コレグランス）のブランドストーリー。なぜ私たちが小分け香水という形を選んだのか。品質へのこだわり、ラボでの管理体制、そして私たちの想いをお伝えします。">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&family=Courier+Prime:wght@400;700&family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
     <style>
+        /* Page Specific Styles */
         .story-hero {
-            height: 60vh;
-            background-image: url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=2000&q=80');
+            height: 70vh;
+            min-height: 500px;
+            background-image: url('https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&w=2000&q=80');
             background-size: cover;
             background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            margin-top: var(--header-height);
         }
         .story-hero::after {
             content: '';
@@ -27,45 +44,176 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.4); /* Slightly darker for better text visibility */
         }
-        .story-title {
+        .story-hero-content {
             position: relative;
-            z-index: 1;
+            z-index: 2;
+            text-align: center;
             color: #fff;
+        }
+        .story-hero h1 {
             font-family: var(--font-eng);
-            font-size: 4rem;
-            letter-spacing: 0.2em;
+            font-size: 4.5rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
-        .story-content {
-            padding: 120px 0;
+        .story-hero p {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            opacity: 0.9;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
-        .story-block {
+
+        .content-section {
+            padding: 100px 0;
+        }
+        
+        .text-block {
             max-width: 800px;
-            margin: 0 auto 120px;
+            margin: 0 auto;
             text-align: center;
         }
-        .story-block h2 {
-            font-size: 2rem;
-            margin-bottom: 40px;
+        
+        .text-block h2 {
             font-family: var(--font-serif);
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            line-height: 1.4;
         }
-        .story-block p {
-            font-size: 1.1rem;
+        
+        .text-block p {
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
             line-height: 2.4;
             color: var(--color-text-sub);
-            font-family: var(--font-serif);
+            margin-bottom: 30px;
         }
-        .story-image-wide {
+
+        /* Lab/Quality Section - High Trust */
+        .quality-section {
+            background-color: #f9f9f9;
+            padding: 120px 0;
+        }
+        
+        .quality-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        
+        .quality-image {
+            position: relative;
+        }
+        
+        .quality-image img {
             width: 100%;
-            height: 500px;
-            object-fit: cover;
-            margin-bottom: 120px;
-            filter: sepia(20%) grayscale(20%);
+            height: auto;
+            border-radius: 2px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+        
+        .quality-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ddd;
+            z-index: -1;
+        }
+        
+        .quality-content h3 {
+            font-family: var(--font-eng);
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            letter-spacing: 0.05em;
+        }
+        
+        .quality-content h4 {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 0.1em;
+        }
+        
+        .quality-points {
+            list-style: none;
+            margin-top: 30px;
+        }
+        
+        .quality-points li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-family: var(--font-serif);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .quality-icon {
+            font-size: 1.5rem;
+            color: var(--color-text-main);
+        }
+
+        /* Promise Section */
+        .promise-section {
+            padding: 120px 0;
+            text-align: center;
+            background-color: #fff;
+        }
+        
+        .promise-card {
+            border: 1px solid #eee;
+            padding: 60px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .promise-card::after {
+            content: 'OUR PROMISE';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 0 20px;
+            font-family: var(--font-eng);
+            letter-spacing: 0.2em;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .story-hero h1 {
+                font-size: 2.8rem;
+            }
+            .quality-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .quality-image::before {
+                top: 10px;
+                left: 10px;
+            }
+            .promise-card {
+                padding: 40px 20px;
+            }
         }
     </style>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/logo.png" type="image/png">
 </head>
 <body>
+    <!-- Header (Unified with index.html) -->
     <header class="header">
         <nav class="navbar">
             <div class="container">
@@ -74,11 +222,133 @@
                         <img src="assets/images/logo.png" alt="COLLEGRANCE" class="logo-image">
                     </a>
                 </div>
+                
                 <ul class="nav-menu">
-                    <li><a href="brand-story.html">STORY</a></li>
-                    <li><a href="product-list.html">COLLECTION</a></li>
-                    <li><a href="index.html#trust">QUALITY</a></li>
-                    <li><a href="contact.html">CONTACT</a></li>
+                    <!-- 1. SHOP -->
+                    <li class="nav-item-has-megamenu">
+                        <a href="index.html#products" class="nav-link-megamenu">SHOP</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-inner container">
+                                <div class="mega-menu-grid">
+                                    <div class="mega-menu-column">
+                                        <h3 class="mega-menu-title">CATEGORY</h3>
+                                        <ul class="mega-menu-list">
+                                            <li><a href="index.html#products">シトラス & グリーン <span class="en-sub">Citrus & Green</span></a></li>
+                                            <li><a href="index.html#products">フローラル & フルーティ <span class="en-sub">Floral & Fruity</span></a></li>
+                                            <li><a href="index.html#products">ウッディ & スパイシー <span class="en-sub">Woody & Spicy</span></a></li>
+                                            <li><a href="index.html#products">ムスク & サボン <span class="en-sub">Musk & Savon</span></a></li>
+                                            <li class="mt-2"><a href="index.html#products" class="view-all">すべての商品を見る &rarr;</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mega-menu-column">
+                                        <h3 class="mega-menu-title">POPULAR BRANDS</h3>
+                                        <ul class="mega-menu-list brand-list">
+                                            <li><a href="index.html#products">Maison Margiela</a></li>
+                                            <li><a href="index.html#products">LE LABO</a></li>
+                                            <li><a href="index.html#products">HERMÈS</a></li>
+                                            <li><a href="index.html#products">DIPTYQUE</a></li>
+                                            <li><a href="index.html#products">SHIRO</a></li>
+                                            <li><a href="index.html#products">JO MALONE LONDON</a></li>
+                                            <li><a href="index.html#products">AESOP</a></li>
+                                            <li><a href="index.html#products">TOM FORD</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mega-menu-column featured-column">
+                                        <h3 class="mega-menu-title">FEATURED</h3>
+                                        <a href="index.html#products" class="featured-card">
+                                            <div class="featured-image">
+                                                <img src="assets/images/MRG-LazySun-EDT.jpg" alt="Lazy Sunday Morning">
+                                            </div>
+                                            <div class="featured-info">
+                                                <h4>Lazy Sunday Morning</h4>
+                                                <p class="brand-name">Maison Margiela</p>
+                                                <p class="featured-desc">日曜日の朝、洗い立てのリネンのシーツに包まれる心地よさ。</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- 2. ABOUT -->
+                    <li class="nav-item-has-megamenu">
+                        <a href="index.html#about" class="nav-link-megamenu active">ABOUT</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-inner container">
+                                <div class="mega-menu-grid">
+                                    <div class="mega-menu-column">
+                                        <h3 class="mega-menu-title">PHILOSOPHY</h3>
+                                        <ul class="mega-menu-list">
+                                            <li><a href="index.html#about">COLLEGRANCEについて <span class="en-sub">Our Story</span></a></li>
+                                            <li><a href="index.html#philosophy">ラボの思想 <span class="en-sub">The Lab Attitude</span></a></li>
+                                            <li><a href="index.html#trust">品質へのこだわり <span class="en-sub">Quality Assurance</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mega-menu-column">
+                                        <h3 class="mega-menu-title">SERVICE</h3>
+                                        <ul class="mega-menu-list">
+                                            <li><a href="index.html#service">サービス概要 <span class="en-sub">How it Works</span></a></li>
+                                            <li><a href="index.html#discovery">香水診断 <span class="en-sub">Scent Quiz</span></a></li>
+                                            <li><a href="https://lin.ee/BTytLdX" target="_blank">LINEコンシェルジュ <span class="en-sub">Private Consultation</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mega-menu-column featured-column">
+                                        <h3 class="mega-menu-title">THE LAB</h3>
+                                        <a href="index.html#philosophy" class="featured-card">
+                                            <div class="featured-image">
+                                                <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&q=80" alt="Lab">
+                                            </div>
+                                            <div class="featured-info">
+                                                <h4>Quality Control</h4>
+                                                <p class="brand-name">PHILOSOPHY</p>
+                                                <p class="featured-desc">徹底した温度管理と品質検査。正規品のみを取り扱う私たちのこだわり。</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- 3. JOURNAL -->
+                    <li class="nav-item-has-megamenu">
+                        <a href="journal.html" class="nav-link-megamenu">JOURNAL</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-inner container">
+                                <div class="mega-menu-grid">
+                                    <div class="mega-menu-column">
+                                        <h3 class="mega-menu-title">TOPICS</h3>
+                                        <ul class="mega-menu-list">
+                                            <li><a href="journal.html">すべての記事 <span class="en-sub">All Stories</span></a></li>
+                                            <li><a href="article-brand-ranking.html">人気ランキング <span class="en-sub">Ranking</span></a></li>
+                                            <li><a href="article-gift-guide.html">ギフトガイド <span class="en-sub">Gift Guide</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mega-menu-column">
+                                        <h3 class="mega-menu-title">CATEGORIES</h3>
+                                        <ul class="mega-menu-list">
+                                            <li><a href="journal.html">TREND & REVIEW <span class="en-sub">トレンド・レビュー</span></a></li>
+                                            <li><a href="journal.html">KNOWLEDGE <span class="en-sub">香りの知識</span></a></li>
+                                            <li><a href="journal.html">LIFESTYLE <span class="en-sub">ライフスタイル</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mega-menu-column featured-column">
+                                        <h3 class="mega-menu-title">LATEST STORY</h3>
+                                        <div id="mega-menu-latest-article">
+                                            <!-- Dynamically Loaded via JS -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- 4. SUPPORT -->
+                    <li><a href="contact.html">SUPPORT</a></li>
+                    
+                    <!-- CTA -->
+                    <li><a href="#" class="cta-button">Amazon</a></li>
                 </ul>
                 <div class="hamburger">
                     <span></span>
@@ -89,43 +359,99 @@
         </nav>
     </header>
 
+    <!-- Hero Section -->
     <div class="story-hero">
-        <h1 class="story-title">THE STORY</h1>
+        <div class="story-hero-content">
+            <h1>OUR STORY</h1>
+            <p>COLLEGRANCEが描く、香りのある生活</p>
+        </div>
     </div>
 
-    <section class="story-content">
+    <!-- Philosophy Section -->
+    <section class="content-section">
         <div class="container">
-            <div class="story-block">
-                <h2>香りは、もっと自由になれる。</h2>
+            <div class="text-block">
+                <h2>香りは、もっと自由になれる。<br>あなただけの「正解」を見つける旅。</h2>
                 <p>
                     かつて、香水は特別な日のためのものでした。<br>
-                    高価なボトル、限られた選択肢、そして失敗できないプレッシャー。<br>
-                    <br>
+                    高価なボトル、限られた選択肢、そして「失敗できない」というプレッシャー。<br>
+                    多くの人が、本当はもっと色々な香りを試してみたいのに、<br>
+                    カウンターで数種類試しただけで、なんとなくの一本を選んでいました。
+                </p>
+                <p>
                     私たちは考えました。<br>
                     もっと気軽に、もっと自由に、世界中の香りを楽しめたなら。<br>
                     それはまるで、お気に入りの音楽をプレイリストに追加するように。<br>
                     その日の気分で、ジャケットを羽織るように。
                 </p>
-            </div>
-
-            <img src="https://images.unsplash.com/photo-1615634260167-c8ecede63373?q=80&w=2000&auto=format&fit=crop" alt="Lab" class="story-image-wide">
-
-            <div class="story-block">
-                <h2>ラボから、あなたへ。</h2>
                 <p>
                     COLLEGRANCE（コレグランス）は、<br>
                     「Collection」と「Fragrance」を掛け合わせた造語です。<br>
-                    <br>
-                    私たちは、徹底した品質管理のもと、<br>
-                    世界中の名香を1.5mlの小分けサイズでお届けします。<br>
-                    <br>
-                    これは単なる「お試し」ではありません。<br>
-                    新しい自分と出会うための、小さな冒険の始まりです。
+                    1.5mlという小さなサイズには、あなたの新しい可能性が詰まっています。
                 </p>
             </div>
         </div>
     </section>
 
+    <!-- Quality/Lab Section (High Trust) -->
+    <section class="quality-section">
+        <div class="container">
+            <div class="quality-grid">
+                <div class="quality-image">
+                    <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=80" alt="COLLEGRANCE LAB">
+                </div>
+                <div class="quality-content">
+                    <h3>THE LAB ATTITUDE</h3>
+                    <h4>プロフェッショナルによる、徹底した品質管理</h4>
+                    <p>
+                        私たちは、単に香水を小分けにするだけではありません。<br>
+                        香りのプロフェッショナルとして、香水の鮮度と品質を何よりも大切にしています。<br>
+                        運営元の「合同会社ヤシノミ」は、日本の法律に基づく化粧品製造販売業許可を取得しています。
+                    </p>
+                    <ul class="quality-points">
+                        <li>
+                            <span class="quality-icon">🌡️</span>
+                            <span><strong>24時間の温度管理：</strong>香りの劣化を防ぐため、専用のセラーで一定温度（25℃以下）に保たれています。</span>
+                        </li>
+                        <li>
+                            <span class="quality-icon">🛡️</span>
+                            <span><strong>遮光保存の徹底：</strong>光による変質を防ぐため、すべてのボトルは暗所にて厳重に管理されています。</span>
+                        </li>
+                        <li>
+                            <span class="quality-icon">✨</span>
+                            <span><strong>衛生的な充填環境：</strong>クリーンな自社ラボにて、一つひとつ手作業で丁寧にボトリングを行っています。</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promise Section -->
+    <section class="promise-section">
+        <div class="container">
+            <div class="promise-card">
+                <div class="text-block" style="margin: 0 auto;">
+                    <h2>OUR PROMISE</h2>
+                    <p style="margin-bottom: 0;">
+                        私たちが取り扱う香水は、すべて信頼できる正規ルートから調達した<strong>100%正規品</strong>です。<br>
+                        偽造品や並行輸入品の不安を取り除き、<br>
+                        純粋に香りを楽しむ時間をお届けすることをお約束します。<br>
+                        <br>
+                        これは単なる「お試し」ではありません。<br>
+                        新しい自分と出会うための、小さな冒険の始まりです。<br>
+                        さあ、あなただけの香りのコレクションを始めましょう。
+                    </p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 60px;">
+                <a href="product-list.html" class="btn-primary">COLLECTIONを見る</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Unified) -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -133,18 +459,90 @@
                     <h3>COLLEGRANCE</h3>
                     <p>香りはえらべる。もっと自由に。</p>
                 </div>
+                <div class="footer-info">
+                    <h4>運営会社</h4>
+                    <p>合同会社ヤシノミ</p>
+                    <p>化粧品製造販売業許可取得済み</p>
+                </div>
                 <div class="footer-links">
+                    <h4>リンク</h4>
                     <ul>
                         <li><a href="contact.html">お問い合わせ</a></li>
+                        <li><a href="http://www.amazon.co.jp/collegrance" target="_blank" rel="noopener">Amazonストア</a></li>
+                        <li><a href="#">品質管理について</a></li>
+                        <li><a href="#">プライバシーポリシー</a></li>
                         <li><a href="tokushoho.html">特定商取引法に基づく表記</a></li>
                     </ul>
                 </div>
+            </div>
+            <div class="footer-social">
+                <a href="https://www.instagram.com/collrgrance" target="_blank" rel="noopener" class="social-link instagram-link">
+                    <div class="insta-icon"></div>
+                    <span class="social-text">Official Instagram</span>
+                </a>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2024 COLLEGRANCE. All rights reserved.</p>
             </div>
         </div>
     </footer>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <div class="mobile-nav-items">
+            <a href="index.html" class="mobile-nav-item">
+                <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span>TOP</span>
+            </a>
+            <a href="index.html#products" class="mobile-nav-item">
+                <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                </svg>
+                <span>COLLECTION</span>
+            </a>
+            <a href="javascript:void(0)" onclick="document.getElementById('fragranceQuizModal').style.display='block'" class="mobile-nav-item">
+                <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span>SCENT QUIZ</span>
+            </a>
+            <a href="journal.html" class="mobile-nav-item">
+                <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+                <span>JOURNAL</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Fragrance Quiz Modal (Required for Mobile Nav) -->
+    <div id="fragranceQuizModal" class="quiz-modal">
+        <div class="quiz-content">
+            <span class="quiz-close">&times;</span>
+            <div class="quiz-header">
+                <h2>あなたにぴったりの香りを見つけよう</h2>
+                <p>4つの簡単な質問で理想の香りをご提案します</p>
+            </div>
+            <!-- Quiz Steps Simplified -->
+            <div class="quiz-step" id="step1">
+                <h3>どんなシーンで香水を使いたいですか？</h3>
+                <div class="quiz-options">
+                    <button class="quiz-option" data-answer="business">オフィス・ビジネス</button>
+                    <button class="quiz-option" data-answer="casual">カジュアル・デイリー</button>
+                </div>
+            </div>
+            <!-- More steps loaded via JS logic -->
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="assets/js/articles.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
 </html>

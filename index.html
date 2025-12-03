@@ -59,12 +59,47 @@
         "@type": "Brand",
         "name": "COLLEGRANCE"
       },
-      "offers": {
-        "@type": "Offer",
-        "priceCurrency": "JPY",
-        "price": "680",
-        "availability": "https://schema.org/InStock"
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://collegrance.com/product-list.html?q={search_term_string}",
+        "query-input": "required name=search_term_string"
       }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": [
+        {
+          "@type": "SiteNavigationElement",
+          "position": 1,
+          "name": "COLLECTION (商品一覧)",
+          "description": "取り扱い香水の一覧。ブランド、香りタイプから探せます。",
+          "url": "https://collegrance.com/product-list.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 2,
+          "name": "OUR STORY (ブランドについて)",
+          "description": "COLLEGRANCEの想いと、品質へのこだわり。",
+          "url": "https://collegrance.com/brand-story.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 3,
+          "name": "JOURNAL (読みもの)",
+          "description": "香りの知識やトレンド情報をお届けするコラム。",
+          "url": "https://collegrance.com/journal.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 4,
+          "name": "CONTACT (お問い合わせ)",
+          "description": "商品やサービスに関するお問い合わせはこちら。",
+          "url": "https://collegrance.com/contact.html"
+        }
+      ]
     }
     </script>
 </head>

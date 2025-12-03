@@ -6,6 +6,24 @@
  */
 const journalArticles = [
     {
+        id: 'jazz_club_review',
+        date: '2025-12-05',
+        category: 'REVIEW',
+        title: '【大人の色気】マルジェラ「ジャズクラブ」の香りの特徴と、似合うシーン・ファッション',
+        excerpt: 'ブルックリンのジャズバーをイメージした、スモーキーで甘い香り。秋冬の夜に纏いたくなる、深みのあるダンディなフレグランスの魅力を徹底解剖。',
+        image: 'assets/images/MRG-JazzClub-EDT.jpg',
+        link: 'article-jazz-club-review.html'
+    },
+    {
+        id: 'another13_review',
+        date: '2025-12-04',
+        category: 'REVIEW',
+        title: '【中毒性あり】ルラボ「Another 13」はなぜこれほど人を惹きつけるのか？',
+        excerpt: '「都会的で洗練されたムスク」。つける人によって香りが変わる不思議なスキンセント、Another 13。その唯一無二の魅力と口コミを紹介します。',
+        image: 'assets/images/LLB-Another13-EDP.jpg',
+        link: 'article-another13-review.html'
+    },
+    {
         id: 'tiffany_rosegold_review',
         date: '2025-12-03',
         category: 'REVIEW',

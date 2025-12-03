@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['casual', 'business'],
                 notes: { top: 'Bergamot, Pineapple', mid: 'Jasmine, Violet', base: 'Musk, Amber' },
                 desc: '世界中で愛されるシトラスの金字塔。親しみやすく、誰からも好感を持たれる爽やかな香り。リラックスしたい休日やカジュアルな日常に最適です。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/CK-One-EDT.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKMB6HR'
             },
             {
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['evening', 'special'],
                 notes: { top: 'Coconut, Plum, Apricot', mid: 'Rosewood, Jasmine', base: 'Vanilla, Almond, Musk' },
                 desc: '甘く魅惑的なバニラとアーモンドの香り。ミステリアスで官能的な印象を残したい、特別な夜やデートにぴったりの一本です。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/DIO-Hypnotic-EDT.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKNF4QC'
             },
             {
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['evening', 'special', 'casual'],
                 notes: { top: 'Juniper Berry', mid: 'Jasmine', base: 'Cedar, Tonka Bean' },
                 desc: '60年代のパリのバーをイメージした香り。ウッディでパウダリーな温かみがあり、知的で洗練された大人の雰囲気を醸し出します。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/DPTY-Orpheon-EDP.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKMB6HG'
             },
             {
@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['casual', 'business'],
                 notes: { top: 'Lemon, Apple', mid: 'Jasmine, White Rose', base: 'Cedar, Musk' },
                 desc: '地中海の陽光と海を感じさせる、これ以上ないほど爽やかな香り。甘すぎず、性別を問わず夏やリフレッシュしたい時に最高の一本です。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/DG-LightBlue-EDT.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKNWDG8'
             },
             {
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['business', 'casual'],
                 notes: { top: 'Lotus, Rose', mid: 'Lily, White Flowers', base: 'Precious Woods' },
                 desc: '「水の香り」を追求した名作。透明感あふれるホワイトフローラルとアクアティックなノートは、清潔感そのものです。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/ISY-LdIssey-EDT.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKRJKJ7'
             },
             {
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['special', 'casual', 'evening'],
                 notes: { top: 'Pear, Citrus', mid: 'Ambrette, Jasmine', base: 'Ambroxan, Musk' },
                 desc: '都会的で中毒性のあるムスクの香り。つける人によって香り立ちが変わり、あなたの「体臭」を最高に魅力的に演出するスキンセントです。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/LLB-Another13-EDP.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKQLTQN'
             },
             {
@@ -332,7 +332,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['evening', 'date', 'special'],
                 notes: { top: 'Pink Pepper, Lemon', mid: 'Rum, Vetiver', base: 'Tobacco, Vanilla' },
                 desc: 'ブルックリンのジャズクラブ。ラム酒とタバコの葉、レザーの香り。甘くスモーキーでダンディな香りは、秋冬の夜に深く寄り添います。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/MRG-JazzClub-EDT.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKQBBXN'
             },
             {

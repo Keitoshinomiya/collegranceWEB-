@@ -825,3 +825,48 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// --- New UI/UX Features ---
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Scroll Fade-in Animation
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const fadeObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target); // Only animate once
+            }
+        });
+    }, observerOptions);
+
+    // Apply to sections and cards
+    document.querySelectorAll('section, .product-card-simple, .journal-card, .service-card, .footer').forEach(el => {
+        el.classList.add('fade-in-section');
+        fadeObserver.observe(el);
+    });
+
+    // 2. FAQ Accordion Logic
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const item = question.parentElement;
+            const answer = question.nextElementSibling;
+            
+            // Toggle active class
+            item.classList.toggle('active');
+            
+            // Toggle max-height for slide animation
+            if (item.classList.contains('active')) {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            } else {
+                answer.style.maxHeight = '0';
+            }
+        });
+    });
+});

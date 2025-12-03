@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-6DM95225F6');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【図解】香水の種類（賦香率）と香りの変化（ノート）を完全解説 | COLLEGRANCE</title>
+    <meta name="description" content="「パルファム」と「オードトワレ」の違いは？トップ・ミドル・ラストノートとは？香水の種類の違い（賦香率）と持続時間、香りの変化（ピラミッド）を図解でわかりやすく解説します。自分に合った香水選びの基礎知識。">
+    <meta name="keywords" content="香水,種類,賦香率,オードトワレ,オードパルファム,持続時間,ノート,トップノート,ミドルノート,ラストノート,ピラミッド">
+    
+    <!-- Google Fonts & CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+
+    <style>
+        /* Common Article Styles */
+        .article-header { padding: 160px 0 80px; text-align: center; background: #f9f9f9; }
+        .article-title { font-family: var(--font-serif); font-size: 2rem; margin-bottom: 20px; line-height: 1.4; }
+        .article-meta { font-family: 'Courier Prime', monospace; color: #888; font-size: 0.8rem; }
+        .article-body { max-width: 800px; margin: 0 auto; padding: 80px 20px; font-family: var(--font-sans); line-height: 2; font-size: 1.05rem; }
+        .article-body h2 { font-size: 1.8rem; margin: 70px 0 30px; padding-bottom: 10px; border-bottom: 2px solid #eee; font-family: var(--font-serif); }
+        .article-body h3 { font-size: 1.3rem; margin: 40px 0 20px; font-weight: 600; color: #1a1a1a; }
+        .article-body p { margin-bottom: 30px; color: #444; }
+        .article-image { width: 100%; height: auto; margin: 40px 0; border-radius: 4px; }
+        
+        /* Diagram Styles */
+        .chart-container {
+            margin: 40px 0;
+            padding: 30px;
+            background: #fafafa;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        
+        /* Concentration Chart */
+        .concentration-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .concentration-bar-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .concentration-label {
+            width: 140px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .concentration-bar-wrapper {
+            flex-grow: 1;
+            background: #eee;
+            height: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .concentration-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #d4a373, #e9edc9);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .duration-text {
+            width: 80px;
+            text-align: right;
+            font-size: 0.9rem;
+            color: #666;
+            flex-shrink: 0;
+        }
+
+        /* Pyramid Diagram */
+        .pyramid-container {
+            display: flex;
+            justify-content: center;
+            margin: 40px auto;
+            width: 100%;
+            max-width: 500px;
+        }
+        .pyramid {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .pyramid-level {
+            text-align: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .pyramid-top {
+            height: 80px;
+            background: #E6B89C; /* Lightest */
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            width: 60%; /* Make it visually smaller at top by clipping, but here we simulate with width if simpler or clip path */
+            margin: 0 auto;
+            clip-path: polygon(50% 0, 100% 100%, 0 100%);
+            padding-top: 20px;
+        }
+        .pyramid-middle {
+            height: 100px;
+            background: #D4A373; /* Medium */
+            width: 80%;
+            margin: 0 auto;
+            clip-path: polygon(25% 0, 75% 0, 100% 100%, 0% 100%);
+        }
+        .pyramid-base {
+            height: 120px;
+            background: #9C6644; /* Darkest */
+            width: 100%;
+            clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
+        }
+        .level-title { font-weight: bold; font-size: 1rem; margin-bottom: 5px; }
+        .level-time { font-size: 0.8rem; opacity: 0.9; }
+        .level-desc { font-size: 0.8rem; opacity: 0.9; margin-top: 4px; }
+
+        .cta-box { background: #333; color: #fff; padding: 50px; text-align: center; margin-top: 80px; border-radius: 4px; }
+        .cta-box h3 { color: #fff; margin-top: 0; }
+        .cta-box p { color: #ccc; }
+        .cta-box .btn-primary { background: #fff; color: #333; border-color: #fff; padding: 10px 20px; text-decoration: none; display: inline-block; margin-top: 15px; }
+        .cta-box .btn-primary:hover { background: transparent; color: #fff; }
+
+        @media (max-width: 768px) {
+            .article-header { padding: 120px 0 60px; }
+            .article-title { font-size: 1.5rem; }
+            .concentration-bar-group { flex-direction: column; align-items: flex-start; gap: 5px; margin-bottom: 20px; }
+            .concentration-label { width: 100%; margin-bottom: 5px; }
+            .concentration-bar-wrapper { width: 100%; height: 30px; }
+            .duration-text { width: 100%; text-align: left; font-size: 0.85rem; margin-top: 2px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <a href="index.html"><img src="assets/images/logo.png" alt="COLLEGRANCE" class="logo-image"></a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html#products">SHOP</a></li>
+                    <li><a href="index.html#about">ABOUT</a></li>
+                    <li><a href="journal.html">JOURNAL</a></li>
+                    <li><a href="#" class="cta-button">Amazon</a></li>
+                </ul>
+                <div class="hamburger"><span></span><span></span><span></span></div>
+            </div>
+        </nav>
+    </header>
+
+    <article>
+        <header class="article-header">
+            <div class="container">
+                <span class="article-meta">KNOWLEDGE | 2024.12.03</span>
+                <h1 class="article-title">【図解】香水の種類と持続時間<br>香りの変化（ノート）を完全解説</h1>
+                <div class="article-meta">Reading Time: 5 mins</div>
+            </div>
+        </header>
+
+        <div class="article-body">
+            <p>「オードトワレとオードパルファム、何が違うの？」「トップノートって何？」</p>
+            <p>香水選びでよく目にする専門用語。これらを知っているだけで、自分にぴったりの香水が見つけやすくなるだけでなく、TPOに合わせた使い分けができるようになります。</p>
+            <p>今回は、香水の基礎知識である<strong>「4つの種類（賦香率）」</strong>と<strong>「香りの変化（ノート）」</strong>について、図解を交えてわかりやすく解説します。</p>
+
+            <!-- Placeholder for header image, using a reliable Unsplash ID related to perfume/glass -->
+            <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&w=1200&q=80" alt="香水瓶のディスプレイ" class="article-image">
+
+            <h2>1. 香水の種類と持続時間（賦香率）</h2>
+            <p>香水は、アルコールに溶かした香料の割合（濃度）によって4つの種類に分けられます。これを<strong>賦香率（ふこうりつ）</strong>と呼びます。<br>
+            濃度が高いほど香りが強く、持続時間が長くなる傾向があります。</p>
+
+            <div class="chart-container">
+                <h3 style="text-align:center; margin-top:0;">香水の種類比較チャート</h3>
+                <div class="concentration-chart">
+                    <!-- Parfum -->
+                    <div class="concentration-bar-group">
+                        <div class="concentration-label">パルファム<br><span style="font-size:0.7em; font-weight:normal;">Parfum</span></div>
+                        <div class="concentration-bar-wrapper">
+                            <div class="concentration-bar" style="width: 100%; background: #9C6644;">濃度 15-30%</div>
+                        </div>
+                        <div class="duration-text">5〜7時間</div>
+                    </div>
+                    
+                    <!-- EdP -->
+                    <div class="concentration-bar-group">
+                        <div class="concentration-label">オードパルファム<br><span style="font-size:0.7em; font-weight:normal;">Eau de Parfum (EDP)</span></div>
+                        <div class="concentration-bar-wrapper">
+                            <div class="concentration-bar" style="width: 75%; background: #B08968;">濃度 10-15%</div>
+                        </div>
+                        <div class="duration-text">4〜5時間</div>
+                    </div>
+
+                    <!-- EdT -->
+                    <div class="concentration-bar-group">
+                        <div class="concentration-label">オードトワレ<br><span style="font-size:0.7em; font-weight:normal;">Eau de Toilette (EDT)</span></div>
+                        <div class="concentration-bar-wrapper">
+                            <div class="concentration-bar" style="width: 50%; background: #D4A373;">濃度 5-10%</div>
+                        </div>
+                        <div class="duration-text">3〜4時間</div>
+                    </div>
+
+                    <!-- EDC -->
+                    <div class="concentration-bar-group">
+                        <div class="concentration-label">オーデコロン<br><span style="font-size:0.7em; font-weight:normal;">Eau de Cologne (EDC)</span></div>
+                        <div class="concentration-bar-wrapper">
+                            <div class="concentration-bar" style="width: 25%; background: #E6B89C;">濃度 2-5%</div>
+                        </div>
+                        <div class="duration-text">1〜2時間</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>どれを選べばいい？</h3>
+            <ul>
+                <li><strong>パルファム：</strong>非常に高価で濃厚。特別なパーティーなどに。</li>
+                <li><strong>オードパルファム：</strong>香りがしっかり続き、深みを楽しめる。普段使いもしやすい主流タイプ。COLLEGRANCEの香水はこのタイプが多いです。</li>
+                <li><strong>オードトワレ：</strong>カジュアルに香る。オフィスや学校など、強すぎない方が良い場面に。</li>
+                <li><strong>オーデコロン：</strong>シャワー後のリフレッシュなどに。香りはすぐに消えます。</li>
+            </ul>
+
+            <h2>2. 香りの変化（ノートのピラミッド）</h2>
+            <p>香水はつけてから時間が経つにつれて、香りが変化していきます。これは香料の揮発速度（蒸発する速さ）が異なるためです。<br>
+            この変化の段階を「ノート」と呼び、一般的に3段階で表現されます。</p>
+
+            <div class="pyramid-container">
+                <div class="pyramid">
+                    <div class="pyramid-top pyramid-level">
+                        <span class="level-title">TOP NOTE</span>
+                        <span class="level-time">〜30分</span>
+                        <span class="level-desc">第一印象<br>柑橘系・ハーブなど</span>
+                    </div>
+                    <div class="pyramid-middle pyramid-level">
+                        <span class="level-title">MIDDLE NOTE</span>
+                        <span class="level-time">30分〜2時間</span>
+                        <span class="level-desc">香水の主役（ボディ）<br>フローラル・スパイスなど</span>
+                    </div>
+                    <div class="pyramid-base pyramid-level">
+                        <span class="level-title">LAST NOTE</span>
+                        <span class="level-time">2時間〜ラスト</span>
+                        <span class="level-desc">余韻<br>ウッディ・ムスク・アンバーなど</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="point-box" style="background: #fafafa; padding: 20px; border-radius: 8px; margin-top:30px;">
+                <h4 style="margin-top:0;">💡 試香（テスター）のポイント</h4>
+                <p>お店でムエット（試香紙）で香りを嗅ぐ時は、つけたて（トップノート）だけで判断しないのがコツです。肌につけて30分ほど待ち、ミドルノートが出てきてからが、その香水の「本来の姿」です。</p>
+            </div>
+
+            <h2>まとめ：知識を持って香りを楽しもう</h2>
+            <p>香水の種類（濃度）を知れば、使いたいシーンに合わせて適切な強さを選べます。<br>
+            香りの変化（ノート）を知れば、「つけたてはきついけど、1時間後はすごくいい香り！」といった発見ができます。</p>
+            <p>ぜひ、この知識を活かして、あなたのライフスタイルにぴったりの1本を見つけてください。</p>
+
+            <div class="cta-box">
+                <h3>上質な「オードパルファム」を体験する</h3>
+                <p>COLLEGRANCEは、香りの深みと持続性を重視し、<br>主にオードパルファムを展開しています。</p>
+                <a href="index.html#products" class="btn-primary">商品一覧を見る</a>
+            </div>
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 COLLEGRANCE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

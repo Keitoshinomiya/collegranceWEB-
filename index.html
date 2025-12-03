@@ -659,6 +659,7 @@
         <button class="filter-btn" data-filter="#FFC3B9"><span class="filter-color-dot" style="background:#FFC3B9"></span>Floral & Fruity</button>
     </div>
     
+    <div class="carousel-container">
     <div class="product-grid-collection">
     <div class="product-card-simple" data-color="#5AB9BE">
         <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
@@ -1255,6 +1256,7 @@
         </div>
     </div>
 </div>
+</div>
             <div class="lineup-footer">
                  <a href="product-list.html" class="btn-primary lineup-cta">VIEW ALL COLLECTION</a>
             </div>
@@ -1269,27 +1271,33 @@
                 <p class="section-subtitle">気になる香りを、カジュアルにトライしてみる</p>
             </div>
             
-            <div class="service-grid">
-                <div class="service-card">
-                    <img src="assets/images/service-bottles.jpg" alt="香水テスト体験" class="service-image" loading="lazy">
-                    <h3>小分けボトル 1.5ml</h3>
-                    <p class="price">約1,000円 / 本</p>
-                    <p>通常の1/10以下の価格設定で、高級ブランドの香水を気軽にお試しいただけます</p>
+            <div class="carousel-container">
+                <button class="carousel-nav prev" aria-label="Previous" onclick="scrollCarousel('service', -1)">&#8592;</button>
+                <div class="service-carousel" id="serviceCarousel">
+                    <div class="service-track" id="serviceTrack">
+                        <div class="service-card">
+                            <img src="assets/images/service-bottles.jpg" alt="香水テスト体験" class="service-image" loading="lazy">
+                            <h3>小分けボトル 1.5ml</h3>
+                            <p class="price">約1,000円 / 本</p>
+                            <p>通常の1/10以下の価格設定で、高級ブランドの香水を気軽にお試しいただけます</p>
+                        </div>
+                        
+                        <div class="service-card">
+                            <img src="assets/images/service-selection.jpg" alt="COLLEGRANCE厳選ラインナップ" class="service-image" loading="lazy">
+                            <h3>厳選された17種類</h3>
+                            <p class="price">プロが選び抜いた至高の香り</p>
+                            <p>世界中の数ある名香の中から、本当に価値のある17種類だけを厳選しました</p>
+                        </div>
+                        
+                        <div class="service-card">
+                            <img src="assets/images/service-minimal.jpg" alt="ミニマルデザイン" class="service-image" loading="lazy">
+                            <h3>ミニマルデザイン</h3>
+                            <p class="price">プレゼントにも最適</p>
+                            <p>手になじむボトル形状と高級感のあるパッケージで、ギフトとしてもお使いいただけます</p>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="service-card">
-                    <img src="assets/images/service-selection.jpg" alt="COLLEGRANCE厳選ラインナップ" class="service-image" loading="lazy">
-                    <h3>厳選された17種類</h3>
-                    <p class="price">プロが選び抜いた至高の香り</p>
-                    <p>世界中の数ある名香の中から、本当に価値のある17種類だけを厳選しました</p>
-                </div>
-                
-                <div class="service-card">
-                    <img src="assets/images/service-minimal.jpg" alt="ミニマルデザイン" class="service-image" loading="lazy">
-                    <h3>ミニマルデザイン</h3>
-                    <p class="price">プレゼントにも最適</p>
-                    <p>手になじむボトル形状と高級感のあるパッケージで、ギフトとしてもお使いいただけます</p>
-                </div>
+                <button class="carousel-nav next" aria-label="Next" onclick="scrollCarousel('service', 1)">&#8594;</button>
             </div>
         </div>
     </section>
@@ -1302,8 +1310,14 @@
             <p class="section-subtitle">香りと暮らしの読みもの</p>
         </div>
         
-        <div class="journal-grid" id="top-journal-grid">
-            <!-- Articles will be dynamically loaded here -->
+        <div class="carousel-container">
+            <button class="carousel-nav prev" aria-label="Previous" onclick="scrollCarousel('journal', -1)">&#8592;</button>
+            <div class="journal-carousel" id="journalCarousel">
+                <div class="journal-track" id="journalTrack">
+                    <!-- Articles will be dynamically loaded here -->
+                </div>
+            </div>
+            <button class="carousel-nav next" aria-label="Next" onclick="scrollCarousel('journal', 1)">&#8594;</button>
         </div>
         
         <div class="journal-footer" style="text-align: center; margin-top: 40px;">
@@ -1390,6 +1404,139 @@
             </div>
         </div>
     </section>
+
+    <!-- FAQ Section (New) -->
+    <section class="faq-section fade-in-section">
+        <div class="container faq-container">
+            <div class="section-header">
+                <h2>FAQ</h2>
+                <p class="section-subtitle">よくあるご質問</p>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>商品は正規品ですか？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        中身の香水はすべて信頼できる正規ルートから調達した正規品を使用しておりますが、本商品は各ブランドの公式商品ではなく、弊社（合同会社ヤシノミ）が独自に小分け（リパッケージ）した商品となります。<br><br>
+                        弊社は「化粧品製造業」および「化粧品製造販売業」の許可を正式に取得しており、薬機法を遵守し、国内の自社ラボにて厳格な品質・衛生管理のもとで充填作業を行っております。ブランドとの出所混同を避けるため独自のパッケージで提供しておりますが、品質には万全を期しておりますので安心してお使いください。
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>1.5mlでどのくらい使えますか？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        約20〜25プッシュ分となります。1日1〜2プッシュの使用で約2週間、毎日しっかり使っても1週間〜10日ほどお楽しみいただけます。香りをじっくり試すのに最適な量です。
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>注文から何日で届きますか？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        商品はAmazon倉庫から発送されます。正確な配送日程については、ご購入時にAmazonの商品ページおよび注文画面に表示される「配送予定日」をご確認ください。お急ぎ便などが利用可能な場合もございます。
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>プレゼント用のラッピングはありますか？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        COLLEGRANCEの商品は専用のパッケージにお入れしてお届けしますが、ギフト用のラッピングをご希望の場合は、Amazonでの注文時に「ギフト設定」をご利用ください。<br>
+                        カート画面にて「ギフトの設定」にチェックを入れることで、Amazon指定のラッピング（有料）やメッセージカードをお選びいただけます。
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>届いた商品に不具合があった場合は？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        万が一、液漏れや破損、スプレー不良などの不具合がございましたら、大変お手数ですが本サイトの「お問い合わせフォーム」または「公式LINE」よりご連絡ください。<br>
+                        状況を確認の上、速やかに交換等の対応をさせていただきます。
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>フルボトルの在庫がない、または探している香水がない場合は？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        フルボトルの在庫状況は変動いたします。サイト上で「取り扱いなし」となっている場合や、お探しの香水が見当たらない場合でも、お取り寄せが可能なことがございます。<br>
+                        「公式LINE」や「お問い合わせフォーム」より、お気軽にご相談ください。コンシェルジュが在庫確認や入荷予定をお伝えいたします。
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>キャンセル・返品はできますか？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        商品の性質上（化粧品）、お客様都合による開封後の返品・交換はお受けしておりません。未開封品に限り、Amazonの返品ポリシーに従って対応可能な場合がございます。<br>
+                        商品に瑕疵（欠陥）がある場合はこの限りではありませんので、不具合の際はご連絡ください。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Bottom Navigation (New) -->
+    <nav class="mobile-bottom-nav">
+        <div class="mobile-nav-items">
+            <a href="#" class="mobile-nav-item active">
+                <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span>TOP</span>
+            </a>
+            <a href="#products" class="mobile-nav-item">
+                <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                </svg>
+                <span>COLLECTION</span>
+            </a>
+            <a href="javascript:void(0)" onclick="document.getElementById('fragranceQuizModal').style.display='block'" class="mobile-nav-item">
+                <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span>SCENT QUIZ</span>
+            </a>
+            <a href="#journal" class="mobile-nav-item">
+                <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+                <span>JOURNAL</span>
+            </a>
+        </div>
+    </nav>
 
     <!-- Footer -->
     <footer class="footer">

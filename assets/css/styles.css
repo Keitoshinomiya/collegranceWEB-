@@ -94,7 +94,8 @@ h1, h2, h3, h4 {
   margin-bottom: 15px;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  word-break: break-word; /* Prevent overflow for long English words */
+  word-break: normal; /* Changed from break-word to prevent awkward splits */
+  overflow-wrap: normal; /* Ensure words don't break mid-word unless necessary */
 }
 
 .section-subtitle {
@@ -1137,6 +1138,17 @@ h1, h2, h3, h4 {
   :root {
     --spacing-section: 80px;
     --header-height: 70px;
+  }
+
+  .container {
+    padding: 0 20px; /* Reduce padding for mobile */
+  }
+
+  /* Prevent Title Breaking */
+  .section-header h2 {
+    font-size: 2rem; /* Reduce size for mobile */
+    word-break: normal;
+    overflow-wrap: normal;
   }
 
   .hero {
@@ -2477,4 +2489,383 @@ h1, h2, h3, h4 {
     0% { transform: translateX(0); opacity: 0; }
     20% { opacity: 1; }
     100% { transform: translateX(-40px); opacity: 0; }
+}
+
+/* --- 1. Scroll Fade-in Animation --- */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+}
+
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- 2. FAQ Section --- */
+.faq-section {
+  padding: 100px 0;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+}
+
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.faq-item {
+  border-bottom: 1px solid #eee;
+}
+
+.faq-question {
+  width: 100%;
+  padding: 25px 0;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--color-text-main);
+  transition: color 0.3s ease;
+}
+
+.faq-question:hover {
+  color: #555;
+}
+
+.faq-toggle-icon {
+  font-size: 1.5rem;
+  font-weight: 300;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-toggle-icon {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.faq-answer-content {
+  padding-bottom: 25px;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--color-text-sub);
+}
+
+/* --- 3. Mobile Bottom Navigation --- */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+  z-index: 9998; /* Below FAB (9999) */
+  padding-bottom: env(safe-area-inset-bottom);
+  border-top: 1px solid #eee;
+}
+
+.mobile-nav-items {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+}
+
+.mobile-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #999;
+  font-size: 10px;
+  font-family: var(--font-sans);
+  gap: 4px;
+  transition: color 0.3s;
+}
+
+.mobile-nav-item.active, .mobile-nav-item:active {
+  color: #1a1a1a;
+}
+
+.mobile-nav-item.active .nav-svg {
+  stroke: #1a1a1a;
+  stroke-width: 2;
+}
+
+.nav-svg {
+  width: 24px;
+  height: 24px;
+  stroke: #999;
+  stroke-width: 1.5;
+  fill: none;
+  transition: stroke 0.3s, stroke-width 0.3s;
+}
+
+/* Adjust FAB position when Bottom Nav is present */
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    display: block;
+  }
+  
+  .fab-container {
+    bottom: 80px; /* Move up above bottom nav */
+    right: 20px;
+  }
+  
+  /* Add padding to footer so it's not covered */
+  .footer {
+    padding-bottom: 80px;
+  }
+}
+
+/* --- Service & Journal Carousel Styles --- */
+
+/* Service Carousel */
+.service-carousel {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.service-track {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-left: max(40px, calc((100% - var(--container-width)) / 2 + 40px));
+  padding-right: 40px;
+}
+
+.service-track::-webkit-scrollbar {
+  display: none;
+}
+
+.service-card {
+  flex: 0 0 320px;
+  scroll-snap-align: start;
+  height: auto; /* Allow content to dictate height */
+  /* Existing styles override or adjustment */
+  margin-bottom: 0; /* Remove bottom margin if any from grid */
+}
+
+/* Journal Carousel */
+.journal-carousel {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.journal-track {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-left: max(40px, calc((100% - var(--container-width)) / 2 + 40px));
+  padding-right: 40px;
+}
+
+.journal-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Update Journal Card for Carousel */
+.journal-card {
+  flex: 0 0 340px;
+  scroll-snap-align: start;
+  margin-bottom: 0; /* Reset grid margin */
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.journal-image-wrapper {
+    width: 100%;
+    aspect-ratio: 3/2;
+    margin-bottom: 20px;
+}
+
+/* Mobile Responsiveness for New Carousels */
+@media (max-width: 768px) {
+  .service-track, .journal-track {
+    gap: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .service-card {
+    flex: 0 0 280px; /* Slightly smaller on mobile */
+  }
+  
+  .journal-card {
+    flex: 0 0 280px;
+  }
+}
+
+/* --- Mobile Carousel UX Improvements (Apple-style Peek & Snap) --- */
+@media (max-width: 768px) {
+  /* Common Track Styles for Mobile */
+  .service-track, .journal-track, .ranking-track, .reviews-track, .product-grid-collection {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    /* Center Snap Logic:
+       Gap: 16px
+       Padding: Left/Right to center the 85vw card
+       (100vw - 85vw) / 2 = 7.5vw padding
+    */
+    gap: 16px;
+    padding: 0 calc(7.5vw) 40px !important; /* Override inline/other styles */
+    scroll-padding: 0 calc(7.5vw);
+  }
+
+  /* Card Styles for Mobile */
+  .service-card, .journal-card, .ranking-item.carousel-item, .review-card, .product-card-simple {
+    flex: 0 0 85vw !important; /* Force 85% width to show next item peek */
+    max-width: 400px;
+    scroll-snap-align: center !important; /* Snap to center */
+    margin: 0 !important;
+    border-radius: 8px; /* Soften edges if not already */
+  }
+  
+  /* Ranking Card Specific Fix */
+  .ranking-item.carousel-item {
+      padding-bottom: 20px; /* Space for shadow */
+  }
+
+  /* Review Card Specific Fix */
+  .review-card {
+      padding: 30px; /* Adjust padding for mobile */
+  }
+  
+  /* Visual Hint: Gradient Fade on Right (simulated via ::after on container) */
+  .service-carousel, .journal-carousel, .ranking-carousel, .reviews-carousel {
+      position: relative;
+  }
+  
+  /* Ensure container allows overflow-x but hides vertical overflow */
+  .carousel-container {
+      overflow: hidden;
+  }
+}
+
+/* --- Mobile Carousel UX REVISION (Left Snap + Clear Peek + Swipe Guide) --- */
+@media (max-width: 768px) {
+  /* Disable PC Nav Buttons on Mobile */
+  .carousel-nav {
+      display: none !important;
+  }
+
+  /* Track: Left Align with Padding */
+  .service-track, .journal-track, .ranking-track, .reviews-track, .product-grid-collection {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+    /* Left padding 20px, Right padding to show peek */
+    padding: 0 20px 50px 20px !important; 
+    scroll-padding-left: 20px;
+    justify-content: flex-start; /* Align left */
+  }
+
+  /* Card: 75% Width for Visibility */
+  .service-card, .journal-card, .ranking-item.carousel-item, .review-card, .product-card-simple {
+    flex: 0 0 75vw !important; 
+    min-width: 75vw !important;
+    max-width: 300px;
+    scroll-snap-align: start !important;
+    margin: 0 !important;
+    /* Visual Improvements */
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border-radius: 8px;
+    background: #fff;
+  }
+  
+  /* Specific Adjustments */
+  .product-grid-collection .product-card-simple {
+      /* Collection cards need specific height handling */
+      height: auto;
+  }
+  
+  /* Scroll Hint Guide (Overlay) */
+  .carousel-container {
+      position: relative; /* Ensure positioning context */
+  }
+
+  .carousel-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 90%; /* Don't cover the scrollbar area/bottom padding */
+      background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
+      pointer-events: none;
+      z-index: 5;
+  }
+
+  .carousel-container::after {
+      content: 'Scroll →';
+      position: absolute;
+      bottom: 15px;
+      right: 20px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: #1a1a1a;
+      background: rgba(255,255,255,0.9);
+      padding: 4px 10px;
+      border: 1px solid #1a1a1a;
+      border-radius: 20px;
+      pointer-events: none;
+      z-index: 10;
+      animation: floatArrow 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes floatArrow {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(5px); }
+  }
+
+  /* FAB Mobile Expanded Style */
+  .fab-item.expanded {
+      width: 200px;
+      padding-right: 20px;
+  }
+  
+  .fab-item.expanded .fab-text {
+      opacity: 1;
+  }
+}
+
+/* Hide carousel nav arrows on PC for Service and Journal (only 3 items, no scroll needed) */
+@media (min-width: 769px) {
+    #service .carousel-nav,
+    #journal .carousel-nav {
+        display: none !important;
+    }
 }

@@ -433,7 +433,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .contact-hero {
-    padding: 100px 0 60px;
+    padding: 100px 0 40px; /* Increased top padding to clear fixed header */
   }
   
   .contact-hero h1 {
@@ -450,11 +450,11 @@
   
   .contact-content {
     grid-template-columns: 1fr;
-    gap: 60px;
+    gap: 40px; /* Reduced gap */
   }
   
   .contact-form {
-    padding: 30px 20px;
+    padding: 25px 15px; /* More horizontal space */
   }
   
   .form-header h2 {

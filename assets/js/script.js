@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scenes: ['date', 'evening', 'casual'],
                 notes: { top: 'Bergamot, Pink Pepper', mid: 'Sandalwood, Jasmine', base: 'Vanilla, Amber' },
                 desc: '「朝の光」をイメージ。バニラとサンダルウッドの温かみのある甘さが、リラックスした幸福感を与えてくれます。',
-                image: 'assets/images/placeholder.svg',
+                image: 'assets/images/LOW-Woman-EDP.jpg',
                 link: 'https://www.amazon.co.jp/dp/B0FSKPQPZ7'
             },
             {
@@ -664,7 +664,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const sortedArticles = window.journalArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
         
         // A. Top Page Journal Section (Top 3)
-        const journalGrid = document.getElementById('top-journal-grid');
+        const journalGrid = document.getElementById('journalTrack');
         if (journalGrid) {
             const latestArticles = sortedArticles.slice(0, 3);
             let journalHTML = '';
@@ -772,6 +772,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // 15. FAB Mobile Behavior (Double Tap Logic)
+    const fabItems = document.querySelectorAll('.fab-item');
+    
+    fabItems.forEach(fab => {
+        fab.addEventListener('click', function(e) {
+            // Mobile width check
+            if (window.innerWidth <= 768) {
+                // Check if already expanded
+                if (this.classList.contains('expanded')) {
+                    // Already expanded, allow default link behavior (navigate)
+                    return;
+                } else {
+                    // Not expanded, prevent navigation and expand
+                    e.preventDefault();
+                    
+                    // Collapse other FABs
+                    fabItems.forEach(other => {
+                        if (other !== this) other.classList.remove('expanded');
+                    });
+                    
+                    this.classList.add('expanded');
+                }
+            }
+        });
+    });
+    
+    // Collapse FAB on outside click
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768 && !e.target.closest('.fab-container')) {
+            fabItems.forEach(fab => fab.classList.remove('expanded'));
+        }
+    });
+
 }); // End of DOMContentLoaded
 
 /* Carousel Navigation */
@@ -782,7 +815,7 @@ function scrollCarousel(type, direction) {
     if (!track) return;
     
     // Determine item width
-    let item = track.querySelector('.carousel-item') || track.querySelector('.review-card');
+    let item = track.querySelector('.carousel-item') || track.querySelector('.review-card') || track.querySelector('.service-card') || track.querySelector('.journal-card');
     if (!item) return;
     
     // Get style to find gap
@@ -817,11 +850,56 @@ function updateScrollState(type) {
 
 // Add scroll listeners to update state
 document.addEventListener('DOMContentLoaded', () => {
-    ['ranking', 'reviews'].forEach(type => {
+    ['ranking', 'reviews', 'service', 'journal'].forEach(type => {
         const track = document.getElementById(type + 'Track');
         if (track) {
             track.addEventListener('scroll', () => updateScrollState(type));
             updateScrollState(type); // Initial check
         }
+    });
+});
+
+// --- New UI/UX Features ---
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Scroll Fade-in Animation
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const fadeObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target); // Only animate once
+            }
+        });
+    }, observerOptions);
+
+    // Apply to sections and cards
+    document.querySelectorAll('section, .product-card-simple, .journal-card, .service-card, .footer').forEach(el => {
+        el.classList.add('fade-in-section');
+        fadeObserver.observe(el);
+    });
+
+    // 2. FAQ Accordion Logic
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const item = question.parentElement;
+            const answer = question.nextElementSibling;
+            
+            // Toggle active class
+            item.classList.toggle('active');
+            
+            // Toggle max-height for slide animation
+            if (item.classList.contains('active')) {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            } else {
+                answer.style.maxHeight = '0';
+            }
+        });
     });
 });

@@ -2760,3 +2760,82 @@ h1, h2, h3, h4 {
       overflow: hidden;
   }
 }
+
+/* --- Mobile Carousel UX REVISION (Left Snap + Clear Peek + Swipe Guide) --- */
+@media (max-width: 768px) {
+  /* Disable PC Nav Buttons on Mobile */
+  .carousel-nav {
+      display: none !important;
+  }
+
+  /* Track: Left Align with Padding */
+  .service-track, .journal-track, .ranking-track, .reviews-track, .product-grid-collection {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+    /* Left padding 20px, Right padding to show peek */
+    padding: 0 20px 50px 20px !important; 
+    scroll-padding-left: 20px;
+    justify-content: flex-start; /* Align left */
+  }
+
+  /* Card: 75% Width for Visibility */
+  .service-card, .journal-card, .ranking-item.carousel-item, .review-card, .product-card-simple {
+    flex: 0 0 75vw !important; 
+    min-width: 75vw !important;
+    max-width: 300px;
+    scroll-snap-align: start !important;
+    margin: 0 !important;
+    /* Visual Improvements */
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border-radius: 8px;
+    background: #fff;
+  }
+  
+  /* Specific Adjustments */
+  .product-grid-collection .product-card-simple {
+      /* Collection cards need specific height handling */
+      height: auto;
+  }
+  
+  /* Scroll Hint Guide (Overlay) */
+  .carousel-container {
+      position: relative; /* Ensure positioning context */
+  }
+
+  .carousel-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 90%; /* Don't cover the scrollbar area/bottom padding */
+      background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
+      pointer-events: none;
+      z-index: 5;
+  }
+
+  .carousel-container::after {
+      content: 'Scroll →';
+      position: absolute;
+      bottom: 15px;
+      right: 20px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: #1a1a1a;
+      background: rgba(255,255,255,0.9);
+      padding: 4px 10px;
+      border: 1px solid #1a1a1a;
+      border-radius: 20px;
+      pointer-events: none;
+      z-index: 10;
+      animation: floatArrow 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes floatArrow {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(5px); }
+  }
+}

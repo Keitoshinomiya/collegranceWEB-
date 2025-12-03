@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 notes: { top: 'Bergamot, Chamomile', mid: 'Blue Tea, Verbena', base: 'Black Tea, Musk' },
                 desc: '「現在」という瞬間を大切にするための香り。ブルーティーとバーベナが織りなす、静寂で知的なティーノート。心を落ち着かせたい時に。',
                 image: 'assets/images/THO-TheTime-EDP.jpg',
-                link: 'https://www.amazon.co.jp/dp/B0FSKQ4X3M'
+                link: 'https://www.amazon.co.jp/dp/B0FSKT7V2N'
             }
         ];
         

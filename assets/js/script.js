@@ -658,6 +658,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // 13. Dynamic Journal Rendering for Top Page
+    const journalGrid = document.getElementById('top-journal-grid');
+    if (journalGrid && window.journalArticles) {
+        // Sort by date descending
+        const sortedArticles = window.journalArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        // Take top 3
+        const latestArticles = sortedArticles.slice(0, 3);
+        
+        // Generate HTML
+        let journalHTML = '';
+        latestArticles.forEach(article => {
+            // Format date from YYYY-MM-DD to YYYY.MM.DD
+            const dateStr = article.date.replace(/-/g, '.');
+            
+            journalHTML += `
+                <a href="${article.link}" class="journal-card">
+                    <div class="journal-image">
+                        <img src="${article.image}" alt="${article.title}">
+                    </div>
+                    <div class="journal-info">
+                        <span class="journal-category">${article.category}</span>
+                        <span class="journal-date">${dateStr}</span>
+                        <h3 class="journal-title">${article.title}</h3>
+                        <p class="journal-excerpt">${article.excerpt}</p>
+                    </div>
+                </a>
+            `;
+        });
+        
+        journalGrid.innerHTML = journalHTML;
+    }
+
 }); // End of DOMContentLoaded
 
 /* Carousel Navigation */

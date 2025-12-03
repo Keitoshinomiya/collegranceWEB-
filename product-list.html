@@ -226,7 +226,7 @@
                 <div class="product-card-simple" data-color="#EBE65F">
                     <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
                     <div class="product-image-container">
-                        <img src="assets/images/placeholder.svg" alt="Calvin Klein ck one">
+                        <img src="assets/images/CK-One-EDT.jpg" alt="Calvin Klein ck one">
                         <div class="notes-overlay">
                             <div class="notes-title">FRAGRANCE NOTES</div>
                             <div class="notes-list">
@@ -250,7 +250,7 @@
                 <div class="product-card-simple" data-color="#FAF5BE">
                     <span class="product-type-badge" style="border-left: 3px solid #FAF5BE">EDT</span>
                     <div class="product-image-container">
-                        <img src="assets/images/placeholder.svg" alt="DIOR Hypnotic Poison">
+                        <img src="assets/images/DIO-Hypnotic-EDT.jpg" alt="DIOR Hypnotic Poison">
                         <div class="notes-overlay">
                             <div class="notes-title">FRAGRANCE NOTES</div>
                             <div class="notes-list">
@@ -322,7 +322,7 @@
                 <div class="product-card-simple" data-color="#EBE65F">
                     <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
                     <div class="product-image-container">
-                        <img src="assets/images/placeholder.svg" alt="Dolce & Gabbana Light Blue">
+                        <img src="assets/images/DG-LightBlue-EDT.jpg" alt="Dolce & Gabbana Light Blue">
                         <div class="notes-overlay">
                             <div class="notes-title">FRAGRANCE NOTES</div>
                             <div class="notes-list">
@@ -370,7 +370,7 @@
                 <div class="product-card-simple" data-color="#5AB9BE">
                     <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDT</span>
                     <div class="product-image-container">
-                        <img src="assets/images/placeholder.svg" alt="ISSEY MIYAKE L'Eau d'Issey">
+                        <img src="assets/images/ISY-LdIssey-EDT.jpg" alt="ISSEY MIYAKE L'Eau d'Issey">
                         <div class="notes-overlay">
                             <div class="notes-title">FRAGRANCE NOTES</div>
                             <div class="notes-list">
@@ -418,7 +418,7 @@
                 <div class="product-card-simple" data-color="#5AB9BE">
                     <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
                     <div class="product-image-container">
-                        <img src="assets/images/placeholder.svg" alt="LE LABO Another 13">
+                        <img src="assets/images/LLB-Another13-EDP.jpg" alt="LE LABO Another 13">
                         <div class="notes-overlay">
                             <div class="notes-title">FRAGRANCE NOTES</div>
                             <div class="notes-list">
@@ -562,7 +562,7 @@
                 <div class="product-card-simple" data-color="#FAF5BE">
                     <span class="product-type-badge" style="border-left: 3px solid #FAF5BE">EDT</span>
                     <div class="product-image-container">
-                        <img src="assets/images/placeholder.svg" alt="Maison Margiela Jazz Club">
+                        <img src="assets/images/MRG-JazzClub-EDT.jpg" alt="Maison Margiela Jazz Club">
                         <div class="notes-overlay">
                             <div class="notes-title">FRAGRANCE NOTES</div>
                             <div class="notes-list">
@@ -658,6 +658,12 @@
                         <li><a href="tokushoho.html">特定商取引法に基づく表記</a></li>
                     </ul>
                 </div>
+            </div>
+            <div class="footer-social">
+                <a href="https://www.instagram.com/collrgrance" target="_blank" rel="noopener" class="social-link instagram-link">
+                    <div class="insta-icon"></div>
+                    <span class="social-text">Official Instagram</span>
+                </a>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2024 COLLEGRANCE. All rights reserved.</p>
@@ -755,11 +761,20 @@
         </div>
     </div>
 
-    <!-- LINE Floating Action Button -->
-    <a href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" class="line-fab">
-        <div class="line-fab-icon">L</div>
-        <span class="line-fab-text">LINEで相談する</span>
-    </a>
+    <!-- Floating Action Buttons Container -->
+    <div class="fab-container">
+        <!-- Amazon FAB -->
+        <a href="http://www.amazon.co.jp/collegrance" target="_blank" rel="noopener" class="fab-item amazon-fab" onclick="gtag('event', 'click_amazon', {'event_category': 'conversion', 'event_label': 'floating_fab'});">
+            <div class="fab-icon">A</div>
+            <span class="fab-text">Amazonストア</span>
+        </a>
+
+        <!-- LINE FAB -->
+        <a href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" class="fab-item line-fab" onclick="gtag('event', 'click_line', {'event_category': 'conversion', 'event_label': 'floating_fab'});">
+            <div class="fab-icon" style="font-size: 10px; font-weight:bold; display:flex; align-items:center; justify-content:center;">LINE</div>
+            <span class="fab-text">LINEで相談する</span>
+        </a>
+    </div>
 
     <script src="assets/js/script.js"></script>
 </body>

@@ -25,6 +25,12 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#ffffff">
 
+    <!-- Performance: Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+
     <!-- Preload Critical Fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&family=Courier+Prime:wght@400;700&family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" as="style">
     
@@ -63,12 +69,28 @@
       "name": "COLLEGRANCE (コレグランス)",
       "alternateName": "コレグランス",
       "url": "https://collegrance.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://collegrance.com/assets/images/logo.png",
+        "width": 512,
+        "height": 512
+      },
       "image": "https://collegrance.com/assets/images/logo.png",
       "description": "高級ブランド香水のお試し・小分け専門店。エルメス、ルラボ、マルジェラなどの正規品を1.5mlからお届けします。",
+      "foundingDate": "2024",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "JP"
+      },
       "brand": {
         "@type": "Brand",
         "name": "COLLEGRANCE"
       },
+      "sameAs": [
+        "https://www.instagram.com/collrgrance",
+        "https://twitter.com/collegrance",
+        "https://www.facebook.com/collegrance"
+      ],
       "potentialAction": {
         "@type": "SearchAction",
         "target": "https://collegrance.com/product-list.html?q={search_term_string}",
@@ -250,6 +272,16 @@
                         
                         <!-- CTA -->
                         <li><a href="#" class="cta-button">Amazon</a></li>
+                        
+                        <!-- Search Icon -->
+                        <li class="search-trigger-li" style="list-style:none; display:flex; align-items:center;">
+                            <div class="search-trigger" onclick="window.openSearch()">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </div>
+                        </li>
                     </ul>
                 <div class="hamburger">
                     <span></span>
@@ -261,7 +293,7 @@
     </header>
 
     <!-- Hero Section - Textured Background & Centered Bottle -->
-    <section class="hero">
+    <section class="hero reveal-on-scroll">
         <div class="hero-bg-texture"></div>
         
         <div class="hero-bottle-container">
@@ -271,12 +303,12 @@
         <div class="hero-content container">
             <div class="hero-text">
                 <h1 class="brand-title">
-                    <span class="hero-catch-main">香りはえらべる。</span>
-                    <span class="hero-catch-sub">もっと自由に。</span>
+                    <span class="hero-catch-main reveal-on-scroll reveal-delay-1">香りはえらべる。</span>
+                    <span class="hero-catch-sub reveal-on-scroll reveal-delay-2">もっと自由に。</span>
                 </h1>
             </div>
 
-            <div class="hero-cta-group">
+            <div class="hero-cta-group reveal-on-scroll reveal-delay-3">
                 <button onclick="gtag('event', 'quiz_start', {'event_category': 'engagement', 'event_label': 'hero_quiz_btn'}); document.getElementById('fragranceQuizModal').style.display='block'" class="btn-quiz">香水診断を受ける</button>
                 <a href="#products" class="btn-primary">COLLECTIONを見る</a>
             </div>
@@ -284,7 +316,7 @@
     </section>
 
     <!-- Brand Message Section -->
-    <section class="brand-message-section">
+    <section class="brand-message-section reveal-on-scroll">
         <div class="container">
             <div class="brand-message-content">
                 <p class="brand-description">
@@ -368,13 +400,13 @@
     </section>
 
     <!-- Brand Philosophy Section -->
-    <section id="philosophy" class="philosophy-section grayscale-bg">
+    <section id="philosophy" class="philosophy-section grayscale-bg reveal-on-scroll">
         <div class="container">
             <div class="philosophy-content">
-                <div class="philosophy-image">
-                    <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1000&q=80" alt="Perfume Lab" class="lab-image">
+                <div class="philosophy-image reveal-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1000&q=80" alt="Perfume Lab" class="lab-image" loading="lazy">
                 </div>
-                <div class="philosophy-text">
+                <div class="philosophy-text reveal-on-scroll reveal-delay-1">
                     <h2>THE LAB ATTITUDE</h2>
                     <p class="philosophy-desc">
                         私たちは「香り」を単なる商品ではなく、<br>
@@ -400,10 +432,10 @@
                 <div class="ranking-carousel" id="rankingCarousel">
                     <div class="ranking-track" id="rankingTrack">
                     <!-- Rank 1 -->
-                    <div class="ranking-item carousel-item">
+                        <div class="ranking-item carousel-item reveal-on-scroll">
                         <div class="rank-badge">1</div>
                         <div class="rank-image">
-                            <img src="assets/images/MRG-LazySun-EDT.jpg" alt="Maison Margiela Lazy Sunday Morning">
+                            <img src="assets/images/MRG-LazySun-EDT.jpg" alt="Maison Margiela Lazy Sunday Morning" loading="lazy">
                         </div>
                         <div class="rank-info">
                             <span class="rank-brand">Maison Margiela</span>

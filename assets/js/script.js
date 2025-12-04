@@ -257,18 +257,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 const card = document.createElement('div');
                 card.className = 'journal-card carousel-item'; // Use generic carousel item class
                 card.innerHTML = `
-                    <a href="${article.link}" class="journal-link-wrapper" style="display:block; text-decoration:none; color:inherit;">
-                        <div class="journal-image-wrapper">
+                    <div class="journal-image-wrapper">
+                        <a href="${article.link}">
                             <img src="${article.image}" alt="${article.title}" class="journal-image" loading="lazy">
-                        </div>
-                        <div class="journal-content" style="text-align:left;">
-                            <span class="journal-category">${article.category}</span>
-                            <span class="journal-date">${article.date.replace(/-/g, '.')}</span>
+                        </a>
+                    </div>
+                    <div class="journal-content">
+                        <span class="journal-category">${article.category}</span>
+                        <span class="journal-date">${article.date.replace(/-/g, '.')}</span>
+                        <a href="${article.link}" style="text-decoration:none; color:inherit;">
                             <h3 class="journal-title">${article.title}</h3>
-                            <p class="journal-excerpt">${article.excerpt.substring(0, 40)}...</p>
-                            <span class="journal-link">READ MORE <span class="arrow">&rarr;</span></span>
-                        </div>
-                    </a>
+                        </a>
+                        <p class="journal-excerpt">${article.excerpt}</p>
+                        <a href="${article.link}" class="journal-link">READ MORE <span class="arrow">&rarr;</span></a>
+                    </div>
                 `;
                 journalTrack.appendChild(card);
             });

@@ -225,14 +225,14 @@ h1, h2, h3, h4 {
 
 /* Hero Section */
 .hero {
-  height: 100vh;
-  min-height: 700px;
+  height: calc(100vh - var(--header-height)); /* Adjust height to fit viewport minus header */
+  min-height: 600px;
   width: 100%;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: var(--header-height);
+  margin-top: var(--header-height); /* Push down below fixed header */
   overflow: hidden;
 }
 
@@ -1144,6 +1144,10 @@ h1, h2, h3, h4 {
     padding: 0 20px; /* Reduce padding for mobile */
   }
 
+  .header .container {
+    flex-direction: row-reverse;
+  }
+
   /* Prevent Title Breaking */
   .section-header h2 {
     font-size: 2rem; /* Reduce size for mobile */
@@ -1223,8 +1227,75 @@ h1, h2, h3, h4 {
   }
   
   .nav-menu { display: none; }
-  .hamburger { display: flex; flex-direction: column; gap: 6px; }
-  .hamburger span { width: 24px; height: 1px; background: #000; }
+  
+  .nav-menu.active {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    height: calc(100dvh - var(--header-height));
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    padding: 40px 20px;
+    gap: 30px;
+    align-items: center;
+    overflow-y: auto;
+    border-top: 1px solid #eee;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .nav-menu.active li {
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    animation: slideUp 0.4s ease forwards;
+  }
+  
+  .nav-menu.active li:nth-child(1) { animation-delay: 0.1s; }
+  .nav-menu.active li:nth-child(2) { animation-delay: 0.15s; }
+  .nav-menu.active li:nth-child(3) { animation-delay: 0.2s; }
+  .nav-menu.active li:nth-child(4) { animation-delay: 0.25s; }
+  .nav-menu.active li:nth-child(5) { animation-delay: 0.3s; }
+  .nav-menu.active li:nth-child(6) { animation-delay: 0.35s; }
+
+  .nav-menu.active a {
+    font-size: 1.2rem;
+    font-weight: 500;
+    display: block;
+    padding: 10px;
+  }
+  
+  @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hamburger { display: flex; flex-direction: column; gap: 6px; z-index: 1001; }
+  .hamburger span { 
+      width: 24px; 
+      height: 1px; 
+      background: #000; 
+      transition: all 0.3s ease;
+      transform-origin: center;
+  }
+  
+  /* Hamburger Animation */
+  .hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+  }
+  .hamburger.active span:nth-child(2) {
+      opacity: 0;
+  }
+  .hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+  }
 
   .scene-grid, .ranking-grid, .product-grid-simple, .reviews-grid, .footer-content {
     grid-template-columns: 1fr;
@@ -1988,15 +2059,166 @@ h1, h2, h3, h4 {
     text-decoration: underline;
 }
 
-/* Mega Menu Layout Fix */
-.nav-menu {
-    display: flex;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    height: 100%; /* Ensure full height of nav */
+/* Scroll Reveal Animation */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+  will-change: opacity, transform;
 }
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* Real-time Search Modal */
+.search-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.98);
+  z-index: 3000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+}
+
+.search-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.search-container {
+  width: 100%;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  margin-bottom: 40px;
+  border-bottom: 2px solid var(--color-text-main);
+}
+
+.search-input {
+  width: 100%;
+  padding: 20px 50px 20px 0;
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: var(--color-text-main);
+}
+
+.search-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--color-text-main);
+  background: none;
+  border: none;
+}
+
+.search-results {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-result-item:hover {
+  background: #f9f9f9;
+}
+
+.search-result-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.search-result-info h4 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.search-result-info p {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* Visual Scent Pyramid (CSS Only) */
+.scent-pyramid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px 0;
+  font-family: var(--font-mono);
+}
+
+.pyramid-level {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.03) 50%, transparent 100%);
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+
+.pyramid-level::before {
+  content: attr(data-label);
+  display: block;
+  font-size: 0.7rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 5px;
+}
+
+.pyramid-notes {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Header Icons */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.search-trigger {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 /* Ensure mega menu aligns relative to full width */
 @media (min-width: 992px) {

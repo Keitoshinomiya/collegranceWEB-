@@ -9,7 +9,7 @@
 
 今回は、なぜこれほどまでにソヴァージュが世界中の男性（そして女性）を魅了し続けるのか。その香りの秘密と、**「自信」を纏（まと）うための正しい使い方**を、プロの視点で徹底解説します。
 
-![Dior Sauvage Image](assets/images/blog_image_sauvage.jpg)
+![Dior Sauvage (ディオール ソヴァージュ) 香水ボトルと荒野の夕暮れ](assets/images/blog_image_sauvage.jpg)
 
 ## 1. 名前が示す「野生」と、隠された「気品」
 

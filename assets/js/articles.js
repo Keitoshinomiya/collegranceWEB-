@@ -11,7 +11,7 @@ const journalArticles = [
         category: 'REVIEW',
         title: '【メンズ香水の頂点】Dior「ソヴァージュ」が世界を魅了する理由。"野生"と"気品"が同居する最強のモテ香水',
         excerpt: 'ジョニー・デップのCMでおなじみ、Dior「ソヴァージュ」。世界で最も売れているメンズ香水の人気の秘密、香りの特徴、そして「つけすぎ注意」を防ぐプロのテクニックまで徹底解説します。',
-        image: 'assets/images/DIO-Sauvage-EDT.jpg',
+        image: 'assets/images/blog_image_sauvage.jpg',
         link: 'article-dior-sauvage.html'
     },
     {

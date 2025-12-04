@@ -6,6 +6,15 @@
  */
 const journalArticles = [
     {
+        id: 'skin_diagnosis_guide',
+        date: '2025-12-04',
+        category: 'KNOWLEDGE',
+        title: '【肌質診断】乾燥肌には「バニラ」、体温高めなら「シトラス」？プロが教える「肌質別」香水選びの正解',
+        excerpt: '「香りの持ちが悪い」「重たく感じる」その原因は肌質かも？乾燥肌・脂性肌・体温高め・低め、それぞれのタイプに合う香水選びの法則をプロが解説します。',
+        image: 'assets/images/blog_image.jpg',
+        link: 'article-skin-diagnosis.html'
+    },
+    {
         id: 'tiffany_rosegold_review',
         date: '2025-12-03',
         category: 'REVIEW',

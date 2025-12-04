@@ -2252,3 +2252,106 @@ article {
         gap: 20px;
     }
 }
+
+/* =========================================
+   FIXES: Journal Carousel & Mobile Nav
+   ========================================= */
+
+/* 1. Journal Carousel Fix (Home Page) */
+.journal-carousel {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.journal-track {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-left: max(40px, calc((100% - var(--container-width)) / 2 + 40px));
+  padding-right: 40px;
+}
+
+.journal-track::-webkit-scrollbar {
+  display: none;
+}
+
+.journal-card.carousel-item {
+  flex: 0 0 320px; /* Fixed width for carousel cards */
+  scroll-snap-align: start;
+  width: 320px;
+  margin-bottom: 0;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .journal-card.carousel-item {
+    flex: 0 0 280px;
+    width: 280px;
+  }
+}
+
+/* 2. Mobile Bottom Navigation Fix (Oversized Icons) */
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #eee;
+    z-index: 10000;
+    padding-bottom: env(safe-area-inset-bottom);
+    display: none; /* Default hidden */
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+}
+
+@media (max-width: 768px) {
+    .mobile-bottom-nav {
+        display: block;
+    }
+    /* Ensure footer content isn't hidden behind nav */
+    .footer {
+        padding-bottom: 100px;
+    }
+}
+
+.mobile-nav-items {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 60px;
+}
+
+.mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 0.65rem;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+}
+
+.mobile-nav-item.active, 
+.mobile-nav-item:hover {
+    color: var(--color-text-main);
+}
+
+/* CRITICAL: Constrain SVG size */
+.mobile-nav-item .nav-svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    stroke-width: 1.5px;
+    display: block; /* Ensure block behavior */
+}

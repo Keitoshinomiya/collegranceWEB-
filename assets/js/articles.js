@@ -6,6 +6,15 @@
  */
 const journalArticles = [
     {
+        id: 'dior_sauvage_review',
+        date: '2025-12-04',
+        category: 'REVIEW',
+        title: '【なぜ人気？】Dior「ソヴァージュ」が世界中で愛される理由。"野生"と"気品"が同居する、最強のモテ香水を徹底レビュー',
+        excerpt: 'ジョニー・デップのCMでおなじみ、Dior「ソヴァージュ」。世界で最も売れているメンズ香水の人気の秘密、香りの特徴、そして「つけすぎ注意」を防ぐプロのテクニックまで徹底解説します。',
+        image: 'assets/images/DIO-Sauvage-EDT.jpg',
+        link: 'article-dior-sauvage.html'
+    },
+    {
         id: 'skin_diagnosis_guide',
         date: '2025-12-04',
         category: 'KNOWLEDGE',

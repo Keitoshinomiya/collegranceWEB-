@@ -6,6 +6,24 @@
  */
 const journalArticles = [
     {
+        id: 'diptyque_fleur_de_peau_review',
+        date: '2025-12-04',
+        category: 'REVIEW',
+        title: '【K-POPアイドルも虜に】Diptyque「フルール ドゥ ポー」はなぜ"伝説"なのか？肌に溶け込む究極のムスクを徹底レビュー',
+        excerpt: 'TXTのヨンジュンなど、人気K-POPアイドルも愛用するDiptyque(ディプティック)の「フルール ドゥ ポー」。肌そのものが美しく香るような「究極のムスク」の魅力、香りの特徴、おすすめの使い方を徹底レビュー。',
+        image: 'assets/images/blog_image_fleur_de_peau.jpg',
+        link: 'article-diptyque-fleur-de-peau.html'
+    },
+    {
+        id: 'dior_sauvage_review',
+        date: '2025-12-04',
+        category: 'REVIEW',
+        title: '【メンズ香水の頂点】Dior「ソヴァージュ」が世界を魅了する理由。"野生"と"気品"が同居する最強のモテ香水',
+        excerpt: 'ジョニー・デップのCMでおなじみ、Dior「ソヴァージュ」。世界で最も売れているメンズ香水の人気の秘密、香りの特徴、そして「つけすぎ注意」を防ぐプロのテクニックまで徹底解説します。',
+        image: 'assets/images/blog_image_sauvage.jpg',
+        link: 'article-dior-sauvage.html'
+    },
+    {
         id: 'skin_diagnosis_guide',
         date: '2025-12-04',
         category: 'KNOWLEDGE',

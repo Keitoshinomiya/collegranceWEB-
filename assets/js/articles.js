@@ -11,7 +11,7 @@ const journalArticles = [
         category: 'REVIEW',
         title: '【K-POPアイドルも虜に】Diptyque「フルール ドゥ ポー」はなぜ"伝説"なのか？肌に溶け込む究極のムスクを徹底レビュー',
         excerpt: 'TXTのヨンジュンなど、人気K-POPアイドルも愛用するDiptyque(ディプティック)の「フルール ドゥ ポー」。肌そのものが美しく香るような「究極のムスク」の魅力、香りの特徴、おすすめの使い方を徹底レビュー。',
-        image: 'assets/images/DPTY-FdPeau-EDP.jpg',
+        image: 'assets/images/blog_image_fleur_de_peau.jpg',
         link: 'article-diptyque-fleur-de-peau.html'
     },
     {

@@ -9,7 +9,7 @@
 
 今回は、なぜこれほどまでにこの香りが人を惹きつけるのか。その官能的な魅力と、**「自分の匂い」にするための纏（まと）い方**をプロの視点で徹底解説します。
 
-![Diptyque Fleur de Peau](assets/images/DPTY-FdPeau-EDP.jpg)
+![Diptyque Fleur de Peau](assets/images/blog_image_fleur_de_peau.jpg)
 
 ## 1. 神話から生まれた「肌」への賛歌
 

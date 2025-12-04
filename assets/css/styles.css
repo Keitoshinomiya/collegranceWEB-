@@ -225,14 +225,14 @@ h1, h2, h3, h4 {
 
 /* Hero Section */
 .hero {
-  height: 100vh;
-  min-height: 700px;
+  height: calc(100vh - var(--header-height)); /* Adjust height to fit viewport minus header */
+  min-height: 600px;
   width: 100%;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: var(--header-height);
+  margin-top: var(--header-height); /* Push down below fixed header */
   overflow: hidden;
 }
 

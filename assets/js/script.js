@@ -278,6 +278,54 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- 15. Trust Section Counter Animation ---
+    const counters = document.querySelectorAll('.stat-number');
+    const counterObserverOptions = {
+        root: null,
+        threshold: 0.5
+    };
+
+    const counterObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const targetText = counter.getAttribute('data-target');
+                const target = parseInt(targetText);
+                
+                // If target is NaN, skip
+                if (isNaN(target)) return;
+
+                const duration = 2000; // 2 seconds
+                const start = 0;
+                const startTime = performance.now();
+
+                const updateCounter = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Ease out quart
+                    const ease = 1 - Math.pow(1 - progress, 4);
+                    
+                    const current = Math.floor(start + (target - start) * ease);
+                    counter.textContent = current;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+
+                requestAnimationFrame(updateCounter);
+                observer.unobserve(counter);
+            }
+        });
+    }, counterObserverOptions);
+
+    counters.forEach(counter => {
+        counterObserver.observe(counter);
+    });
+
 });
 
 // --- Global Functions ---

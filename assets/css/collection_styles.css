@@ -131,21 +131,88 @@
     border-radius: 50%;
 }
 
-/* Mobile Hint */
+/* Mobile Hint Styling - Refined (English & Minimal) */
 .mobile-tap-hint {
     display: none;
-    font-size: 0.7rem;
-    color: #999;
-    margin-top: 5px;
-    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    color: #555;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 6px 14px;
+    border-radius: 50px;
+    margin: 12px auto 8px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    width: fit-content;
+    border: 1px solid #e0e0e0;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    cursor: pointer;
 }
 
+.mobile-tap-hint svg {
+    width: 14px !important; /* Force width */
+    height: 14px !important; /* Force height */
+    min-width: 14px; /* Prevent shrinking */
+    display: block; /* Ensure block display */
+    stroke: #1a1a1a;
+    animation: tap-gesture 1.5s infinite;
+}
+
+@keyframes tap-gesture {
+    0% { transform: translateY(0); }
+    20% { transform: translateY(-2px); }
+    40% { transform: translateY(0); }
+    100% { transform: translateY(0); }
+}
+
+/* Only show on Mobile */
 @media (max-width: 768px) {
     .mobile-tap-hint {
-        display: block;
+        display: inline-flex;
     }
-    /* On mobile, make sure image is clickable to toggle */
+    
+    /* Hide hint when notes are visible to prevent overlap */
+    .product-image-container.active + .mobile-tap-hint {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* Force Hide on PC */
+@media (min-width: 769px) {
+    .mobile-tap-hint {
+        display: none !important;
+    }
+}
+
+/* PC Hover Effect & Layout Fix */
+@media (min-width: 769px) {
+    /* Allow overlay to overflow the image container */
+    .product-card-simple,
     .product-image-container {
-        cursor: pointer;
+        overflow: visible !important; 
+    }
+
+    /* Adjust Overlay to cover more space (overlap text) */
+    .notes-overlay {
+        height: auto;
+        min-height: 120%; /* Extend height */
+        bottom: -60px; /* Push down to cover text */
+        top: auto; /* Reset top if needed, or keep top:0 and use height */
+        top: -10px; /* Start slightly above */
+        left: -10px; /* Slightly wider */
+        width: calc(100% + 20px); /* Wider than image */
+        padding: 25px 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15); /* Stronger shadow */
+        border-radius: 8px;
+        z-index: 100; /* Ensure it's above everything */
+        align-items: center; /* Keep centered */
+    }
+    
+    .product-image-container:hover .notes-overlay {
+        opacity: 1;
+        pointer-events: auto;
     }
 }

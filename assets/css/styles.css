@@ -3680,3 +3680,50 @@ article {
     20% { opacity: 1; }
     100% { transform: translateX(-10px); opacity: 0; }
 }
+
+
+/* Fix: Expand Notes Overlay on Mobile & Optimize Content Fit */
+@media (max-width: 768px) {
+    /* Allow content to overflow container */
+    .product-card-simple, 
+    .product-image-container {
+        overflow: visible !important;
+    }
+
+    .notes-overlay {
+        height: auto !important;       /* Auto height to fit content */
+        min-height: 110%;              /* Slightly taller than image */
+        top: -5%;                      /* Slight offset to center */
+        bottom: auto;
+        padding: 15px 12px;            /* Balance padding */
+        z-index: 50;                   /* Bring to front */
+        background-color: rgba(255, 255, 255, 0.98); /* High opacity for readability */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-radius: 4px;
+        
+        /* Flex layout for vertical centering */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Optimize grid for narrow screens */
+    .notes-row {
+        grid-template-columns: 45px 1fr !important; /* Narrower label col for mobile */
+        margin-bottom: 6px;
+    }
+    
+    .notes-title {
+        margin-bottom: 10px;
+        font-size: 0.75rem;
+    }
+
+    .notes-list {
+        font-size: 0.7rem;
+        line-height: 1.5;
+    }
+    
+    .note-value {
+        word-break: break-word; /* Prevent overflow */
+    }
+}

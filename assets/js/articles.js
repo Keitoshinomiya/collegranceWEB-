@@ -12,7 +12,7 @@ const journalArticles = [
         title: '【永遠の定番】CK-ONE(シーケーワン)が30年愛され続ける理由。ジェンダーレス香水の金字塔を再評価',
         excerpt: '発売から30年経っても色褪せないCalvin Klein「CK-ONE」。世界初のユニセックス香水として歴史を変えた名香の魅力、シトラスノートの特徴、現代にこそ響くジェンダーレスな価値を再レビューします。',
         image: 'assets/images/ck-one-review.jpg',
-        link: 'article-ck-one.html'
+        link: 'https://www.amazon.co.jp/s?k=Calvin+Klein+CK-ONE'
     },
     {
         id: 'byredo_blanche_review',
@@ -21,7 +21,7 @@ const journalArticles = [
         title: '【純白の香り】BYREDO(バイレード)「ブランシュ」の魅力とは？"洗い立てのシーツ"を超える、究極の清潔感',
         excerpt: 'BYREDO(バイレード)のアイコン的香水「BLANCHE(ブランシュ)」。白という色を香りで表現した、透明感あふれるアルデヒドとホワイトローズの香り。マルジェラとの違いや評判を徹底レビュー。',
         image: 'assets/images/byredo-blanche-review.jpg',
-        link: 'article-byredo-blanche.html'
+        link: 'https://www.amazon.co.jp/s?k=BYREDO+BLANCHE'
     },
     {
         id: 'perfume_expiry_guide',
@@ -29,7 +29,7 @@ const journalArticles = [
         category: 'KNOWLEDGE',
         title: '【香水の消費期限】未開封・開封後はいつまで使える？プロが教える「香りを劣化させない」3つの正しい保管方法',
         excerpt: '香水にも消費期限はあるの？開封後1年、未開封3年説の真実と、香りが劣化した時のサイン（変色・異臭）。冷蔵庫保管はNG？プロが実践する、お気に入りの香水を長く楽しむための正しい保管場所とルールを解説。',
-        image: 'https://images.unsplash.com/photo-1541108564883-b68865055088?auto=format&fit=crop&w=800&q=80',
+        image: 'assets/images/perfume-storage-guide.jpg',
         link: 'article-perfume-expiry.html'
     },
     {

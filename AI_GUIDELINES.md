@@ -57,6 +57,7 @@ The user has strictly approved the current state of the website. Any future AI-d
 *   **Behavior**: Simple show/hide with fade-in animation.
 
 ### 3. Development Protocol
-1.  **Read First**: Before editing CSS, read `assets/css/styles.css`, especially the **end of the file** where critical specific fixes are stored.
+1.  **Review Article Links**: For specific product reviews requested by the user (e.g., CK-ONE, Byredo Blanche), configure the article card links to direct users to **Amazon store/search pages** instead of an internal article detail page.
+2.  **Read First**: Before editing CSS, read `assets/css/styles.css`, especially the **end of the file** where critical specific fixes are stored.
 2.  **Append Strategy**: When fixing UI, **append** new rules to the bottom of `styles.css` or specifically target the element. Avoid bulk-replacing large blocks of CSS which might wipe out previous fine-tuning (like the truck animation or mobile note spacing).
 3.  **Mobile First Check**: Always verify how changes affect the mobile view (width < 768px), specifically for text overflow in cards and hero section readability.

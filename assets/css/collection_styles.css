@@ -152,8 +152,10 @@
 }
 
 .mobile-tap-hint svg {
-    width: 14px;
-    height: 14px;
+    width: 14px !important; /* Force width */
+    height: 14px !important; /* Force height */
+    min-width: 14px; /* Prevent shrinking */
+    display: block; /* Ensure block display */
     stroke: #1a1a1a;
     animation: tap-gesture 1.5s infinite;
 }
@@ -165,6 +167,7 @@
     100% { transform: translateY(0); }
 }
 
+/* Only show on Mobile */
 @media (max-width: 768px) {
     .mobile-tap-hint {
         display: inline-flex;
@@ -174,6 +177,13 @@
     .product-image-container.active + .mobile-tap-hint {
         opacity: 0;
         visibility: hidden;
+    }
+}
+
+/* Force Hide on PC */
+@media (min-width: 769px) {
+    .mobile-tap-hint {
+        display: none !important;
     }
 }
 

@@ -3344,3 +3344,328 @@ article {
         padding: 8px 16px;
     }
 }
+
+/* Product Card - Collection Style */
+.product-card-simple {
+  position: relative;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  overflow: hidden; /* For overlay */
+  background-color: #fff;
+}
+
+.product-card-simple:hover {
+  border-color: #eee;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.product-image-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Overlay for Notes (Desktop Hover) */
+.notes-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Let clicks pass through to image initially */
+}
+
+/* Show on hover for desktop */
+@media (min-width: 769px) {
+    .product-card-simple:hover .notes-overlay {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+/* Mobile Interaction - Toggle Class */
+.product-card-simple.show-notes .notes-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.notes-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    color: #333;
+}
+
+.notes-list {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: #555;
+    line-height: 1.8;
+    text-align: left;
+    width: 100%;
+}
+
+.notes-row {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.note-label {
+    font-weight: bold;
+    width: 50px;
+    flex-shrink: 0;
+    color: #888;
+}
+
+.note-value {
+    flex: 1;
+}
+
+/* Color Categorization Indicator */
+.color-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Filter Buttons */
+.filter-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    border: 1px solid #eee;
+    background: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background: #f9f9f9;
+    border-color: #ccc;
+}
+
+.filter-color-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* Mobile Hint Styling - Refined (English & Minimal) */
+.mobile-tap-hint {
+    display: none;
+    font-size: 0.65rem;
+    color: #555;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 6px 14px;
+    border-radius: 50px;
+    margin: 12px auto 8px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    width: fit-content;
+    border: 1px solid #e0e0e0;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    cursor: pointer;
+}
+
+.mobile-tap-hint svg {
+    width: 14px !important; /* Force width */
+    height: 14px !important; /* Force height */
+    min-width: 14px; /* Prevent shrinking */
+    display: block; /* Ensure block display */
+    stroke: #1a1a1a;
+    animation: tap-gesture 1.5s infinite;
+}
+
+@keyframes tap-gesture {
+    0% { transform: translateY(0); }
+    20% { transform: translateY(-2px); }
+    40% { transform: translateY(0); }
+    100% { transform: translateY(0); }
+}
+
+/* Only show on Mobile */
+@media (max-width: 768px) {
+    .mobile-tap-hint {
+        display: inline-flex;
+    }
+    
+    /* Hide hint when notes are visible to prevent overlap */
+    .product-image-container.active + .mobile-tap-hint {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* Force Hide on PC */
+@media (min-width: 769px) {
+    .mobile-tap-hint {
+        display: none !important;
+    }
+}
+
+/* PC Hover Effect & Layout Fix */
+@media (min-width: 769px) {
+    /* Allow overlay to overflow the image container */
+    .product-card-simple,
+    .product-image-container {
+        overflow: visible !important; 
+    }
+
+    /* Adjust Overlay to cover more space (overlap text) */
+    .notes-overlay {
+        height: auto;
+        min-height: 120%; /* Extend height */
+        bottom: -60px; /* Push down to cover text */
+        top: auto; /* Reset top if needed, or keep top:0 and use height */
+        top: -10px; /* Start slightly above */
+        left: -10px; /* Slightly wider */
+        width: calc(100% + 20px); /* Wider than image */
+        padding: 25px 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15); /* Stronger shadow */
+        border-radius: 8px;
+        z-index: 100; /* Ensure it's above everything */
+        align-items: center; /* Keep centered */
+    }
+    
+    .product-image-container:hover .notes-overlay {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+/* Delivery Truck Animation */
+.stat-animation-container {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.truck-anim {
+    position: relative;
+    width: 60px;
+    height: 40px;
+    animation: bounce 0.5s ease-in-out infinite alternate;
+}
+
+.truck-body {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    width: 42px;
+    height: 22px;
+    background-color: var(--color-text-main);
+    border-radius: 2px;
+    z-index: 2;
+}
+
+.truck-cab {
+    position: absolute;
+    bottom: 8px;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    background-color: var(--color-text-main);
+    border-radius: 0 6px 0 0;
+    z-index: 2;
+}
+
+/* Window */
+.truck-cab::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 10px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 0 3px 0 0;
+}
+
+.truck-wheel {
+    position: absolute;
+    bottom: 0;
+    width: 14px;
+    height: 14px;
+    background-color: #333;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    z-index: 3;
+    animation: spin 0.6s linear infinite;
+}
+
+.wheel-front { right: 2px; }
+.wheel-back { left: 6px; }
+
+.wind-lines {
+    position: absolute;
+    top: 10px;
+    left: -30px;
+    width: 30px;
+    height: 100%;
+    z-index: 1;
+}
+
+.wind-lines span {
+    display: block;
+    height: 2px;
+    background-color: #ddd;
+    margin-bottom: 6px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: wind-flow 1s linear infinite;
+}
+
+.wind-lines span:nth-child(1) { width: 20px; animation-delay: 0s; margin-left: 5px; }
+.wind-lines span:nth-child(2) { width: 30px; animation-delay: 0.3s; }
+.wind-lines span:nth-child(3) { width: 15px; animation-delay: 0.6s; margin-left: 10px; }
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-1px); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes wind-flow {
+    0% { transform: translateX(20px); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateX(-10px); opacity: 0; }
+}

@@ -373,30 +373,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 16. Product Notes Interaction (Mobile Click) ---
-    const productImages = document.querySelectorAll('.product-image-container');
-    productImages.forEach(container => {
-        container.addEventListener('click', function(e) {
-            // Only for mobile/tablet
-            if (window.innerWidth <= 768) {
-                e.stopPropagation(); 
+    // Use event delegation for better performance and robustness
+    document.body.addEventListener('click', function(e) {
+        // Check if clicked element is inside product-image-container
+        const container = e.target.closest('.product-image-container');
+        
+        if (container) {
+            // Only execute on mobile/tablet (width <= 768px)
+            // OR if user explicitly wants click behavior on touch devices regardless of width
+            if (window.innerWidth <= 768 || 'ontouchstart' in window) {
                 
-                const isActive = this.classList.contains('active');
+                // Toggle logic
+                const wasActive = container.classList.contains('active');
                 
-                // Close others
-                productImages.forEach(c => c.classList.remove('active'));
+                // Close all others first
+                document.querySelectorAll('.product-image-container.active').forEach(c => {
+                    c.classList.remove('active');
+                });
                 
-                if (!isActive) {
-                    this.classList.add('active');
+                // If it wasn't active, make it active (toggle behavior)
+                if (!wasActive) {
+                    container.classList.add('active');
                 }
             }
-        });
-    });
-
-    // Close notes when clicking elsewhere (Mobile)
-    document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-            if (!e.target.closest('.product-image-container')) {
-                productImages.forEach(c => c.classList.remove('active'));
+        } else {
+            // Clicked outside - close all on mobile
+            if (window.innerWidth <= 768) {
+                document.querySelectorAll('.product-image-container.active').forEach(c => {
+                    c.classList.remove('active');
+                });
             }
         }
     });

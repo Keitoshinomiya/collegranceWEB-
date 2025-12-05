@@ -131,35 +131,50 @@
     border-radius: 50%;
 }
 
-/* Mobile Hint Styling - Enhanced */
+/* Mobile Hint Styling - Refined (English & Minimal) */
 .mobile-tap-hint {
     display: none;
-    font-size: 0.75rem;
-    color: #333;
-    background: #f5f5f5;
-    padding: 8px 16px;
-    border-radius: 20px;
-    margin: 10px auto 5px; /* Center align */
-    font-family: var(--font-sans);
-    font-weight: 600;
+    font-size: 0.65rem;
+    color: #555;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 6px 14px;
+    border-radius: 50px;
+    margin: 12px auto 8px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     width: fit-content;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
     align-items: center;
-    gap: 6px;
-    animation: hint-pulse 2s infinite;
+    gap: 8px;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    cursor: pointer;
 }
 
-@keyframes hint-pulse {
-    0% { transform: scale(1); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-    50% { transform: scale(1.03); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    100% { transform: scale(1); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.mobile-tap-hint svg {
+    width: 14px;
+    height: 14px;
+    stroke: #1a1a1a;
+    animation: tap-gesture 1.5s infinite;
+}
+
+@keyframes tap-gesture {
+    0% { transform: translateY(0); }
+    20% { transform: translateY(-2px); }
+    40% { transform: translateY(0); }
+    100% { transform: translateY(0); }
 }
 
 @media (max-width: 768px) {
     .mobile-tap-hint {
-        display: inline-flex; /* Show as flex to align icon */
+        display: inline-flex;
     }
-    /* ... existing code ... */
+    
+    /* Hide hint when notes are visible to prevent overlap */
+    .product-image-container.active + .mobile-tap-hint {
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
 /* PC Hover Effect & Layout Fix */

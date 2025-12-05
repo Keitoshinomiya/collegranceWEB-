@@ -765,12 +765,56 @@ h1, h2, h3, h4 {
     word-wrap: break-word; /* Prevent overflow */
 }
 
-/* PC Hover Effect */
+/* PC Hover Effect - Extended Overlay */
 @media (min-width: 769px) {
+    /* Allow overlay to expand outside the card */
+    .product-card-simple {
+        overflow: visible !important;
+        position: relative;
+        z-index: 1;
+        transition: z-index 0s linear 0.01s, transform 0.3s ease;
+    }
+    
+    .product-card-simple:hover {
+        z-index: 100; /* Bring to front on hover */
+        transition-delay: 0s;
+    }
+
+    .product-image-container {
+        overflow: visible !important;
+    }
+
     .product-image-container:hover .notes-overlay {
         opacity: 1;
         pointer-events: auto;
     }
+    
+    /* Overlay Styling for PC */
+    .notes-overlay {
+        min-height: 140%; /* Extend well below the image */
+        height: auto;
+        top: -10px;
+        left: -10px;
+        width: calc(100% + 20px);
+        bottom: auto; /* Let height dictate */
+        background-color: #fff; /* Opaque white */
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15); /* Stronger shadow */
+        border-radius: 4px;
+        padding: 20px;
+        align-items: flex-start; /* Align content to top */
+        justify-content: flex-start;
+        z-index: 100;
+    }
+    
+    .notes-title {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    
+    /* Hide the text below the image when overlay is active? 
+       Actually, the overlay sits on top of it now because of z-index and height */
 }
 
 /* Mobile Active Class Effect (Controlled by JS) */
@@ -1467,12 +1511,53 @@ h1, h2, h3, h4 {
     .notes-overlay {
         padding: 10px;
     }
-    
+}
+
+/* Mobile Tap Hint - Ergonomic & Minimal */
+.mobile-tap-hint {
+    display: none; /* Hidden by default (PC) */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px auto 15px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: #666;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+    width: fit-content;
+    padding: 6px 16px;
+    background: #f9f9f9;
+    border-radius: 20px;
+}
+
+.mobile-tap-hint svg {
+    width: 16px;
+    height: 16px;
+    stroke: #333;
+    animation: tap-gesture 2s infinite;
+}
+
+@keyframes tap-gesture {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+/* Only show on Mobile */
+@media (max-width: 768px) {
     .mobile-tap-hint {
-        margin-top: 10px;
-        margin-bottom: 5px;
-        font-size: 0.7rem;
-        letter-spacing: 0.1em;
+        display: flex;
+    }
+    
+    /* Hide hint when overlay is active to prevent overlap */
+    .product-image-container.active + .mobile-tap-hint {
+        opacity: 0;
+        visibility: hidden;
+        height: 0;
+        margin: 0;
+        overflow: hidden;
     }
 }
 /* Ranking Carousel (Updated) */
@@ -3233,21 +3318,29 @@ article {
 
 /* Mobile optimization for filters */
 @media (max-width: 768px) {
+    /* Filter Design - Mobile Optimization */
     .filter-container {
-        overflow-x: auto;
-        justify-content: flex-start;
+        justify-content: flex-start; /* Align start for scrolling */
+        overflow-x: auto; /* Enable horizontal scroll */
         padding-bottom: 10px;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        flex-wrap: nowrap;
-        margin-left: -20px;
+        scrollbar-width: none; /* Hide scrollbar Firefox */
+        flex-wrap: nowrap; /* Prevent wrapping */
+        margin-left: -20px; /* Negative margin for full edge-to-edge */
         margin-right: -20px;
-        padding-left: 20px;
+        padding-left: 20px; /* Padding to compensate */
         padding-right: 20px;
+        gap: 12px;
+    }
+    
+    .filter-container::-webkit-scrollbar {
+        display: none; /* Hide scrollbar Chrome/Safari */
     }
     
     .filter-btn {
-        flex-shrink: 0;
-        white-space: nowrap;
+        flex-shrink: 0; /* Don't shrink buttons */
+        white-space: nowrap; /* Keep text on one line */
+        font-size: 0.75rem;
+        padding: 8px 16px;
     }
 }

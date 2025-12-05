@@ -12,7 +12,7 @@ const journalArticles = [
         title: '【永遠の定番】CK-ONE(シーケーワン)が30年愛され続ける理由。ジェンダーレス香水の金字塔を再評価',
         excerpt: '発売から30年経っても色褪せないCalvin Klein「CK-ONE」。世界初のユニセックス香水として歴史を変えた名香の魅力、シトラスノートの特徴、現代にこそ響くジェンダーレスな価値を再レビューします。',
         image: 'assets/images/ck-one-review.jpg',
-        link: 'https://www.amazon.co.jp/s?k=Calvin+Klein+CK-ONE'
+        link: 'article-ck-one.html'
     },
     {
         id: 'byredo_blanche_review',
@@ -21,7 +21,7 @@ const journalArticles = [
         title: '【純白の香り】BYREDO(バイレード)「ブランシュ」の魅力とは？"洗い立てのシーツ"を超える、究極の清潔感',
         excerpt: 'BYREDO(バイレード)のアイコン的香水「BLANCHE(ブランシュ)」。白という色を香りで表現した、透明感あふれるアルデヒドとホワイトローズの香り。マルジェラとの違いや評判を徹底レビュー。',
         image: 'assets/images/byredo-blanche-review.jpg',
-        link: 'https://www.amazon.co.jp/s?k=BYREDO+BLANCHE'
+        link: 'article-byredo-blanche.html'
     },
     {
         id: 'perfume_expiry_guide',

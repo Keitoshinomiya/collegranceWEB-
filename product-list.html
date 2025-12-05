@@ -66,7 +66,7 @@
                 </div>
                                 
                     <ul class="nav-menu">
-                        <!-- 1. SHOP -->
+                        <!-- 1. SHOP (Was Products) -->
                         <li class="nav-item-has-megamenu">
                             <a href="index.html#products" class="nav-link-megamenu">SHOP</a>
                             <div class="mega-menu">
@@ -75,11 +75,11 @@
                                         <div class="mega-menu-column">
                                             <h3 class="mega-menu-title">CATEGORY</h3>
                                             <ul class="mega-menu-list">
-                                                <li><a href="index.html#products">シトラス & グリーン <span class="en-sub">Citrus & Green</span></a></li>
-                                                <li><a href="index.html#products">フローラル & フルーティ <span class="en-sub">Floral & Fruity</span></a></li>
-                                                <li><a href="index.html#products">ウッディ & スパイシー <span class="en-sub">Woody & Spicy</span></a></li>
-                                                <li><a href="index.html#products">ムスク & サボン <span class="en-sub">Musk & Savon</span></a></li>
-                                                <li class="mt-2"><a href="product-list.html" class="view-all">すべての商品を見る &rarr;</a></li>
+                                                <li><a href="#">シトラス & グリーン <span class="en-sub">Citrus & Green</span></a></li>
+                                                <li><a href="#">フローラル & フルーティ <span class="en-sub">Floral & Fruity</span></a></li>
+                                                <li><a href="#">ウッディ & スパイシー <span class="en-sub">Woody & Spicy</span></a></li>
+                                                <li><a href="#">ムスク & サボン <span class="en-sub">Musk & Savon</span></a></li>
+                                                <li class="mt-2"><a href="#" class="view-all">すべての商品を見る &rarr;</a></li>
                                             </ul>
                                         </div>
                                         <div class="mega-menu-column">
@@ -113,7 +113,7 @@
                             </div>
                         </li>
     
-                        <!-- 2. ABOUT -->
+                        <!-- 2. ABOUT (New Mega Menu) -->
                         <li class="nav-item-has-megamenu">
                             <a href="index.html#about" class="nav-link-megamenu">ABOUT</a>
                             <div class="mega-menu">
@@ -153,7 +153,7 @@
                             </div>
                         </li>
     
-                        <!-- 3. JOURNAL -->
+                        <!-- 3. JOURNAL (New Mega Menu) -->
                         <li class="nav-item-has-megamenu">
                             <a href="journal.html" class="nav-link-megamenu">JOURNAL</a>
                             <div class="mega-menu">
@@ -177,27 +177,30 @@
                                         </div>
                                         <div class="mega-menu-column featured-column">
                                             <h3 class="mega-menu-title">LATEST STORY</h3>
-                                            <a href="article-tiffany-rosegold.html" class="featured-card">
-                                                <div class="featured-image">
-                                                    <img src="assets/images/tiffany-rosegold-holiday.jpg" alt="Tiffany Rose Gold">
-                                                </div>
-                                                <div class="featured-info">
-                                                    <h4>Tiffany Rose Gold</h4>
-                                                    <p class="brand-name">REVIEW</p>
-                                                    <p class="featured-desc">【ギフトに最適】ティファニー「ローズゴールド」が喜ばれる理由は？年齢層と香りの特徴</p>
-                                                </div>
-                                            </a>
+                                            <div id="mega-menu-latest-article">
+                                                <!-- Dynamically Loaded via JS -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </li>
     
-                        <!-- 4. SUPPORT -->
+                        <!-- 4. SUPPORT (Simple Link) -->
                         <li><a href="contact.html">SUPPORT</a></li>
                         
                         <!-- CTA -->
                         <li><a href="#" class="cta-button">Amazon</a></li>
+                        
+                        <!-- Search Icon -->
+                        <li class="search-trigger-li" style="list-style:none; display:flex; align-items:center;">
+                            <div class="search-trigger" onclick="window.openSearch()">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </div>
+                        </li>
                     </ul>
                 <div class="hamburger">
                     <span></span>
@@ -239,7 +242,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">BYREDO</span>
                         <span class="name">Blanche</span>
@@ -263,7 +266,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">Calvin Klein</span>
                         <span class="name">ck one</span>
@@ -287,7 +290,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">DIOR</span>
                         <span class="name">Hypnotic Poison</span>
@@ -311,7 +314,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">DIOR</span>
                         <span class="name">Sauvage</span>
@@ -335,7 +338,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">DIPTYQUE</span>
                         <span class="name">Orpheon</span>
@@ -359,7 +362,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">Dolce & Gabbana</span>
                         <span class="name">Light Blue</span>
@@ -383,7 +386,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">HERMÈS</span>
                         <span class="name">Un Jardin sur le Nil</span>
@@ -407,7 +410,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">ISSEY MIYAKE</span>
                         <span class="name">L'Eau d'Issey</span>
@@ -431,7 +434,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">Jo Malone London</span>
                         <span class="name">English Pear & Freesia</span>
@@ -455,7 +458,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">LE LABO</span>
                         <span class="name">Another 13</span>
@@ -479,7 +482,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">LOEWE</span>
                         <span class="name">001 Woman</span>
@@ -503,7 +506,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">LOEWE</span>
                         <span class="name">001 Man</span>
@@ -527,7 +530,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">Maison Margiela</span>
                         <span class="name">Lazy Sunday Morning</span>
@@ -551,7 +554,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">TIFFANY & CO.</span>
                         <span class="name">Rose Gold</span>
@@ -575,7 +578,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">YVES SAINT LAURENT</span>
                         <span class="name">LIBRE</span>
@@ -599,7 +602,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">Maison Margiela</span>
                         <span class="name">Jazz Club</span>
@@ -623,7 +626,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">DIPTYQUE</span>
                         <span class="name">Fleur de Peau</span>
@@ -647,7 +650,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">Tap image for notes</p>
+                    <p class="mobile-tap-hint">👆 タップして香りをチェック</p>
                     <div class="product-info-simple">
                         <span class="brand">THE HOUSE OF OUD</span>
                         <span class="name">The Time</span>

@@ -1148,7 +1148,13 @@ h1, h2, h3, h4 {
     flex-direction: row-reverse;
   }
 
-  /* Prevent Title Breaking */
+  .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 2000; /* Increased z-index to ensure it's above everything */
+      position: relative; /* Ensure z-index works */
+  }
   .section-header h2 {
     font-size: 2rem; /* Reduce size for mobile */
     word-break: normal;
@@ -1277,7 +1283,7 @@ h1, h2, h3, h4 {
       to { opacity: 1; transform: translateY(0); }
   }
 
-  .hamburger { display: flex; flex-direction: column; gap: 6px; z-index: 1001; }
+  .hamburger { display: flex; flex-direction: column; gap: 6px; z-index: 2001; }
   .hamburger span { 
       width: 24px; 
       height: 1px; 
@@ -2354,4 +2360,803 @@ article {
     margin-bottom: 4px;
     stroke-width: 1.5px;
     display: block; /* Ensure block behavior */
+}
+
+/* =========================================
+   FAQ Section Styles
+   ========================================= */
+.faq-section {
+    padding: var(--spacing-section) 0;
+    background-color: #fff;
+}
+
+.faq-container {
+    max-width: 800px; /* Limit width for better readability */
+    margin: 0 auto;
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 0;
+}
+
+.faq-question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--color-text-main);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.faq-question:hover {
+    color: #666;
+}
+
+.faq-toggle-icon {
+    font-size: 1.2rem;
+    font-weight: 300;
+    transition: transform 0.3s ease;
+    margin-left: 15px;
+}
+
+.faq-item.active .faq-toggle-icon {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.faq-answer-content {
+    padding-bottom: 30px;
+    padding-top: 10px;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--color-text-sub);
+}
+
+.faq-item.active .faq-answer {
+    max-height: 500px; /* Adjust if content is longer, or use JS for dynamic height */
+}
+
+/* =========================================
+   FIXES: Service Carousel & Campaign Modal
+   ========================================= */
+
+/* Service Carousel Styles (Missing Fix) */
+.service-carousel {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.service-track {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-left: max(40px, calc((100% - var(--container-width)) / 2 + 40px));
+  padding-right: 40px;
+}
+
+.service-track::-webkit-scrollbar {
+  display: none;
+}
+
+.service-card {
+  flex: 0 0 300px; /* Fixed width for carousel */
+  scroll-snap-align: start;
+  background: #fff;
+  padding: 0 0 30px 0;
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .service-card {
+        flex: 0 0 260px;
+    }
+}
+
+/* Campaign Modal Styles */
+.campaign-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 3000; /* Higher than other elements */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.5s;
+}
+
+.campaign-modal-content {
+    background-color: #fff;
+    margin: 5% auto; /* Slightly higher */
+    padding: 0;
+    border: none;
+    width: 90%;
+    max-width: 480px;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.campaign-modal-close {
+    color: #fff; /* White close button on image */
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 32px;
+    font-weight: 300;
+    cursor: pointer;
+    z-index: 10;
+    line-height: 1;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.3s;
+}
+
+.campaign-modal-close:hover {
+    transform: rotate(90deg);
+}
+
+.c-modal-image {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    position: relative;
+}
+
+.c-modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.c-modal-text {
+    padding: 35px;
+    text-align: center;
+    background: #fff;
+}
+
+.c-modal-label {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 5px 12px;
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.15em;
+    display: inline-block;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.c-modal-text h3 {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    line-height: 1.4;
+    color: var(--color-text-main);
+}
+
+.c-modal-text p {
+    font-size: 0.95rem;
+    color: var(--color-text-sub);
+    margin-bottom: 30px;
+    line-height: 1.9;
+    font-family: var(--font-sans);
+}
+
+.c-modal-btn {
+    width: 100%;
+    display: block;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 15px;
+}
+
+.c-modal-note {
+    font-size: 0.7rem;
+    color: #999;
+    margin-top: 15px;
+    font-family: var(--font-mono);
+}
+
+@media (max-width: 500px) {
+    .c-modal-image {
+        height: 200px;
+    }
+    .c-modal-text {
+        padding: 25px 20px;
+    }
+    .c-modal-text h3 {
+        font-size: 1.4rem;
+    }
+}
+
+/* =========================================
+   Campaign Section Styling (Fixed Layout)
+   ========================================= */
+.campaign-section {
+    padding: var(--spacing-section) 0;
+    background-color: #fff;
+}
+
+.campaign-inner {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.campaign-image-box {
+    flex: 1;
+    max-width: 500px; /* Prevent too large image */
+}
+
+.campaign-img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.campaign-content {
+    flex: 1;
+}
+
+.campaign-label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 20px;
+    display: inline-block;
+    background: #f0f0f0;
+    padding: 5px 10px;
+}
+
+.campaign-title {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+.campaign-text {
+    font-size: 0.95rem;
+    color: var(--color-text-sub);
+    line-height: 2;
+    margin-bottom: 40px;
+    font-family: var(--font-sans);
+}
+
+/* Steps Visualization */
+.campaign-steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 40px;
+    border-top: 1px solid #eee;
+    padding-top: 30px;
+}
+
+.c-step {
+    flex: 1;
+    text-align: center;
+}
+
+.c-step-num {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    color: #e0e0e0;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.c-step-desc {
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: var(--font-sans);
+}
+
+.c-step-arrow {
+    font-size: 1rem;
+    color: #e0e0e0;
+    margin-top: 15px; /* Align with center of number approx */
+}
+
+.campaign-btn {
+    min-width: 240px;
+}
+
+@media (max-width: 768px) {
+    .campaign-inner {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .campaign-image-box {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .campaign-title {
+        font-size: 1.6rem;
+    }
+    
+    .campaign-steps {
+        gap: 10px;
+    }
+    
+    .c-step-num {
+        font-size: 1.5rem;
+    }
+    
+    .c-step-desc {
+        font-size: 0.7rem;
+    }
+}
+
+/* =========================================
+   FIXES: Header & Mega Menu Layout
+   ========================================= */
+
+/* Header Layout Fix */
+.header .container {
+  justify-content: space-between;
+  padding: 0 40px; /* Ensure padding */
+}
+
+.nav-menu {
+  flex: 1;
+  justify-content: flex-end; /* Align menu to right */
+  gap: 40px; /* Reduced from 50px to fit better */
+}
+
+/* Mega Menu Grid Layout Fix */
+.mega-menu-grid {
+  display: grid;
+  /* Adjusted columns: featured column needs more space */
+  grid-template-columns: 1fr 1fr 1.4fr; 
+  gap: 40px;
+}
+
+/* Fix LATEST STORY Card Layout */
+.featured-card {
+  display: flex;
+  flex-direction: row; /* Force horizontal layout */
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  text-decoration: none;
+}
+
+/* Featured Image Constraints */
+.featured-image {
+  flex: 0 0 120px; /* Fixed width */
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+}
+
+.featured-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Featured Text Area */
+.featured-info {
+  flex: 1; /* Take remaining space */
+  min-width: 0; /* Prevent flex item overflow */
+}
+
+.featured-info h4 {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  color: #1a1a1a;
+}
+
+.featured-desc {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.6;
+  /* Multi-line truncation */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word; /* Ensure natural break */
+  white-space: normal;    /* Allow wrapping */
+}
+
+/* Ensure Mega Menu background is clean */
+.mega-menu {
+    background-color: #FFFEF2;
+    border-top: 1px solid #eee;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    z-index: 2000; /* Higher z-index */
+}
+
+/* Fix Header Menu Item Alignment */
+.nav-menu a {
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+/* =========================================
+   FIXES: Final Layout Adjustments (Logo & Nav)
+   ========================================= */
+
+/* Header Adjustment: Logo vs Nav */
+.header .container {
+    /* Ensure container handles flex items correctly */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* position: relative; <--- REMOVE THIS */
+    position: static; /* Ensure static to allow fixed header to be containing block */
+    gap: 20px; /* Gap between logo and nav */
+}
+
+.nav-brand {
+    flex: 0 0 auto; /* Prevent logo shrinking */
+    margin-right: 40px; /* Ensure space after logo */
+    z-index: 1001; /* Above nav if needed */
+}
+
+.nav-menu {
+    flex: 1;
+    justify-content: flex-end; /* Align items to right */
+    display: flex;
+    gap: 30px; /* Consistent spacing */
+    align-items: center;
+}
+
+/* Prevent nav item wrapping */
+.nav-menu > li {
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Mega Menu Fixes: Positioning & Width */
+.nav-item-has-megamenu {
+    position: static; /* Static to allow absolute children to reference container/header */
+}
+
+.mega-menu {
+    left: 0;
+    width: 100vw; /* Force full viewport width */
+    max-width: 100%;
+    /* Calculate top based on header height to avoid gap issues */
+    top: var(--header-height); 
+    margin-left: calc(-50vw + 50%); /* Center if parent is constrained */
+    padding: 40px 0;
+    background-color: #FFFEF2;
+    border-top: 1px solid #eee;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* Inner Mega Menu Container to match Site Container */
+.mega-menu-inner.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* Grid Adjustment for Mega Menu Content */
+.mega-menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr; /* Fixed ratios */
+    gap: 40px;
+}
+
+/* Fix LATEST STORY Content Overflow */
+.featured-card {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden; /* Contain overflow */
+}
+
+.featured-info {
+    flex: 1;
+    min-width: 0; /* Critical for flex item text truncation */
+    padding-right: 10px;
+}
+
+.featured-info h4 {
+    white-space: normal; /* Allow title to wrap */
+    line-height: 1.4;
+}
+
+.featured-desc {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+/* Mobile Nav Item Text Size */
+.mobile-nav-item span {
+    font-size: 0.6rem; /* Ensure readable but small */
+}
+
+/* =========================================
+   FINAL MOBILE FIXES (Header & FAB)
+   ========================================= */
+
+@media (max-width: 768px) {
+    /* 1. Hide Duplicate Header Menu (Ensure it's hidden on mobile) */
+    .header .nav-menu {
+        display: none !important;
+    }
+    
+    /* Show only when hamburger is active */
+    .header .nav-menu.active {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 30px;
+    }
+
+    /* 2. Adjust FAB Position & Style for Mobile */
+    .fab-container {
+        bottom: 90px; /* Push above bottom nav (60px) + spacing */
+        right: 15px;
+        gap: 15px;
+        align-items: flex-end;
+    }
+
+    /* Icon-only circular buttons for mobile */
+    .fab-item {
+        width: 50px;
+        height: 50px;
+        padding: 0;
+        border-radius: 50%;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Disable hover expansion on mobile to prevent layout issues */
+    .fab-item:hover {
+        width: 50px; 
+        padding-right: 0;
+    }
+
+    .fab-text {
+        display: none !important; /* Completely hide text */
+    }
+
+    .fab-icon {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        font-size: 1.5rem; /* Larger icon for visibility */
+    }
+    
+    /* Adjust LINE text inside icon */
+    .line-fab .fab-icon {
+        font-size: 0.9rem !important;
+        font-weight: 800;
+    }
+}
+
+/* =========================================
+   FIXES: Delivery Animation & Filter Design
+   ========================================= */
+
+/* 1. Delivery Truck Animation */
+.stat-animation-container {
+    height: 60px;
+    width: 100px;
+    margin: 0 auto 15px;
+    position: relative;
+}
+
+.truck-anim {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /* animation removed from container to stop wheels from jumping */
+}
+
+.truck-body {
+    width: 60px;
+    height: 35px;
+    background: #1a1a1a;
+    position: absolute;
+    top: 10px;
+    left: 10px; /* Center it a bit */
+    border-radius: 2px;
+    animation: truck-bounce 2s infinite ease-in-out;
+}
+
+.truck-cab {
+    width: 25px;
+    height: 25px;
+    background: #1a1a1a;
+    position: absolute;
+    top: 20px;
+    left: 70px; /* Position relative to left */
+    border-radius: 0 8px 0 0; /* Smooth curve */
+    animation: truck-bounce 2s infinite ease-in-out;
+}
+
+/* Window cutout */
+.truck-cab::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 0 4px 0 0;
+}
+
+.truck-wheel {
+    width: 14px;
+    height: 14px;
+    background: #333;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 12px; /* Adjust based on container height */
+    animation: wheel-spin 1s infinite linear;
+    z-index: 2;
+}
+
+.wheel-front { left: 75px; }
+.wheel-back { left: 20px; }
+
+/* Inner spokes for wheel spin effect */
+.truck-wheel::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 2px;
+    background: #fff;
+    transform: translate(-50%, -50%);
+}
+.truck-wheel::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 80%;
+    background: #fff;
+    transform: translate(-50%, -50%);
+}
+
+.wind-lines span {
+    position: absolute;
+    height: 2px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    opacity: 0;
+    animation: wind-blow 1.5s infinite linear;
+}
+
+.wind-lines span:nth-child(1) { top: 15px; left: -10px; width: 20px; animation-delay: 0s; }
+.wind-lines span:nth-child(2) { top: 25px; left: -20px; width: 15px; animation-delay: 0.5s; }
+.wind-lines span:nth-child(3) { top: 35px; left: -15px; width: 25px; animation-delay: 0.2s; }
+
+@keyframes truck-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+@keyframes wheel-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes wind-blow {
+    0% { opacity: 0; transform: translateX(0); }
+    30% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(-20px); }
+}
+
+/* 2. Filter Design (Red Box Fix) */
+.filter-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px; /* Increased gap */
+    margin-bottom: 60px;
+}
+
+.filter-btn {
+    padding: 10px 24px; /* Larger touch target */
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    border-radius: 100px; /* Fully rounded */
+    font-family: var(--font-mono);
+    font-size: 0.85rem; /* Larger font */
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    min-height: 44px; /* Ensure consistent height */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.filter-btn:hover {
+    border-color: #ccc;
+    color: #1a1a1a;
+    transform: translateY(-1px);
+}
+
+.filter-btn.active {
+    background: #1a1a1a;
+    color: #fff;
+    border-color: #1a1a1a;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.filter-color-dot {
+    width: 12px; /* Slightly larger dot */
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Mobile optimization for filters */
+@media (max-width: 768px) {
+    .filter-container {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        flex-wrap: nowrap;
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    .filter-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
 }

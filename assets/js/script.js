@@ -438,6 +438,127 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- 18. Fragrance Quiz Logic ---
+    const quizOptions = document.querySelectorAll('.quiz-option');
+    const quizResult = document.getElementById('quizResult');
+    let currentStep = 1;
+    let userAnswers = {};
+
+    const quizDatabase = [
+        // Citrus & Green
+        { type: 'citrus', brand: 'Calvin Klein', name: 'ck one', img: 'assets/images/CK-One-EDT.jpg', top: 'Bergamot', mid: 'Green Tea', base: 'Musk', desc: '誰もが愛する王道のシトラス。迷ったらまずはコレ。', link: 'https://www.amazon.co.jp/dp/B0FSKMB6HR' },
+        // Warm & Gourmand
+        { type: 'warm', brand: 'Maison Margiela', name: 'Jazz Club', img: 'assets/images/MRG-JazzClub-EDT.jpg', top: 'Pink Pepper', mid: 'Rum', base: 'Tobacco', desc: '甘くスモーキーな大人の香り。夜のデートに最適。', link: 'https://www.amazon.co.jp/dp/B0FSKQBBXN' },
+        // Clean & Musk
+        { type: 'clean', brand: 'BYREDO', name: 'Blanche', img: 'assets/images/BYR-Blanche-EDP.jpg', top: 'White Rose', mid: 'Neroli', base: 'Musk', desc: '洗いたてのシーツのような、究極の清潔感。', link: 'https://www.amazon.co.jp/dp/B0FRG5XX2Q' },
+        // Floral & Fruity
+        { type: 'floral', brand: 'TIFFANY & CO.', name: 'Rose Gold', img: 'assets/images/TFFY-RoseGold-EDP.jpg', top: 'Blackcurrant', mid: 'Blue Rose', base: 'Ambrette', desc: '透明感のあるローズとフルーツの華やかな香り。', link: 'https://www.amazon.co.jp/dp/B0FSKRCH5G' }
+    ];
+
+    if (quizOptions.length > 0) {
+        quizOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const step = this.closest('.quiz-step');
+                const stepId = step.id; // step1, step2, etc.
+                const answer = this.getAttribute('data-answer');
+                
+                userAnswers[stepId] = answer;
+
+                // Proceed to next
+                if (currentStep < 4) {
+                    // Hide current with animation
+                    step.style.opacity = '0';
+                    setTimeout(() => {
+                        step.style.display = 'none';
+                        step.style.opacity = '1';
+                        
+                        currentStep++;
+                        const nextStep = document.getElementById('step' + currentStep);
+                        if(nextStep) {
+                            nextStep.style.display = 'block';
+                            // Simple fade in
+                            nextStep.style.opacity = '0';
+                            setTimeout(() => nextStep.style.opacity = '1', 50);
+                        }
+                    }, 300);
+                } else {
+                    // Finished
+                    step.style.display = 'none';
+                    showQuizResult();
+                }
+            });
+        });
+    }
+
+    function showQuizResult() {
+        // Simple logic: Determine result based on Step 2 (Category)
+        const preferredType = userAnswers['step2']; // citrus, warm, clean, floral
+        
+        // Find match
+        let result = quizDatabase.find(p => p.type === preferredType) || quizDatabase[2]; // Default to clean
+
+        // Render Result
+        const resImg = document.getElementById('resultImage');
+        if(resImg) resImg.src = result.img;
+        
+        const resBrand = document.getElementById('resultBrand');
+        if(resBrand) resBrand.textContent = result.brand;
+        
+        const resTitle = document.getElementById('resultTitle');
+        if(resTitle) resTitle.textContent = result.name;
+        
+        const resTop = document.getElementById('resultTop');
+        if(resTop) resTop.textContent = result.top;
+        
+        const resMid = document.getElementById('resultMid');
+        if(resMid) resMid.textContent = result.mid;
+        
+        const resBase = document.getElementById('resultBase');
+        if(resBase) resBase.textContent = result.base;
+        
+        const resDesc = document.getElementById('resultDescription');
+        if(resDesc) resDesc.textContent = result.desc;
+        
+        const resLink = document.getElementById('resultLink');
+        if(resLink) resLink.href = result.link;
+
+        // Show Result
+        if(quizResult) {
+            quizResult.style.display = 'block';
+            quizResult.style.opacity = '0';
+            setTimeout(() => quizResult.style.opacity = '1', 50);
+        }
+    }
+
+    // Restart Logic
+    const restartBtn = document.getElementById('btn-quiz-restart');
+    if(restartBtn) {
+        restartBtn.addEventListener('click', () => {
+            if(quizResult) quizResult.style.display = 'none';
+            currentStep = 1;
+            userAnswers = {};
+            const step1 = document.getElementById('step1');
+            if(step1) step1.style.display = 'block';
+        });
+    }
+
+    // Close Result Logic
+    const closeResultBtn = document.getElementById('btn-quiz-close-result');
+    if(closeResultBtn) {
+        closeResultBtn.addEventListener('click', () => {
+             const modal = document.getElementById('fragranceQuizModal');
+             if(modal) modal.style.display = 'none';
+             
+             // Reset for next time
+             setTimeout(() => {
+                if(quizResult) quizResult.style.display = 'none';
+                currentStep = 1;
+                const step1 = document.getElementById('step1');
+                if(step1) step1.style.display = 'block';
+             }, 500);
+        });
+    }
+
 });
 
 // --- Global Functions ---

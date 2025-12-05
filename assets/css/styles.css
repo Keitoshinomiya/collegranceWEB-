@@ -3346,6 +3346,8 @@ article {
 }
 
 /* Product Card - Collection Style */
+
+/* Product Card - Collection Style (Appended & Fixed) */
 .product-card-simple {
   position: relative;
   text-align: center;
@@ -3382,7 +3384,7 @@ article {
     padding: 20px;
     opacity: 0;
     transition: opacity 0.3s ease;
-    pointer-events: none; /* Let clicks pass through to image initially */
+    pointer-events: none;
 }
 
 /* Show on hover for desktop */
@@ -3420,17 +3422,20 @@ article {
 .notes-row {
     display: flex;
     margin-bottom: 5px;
+    align-items: baseline;
 }
 
 .note-label {
     font-weight: bold;
-    width: 50px;
+    width: 35px; /* Reduced from 50px to 35px for tighter spacing */
     flex-shrink: 0;
     color: #888;
+    text-align: left;
 }
 
 .note-value {
     flex: 1;
+    padding-left: 4px;
 }
 
 /* Color Categorization Indicator */
@@ -3477,7 +3482,7 @@ article {
     border-radius: 50%;
 }
 
-/* Mobile Hint Styling - Refined (English & Minimal) */
+/* Mobile Hint Styling */
 .mobile-tap-hint {
     display: none;
     font-size: 0.65rem;
@@ -3498,10 +3503,10 @@ article {
 }
 
 .mobile-tap-hint svg {
-    width: 14px !important; /* Force width */
-    height: 14px !important; /* Force height */
-    min-width: 14px; /* Prevent shrinking */
-    display: block; /* Ensure block display */
+    width: 14px !important;
+    height: 14px !important;
+    min-width: 14px;
+    display: block;
     stroke: #1a1a1a;
     animation: tap-gesture 1.5s infinite;
 }
@@ -3519,7 +3524,6 @@ article {
         display: inline-flex;
     }
     
-    /* Hide hint when notes are visible to prevent overlap */
     .product-image-container.active + .mobile-tap-hint {
         opacity: 0;
         visibility: hidden;
@@ -3535,26 +3539,23 @@ article {
 
 /* PC Hover Effect & Layout Fix */
 @media (min-width: 769px) {
-    /* Allow overlay to overflow the image container */
     .product-card-simple,
     .product-image-container {
         overflow: visible !important; 
     }
 
-    /* Adjust Overlay to cover more space (overlap text) */
     .notes-overlay {
         height: auto;
-        min-height: 120%; /* Extend height */
-        bottom: -60px; /* Push down to cover text */
-        top: auto; /* Reset top if needed, or keep top:0 and use height */
-        top: -10px; /* Start slightly above */
-        left: -10px; /* Slightly wider */
-        width: calc(100% + 20px); /* Wider than image */
+        min-height: 120%;
+        bottom: -60px;
+        top: -10px;
+        left: -10px;
+        width: calc(100% + 20px);
         padding: 25px 15px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.15); /* Stronger shadow */
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         border-radius: 8px;
-        z-index: 100; /* Ensure it's above everything */
-        align-items: center; /* Keep centered */
+        z-index: 100;
+        align-items: center;
     }
     
     .product-image-container:hover .notes-overlay {
@@ -3563,7 +3564,7 @@ article {
     }
 }
 
-/* Delivery Truck Animation */
+/* Delivery Truck Animation - RESTORED BOX TRUCK */
 .stat-animation-container {
     height: 80px;
     width: 100%;
@@ -3577,8 +3578,8 @@ article {
 
 .truck-anim {
     position: relative;
-    width: 60px;
-    height: 40px;
+    width: 70px;
+    height: 45px;
     animation: bounce 0.5s ease-in-out infinite alternate;
 }
 
@@ -3586,8 +3587,8 @@ article {
     position: absolute;
     bottom: 8px;
     left: 0;
-    width: 42px;
-    height: 22px;
+    width: 46px;
+    height: 30px;
     background-color: var(--color-text-main);
     border-radius: 2px;
     z-index: 2;
@@ -3596,31 +3597,30 @@ article {
 .truck-cab {
     position: absolute;
     bottom: 8px;
-    right: 0;
-    width: 18px;
-    height: 18px;
+    right: 4px;
+    width: 20px;
+    height: 22px;
     background-color: var(--color-text-main);
-    border-radius: 0 6px 0 0;
-    z-index: 2;
+    border-radius: 0 4px 0 0;
+    z-index: 1;
 }
 
-/* Window */
 .truck-cab::after {
     content: '';
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 3px;
+    right: 3px;
     width: 10px;
     height: 8px;
     background-color: #fff;
-    border-radius: 0 3px 0 0;
+    border-radius: 0 2px 0 0;
 }
 
 .truck-wheel {
     position: absolute;
     bottom: 0;
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     background-color: #333;
     border-radius: 50%;
     border: 2px solid #fff;
@@ -3628,8 +3628,8 @@ article {
     animation: spin 0.6s linear infinite;
 }
 
-.wheel-front { right: 2px; }
-.wheel-back { left: 6px; }
+.wheel-front { right: 6px; }
+.wheel-back { left: 8px; }
 
 .wind-lines {
     position: absolute;

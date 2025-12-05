@@ -3727,3 +3727,13 @@ article {
         word-break: break-word; /* Prevent overflow */
     }
 }
+
+/* Article Image Fix */
+.article-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin: 40px 0;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}

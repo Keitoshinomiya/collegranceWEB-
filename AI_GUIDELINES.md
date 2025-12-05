@@ -57,6 +57,32 @@ The user has strictly approved the current state of the website. Any future AI-d
 *   **Behavior**: Simple show/hide with fade-in animation.
 
 ### 3. Development Protocol
-1.  **Read First**: Before editing CSS, read `assets/css/styles.css`, especially the **end of the file** where critical specific fixes are stored.
+1.  **Review Article Links**: For specific product reviews requested by the user (e.g., CK-ONE, Byredo Blanche), configure the article card links to direct users to **Amazon store/search pages** instead of an internal article detail page.
+2.  **Read First**: Before editing CSS, read `assets/css/styles.css`, especially the **end of the file** where critical specific fixes are stored.
 2.  **Append Strategy**: When fixing UI, **append** new rules to the bottom of `styles.css` or specifically target the element. Avoid bulk-replacing large blocks of CSS which might wipe out previous fine-tuning (like the truck animation or mobile note spacing).
 3.  **Mobile First Check**: Always verify how changes affect the mobile view (width < 768px), specifically for text overflow in cards and hero section readability.
+
+### 4. Professional SEO & Performance Standards (Pro-Spec)
+All new pages and content updates must strictly adhere to these professional SEO standards to ensure high search ranking potential.
+
+#### A. Essential Meta Tags
+*   **Title Tag**: Format `[Page Topic] - COLLEGRANCE` or `[Article Title] | [Category]`. Unique for every page.
+*   **Meta Description**: 80-120 characters summary including target keywords. Unique for every page.
+*   **Canonical URL**: `<link rel="canonical" href="...">` is **mandatory** to prevent duplicate content penalties.
+*   **OGP Tags**: Full set required (`og:title`, `og:type`, `og:url`, `og:image`, `og:site_name`, `og:description`, `twitter:card`).
+
+#### B. Structured Data (Schema.org)
+*   **Format**: JSON-LD recommended.
+*   **Blog/Articles**: Must include `BlogPosting` schema (headline, image, datePublished, author).
+*   **Breadcrumbs**: Must include `BreadcrumbList` schema for site hierarchy understanding.
+
+#### C. Content Structure
+*   **Semantic HTML**: Use `<article>`, `<section>`, `<nav>`, `<header>`, `<footer>` correctly.
+*   **Heading Hierarchy**: Only one `<h1>` per page. `<h2>` for main sections, `<h3>` for subsections. Do not skip levels.
+*   **Image Alt Text**: meaningful `alt` attributes are required for all non-decorative images.
+
+#### D. Performance & UX (Core Web Vitals)
+*   **Mobile Optimization**: Google uses Mobile-First Indexing. All layouts must be verified on mobile.
+*   **Image Optimization**: Use correct aspect ratios (`width`/`height` attributes or CSS `aspect-ratio`) to prevent Cumulative Layout Shift (CLS).
+*   **Lazy Loading**: Use `loading="lazy"` for images below the fold.
+*   **Tap Targets**: Buttons/Links on mobile must be at least 44x44px clickable area.

@@ -1292,8 +1292,8 @@ h1, h2, h3, h4 {
   }
   .section-header h2 {
     font-size: 2rem; /* Reduce size for mobile */
-    word-break: normal;
-    overflow-wrap: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   .hero {
@@ -1331,7 +1331,10 @@ h1, h2, h3, h4 {
     color: #ffffff;
     text-shadow: 0 2px 15px rgba(0,0,0,0.7);
     letter-spacing: 0.05em;
-    white-space: nowrap; /* Force single line on mobile */
+    /* white-space: nowrap; REMOVED to prevent overflow on small screens */
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    line-height: 1.3;
   }
 
   .hero-catch-sub {
@@ -1339,7 +1342,9 @@ h1, h2, h3, h4 {
     color: rgba(255,255,255,0.95);
     text-shadow: 0 2px 15px rgba(0,0,0,0.7);
     margin-top: 8px;
-    white-space: nowrap; /* Force single line on mobile */
+    /* white-space: nowrap; REMOVED */
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   /* Stack buttons and improve visibility on image */
@@ -3736,4 +3741,244 @@ article {
     margin: 40px 0;
     border-radius: 4px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* =========================================
+   FIXES: Search Modal & Vertical Axis Alignment
+   ========================================= */
+
+/* --- Search Modal Styles (Brand Selection) --- */
+.search-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.98);
+    z-index: 3000;
+    overflow-y: auto;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.search-modal.active {
+    display: block;
+}
+
+.search-close-btn {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    font-size: 3rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-main);
+    line-height: 1;
+    transition: transform 0.3s ease;
+    z-index: 3001;
+}
+
+.search-close-btn:hover {
+    transform: rotate(90deg);
+}
+
+.search-container {
+    max-width: 900px;
+    margin: 100px auto 60px;
+    padding: 0 40px;
+    text-align: center;
+}
+
+.search-title {
+    font-family: var(--font-eng);
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+    letter-spacing: 0.1em;
+    color: var(--color-text-main);
+}
+
+/* Brand Button Grid */
+.search-brand-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.search-brand-btn {
+    padding: 15px 25px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1 1 auto; /* Auto width but grow */
+    min-width: 120px; /* Minimum width */
+    max-width: 300px;
+    text-align: center;
+}
+
+.search-brand-btn:hover {
+    border-color: var(--color-text-main);
+    background: #f9f9f9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* Results Area */
+.search-results-container {
+    animation: fadeIn 0.4s ease;
+}
+
+.search-results-title {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+    color: #999;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.search-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Grid for results */
+    gap: 20px;
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid transparent;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+}
+
+.search-result-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border-color: #eee;
+}
+
+.search-result-thumb {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    padding: 5px;
+    flex-shrink: 0;
+}
+
+.search-result-info h4 {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: var(--color-text-main);
+    line-height: 1.3;
+}
+
+.search-result-info p {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-sub);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Back Button */
+.back-to-brands-btn {
+    background: transparent;
+    border: 1px solid var(--color-text-main);
+    padding: 10px 30px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.back-to-brands-btn:hover {
+    background: var(--color-text-main);
+    color: #fff;
+}
+
+/* Mobile Adjustments for Search */
+@media (max-width: 768px) {
+    .search-container {
+        margin: 80px auto 40px;
+        padding: 0 20px;
+    }
+    
+    .search-brand-btn {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+        width: 100%; /* Full width on mobile for easy tapping */
+        max-width: none;
+    }
+    
+    .search-results {
+        grid-template-columns: 1fr; /* Single column */
+    }
+}
+
+/* --- Strict Vertical Alignment for Product Cards --- */
+.product-card-simple {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    height: 100% !important;
+}
+
+.product-info-simple {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+}
+
+.product-info-simple .brand {
+    margin-top: auto; 
+    margin-top: 0;
+}
+
+/* Ensure buttons align at bottom */
+.product-actions {
+    margin-top: auto !important; 
+}
+
+/* --- Strict Vertical Alignment for Journal Cards --- */
+.journal-card {
+    height: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.journal-content {
+    flex-grow: 1;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.journal-excerpt {
+    flex-grow: 1;
+}
+
+.journal-link {
+    margin-top: auto;
 }

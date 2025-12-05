@@ -24,15 +24,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // --- 2. Real-time Search Modal ---
-    // Mock Product Data (In a real app, this would be fetched from JSON or API)
+    // --- 2. Brand Search Modal (Selection Based) ---
+    // Expanded Product Database based on index.html content
     const productDatabase = [
-        { id: 1, name: "Lazy Sunday Morning", brand: "Maison Margiela", category: "Floral & Musk", img: "assets/images/MRG-LazySun-EDT.jpg", url: "index.html#products" },
-        { id: 2, name: "Santal 33", brand: "LE LABO", category: "Woody", img: "assets/images/placeholder.jpg", url: "index.html#products" },
-        { id: 3, name: "Rose Gold", brand: "Tiffany & Co.", category: "Floral", img: "assets/images/tiffany-rosegold-holiday.jpg", url: "article-tiffany-rosegold.html" },
-        { id: 4, name: "Jazz Club", brand: "Maison Margiela", category: "Woody & Spicy", img: "assets/images/placeholder.jpg", url: "index.html#products" },
-        { id: 5, name: "Do Son", brand: "Diptyque", category: "Floral", img: "assets/images/placeholder.jpg", url: "index.html#products" }
+        { id: 1, name: "Blanche", brand: "BYREDO", type: "EDP", img: "assets/images/BYR-Blanche-EDP.jpg", url: "index.html#products" },
+        { id: 2, name: "ck one", brand: "Calvin Klein", type: "EDT", img: "assets/images/CK-One-EDT.jpg", url: "index.html#products" },
+        { id: 3, name: "Hypnotic Poison", brand: "DIOR", type: "EDT", img: "assets/images/DIO-Hypnotic-EDT.jpg", url: "index.html#products" },
+        { id: 4, name: "Sauvage", brand: "DIOR", type: "EDT", img: "assets/images/DIO-Sauvage-EDT.jpg", url: "index.html#products" },
+        { id: 5, name: "Orpheon", brand: "DIPTYQUE", type: "EDP", img: "assets/images/DPTY-Orpheon-EDP.jpg", url: "index.html#products" },
+        { id: 6, name: "Light Blue", brand: "Dolce & Gabbana", type: "EDT", img: "assets/images/DG-LightBlue-EDT.jpg", url: "index.html#products" },
+        { id: 7, name: "Un Jardin sur le Nil", brand: "HERMÈS", type: "EDT", img: "assets/images/HRM-Nile-EDT.jpg", url: "index.html#products" },
+        { id: 8, name: "L'Eau d'Issey", brand: "ISSEY MIYAKE", type: "EDT", img: "assets/images/ISY-LdIssey-EDT.jpg", url: "index.html#products" },
+        { id: 9, name: "English Pear & Freesia", brand: "Jo Malone London", type: "Cologne", img: "assets/images/JML-EnglishPear-C.jpg", url: "index.html#products" },
+        { id: 10, name: "Another 13", brand: "LE LABO", type: "EDP", img: "assets/images/LLB-Another13-EDP.jpg", url: "index.html#products" },
+        { id: 11, name: "001 Woman", brand: "LOEWE", type: "EDP", img: "assets/images/LOW-Woman-EDP.jpg", url: "index.html#products" },
+        { id: 12, name: "001 Man", brand: "LOEWE", type: "EDT", img: "assets/images/LOW-Man-EDT.jpg", url: "index.html#products" },
+        { id: 13, name: "Lazy Sunday Morning", brand: "Maison Margiela", type: "EDT", img: "assets/images/MRG-LazySun-EDT.jpg", url: "index.html#products" },
+        { id: 14, name: "Rose Gold", brand: "TIFFANY & CO.", type: "EDP", img: "assets/images/TFFY-RoseGold-EDP.jpg", url: "index.html#products" },
+        { id: 15, name: "LIBRE", brand: "YVES SAINT LAURENT", type: "EDP", img: "assets/images/YSL-Libre-EDP.jpg", url: "index.html#products" },
+        { id: 16, name: "Jazz Club", brand: "Maison Margiela", type: "EDT", img: "assets/images/MRG-JazzClub-EDT.jpg", url: "index.html#products" },
+        { id: 17, name: "Fleur de Peau", brand: "DIPTYQUE", type: "EDP", img: "assets/images/DPTY-FdPeau-EDP.jpg", url: "index.html#products" },
+        { id: 18, name: "The Time", brand: "THE HOUSE OF OUD", type: "EDP", img: "assets/images/THO-TheTime-EDP.jpg", url: "index.html#products" }
     ];
+
+    // Extract unique brands and sort them
+    const brands = [...new Set(productDatabase.map(p => p.brand))].sort();
 
     let searchModal = document.querySelector('.search-modal');
     if (!searchModal) {
@@ -41,35 +57,50 @@ document.addEventListener('DOMContentLoaded', () => {
         searchModal.innerHTML = `
             <button class="search-close-btn">&times;</button>
             <div class="search-container">
-                <div class="search-input-wrapper">
-                    <input type="text" class="search-input" placeholder="Type to search scents...">
+                <h3 class="search-title">SEARCH BY BRAND</h3>
+                <div class="search-brand-list">
+                    <!-- Brand buttons will be injected here -->
                 </div>
-                <div class="search-results"></div>
+                <div class="search-results-container" style="display:none;">
+                    <h4 class="search-results-title">RESULTS</h4>
+                    <div class="search-results"></div>
+                    <button class="back-to-brands-btn">Select Another Brand</button>
+                </div>
             </div>
         `;
         document.body.appendChild(searchModal);
     }
 
-    const searchInput = searchModal.querySelector('.search-input');
+    const brandListContainer = searchModal.querySelector('.search-brand-list');
+    const resultsContainer = searchModal.querySelector('.search-results-container');
     const searchResults = searchModal.querySelector('.search-results');
     const closeBtn = searchModal.querySelector('.search-close-btn');
+    const backBtn = searchModal.querySelector('.back-to-brands-btn');
 
-    // Search Function
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        searchResults.innerHTML = ''; // Clear previous
+    // Populate Brand Buttons
+    function renderBrands() {
+        brandListContainer.innerHTML = '';
+        brands.forEach(brand => {
+            const btn = document.createElement('button');
+            btn.className = 'search-brand-btn';
+            btn.textContent = brand;
+            btn.onclick = () => showProductsByBrand(brand);
+            brandListContainer.appendChild(btn);
+        });
+    }
+    
+    // Initial Render
+    renderBrands();
+
+    // Show Products Function
+    function showProductsByBrand(brand) {
+        // Clear previous results
+        searchResults.innerHTML = '';
         
-        if (query.length < 2) return;
-
-        const filtered = productDatabase.filter(p => 
-            p.name.toLowerCase().includes(query) || 
-            p.brand.toLowerCase().includes(query) ||
-            p.category.toLowerCase().includes(query)
-        );
-
-        if (filtered.length === 0) {
-            searchResults.innerHTML = '<p style="text-align:center; color:#999;">No matches found.</p>';
-        } else {
+        // Filter products
+        const filtered = productDatabase.filter(p => p.brand === brand);
+        
+        if (filtered.length > 0) {
             filtered.forEach(p => {
                 const item = document.createElement('div');
                 item.className = 'search-result-item';
@@ -77,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${p.img}" class="search-result-thumb" alt="${p.name}">
                     <div class="search-result-info">
                         <h4>${p.name}</h4>
-                        <p>${p.brand} | ${p.category}</p>
+                        <p>${p.brand} | ${p.type}</p>
                     </div>
                 `;
                 item.addEventListener('click', () => {
@@ -86,13 +117,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 searchResults.appendChild(item);
             });
+        } else {
+            searchResults.innerHTML = '<p style="text-align:center; color:#999;">No products found for this brand.</p>';
         }
+
+        // Switch View
+        brandListContainer.style.display = 'none';
+        resultsContainer.style.display = 'block';
+        
+        // Fade in effect for results
+        resultsContainer.style.opacity = 0;
+        setTimeout(() => resultsContainer.style.opacity = 1, 50);
+    }
+
+    // Back to Brands
+    backBtn.addEventListener('click', () => {
+        resultsContainer.style.display = 'none';
+        brandListContainer.style.display = 'flex'; // Flex is used for grid/wrap layout
     });
 
     // Open/Close Logic
     window.openSearch = () => {
         searchModal.classList.add('active');
-        setTimeout(() => searchInput.focus(), 100);
+        // Reset view when opening
+        resultsContainer.style.display = 'none';
+        brandListContainer.style.display = 'flex';
     };
 
     closeBtn.addEventListener('click', () => {

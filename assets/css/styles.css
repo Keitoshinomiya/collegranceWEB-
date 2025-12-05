@@ -738,8 +738,8 @@ h1, h2, h3, h4 {
 /* Using CSS Grid for perfect alignment */
 .notes-row {
     display: grid;
-    grid-template-columns: 40px 1fr; /* Fixed label width */
-    gap: 10px;
+    grid-template-columns: 60px 1fr; /* Fixed label width, rest for value */
+    gap: 0px; /* Minimize gap */
     margin-bottom: 8px;
     border-bottom: 1px dotted #e0e0e0;
     padding-bottom: 4px;
@@ -2318,10 +2318,11 @@ article {
 }
 
 .note-label {
-    flex: 0 0 120px;
     font-weight: 700;
-    font-size: 0.9rem;
-    font-family: var(--font-mono);
+    color: #999;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    text-align: left;
 }
 
 .note-value {
@@ -2425,9 +2426,12 @@ article {
     }
     
     .note-label {
-        flex: 0 0 auto;
-        color: var(--color-text-sub);
-    }
+    font-weight: 700;
+    color: #999;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    text-align: left;
+}
     
     .pros-cons {
         flex-direction: column;
@@ -3420,16 +3424,20 @@ article {
 }
 
 .notes-row {
-    display: flex;
-    margin-bottom: 5px;
+    display: grid;
+    grid-template-columns: 60px 1fr; /* Fixed label width, rest for value */
+    gap: 0px; /* Minimize gap */
+    margin-bottom: 8px;
+    border-bottom: 1px dotted #e0e0e0;
+    padding-bottom: 4px;
     align-items: baseline;
 }
 
 .note-label {
-    font-weight: bold;
-    width: 35px; /* Reduced from 50px to 35px for tighter spacing */
-    flex-shrink: 0;
-    color: #888;
+    font-weight: 700;
+    color: #999;
+    font-size: 0.65rem;
+    text-transform: uppercase;
     text-align: left;
 }
 
@@ -3449,7 +3457,8 @@ article {
     border: 1px solid rgba(0,0,0,0.1);
 }
 
-/* Filter Buttons */
+
+/* Filter Buttons Fixed */
 .filter-container {
     display: flex;
     justify-content: center;
@@ -3469,19 +3478,21 @@ article {
     display: flex;
     align-items: center;
     gap: 8px;
+    color: var(--color-text-main); /* Ensure text color */
 }
 
 .filter-btn:hover, .filter-btn.active {
     background: #f9f9f9;
     border-color: #ccc;
+    color: var(--color-text-main); /* Ensure text color stays visible */
 }
 
 .filter-color-dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    display: inline-block;
 }
-
 /* Mobile Hint Styling */
 .mobile-tap-hint {
     display: none;

@@ -687,6 +687,82 @@ h1, h2, h3, h4 {
     background-color: #fff;
 }
 
+/* Product Image Container & Overlay Styles */
+.product-image-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.notes-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.notes-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    color: #333;
+}
+
+.notes-list {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: #555;
+    line-height: 1.8;
+    text-align: left;
+    width: 100%;
+}
+
+.notes-row {
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: space-between;
+    border-bottom: 1px dashed #eee;
+}
+
+.note-label {
+    font-weight: bold;
+    flex-shrink: 0;
+    color: #888;
+    margin-right: 10px;
+}
+
+.note-value {
+    flex: 1;
+    text-align: right;
+    font-size: 0.7rem;
+}
+
+/* PC Hover Effect */
+@media (min-width: 769px) {
+    .product-image-container:hover .notes-overlay {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+/* Mobile Active Class Effect (Controlled by JS) */
+.product-image-container.active .notes-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
 
 .product-card-simple {
   text-align: center;

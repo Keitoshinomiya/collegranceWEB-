@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <button class="search-close-btn">&times;</button>
             <div class="search-container">
                 <div class="search-input-wrapper">
-                    <input type="text" class="search-input" placeholder="Type to search scents..." autofocus>
+                    <input type="text" class="search-input" placeholder="Type to search scents...">
                 </div>
                 <div class="search-results"></div>
             </div>
@@ -202,12 +202,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mega Menu Logic (Hover is CSS, but Click for Touch)
     // (Logic handled by CSS hover mostly, but could add touch support here)
 
-    // Modal Logic (Fragrance Quiz)
-    // Note: Modal HTML is currently in footer of pages
+    // --- 16. Campaign Modal Logic (Auto Open) ---
+    const campaignModal = document.getElementById('campaignModal');
+    const closeCampaignBtn = document.querySelector('.campaign-modal-close');
+    const cModalBtn = document.querySelector('.c-modal-btn');
+
+    // Auto open after delay (e.g. 2.5s) if not seen
+    if (campaignModal && !sessionStorage.getItem('campaignSeen')) {
+        setTimeout(() => {
+            campaignModal.style.display = "block";
+            sessionStorage.setItem('campaignSeen', 'true');
+        }, 2500);
+    }
+
+    if (closeCampaignBtn) {
+        closeCampaignBtn.onclick = function() {
+            campaignModal.style.display = "none";
+        }
+    }
+
+    if (cModalBtn) {
+        cModalBtn.onclick = function() {
+            campaignModal.style.display = "none";
+        }
+    }
+
+    // Modal Logic (Fragrance Quiz & Campaign)
     window.onclick = function(event) {
-        const modal = document.getElementById('fragranceQuizModal');
-        if (event.target == modal) {
-            modal.style.display = "none";
+        const quizModal = document.getElementById('fragranceQuizModal');
+        const campModal = document.getElementById('campaignModal');
+        
+        if (event.target == quizModal) {
+            quizModal.style.display = "none";
+        }
+        if (event.target == campModal) {
+            campModal.style.display = "none";
         }
     }
     
@@ -342,6 +371,67 @@ document.addEventListener('DOMContentLoaded', () => {
     counters.forEach(counter => {
         counterObserver.observe(counter);
     });
+
+    // --- 16. Product Notes Interaction (Mobile Click) ---
+    const productImages = document.querySelectorAll('.product-image-container');
+    productImages.forEach(container => {
+        container.addEventListener('click', function(e) {
+            // Only for mobile/tablet
+            if (window.innerWidth <= 768) {
+                e.stopPropagation(); 
+                
+                const isActive = this.classList.contains('active');
+                
+                // Close others
+                productImages.forEach(c => c.classList.remove('active'));
+                
+                if (!isActive) {
+                    this.classList.add('active');
+                }
+            }
+        });
+    });
+
+    // Close notes when clicking elsewhere (Mobile)
+    document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+            if (!e.target.closest('.product-image-container')) {
+                productImages.forEach(c => c.classList.remove('active'));
+            }
+        }
+    });
+
+    // --- 17. Filter Logic ---
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const productCards = document.querySelectorAll('.product-card-simple');
+
+    if (filterBtns.length > 0 && productCards.length > 0) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // 1. Update active button
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // 2. Get filter value
+                const filterValue = btn.getAttribute('data-filter');
+
+                // 3. Filter items
+                productCards.forEach(card => {
+                    const cardColor = card.getAttribute('data-color');
+                    
+                    if (filterValue === 'all' || cardColor === filterValue) {
+                        card.style.display = 'block';
+                        // Simple fade in effect
+                        card.style.animation = 'fadeIn 0.5s';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
 
 });
 

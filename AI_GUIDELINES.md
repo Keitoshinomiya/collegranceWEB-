@@ -65,7 +65,12 @@ The user has strictly approved the current state of the website. Any future AI-d
 ### 4. Professional SEO & Performance Standards (Pro-Spec)
 All new pages and content updates must strictly adhere to these professional SEO standards to ensure high search ranking potential.
 
-#### A. Essential Meta Tags
+#### A. SEO Target & Strategy
+*   **Primary Goal**: Achieve visibility in search results for users considering "trial perfumes" (お試し香水).
+*   **Target Keywords**: "香水 お試し" (Perfume Trial), "香水 小分け" (Perfume Decant), "ブランド香水 少量" (Brand Perfume Small Amount).
+*   **User Intent**: Users who want to test expensive brand scents (Hermès, Margiela, Le Labo) before buying full bottles. Content should emphasize "failure-free choice" and "authentic small volumes".
+
+#### B. Essential Meta Tags
 *   **Title Tag**: Format `[Page Topic] - COLLEGRANCE` or `[Article Title] | [Category]`. Unique for every page.
 *   **Meta Description**: 80-120 characters summary including target keywords. Unique for every page.
 *   **Canonical URL**: `<link rel="canonical" href="...">` is **mandatory** to prevent duplicate content penalties.

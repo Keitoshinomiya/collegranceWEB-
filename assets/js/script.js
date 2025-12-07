@@ -455,49 +455,55 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 17. Filter Logic (Robust Version) ---
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const productCards = document.querySelectorAll('.product-card-simple');
-
-    if (filterBtns.length > 0 && productCards.length > 0) {
-        // console.log("Filter initialized: " + filterBtns.length + " buttons, " + productCards.length + " cards.");
+    // --- 17. Filter Logic (Event Delegation Version) ---
+    // Using delegation ensures it works even if DOM elements shift or loading is delayed
+    document.addEventListener('click', function(e) {
+        // Find the closest filter button if clicked (handles clicking on the span/icon inside)
+        const btn = e.target.closest('.filter-btn');
         
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
+        if (btn) {
+            e.preventDefault();
+            // console.log("Filter Clicked:", btn.getAttribute('data-filter'));
+
+            // 1. Update UI - Remove active from all filter buttons
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // 2. Get Filter Value
+            const filterValue = btn.getAttribute('data-filter');
+
+            // 3. Filter Items
+            const cards = document.querySelectorAll('.product-card-simple');
+            
+            cards.forEach(card => {
+                const cardColor = card.getAttribute('data-color');
                 
-                // 1. Update active button UI
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                // Determine if card should be shown
+                let isMatch = false;
+                if (filterValue === 'all') {
+                    isMatch = true;
+                } else if (cardColor && cardColor.toLowerCase() === filterValue.toLowerCase()) {
+                    isMatch = true;
+                }
 
-                // 2. Get filter value
-                const filterValue = btn.getAttribute('data-filter');
-                // console.log("Filtering by: " + filterValue);
-
-                // 3. Filter items
-                productCards.forEach(card => {
-                    const cardColor = card.getAttribute('data-color');
+                // Apply Visibility
+                if (isMatch) {
+                    // Show
+                    card.style.display = ''; // Revert to CSS (Grid/Block)
+                    card.classList.remove('hidden');
                     
-                    // Case-insensitive comparison and check for 'all'
-                    if (filterValue === 'all' || (cardColor && cardColor.toLowerCase() === filterValue.toLowerCase())) {
-                        // Show item
-                        // Use flex/grid display property or empty to revert to CSS default
-                        card.style.display = ''; 
-                        card.classList.remove('hidden');
-                        
-                        // Optional: Add animation
-                        card.style.animation = 'none';
-                        card.offsetHeight; /* trigger reflow */
-                        card.style.animation = 'fadeIn 0.5s';
-                    } else {
-                        // Hide item
-                        card.style.display = 'none';
-                        card.classList.add('hidden');
-                    }
-                });
+                    // Trigger Re-animation
+                    card.style.animation = 'none';
+                    card.offsetHeight; // Force Reflow
+                    card.style.animation = 'fadeIn 0.5s';
+                } else {
+                    // Hide
+                    card.style.display = 'none';
+                    card.classList.add('hidden');
+                }
             });
-        });
-    }
+        }
+    });
 
     // --- 18. Fragrance Quiz Logic ---
     const quizOptions = document.querySelectorAll('.quiz-option');

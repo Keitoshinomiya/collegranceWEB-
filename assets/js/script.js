@@ -476,13 +476,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.product-card-simple');
             
             cards.forEach(card => {
-                const cardColor = card.getAttribute('data-color');
+                // Fix: Check data-category (semantic) first, fallback to data-color (legacy hex)
+                const cardCategory = card.getAttribute('data-category') || card.getAttribute('data-color');
                 
                 // Determine if card should be shown
                 let isMatch = false;
                 if (filterValue === 'all') {
                     isMatch = true;
-                } else if (cardColor && cardColor.toLowerCase() === filterValue.toLowerCase()) {
+                } else if (cardCategory && cardCategory.toLowerCase() === filterValue.toLowerCase()) {
                     isMatch = true;
                 }
 

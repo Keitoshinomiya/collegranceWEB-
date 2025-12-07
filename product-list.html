@@ -221,15 +221,16 @@
             
             <div class="filter-container">
                 <button class="filter-btn active" data-filter="all">ALL</button>
-                <button class="filter-btn" data-filter="#EBE65F"><span class="filter-color-dot" style="background:#EBE65F"></span>Citrus & Green</button>
-                <button class="filter-btn" data-filter="#FAF5BE"><span class="filter-color-dot" style="background:#FAF5BE"></span>Warm & Gourmand</button>
-                <button class="filter-btn" data-filter="#5AB9BE"><span class="filter-color-dot" style="background:#5AB9BE"></span>Clean Musk & Aquatic</button>
-                <button class="filter-btn" data-filter="#FFC3B9"><span class="filter-color-dot" style="background:#FFC3B9"></span>Floral & Fruity</button>
+                <button class="filter-btn" data-filter="citrus"><span class="filter-color-dot" style="background:#EBE65F"></span>Citrus & Green</button>
+                <button class="filter-btn" data-filter="warm"><span class="filter-color-dot" style="background:#FAF5BE"></span>Warm & Gourmand</button>
+                <button class="filter-btn" data-filter="clean"><span class="filter-color-dot" style="background:#5AB9BE"></span>Clean Musk & Aquatic</button>
+                <button class="filter-btn" data-filter="floral"><span class="filter-color-dot" style="background:#FFC3B9"></span>Floral & Fruity</button>
             </div>
             
             <div class="carousel-container">
             <div class="product-grid-collection">
-                <div class="product-card-simple" data-color="#5AB9BE">
+                <!-- Clean -->
+                <div class="product-card-simple" data-category="clean">
                     <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
                     <div class="product-image-container">
                         <img src="assets/images/BYR-Blanche-EDP.jpg" alt="BYREDO Blanche">
@@ -242,13 +243,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">BYREDO</span>
                         <span class="name">Blanche</span>
@@ -259,7 +254,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#EBE65F">
+                <!-- Citrus -->
+                <div class="product-card-simple" data-category="citrus">
                     <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
                     <div class="product-image-container">
                         <img src="assets/images/CK-One-EDT.jpg" alt="Calvin Klein ck one">
@@ -272,13 +268,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">Calvin Klein</span>
                         <span class="name">ck one</span>
@@ -289,7 +279,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#FAF5BE">
+                <!-- Warm -->
+                <div class="product-card-simple" data-category="warm">
                     <span class="product-type-badge" style="border-left: 3px solid #FAF5BE">EDT</span>
                     <div class="product-image-container">
                         <img src="assets/images/DIO-Hypnotic-EDT.jpg" alt="DIOR Hypnotic Poison">
@@ -302,13 +293,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">DIOR</span>
                         <span class="name">Hypnotic Poison</span>
@@ -319,7 +304,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#EBE65F">
+                <!-- Citrus -->
+                <div class="product-card-simple" data-category="citrus">
                     <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
                     <div class="product-image-container">
                         <img src="assets/images/DIO-Sauvage-EDT.jpg" alt="DIOR Sauvage">
@@ -332,13 +318,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">DIOR</span>
                         <span class="name">Sauvage</span>
@@ -349,7 +329,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#FAF5BE">
+                <!-- Warm -->
+                <div class="product-card-simple" data-category="warm">
                     <span class="product-type-badge" style="border-left: 3px solid #FAF5BE">EDP</span>
                     <div class="product-image-container">
                         <img src="assets/images/DPTY-Orpheon-EDP.jpg" alt="DIPTYQUE Orpheon">
@@ -362,13 +343,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">DIPTYQUE</span>
                         <span class="name">Orpheon</span>
@@ -379,7 +354,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#EBE65F">
+                <!-- Citrus -->
+                <div class="product-card-simple" data-category="citrus">
                     <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
                     <div class="product-image-container">
                         <img src="assets/images/DG-LightBlue-EDT.jpg" alt="Dolce & Gabbana Light Blue">
@@ -392,13 +368,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">Dolce & Gabbana</span>
                         <span class="name">Light Blue</span>
@@ -409,7 +379,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#EBE65F">
+                <!-- Citrus -->
+                <div class="product-card-simple" data-category="citrus">
                     <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
                     <div class="product-image-container">
                         <img src="assets/images/HRM-Nile-EDT.jpg" alt="HERMÈS Un Jardin sur le Nil">
@@ -422,13 +393,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">HERMÈS</span>
                         <span class="name">Un Jardin sur le Nil</span>
@@ -439,7 +404,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#5AB9BE">
+                <!-- Clean -->
+                <div class="product-card-simple" data-category="clean">
                     <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDT</span>
                     <div class="product-image-container">
                         <img src="assets/images/ISY-LdIssey-EDT.jpg" alt="ISSEY MIYAKE L'Eau d'Issey">
@@ -452,13 +418,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">ISSEY MIYAKE</span>
                         <span class="name">L'Eau d'Issey</span>
@@ -469,7 +429,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#FFC3B9">
+                <!-- Floral -->
+                <div class="product-card-simple" data-category="floral">
                     <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">Cologne</span>
                     <div class="product-image-container">
                         <img src="assets/images/JML-EnglishPear-C.jpg" alt="Jo Malone London English Pear & Freesia">
@@ -482,13 +443,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">Jo Malone London</span>
                         <span class="name">English Pear & Freesia</span>
@@ -499,7 +454,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#5AB9BE">
+                <!-- Clean -->
+                <div class="product-card-simple" data-category="clean">
                     <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
                     <div class="product-image-container">
                         <img src="assets/images/LLB-Another13-EDP.jpg" alt="LE LABO Another 13">
@@ -512,13 +468,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">LE LABO</span>
                         <span class="name">Another 13</span>
@@ -529,7 +479,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#FFC3B9">
+                <!-- Floral -->
+                <div class="product-card-simple" data-category="floral">
                     <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">EDT</span>
                     <div class="product-image-container">
                         <img src="assets/images/LOW-Woman-EDT.jpg" alt="LOEWE 001 Woman">
@@ -542,13 +493,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">LOEWE</span>
                         <span class="name">001 Woman</span>
@@ -559,7 +504,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#EBE65F">
+                <!-- Citrus -->
+                <div class="product-card-simple" data-category="citrus">
                     <span class="product-type-badge" style="border-left: 3px solid #EBE65F">EDT</span>
                     <div class="product-image-container">
                         <img src="assets/images/LOW-Man-EDT.jpg" alt="LOEWE 001 Man">
@@ -572,13 +518,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">LOEWE</span>
                         <span class="name">001 Man</span>
@@ -589,7 +529,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#5AB9BE">
+                <!-- Clean -->
+                <div class="product-card-simple" data-category="clean">
                     <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDT</span>
                     <div class="product-image-container">
                         <img src="assets/images/MRG-LazySun-EDT.jpg" alt="Maison Margiela Lazy Sunday Morning">
@@ -602,13 +543,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">Maison Margiela</span>
                         <span class="name">Lazy Sunday Morning</span>
@@ -619,7 +554,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#FFC3B9">
+                <!-- Floral -->
+                <div class="product-card-simple" data-category="floral">
                     <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">EDP</span>
                     <div class="product-image-container">
                         <img src="assets/images/TFFY-RoseGold-EDP.jpg" alt="TIFFANY & CO. Rose Gold">
@@ -632,13 +568,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">TIFFANY & CO.</span>
                         <span class="name">Rose Gold</span>
@@ -649,7 +579,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#FFC3B9">
+                <!-- Floral -->
+                <div class="product-card-simple" data-category="floral">
                     <span class="product-type-badge" style="border-left: 3px solid #FFC3B9">EDP</span>
                     <div class="product-image-container">
                         <img src="assets/images/YSL-Libre-EDP.jpg" alt="YVES SAINT LAURENT LIBRE">
@@ -662,13 +593,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">YVES SAINT LAURENT</span>
                         <span class="name">LIBRE</span>
@@ -679,7 +604,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#FAF5BE">
+                <!-- Warm -->
+                <div class="product-card-simple" data-category="warm">
                     <span class="product-type-badge" style="border-left: 3px solid #FAF5BE">EDT</span>
                     <div class="product-image-container">
                         <img src="assets/images/MRG-JazzClub-EDT.jpg" alt="Maison Margiela Jazz Club">
@@ -692,13 +618,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">Maison Margiela</span>
                         <span class="name">Jazz Club</span>
@@ -709,7 +629,8 @@
                     </div>
                 </div>
 
-                <div class="product-card-simple" data-color="#5AB9BE">
+                <!-- Clean -->
+                <div class="product-card-simple" data-category="clean">
                     <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
                     <div class="product-image-container">
                         <img src="assets/images/DPTY-FdPeau-EDP.jpg" alt="DIPTYQUE Fleur de Peau">
@@ -722,13 +643,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">DIPTYQUE</span>
                         <span class="name">Fleur de Peau</span>
@@ -739,7 +654,8 @@
                     </div>
                 </div>
                 
-                <div class="product-card-simple" data-color="#5AB9BE">
+                <!-- Clean -->
+                <div class="product-card-simple" data-category="clean">
                     <span class="product-type-badge" style="border-left: 3px solid #5AB9BE">EDP</span>
                     <div class="product-image-container">
                         <img src="assets/images/THO-TheTime-EDP.jpg" alt="THE HOUSE OF OUD The Time">
@@ -752,13 +668,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mobile-tap-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3-3 3 3m-3-3v8"></path>
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-            </svg>
-            Tap image for notes
-        </p>
+                    <p class="mobile-tap-hint">Tap image for notes</p>
                     <div class="product-info-simple">
                         <span class="brand">THE HOUSE OF OUD</span>
                         <span class="name">The Time</span>
@@ -949,6 +859,6 @@
         </div>
     </nav>
 
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/script.js?v=20241207-5"></script>
 </body>
 </html>

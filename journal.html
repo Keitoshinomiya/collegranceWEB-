@@ -609,31 +609,6 @@
         </a>
     </div>
 
-    <script src="assets/js/script.js"></script>
-    <script>
-        // Simple Filter Logic for Journal Page
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterItems = document.querySelectorAll('.filter-item');
-            const journalCards = document.querySelectorAll('.journal-card');
-
-            filterItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    // Activate filter
-                    filterItems.forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const category = this.getAttribute('data-filter');
-
-                    journalCards.forEach(card => {
-                        if (category === 'all' || card.getAttribute('data-category') === category) {
-                            card.style.display = 'flex';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+    <script src="assets/js/script.js?v=20241207-5"></script>
 </body>
 </html>

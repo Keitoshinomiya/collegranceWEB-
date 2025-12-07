@@ -455,39 +455,89 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 17. Filter Logic ---
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const productCards = document.querySelectorAll('.product-card-simple');
+    // --- 17. Product Filter Logic (Collection Page) ---
+    // Separate listener for clarity and performance
+    const productFilterContainer = document.querySelector('.filter-container');
+    if (productFilterContainer) {
+        productFilterContainer.addEventListener('click', function(e) {
+            const productBtn = e.target.closest('.filter-btn');
+            if (!productBtn) return;
 
-    if (filterBtns.length > 0 && productCards.length > 0) {
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // 1. Update active button
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+            e.preventDefault();
+            
+            // Update Active State
+            productFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            productBtn.classList.add('active');
 
-                // 2. Get filter value
-                const filterValue = btn.getAttribute('data-filter');
+            const filterValue = productBtn.getAttribute('data-filter');
+            const cards = document.querySelectorAll('.product-card-simple');
+            
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category') || card.getAttribute('data-color');
+                const safeCategory = cardCategory ? cardCategory.toLowerCase() : '';
+                const safeFilter = filterValue.toLowerCase();
 
-                // 3. Filter items
-                productCards.forEach(card => {
-                    const cardColor = card.getAttribute('data-color');
+                let isMatch = (safeFilter === 'all') || (safeCategory === safeFilter);
+
+                if (isMatch) {
+                    card.classList.remove('is-hidden');
+                    card.style.display = ''; // Clear inline style to revert to CSS
                     
-                    if (filterValue === 'all' || cardColor === filterValue) {
-                        card.style.display = 'block';
-                        // Simple fade in effect
-                        card.style.animation = 'fadeIn 0.5s';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+                    // Trigger reflow for animation
+                    void card.offsetWidth; 
+                    
+                    card.style.opacity = '1';
+                } else {
+                    card.classList.add('is-hidden');
+                    card.style.display = 'none'; // Ensure it is hidden
+                    card.style.opacity = '0';
+                }
             });
         });
     }
 
-    // --- 18. Fragrance Quiz Logic ---
+    // --- 18. Journal Filter Logic (Journal Page) ---
+    const journalFilterBar = document.querySelector('.filter-bar');
+    if (journalFilterBar) {
+        journalFilterBar.addEventListener('click', function(e) {
+            const journalBtn = e.target.closest('.filter-item');
+            if (!journalBtn) return;
+
+            e.preventDefault();
+
+            // Update Active State
+            journalFilterBar.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
+            journalBtn.classList.add('active');
+
+            const filterValue = journalBtn.getAttribute('data-filter');
+            const cards = document.querySelectorAll('.journal-card');
+
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                const safeCategory = cardCategory ? cardCategory.toLowerCase() : '';
+                const safeFilter = filterValue.toLowerCase();
+
+                let isMatch = (safeFilter === 'all') || (safeCategory === safeFilter);
+
+                if (isMatch) {
+                    card.classList.remove('is-hidden');
+                    card.style.display = ''; // Clear inline style
+                    
+                    // Simple Fade In
+                    requestAnimationFrame(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    });
+                } else {
+                    card.classList.add('is-hidden');
+                    card.style.display = 'none';
+                    card.style.opacity = '0';
+                }
+            });
+        });
+    }
+
+    // --- 19. Fragrance Quiz Logic ---
     const quizOptions = document.querySelectorAll('.quiz-option');
     const quizResult = document.getElementById('quizResult');
     let currentStep = 1;

@@ -56,6 +56,14 @@ The user has strictly approved the current state of the website. Any future AI-d
 *   **Mechanism**: `data-filter` attribute on buttons vs `data-color` / `data-category` on cards.
 *   **Behavior**: Simple show/hide with fade-in animation.
 
+#### C. Advanced Filtering Logic (Product & Journal)
+*   **Selector Specificity**: Do NOT attach event listeners to `document`. Always attach to specific containers (e.g., `.filter-container`, `.filter-bar`).
+*   **Visibility Control**:
+    *   **CSS Class**: Use `.is-hidden { display: none !important; }` in CSS.
+    *   **JS Logic**: Toggle BOTH the class (`classList.add/remove('is-hidden')`) AND the inline style (`style.display = 'none' / ''`) to ensure robust hiding across all browsers/conditions.
+*   **Attribute Matching**: Ensure HTML `data-category` attributes strictly match the JavaScript query logic. Handle fallback to legacy attributes (like `data-color`) if necessary.
+*   **Cache Busting**: When updating core logic in `script.js`, increment the query parameter version (e.g., `?v=20241207-5`) in all HTML files to force client-side refresh.
+
 ### 3. Development Protocol
 1.  **Review Article Links**: For specific product reviews requested by the user (e.g., CK-ONE, Byredo Blanche), configure the article card links to direct users to **Amazon store/search pages** instead of an internal article detail page.
 2.  **Read First**: Before editing CSS, read `assets/css/styles.css`, especially the **end of the file** where critical specific fixes are stored.

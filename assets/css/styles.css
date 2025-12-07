@@ -4027,3 +4027,73 @@ article {
 .journal-link {
     margin-top: auto;
 }
+
+/* =========================================
+   Filter Buttons (Added for Collection Page)
+   ========================================= */
+.filter-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 50px;
+}
+
+.filter-btn {
+  padding: 10px 25px;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-main);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.05em;
+}
+
+.filter-btn:hover {
+  border-color: var(--color-text-main);
+  background-color: #fafafa;
+}
+
+.filter-btn.active {
+  background-color: var(--color-text-main);
+  color: #fff;
+  border-color: var(--color-text-main);
+}
+
+.filter-color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Mobile responsiveness for filters */
+@media (max-width: 768px) {
+  .filter-container {
+    gap: 10px;
+    padding: 0 10px;
+    overflow-x: auto;
+    justify-content: flex-start; /* Left align for scroll */
+    flex-wrap: nowrap;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .filter-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .filter-btn {
+    flex: 0 0 auto;
+    padding: 8px 20px;
+    font-size: 0.75rem;
+  }
+}

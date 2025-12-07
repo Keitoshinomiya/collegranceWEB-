@@ -455,31 +455,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 17. Filter Logic (Event Delegation Version) ---
-    // Using delegation ensures it works even if DOM elements shift or loading is delayed
+    // --- 17. Product Filter Logic (Collection Page) ---
     document.addEventListener('click', function(e) {
-        // Find the closest filter button if clicked (handles clicking on the span/icon inside)
-        const btn = e.target.closest('.filter-btn');
-        
-        if (btn) {
+        // Product Filter
+        const productBtn = e.target.closest('.filter-btn');
+        if (productBtn) {
             e.preventDefault();
-            // console.log("Filter Clicked:", btn.getAttribute('data-filter'));
-
-            // 1. Update UI - Remove active from all filter buttons
+            // Update UI
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            productBtn.classList.add('active');
 
-            // 2. Get Filter Value
-            const filterValue = btn.getAttribute('data-filter');
-
-            // 3. Filter Items
+            const filterValue = productBtn.getAttribute('data-filter');
             const cards = document.querySelectorAll('.product-card-simple');
             
             cards.forEach(card => {
-                // Fix: Check data-category (semantic) first, fallback to data-color (legacy hex)
+                // Check data-category (semantic) first, fallback to data-color (legacy)
                 const cardCategory = card.getAttribute('data-category') || card.getAttribute('data-color');
                 
-                // Determine if card should be shown
                 let isMatch = false;
                 if (filterValue === 'all') {
                     isMatch = true;
@@ -487,26 +479,63 @@ document.addEventListener('DOMContentLoaded', () => {
                     isMatch = true;
                 }
 
-                // Apply Visibility
                 if (isMatch) {
-                    // Show
-                    card.style.display = ''; // Revert to CSS (Grid/Block)
+                    card.style.display = ''; // Revert to CSS (Grid Item)
                     card.classList.remove('hidden');
-                    
-                    // Trigger Re-animation
+                    // Simple Fade Animation
+                    card.style.opacity = '0';
                     card.style.animation = 'none';
-                    card.offsetHeight; // Force Reflow
-                    card.style.animation = 'fadeIn 0.5s';
+                    setTimeout(() => {
+                         card.style.opacity = '1';
+                         card.style.animation = 'fadeIn 0.5s forwards';
+                    }, 10);
                 } else {
-                    // Hide
                     card.style.display = 'none';
                     card.classList.add('hidden');
                 }
             });
         }
+
+        // --- 18. Journal Filter Logic (Journal Page) ---
+        const journalBtn = e.target.closest('.filter-item');
+        if (journalBtn) {
+            e.preventDefault();
+            // Update UI
+            document.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
+            journalBtn.classList.add('active');
+
+            const filterValue = journalBtn.getAttribute('data-filter');
+            const cards = document.querySelectorAll('.journal-card');
+
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                
+                let isMatch = false;
+                if (filterValue === 'all') {
+                    isMatch = true;
+                } else if (cardCategory && cardCategory.toLowerCase() === filterValue.toLowerCase()) {
+                    isMatch = true;
+                }
+
+                if (isMatch) {
+                    card.style.display = ''; // Revert to CSS (Flex)
+                    // Fade Animation
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(10px)';
+                    card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                    
+                    requestAnimationFrame(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    });
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
     });
 
-    // --- 18. Fragrance Quiz Logic ---
+    // --- 19. Fragrance Quiz Logic ---
     const quizOptions = document.querySelectorAll('.quiz-option');
     const quizResult = document.getElementById('quizResult');
     let currentStep = 1;

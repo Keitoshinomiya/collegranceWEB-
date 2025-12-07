@@ -4097,3 +4097,9 @@ article {
     font-size: 0.75rem;
   }
 }
+.is-hidden { display: none !important; }
+
+/* Utility Class for JS Filtering */
+.is-hidden {
+  display: none !important;
+}

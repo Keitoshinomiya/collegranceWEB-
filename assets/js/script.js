@@ -456,52 +456,57 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 17. Product Filter Logic (Collection Page) ---
-    document.addEventListener('click', function(e) {
-        // Product Filter
-        const productBtn = e.target.closest('.filter-btn');
-        if (productBtn) {
+    // Separate listener for clarity and performance
+    const productFilterContainer = document.querySelector('.filter-container');
+    if (productFilterContainer) {
+        productFilterContainer.addEventListener('click', function(e) {
+            const productBtn = e.target.closest('.filter-btn');
+            if (!productBtn) return;
+
             e.preventDefault();
-            // Update UI
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            
+            // Update Active State
+            productFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             productBtn.classList.add('active');
 
             const filterValue = productBtn.getAttribute('data-filter');
             const cards = document.querySelectorAll('.product-card-simple');
             
             cards.forEach(card => {
-                // Check data-category (semantic) first, fallback to data-color (legacy)
                 const cardCategory = card.getAttribute('data-category') || card.getAttribute('data-color');
-                
-                let isMatch = false;
-                if (filterValue === 'all') {
-                    isMatch = true;
-                } else if (cardCategory && cardCategory.toLowerCase() === filterValue.toLowerCase()) {
-                    isMatch = true;
-                }
+                const safeCategory = cardCategory ? cardCategory.toLowerCase() : '';
+                const safeFilter = filterValue.toLowerCase();
+
+                let isMatch = (safeFilter === 'all') || (safeCategory === safeFilter);
 
                 if (isMatch) {
-                    card.style.display = ''; // Revert to CSS (Grid Item)
-                    card.classList.remove('hidden');
-                    // Simple Fade Animation
-                    card.style.opacity = '0';
-                    card.style.animation = 'none';
-                    setTimeout(() => {
-                         card.style.opacity = '1';
-                         card.style.animation = 'fadeIn 0.5s forwards';
-                    }, 10);
+                    card.classList.remove('is-hidden');
+                    card.style.display = ''; // Clear inline style to revert to CSS
+                    
+                    // Trigger reflow for animation
+                    void card.offsetWidth; 
+                    
+                    card.style.opacity = '1';
                 } else {
-                    card.style.display = 'none';
-                    card.classList.add('hidden');
+                    card.classList.add('is-hidden');
+                    card.style.display = 'none'; // Ensure it is hidden
+                    card.style.opacity = '0';
                 }
             });
-        }
+        });
+    }
 
-        // --- 18. Journal Filter Logic (Journal Page) ---
-        const journalBtn = e.target.closest('.filter-item');
-        if (journalBtn) {
+    // --- 18. Journal Filter Logic (Journal Page) ---
+    const journalFilterBar = document.querySelector('.filter-bar');
+    if (journalFilterBar) {
+        journalFilterBar.addEventListener('click', function(e) {
+            const journalBtn = e.target.closest('.filter-item');
+            if (!journalBtn) return;
+
             e.preventDefault();
-            // Update UI
-            document.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
+
+            // Update Active State
+            journalFilterBar.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
             journalBtn.classList.add('active');
 
             const filterValue = journalBtn.getAttribute('data-filter');
@@ -509,31 +514,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
             cards.forEach(card => {
                 const cardCategory = card.getAttribute('data-category');
-                
-                let isMatch = false;
-                if (filterValue === 'all') {
-                    isMatch = true;
-                } else if (cardCategory && cardCategory.toLowerCase() === filterValue.toLowerCase()) {
-                    isMatch = true;
-                }
+                const safeCategory = cardCategory ? cardCategory.toLowerCase() : '';
+                const safeFilter = filterValue.toLowerCase();
+
+                let isMatch = (safeFilter === 'all') || (safeCategory === safeFilter);
 
                 if (isMatch) {
-                    card.style.display = ''; // Revert to CSS (Flex)
-                    // Fade Animation
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(10px)';
-                    card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                    card.classList.remove('is-hidden');
+                    card.style.display = ''; // Clear inline style
                     
+                    // Simple Fade In
                     requestAnimationFrame(() => {
                         card.style.opacity = '1';
                         card.style.transform = 'translateY(0)';
                     });
                 } else {
+                    card.classList.add('is-hidden');
                     card.style.display = 'none';
+                    card.style.opacity = '0';
                 }
             });
-        }
-    });
+        });
+    }
 
     // --- 19. Fragrance Quiz Logic ---
     const quizOptions = document.querySelectorAll('.quiz-option');

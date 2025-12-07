@@ -455,32 +455,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 17. Filter Logic ---
+    // --- 17. Filter Logic (Robust Version) ---
     const filterBtns = document.querySelectorAll('.filter-btn');
     const productCards = document.querySelectorAll('.product-card-simple');
 
     if (filterBtns.length > 0 && productCards.length > 0) {
+        // console.log("Filter initialized: " + filterBtns.length + " buttons, " + productCards.length + " cards.");
+        
         filterBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // 1. Update active button
+                // 1. Update active button UI
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
                 // 2. Get filter value
                 const filterValue = btn.getAttribute('data-filter');
+                // console.log("Filtering by: " + filterValue);
 
                 // 3. Filter items
                 productCards.forEach(card => {
                     const cardColor = card.getAttribute('data-color');
                     
-                    if (filterValue === 'all' || cardColor === filterValue) {
-                        card.style.display = 'block';
-                        // Simple fade in effect
+                    // Case-insensitive comparison and check for 'all'
+                    if (filterValue === 'all' || (cardColor && cardColor.toLowerCase() === filterValue.toLowerCase())) {
+                        // Show item
+                        // Use flex/grid display property or empty to revert to CSS default
+                        card.style.display = ''; 
+                        card.classList.remove('hidden');
+                        
+                        // Optional: Add animation
+                        card.style.animation = 'none';
+                        card.offsetHeight; /* trigger reflow */
                         card.style.animation = 'fadeIn 0.5s';
                     } else {
+                        // Hide item
                         card.style.display = 'none';
+                        card.classList.add('hidden');
                     }
                 });
             });

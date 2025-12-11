@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decorté Kimono Yui - COLEGLANCE JOURNAL</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 2.0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #fdfdfd;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, .serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        .jp-serif {
+            font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HGS明朝E", "MS PMincho", serif;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 3rem 0 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .site-title {
+            font-size: 1.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: #000;
+            text-decoration: none;
+            display: inline-block;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .site-title:hover {
+            border-bottom-color: #000;
+        }
+
+        /* Article Header */
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .category-tag {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #bfa078;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-size: 1.8rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-feature-settings: "palt";
+        }
+
+        .publish-date {
+            font-size: 0.8rem;
+            color: #999;
+            letter-spacing: 0.1em;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Main Visual */
+        .main-visual {
+            width: 100%;
+            height: auto;
+            margin-bottom: 4rem;
+            display: block;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        /* Content */
+        .lead-text {
+            font-size: 1.05rem;
+            margin-bottom: 3rem;
+            font-weight: 500;
+            text-align: justify;
+        }
+
+        h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            letter-spacing: 0.05em;
+            color: #000;
+        }
+        
+        h3::after {
+            content: "";
+            display: block;
+            width: 30px;
+            height: 1px;
+            background: #bfa078;
+            margin: 15px auto 0;
+        }
+
+        p {
+            margin-bottom: 2rem;
+            color: #4a4a4a;
+            text-align: justify;
+            font-weight: 300;
+        }
+
+        /* Image insert */
+        figure {
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        figure img {
+            max-width: 100%;
+            max-height: 400px;
+            height: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        figcaption {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #888;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+        }
+
+        /* Table */
+        .scent-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.9rem;
+        }
+
+        .scent-table th, .scent-table td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+
+        .scent-table th {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            width: 25%;
+            color: #111;
+            letter-spacing: 0.05em;
+        }
+
+        /* Impression Box */
+        .impression {
+            background-color: #fcfbf9;
+            padding: 3rem;
+            margin: 4rem 0;
+            border: 1px solid #f0f0f0;
+            position: relative;
+        }
+
+        .impression-label {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 0 15px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            color: #bfa078;
+        }
+
+        .impression p {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        .impression p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Footer */
+        .article-footer {
+            border-top: 1px solid #eaeaea;
+            padding-top: 2rem;
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .tags {
+            font-size: 0.75rem;
+            color: #999;
+            letter-spacing: 0.05em;
+        }
+
+        .tags span {
+            margin-right: 15px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            text-decoration: none;
+            color: #333;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            opacity: 0.6;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 0 15px; }
+            .article-title { font-size: 1.4rem; }
+            .impression { padding: 2rem 1.5rem; }
+            .scent-table th, .scent-table td { display: block; width: 100%; padding: 5px 0; }
+            .scent-table th { margin-top: 15px; border-bottom: none; color: #bfa078; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="journal.html" class="site-title">COLEGLANCE</a>
+    </header>
+
+    <div class="container">
+        
+        <article>
+            <div class="article-header">
+                <span class="category-tag">Fragrance Review</span>
+                <h1 class="article-title jp-serif">纏う、日本の美意識。<br>コスメデコルテ「キモノ ユイ」が紡ぐ、清らかな縁</h1>
+                <span class="publish-date">October 14, 2024</span>
+            </div>
+
+            <!-- Main Visual -->
+            <img src="assets/images/kimono_yui.jpg" 
+                 alt="Cosme Decorte Kimono Collection" 
+                 class="main-visual"
+                 onerror="this.style.backgroundColor='#f0f0f0'; this.style.padding='40px'; this.src=''; this.alt='Image not available';">
+
+            <p class="lead-text jp-serif">
+                着物を纏った時の、背筋がすっと伸びるような凛とした美しさ。そんな日本の美意識を香りで表現したコスメデコルテの「キモノ（KIMONO）」シリーズ。<br>
+                中でも、圧倒的な透明感と幸福感で多くの支持を集める「ユイ（YUI）」の魅力に迫ります。
+            </p>
+
+            <h3>The Concept：結</h3>
+            <p>
+                「ユイ」の名は、「結（ゆい）」に由来します。<br>
+                人と人との縁を結ぶ、大切な想いを結ぶ。そんな温かなメッセージが込められたこの香りは、初対面のシーンや、大切な人と過ごす穏やかな時間に寄り添います。
+                ボトルのデザインも、帯を結んだようなフォルムが特徴的で、ドレッサーに置くだけで空間に和モダンな華やかさを与えてくれます。
+            </p>
+
+            <figure>
+                <img src="https://sspark.genspark.ai/cfimages?u1=BvVd%2FT1gBenLkmv4F8v0IGvGeXqKfBjnWG3QY7RosI3RtDvZJP%2F%2FjgEDxUp7LTauB2On0lptv6T4arSub20DwPpXfiYVzYGW%2BB9Viw%3D%3D&u2=lrvweTVW6uDO1FJB&width=2560" 
+                     alt="Decorte Kimono Yui Bottle"
+                     onerror="this.style.display='none'">
+                <figcaption>KIMONO YUI - 酢橘とピンクペッパーが織りなす透明感</figcaption>
+            </figure>
+
+            <h3>Scent Profile</h3>
+            <p>
+                香りの骨格となるのは、日本の夏を感じさせる爽やかな柑橘と、繊細なフローラルノートの調和です。
+                "Transparent Floral"（トランスペアレントフローラル）と称されるその香調は、あくまで透き通るように軽やか。
+            </p>
+
+            <table class="scent-table">
+                <tr>
+                    <th>Top Note</th>
+                    <td>
+                        <strong>酢橘（スダチ）、ピンクペッパー</strong><br>
+                        弾けるような爽やかさと、ほろ苦い柑橘のアクセント。一瞬で視界が開けるような透明感があります。
+                    </td>
+                </tr>
+                <tr>
+                    <th>Middle Note</th>
+                    <td>
+                        <strong>オレンジフラワー</strong><br>
+                        太陽の光を浴びたような、明るく清潔感のあるフローラルブーケ。
+                    </td>
+                </tr>
+                <tr>
+                    <th>Last Note</th>
+                    <td>
+                        <strong>バニラ、ウッディ</strong><br>
+                        肌に溶け込むような、角のない柔らかな甘さと温もり。
+                    </td>
+                </tr>
+            </table>
+
+            <div class="impression">
+                <span class="impression-label">Coleglance’s Impression</span>
+                <p>
+                    特筆すべきは、トップノートの「酢橘（スダチ）」の表現力です。レモンやベルガモットとは一線を画す、日本の柑橘特有の少しドライで清廉な酸味が、ピンクペッパーのスパイスと重なり、「甘すぎない清潔感」を演出します。
+                </p>
+                <p>
+                    時間が経つにつれて現れるバニラは、決して重たくならず、まるで洗い立てのリネンに残る陽だまりのような優しさ。<br>
+                    オフィスシーンからデートまで、好感度を約束してくれる傑作です。
+                </p>
+            </div>
+
+            <div class="article-footer">
+                <div class="tags">
+                    <span>#Decorté</span>
+                    <span>#KimonoYui</span>
+                    <span>#JapaneseScent</span>
+                    <span>#透明感</span>
+                </div>
+                <a href="journal.html" class="back-link">VIEW ALL JOURNAL</a>
+            </div>
+
+        </article>
+
+    </div>
+
+</body>
+</html>

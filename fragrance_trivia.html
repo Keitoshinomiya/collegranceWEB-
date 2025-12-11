@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scent Etiquette - COLEGLANCE JOURNAL</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 2.0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #fdfdfd;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, .serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        .jp-serif {
+            font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HGS明朝E", "MS PMincho", serif;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 3rem 0 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .site-title {
+            font-size: 1.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: #000;
+            text-decoration: none;
+            display: inline-block;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .site-title:hover {
+            border-bottom-color: #000;
+        }
+
+        /* Article Header */
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .category-tag {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #bfa078;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-size: 1.8rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-feature-settings: "palt";
+        }
+
+        .publish-date {
+            font-size: 0.8rem;
+            color: #999;
+            letter-spacing: 0.1em;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Main Visual */
+        .main-visual {
+            width: 100%;
+            height: auto;
+            margin-bottom: 4rem;
+            display: block;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        /* Content */
+        .lead-text {
+            font-size: 1.05rem;
+            margin-bottom: 3rem;
+            font-weight: 500;
+            text-align: justify;
+        }
+
+        h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            letter-spacing: 0.05em;
+            color: #000;
+        }
+        
+        h3::after {
+            content: "";
+            display: block;
+            width: 30px;
+            height: 1px;
+            background: #bfa078;
+            margin: 15px auto 0;
+        }
+
+        p {
+            margin-bottom: 2rem;
+            color: #4a4a4a;
+            text-align: justify;
+            font-weight: 300;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+        
+        ul li {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        ul li::before {
+            content: "•";
+            color: #bfa078;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        strong {
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        /* Image insert */
+        figure {
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        figure img {
+            max-width: 100%;
+            max-height: 400px;
+            height: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        figcaption {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #888;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+        }
+
+        /* Impression Box */
+        .impression {
+            background-color: #fcfbf9;
+            padding: 3rem;
+            margin: 4rem 0;
+            border: 1px solid #f0f0f0;
+            position: relative;
+        }
+
+        .impression-label {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 0 15px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            color: #bfa078;
+        }
+
+        .impression p {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        .impression p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Footer */
+        .article-footer {
+            border-top: 1px solid #eaeaea;
+            padding-top: 2rem;
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .tags {
+            font-size: 0.75rem;
+            color: #999;
+            letter-spacing: 0.05em;
+        }
+
+        .tags span {
+            margin-right: 15px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            text-decoration: none;
+            color: #333;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            opacity: 0.6;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 0 15px; }
+            .article-title { font-size: 1.4rem; }
+            .impression { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="journal.html" class="site-title">COLEGLANCE</a>
+    </header>
+
+    <div class="container">
+        
+        <article>
+            <div class="article-header">
+                <span class="category-tag">Journal / Trivia</span>
+                <h1 class="article-title jp-serif">「手首をこすり合わせる」はNG？<br>香りの寿命を縮める、意外なタブーと正しい作法</h1>
+                <span class="publish-date">November 12, 2024</span>
+            </div>
+
+            <!-- Main Visual -->
+            <img src="assets/images/fragrance_trivia.jpg" 
+                 alt="Applying perfume gracefully" 
+                 class="main-visual"
+                 onerror="this.style.backgroundColor='#f0f0f0'; this.style.padding='40px'; this.src=''; this.alt='Image not available';">
+
+            <p class="lead-text jp-serif">
+                香水をつけた後、無意識に手首と手首をゴシゴシとこすり合わせていませんか？<br>
+                映画のワンシーンでも見かけるこの仕草、実は香りのプロフェッショナルの間では「やってはいけないこと」の一つとされています。今回は、より美しく香らせるための「タッチ」の秘密について解説します。
+            </p>
+
+            <h3>Why? なぜこすってはいけないのか</h3>
+            <p>
+                理由は大きく分けて2つあります。手首をこすることは、調香師が描いた香りのストーリーを早送りしてしまうようなものなのです。
+            </p>
+            <ul>
+                <li>
+                    <strong>香りのピラミッドが崩れる（摩擦熱の影響）</strong><br>
+                    香水は、揮発性の高い成分（トップノート）から順に香るように計算されています。手首を強くこすり合わせると<strong>摩擦熱</strong>が発生し、繊細なトップノートの分子が揮発・変質しやすくなります。結果として、本来の香りの立ち上がりを楽しめなくなってしまうのです。
+                </li>
+                <li>
+                    <strong>香りの寿命が短くなる</strong><br>
+                    皮膚に馴染む前に無理やり広げることで揮発が促進され、香りの持続時間が短くなってしまう傾向があります。
+                </li>
+            </ul>
+
+            <figure>
+                <img src="https://sspark.genspark.ai/cfimages?u1=eeEGhEB582fZMFbdFcRZ8IAp1fJ9LI9hKcZ3Hn9st3wTr86w9soJKTPmfmZI%2BxGSPa9R%2Fh%2Fe2ORS6ODshWVWaEm1p1X2B8BEd98IVvoHqLKKifM3tcSr&u2=6clNfl53cIezDcu3&width=2560" 
+                     alt="Perfume Storage"
+                     onerror="this.style.display='none'">
+                <figcaption>保管場所も重要。直射日光を避け、温度変化の少ない場所で。</figcaption>
+            </figure>
+
+            <h3>Correct Manner：正しいなじませ方</h3>
+            <p>
+                正解は、<strong>「トントン、と優しくタップする」</strong>こと。<br>
+                あるいは、こすり合わせずにそのまま乾くのを待つのがベストです。手首につけた香りを首筋に移したい時も、皮膚同士をこすらず、優しく押し当てる（プレスする）ように意識してみましょう。
+            </p>
+            <p>
+                香水は「つける」というよりも「纏う（まとう）」もの。
+                肌に乗せた瞬間から、あなた自身の体温と混ざり合い、世界に一つだけの香りへと変化していきます。その変化を急がせず、ゆっくりと楽しむ余裕こそが、香りを味方につける秘訣です。
+            </p>
+
+            <div class="impression">
+                <span class="impression-label">Coleglance’s Tips</span>
+                <p>
+                    もし香りをまろやかに香らせたいなら、手首ではなく<strong>「ウエスト」</strong>や<strong>「足首」</strong>につけるのがおすすめ。
+                </p>
+                <p>
+                    体温で温められた香りは下から上へと立ち上る性質があるため、顔から遠い位置につけることで、ふんわりとしたヴェールのような香りを纏うことができます。
+                    食事の席など、強い香りが好まれないシーンでも有効なテクニックです。
+                </p>
+            </div>
+
+            <div class="article-footer">
+                <div class="tags">
+                    <span>#FragranceBasics</span>
+                    <span>#Longevity</span>
+                    <span>#PerfumeTips</span>
+                    <span>#豆知識</span>
+                </div>
+                <a href="journal.html" class="back-link">VIEW ALL JOURNAL</a>
+            </div>
+
+        </article>
+
+    </div>
+
+</body>
+</html>

@@ -6,6 +6,33 @@
  */
 const journalArticles = [
     {
+        id: 'decorte_kimono_yui_review',
+        date: '2025-12-11',
+        category: 'REVIEW',
+        title: '【Review】纏う、日本の美意識。コスメデコルテ「キモノ ユイ」が紡ぐ、清らかな縁（えにし）',
+        excerpt: '日本の美意識を香りで表現したコスメデコルテの「キモノ ユイ」。酢橘（すだち）の爽やかさとピンクペッパーのアクセント、そしてバニラの柔らかな温もりが織りなす「透明感のあるフローラル」を徹底レビュー。',
+        image: 'assets/images/kimono_yui.jpg',
+        link: 'kimono_yui.html'
+    },
+    {
+        id: 'jo_malone_nectarine_review',
+        date: '2025-12-11',
+        category: 'REVIEW',
+        title: '【Review】ロンドンの朝市、果実の誘惑。ジョー マローン「ネクタリン ブロッサム & ハニー」',
+        excerpt: 'ロンドンのコベントガーデンの早朝マーケットからインスピレーションを得た、ジョーマローンの人気作。採れたてのネクタリンとピーチ、そしてアカシアハニーが織りなす、甘くジューシーで遊び心あふれる香りの魅力を紹介。',
+        image: 'assets/images/jo_malone_nectarine.jpg',
+        link: 'jo_malone_nectarine.html'
+    },
+    {
+        id: 'fragrance_trivia_rubbing',
+        date: '2025-12-11',
+        category: 'KNOWLEDGE',
+        title: '【Journal】「手首をこすり合わせる」はNG？香りの寿命を縮める、意外なタブーと正しい作法',
+        excerpt: '香水を手首につけた後、無意識にこすり合わせていませんか？実はその行動が香りのピラミッドを崩し、寿命を縮めているかもしれません。プロが教える正しい付け方と、香りを長持ちさせるテクニックを解説。',
+        image: 'assets/images/fragrance_trivia.jpg',
+        link: 'fragrance_trivia.html'
+    },
+    {
         id: 'ck_one_review',
         date: '2025-12-05',
         category: 'REVIEW',

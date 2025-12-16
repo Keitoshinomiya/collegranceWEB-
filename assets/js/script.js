@@ -537,109 +537,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 19. Fragrance Quiz Logic ---
-    const quizOptions = document.querySelectorAll('.quiz-option');
-    const quizResult = document.getElementById('quizResult');
-    let currentStep = 1;
-    let userAnswers = {};
-
-    const quizDatabase = [
-        // Citrus & Green
-        { type: 'citrus', brand: 'Calvin Klein', name: 'ck one', img: 'assets/images/CK-One-EDT.jpg', top: 'Bergamot', mid: 'Green Tea', base: 'Musk', desc: '誰もが愛する王道のシトラス。迷ったらまずはコレ。', link: 'https://www.amazon.co.jp/dp/B0FSKMB6HR' },
-        // Warm & Gourmand
-        { type: 'warm', brand: 'Maison Margiela', name: 'Jazz Club', img: 'assets/images/MRG-JazzClub-EDT.jpg', top: 'Pink Pepper', mid: 'Rum', base: 'Tobacco', desc: '甘くスモーキーな大人の香り。夜のデートに最適。', link: 'https://www.amazon.co.jp/dp/B0FSKQBBXN' },
-        // Clean & Musk
-        { type: 'clean', brand: 'BYREDO', name: 'Blanche', img: 'assets/images/BYR-Blanche-EDP.jpg', top: 'White Rose', mid: 'Neroli', base: 'Musk', desc: '洗いたてのシーツのような、究極の清潔感。', link: 'https://www.amazon.co.jp/dp/B0FRG5XX2Q' },
-        // Floral & Fruity
-        { type: 'floral', brand: 'TIFFANY & CO.', name: 'Rose Gold', img: 'assets/images/TFFY-RoseGold-EDP.jpg', top: 'Blackcurrant', mid: 'Blue Rose', base: 'Ambrette', desc: '透明感のあるローズとフルーツの華やかな香り。', link: 'https://www.amazon.co.jp/dp/B0FSKRCH5G' }
-    ];
-
-    if (quizOptions.length > 0) {
-        quizOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                const step = this.closest('.quiz-step');
-                const stepId = step.id; // step1, step2, etc.
-                const answer = this.getAttribute('data-answer');
-                
-                userAnswers[stepId] = answer;
-
-                // Proceed to next
-                if (currentStep < 4) {
-                    // Hide current with animation
-                    step.style.opacity = '0';
-                    setTimeout(() => {
-                        step.style.display = 'none';
-                        step.style.opacity = '1';
-                        
-                        currentStep++;
-                        const nextStep = document.getElementById('step' + currentStep);
-                        if(nextStep) {
-                            nextStep.style.display = 'block';
-                            // Simple fade in
-                            nextStep.style.opacity = '0';
-                            setTimeout(() => nextStep.style.opacity = '1', 50);
-                        }
-                    }, 300);
-                } else {
-                    // Finished
-                    step.style.display = 'none';
-                    showQuizResult();
-                }
-            });
-        });
-    }
-
-    function showQuizResult() {
-        // Simple logic: Determine result based on Step 2 (Category)
-        const preferredType = userAnswers['step2']; // citrus, warm, clean, floral
-        
-        // Find match
-        let result = quizDatabase.find(p => p.type === preferredType) || quizDatabase[2]; // Default to clean
-
-        // Render Result
-        const resImg = document.getElementById('resultImage');
-        if(resImg) resImg.src = result.img;
-        
-        const resBrand = document.getElementById('resultBrand');
-        if(resBrand) resBrand.textContent = result.brand;
-        
-        const resTitle = document.getElementById('resultTitle');
-        if(resTitle) resTitle.textContent = result.name;
-        
-        const resTop = document.getElementById('resultTop');
-        if(resTop) resTop.textContent = result.top;
-        
-        const resMid = document.getElementById('resultMid');
-        if(resMid) resMid.textContent = result.mid;
-        
-        const resBase = document.getElementById('resultBase');
-        if(resBase) resBase.textContent = result.base;
-        
-        const resDesc = document.getElementById('resultDescription');
-        if(resDesc) resDesc.textContent = result.desc;
-        
-        const resLink = document.getElementById('resultLink');
-        if(resLink) resLink.href = result.link;
-
-        // Show Result
-        if(quizResult) {
-            quizResult.style.display = 'block';
-            quizResult.style.opacity = '0';
-            setTimeout(() => quizResult.style.opacity = '1', 50);
-        }
-    }
-
-    // Restart Logic
+    // --- 19. Advanced Fragrance Quiz Logic (v3.2) ---
+    // Initialize Restart Logic
     const restartBtn = document.getElementById('btn-quiz-restart');
-    if(restartBtn) {
-        restartBtn.addEventListener('click', () => {
-            if(quizResult) quizResult.style.display = 'none';
-            currentStep = 1;
-            userAnswers = {};
-            const step1 = document.getElementById('step1');
-            if(step1) step1.style.display = 'block';
-        });
-    }
+    const restartBtnNew = document.getElementById('btn-quiz-restart-new');
+    
+    // Bind both old and new restart buttons if they exist
+    [restartBtn, restartBtnNew].forEach(btn => {
+        if(btn) {
+            btn.addEventListener('click', () => {
+                window.restartQuiz();
+            });
+        }
+    });
 
     // Close Result Logic
     const closeResultBtn = document.getElementById('btn-quiz-close-result');
@@ -650,10 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
              
              // Reset for next time
              setTimeout(() => {
-                if(quizResult) quizResult.style.display = 'none';
-                currentStep = 1;
-                const step1 = document.getElementById('step1');
-                if(step1) step1.style.display = 'block';
+                window.restartQuiz();
              }, 500);
         });
     }
@@ -673,5 +580,384 @@ window.scrollCarousel = (prefix, direction) => {
             left: direction * scrollAmount,
             behavior: 'smooth'
         });
+    }
+};
+
+// --- Advanced Quiz System Functions ---
+// Enhanced Product Database with Scoring Tags
+const quizProducts = [
+    // Citrus / Fresh / Clean
+    { 
+        id: 'ck_one', 
+        brand: 'Calvin Klein', 
+        name: 'ck one', 
+        img: 'assets/images/CK-One-EDT.jpg',
+        top: 'Bergamot', mid: 'Green Tea', base: 'Musk',
+        desc: '世界中で愛されるユニセックスフレグランスの金字塔。ピュアで清潔感のある香りは、オフィスからカジュアルまであらゆるシーンに馴染みます。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKMB6HR',
+        tags: { scene: ['office', 'daily', 'relax'], type: ['citrus', 'clean'], impression: ['clean', 'friendly'], strength: ['light', 'medium'] }
+    },
+    { 
+        id: 'light_blue', 
+        brand: 'Dolce & Gabbana', 
+        name: 'Light Blue', 
+        img: 'assets/images/DG-LightBlue-EDT.jpg',
+        top: 'Sicilian Lemon', mid: 'Apple', base: 'Cedarwood',
+        desc: '地中海の陽光を思わせる、とびきりフレッシュなシトラス。気分をリフレッシュさせたい時や、夏の日のスタイルに完璧にマッチします。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKNWDG8',
+        tags: { scene: ['daily', 'relax', 'office'], type: ['citrus', 'fruity'], impression: ['friendly', 'clean'], strength: ['light', 'medium'] }
+    },
+    { 
+        id: 'blanche', 
+        brand: 'BYREDO', 
+        name: 'Blanche', 
+        img: 'assets/images/BYR-Blanche-EDP.jpg',
+        top: 'White Rose', mid: 'Neroli', base: 'Musk',
+        desc: '「白」という色を香りで表現した、究極の清潔感。洗いたてのリネンや石鹸を思わせる香りは、誰からも好印象を持たれる魔法の一本。',
+        link: 'https://www.amazon.co.jp/dp/B0FRG5XX2Q',
+        tags: { scene: ['office', 'daily', 'date'], type: ['clean', 'floral'], impression: ['clean', 'sophisticated'], strength: ['medium', 'light'] }
+    },
+    { 
+        id: 'nile', 
+        brand: 'HERMÈS', 
+        name: 'Un Jardin sur le Nil', 
+        img: 'assets/images/HRM-Nile-EDT.jpg',
+        top: 'Green Mango', mid: 'Lotus', base: 'Sycamore',
+        desc: 'ナイル川のほとりを散策しているかのような、水と緑の瑞々しさ。甘さを抑えたグリーンマンゴーの香りが、知的で涼やかな印象を与えます。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKQGK6Z',
+        tags: { scene: ['office', 'relax', 'daily'], type: ['citrus', 'green'], impression: ['sophisticated', 'clean', 'unique'], strength: ['medium', 'light'] }
+    },
+    { 
+        id: 'issey', 
+        brand: 'ISSEY MIYAKE', 
+        name: 'L\'Eau d\'Issey', 
+        img: 'assets/images/ISY-LdIssey-EDT.jpg',
+        top: 'Lotus', mid: 'Lily', base: 'Precious Woods',
+        desc: '「水の香り」を表現した、透明感あふれるアクアティックフローラル。凛とした強さと優しさを兼ね備え、日本人の美意識に響く香り。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKRJKJ7',
+        tags: { scene: ['office', 'daily', 'formal'], type: ['clean', 'floral'], impression: ['clean', 'sophisticated'], strength: ['medium'] }
+    },
+    
+    // Floral / Fruity / Sweet
+    { 
+        id: 'english_pear', 
+        brand: 'Jo Malone London', 
+        name: 'English Pear & Freesia', 
+        img: 'assets/images/JML-EnglishPear-C.jpg',
+        top: 'King William Pear', mid: 'Freesia', base: 'Patchouli',
+        desc: '熟した洋梨の瑞々しさと、白いフリージアのブーケ。英国の果樹園にいるような、優雅で愛らしい香り。好感度No.1のベストセラー。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKNWSN5',
+        tags: { scene: ['daily', 'date', 'office'], type: ['floral', 'fruity'], impression: ['friendly', 'clean'], strength: ['light', 'medium'] }
+    },
+    { 
+        id: 'rose_gold', 
+        brand: 'TIFFANY & CO.', 
+        name: 'Rose Gold', 
+        img: 'assets/images/TFFY-RoseGold-EDP.jpg',
+        top: 'Blackcurrant', mid: 'Blue Rose', base: 'Ambrette',
+        desc: 'ティファニーらしい透明感と、ローズゴールドの温かみを表現。フルーティなトップから上品なローズへ移ろう、女性らしさを高める香り。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKRCH5G',
+        tags: { scene: ['date', 'office', 'special'], type: ['floral', 'fruity'], impression: ['sophisticated', 'feminine'], strength: ['medium'] }
+    },
+    { 
+        id: 'libre', 
+        brand: 'YVES SAINT LAURENT', 
+        name: 'LIBRE', 
+        img: 'assets/images/YSL-Libre-EDP.jpg',
+        top: 'Lavender', mid: 'Orange Blossom', base: 'Vanilla',
+        desc: 'マスキュリンなラベンダーとフェミニンなオレンジブロッサムの衝突。自由を愛する女性のための、クールでセクシーなフローラルラベンダー。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKSG813',
+        tags: { scene: ['night', 'special', 'office'], type: ['floral', 'oriental'], impression: ['sophisticated', 'sensual', 'unique'], strength: ['heavy', 'medium'] }
+    },
+    { 
+        id: 'hypnotic_poison', 
+        brand: 'DIOR', 
+        name: 'Hypnotic Poison', 
+        img: 'assets/images/DIO-Hypnotic-EDT.jpg',
+        top: 'Apricot', mid: 'Jasmine', base: 'Vanilla',
+        desc: '媚薬のような甘さと中毒性。バニラとアーモンドが織りなすグルマンノートは、一度香ると忘れられない濃厚な存在感を放ちます。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKNF4QC',
+        tags: { scene: ['date', 'night', 'relax'], type: ['sweet', 'oriental'], impression: ['sensual', 'unique'], strength: ['heavy', 'unique'] }
+    },
+    
+    // Woody / Musk / Complex
+    { 
+        id: 'lazy_sunday', 
+        brand: 'Maison Margiela', 
+        name: 'Lazy Sunday Morning', 
+        img: 'assets/images/MRG-LazySun-EDT.jpg',
+        top: 'Pear', mid: 'Iris', base: 'White Musk',
+        desc: '日曜日の朝、洗い立てのリネンのシーツに包まれて過ごす心地よい時間。肌に馴染む柔らかいムスクは、リラックスしたい日に最適。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKSJVDC',
+        tags: { scene: ['relax', 'daily', 'date'], type: ['musk', 'clean'], impression: ['clean', 'sensual'], strength: ['light', 'medium'] }
+    },
+    { 
+        id: 'another_13', 
+        brand: 'LE LABO', 
+        name: 'Another 13', 
+        img: 'assets/images/LLB-Another13-EDP.jpg',
+        top: 'Ambroxan', mid: 'Jasmine', base: 'Moss',
+        desc: '都会的で鋭く、それでいて中毒性のあるアニマリックなムスク。体温と混ざり合うことで「あなただけの香り」に変化する、唯一無二の存在感。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKQLTQN',
+        tags: { scene: ['daily', 'special', 'date'], type: ['musk', 'woody'], impression: ['unique', 'sophisticated', 'sensual'], strength: ['medium', 'unique'] }
+    },
+    { 
+        id: 'fleur_de_peau', 
+        brand: 'DIPTYQUE', 
+        name: 'Fleur de Peau', 
+        img: 'assets/images/DPTY-FdPeau-EDP.jpg',
+        top: 'Pink Pepper', mid: 'Iris', base: 'Musk',
+        desc: '「肌の花」という名の通り、肌に溶け込むようなパウダリーなムスク。アイリスの優雅さとピンクペッパーのアクセントが、知的な色気を演出します。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKQWRJM',
+        tags: { scene: ['date', 'office', 'relax'], type: ['musk', 'floral'], impression: ['sensual', 'sophisticated'], strength: ['medium', 'light'] }
+    },
+    { 
+        id: 'loewe_woman', 
+        brand: 'LOEWE', 
+        name: '001 Woman', 
+        img: 'assets/images/LOW-Woman-EDP.jpg',
+        top: 'Bergamot', mid: 'Sandalwood', base: 'Vanilla',
+        desc: '新しい始まりを予感させる、モダンで温かみのある香り。バニラとサンダルウッドの甘さが、優しく包み込むように香ります。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKPQPZ7',
+        tags: { scene: ['date', 'daily', 'relax'], type: ['woody', 'sweet'], impression: ['friendly', 'sensual'], strength: ['medium'] }
+    },
+    { 
+        id: 'loewe_man', 
+        brand: 'LOEWE', 
+        name: '001 Man', 
+        img: 'assets/images/LOW-Man-EDT.jpg',
+        top: 'Cardamom', mid: 'Cypress', base: 'White Musk',
+        desc: 'Womanと対になる、落ち着きのあるウッディノート。ヒノキのような清々しさとムスクの余韻が、知的で落ち着いた大人の余裕を感じさせます。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKQ8QV8',
+        tags: { scene: ['office', 'date', 'relax'], type: ['woody', 'spicy'], impression: ['sophisticated', 'clean'], strength: ['medium'] }
+    },
+    { 
+        id: 'orpheon', 
+        brand: 'DIPTYQUE', 
+        name: 'Orpheon', 
+        img: 'assets/images/DPTY-Orpheon-EDP.jpg',
+        top: 'Juniper Berry', mid: 'Jasmine', base: 'Powder',
+        desc: '60年代のパリのバーの雰囲気を再現。タバコの煙、パウダリーな化粧、木の温もり。知的でミステリアスな印象を与える香り。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKMB6HG',
+        tags: { scene: ['night', 'bar', 'special'], type: ['woody', 'spicy'], impression: ['sophisticated', 'sensual', 'unique'], strength: ['medium', 'heavy'] }
+    },
+    { 
+        id: 'jazz_club', 
+        brand: 'Maison Margiela', 
+        name: 'Jazz Club', 
+        img: 'assets/images/MRG-JazzClub-EDT.jpg',
+        top: 'Pink Pepper', mid: 'Rum', base: 'Tobacco',
+        desc: 'ブルックリンのジャズクラブ。ラム酒の甘さとタバコの葉のスモーキーさが絡み合う、大人のためのセクシーで甘美な香り。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKQBBXN',
+        tags: { scene: ['date', 'special', 'night'], type: ['woody', 'sweet'], impression: ['sensual', 'unique'], strength: ['heavy', 'unique'] }
+    },
+    { 
+        id: 'the_time', 
+        brand: 'THE HOUSE OF OUD', 
+        name: 'The Time', 
+        img: 'assets/images/THO-TheTime-EDP.jpg',
+        top: 'Bergamot', mid: 'Blue Tea', base: 'Musk',
+        desc: '「日本のティータイム」にインスパイアされた、静寂と調和の香り。ブルーティーと花々の香りが、忙しい日々に安らぎをもたらします。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKT7V2N',
+        tags: { scene: ['relax', 'office', 'daily'], type: ['clean', 'floral', 'tea'], impression: ['sophisticated', 'unique', 'clean'], strength: ['light', 'medium'] }
+    },
+    { 
+        id: 'sauvage', 
+        brand: 'DIOR', 
+        name: 'Sauvage', 
+        img: 'assets/images/DIO-Sauvage-EDT.jpg',
+        top: 'Bergamot', mid: 'Pepper', base: 'Ambroxan',
+        desc: '広大な大地にインスパイアされた、野性的で力強い香り。フレッシュなシトラスとスパイシーなウッディが、自信と活力を与えてくれます。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKQW44P',
+        tags: { scene: ['night', 'date', 'daily'], type: ['spicy', 'citrus'], impression: ['masculine', 'sophisticated'], strength: ['heavy', 'medium'] }
+    }
+];
+
+// Logic Variables
+let quizAnswers = {};
+const totalSteps = 4;
+
+// Update Progress Bar
+window.updateProgress = (step) => {
+    const percentage = ((step - 1) / totalSteps) * 100;
+    const bar = document.getElementById('progressBar');
+    if(bar) bar.style.width = percentage + '%';
+};
+
+// Next Step Function
+window.nextStep = (currentStepNum, key, value) => {
+    // Save Answer
+    quizAnswers[key] = value;
+
+    // Animate Current Step Out
+    const currentEl = document.getElementById('step' + currentStepNum);
+    if(currentEl) {
+        currentEl.style.opacity = '0';
+        currentEl.style.transform = 'translateX(-20px)';
+        
+        setTimeout(() => {
+            currentEl.style.display = 'none';
+            
+            // Animate Next Step In
+            const nextStepNum = currentStepNum + 1;
+            const nextEl = document.getElementById('step' + nextStepNum);
+            
+            if(nextEl) {
+                nextEl.style.display = 'block';
+                nextEl.style.opacity = '0';
+                nextEl.style.transform = 'translateX(20px)';
+                
+                window.updateProgress(nextStepNum);
+                
+                // Force Reflow
+                void nextEl.offsetWidth;
+                
+                nextEl.style.opacity = '1';
+                nextEl.style.transform = 'translateX(0)';
+            }
+        }, 300);
+    }
+};
+
+// Finish Quiz Function
+window.finishQuiz = (key, value) => {
+    quizAnswers[key] = value;
+    
+    // Hide Step 4
+    const step4 = document.getElementById('step4');
+    if(step4) {
+        step4.style.opacity = '0';
+        setTimeout(() => {
+            step4.style.display = 'none';
+            window.showAnalyzing();
+        }, 300);
+    }
+};
+
+// Show Analysis Animation
+window.showAnalyzing = () => {
+    const analyzingEl = document.getElementById('analyzingView');
+    if(analyzingEl) {
+        analyzingEl.style.display = 'block';
+        window.updateProgress(5); // Full bar
+
+        // Simulate AI Processing
+        setTimeout(() => {
+            analyzingEl.style.display = 'none';
+            window.calculateAndShowResult();
+        }, 1800);
+    }
+};
+
+// Calculate & Show Result
+window.calculateAndShowResult = () => {
+    // Scoring Logic
+    const scores = quizProducts.map(product => {
+        let score = 0;
+        
+        // 1. Scene Matching (Weight: 3)
+        if (product.tags.scene.includes(quizAnswers.scene)) score += 3;
+        
+        // 2. Type Matching (Weight: 3) - Balanced with others
+        // Allow partial match (e.g. citrus vs fresh) mapped roughly
+        const typeMap = {
+            'citrus': ['citrus', 'fresh', 'clean', 'tea'],
+            'floral': ['floral', 'fruity', 'sweet', 'oriental'],
+            'woody': ['woody', 'spicy', 'masculine'],
+            'musk': ['musk', 'clean', 'skin', 'oriental']
+        };
+        
+        const targetTypes = typeMap[quizAnswers.scent_type] || [];
+        const hasTypeMatch = product.tags.type.some(t => targetTypes.includes(t));
+        if (hasTypeMatch) score += 3;
+        
+        // 3. Impression Matching (Weight: 3) - Increased Importance
+        if (product.tags.impression.includes(quizAnswers.impression)) score += 3;
+        
+        // 4. Strength Matching (Weight: 2) - Increased Importance
+        if (product.tags.strength.includes(quizAnswers.strength)) score += 2;
+
+        return { product, score };
+    });
+
+    // Sort by Score Descending
+    scores.sort((a, b) => b.score - a.score);
+
+    // Get Top 2
+    const winner = scores[0].product;
+    const runnerUp = scores[1].product;
+
+    // Render Winner
+    const resBrand = document.getElementById('resultBrand');
+    if(resBrand) resBrand.textContent = winner.brand;
+    
+    const resName = document.getElementById('resultName');
+    if(!resName) {
+        // Fallback for ID mismatch if any
+        document.getElementById('resultTitle').textContent = winner.name;
+    } else {
+        resName.textContent = winner.name;
+    }
+    
+    const resImg = document.getElementById('resultImage');
+    if(resImg) resImg.src = winner.img;
+    
+    const resTop = document.getElementById('resultTop');
+    if(resTop) resTop.textContent = winner.top;
+    
+    const resMid = document.getElementById('resultMid');
+    if(resMid) resMid.textContent = winner.mid;
+    
+    const resBase = document.getElementById('resultBase');
+    if(resBase) resBase.textContent = winner.base;
+    
+    const resDesc = document.getElementById('resultDescription');
+    if(resDesc) resDesc.textContent = winner.desc;
+    
+    const resLink = document.getElementById('resultLink');
+    if(resLink) resLink.href = winner.link;
+
+    // Render Runner Up
+    const secRec = document.getElementById('secondRecommendation');
+    if(secRec) {
+        secRec.onclick = () => { window.location.href = runnerUp.link; };
+        const secImg = document.getElementById('secImg');
+        if(secImg) secImg.src = runnerUp.img;
+        
+        const secBrand = document.getElementById('secBrand');
+        if(secBrand) secBrand.textContent = runnerUp.brand;
+        
+        const secName = document.getElementById('secName');
+        if(secName) secName.textContent = runnerUp.name;
+    }
+
+    // Show Result View
+    const resView = document.getElementById('resultView');
+    if(resView) {
+        resView.style.display = 'block';
+        setTimeout(() => {
+            resView.style.opacity = '1';
+        }, 50);
+    }
+};
+
+// Restart Quiz Function
+window.restartQuiz = () => {
+    const resView = document.getElementById('resultView');
+    if(resView) {
+        resView.style.opacity = '0';
+        
+        setTimeout(() => {
+            resView.style.display = 'none';
+            
+            quizAnswers = {};
+            const step1 = document.getElementById('step1');
+            if(step1) step1.style.display = 'block';
+            window.updateProgress(1);
+            
+            // Reset Animations
+            step1.style.opacity = '1';
+            step1.style.transform = 'translateX(0)';
+        }, 500);
     }
 };

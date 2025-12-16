@@ -6,6 +6,24 @@
  */
 const journalArticles = [
     {
+        id: 'olfactory_fatigue_trivia',
+        date: '2025-12-18',
+        category: 'TRIVIA',
+        title: '【雑学】「自分の匂いが分からない」はなぜ起きる？嗅覚疲労のメカニズムとリセット方法',
+        excerpt: '香水をつけた直後は香るのに、数分経つと分からなくなる現象。「鼻がバカになった？」と心配する必要はありません。これは脳の賢い機能です。コーヒー豆が香水店にある理由とともに解説します。',
+        image: 'https://images.unsplash.com/photo-1599407337340-e2586e30b42c?auto=format&fit=crop&w=800&q=80',
+        link: 'article-olfactory-fatigue.html'
+    },
+    {
+        id: 'scent_wardrobe_guide',
+        date: '2025-12-17',
+        category: 'LIFESTYLE',
+        title: '【賢い選択】いきなりボトルは買わない。お試し香水で作る「香りのワードローブ」という新習慣',
+        excerpt: '洋服を着替えるように、香りも毎日変えたい。でもフルボトルを何本も買うのは大変...。そんなあなたに提案したい、1.5mlサイズを組み合わせて作る「香りのワードローブ」の楽しみ方。',
+        image: 'https://images.unsplash.com/photo-1550525811-e5869dd03032?auto=format&fit=crop&w=800&q=80',
+        link: 'article-scent-wardrobe.html'
+    },
+    {
         id: 'perfume_history_trivia',
         date: '2025-12-16',
         category: 'TRIVIA',

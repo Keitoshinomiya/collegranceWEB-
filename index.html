@@ -1762,7 +1762,7 @@
         </div>
     </footer>
 
-    <!-- Fragrance Quiz Modal -->
+    <!-- Fragrance Quiz Modal (Updated with Advanced Logic & SVG Icons) -->
     <div id="fragranceQuizModal" class="quiz-modal">
         <div class="quiz-content">
             <span class="quiz-close">&times;</span>
@@ -1771,83 +1771,240 @@
                 <p>4つの簡単な質問で理想の香りをご提案します</p>
             </div>
             
-            <div class="quiz-step" id="step1">
-                <h3>どんなシーンで香水を使いたいですか？</h3>
-                <div class="quiz-options">
-                    <button class="quiz-option" data-answer="business">オフィス・ビジネス</button>
-                    <button class="quiz-option" data-answer="casual">カジュアル・デイリー</button>
-                    <button class="quiz-option" data-answer="evening">ディナー・デート</button>
-                    <button class="quiz-option" data-answer="special">特別な日</button>
+            <div class="quiz-wrapper" id="quizWrapper">
+                <!-- Progress Bar -->
+                <div class="quiz-progress">
+                    <div class="quiz-progress-bar" id="progressBar"></div>
                 </div>
-            </div>
-            
-            <div class="quiz-step" id="step2" style="display:none;">
-                <h3>好みの香りのタイプは？</h3>
-                <div class="quiz-options">
-                    <button class="quiz-option" data-answer="citrus">CITRUS & GREEN<br><span style="font-size:0.8rem">爽快系</span></button>
-                    <button class="quiz-option" data-answer="warm">WARM & GOURMAND<br><span style="font-size:0.8rem">甘美・スパイス系</span></button>
-                    <button class="quiz-option" data-answer="clean">CLEAN MUSK & AQUATIC<br><span style="font-size:0.8rem">清潔感・マリン系</span></button>
-                    <button class="quiz-option" data-answer="floral">FLORAL & FRUITY<br><span style="font-size:0.8rem">花々・果実系</span></button>
-                </div>
-            </div>
-            
-            <div class="quiz-step" id="step3" style="display:none;">
-                <h3>香りの強さはどれくらいがお好み？</h3>
-                <div class="quiz-options">
-                    <button class="quiz-option" data-answer="light">ほのかに香る</button>
-                    <button class="quiz-option" data-answer="medium">適度にしっかり</button>
-                    <button class="quiz-option" data-answer="strong">印象的に</button>
-                </div>
-            </div>
-            
-            <div class="quiz-step" id="step4" style="display:none;">
-                <h3>あなたが香りに求めるイメージは？</h3>
-                <div class="quiz-options">
-                    <button class="quiz-option" data-answer="clean">清潔感・ピュア</button>
-                    <button class="quiz-option" data-answer="mature">知性・大人っぽさ</button>
-                    <button class="quiz-option" data-answer="cute">優しさ・愛らしさ</button>
-                    <button class="quiz-option" data-answer="sensual">色気・個性的</button>
-                </div>
-            </div>
-            
-            <div class="quiz-result" id="quizResult" style="display:none;">
-                <h3 class="quiz-result-heading">あなたにおすすめの香りタイプ</h3>
-                <div class="result-content">
-                    <div class="result-image">
-                        <img id="resultImage" src="" alt="おすすめの香り">
+
+                <!-- Step 1 -->
+                <div class="quiz-step-container" id="step1">
+                    <h2 class="quiz-question-title">Q1. 香水を主に使いたいシーンは？</h2>
+                    <div class="quiz-options-grid">
+                        <div class="quiz-option-card" onclick="nextStep(1, 'scene', 'office')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">オフィス・仕事</div>
+                                <div class="quiz-option-sub">清潔感と信頼感を大切にしたい</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(1, 'scene', 'date')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8"></path><path d="M7 10h10"></path><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"></path><path d="M12 15v7"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">デート・ディナー</div>
+                                <div class="quiz-option-sub">魅力を引き出し、印象に残したい</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(1, 'scene', 'relax')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"></path><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">休日・リラックス</div>
+                                <div class="quiz-option-sub">自分のために香りを楽しみたい</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(1, 'scene', 'daily')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2"></path><path d="M12 21v2"></path><path d="M4.22 4.22l1.42 1.42"></path><path d="M18.36 18.36l1.42 1.42"></path><path d="M1 12h2"></path><path d="M21 12h2"></path><path d="M4.22 19.78l1.42-1.42"></path><path d="M18.36 5.64l1.42-1.42"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">日常・カジュアル</div>
+                                <div class="quiz-option-sub">どんな服装にも合う万能な香り</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="result-text">
-                        <div class="result-match-label">PERFECT MATCH</div>
-                        <div class="result-header-group">
-                            <span id="resultBrand" class="result-brand-name">BRAND</span>
-                            <h4 id="resultTitle">Product Name</h4>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="quiz-step-container" id="step2" style="display:none;">
+                    <h2 class="quiz-question-title">Q2. 好みの香りの系統は？</h2>
+                    <div class="quiz-options-grid">
+                        <div class="quiz-option-card" onclick="nextStep(2, 'scent_type', 'citrus')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="M12 12 2.5 14"></path><path d="M12 12l9.5-2"></path><path d="M12 12V2.5"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">シトラス・サボン</div>
+                                <div class="quiz-option-sub">爽やかで清潔感のある香り</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(2, 'scent_type', 'floral')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7.5a4.5 4.5 0 1 1 4.5 4.5M12 7.5A4.5 4.5 0 1 0 7.5 12M12 7.5V9m-4.5 3a4.5 4.5 0 1 0 4.5 4.5M12 9v7.5m4.5-3a4.5 4.5 0 1 1-4.5-4.5M12 12a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">フローラル・フルーティ</div>
+                                <div class="quiz-option-sub">華やかで甘美な香り</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(2, 'scent_type', 'woody')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6"></path><path d="M5 6 12 2l7 4"></path><path d="M5 18h14"></path><path d="M4 18l1-12h14l1 12"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">ウッディ・スパイシー</div>
+                                <div class="quiz-option-sub">落ち着いた大人の香り</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(2, 'scent_type', 'musk')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19c0-1.7-1.3-3-3-3h-5c-1.7 0-3 1.3-3 3"></path><circle cx="12" cy="5" r="3"></circle><path d="M12 16v-8"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">ムスク・スキン</div>
+                                <div class="quiz-option-sub">肌に馴染む柔らかい香り</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="quiz-step-container" id="step3" style="display:none;">
+                    <h2 class="quiz-question-title">Q3. 相手に与えたい印象は？</h2>
+                    <div class="quiz-options-grid">
+                        <div class="quiz-option-card" onclick="nextStep(3, 'impression', 'clean')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">清潔感・ピュア</div>
+                                <div class="quiz-option-sub">誰からも好かれる透明感</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(3, 'impression', 'sophisticated')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="4"></circle><circle cx="18" cy="12" r="4"></circle><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">知的・洗練</div>
+                                <div class="quiz-option-sub">都会的でスマートな雰囲気</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(3, 'impression', 'friendly')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">親しみやすさ・明るさ</div>
+                                <div class="quiz-option-sub">話しかけやすい柔らかな空気</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(3, 'impression', 'sensual')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">色気・ミステリアス</div>
+                                <div class="quiz-option-sub">記憶に残る深みのある印象</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="quiz-step-container" id="step4" style="display:none;">
+                    <h2 class="quiz-question-title">Q4. 香りの強さの好みは？</h2>
+                    <div class="quiz-options-grid">
+                        <div class="quiz-option-card" onclick="finishQuiz('strength', 'light')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">さりげなく香る</div>
+                                <div class="quiz-option-sub">自分だけが気づく程度</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="finishQuiz('strength', 'medium')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">程よく香る</div>
+                                <div class="quiz-option-sub">すれ違いざまにふわっと</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="finishQuiz('strength', 'heavy')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9Z"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">しっかり香る</div>
+                                <div class="quiz-option-sub">長時間持続させたい</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="finishQuiz('strength', 'unique')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">個性重視</div>
+                                <div class="quiz-option-sub">人と被らない独特な香り</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analyzing View -->
+                <div class="analyzing-view" id="analyzingView">
+                    <div class="spinner"></div>
+                    <h3>AIが相性を分析中...</h3>
+                    <p style="color:#888;">あなたの好みを香りの成分データと照合しています</p>
+                </div>
+
+                <!-- Result View -->
+                <div class="quiz-result-view" id="resultView">
+                    <span class="result-match-rate">MATCH RATE: 98%</span>
+                    
+                    <div class="result-product-card">
+                        <div class="result-brand" id="resultBrand">BRAND NAME</div>
+                        <h2 class="result-name" id="resultName">Perfume Name</h2>
+                        <div class="result-img-wrapper">
+                            <img src="" alt="Result" id="resultImage">
                         </div>
                         
-                        <div class="result-notes-box">
-                            <div class="result-note-row">
-                                <span class="r-note-label">TOP</span>
-                                <span id="resultTop" class="r-note-val"></span>
+                        <div class="result-notes">
+                            <div class="note-item">
+                                <span>TOP NOTE</span>
+                                <span id="resultTop">Citrus</span>
                             </div>
-                            <div class="result-note-row">
-                                <span class="r-note-label">MIDDLE</span>
-                                <span id="resultMid" class="r-note-val"></span>
+                            <div class="note-item">
+                                <span>MIDDLE NOTE</span>
+                                <span id="resultMid">Floral</span>
                             </div>
-                            <div class="result-note-row">
-                                <span class="r-note-label">LAST</span>
-                                <span id="resultBase" class="r-note-val"></span>
+                            <div class="note-item">
+                                <span>BASE NOTE</span>
+                                <span id="resultBase">Musk</span>
                             </div>
                         </div>
+                        
+                        <p class="result-desc" id="resultDescription">
+                            商品説明がここに入ります。
+                        </p>
+                        
+                        <a href="#" class="btn-primary" id="resultLink" style="display:block; text-align:center;" target="_blank" rel="noopener">Amazonで見る</a>
+                    </div>
+                    
+                    <button class="btn-restart" id="btn-quiz-restart-new">もう一度診断する</button>
+                    <button class="btn-text" id="btn-quiz-close-result" style="margin-top:10px; color:#999; text-decoration:underline; border:none; background:none; cursor:pointer;">閉じる</button>
+                    
+                    <div style="margin-top:30px; border-top:1px solid #eee; padding-top:20px;">
+                        <h4 style="font-size:0.9rem; color:#666; margin-bottom:15px;">こちらもおすすめ（Match Rate: 92%）</h4>
+                        <div id="secondRecommendation" style="display:flex; gap:10px; justify-content:center; align-items:center; text-align:left; max-width:400px; margin:0 auto; padding:10px; background:#fff; border:1px solid #eee; border-radius:8px; cursor:pointer;" onclick="">
+                            <img src="" id="secImg" style="width:50px; height:50px; object-fit:contain;">
+                            <div>
+                                <div id="secBrand" style="font-size:0.7rem; color:#999;">BRAND</div>
+                                <div id="secName" style="font-weight:bold; font-size:0.9rem;">Name</div>
+                            </div>
+                            <div style="margin-left:auto; color:#333;">&rarr;</div>
+                        </div>
+                    </div>
+                </div>
 
-                        <p id="resultDescription"></p>
-                    </div>
-                </div>
-                <div class="result-cta">
-                    <a href="javascript:void(0)" id="resultLink" class="btn-primary amazon-cta-btn" target="_blank" rel="noopener">この香りをAmazonで見る</a>
-                    <div class="result-sub-actions">
-                        <button class="btn-text" id="btn-quiz-close-result">閉じる</button>
-                        <button class="btn-text" id="btn-quiz-restart">もう一度診断する</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

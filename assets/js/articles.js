@@ -6,6 +6,24 @@
  */
 const journalArticles = [
     {
+        id: 'olfactory_fatigue_trivia',
+        date: '2025-12-16',
+        category: 'TRIVIA',
+        title: '【雑学】「自分の匂いが分からない」はなぜ起きる？嗅覚疲労のメカニズムとリセット方法',
+        excerpt: '香水をつけた直後は香るのに、数分経つと分からなくなる現象。「鼻がバカになった？」と心配する必要はありません。これは脳の賢い機能です。コーヒー豆が香水店にある理由とともに解説します。',
+        image: 'assets/images/olfactory_fatigue.jpg',
+        link: 'article-olfactory-fatigue.html'
+    },
+    {
+        id: 'scent_wardrobe_guide',
+        date: '2025-12-16',
+        category: 'LIFESTYLE',
+        title: '【賢い選択】いきなりボトルは買わない。お試し香水で作る「香りのワードローブ」という新習慣',
+        excerpt: '洋服を着替えるように、香りも毎日変えたい。でもフルボトルを何本も買うのは大変...。そんなあなたに提案したい、1.5mlサイズを組み合わせて作る「香りのワードローブ」の楽しみ方。',
+        image: 'assets/images/scent_wardrobe.jpg',
+        link: 'article-scent-wardrobe.html'
+    },
+    {
         id: 'perfume_history_trivia',
         date: '2025-12-16',
         category: 'TRIVIA',
@@ -18,8 +36,8 @@ const journalArticles = [
         id: 'decorte_kimono_yui_review',
         date: '2025-12-11',
         category: 'REVIEW',
-        title: '【Review】纏う、日本の美意識。コスメデコルテ「キモノ ユイ」が紡ぐ、清らかな縁（えにし）',
-        excerpt: '日本の美意識を香りで表現したコスメデコルテの「キモノ ユイ」。酢橘（すだち）の爽やかさとピンクペッパーのアクセント、そしてバニラの柔らかな温もりが織りなす「透明感のあるフローラル」を徹底レビュー。',
+        title: '【透明感No.1】コスメデコルテ「キモノ ユイ」はモテる？酢橘とピンクペッパーの香りを徹底レビュー',
+        excerpt: '「奇跡の透明感」とSNSで話題。日本の美意識を表現したコスメデコルテ「キモノ ユイ(YUI)」の評判は？酢橘の爽やかさとバニラの甘さが織りなす、男女ウケ抜群の香りを深掘り解説。',
         image: 'assets/images/kimono_yui.jpg',
         link: 'kimono_yui.html'
     },
@@ -27,8 +45,8 @@ const journalArticles = [
         id: 'jo_malone_nectarine_review',
         date: '2025-12-11',
         category: 'REVIEW',
-        title: '【Review】ロンドンの朝市、果実の誘惑。ジョー マローン「ネクタリン ブロッサム & ハニー」',
-        excerpt: 'ロンドンのコベントガーデンの早朝マーケットからインスピレーションを得た、ジョーマローンの人気作。採れたてのネクタリンとピーチ、そしてアカシアハニーが織りなす、甘くジューシーで遊び心あふれる香りの魅力を紹介。',
+        title: '【桃香水の傑作】ジョーマローン「ネクタリン ブロッサム ＆ ハニー」は男ウケする？リアルな口コミと評判',
+        excerpt: 'ジョーマローン人気No.1のフルーティな香り「ネクタリン ブロッサム ＆ ハニー」。甘すぎる？若すぎる？そんな疑問に答える、大人女子のための桃香水レビュー。コンバイニングのコツも紹介。',
         image: 'assets/images/jo_malone_nectarine.jpg',
         link: 'jo_malone_nectarine.html'
     },

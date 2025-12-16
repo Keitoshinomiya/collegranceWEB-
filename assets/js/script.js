@@ -334,6 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
             articlesToShow.forEach(article => {
                 const card = document.createElement('div');
                 card.className = 'journal-card carousel-item'; // Use generic carousel item class
+                card.setAttribute('data-category', article.category.toLowerCase());
                 card.innerHTML = `
                     <div class="journal-image-wrapper">
                         <a href="${article.link}">
@@ -351,6 +352,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
                 journalTrack.appendChild(card);
+            });
+        }
+
+        // Journal Page Grid (Full List)
+        const journalGrid = document.getElementById('journal-page-grid');
+        if (journalGrid) {
+            journalGrid.innerHTML = ''; // Clear existing content (if any)
+
+            sortedArticles.forEach(article => {
+                const card = document.createElement('article');
+                card.className = 'journal-card';
+                card.setAttribute('data-category', article.category.toLowerCase()); // For filtering
+                card.innerHTML = `
+                    <div class="journal-image-wrapper">
+                        <a href="${article.link}" class="article-link-wrapper">
+                            <img src="${article.image}" alt="${article.title}" class="journal-image" loading="lazy">
+                        </a>
+                    </div>
+                    <div class="journal-content">
+                        <span class="journal-date">${article.date.replace(/-/g, '.')}</span>
+                        <span class="journal-category">${article.category}</span>
+                        <a href="${article.link}" class="article-link-title"><h3 class="journal-title">${article.title}</h3></a>
+                        <p class="journal-excerpt">${article.excerpt}</p>
+                        <a href="${article.link}" class="journal-link">Read more <span class="arrow">→</span></a>
+                    </div>
+                `;
+                journalGrid.appendChild(card);
             });
         }
     }

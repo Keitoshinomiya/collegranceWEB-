@@ -6,6 +6,15 @@
  */
 const journalArticles = [
     {
+        id: 'perfume_history_trivia',
+        date: '2025-12-16',
+        category: 'TRIVIA',
+        title: '【雑学】香水（Perfume）の語源は「煙を通す」？知っておきたい香りの歴史と意外なルーツ',
+        excerpt: '普段何気なく使っている「Perfume」という言葉。実は「煙」に関係があることをご存知ですか？香水の歴史と、ナポレオンやマリー・アントワネットなど歴史上の人物と香りの意外な関係を紹介します。',
+        image: 'https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?auto=format&fit=crop&w=800&q=80',
+        link: 'article-perfume-history.html'
+    },
+    {
         id: 'decorte_kimono_yui_review',
         date: '2025-12-11',
         category: 'REVIEW',

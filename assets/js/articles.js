@@ -18,8 +18,8 @@ const journalArticles = [
         id: 'decorte_kimono_yui_review',
         date: '2025-12-11',
         category: 'REVIEW',
-        title: '【Review】纏う、日本の美意識。コスメデコルテ「キモノ ユイ」が紡ぐ、清らかな縁（えにし）',
-        excerpt: '日本の美意識を香りで表現したコスメデコルテの「キモノ ユイ」。酢橘（すだち）の爽やかさとピンクペッパーのアクセント、そしてバニラの柔らかな温もりが織りなす「透明感のあるフローラル」を徹底レビュー。',
+        title: '【透明感No.1】コスメデコルテ「キモノ ユイ」はモテる？酢橘とピンクペッパーの香りを徹底レビュー',
+        excerpt: '「奇跡の透明感」とSNSで話題。日本の美意識を表現したコスメデコルテ「キモノ ユイ(YUI)」の評判は？酢橘の爽やかさとバニラの甘さが織りなす、男女ウケ抜群の香りを深掘り解説。',
         image: 'assets/images/kimono_yui.jpg',
         link: 'kimono_yui.html'
     },
@@ -27,8 +27,8 @@ const journalArticles = [
         id: 'jo_malone_nectarine_review',
         date: '2025-12-11',
         category: 'REVIEW',
-        title: '【Review】ロンドンの朝市、果実の誘惑。ジョー マローン「ネクタリン ブロッサム & ハニー」',
-        excerpt: 'ロンドンのコベントガーデンの早朝マーケットからインスピレーションを得た、ジョーマローンの人気作。採れたてのネクタリンとピーチ、そしてアカシアハニーが織りなす、甘くジューシーで遊び心あふれる香りの魅力を紹介。',
+        title: '【桃香水の傑作】ジョーマローン「ネクタリン ブロッサム ＆ ハニー」は男ウケする？リアルな口コミと評判',
+        excerpt: 'ジョーマローン人気No.1のフルーティな香り「ネクタリン ブロッサム ＆ ハニー」。甘すぎる？若すぎる？そんな疑問に答える、大人女子のための桃香水レビュー。コンバイニングのコツも紹介。',
         image: 'assets/images/jo_malone_nectarine.jpg',
         link: 'jo_malone_nectarine.html'
     },

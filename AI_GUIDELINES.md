@@ -43,6 +43,8 @@ The user has strictly approved the current state of the website. Any future AI-d
 
 #### A. Journal/Blog Section
 *   **Data Source**: `window.journalArticles` (in `assets/js/articles.js`).
+    *   **Single Source of Truth**: All articles (Top page, Mega Menu, Journal Page) must be sourced from here.
+    *   **No Hardcoding**: Do NOT hardcode article cards in `journal.html` or `index.html`.
 *   **Sorting Rule**: **Always sort by Date (Newest First)**.
     *   Logic Location: `assets/js/script.js`.
     *   Code: `sort((a, b) => new Date(b.date) - new Date(a.date))`.
@@ -51,6 +53,10 @@ The user has strictly approved the current state of the website. Any future AI-d
     *   **Carousel**: Displayed in `.journal-grid` / `#journalTrack`.
 *   **Mega Menu**:
     *   **Limit**: **Latest 1 article** (Most recent story).
+*   **JOURNAL Page Display (`journal.html`)**:
+    *   **Method**: Dynamic generation using `articles.js`.
+    *   **Auto-Update**: New articles (e.g., Trivia, History) added to `articles.js` automatically appear here.
+    *   **Filtering**: Must support category filtering (Review, Knowledge, How-To, Lifestyle, Trivia, etc.).
 
 #### B. Product Filtering
 *   **Mechanism**: `data-filter` attribute on buttons vs `data-color` / `data-category` on cards.

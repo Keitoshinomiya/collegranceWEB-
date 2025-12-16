@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Scent Quiz Preview - COLLEGRANCE</title>
+    <!-- Fonts & CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        /* Preview Specific Styles */
+        body { background-color: #f9f9f9; }
+        .preview-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            background: #fff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .preview-header { margin-bottom: 30px; }
+        .preview-header h1 { font-family: 'Zen Kaku Gothic Antique', sans-serif; font-weight: 500; letter-spacing: 0.05em; }
+        
+        /* Advanced Quiz Styles */
+        .quiz-wrapper {
+            position: relative;
+            min-height: 400px;
+            overflow: hidden;
+        }
+        
+        .quiz-step-container {
+            transition: all 0.4s ease;
+        }
+        
+        .quiz-question-title {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-family: 'Zen Kaku Gothic Antique', sans-serif;
+        }
+        
+        .quiz-options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .quiz-option-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 120px;
+        }
+        
+        .quiz-option-card:hover {
+            border-color: #333;
+            background: #fcfcfc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .quiz-option-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .quiz-option-text {
+            font-size: 1rem;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .quiz-option-sub {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* Progress Bar */
+        .quiz-progress {
+            width: 100%;
+            height: 4px;
+            background: #eee;
+            margin-bottom: 30px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .quiz-progress-bar {
+            height: 100%;
+            background: #333;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Result View */
+        .quiz-result-view {
+            text-align: center;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .result-match-rate {
+            display: inline-block;
+            background: #333;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .result-product-card {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        
+        .result-img-wrapper {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            overflow: hidden;
+        }
+        
+        .result-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* Filter similar to site style */
+            filter: sepia(10%) grayscale(10%) contrast(95%);
+        }
+        
+        .result-brand {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .result-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        
+        .result-desc {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .result-notes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .note-item span:first-child {
+            display: block;
+            font-size: 0.7rem;
+            color: #999;
+            margin-bottom: 3px;
+        }
+        
+        .note-item span:last-child {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .btn-restart {
+            background: transparent;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-restart:hover {
+            border-color: #333;
+            color: #333;
+        }
+
+        /* Loading Animation */
+        .analyzing-view {
+            display: none;
+            padding: 50px 0;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #eee;
+            border-top: 3px solid #333;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            .quiz-options-grid { grid-template-columns: 1fr; }
+            .quiz-option-card { height: auto; padding: 15px; flex-direction: row; justify-content: flex-start; text-align: left; }
+            .quiz-option-icon { margin-bottom: 0; margin-right: 15px; }
+            .preview-container { padding: 20px; margin: 20px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar" style="position:relative; background:#fff; box-shadow:none; border-bottom:1px solid #eee;">
+        <div class="container">
+            <div class="nav-brand" style="margin:0 auto;">
+                <a href="index.html">
+                    <img src="assets/images/logo.png" alt="COLLEGRANCE" class="logo-image">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="preview-container">
+            <div class="preview-header">
+                <h1>AI Scent Diagnostic Preview</h1>
+                <p>よりパーソナライズされた新しい香水診断機能のプロトタイプです。<br>お客様の回答に基づき、最適な一本を独自のアルゴリズムで導き出します。</p>
+            </div>
+
+            <div class="quiz-wrapper" id="quizWrapper">
+                <!-- Progress Bar -->
+                <div class="quiz-progress">
+                    <div class="quiz-progress-bar" id="progressBar"></div>
+                </div>
+
+                <!-- Step 1 -->
+                <div class="quiz-step-container" id="step1">
+                    <h2 class="quiz-question-title">Q1. 香水を主に使いたいシーンは？</h2>
+                    <div class="quiz-options-grid">
+                        <div class="quiz-option-card" onclick="nextStep(1, 'scene', 'office')">
+                            <span class="quiz-option-icon">🏢</span>
+                            <div>
+                                <div class="quiz-option-text">オフィス・仕事</div>
+                                <div class="quiz-option-sub">清潔感と信頼感を大切にしたい</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(1, 'scene', 'date')">
+                            <span class="quiz-option-icon">🍷</span>
+                            <div>
+                                <div class="quiz-option-text">デート・ディナー</div>
+                                <div class="quiz-option-sub">魅力を引き出し、印象に残したい</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(1, 'scene', 'relax')">
+                            <span class="quiz-option-icon">☕</span>
+                            <div>
+                                <div class="quiz-option-text">休日・リラックス</div>
+                                <div class="quiz-option-sub">自分のために香りを楽しみたい</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(1, 'scene', 'daily')">
+                            <span class="quiz-option-icon">👟</span>
+                            <div>
+                                <div class="quiz-option-text">日常・カジュアル</div>
+                                <div class="quiz-option-sub">どんな服装にも合う万能な香り</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="quiz-step-container" id="step2" style="display:none;">
+                    <h2 class="quiz-question-title">Q2. 好みの香りの系統は？</h2>
+                    <div class="quiz-options-grid">
+                        <div class="quiz-option-card" onclick="nextStep(2, 'scent_type', 'citrus')">
+                            <span class="quiz-option-icon">🍋</span>
+                            <div>
+                                <div class="quiz-option-text">シトラス・サボン</div>
+                                <div class="quiz-option-sub">爽やかで清潔感のある香り</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(2, 'scent_type', 'floral')">
+                            <span class="quiz-option-icon">💐</span>
+                            <div>
+                                <div class="quiz-option-text">フローラル・フルーティ</div>
+                                <div class="quiz-option-sub">華やかで甘美な香り</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(2, 'scent_type', 'woody')">
+                            <span class="quiz-option-icon">🌲</span>
+                            <div>
+                                <div class="quiz-option-text">ウッディ・スパイシー</div>
+                                <div class="quiz-option-sub">落ち着いた大人の香り</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(2, 'scent_type', 'musk')">
+                            <span class="quiz-option-icon">☁️</span>
+                            <div>
+                                <div class="quiz-option-text">ムスク・スキン</div>
+                                <div class="quiz-option-sub">肌に馴染む柔らかい香り</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="quiz-step-container" id="step3" style="display:none;">
+                    <h2 class="quiz-question-title">Q3. 相手に与えたい印象は？</h2>
+                    <div class="quiz-options-grid">
+                        <div class="quiz-option-card" onclick="nextStep(3, 'impression', 'clean')">
+                            <span class="quiz-option-icon">✨</span>
+                            <div>
+                                <div class="quiz-option-text">清潔感・ピュア</div>
+                                <div class="quiz-option-sub">誰からも好かれる透明感</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(3, 'impression', 'sophisticated')">
+                            <span class="quiz-option-icon">🕶️</span>
+                            <div>
+                                <div class="quiz-option-text">知的・洗練</div>
+                                <div class="quiz-option-sub">都会的でスマートな雰囲気</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(3, 'impression', 'friendly')">
+                            <span class="quiz-option-icon">😊</span>
+                            <div>
+                                <div class="quiz-option-text">親しみやすさ・明るさ</div>
+                                <div class="quiz-option-sub">話しかけやすい柔らかな空気</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="nextStep(3, 'impression', 'sensual')">
+                            <span class="quiz-option-icon">💋</span>
+                            <div>
+                                <div class="quiz-option-text">色気・ミステリアス</div>
+                                <div class="quiz-option-sub">記憶に残る深みのある印象</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="quiz-step-container" id="step4" style="display:none;">
+                    <h2 class="quiz-question-title">Q4. 香りの強さの好みは？</h2>
+                    <div class="quiz-options-grid">
+                        <div class="quiz-option-card" onclick="finishQuiz('strength', 'light')">
+                            <span class="quiz-option-icon">🍃</span>
+                            <div>
+                                <div class="quiz-option-text">さりげなく香る</div>
+                                <div class="quiz-option-sub">自分だけが気づく程度</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="finishQuiz('strength', 'medium')">
+                            <span class="quiz-option-icon">👌</span>
+                            <div>
+                                <div class="quiz-option-text">程よく香る</div>
+                                <div class="quiz-option-sub">すれ違いざまにふわっと</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="finishQuiz('strength', 'heavy')">
+                            <span class="quiz-option-icon">💎</span>
+                            <div>
+                                <div class="quiz-option-text">しっかり香る</div>
+                                <div class="quiz-option-sub">長時間持続させたい</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="finishQuiz('strength', 'unique')">
+                            <span class="quiz-option-icon">🎨</span>
+                            <div>
+                                <div class="quiz-option-text">個性重視</div>
+                                <div class="quiz-option-sub">人と被らない独特な香り</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analyzing View -->
+                <div class="analyzing-view" id="analyzingView">
+                    <div class="spinner"></div>
+                    <h3>AIが相性を分析中...</h3>
+                    <p style="color:#888;">あなたの好みを香りの成分データと照合しています</p>
+                </div>
+
+                <!-- Result View -->
+                <div class="quiz-result-view" id="resultView">
+                    <span class="result-match-rate">MATCH RATE: 98%</span>
+                    
+                    <div class="result-product-card">
+                        <div class="result-brand" id="resBrand">BRAND NAME</div>
+                        <h2 class="result-name" id="resName">Perfume Name</h2>
+                        <div class="result-img-wrapper">
+                            <img src="" alt="Result" id="resImg">
+                        </div>
+                        
+                        <div class="result-notes">
+                            <div class="note-item">
+                                <span>TOP NOTE</span>
+                                <span id="resTop">Citrus</span>
+                            </div>
+                            <div class="note-item">
+                                <span>MIDDLE NOTE</span>
+                                <span id="resMid">Floral</span>
+                            </div>
+                            <div class="note-item">
+                                <span>BASE NOTE</span>
+                                <span id="resBase">Musk</span>
+                            </div>
+                        </div>
+                        
+                        <p class="result-desc" id="resDesc">
+                            商品説明がここに入ります。
+                        </p>
+                        
+                        <a href="#" class="btn-primary" id="resLink" style="display:block; text-align:center;">商品詳細を見る</a>
+                    </div>
+                    
+                    <button class="btn-restart" onclick="restartQuiz()">もう一度診断する</button>
+                    
+                    <div style="margin-top:30px; border-top:1px solid #eee; padding-top:20px;">
+                        <h4 style="font-size:0.9rem; color:#666; margin-bottom:15px;">こちらもおすすめ（Match Rate: 92%）</h4>
+                        <div id="secondRecommendation" style="display:flex; gap:10px; justify-content:center; align-items:center; text-align:left; max-width:400px; margin:0 auto; padding:10px; background:#fff; border:1px solid #eee; border-radius:8px; cursor:pointer;" onclick="">
+                            <img src="" id="secImg" style="width:50px; height:50px; object-fit:contain;">
+                            <div>
+                                <div id="secBrand" style="font-size:0.7rem; color:#999;">BRAND</div>
+                                <div id="secName" style="font-weight:bold; font-size:0.9rem;">Name</div>
+                            </div>
+                            <div style="margin-left:auto; color:#333;">&rarr;</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Enhanced Product Database with Scoring Tags ---
+        const products = [
+            // Citrus / Fresh / Clean
+            { 
+                id: 'ck_one', 
+                brand: 'Calvin Klein', 
+                name: 'ck one', 
+                img: 'assets/images/CK-One-EDT.jpg',
+                top: 'Bergamot', mid: 'Green Tea', base: 'Musk',
+                desc: '世界中で愛されるユニセックスフレグランスの金字塔。ピュアで清潔感のある香りは、オフィスからカジュアルまであらゆるシーンに馴染みます。',
+                link: 'index.html#products',
+                tags: { scene: ['office', 'daily', 'relax'], type: ['citrus', 'clean'], impression: ['clean', 'friendly'], strength: ['light', 'medium'] }
+            },
+            { 
+                id: 'light_blue', 
+                brand: 'Dolce & Gabbana', 
+                name: 'Light Blue', 
+                img: 'assets/images/DG-LightBlue-EDT.jpg',
+                top: 'Sicilian Lemon', mid: 'Apple', base: 'Cedarwood',
+                desc: '地中海の陽光を思わせる、とびきりフレッシュなシトラス。気分をリフレッシュさせたい時や、夏の日のスタイルに完璧にマッチします。',
+                link: 'index.html#products',
+                tags: { scene: ['daily', 'relax', 'office'], type: ['citrus', 'fruity'], impression: ['friendly', 'clean'], strength: ['light', 'medium'] }
+            },
+            { 
+                id: 'blanche', 
+                brand: 'BYREDO', 
+                name: 'Blanche', 
+                img: 'assets/images/BYR-Blanche-EDP.jpg',
+                top: 'White Rose', mid: 'Neroli', base: 'Musk',
+                desc: '「白」という色を香りで表現した、究極の清潔感。洗いたてのリネンや石鹸を思わせる香りは、誰からも好印象を持たれる魔法の一本。',
+                link: 'index.html#products',
+                tags: { scene: ['office', 'daily', 'date'], type: ['clean', 'floral'], impression: ['clean', 'sophisticated'], strength: ['medium', 'light'] }
+            },
+            
+            // Floral / Fruity / Sweet
+            { 
+                id: 'english_pear', 
+                brand: 'Jo Malone London', 
+                name: 'English Pear & Freesia', 
+                img: 'assets/images/JML-EnglishPear-C.jpg',
+                top: 'King William Pear', mid: 'Freesia', base: 'Patchouli',
+                desc: '熟した洋梨の瑞々しさと、白いフリージアのブーケ。英国の果樹園にいるような、優雅で愛らしい香り。好感度No.1のベストセラー。',
+                link: 'index.html#products',
+                tags: { scene: ['daily', 'date', 'office'], type: ['floral', 'fruity'], impression: ['friendly', 'clean'], strength: ['light', 'medium'] }
+            },
+            { 
+                id: 'rose_gold', 
+                brand: 'TIFFANY & CO.', 
+                name: 'Rose Gold', 
+                img: 'assets/images/TFFY-RoseGold-EDP.jpg',
+                top: 'Blackcurrant', mid: 'Blue Rose', base: 'Ambrette',
+                desc: 'ティファニーらしい透明感と、ローズゴールドの温かみを表現。フルーティなトップから上品なローズへ移ろう、女性らしさを高める香り。',
+                link: 'index.html#products',
+                tags: { scene: ['date', 'office', 'special'], type: ['floral', 'fruity'], impression: ['sophisticated', 'feminine'], strength: ['medium'] }
+            },
+            
+            // Woody / Musk / Complex
+            { 
+                id: 'lazy_sunday', 
+                brand: 'Maison Margiela', 
+                name: 'Lazy Sunday Morning', 
+                img: 'assets/images/MRG-LazySun-EDT.jpg',
+                top: 'Pear', mid: 'Iris', base: 'White Musk',
+                desc: '日曜日の朝、洗い立てのリネンのシーツに包まれて過ごす心地よい時間。肌に馴染む柔らかいムスクは、リラックスしたい日に最適。',
+                link: 'index.html#products',
+                tags: { scene: ['relax', 'daily', 'date'], type: ['musk', 'clean'], impression: ['clean', 'sensual'], strength: ['light', 'medium'] }
+            },
+            { 
+                id: 'another_13', 
+                brand: 'LE LABO', 
+                name: 'Another 13', 
+                img: 'assets/images/LLB-Another13-EDP.jpg',
+                top: 'Ambroxan', mid: 'Jasmine', base: 'Moss',
+                desc: '都会的で鋭く、それでいて中毒性のあるアニマリックなムスク。体温と混ざり合うことで「あなただけの香り」に変化する、唯一無二の存在感。',
+                link: 'index.html#products',
+                tags: { scene: ['daily', 'special', 'date'], type: ['musk', 'woody'], impression: ['unique', 'sophisticated', 'sensual'], strength: ['medium', 'unique'] }
+            },
+            { 
+                id: 'orpheon', 
+                brand: 'DIPTYQUE', 
+                name: 'Orpheon', 
+                img: 'assets/images/DPTY-Orpheon-EDP.jpg',
+                top: 'Juniper Berry', mid: 'Jasmine', base: 'Powder',
+                desc: '60年代のパリのバーの雰囲気を再現。タバコの煙、パウダリーな化粧、木の温もり。知的でミステリアスな印象を与える香り。',
+                link: 'index.html#products',
+                tags: { scene: ['night', 'bar', 'special'], type: ['woody', 'spicy'], impression: ['sophisticated', 'sensual', 'unique'], strength: ['medium', 'heavy'] }
+            },
+            { 
+                id: 'jazz_club', 
+                brand: 'Maison Margiela', 
+                name: 'Jazz Club', 
+                img: 'assets/images/MRG-JazzClub-EDT.jpg',
+                top: 'Pink Pepper', mid: 'Rum', base: 'Tobacco',
+                desc: 'ブルックリンのジャズクラブ。ラム酒の甘さとタバコの葉のスモーキーさが絡み合う、大人のためのセクシーで甘美な香り。',
+                link: 'index.html#products',
+                tags: { scene: ['date', 'special', 'night'], type: ['woody', 'sweet'], impression: ['sensual', 'unique'], strength: ['heavy', 'unique'] }
+            },
+            { 
+                id: 'sauvage', 
+                brand: 'DIOR', 
+                name: 'Sauvage', 
+                img: 'assets/images/DIO-Sauvage-EDT.jpg',
+                top: 'Bergamot', mid: 'Pepper', base: 'Ambroxan',
+                desc: '広大な大地にインスパイアされた、野性的で力強い香り。フレッシュなシトラスとスパイシーなウッディが、自信と活力を与えてくれます。',
+                link: 'index.html#products',
+                tags: { scene: ['night', 'date', 'daily'], type: ['spicy', 'citrus'], impression: ['masculine', 'sophisticated'], strength: ['heavy', 'medium'] }
+            }
+        ];
+
+        // --- Logic ---
+        let userAnswers = {};
+        const totalSteps = 4;
+
+        function updateProgress(step) {
+            const percentage = ((step - 1) / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+
+        function nextStep(currentStepNum, key, value) {
+            // Save Answer
+            userAnswers[key] = value;
+
+            // Animate Current Step Out
+            const currentEl = document.getElementById('step' + currentStepNum);
+            currentEl.style.opacity = '0';
+            currentEl.style.transform = 'translateX(-20px)';
+            
+            setTimeout(() => {
+                currentEl.style.display = 'none';
+                
+                // Animate Next Step In
+                const nextStepNum = currentStepNum + 1;
+                const nextEl = document.getElementById('step' + nextStepNum);
+                
+                if(nextEl) {
+                    nextEl.style.display = 'block';
+                    nextEl.style.opacity = '0';
+                    nextEl.style.transform = 'translateX(20px)';
+                    
+                    updateProgress(nextStepNum);
+                    
+                    // Force Reflow
+                    void nextEl.offsetWidth;
+                    
+                    nextEl.style.opacity = '1';
+                    nextEl.style.transform = 'translateX(0)';
+                }
+            }, 300);
+        }
+
+        function finishQuiz(key, value) {
+            userAnswers[key] = value;
+            
+            // Hide Step 4
+            const step4 = document.getElementById('step4');
+            step4.style.opacity = '0';
+            setTimeout(() => {
+                step4.style.display = 'none';
+                showAnalyzing();
+            }, 300);
+        }
+
+        function showAnalyzing() {
+            const analyzingEl = document.getElementById('analyzingView');
+            analyzingEl.style.display = 'block';
+            updateProgress(5); // Full bar
+
+            // Simulate AI Processing
+            setTimeout(() => {
+                analyzingEl.style.display = 'none';
+                calculateAndShowResult();
+            }, 1800);
+        }
+
+        function calculateAndShowResult() {
+            // Scoring Logic
+            const scores = products.map(product => {
+                let score = 0;
+                
+                // 1. Scene Matching (Weight: 3)
+                if (product.tags.scene.includes(userAnswers.scene)) score += 3;
+                
+                // 2. Type Matching (Weight: 4) - Most important
+                // Allow partial match (e.g. citrus vs fresh) mapped roughly
+                const typeMap = {
+                    'citrus': ['citrus', 'fresh', 'clean'],
+                    'floral': ['floral', 'fruity', 'sweet'],
+                    'woody': ['woody', 'spicy', 'masculine'],
+                    'musk': ['musk', 'clean', 'skin']
+                };
+                
+                const targetTypes = typeMap[userAnswers.scent_type] || [];
+                const hasTypeMatch = product.tags.type.some(t => targetTypes.includes(t));
+                if (hasTypeMatch) score += 4;
+                
+                // 3. Impression Matching (Weight: 2)
+                if (product.tags.impression.includes(userAnswers.impression)) score += 2;
+                
+                // 4. Strength Matching (Weight: 1)
+                if (product.tags.strength.includes(userAnswers.strength)) score += 1;
+
+                return { product, score };
+            });
+
+            // Sort by Score Descending
+            scores.sort((a, b) => b.score - a.score);
+
+            // Get Top 2
+            const winner = scores[0].product;
+            const runnerUp = scores[1].product;
+
+            // Render Winner
+            document.getElementById('resBrand').textContent = winner.brand;
+            document.getElementById('resName').textContent = winner.name;
+            document.getElementById('resImg').src = winner.img;
+            document.getElementById('resTop').textContent = winner.top;
+            document.getElementById('resMid').textContent = winner.mid;
+            document.getElementById('resBase').textContent = winner.base;
+            document.getElementById('resDesc').textContent = winner.desc;
+            document.getElementById('resLink').href = winner.link;
+
+            // Render Runner Up
+            document.getElementById('secondRecommendation').onclick = () => { window.location.href = runnerUp.link; };
+            document.getElementById('secImg').src = runnerUp.img;
+            document.getElementById('secBrand').textContent = runnerUp.brand;
+            document.getElementById('secName').textContent = runnerUp.name;
+
+            // Show Result View
+            const resView = document.getElementById('resultView');
+            resView.style.display = 'block';
+            
+            setTimeout(() => {
+                resView.style.opacity = '1';
+            }, 50);
+        }
+
+        function restartQuiz() {
+            const resView = document.getElementById('resultView');
+            resView.style.opacity = '0';
+            
+            setTimeout(() => {
+                resView.style.display = 'none';
+                
+                userAnswers = {};
+                document.getElementById('step1').style.display = 'block';
+                updateProgress(1);
+                
+                // Reset Animations
+                const step1 = document.getElementById('step1');
+                step1.style.opacity = '1';
+                step1.style.transform = 'translateX(0)';
+            }, 500);
+        }
+    </script>
+</body>
+</html>

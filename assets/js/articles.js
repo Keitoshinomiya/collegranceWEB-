@@ -6,6 +6,15 @@
  */
 const journalArticles = [
     {
+        id: 'diptyque_tam_dao_review',
+        date: '2026-01-20',
+        category: 'REVIEW',
+        title: '【冬のメンズ香水決定版】ディプティック「タムダオ」のウッドが深く香る理由',
+        excerpt: '【冬のメンズ香水決定版】Diptyque(ディプティック)の傑作「TAM DAO(タムダオ)」。なぜ冬に選ばれるのか？ウッド系の深みとスパイスの温もりが演出する大人の色気を徹底レビュー。',
+        image: 'assets/images/diptyque-tam-dao.jpg',
+        link: 'article-diptyque-tam-dao.html'
+    },
+    {
         id: 'olfactory_fatigue_trivia',
         date: '2025-12-16',
         category: 'TRIVIA',

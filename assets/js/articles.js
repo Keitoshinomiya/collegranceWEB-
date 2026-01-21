@@ -11,7 +11,7 @@ const journalArticles = [
         category: 'REVIEW',
         title: '【神秘の香り】バイレード「ジプシーウォーター」はなぜ人々を魅了するのか？甘くないバニラが描く自由な魂',
         excerpt: '【神秘の香り】BYREDO(バイレード)の一番人気「GYPSY WATER(ジプシーウォーター)」。甘くないバニラとウッディが織りなす、神秘的でジェンダーレスな香りの魅力を徹底レビュー。',
-        image: 'assets/images/byredo-gypsy-water.jpg',
+        image: 'assets/images/byredo-gypsy-water-forest-atmosphere.jpg',
         link: 'article-byredo-gypsy-water.html'
     },
     {

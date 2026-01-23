@@ -44,7 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 15, name: "LIBRE", brand: "YVES SAINT LAURENT", type: "EDP", img: "assets/images/YSL-Libre-EDP.jpg", url: "index.html#products" },
         { id: 16, name: "Jazz Club", brand: "Maison Margiela", type: "EDT", img: "assets/images/MRG-JazzClub-EDT.jpg", url: "index.html#products" },
         { id: 17, name: "Fleur de Peau", brand: "DIPTYQUE", type: "EDP", img: "assets/images/DPTY-FdPeau-EDP.jpg", url: "index.html#products" },
-        { id: 18, name: "The Time", brand: "THE HOUSE OF OUD", type: "EDP", img: "assets/images/THO-TheTime-EDP.jpg", url: "index.html#products" }
+        { id: 18, name: "The Time", brand: "THE HOUSE OF OUD", type: "EDP", img: "assets/images/THO-TheTime-EDP.jpg", url: "index.html#products" },
+        { id: 19, name: "Gypsy Water", brand: "BYREDO", type: "EDP", img: "assets/images/BYR-Gyp-EDP.jpg", url: "index.html#products" },
+        { id: 20, name: "Kimono Yui", brand: "DECORTE", type: "EDT", img: "assets/images/DCRT-KimoYui-EDT.jpg", url: "index.html#products" },
+        { id: 21, name: "Tam Dao", brand: "DIPTYQUE", type: "EDT", img: "assets/images/DPTY-Tamdao-EDT.jpg", url: "index.html#products" },
+        { id: 22, name: "Nectarine Blossom & Honey", brand: "Jo Malone London", type: "Cologne", img: "assets/images/JML-NectarHoney-C.jpg", url: "index.html#products" }
     ];
 
     // Extract unique brands and sort them
@@ -593,6 +597,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Attach Click Events to Quiz Options
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const stepElement = this.closest('.quiz-step');
+            const stepId = stepElement.id;
+            const stepNum = parseInt(stepId.replace('step', ''));
+            const answer = this.getAttribute('data-answer');
+            
+            let key = '';
+            if (stepNum === 1) key = 'scene';
+            if (stepNum === 2) key = 'scent_type'; // Matches typeMap lookup
+            if (stepNum === 3) key = 'strength';
+            if (stepNum === 4) key = 'impression';
+            if (stepNum === 5) key = 'priority';
+            
+            if (stepNum < 5) {
+                window.nextStep(stepNum, key, answer);
+            } else {
+                window.finishQuiz(key, answer);
+            }
+        });
+    });
+
 });
 
 // --- Global Functions ---
@@ -623,7 +650,7 @@ const quizProducts = [
         top: 'Bergamot', mid: 'Green Tea', base: 'Musk',
         desc: '世界中で愛されるユニセックスフレグランスの金字塔。ピュアで清潔感のある香りは、オフィスからカジュアルまであらゆるシーンに馴染みます。',
         link: 'https://www.amazon.co.jp/dp/B0FSKMB6HR',
-        tags: { scene: ['office', 'daily', 'relax'], type: ['citrus', 'clean'], impression: ['clean', 'friendly'], strength: ['light', 'medium'] }
+        tags: { scene: ['office', 'daily', 'relax'], type: ['citrus', 'clean'], impression: ['clean', 'friendly'], strength: ['light', 'medium'], priority: ['refresh', 'appeal'] }
     },
     { 
         id: 'light_blue', 
@@ -633,7 +660,7 @@ const quizProducts = [
         top: 'Sicilian Lemon', mid: 'Apple', base: 'Cedarwood',
         desc: '地中海の陽光を思わせる、とびきりフレッシュなシトラス。気分をリフレッシュさせたい時や、夏の日のスタイルに完璧にマッチします。',
         link: 'https://www.amazon.co.jp/dp/B0FSKNWDG8',
-        tags: { scene: ['daily', 'relax', 'office'], type: ['citrus', 'fruity'], impression: ['friendly', 'clean'], strength: ['light', 'medium'] }
+        tags: { scene: ['daily', 'relax', 'office'], type: ['citrus', 'fruity'], impression: ['friendly', 'clean'], strength: ['light', 'medium'], priority: ['refresh'] }
     },
     { 
         id: 'blanche', 
@@ -643,7 +670,7 @@ const quizProducts = [
         top: 'White Rose', mid: 'Neroli', base: 'Musk',
         desc: '「白」という色を香りで表現した、究極の清潔感。洗いたてのリネンや石鹸を思わせる香りは、誰からも好印象を持たれる魔法の一本。',
         link: 'https://www.amazon.co.jp/dp/B0FRG5XX2Q',
-        tags: { scene: ['office', 'daily', 'date'], type: ['clean', 'floral'], impression: ['clean', 'sophisticated'], strength: ['medium', 'light'] }
+        tags: { scene: ['office', 'daily', 'date'], type: ['clean', 'floral'], impression: ['clean', 'sophisticated'], strength: ['medium', 'light'], priority: ['refresh', 'confidence', 'appeal'] }
     },
     { 
         id: 'nile', 
@@ -653,7 +680,7 @@ const quizProducts = [
         top: 'Green Mango', mid: 'Lotus', base: 'Sycamore',
         desc: 'ナイル川のほとりを散策しているかのような、水と緑の瑞々しさ。甘さを抑えたグリーンマンゴーの香りが、知的で涼やかな印象を与えます。',
         link: 'https://www.amazon.co.jp/dp/B0FSKQGK6Z',
-        tags: { scene: ['office', 'relax', 'daily'], type: ['citrus', 'green'], impression: ['sophisticated', 'clean', 'unique'], strength: ['medium', 'light'] }
+        tags: { scene: ['office', 'relax', 'daily'], type: ['citrus', 'green'], impression: ['sophisticated', 'clean', 'unique'], strength: ['medium', 'light'], priority: ['relax', 'refresh'] }
     },
     { 
         id: 'issey', 
@@ -663,7 +690,7 @@ const quizProducts = [
         top: 'Lotus', mid: 'Lily', base: 'Precious Woods',
         desc: '「水の香り」を表現した、透明感あふれるアクアティックフローラル。凛とした強さと優しさを兼ね備え、日本人の美意識に響く香り。',
         link: 'https://www.amazon.co.jp/dp/B0FSKRJKJ7',
-        tags: { scene: ['office', 'daily', 'formal'], type: ['clean', 'floral'], impression: ['clean', 'sophisticated'], strength: ['medium'] }
+        tags: { scene: ['office', 'daily', 'formal'], type: ['clean', 'floral'], impression: ['clean', 'sophisticated'], strength: ['medium'], priority: ['confidence', 'refresh'] }
     },
     
     // Floral / Fruity / Sweet
@@ -675,7 +702,7 @@ const quizProducts = [
         top: 'King William Pear', mid: 'Freesia', base: 'Patchouli',
         desc: '熟した洋梨の瑞々しさと、白いフリージアのブーケ。英国の果樹園にいるような、優雅で愛らしい香り。好感度No.1のベストセラー。',
         link: 'https://www.amazon.co.jp/dp/B0FSKNWSN5',
-        tags: { scene: ['daily', 'date', 'office'], type: ['floral', 'fruity'], impression: ['friendly', 'clean'], strength: ['light', 'medium'] }
+        tags: { scene: ['daily', 'date', 'office'], type: ['floral', 'fruity'], impression: ['friendly', 'clean'], strength: ['light', 'medium'], priority: ['appeal', 'refresh'] }
     },
     { 
         id: 'rose_gold', 
@@ -685,7 +712,7 @@ const quizProducts = [
         top: 'Blackcurrant', mid: 'Blue Rose', base: 'Ambrette',
         desc: 'ティファニーらしい透明感と、ローズゴールドの温かみを表現。フルーティなトップから上品なローズへ移ろう、女性らしさを高める香り。',
         link: 'https://www.amazon.co.jp/dp/B0FSKRCH5G',
-        tags: { scene: ['date', 'office', 'special'], type: ['floral', 'fruity'], impression: ['sophisticated', 'feminine'], strength: ['medium'] }
+        tags: { scene: ['date', 'office', 'special'], type: ['floral', 'fruity'], impression: ['sophisticated', 'feminine'], strength: ['medium'], priority: ['appeal', 'confidence'] }
     },
     { 
         id: 'libre', 
@@ -695,7 +722,7 @@ const quizProducts = [
         top: 'Lavender', mid: 'Orange Blossom', base: 'Vanilla',
         desc: 'マスキュリンなラベンダーとフェミニンなオレンジブロッサムの衝突。自由を愛する女性のための、クールでセクシーなフローラルラベンダー。',
         link: 'https://www.amazon.co.jp/dp/B0FSKSG813',
-        tags: { scene: ['night', 'special', 'office'], type: ['floral', 'oriental'], impression: ['sophisticated', 'sensual', 'unique'], strength: ['heavy', 'medium'] }
+        tags: { scene: ['night', 'special', 'office'], type: ['floral', 'oriental'], impression: ['sophisticated', 'sensual', 'unique'], strength: ['heavy', 'medium'], priority: ['confidence', 'appeal'] }
     },
     { 
         id: 'hypnotic_poison', 
@@ -705,7 +732,7 @@ const quizProducts = [
         top: 'Apricot', mid: 'Jasmine', base: 'Vanilla',
         desc: '媚薬のような甘さと中毒性。バニラとアーモンドが織りなすグルマンノートは、一度香ると忘れられない濃厚な存在感を放ちます。',
         link: 'https://www.amazon.co.jp/dp/B0FSKNF4QC',
-        tags: { scene: ['date', 'night', 'relax'], type: ['sweet', 'oriental'], impression: ['sensual', 'unique'], strength: ['heavy', 'unique'] }
+        tags: { scene: ['date', 'night', 'relax'], type: ['sweet', 'oriental'], impression: ['sensual', 'unique'], strength: ['heavy', 'unique'], priority: ['appeal'] }
     },
     
     // Woody / Musk / Complex
@@ -717,7 +744,7 @@ const quizProducts = [
         top: 'Pear', mid: 'Iris', base: 'White Musk',
         desc: '日曜日の朝、洗い立てのリネンのシーツに包まれて過ごす心地よい時間。肌に馴染む柔らかいムスクは、リラックスしたい日に最適。',
         link: 'https://www.amazon.co.jp/dp/B0FSKSJVDC',
-        tags: { scene: ['relax', 'daily', 'date'], type: ['musk', 'clean'], impression: ['clean', 'sensual'], strength: ['light', 'medium'] }
+        tags: { scene: ['relax', 'daily', 'date'], type: ['musk', 'clean'], impression: ['clean', 'sensual'], strength: ['light', 'medium'], priority: ['relax', 'appeal'] }
     },
     { 
         id: 'another_13', 
@@ -727,7 +754,7 @@ const quizProducts = [
         top: 'Ambroxan', mid: 'Jasmine', base: 'Moss',
         desc: '都会的で鋭く、それでいて中毒性のあるアニマリックなムスク。体温と混ざり合うことで「あなただけの香り」に変化する、唯一無二の存在感。',
         link: 'https://www.amazon.co.jp/dp/B0FSKQLTQN',
-        tags: { scene: ['daily', 'special', 'date'], type: ['musk', 'woody'], impression: ['unique', 'sophisticated', 'sensual'], strength: ['medium', 'unique'] }
+        tags: { scene: ['daily', 'special', 'date'], type: ['musk', 'woody'], impression: ['unique', 'sophisticated', 'sensual'], strength: ['medium', 'unique'], priority: ['confidence', 'unique'] }
     },
     { 
         id: 'fleur_de_peau', 
@@ -737,7 +764,7 @@ const quizProducts = [
         top: 'Pink Pepper', mid: 'Iris', base: 'Musk',
         desc: '「肌の花」という名の通り、肌に溶け込むようなパウダリーなムスク。アイリスの優雅さとピンクペッパーのアクセントが、知的な色気を演出します。',
         link: 'https://www.amazon.co.jp/dp/B0FSKQWRJM',
-        tags: { scene: ['date', 'office', 'relax'], type: ['musk', 'floral'], impression: ['sensual', 'sophisticated'], strength: ['medium', 'light'] }
+        tags: { scene: ['date', 'office', 'relax'], type: ['musk', 'floral'], impression: ['sensual', 'sophisticated'], strength: ['medium', 'light'], priority: ['appeal', 'relax'] }
     },
     { 
         id: 'loewe_woman', 
@@ -747,7 +774,7 @@ const quizProducts = [
         top: 'Bergamot', mid: 'Sandalwood', base: 'Vanilla',
         desc: '新しい始まりを予感させる、モダンで温かみのある香り。バニラとサンダルウッドの甘さが、優しく包み込むように香ります。',
         link: 'https://www.amazon.co.jp/dp/B0FSKPQPZ7',
-        tags: { scene: ['date', 'daily', 'relax'], type: ['woody', 'sweet'], impression: ['friendly', 'sensual'], strength: ['medium'] }
+        tags: { scene: ['date', 'daily', 'relax'], type: ['woody', 'sweet'], impression: ['friendly', 'sensual'], strength: ['medium'], priority: ['relax', 'appeal'] }
     },
     { 
         id: 'loewe_man', 
@@ -757,7 +784,7 @@ const quizProducts = [
         top: 'Cardamom', mid: 'Cypress', base: 'White Musk',
         desc: 'Womanと対になる、落ち着きのあるウッディノート。ヒノキのような清々しさとムスクの余韻が、知的で落ち着いた大人の余裕を感じさせます。',
         link: 'https://www.amazon.co.jp/dp/B0FSKQ8QV8',
-        tags: { scene: ['office', 'date', 'relax'], type: ['woody', 'spicy'], impression: ['sophisticated', 'clean'], strength: ['medium'] }
+        tags: { scene: ['office', 'date', 'relax'], type: ['woody', 'spicy'], impression: ['sophisticated', 'clean'], strength: ['medium'], priority: ['confidence', 'relax'] }
     },
     { 
         id: 'orpheon', 
@@ -767,7 +794,7 @@ const quizProducts = [
         top: 'Juniper Berry', mid: 'Jasmine', base: 'Powder',
         desc: '60年代のパリのバーの雰囲気を再現。タバコの煙、パウダリーな化粧、木の温もり。知的でミステリアスな印象を与える香り。',
         link: 'https://www.amazon.co.jp/dp/B0FSKMB6HG',
-        tags: { scene: ['night', 'bar', 'special'], type: ['woody', 'spicy'], impression: ['sophisticated', 'sensual', 'unique'], strength: ['medium', 'heavy'] }
+        tags: { scene: ['night', 'bar', 'special'], type: ['woody', 'spicy'], impression: ['sophisticated', 'sensual', 'unique'], strength: ['medium', 'heavy'], priority: ['confidence', 'unique'] }
     },
     { 
         id: 'jazz_club', 
@@ -777,7 +804,7 @@ const quizProducts = [
         top: 'Pink Pepper', mid: 'Rum', base: 'Tobacco',
         desc: 'ブルックリンのジャズクラブ。ラム酒の甘さとタバコの葉のスモーキーさが絡み合う、大人のためのセクシーで甘美な香り。',
         link: 'https://www.amazon.co.jp/dp/B0FSKQBBXN',
-        tags: { scene: ['date', 'special', 'night'], type: ['woody', 'sweet'], impression: ['sensual', 'unique'], strength: ['heavy', 'unique'] }
+        tags: { scene: ['date', 'special', 'night'], type: ['woody', 'sweet'], impression: ['sensual', 'unique'], strength: ['heavy', 'unique'], priority: ['appeal', 'relax'] }
     },
     { 
         id: 'the_time', 
@@ -787,7 +814,7 @@ const quizProducts = [
         top: 'Bergamot', mid: 'Blue Tea', base: 'Musk',
         desc: '「日本のティータイム」にインスパイアされた、静寂と調和の香り。ブルーティーと花々の香りが、忙しい日々に安らぎをもたらします。',
         link: 'https://www.amazon.co.jp/dp/B0FSKT7V2N',
-        tags: { scene: ['relax', 'office', 'daily'], type: ['clean', 'floral', 'tea'], impression: ['sophisticated', 'unique', 'clean'], strength: ['light', 'medium'] }
+        tags: { scene: ['relax', 'office', 'daily'], type: ['clean', 'floral', 'tea'], impression: ['sophisticated', 'unique', 'clean'], strength: ['light', 'medium'], priority: ['relax', 'refresh'] }
     },
     { 
         id: 'sauvage', 
@@ -797,13 +824,53 @@ const quizProducts = [
         top: 'Bergamot', mid: 'Pepper', base: 'Ambroxan',
         desc: '広大な大地にインスパイアされた、野性的で力強い香り。フレッシュなシトラスとスパイシーなウッディが、自信と活力を与えてくれます。',
         link: 'https://www.amazon.co.jp/dp/B0FSKQW44P',
-        tags: { scene: ['night', 'date', 'daily'], type: ['spicy', 'citrus'], impression: ['masculine', 'sophisticated'], strength: ['heavy', 'medium'] }
+        tags: { scene: ['night', 'date', 'daily'], type: ['spicy', 'citrus'], impression: ['masculine', 'sophisticated'], strength: ['heavy', 'medium'], priority: ['confidence'] }
+    },
+    { 
+        id: 'gypsy_water', 
+        brand: 'BYREDO', 
+        name: 'Gypsy Water', 
+        img: 'assets/images/BYR-Gyp-EDP.jpg',
+        top: 'Bergamot', mid: 'Incense', base: 'Sandalwood',
+        desc: '焚き火の煙と森の静寂。自由な精神を称える、神秘的で温かみのあるウッディノート。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKQL8SR',
+        tags: { scene: ['relax', 'special', 'date'], type: ['woody', 'spicy', 'oriental'], impression: ['unique', 'sensual', 'sophisticated'], strength: ['medium'], priority: ['relax', 'confidence'] }
+    },
+    { 
+        id: 'kimono_yui', 
+        brand: 'DECORTE', 
+        name: 'Kimono Yui', 
+        img: 'assets/images/DCRT-KimoYui-EDT.jpg',
+        top: 'Sudachi', mid: 'Orange Flower', base: 'Vanilla',
+        desc: '爽やかな酢橘と優美なローズが織りなす、日本の美意識を体現した可憐なフローラル。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKRV7C1',
+        tags: { scene: ['office', 'date', 'daily'], type: ['floral', 'citrus', 'fresh'], impression: ['clean', 'cute', 'friendly'], strength: ['light', 'medium'], priority: ['appeal', 'refresh'] }
+    },
+    { 
+        id: 'tam_dao', 
+        brand: 'DIPTYQUE', 
+        name: 'Tam Dao', 
+        img: 'assets/images/DPTY-Tamdao-EDT.jpg',
+        top: 'Rose', mid: 'Sandalwood', base: 'White Musk',
+        desc: '神聖な森の中にいるような、深く心を落ち着かせるサンダルウッドの香り。瞑想的な静けさ。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKM6THP',
+        tags: { scene: ['relax', 'daily', 'office'], type: ['woody', 'clean', 'oriental'], impression: ['sophisticated', 'clean', 'unique'], strength: ['medium'], priority: ['relax', 'confidence'] }
+    },
+    { 
+        id: 'nectarine_blossom', 
+        brand: 'Jo Malone London', 
+        name: 'Nectarine Blossom & Honey', 
+        img: 'assets/images/JML-NectarHoney-C.jpg',
+        top: 'Black Currant', mid: 'Nectarine', base: 'Peach',
+        desc: 'ロンドンの朝市を思わせる、採れたての果実の甘さと遊び心。明るくハッピーなフルーティノート。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKPTWMH',
+        tags: { scene: ['daily', 'casual', 'date'], type: ['fruity', 'floral', 'sweet'], impression: ['friendly', 'cute', 'clean'], strength: ['light', 'medium'], priority: ['refresh', 'appeal'] }
     }
 ];
 
 // Logic Variables
 let quizAnswers = {};
-const totalSteps = 4;
+const totalSteps = 5;
 
 // Update Progress Bar
 window.updateProgress = (step) => {
@@ -851,12 +918,12 @@ window.nextStep = (currentStepNum, key, value) => {
 window.finishQuiz = (key, value) => {
     quizAnswers[key] = value;
     
-    // Hide Step 4
-    const step4 = document.getElementById('step4');
-    if(step4) {
-        step4.style.opacity = '0';
+    // Hide Step 5
+    const step5 = document.getElementById('step5');
+    if(step5) {
+        step5.style.opacity = '0';
         setTimeout(() => {
-            step4.style.display = 'none';
+            step5.style.display = 'none';
             window.showAnalyzing();
         }, 300);
     }
@@ -886,8 +953,7 @@ window.calculateAndShowResult = () => {
         // 1. Scene Matching (Weight: 3)
         if (product.tags.scene.includes(quizAnswers.scene)) score += 3;
         
-        // 2. Type Matching (Weight: 3) - Balanced with others
-        // Allow partial match (e.g. citrus vs fresh) mapped roughly
+        // 2. Type Matching (Weight: 3)
         const typeMap = {
             'citrus': ['citrus', 'fresh', 'clean', 'tea'],
             'floral': ['floral', 'fruity', 'sweet', 'oriental'],
@@ -899,17 +965,27 @@ window.calculateAndShowResult = () => {
         const hasTypeMatch = product.tags.type.some(t => targetTypes.includes(t));
         if (hasTypeMatch) score += 3;
         
-        // 3. Impression Matching (Weight: 3) - Increased Importance
+        // 3. Impression Matching (Weight: 3)
         if (product.tags.impression.includes(quizAnswers.impression)) score += 3;
         
-        // 4. Strength Matching (Weight: 2) - Increased Importance
+        // 4. Strength Matching (Weight: 2)
         if (product.tags.strength.includes(quizAnswers.strength)) score += 2;
+
+        // 5. Priority Matching (Weight: 4 - High Priority)
+        // Ensure products have priority tag if missing (fallback)
+        const priorities = product.tags.priority || [];
+        if (priorities.includes(quizAnswers.priority)) score += 4;
 
         return { product, score };
     });
 
-    // Sort by Score Descending
-    scores.sort((a, b) => b.score - a.score);
+    // Sort by Score Descending + Random Shuffle for Ties
+    scores.sort((a, b) => {
+        if (b.score !== a.score) {
+            return b.score - a.score;
+        }
+        return Math.random() - 0.5; // Randomize if scores are equal
+    });
 
     // Get Top 2
     const winner = scores[0].product;

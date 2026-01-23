@@ -2075,7 +2075,7 @@
                 <div class="quiz-step-container" id="step4" style="display:none;">
                     <h2 class="quiz-question-title">Q4. 香りの強さの好みは？</h2>
                     <div class="quiz-options-grid">
-                        <div class="quiz-option-card" onclick="finishQuiz('strength', 'light')">
+                        <div class="quiz-option-card" onclick="nextStep(4, 'strength', 'light')">
                             <span class="quiz-option-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
                             </span>
@@ -2084,7 +2084,7 @@
                                 <div class="quiz-option-sub">自分だけが気づく程度</div>
                             </div>
                         </div>
-                        <div class="quiz-option-card" onclick="finishQuiz('strength', 'medium')">
+                        <div class="quiz-option-card" onclick="nextStep(4, 'strength', 'medium')">
                             <span class="quiz-option-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9"></path></svg>
                             </span>
@@ -2093,7 +2093,7 @@
                                 <div class="quiz-option-sub">すれ違いざまにふわっと</div>
                             </div>
                         </div>
-                        <div class="quiz-option-card" onclick="finishQuiz('strength', 'heavy')">
+                        <div class="quiz-option-card" onclick="nextStep(4, 'strength', 'heavy')">
                             <span class="quiz-option-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9Z"></path></svg>
                             </span>
@@ -2102,13 +2102,56 @@
                                 <div class="quiz-option-sub">長時間持続させたい</div>
                             </div>
                         </div>
-                        <div class="quiz-option-card" onclick="finishQuiz('strength', 'unique')">
+                        <div class="quiz-option-card" onclick="nextStep(4, 'strength', 'unique')">
                             <span class="quiz-option-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
                             </span>
                             <div>
                                 <div class="quiz-option-text">個性重視</div>
                                 <div class="quiz-option-sub">人と被らない独特な香り</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="quiz-step-container" id="step5" style="display:none;">
+                    <h2 class="quiz-question-title">Q5. 香水を纏うことで、どうなりたい？</h2>
+                    <div class="quiz-options-grid">
+                        <div class="quiz-option-card" onclick="finishQuiz('priority', 'refresh')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v19"></path><path d="M5 10l7-7 7 7"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">気分転換・リフレッシュ</div>
+                                <div class="quiz-option-sub">気持ちを切り替えたい</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="finishQuiz('priority', 'relax')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 12s1.5-2 4-2 4 2 4 2"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">心を落ち着かせたい</div>
+                                <div class="quiz-option-sub">リラックスタイムに</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="finishQuiz('priority', 'appeal')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">魅力を引き出したい</div>
+                                <div class="quiz-option-sub">自分らしさを表現したい</div>
+                            </div>
+                        </div>
+                        <div class="quiz-option-card" onclick="finishQuiz('priority', 'confidence')">
+                            <span class="quiz-option-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                            </span>
+                            <div>
+                                <div class="quiz-option-text">自信を持ちたい</div>
+                                <div class="quiz-option-sub">背中を押してくれる香り</div>
                             </div>
                         </div>
                     </div>

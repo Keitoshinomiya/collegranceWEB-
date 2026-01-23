@@ -70,6 +70,13 @@ The user has strictly approved the current state of the website. Any future AI-d
 *   **Attribute Matching**: Ensure HTML `data-category` attributes strictly match the JavaScript query logic. Handle fallback to legacy attributes (like `data-color`) if necessary.
 *   **Cache Busting**: When updating core logic in `script.js`, increment the query parameter version (e.g., `?v=20241207-5`) in all HTML files to force client-side refresh.
 
+#### D. Product Synchronization
+*   **Sync Requirement**: When adding, removing, or updating products (images, names, notes, colors, categories), **ALWAYS synchronize** the changes between `product-list.html` (All Collection Page) and `index.html` (Top Page).
+*   **Consistency**: Ensure the product data (image paths, brand names, product names, fragrance notes, and especially **category colors/filtering attributes**) is identical across both files.
+    *   Top Page (`index.html`) often uses `data-color` for filtering.
+    *   Collection Page (`product-list.html`) uses `data-category`.
+    *   Ensure the visual representation (badges, borders) matches the designated color category.
+
 ### 3. Development Protocol
 1.  **Review Article Links**: For specific product reviews requested by the user (e.g., CK-ONE, Byredo Blanche), configure the article card links to direct users to **Amazon store/search pages** instead of an internal article detail page.
 2.  **Read First**: Before editing CSS, read `assets/css/styles.css`, especially the **end of the file** where critical specific fixes are stored.

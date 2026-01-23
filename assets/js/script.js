@@ -44,7 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 15, name: "LIBRE", brand: "YVES SAINT LAURENT", type: "EDP", img: "assets/images/YSL-Libre-EDP.jpg", url: "index.html#products" },
         { id: 16, name: "Jazz Club", brand: "Maison Margiela", type: "EDT", img: "assets/images/MRG-JazzClub-EDT.jpg", url: "index.html#products" },
         { id: 17, name: "Fleur de Peau", brand: "DIPTYQUE", type: "EDP", img: "assets/images/DPTY-FdPeau-EDP.jpg", url: "index.html#products" },
-        { id: 18, name: "The Time", brand: "THE HOUSE OF OUD", type: "EDP", img: "assets/images/THO-TheTime-EDP.jpg", url: "index.html#products" }
+        { id: 18, name: "The Time", brand: "THE HOUSE OF OUD", type: "EDP", img: "assets/images/THO-TheTime-EDP.jpg", url: "index.html#products" },
+        { id: 19, name: "Gypsy Water", brand: "BYREDO", type: "EDP", img: "assets/images/BYR-Gyp-EDP.jpg", url: "index.html#products" },
+        { id: 20, name: "Kimono Yui", brand: "DECORTE", type: "EDT", img: "assets/images/DCRT-KimoYui-EDT.jpg", url: "index.html#products" },
+        { id: 21, name: "Tam Dao", brand: "DIPTYQUE", type: "EDT", img: "assets/images/DPTY-Tamdao-EDT.jpg", url: "index.html#products" },
+        { id: 22, name: "Nectarine Blossom & Honey", brand: "Jo Malone London", type: "Cologne", img: "assets/images/JML-NectarHoney-C.jpg", url: "index.html#products" }
     ];
 
     // Extract unique brands and sort them
@@ -593,6 +597,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Attach Click Events to Quiz Options
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const stepElement = this.closest('.quiz-step');
+            const stepId = stepElement.id;
+            const stepNum = parseInt(stepId.replace('step', ''));
+            const answer = this.getAttribute('data-answer');
+            
+            let key = '';
+            if (stepNum === 1) key = 'scene';
+            if (stepNum === 2) key = 'scent_type'; // Matches typeMap lookup
+            if (stepNum === 3) key = 'strength';
+            if (stepNum === 4) key = 'impression';
+            
+            if (stepNum < 4) {
+                window.nextStep(stepNum, key, answer);
+            } else {
+                window.finishQuiz(key, answer);
+            }
+        });
+    });
+
 });
 
 // --- Global Functions ---
@@ -798,6 +824,46 @@ const quizProducts = [
         desc: '広大な大地にインスパイアされた、野性的で力強い香り。フレッシュなシトラスとスパイシーなウッディが、自信と活力を与えてくれます。',
         link: 'https://www.amazon.co.jp/dp/B0FSKQW44P',
         tags: { scene: ['night', 'date', 'daily'], type: ['spicy', 'citrus'], impression: ['masculine', 'sophisticated'], strength: ['heavy', 'medium'] }
+    },
+    { 
+        id: 'gypsy_water', 
+        brand: 'BYREDO', 
+        name: 'Gypsy Water', 
+        img: 'assets/images/BYR-Gyp-EDP.jpg',
+        top: 'Bergamot', mid: 'Incense', base: 'Sandalwood',
+        desc: '焚き火の煙と森の静寂。自由な精神を称える、神秘的で温かみのあるウッディノート。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKQL8SR',
+        tags: { scene: ['relax', 'special', 'date'], type: ['woody', 'spicy', 'oriental'], impression: ['unique', 'sensual', 'sophisticated'], strength: ['medium'] }
+    },
+    { 
+        id: 'kimono_yui', 
+        brand: 'DECORTE', 
+        name: 'Kimono Yui', 
+        img: 'assets/images/DCRT-KimoYui-EDT.jpg',
+        top: 'Sudachi', mid: 'Orange Flower', base: 'Vanilla',
+        desc: '爽やかな酢橘と優美なローズが織りなす、日本の美意識を体現した可憐なフローラル。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKRV7C1',
+        tags: { scene: ['office', 'date', 'daily'], type: ['floral', 'citrus', 'fresh'], impression: ['clean', 'cute', 'friendly'], strength: ['light', 'medium'] }
+    },
+    { 
+        id: 'tam_dao', 
+        brand: 'DIPTYQUE', 
+        name: 'Tam Dao', 
+        img: 'assets/images/DPTY-Tamdao-EDT.jpg',
+        top: 'Rose', mid: 'Sandalwood', base: 'White Musk',
+        desc: '神聖な森の中にいるような、深く心を落ち着かせるサンダルウッドの香り。瞑想的な静けさ。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKM6THP',
+        tags: { scene: ['relax', 'daily', 'office'], type: ['woody', 'clean', 'oriental'], impression: ['sophisticated', 'clean', 'unique'], strength: ['medium'] }
+    },
+    { 
+        id: 'nectarine_blossom', 
+        brand: 'Jo Malone London', 
+        name: 'Nectarine Blossom & Honey', 
+        img: 'assets/images/JML-NectarHoney-C.jpg',
+        top: 'Black Currant', mid: 'Nectarine', base: 'Peach',
+        desc: 'ロンドンの朝市を思わせる、採れたての果実の甘さと遊び心。明るくハッピーなフルーティノート。',
+        link: 'https://www.amazon.co.jp/dp/B0FSKPTWMH',
+        tags: { scene: ['daily', 'casual', 'date'], type: ['fruity', 'floral', 'sweet'], impression: ['friendly', 'cute', 'clean'], strength: ['light', 'medium'] }
     }
 ];
 
@@ -889,10 +955,11 @@ window.calculateAndShowResult = () => {
         // 2. Type Matching (Weight: 3) - Balanced with others
         // Allow partial match (e.g. citrus vs fresh) mapped roughly
         const typeMap = {
-            'citrus': ['citrus', 'fresh', 'clean', 'tea'],
+            'citrus': ['citrus', 'fresh', 'clean', 'tea', 'green'],
             'floral': ['floral', 'fruity', 'sweet', 'oriental'],
-            'woody': ['woody', 'spicy', 'masculine'],
-            'musk': ['musk', 'clean', 'skin', 'oriental']
+            'warm': ['woody', 'spicy', 'masculine', 'sweet', 'oriental'],
+            'clean': ['musk', 'clean', 'skin', 'aquatic', 'tea', 'fresh'],
+            'woody': ['woody', 'spicy', 'masculine']
         };
         
         const targetTypes = typeMap[quizAnswers.scent_type] || [];

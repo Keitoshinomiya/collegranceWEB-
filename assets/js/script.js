@@ -1065,3 +1065,19 @@ window.restartQuiz = () => {
         }, 500);
     }
 };
+
+// --- Hero Video Sound Toggle ---
+window.toggleHeroSound = () => {
+    const video = document.getElementById('heroVideo');
+    const indicator = document.getElementById('soundIndicator');
+    
+    if (video) {
+        if (video.muted) {
+            video.muted = false;
+            if(indicator) indicator.innerHTML = '<span class="sound-icon">🔊</span> Click to Mute';
+        } else {
+            video.muted = true;
+            if(indicator) indicator.innerHTML = '<span class="sound-icon">🔇</span> Click to Watch';
+        }
+    }
+};

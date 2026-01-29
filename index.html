@@ -297,8 +297,13 @@
     <section class="hero reveal-on-scroll">
         <div class="hero-bg-texture"></div>
         
-        <div class="hero-bottle-container">
-            <div class="hero-bg-image" style="background-image: url('assets/images/hero-main.jpg');"></div>
+        <div class="hero-bottle-container" onclick="toggleHeroSound()">
+            <video id="heroVideo" class="hero-bg-video" autoplay muted loop playsinline>
+                <source src="assets/videos/collegrance_hero.mp4" type="video/mp4">
+            </video>
+            <div id="soundIndicator" class="hero-sound-indicator">
+                <span class="sound-icon"></span> Sound ON
+            </div>
         </div>
 
         <div class="hero-content container">

@@ -1066,6 +1066,35 @@ window.restartQuiz = () => {
     }
 };
 
+// --- Hero Video Logic (Low Volume & Autoplay Attempt) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const video = document.getElementById('heroVideo');
+    const indicator = document.getElementById('soundIndicator');
+
+    if (video) {
+        // Set low volume as requested
+        video.volume = 0.15; 
+
+        // Attempt to play UNMUTED initially
+        video.muted = false;
+        var playPromise = video.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                // Autoplay with sound started successfully
+                if(indicator) indicator.innerHTML = '<span class="sound-icon">🔊</span> Click to Mute';
+            })
+            .catch(error => {
+                // Autoplay with sound prevented by browser policy
+                console.log("Autoplay with sound blocked. Fallback to muted.");
+                video.muted = true;
+                video.play();
+                if(indicator) indicator.innerHTML = '<span class="sound-icon">🔇</span> Click to Unmute (Sound Blocked)';
+            });
+        }
+    }
+});
+
 // --- Hero Video Sound Toggle ---
 window.toggleHeroSound = () => {
     const video = document.getElementById('heroVideo');
@@ -1074,10 +1103,12 @@ window.toggleHeroSound = () => {
     if (video) {
         if (video.muted) {
             video.muted = false;
+            // Ensure volume is low when unmuting manually too
+            video.volume = 0.15;
             if(indicator) indicator.innerHTML = '<span class="sound-icon">🔊</span> Click to Mute';
         } else {
             video.muted = true;
-            if(indicator) indicator.innerHTML = '<span class="sound-icon">🔇</span> Click to Watch';
+            if(indicator) indicator.innerHTML = '<span class="sound-icon">🔇</span> Click to Unmute';
         }
     }
 };

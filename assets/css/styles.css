@@ -1483,6 +1483,19 @@ h1, h2, h3, h4 {
   .cta-buttons {
       flex-direction: column;
   }
+
+  /* Hide Mega Menu Content on Mobile to prevent layout clutter */
+  .mega-menu {
+      display: none !important;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+  }
+
+  /* Ensure parent li behaves like a normal link wrapper */
+  .nav-item-has-megamenu {
+      position: static;
+  }
 }
 
 /* Small Mobile Fix (iPhone/Pixel vertical) */

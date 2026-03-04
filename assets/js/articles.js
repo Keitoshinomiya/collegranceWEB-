@@ -6,6 +6,24 @@
  */
 const journalArticles = [
     {
+        id: 'perfume_vending_machine_trend',
+        date: '2026-03-04',
+        category: 'TREND',
+        title: '話題の「香水自販機」って？ワンプッシュから手軽に試せる新しい香水の選び方',
+        excerpt: 'SNSで話題沸騰中の「香水自動販売機」。ワンプッシュから手軽に試せるトレンドと、失敗しない香水の選び方をご紹介します。',
+        image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80',
+        link: 'article-perfume-vending-machine.html'
+    },
+    {
+        id: 'nonfiction_gentle_night_review',
+        date: '2026-03-04',
+        category: 'REVIEW',
+        title: 'NONFICTION「GENTLE NIGHT」レビュー：穏やかな夜に寄り添うスエードとシダーウッドの香り',
+        excerpt: '甘く柔らかなスエードと落ち着いたシダーウッドが絶妙に絡み合う、NONFICTIONのシグネチャー「GENTLE NIGHT」の魅力に迫ります。',
+        image: 'assets/images/gentle_night_1.jpg',
+        link: 'article-nonfiction-gentle-night.html'
+    },
+    {
         id: 'byredo_gypsy_water_review',
         date: '2026-01-21',
         category: 'REVIEW',

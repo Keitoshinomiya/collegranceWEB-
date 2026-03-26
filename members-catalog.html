@@ -7,1050 +7,861 @@
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Zen+Kaku+Gothic+Antique:wght@300;400;500&display=swap" rel="stylesheet">
-  <!-- Stripe.js -->
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/images/logo.png" type="image/png">
   <script src="https://js.stripe.com/v3/"></script>
   <style>
+    /* ═══ COLLEGRANCE DESIGN SYSTEM ═══ */
     :root {
-      --color-bg: #fafaf8;
-      --color-dark: #1a1a1a;
-      --color-mid: #555;
-      --color-light: #999;
-      --color-border: #e8e4de;
-      --color-accent: #b8977a;
-      --color-member: #2c2c2c;
-      --font-eng: 'Cormorant Garamond', serif;
-      --font-jp: 'Zen Kaku Gothic Antique', sans-serif;
-      --shipping: 600;
+      --color-text-main: #1a1a1a;
+      --color-text-sub:  #555555;
+      --color-text-light:#999999;
+      --color-bg:        #ffffff;
+      --color-bg-light:  #f4f4f4;
+      --color-border:    #e0e0e0;
+      --font: 'Zen Kaku Gothic Antique', sans-serif;
+      --header-height: 90px;
+      --container: 1200px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
+    html { scroll-behavior: smooth; font-size: 16px; }
     body {
-      font-family: var(--font-jp);
+      font-family: var(--font);
+      color: var(--color-text-main);
       background: var(--color-bg);
-      color: var(--color-dark);
-      min-height: 100vh;
+      line-height: 1.9;
+      letter-spacing: 0.06em;
+      -webkit-font-smoothing: antialiased;
     }
+    a { text-decoration: none; color: inherit; transition: all 0.4s; }
+    img {
+      max-width: 100%; height: auto; display: block;
+      filter: sepia(10%) grayscale(10%) contrast(95%) brightness(102%);
+      transition: filter 0.6s, transform 0.6s;
+    }
+    img:hover { filter: sepia(0%) grayscale(0%) contrast(100%) brightness(100%); }
 
-    /* ─── LOGIN GATE ─── */
+    /* ─ DEMO BANNER ─ */
+    .demo-banner {
+      background: var(--color-bg-light);
+      border-bottom: 1px solid var(--color-border);
+      padding: 9px 40px;
+      text-align: center;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--color-text-sub);
+      text-transform: uppercase;
+    }
+    .demo-banner strong { color: var(--color-text-main); }
+
+    /* ─ LOGIN GATE ─ */
     #login-gate {
-      position: fixed;
-      inset: 0;
-      background: var(--color-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: fixed; inset: 0;
+      background: var(--color-text-main);
+      display: flex; align-items: center; justify-content: center;
       z-index: 9999;
     }
     #login-gate.hidden { display: none; }
 
-    .login-box {
-      width: 100%;
-      max-width: 420px;
-      padding: 60px 48px;
-      text-align: center;
+    .login-wrap {
+      width: 100%; max-width: 400px;
+      padding: 72px 48px; text-align: center;
     }
-    .login-logo {
-      font-family: var(--font-eng);
-      font-size: 1.6rem;
-      font-weight: 300;
-      letter-spacing: 0.35em;
-      color: #fff;
-      margin-bottom: 6px;
+    .login-logo-img {
+      height: 52px; width: auto;
+      margin: 0 auto 6px;
+      filter: brightness(0) invert(1) !important;
     }
     .login-sub {
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
-      color: #888;
-      margin-bottom: 48px;
-      text-transform: uppercase;
+      font-size: 0.6rem; letter-spacing: 0.35em;
+      color: #555; text-transform: uppercase;
+      margin-bottom: 56px;
     }
-    .login-label {
-      display: block;
-      text-align: left;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      color: #aaa;
-      margin-bottom: 8px;
-      text-transform: uppercase;
+    .login-field-label {
+      display: block; text-align: left;
+      font-size: 0.65rem; letter-spacing: 0.2em;
+      color: #666; text-transform: uppercase; margin-bottom: 8px;
     }
-    .login-input {
-      width: 100%;
-      padding: 14px 18px;
-      background: #2a2a2a;
-      border: 1px solid #3a3a3a;
-      color: #fff;
-      font-family: var(--font-jp);
-      font-size: 0.9rem;
-      outline: none;
-      margin-bottom: 24px;
-      transition: border-color 0.2s;
+    .login-field {
+      width: 100%; padding: 13px 16px;
+      background: #2a2a2a; border: 1px solid #3a3a3a;
+      color: #fff; font-family: var(--font); font-size: 0.9rem;
+      outline: none; margin-bottom: 20px;
+      transition: border-color 0.25s;
     }
-    .login-input:focus { border-color: var(--color-accent); }
+    .login-field:focus { border-color: #888; }
     .login-btn {
-      width: 100%;
-      padding: 15px;
-      background: var(--color-accent);
-      color: #fff;
-      border: none;
-      font-family: var(--font-eng);
-      font-size: 0.85rem;
-      letter-spacing: 0.2em;
-      cursor: pointer;
-      text-transform: uppercase;
-      transition: background 0.2s;
+      width: 100%; padding: 14px;
+      background: #fff; color: var(--color-text-main);
+      border: none; font-family: var(--font);
+      font-size: 0.78rem; letter-spacing: 0.2em;
+      text-transform: uppercase; cursor: pointer;
+      transition: background 0.25s, color 0.25s;
     }
-    .login-btn:hover { background: #a0826a; }
+    .login-btn:hover { background: #e0e0e0; }
     .login-error {
-      margin-top: 16px;
-      font-size: 0.75rem;
-      color: #e07070;
-      display: none;
+      margin-top: 14px; font-size: 0.72rem;
+      color: #cc6666; display: none; letter-spacing: 0.05em;
     }
-    .login-demo-hint {
-      margin-top: 32px;
-      font-size: 0.65rem;
-      color: #555;
-      letter-spacing: 0.05em;
+    .login-hint {
+      margin-top: 40px; font-size: 0.6rem;
+      color: #444; letter-spacing: 0.08em;
     }
 
-    /* ─── MAIN CATALOG ─── */
+    /* ─ MAIN ─ */
     #catalog-main { display: none; }
     #catalog-main.visible { display: block; }
 
-    /* Header */
-    .catalog-header {
-      position: sticky;
-      top: 0;
-      background: rgba(250,250,248,0.96);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--color-border);
-      z-index: 100;
-      padding: 0 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
+    /* ─ HEADER ─ */
+    .site-header {
+      position: sticky; top: 0;
+      background: rgba(255,255,255,0.98);
+      border-bottom: 1px solid #eee;
+      z-index: 100; height: var(--header-height);
+      display: flex; align-items: center;
     }
-    .header-logo {
-      font-family: var(--font-eng);
-      font-size: 1.2rem;
-      font-weight: 400;
-      letter-spacing: 0.3em;
-      color: var(--color-dark);
-      text-decoration: none;
+    .header-inner {
+      max-width: var(--container);
+      margin: 0 auto; padding: 0 40px;
+      width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .header-member-badge {
-      font-size: 0.6rem;
-      letter-spacing: 0.18em;
-      color: var(--color-accent);
-      border: 1px solid var(--color-accent);
-      padding: 3px 10px;
-      text-transform: uppercase;
+    .header-logo img {
+      height: 44px; width: auto;
+      filter: none !important;
+    }
+    .header-badge {
+      font-size: 0.58rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--color-text-sub);
+      border: 1px solid var(--color-border); padding: 4px 12px;
     }
     .header-cart-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: var(--font-jp);
-      font-size: 0.8rem;
-      color: var(--color-dark);
+      display: flex; align-items: center; gap: 8px;
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font); font-size: 0.75rem;
+      letter-spacing: 0.1em; color: var(--color-text-main);
+    }
+    .cart-badge {
+      background: var(--color-text-main); color: #fff;
+      font-size: 0.58rem; width: 18px; height: 18px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ─ HERO ─ */
+    .catalog-hero {
+      background: var(--color-text-main);
+      padding: 80px 40px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .catalog-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      opacity: 0.2; pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.6rem; letter-spacing: 0.4em;
+      text-transform: uppercase; color: #888;
+      margin-bottom: 20px; position: relative;
+    }
+    .catalog-hero h1 {
+      font-family: var(--font); font-weight: 300;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: #fff; letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 20px; position: relative;
+    }
+    .hero-desc {
+      font-size: 0.82rem; color: #777;
+      letter-spacing: 0.08em; line-height: 2;
       position: relative;
     }
-    .cart-count {
-      background: var(--color-accent);
-      color: #fff;
-      font-size: 0.6rem;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 500;
-    }
+    .hero-desc em { color: #aaa; font-style: normal; }
 
-    /* Hero Banner */
-    .catalog-hero {
-      background: var(--color-dark);
-      padding: 64px 40px;
-      text-align: center;
-    }
-    .catalog-hero-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      color: var(--color-accent);
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-    .catalog-hero-title {
-      font-family: var(--font-eng);
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 300;
-      color: #fff;
-      letter-spacing: 0.1em;
-      margin-bottom: 12px;
-    }
-    .catalog-hero-desc {
-      font-size: 0.78rem;
-      color: #888;
-      letter-spacing: 0.08em;
-      line-height: 1.8;
-    }
-    .catalog-hero-desc span {
-      color: var(--color-accent);
-      font-weight: 500;
-    }
-
-    /* Info Bar */
+    /* ─ INFO BAR ─ */
     .info-bar {
-      background: #f0ece6;
-      padding: 12px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
+      border-bottom: 1px solid var(--color-border);
+      padding: 14px 40px;
+      display: flex; align-items: center;
+      justify-content: center; gap: 40px; flex-wrap: wrap;
     }
     .info-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.72rem;
-      color: var(--color-mid);
-      letter-spacing: 0.05em;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.7rem; letter-spacing: 0.1em;
+      color: var(--color-text-sub);
     }
-    .info-icon { font-size: 1rem; }
+    .info-item strong { color: var(--color-text-main); }
 
-    /* Catalog Body */
+    /* ─ BODY ─ */
     .catalog-body {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 48px 24px;
+      max-width: var(--container);
+      margin: 0 auto; padding: 64px 40px;
     }
-    .section-title {
-      font-family: var(--font-eng);
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      color: var(--color-light);
-      text-transform: uppercase;
-      margin-bottom: 32px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--color-border);
+    .section-eyebrow {
+      font-size: 0.65rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--color-text-light);
+      margin-bottom: 8px;
+    }
+    .section-title-lg {
+      font-weight: 400; font-size: 1.6rem;
+      letter-spacing: 0.1em; margin-bottom: 48px;
     }
 
-    /* Product Grid */
+    /* ─ PRODUCT GRID ─ */
     .product-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 2px;
+      border: 1px solid var(--color-border);
     }
 
     .product-card {
-      background: #fff;
+      background: var(--color-bg);
       border: 1px solid var(--color-border);
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-      position: relative;
+      cursor: default;
+      transition: background 0.3s;
     }
-    .product-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    .product-card:hover { background: var(--color-bg-light); }
+
+    .product-img-wrap {
+      aspect-ratio: 4/5;
+      background: var(--color-bg-light);
+      overflow: hidden; position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .product-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .img-ph {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 14px; width: 100%; height: 100%;
+      padding: 32px;
+    }
+    .img-ph-icon { font-size: 2.8rem; opacity: 0.25; }
+    .img-ph-brand {
+      font-size: 0.62rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--color-text-light);
+    }
+    .img-ph-line {
+      width: 32px; height: 1px;
+      background: var(--color-border);
+    }
+    .img-ph-name {
+      font-size: 0.7rem; letter-spacing: 0.1em;
+      color: var(--color-text-light); text-align: center;
     }
 
-    .product-image-wrap {
-      aspect-ratio: 3/4;
-      overflow: hidden;
-      position: relative;
-      background: #f5f2ee;
+    .product-tag {
+      position: absolute; top: 0; left: 0;
+      font-size: 0.55rem; letter-spacing: 0.2em;
+      text-transform: uppercase; padding: 6px 12px;
+      background: var(--color-text-main); color: #fff;
     }
-    .product-image-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: sepia(5%) grayscale(8%);
-      transition: transform 0.4s;
-    }
-    .product-card:hover .product-image-wrap img {
-      transform: scale(1.04);
+    .product-tag.popular {
+      background: var(--color-bg); color: var(--color-text-main);
+      border: 1px solid var(--color-border);
     }
 
-    /* Placeholder gradient for missing images */
-    .img-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-    }
-    .img-placeholder .ph-icon { font-size: 3rem; opacity: 0.3; }
-    .img-placeholder .ph-brand {
-      font-family: var(--font-eng);
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      color: #999;
-      text-transform: uppercase;
-    }
+    .product-body { padding: 22px 24px 24px; }
 
-    .product-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: var(--color-dark);
-      color: #fff;
-      font-size: 0.58rem;
-      letter-spacing: 0.15em;
-      padding: 4px 10px;
-      text-transform: uppercase;
+    .prod-brand {
+      font-size: 0.6rem; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--color-text-light);
+      margin-bottom: 5px;
     }
-    .product-badge.popular { background: var(--color-accent); }
-
-    .product-info {
-      padding: 20px;
-    }
-    .product-brand {
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      color: var(--color-light);
-      text-transform: uppercase;
+    .prod-name {
+      font-size: 1rem; font-weight: 500;
+      letter-spacing: 0.05em; line-height: 1.4;
       margin-bottom: 4px;
     }
-    .product-name {
-      font-family: var(--font-eng);
-      font-size: 1.05rem;
-      font-weight: 500;
-      color: var(--color-dark);
-      margin-bottom: 4px;
-      line-height: 1.3;
+    .prod-size {
+      font-size: 0.68rem; color: var(--color-text-light);
+      letter-spacing: 0.08em; margin-bottom: 16px;
     }
-    .product-size {
-      font-size: 0.7rem;
-      color: var(--color-light);
-      margin-bottom: 16px;
+    .prod-notes {
+      font-size: 0.65rem; color: var(--color-text-sub);
+      letter-spacing: 0.05em; margin-bottom: 18px;
+      padding-top: 12px; border-top: 1px solid var(--color-border);
     }
 
-    .product-price-row {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 14px;
+    .prod-price-row {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; margin-bottom: 16px;
     }
-    .price-block {}
-    .price-wholesale {
-      font-size: 0.65rem;
-      color: var(--color-light);
-      text-decoration: line-through;
-      margin-bottom: 2px;
+    .price-stack {}
+    .price-original {
+      font-size: 0.62rem; color: var(--color-text-light);
+      letter-spacing: 0.05em; margin-bottom: 2px;
     }
-    .price-sale {
-      font-family: var(--font-eng);
-      font-size: 1.3rem;
-      font-weight: 500;
-      color: var(--color-dark);
+    .price-main {
+      font-size: 1.25rem; font-weight: 500;
+      letter-spacing: 0.03em; line-height: 1;
     }
-    .price-tax {
-      font-size: 0.62rem;
-      color: var(--color-light);
-      margin-left: 2px;
+    .price-tax-note {
+      font-size: 0.6rem; color: var(--color-text-light);
+      margin-left: 4px; vertical-align: middle;
     }
-    .price-margin {
-      font-size: 0.6rem;
-      background: #edf5ec;
-      color: #5a8c5a;
+    .price-profit {
+      font-size: 0.6rem; letter-spacing: 0.05em;
+      color: var(--color-text-sub);
+      border: 1px solid var(--color-border);
       padding: 3px 8px;
-      border-radius: 2px;
-      letter-spacing: 0.05em;
     }
 
-    .add-cart-btn {
-      width: 100%;
-      padding: 12px;
-      background: var(--color-dark);
-      color: #fff;
-      border: none;
-      font-family: var(--font-jp);
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      transition: background 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+    .add-btn {
+      width: 100%; padding: 13px 16px;
+      background: var(--color-text-main); color: #fff;
+      border: 1px solid var(--color-text-main);
+      font-family: var(--font); font-size: 0.72rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.25s, color 0.25s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
     }
-    .add-cart-btn:hover { background: #333; }
-    .add-cart-btn.added {
-      background: var(--color-accent);
+    .add-btn:hover {
+      background: transparent; color: var(--color-text-main);
+    }
+    .add-btn.added {
+      background: transparent; color: var(--color-text-main);
     }
 
-    /* ─── CART SIDEBAR ─── */
+    /* ─ CART OVERLAY ─ */
     #cart-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 200;
-      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 200; display: none;
     }
     #cart-overlay.open { display: block; }
 
     #cart-sidebar {
-      position: fixed;
-      top: 0;
-      right: -420px;
-      width: 420px;
-      max-width: 100vw;
-      height: 100vh;
-      background: #fff;
-      z-index: 201;
-      transition: right 0.3s ease;
-      display: flex;
-      flex-direction: column;
+      position: fixed; top: 0; right: -460px;
+      width: 460px; max-width: 100vw;
+      height: 100vh; background: var(--color-bg);
+      z-index: 201; transition: right 0.35s ease;
+      display: flex; flex-direction: column;
+      border-left: 1px solid var(--color-border);
     }
     #cart-sidebar.open { right: 0; }
 
-    .cart-header {
-      padding: 24px 28px;
+    .cart-head {
+      padding: 28px 32px;
       border-bottom: 1px solid var(--color-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .cart-title {
-      font-family: var(--font-eng);
-      font-size: 1.1rem;
-      font-weight: 400;
-      letter-spacing: 0.15em;
-    }
-    .cart-close {
-      background: none;
-      border: none;
-      font-size: 1.4rem;
-      cursor: pointer;
-      color: var(--color-mid);
-    }
-
-    .cart-items {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px 28px;
-    }
-    .cart-empty {
-      text-align: center;
-      padding: 60px 0;
-      color: var(--color-light);
-      font-size: 0.85rem;
-    }
-
-    .cart-item {
-      display: grid;
-      grid-template-columns: 64px 1fr auto;
-      gap: 14px;
-      align-items: center;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--color-border);
-    }
-    .cart-item-img {
-      width: 64px;
-      height: 80px;
-      object-fit: cover;
-      background: #f5f2ee;
-    }
-    .cart-item-name {
-      font-size: 0.82rem;
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-    .cart-item-brand {
-      font-size: 0.65rem;
-      color: var(--color-light);
-      letter-spacing: 0.1em;
+    .cart-head-title {
+      font-size: 0.72rem; letter-spacing: 0.25em;
       text-transform: uppercase;
     }
-    .cart-item-price {
-      font-family: var(--font-eng);
-      font-size: 1rem;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-    .cart-item-remove {
-      background: none;
-      border: none;
-      color: var(--color-light);
-      font-size: 0.75rem;
-      cursor: pointer;
-      margin-top: 6px;
-      display: block;
+    .cart-head-close {
+      background: none; border: none;
+      font-size: 1rem; cursor: pointer;
+      color: var(--color-text-sub); letter-spacing: 0;
     }
 
-    .cart-footer {
-      padding: 24px 28px;
-      border-top: 1px solid var(--color-border);
-      background: #fafaf8;
+    .cart-list {
+      flex: 1; overflow-y: auto; padding: 0 32px;
     }
-    .cart-summary-row {
-      display: flex;
+    .cart-empty-msg {
+      text-align: center; padding: 80px 0;
+      font-size: 0.78rem; color: var(--color-text-light);
+      letter-spacing: 0.1em;
+    }
+
+    .cart-row {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 16px; padding: 20px 0;
+      border-bottom: 1px solid var(--color-border);
+      align-items: start;
+    }
+    .cart-img {
+      width: 56px; height: 70px;
+      object-fit: cover; background: var(--color-bg-light);
+      display: flex; align-items: center;
+      justify-content: center; font-size: 1.6rem;
+    }
+    .cart-info-brand {
+      font-size: 0.58rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--color-text-light);
+      margin-bottom: 3px;
+    }
+    .cart-info-name {
+      font-size: 0.82rem; font-weight: 500; margin-bottom: 6px;
+    }
+    .cart-row-bottom {
+      display: flex; align-items: center;
       justify-content: space-between;
-      font-size: 0.78rem;
-      color: var(--color-mid);
-      margin-bottom: 8px;
     }
+    .cart-info-price {
+      font-size: 0.95rem; font-weight: 500;
+    }
+    .cart-remove {
+      background: none; border: none;
+      font-size: 0.62rem; letter-spacing: 0.1em;
+      color: var(--color-text-light); cursor: pointer;
+      text-transform: uppercase;
+    }
+    .cart-remove:hover { color: var(--color-text-main); }
+
+    .cart-foot {
+      padding: 28px 32px;
+      border-top: 1px solid var(--color-border);
+    }
+    .cart-row-sm {
+      display: flex; justify-content: space-between;
+      font-size: 0.72rem; color: var(--color-text-sub);
+      letter-spacing: 0.08em; margin-bottom: 10px;
+    }
+    .cart-divider { height: 1px; background: var(--color-border); margin: 14px 0; }
     .cart-total-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 16px 0 20px;
-      padding-top: 12px;
-      border-top: 1px solid var(--color-border);
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 24px;
     }
     .cart-total-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
     }
     .cart-total-price {
-      font-family: var(--font-eng);
-      font-size: 1.5rem;
-      font-weight: 500;
+      font-size: 1.4rem; font-weight: 500; letter-spacing: 0.03em;
     }
-
     .checkout-btn {
-      width: 100%;
-      padding: 16px;
-      background: var(--color-dark);
-      color: #fff;
-      border: none;
-      font-family: var(--font-jp);
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      transition: background 0.2s;
+      width: 100%; padding: 15px;
+      background: var(--color-text-main); color: #fff;
+      border: 1px solid var(--color-text-main);
+      font-family: var(--font); font-size: 0.75rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.25s, color 0.25s;
       margin-bottom: 10px;
     }
-    .checkout-btn:hover { background: #333; }
-    .checkout-btn:disabled {
-      background: #ccc;
-      cursor: not-allowed;
+    .checkout-btn:hover {
+      background: transparent; color: var(--color-text-main);
+    }
+    .stripe-safe {
+      text-align: center; font-size: 0.6rem;
+      color: var(--color-text-light); letter-spacing: 0.1em;
     }
 
-    .stripe-note {
+    /* ─ SETUP MODAL ─ */
+    #setup-modal {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 300; display: none;
+      align-items: center; justify-content: center;
+    }
+    #setup-modal.open { display: flex; }
+    .setup-box {
+      background: var(--color-bg);
+      width: 100%; max-width: 520px;
+      padding: 56px 48px;
+      border: 1px solid var(--color-border);
+    }
+    .setup-eyebrow {
+      font-size: 0.6rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--color-text-light);
+      margin-bottom: 12px;
+    }
+    .setup-title {
+      font-size: 1.3rem; font-weight: 400;
+      letter-spacing: 0.08em; margin-bottom: 32px;
+    }
+    .setup-steps {
+      border: 1px solid var(--color-border);
+      padding: 24px;
+      font-size: 0.74rem; line-height: 2.2;
+      color: var(--color-text-sub); margin-bottom: 28px;
+    }
+    .setup-steps code {
+      background: var(--color-bg-light);
+      padding: 1px 6px; font-size: 0.7rem;
+    }
+    .setup-close {
+      width: 100%; padding: 13px;
+      border: 1px solid var(--color-border);
+      background: none; font-family: var(--font);
+      font-size: 0.72rem; letter-spacing: 0.15em;
+      text-transform: uppercase; cursor: pointer;
+      color: var(--color-text-sub); transition: all 0.25s;
+    }
+    .setup-close:hover {
+      background: var(--color-text-main); color: #fff;
+      border-color: var(--color-text-main);
+    }
+
+    /* ─ FOOTER ─ */
+    .catalog-footer {
+      border-top: 1px solid var(--color-border);
+      padding: 32px 40px;
       text-align: center;
-      font-size: 0.62rem;
-      color: var(--color-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      font-size: 0.62rem; letter-spacing: 0.15em;
+      color: var(--color-text-light); text-transform: uppercase;
     }
 
-    /* ─── DEMO NOTICE ─── */
-    .demo-banner {
-      background: #fff8e8;
-      border-bottom: 1px solid #f0dba0;
-      padding: 10px 40px;
-      text-align: center;
-      font-size: 0.72rem;
-      color: #8a6d20;
-      letter-spacing: 0.05em;
-    }
-    .demo-banner strong { font-weight: 700; }
-
-    /* ─── MOBILE ─── */
+    /* ─ MOBILE ─ */
     @media (max-width: 768px) {
-      .catalog-header { padding: 0 20px; }
-      .catalog-hero { padding: 48px 20px; }
-      .info-bar { padding: 12px 20px; gap: 16px; }
-      .catalog-body { padding: 32px 16px; }
-      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .header-inner { padding: 0 20px; }
+      .catalog-hero { padding: 56px 20px; }
+      .info-bar { padding: 12px 20px; gap: 20px; }
+      .catalog-body { padding: 40px 20px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 1px; }
+      .demo-banner { padding: 9px 20px; font-size: 0.6rem; }
       #cart-sidebar { width: 100vw; }
-      .login-box { padding: 48px 28px; }
-    }
-
-    /* ─── CHECKOUT MODAL ─── */
-    #checkout-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 300;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-    #checkout-modal.open { display: flex; }
-    .checkout-modal-box {
-      background: #fff;
-      width: 100%;
-      max-width: 480px;
-      padding: 48px 40px;
-      text-align: center;
-    }
-    .checkout-modal-title {
-      font-family: var(--font-eng);
-      font-size: 1.4rem;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      margin-bottom: 8px;
-    }
-    .checkout-modal-sub {
-      font-size: 0.75rem;
-      color: var(--color-light);
-      margin-bottom: 32px;
-    }
-    .checkout-modal-key-note {
-      background: #f8f6f2;
-      border: 1px solid var(--color-border);
-      padding: 20px;
-      text-align: left;
-      margin-bottom: 24px;
-      font-size: 0.75rem;
-      line-height: 1.9;
-      color: var(--color-mid);
-    }
-    .checkout-modal-key-note code {
-      background: #eee;
-      padding: 2px 6px;
-      font-size: 0.7rem;
-      border-radius: 2px;
-    }
-    .modal-close-btn {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid var(--color-border);
-      background: none;
-      font-family: var(--font-jp);
-      font-size: 0.8rem;
-      cursor: pointer;
-      color: var(--color-mid);
+      .login-wrap { padding: 48px 28px; }
+      .setup-box { padding: 40px 28px; margin: 20px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════
+<!-- ═══════════════════════════════
      LOGIN GATE
-═══════════════════════════════════════ -->
+═══════════════════════════════ -->
 <div id="login-gate">
-  <div class="login-box">
-    <div class="login-logo">COLLEGRANCE</div>
+  <div class="login-wrap">
+    <img src="assets/images/logo.png" alt="COLLEGRANCE" class="login-logo-img">
     <div class="login-sub">Members Only Catalog</div>
 
-    <label class="login-label" for="login-pass">Password</label>
-    <input
-      type="password"
-      id="login-pass"
-      class="login-input"
-      placeholder="パスワードを入力"
-      autocomplete="current-password"
-    />
-    <button class="login-btn" onclick="handleLogin()">入室する</button>
-    <div class="login-error" id="login-error">パスワードが正しくありません。</div>
-    <div class="login-demo-hint">※ デモ用パスワード：<strong style="color:#888">member2024</strong></div>
+    <label class="login-field-label" for="login-pw">Password</label>
+    <input type="password" id="login-pw" class="login-field"
+           placeholder="パスワードを入力してください">
+
+    <button class="login-btn" onclick="doLogin()">Enter</button>
+    <div class="login-error" id="login-err">パスワードが正しくありません。</div>
+    <div class="login-hint">Demo password: <strong style="color:#888">member2024</strong></div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════
+<!-- ═══════════════════════════════
      CATALOG MAIN
-═══════════════════════════════════════ -->
+═══════════════════════════════ -->
 <div id="catalog-main">
 
-  <!-- Demo Banner -->
   <div class="demo-banner">
-    <strong>🚧 DEMO MODE</strong>　このページはプレビュー用です。Stripeキー設定後に本番稼働できます。
+    <strong>Demo Mode</strong> — Stripe キー設定後に本番稼働。このページは会員限定です。
   </div>
 
   <!-- Header -->
-  <header class="catalog-header">
-    <a href="#" class="header-logo">COLLEGRANCE</a>
-    <span class="header-member-badge">Members Catalog</span>
-    <button class="header-cart-btn" onclick="openCart()">
-      🛒 カート
-      <span class="cart-count" id="cart-count">0</span>
-    </button>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="header-logo">
+        <img src="assets/images/logo.png" alt="COLLEGRANCE">
+      </a>
+      <span class="header-badge">Members Catalog</span>
+      <button class="header-cart-btn" onclick="openCart()">
+        Cart
+        <span class="cart-badge" id="cart-count">0</span>
+      </button>
+    </div>
   </header>
 
   <!-- Hero -->
-  <div class="catalog-hero">
-    <div class="catalog-hero-label">Full Bottle Collection</div>
-    <h1 class="catalog-hero-title">Members Exclusive</h1>
-    <p class="catalog-hero-desc">
-      お試し体験者限定の特別価格カタログ。<br>
-      送料一律 <span>¥600</span>。全品正規品取扱い。
+  <section class="catalog-hero">
+    <div class="hero-eyebrow">Full Bottle Collection</div>
+    <h1>Members Exclusive</h1>
+    <p class="hero-desc">
+      お試し体験者限定の特別カタログ。<br>
+      送料一律 <em>¥600</em>　／　全品正規品　／　税込表示
     </p>
-  </div>
+  </section>
 
   <!-- Info Bar -->
   <div class="info-bar">
-    <div class="info-item">
-      <span class="info-icon">📦</span>
-      <span>送料一律 <strong>¥600</strong></span>
-    </div>
-    <div class="info-item">
-      <span class="info-icon">✅</span>
-      <span>全品 <strong>正規品</strong></span>
-    </div>
-    <div class="info-item">
-      <span class="info-icon">🔒</span>
-      <span>会員限定 <strong>特別価格</strong></span>
-    </div>
-    <div class="info-item">
-      <span class="info-icon">💳</span>
-      <span>Stripe 安全決済</span>
-    </div>
+    <div class="info-item">📦 送料 <strong>一律 ¥600</strong></div>
+    <div class="info-item">✅ 全品 <strong>正規品</strong></div>
+    <div class="info-item">🔒 会員限定 <strong>特別価格</strong></div>
+    <div class="info-item">💳 <strong>Stripe</strong> 安全決済</div>
   </div>
 
   <!-- Products -->
   <main class="catalog-body">
-    <div class="section-title">Popular Fragrances — 人気フレグランス 8選</div>
+    <div class="section-eyebrow">Popular Fragrances</div>
+    <h2 class="section-title-lg">人気フレグランス</h2>
     <div class="product-grid" id="product-grid"></div>
   </main>
 
-</div><!-- /catalog-main -->
+  <footer class="catalog-footer">
+    © COLLEGRANCE — Members Catalog — All rights reserved
+  </footer>
 
-<!-- ═══════════════════════════════════════
+</div>
+
+<!-- ═══════════════════════════════
      CART SIDEBAR
-═══════════════════════════════════════ -->
+═══════════════════════════════ -->
 <div id="cart-overlay" onclick="closeCart()"></div>
 <div id="cart-sidebar">
-  <div class="cart-header">
-    <div class="cart-title">Shopping Cart</div>
-    <button class="cart-close" onclick="closeCart()">✕</button>
+  <div class="cart-head">
+    <span class="cart-head-title">Shopping Cart</span>
+    <button class="cart-head-close" onclick="closeCart()">✕</button>
   </div>
-  <div class="cart-items" id="cart-items">
-    <div class="cart-empty">カートに商品がありません</div>
+  <div class="cart-list" id="cart-list">
+    <div class="cart-empty-msg">カートに商品がありません</div>
   </div>
-  <div class="cart-footer">
-    <div class="cart-summary-row">
-      <span>小計</span>
-      <span id="cart-subtotal">¥0</span>
-    </div>
-    <div class="cart-summary-row">
-      <span>送料</span>
-      <span id="cart-shipping">¥0</span>
-    </div>
+  <div class="cart-foot">
+    <div class="cart-row-sm"><span>小計</span><span id="c-sub">¥0</span></div>
+    <div class="cart-row-sm"><span>送料</span><span id="c-ship">¥0</span></div>
+    <div class="cart-divider"></div>
     <div class="cart-total-row">
-      <div class="cart-total-label">合計（税込）</div>
-      <div class="cart-total-price" id="cart-total">¥0</div>
+      <span class="cart-total-label">合計（税込）</span>
+      <span class="cart-total-price" id="c-total">¥0</span>
     </div>
-    <button class="checkout-btn" id="checkout-btn" onclick="handleCheckout()">
+    <button class="checkout-btn" onclick="doCheckout()">
       Stripe でお支払い →
     </button>
-    <div class="stripe-note">
-      🔒 Stripe による安全な決済
-    </div>
+    <div class="stripe-safe">🔒 Powered by Stripe</div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════
-     CHECKOUT MODAL (Demo)
-═══════════════════════════════════════ -->
-<div id="checkout-modal">
-  <div class="checkout-modal-box">
-    <div class="checkout-modal-title">Stripe 設定ガイド</div>
-    <div class="checkout-modal-sub">本番稼働のために以下の設定が必要です</div>
-    <div class="checkout-modal-key-note">
-      1. <a href="https://dashboard.stripe.com/" target="_blank">Stripe Dashboard</a> でアカウント作成<br>
-      2. 商品ごとに <code>Price ID</code>（<code>price_xxx</code>）を取得<br>
-      3. このファイルの <code>STRIPE_KEY</code> に公開可能キーを設定<br>
-      4. 各商品の <code>stripePriceId</code> に Price ID を設定<br>
-      5. Netlify の環境変数に秘密キーを設定
+<!-- ═══════════════════════════════
+     STRIPE SETUP MODAL
+═══════════════════════════════ -->
+<div id="setup-modal">
+  <div class="setup-box">
+    <div class="setup-eyebrow">Setup Guide</div>
+    <div class="setup-title">Stripe 本番設定手順</div>
+    <div class="setup-steps">
+      1. <a href="https://dashboard.stripe.com/" target="_blank" style="color:#555;text-decoration:underline">Stripe Dashboard</a> でアカウント作成<br>
+      2. 各商品の <code>Price ID</code>（<code>price_xxx</code>）を取得<br>
+      3. このファイルの <code>STRIPE_PK</code> に公開キーを貼り付け<br>
+      4. 各商品の <code>stripePriceId</code> を実際の Price ID に更新<br>
+      5. Netlify の環境変数に秘密キー（<code>STRIPE_SK</code>）を設定<br>
+      6. パスワードを変更（<code>MEMBER_PW</code>）
     </div>
-    <button class="modal-close-btn" onclick="document.getElementById('checkout-modal').classList.remove('open')">
+    <button class="setup-close"
+      onclick="document.getElementById('setup-modal').classList.remove('open')">
       閉じる
     </button>
   </div>
 </div>
 
 <script>
-  // ═══════════════════════════════
-  // CONFIG — ここを本番用に書き換える
-  // ═══════════════════════════════
-  const STRIPE_KEY = 'pk_test_YOUR_PUBLISHABLE_KEY_HERE'; // ← Stripe公開キーを入力
-  const MEMBER_PASSWORD = 'member2024'; // ← 本番では変更してください
-  const FIXED_SHIPPING = 600;
-  const MARKUP_RATE = 1.15; // 15% 上乗せ
+/* ═══════════════════════════════════════
+   CONFIG — 本番前にここを書き換えてください
+═══════════════════════════════════════ */
+const STRIPE_PK  = 'pk_test_YOUR_KEY_HERE'; // ← Stripe 公開キー
+const MEMBER_PW  = 'member2024';             // ← 本番では変更
+const SHIPPING   = 600;                      // ← 送料（円・固定）
+const TAX_RATE   = 1.10;                     // ← 消費税 10%
+const MARKUP     = 1.20;                     // ← 粗利マージン 20%
 
-  // ═══════════════════════════════
-  // 商品データ（卸値 → 自動で15%UP）
-  // ※ wholesalePrice を卸業者の実価格に書き換えてください
-  // ※ stripePriceId を Stripe の Price ID に設定してください
-  // ═══════════════════════════════
-  const PRODUCTS = [
-    {
-      id: 1,
-      brand: 'DIOR',
-      name: 'Sauvage EDP',
-      size: '100ml',
-      wholesalePrice: 8800,
-      notes: 'バーグアモット・アンブロキサン',
-      popular: true,
-      emoji: '🌿',
-      stripePriceId: 'price_DIOR_SAUVAGE' // ← 要変更
-    },
-    {
-      id: 2,
-      brand: 'BYREDO',
-      name: 'Gypsy Water EDP',
-      size: '100ml',
-      wholesalePrice: 18500,
-      notes: 'ペッパー・パインニードル・バニラ',
-      popular: true,
-      emoji: '🌲',
-      stripePriceId: 'price_BYREDO_GYPSY'
-    },
-    {
-      id: 3,
-      brand: 'MAISON MARGIELA',
-      name: 'Replica Beach Walk',
-      size: '100ml',
-      wholesalePrice: 14000,
-      notes: 'ベルガモット・ムスク・ウッド',
-      popular: true,
-      emoji: '🏖️',
-      stripePriceId: 'price_MG_BEACH'
-    },
-    {
-      id: 4,
-      brand: 'LE LABO',
-      name: 'Santal 33 EDP',
-      size: '100ml',
-      wholesalePrice: 23500,
-      notes: 'サンダルウッド・レザー・カルダモン',
-      popular: false,
-      emoji: '🪵',
-      stripePriceId: 'price_LELABO_S33'
-    },
-    {
-      id: 5,
-      brand: 'HERMÈS',
-      name: "Terre d'Hermès EDP",
-      size: '100ml',
-      wholesalePrice: 14500,
-      notes: 'フリント・グレープフルーツ・ウッド',
-      popular: false,
-      emoji: '🍊',
-      stripePriceId: 'price_HERMES_TERRE'
-    },
-    {
-      id: 6,
-      brand: 'DIPTYQUE',
-      name: 'Tam Dao EDP',
-      size: '75ml',
-      wholesalePrice: 13000,
-      notes: 'サンダルウッド・シダーウッド・ミルク',
-      popular: false,
-      emoji: '🌸',
-      stripePriceId: 'price_DIPTYQUE_TD'
-    },
-    {
-      id: 7,
-      brand: 'NONFICTION',
-      name: 'Gentle Night EDP',
-      size: '50ml',
-      wholesalePrice: 11000,
-      notes: 'アンバー・サンダルウッド・ムスク',
-      popular: true,
-      emoji: '🌙',
-      stripePriceId: 'price_NONFIC_GN'
-    },
-    {
-      id: 8,
-      brand: 'BYREDO',
-      name: 'Blanche EDP',
-      size: '100ml',
-      wholesalePrice: 18500,
-      notes: 'アルバローズ・バイオレット・ムスク',
-      popular: false,
-      emoji: '🤍',
-      stripePriceId: 'price_BYREDO_BL'
-    }
-  ];
-
-  // 販売価格計算（15%UP・10円単位切り上げ）
-  function calcSalePrice(wholesale) {
-    return Math.ceil(wholesale * MARKUP_RATE / 10) * 10;
+/* ═══════════════════════════════════════
+   商品データ
+   wholesalePrice = 卸値（税抜）
+   表示価格 = wholesalePrice × 1.20 × 1.10（小数切り上げ・10円単位）
+═══════════════════════════════════════ */
+const PRODUCTS = [
+  {
+    id: 1, brand: 'DIOR', name: 'Sauvage EDP',
+    size: '100ml', wholesalePrice: 8800,
+    notes: 'ベルガモット、ペッパー、アンブロキサン',
+    popular: true, icon: '🌿',
+    stripePriceId: 'price_DIOR_SAUVAGE'
+  },
+  {
+    id: 2, brand: 'BYREDO', name: 'Gypsy Water EDP',
+    size: '100ml', wholesalePrice: 18500,
+    notes: 'ベルガモット、パインニードル、バニラ',
+    popular: true, icon: '🌲',
+    stripePriceId: 'price_BYREDO_GYPSY'
+  },
+  {
+    id: 3, brand: 'MAISON MARGIELA', name: 'Replica Beach Walk',
+    size: '100ml', wholesalePrice: 14000,
+    notes: 'ベルガモット、ムスク、シダーウッド',
+    popular: true, icon: '🏖️',
+    stripePriceId: 'price_MG_BEACH'
+  },
+  {
+    id: 4, brand: 'LE LABO', name: 'Santal 33 EDP',
+    size: '100ml', wholesalePrice: 23500,
+    notes: 'サンダルウッド、レザー、カルダモン',
+    popular: false, icon: '🪵',
+    stripePriceId: 'price_LELABO_S33'
+  },
+  {
+    id: 5, brand: 'HERMÈS', name: "Terre d'Hermès EDP",
+    size: '100ml', wholesalePrice: 14500,
+    notes: 'グレープフルーツ、フリント、ウッド',
+    popular: false, icon: '🍊',
+    stripePriceId: 'price_HERMES_TERRE'
+  },
+  {
+    id: 6, brand: 'DIPTYQUE', name: 'Tam Dao EDP',
+    size: '75ml', wholesalePrice: 13000,
+    notes: 'サンダルウッド、シダー、ローズウッド',
+    popular: false, icon: '🌸',
+    stripePriceId: 'price_DIPTYQUE_TD'
+  },
+  {
+    id: 7, brand: 'NONFICTION', name: 'Gentle Night EDP',
+    size: '50ml', wholesalePrice: 11000,
+    notes: 'アンバー、サンダルウッド、ムスク',
+    popular: true, icon: '🌙',
+    stripePriceId: 'price_NONFIC_GN'
+  },
+  {
+    id: 8, brand: 'BYREDO', name: 'Blanche EDP',
+    size: '100ml', wholesalePrice: 18500,
+    notes: 'アルバローズ、バイオレット、ムスク',
+    popular: false, icon: '🤍',
+    stripePriceId: 'price_BYREDO_BL'
   }
+];
 
-  // ═══════════════════════════════
-  // LOGIN
-  // ═══════════════════════════════
-  function handleLogin() {
-    const pw = document.getElementById('login-pass').value;
-    const err = document.getElementById('login-error');
-    if (pw === MEMBER_PASSWORD) {
-      document.getElementById('login-gate').classList.add('hidden');
-      document.getElementById('catalog-main').classList.add('visible');
-      renderProducts();
-    } else {
-      err.style.display = 'block';
-      document.getElementById('login-pass').value = '';
-    }
+/* ─ 価格計算: 卸値（税抜）× 20%マージン × 消費税10% ─ */
+function calcPrice(w) {
+  return Math.ceil(w * MARKUP * TAX_RATE / 10) * 10;
+}
+
+/* ═══ LOGIN ═══ */
+function doLogin() {
+  const v = document.getElementById('login-pw').value;
+  if (v === MEMBER_PW) {
+    document.getElementById('login-gate').classList.add('hidden');
+    document.getElementById('catalog-main').classList.add('visible');
+    buildGrid();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+    document.getElementById('login-pw').value = '';
   }
-  document.getElementById('login-pass').addEventListener('keydown', e => {
-    if (e.key === 'Enter') handleLogin();
-  });
+}
+document.getElementById('login-pw').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
 
-  // ═══════════════════════════════
-  // RENDER PRODUCTS
-  // ═══════════════════════════════
-  function renderProducts() {
-    const grid = document.getElementById('product-grid');
-    grid.innerHTML = PRODUCTS.map(p => {
-      const salePrice = calcSalePrice(p.wholesalePrice);
-      const margin = salePrice - p.wholesalePrice;
-      return `
-        <div class="product-card">
-          <div class="product-image-wrap">
-            <div class="img-placeholder">
-              <div class="ph-icon">${p.emoji}</div>
-              <div class="ph-brand">${p.brand}</div>
-            </div>
-            ${p.popular ? '<span class="product-badge popular">Popular</span>' : '<span class="product-badge">Exclusive</span>'}
+/* ═══ RENDER PRODUCTS ═══ */
+function buildGrid() {
+  const g = document.getElementById('product-grid');
+  g.innerHTML = PRODUCTS.map(p => {
+    const sale   = calcPrice(p.wholesalePrice);
+    const profit = sale - Math.ceil(p.wholesalePrice * TAX_RATE / 10) * 10;
+    return `
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <div class="img-ph">
+            <div class="img-ph-icon">${p.icon}</div>
+            <div class="img-ph-brand">${p.brand}</div>
+            <div class="img-ph-line"></div>
+            <div class="img-ph-name">${p.name}</div>
           </div>
-          <div class="product-info">
-            <div class="product-brand">${p.brand}</div>
-            <div class="product-name">${p.name}</div>
-            <div class="product-size">${p.size} ／ ${p.notes}</div>
-            <div class="product-price-row">
-              <div class="price-block">
-                <div class="price-wholesale">卸値 ¥${p.wholesalePrice.toLocaleString()}</div>
-                <span class="price-sale">¥${salePrice.toLocaleString()}</span>
-                <span class="price-tax">（税込）</span>
-              </div>
-              <span class="price-margin">利益 ¥${margin.toLocaleString()}</span>
-            </div>
-            <button class="add-cart-btn" id="btn-${p.id}" onclick="addToCart(${p.id})">
-              <span>＋ カートに追加</span>
-            </button>
-          </div>
+          <span class="product-tag ${p.popular ? 'popular' : ''}">
+            ${p.popular ? 'Popular' : 'Exclusive'}
+          </span>
         </div>
-      `;
-    }).join('');
-  }
-
-  // ═══════════════════════════════
-  // CART
-  // ═══════════════════════════════
-  let cart = [];
-
-  function addToCart(id) {
-    const product = PRODUCTS.find(p => p.id === id);
-    const existing = cart.find(c => c.id === id);
-    if (existing) {
-      existing.qty++;
-    } else {
-      cart.push({ ...product, qty: 1 });
-    }
-    updateCartUI();
-
-    // Button feedback
-    const btn = document.getElementById(`btn-${id}`);
-    btn.classList.add('added');
-    btn.querySelector('span').textContent = '✓ 追加しました';
-    setTimeout(() => {
-      btn.classList.remove('added');
-      btn.querySelector('span').textContent = '＋ カートに追加';
-    }, 1800);
-  }
-
-  function removeFromCart(id) {
-    cart = cart.filter(c => c.id !== id);
-    updateCartUI();
-  }
-
-  function updateCartUI() {
-    const count = cart.reduce((s, c) => s + c.qty, 0);
-    document.getElementById('cart-count').textContent = count;
-
-    const subtotal = cart.reduce((s, c) => s + calcSalePrice(c.wholesalePrice) * c.qty, 0);
-    const shipping = cart.length > 0 ? FIXED_SHIPPING : 0;
-    const total = subtotal + shipping;
-
-    document.getElementById('cart-subtotal').textContent = `¥${subtotal.toLocaleString()}`;
-    document.getElementById('cart-shipping').textContent = cart.length > 0 ? `¥${shipping.toLocaleString()}` : '¥0';
-    document.getElementById('cart-total').textContent = `¥${total.toLocaleString()}`;
-
-    const itemsEl = document.getElementById('cart-items');
-    if (cart.length === 0) {
-      itemsEl.innerHTML = '<div class="cart-empty">カートに商品がありません</div>';
-    } else {
-      itemsEl.innerHTML = cart.map(c => {
-        const salePrice = calcSalePrice(c.wholesalePrice);
-        return `
-          <div class="cart-item">
-            <div class="cart-item-img" style="display:flex;align-items:center;justify-content:center;font-size:2rem;">${c.emoji}</div>
-            <div>
-              <div class="cart-item-brand">${c.brand}</div>
-              <div class="cart-item-name">${c.name} ${c.size}</div>
-              <div class="cart-item-price">¥${(salePrice * c.qty).toLocaleString()}</div>
-              <button class="cart-item-remove" onclick="removeFromCart(${c.id})">✕ 削除</button>
+        <div class="product-body">
+          <div class="prod-brand">${p.brand}</div>
+          <div class="prod-name">${p.name}</div>
+          <div class="prod-size">${p.size}</div>
+          <div class="prod-notes">${p.notes}</div>
+          <div class="prod-price-row">
+            <div class="price-stack">
+              <div class="price-original">
+                卸値（税抜）¥${p.wholesalePrice.toLocaleString()}
+              </div>
+              <div>
+                <span class="price-main">¥${sale.toLocaleString()}</span>
+                <span class="price-tax-note">税込</span>
+              </div>
             </div>
-            <div></div>
+            <span class="price-profit">+¥${profit.toLocaleString()}</span>
           </div>
-        `;
+          <button class="add-btn" id="btn-${p.id}" onclick="addCart(${p.id})">
+            <span id="btn-txt-${p.id}">＋ Add to Cart</span>
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ═══ CART ═══ */
+let cart = [];
+
+function addCart(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  const ex = cart.find(x => x.id === id);
+  ex ? ex.qty++ : cart.push({ ...p, qty: 1 });
+  refreshCart();
+
+  const btn = document.getElementById(`btn-${id}`);
+  const txt = document.getElementById(`btn-txt-${id}`);
+  btn.classList.add('added');
+  txt.textContent = '✓ Added';
+  setTimeout(() => {
+    btn.classList.remove('added');
+    txt.textContent = '＋ Add to Cart';
+  }, 1800);
+}
+
+function removeCart(id) {
+  cart = cart.filter(x => x.id !== id);
+  refreshCart();
+}
+
+function refreshCart() {
+  const count  = cart.reduce((s, c) => s + c.qty, 0);
+  const sub    = cart.reduce((s, c) => s + calcPrice(c.wholesalePrice) * c.qty, 0);
+  const ship   = cart.length ? SHIPPING : 0;
+  const total  = sub + ship;
+
+  document.getElementById('cart-count').textContent = count;
+  document.getElementById('c-sub').textContent   = `¥${sub.toLocaleString()}`;
+  document.getElementById('c-ship').textContent  = cart.length ? `¥${SHIPPING.toLocaleString()}` : '¥0';
+  document.getElementById('c-total').textContent = `¥${total.toLocaleString()}`;
+
+  const list = document.getElementById('cart-list');
+  list.innerHTML = cart.length === 0
+    ? '<div class="cart-empty-msg">カートに商品がありません</div>'
+    : cart.map(c => {
+        const sp = calcPrice(c.wholesalePrice);
+        return `
+          <div class="cart-row">
+            <div class="cart-img">${c.icon}</div>
+            <div>
+              <div class="cart-info-brand">${c.brand}</div>
+              <div class="cart-info-name">${c.name} ${c.size}</div>
+              <div class="cart-row-bottom">
+                <span class="cart-info-price">¥${(sp * c.qty).toLocaleString()}</span>
+                <button class="cart-remove" onclick="removeCart(${c.id})">Remove</button>
+              </div>
+            </div>
+          </div>`;
       }).join('');
-    }
+}
+
+function openCart()  {
+  document.getElementById('cart-overlay').classList.add('open');
+  document.getElementById('cart-sidebar').classList.add('open');
+}
+function closeCart() {
+  document.getElementById('cart-overlay').classList.remove('open');
+  document.getElementById('cart-sidebar').classList.remove('open');
+}
+
+/* ═══ STRIPE CHECKOUT ═══ */
+async function doCheckout() {
+  if (!cart.length) return;
+  if (STRIPE_PK.includes('YOUR_KEY')) {
+    document.getElementById('setup-modal').classList.add('open');
+    return;
   }
+  const stripe = Stripe(STRIPE_PK);
+  const lineItems = [
+    ...cart.map(c => ({ price: c.stripePriceId, quantity: c.qty })),
+    { price: 'price_SHIPPING_600', quantity: 1 }
+  ];
+  const { error } = await stripe.redirectToCheckout({
+    lineItems, mode: 'payment', locale: 'ja',
+    successUrl: `${location.origin}/members-catalog.html?ok=1`,
+    cancelUrl:  `${location.origin}/members-catalog.html`
+  });
+  if (error) alert(error.message);
+}
 
-  function openCart() {
-    document.getElementById('cart-overlay').classList.add('open');
-    document.getElementById('cart-sidebar').classList.add('open');
-  }
-
-  function closeCart() {
-    document.getElementById('cart-overlay').classList.remove('open');
-    document.getElementById('cart-sidebar').classList.remove('open');
-  }
-
-  // ═══════════════════════════════
-  // STRIPE CHECKOUT
-  // ═══════════════════════════════
-  async function handleCheckout() {
-    if (cart.length === 0) return;
-
-    // Demo mode check
-    if (STRIPE_KEY.includes('YOUR_PUBLISHABLE_KEY')) {
-      document.getElementById('checkout-modal').classList.add('open');
-      return;
-    }
-
-    // 本番: Stripe Checkout
-    const stripe = Stripe(STRIPE_KEY);
-    const lineItems = cart.map(c => ({
-      price: c.stripePriceId,
-      quantity: c.qty
-    }));
-
-    // 送料を追加
-    lineItems.push({
-      price: 'price_SHIPPING_600', // ← Stripeで送料用のPriceを作成してください
-      quantity: 1
-    });
-
-    try {
-      const { error } = await stripe.redirectToCheckout({
-        lineItems,
-        mode: 'payment',
-        successUrl: window.location.origin + '/members-catalog.html?success=true',
-        cancelUrl: window.location.origin + '/members-catalog.html',
-        locale: 'ja'
-      });
-      if (error) alert(error.message);
-    } catch(e) {
-      console.error(e);
-    }
-  }
-
-  // 成功メッセージ
-  if (window.location.search.includes('success=true')) {
-    setTimeout(() => {
-      alert('✅ ご注文ありがとうございました！発送準備を開始します。');
-    }, 500);
-  }
+if (location.search.includes('ok=1')) {
+  window.addEventListener('load', () => {
+    alert('✅ ご注文ありがとうございました！準備が整い次第ご連絡します。');
+  });
+}
 </script>
 </body>
 </html>

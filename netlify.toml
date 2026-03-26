@@ -2,15 +2,37 @@
 # COLLEGRANCE Website Deployment Settings
 
 [build]
-  # 静的HTMLサイトなのでビルドコマンドは不要
+  # 静的HTMLサイト + Netlify Functions
   command = ""
-  
-  # 公開するディレクトリ（ルートディレクトリ）
   publish = "."
-  
-  # 本番環境の設定
+  functions = "netlify/functions"
+
   [build.environment]
     NODE_VERSION = "18"
+
+# Netlify Functions: /api/* → /.netlify/functions/*
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+# ────────────────────────────────────────────────────
+# Scheduled Functions
+# ────────────────────────────────────────────────────
+# ★ テスト用スケジュール: 毎日 JST 12:00 (= UTC 03:00)
+#   → 今日のテスト送信に使用。BROADCAST_ENABLED=true にして実行。
+#
+# ★ 本番スケジュール（3/29 JST 00:00）に切り替える場合:
+#   schedule = "0 15 28 3 *"
+#   （2025-03-29 JST 00:00 = UTC 2025-03-28 15:00）
+#
+# ★★ 安全スイッチ ★★
+# Netlify 環境変数 BROADCAST_ENABLED=true にしないと
+# スケジュールが起動しても実際の LINE 送信はスキップされます。
+# LINE_CHANNEL_ACCESS_TOKEN も必ず設定してください。
+[functions."scheduled-broadcast"]
+  schedule = "0 3 * * *"
 
 # ブランチごとのデプロイ設定
 [context.production]

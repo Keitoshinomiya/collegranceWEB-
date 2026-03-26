@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEMBERS CATALOG | COLLEGRANCE</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Zen+Kaku+Gothic+Antique:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- Stripe.js -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    :root {
+      --color-bg: #fafaf8;
+      --color-dark: #1a1a1a;
+      --color-mid: #555;
+      --color-light: #999;
+      --color-border: #e8e4de;
+      --color-accent: #b8977a;
+      --color-member: #2c2c2c;
+      --font-eng: 'Cormorant Garamond', serif;
+      --font-jp: 'Zen Kaku Gothic Antique', sans-serif;
+      --shipping: 600;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-jp);
+      background: var(--color-bg);
+      color: var(--color-dark);
+      min-height: 100vh;
+    }
+
+    /* ─── LOGIN GATE ─── */
+    #login-gate {
+      position: fixed;
+      inset: 0;
+      background: var(--color-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    #login-gate.hidden { display: none; }
+
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      padding: 60px 48px;
+      text-align: center;
+    }
+    .login-logo {
+      font-family: var(--font-eng);
+      font-size: 1.6rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .login-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      color: #888;
+      margin-bottom: 48px;
+      text-transform: uppercase;
+    }
+    .login-label {
+      display: block;
+      text-align: left;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: #aaa;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .login-input {
+      width: 100%;
+      padding: 14px 18px;
+      background: #2a2a2a;
+      border: 1px solid #3a3a3a;
+      color: #fff;
+      font-family: var(--font-jp);
+      font-size: 0.9rem;
+      outline: none;
+      margin-bottom: 24px;
+      transition: border-color 0.2s;
+    }
+    .login-input:focus { border-color: var(--color-accent); }
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--color-accent);
+      color: #fff;
+      border: none;
+      font-family: var(--font-eng);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .login-btn:hover { background: #a0826a; }
+    .login-error {
+      margin-top: 16px;
+      font-size: 0.75rem;
+      color: #e07070;
+      display: none;
+    }
+    .login-demo-hint {
+      margin-top: 32px;
+      font-size: 0.65rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── MAIN CATALOG ─── */
+    #catalog-main { display: none; }
+    #catalog-main.visible { display: block; }
+
+    /* Header */
+    .catalog-header {
+      position: sticky;
+      top: 0;
+      background: rgba(250,250,248,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--color-border);
+      z-index: 100;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .header-logo {
+      font-family: var(--font-eng);
+      font-size: 1.2rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      color: var(--color-dark);
+      text-decoration: none;
+    }
+    .header-member-badge {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      color: var(--color-accent);
+      border: 1px solid var(--color-accent);
+      padding: 3px 10px;
+      text-transform: uppercase;
+    }
+    .header-cart-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-jp);
+      font-size: 0.8rem;
+      color: var(--color-dark);
+      position: relative;
+    }
+    .cart-count {
+      background: var(--color-accent);
+      color: #fff;
+      font-size: 0.6rem;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+    }
+
+    /* Hero Banner */
+    .catalog-hero {
+      background: var(--color-dark);
+      padding: 64px 40px;
+      text-align: center;
+    }
+    .catalog-hero-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--color-accent);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .catalog-hero-title {
+      font-family: var(--font-eng);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 300;
+      color: #fff;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .catalog-hero-desc {
+      font-size: 0.78rem;
+      color: #888;
+      letter-spacing: 0.08em;
+      line-height: 1.8;
+    }
+    .catalog-hero-desc span {
+      color: var(--color-accent);
+      font-weight: 500;
+    }
+
+    /* Info Bar */
+    .info-bar {
+      background: #f0ece6;
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      color: var(--color-mid);
+      letter-spacing: 0.05em;
+    }
+    .info-icon { font-size: 1rem; }
+
+    /* Catalog Body */
+    .catalog-body {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+    .section-title {
+      font-family: var(--font-eng);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--color-light);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .product-card {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+
+    .product-image-wrap {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      position: relative;
+      background: #f5f2ee;
+    }
+    .product-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(5%) grayscale(8%);
+      transition: transform 0.4s;
+    }
+    .product-card:hover .product-image-wrap img {
+      transform: scale(1.04);
+    }
+
+    /* Placeholder gradient for missing images */
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .img-placeholder .ph-icon { font-size: 3rem; opacity: 0.3; }
+    .img-placeholder .ph-brand {
+      font-family: var(--font-eng);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: #999;
+      text-transform: uppercase;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--color-dark);
+      color: #fff;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      padding: 4px 10px;
+      text-transform: uppercase;
+    }
+    .product-badge.popular { background: var(--color-accent); }
+
+    .product-info {
+      padding: 20px;
+    }
+    .product-brand {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      color: var(--color-light);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .product-name {
+      font-family: var(--font-eng);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--color-dark);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .product-size {
+      font-size: 0.7rem;
+      color: var(--color-light);
+      margin-bottom: 16px;
+    }
+
+    .product-price-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .price-block {}
+    .price-wholesale {
+      font-size: 0.65rem;
+      color: var(--color-light);
+      text-decoration: line-through;
+      margin-bottom: 2px;
+    }
+    .price-sale {
+      font-family: var(--font-eng);
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--color-dark);
+    }
+    .price-tax {
+      font-size: 0.62rem;
+      color: var(--color-light);
+      margin-left: 2px;
+    }
+    .price-margin {
+      font-size: 0.6rem;
+      background: #edf5ec;
+      color: #5a8c5a;
+      padding: 3px 8px;
+      border-radius: 2px;
+      letter-spacing: 0.05em;
+    }
+
+    .add-cart-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--color-dark);
+      color: #fff;
+      border: none;
+      font-family: var(--font-jp);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .add-cart-btn:hover { background: #333; }
+    .add-cart-btn.added {
+      background: var(--color-accent);
+    }
+
+    /* ─── CART SIDEBAR ─── */
+    #cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      display: none;
+    }
+    #cart-overlay.open { display: block; }
+
+    #cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -420px;
+      width: 420px;
+      max-width: 100vw;
+      height: 100vh;
+      background: #fff;
+      z-index: 201;
+      transition: right 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    #cart-sidebar.open { right: 0; }
+
+    .cart-header {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cart-title {
+      font-family: var(--font-eng);
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+    }
+    .cart-close {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--color-mid);
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 28px;
+    }
+    .cart-empty {
+      text-align: center;
+      padding: 60px 0;
+      color: var(--color-light);
+      font-size: 0.85rem;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .cart-item-img {
+      width: 64px;
+      height: 80px;
+      object-fit: cover;
+      background: #f5f2ee;
+    }
+    .cart-item-name {
+      font-size: 0.82rem;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .cart-item-brand {
+      font-size: 0.65rem;
+      color: var(--color-light);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .cart-item-price {
+      font-family: var(--font-eng);
+      font-size: 1rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .cart-item-remove {
+      background: none;
+      border: none;
+      color: var(--color-light);
+      font-size: 0.75rem;
+      cursor: pointer;
+      margin-top: 6px;
+      display: block;
+    }
+
+    .cart-footer {
+      padding: 24px 28px;
+      border-top: 1px solid var(--color-border);
+      background: #fafaf8;
+    }
+    .cart-summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--color-mid);
+      margin-bottom: 8px;
+    }
+    .cart-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 16px 0 20px;
+      padding-top: 12px;
+      border-top: 1px solid var(--color-border);
+    }
+    .cart-total-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .cart-total-price {
+      font-family: var(--font-eng);
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--color-dark);
+      color: #fff;
+      border: none;
+      font-family: var(--font-jp);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 10px;
+    }
+    .checkout-btn:hover { background: #333; }
+    .checkout-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .stripe-note {
+      text-align: center;
+      font-size: 0.62rem;
+      color: var(--color-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* ─── DEMO NOTICE ─── */
+    .demo-banner {
+      background: #fff8e8;
+      border-bottom: 1px solid #f0dba0;
+      padding: 10px 40px;
+      text-align: center;
+      font-size: 0.72rem;
+      color: #8a6d20;
+      letter-spacing: 0.05em;
+    }
+    .demo-banner strong { font-weight: 700; }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 768px) {
+      .catalog-header { padding: 0 20px; }
+      .catalog-hero { padding: 48px 20px; }
+      .info-bar { padding: 12px 20px; gap: 16px; }
+      .catalog-body { padding: 32px 16px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      #cart-sidebar { width: 100vw; }
+      .login-box { padding: 48px 28px; }
+    }
+
+    /* ─── CHECKOUT MODAL ─── */
+    #checkout-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    #checkout-modal.open { display: flex; }
+    .checkout-modal-box {
+      background: #fff;
+      width: 100%;
+      max-width: 480px;
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .checkout-modal-title {
+      font-family: var(--font-eng);
+      font-size: 1.4rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .checkout-modal-sub {
+      font-size: 0.75rem;
+      color: var(--color-light);
+      margin-bottom: 32px;
+    }
+    .checkout-modal-key-note {
+      background: #f8f6f2;
+      border: 1px solid var(--color-border);
+      padding: 20px;
+      text-align: left;
+      margin-bottom: 24px;
+      font-size: 0.75rem;
+      line-height: 1.9;
+      color: var(--color-mid);
+    }
+    .checkout-modal-key-note code {
+      background: #eee;
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      border-radius: 2px;
+    }
+    .modal-close-btn {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid var(--color-border);
+      background: none;
+      font-family: var(--font-jp);
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: var(--color-mid);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     LOGIN GATE
+═══════════════════════════════════════ -->
+<div id="login-gate">
+  <div class="login-box">
+    <div class="login-logo">COLLEGRANCE</div>
+    <div class="login-sub">Members Only Catalog</div>
+
+    <label class="login-label" for="login-pass">Password</label>
+    <input
+      type="password"
+      id="login-pass"
+      class="login-input"
+      placeholder="パスワードを入力"
+      autocomplete="current-password"
+    />
+    <button class="login-btn" onclick="handleLogin()">入室する</button>
+    <div class="login-error" id="login-error">パスワードが正しくありません。</div>
+    <div class="login-demo-hint">※ デモ用パスワード：<strong style="color:#888">member2024</strong></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CATALOG MAIN
+═══════════════════════════════════════ -->
+<div id="catalog-main">
+
+  <!-- Demo Banner -->
+  <div class="demo-banner">
+    <strong>🚧 DEMO MODE</strong>　このページはプレビュー用です。Stripeキー設定後に本番稼働できます。
+  </div>
+
+  <!-- Header -->
+  <header class="catalog-header">
+    <a href="#" class="header-logo">COLLEGRANCE</a>
+    <span class="header-member-badge">Members Catalog</span>
+    <button class="header-cart-btn" onclick="openCart()">
+      🛒 カート
+      <span class="cart-count" id="cart-count">0</span>
+    </button>
+  </header>
+
+  <!-- Hero -->
+  <div class="catalog-hero">
+    <div class="catalog-hero-label">Full Bottle Collection</div>
+    <h1 class="catalog-hero-title">Members Exclusive</h1>
+    <p class="catalog-hero-desc">
+      お試し体験者限定の特別価格カタログ。<br>
+      送料一律 <span>¥600</span>。全品正規品取扱い。
+    </p>
+  </div>
+
+  <!-- Info Bar -->
+  <div class="info-bar">
+    <div class="info-item">
+      <span class="info-icon">📦</span>
+      <span>送料一律 <strong>¥600</strong></span>
+    </div>
+    <div class="info-item">
+      <span class="info-icon">✅</span>
+      <span>全品 <strong>正規品</strong></span>
+    </div>
+    <div class="info-item">
+      <span class="info-icon">🔒</span>
+      <span>会員限定 <strong>特別価格</strong></span>
+    </div>
+    <div class="info-item">
+      <span class="info-icon">💳</span>
+      <span>Stripe 安全決済</span>
+    </div>
+  </div>
+
+  <!-- Products -->
+  <main class="catalog-body">
+    <div class="section-title">Popular Fragrances — 人気フレグランス 8選</div>
+    <div class="product-grid" id="product-grid"></div>
+  </main>
+
+</div><!-- /catalog-main -->
+
+<!-- ═══════════════════════════════════════
+     CART SIDEBAR
+═══════════════════════════════════════ -->
+<div id="cart-overlay" onclick="closeCart()"></div>
+<div id="cart-sidebar">
+  <div class="cart-header">
+    <div class="cart-title">Shopping Cart</div>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty">カートに商品がありません</div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-summary-row">
+      <span>小計</span>
+      <span id="cart-subtotal">¥0</span>
+    </div>
+    <div class="cart-summary-row">
+      <span>送料</span>
+      <span id="cart-shipping">¥0</span>
+    </div>
+    <div class="cart-total-row">
+      <div class="cart-total-label">合計（税込）</div>
+      <div class="cart-total-price" id="cart-total">¥0</div>
+    </div>
+    <button class="checkout-btn" id="checkout-btn" onclick="handleCheckout()">
+      Stripe でお支払い →
+    </button>
+    <div class="stripe-note">
+      🔒 Stripe による安全な決済
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CHECKOUT MODAL (Demo)
+═══════════════════════════════════════ -->
+<div id="checkout-modal">
+  <div class="checkout-modal-box">
+    <div class="checkout-modal-title">Stripe 設定ガイド</div>
+    <div class="checkout-modal-sub">本番稼働のために以下の設定が必要です</div>
+    <div class="checkout-modal-key-note">
+      1. <a href="https://dashboard.stripe.com/" target="_blank">Stripe Dashboard</a> でアカウント作成<br>
+      2. 商品ごとに <code>Price ID</code>（<code>price_xxx</code>）を取得<br>
+      3. このファイルの <code>STRIPE_KEY</code> に公開可能キーを設定<br>
+      4. 各商品の <code>stripePriceId</code> に Price ID を設定<br>
+      5. Netlify の環境変数に秘密キーを設定
+    </div>
+    <button class="modal-close-btn" onclick="document.getElementById('checkout-modal').classList.remove('open')">
+      閉じる
+    </button>
+  </div>
+</div>
+
+<script>
+  // ═══════════════════════════════
+  // CONFIG — ここを本番用に書き換える
+  // ═══════════════════════════════
+  const STRIPE_KEY = 'pk_test_YOUR_PUBLISHABLE_KEY_HERE'; // ← Stripe公開キーを入力
+  const MEMBER_PASSWORD = 'member2024'; // ← 本番では変更してください
+  const FIXED_SHIPPING = 600;
+  const MARKUP_RATE = 1.15; // 15% 上乗せ
+
+  // ═══════════════════════════════
+  // 商品データ（卸値 → 自動で15%UP）
+  // ※ wholesalePrice を卸業者の実価格に書き換えてください
+  // ※ stripePriceId を Stripe の Price ID に設定してください
+  // ═══════════════════════════════
+  const PRODUCTS = [
+    {
+      id: 1,
+      brand: 'DIOR',
+      name: 'Sauvage EDP',
+      size: '100ml',
+      wholesalePrice: 8800,
+      notes: 'バーグアモット・アンブロキサン',
+      popular: true,
+      emoji: '🌿',
+      stripePriceId: 'price_DIOR_SAUVAGE' // ← 要変更
+    },
+    {
+      id: 2,
+      brand: 'BYREDO',
+      name: 'Gypsy Water EDP',
+      size: '100ml',
+      wholesalePrice: 18500,
+      notes: 'ペッパー・パインニードル・バニラ',
+      popular: true,
+      emoji: '🌲',
+      stripePriceId: 'price_BYREDO_GYPSY'
+    },
+    {
+      id: 3,
+      brand: 'MAISON MARGIELA',
+      name: 'Replica Beach Walk',
+      size: '100ml',
+      wholesalePrice: 14000,
+      notes: 'ベルガモット・ムスク・ウッド',
+      popular: true,
+      emoji: '🏖️',
+      stripePriceId: 'price_MG_BEACH'
+    },
+    {
+      id: 4,
+      brand: 'LE LABO',
+      name: 'Santal 33 EDP',
+      size: '100ml',
+      wholesalePrice: 23500,
+      notes: 'サンダルウッド・レザー・カルダモン',
+      popular: false,
+      emoji: '🪵',
+      stripePriceId: 'price_LELABO_S33'
+    },
+    {
+      id: 5,
+      brand: 'HERMÈS',
+      name: "Terre d'Hermès EDP",
+      size: '100ml',
+      wholesalePrice: 14500,
+      notes: 'フリント・グレープフルーツ・ウッド',
+      popular: false,
+      emoji: '🍊',
+      stripePriceId: 'price_HERMES_TERRE'
+    },
+    {
+      id: 6,
+      brand: 'DIPTYQUE',
+      name: 'Tam Dao EDP',
+      size: '75ml',
+      wholesalePrice: 13000,
+      notes: 'サンダルウッド・シダーウッド・ミルク',
+      popular: false,
+      emoji: '🌸',
+      stripePriceId: 'price_DIPTYQUE_TD'
+    },
+    {
+      id: 7,
+      brand: 'NONFICTION',
+      name: 'Gentle Night EDP',
+      size: '50ml',
+      wholesalePrice: 11000,
+      notes: 'アンバー・サンダルウッド・ムスク',
+      popular: true,
+      emoji: '🌙',
+      stripePriceId: 'price_NONFIC_GN'
+    },
+    {
+      id: 8,
+      brand: 'BYREDO',
+      name: 'Blanche EDP',
+      size: '100ml',
+      wholesalePrice: 18500,
+      notes: 'アルバローズ・バイオレット・ムスク',
+      popular: false,
+      emoji: '🤍',
+      stripePriceId: 'price_BYREDO_BL'
+    }
+  ];
+
+  // 販売価格計算（15%UP・10円単位切り上げ）
+  function calcSalePrice(wholesale) {
+    return Math.ceil(wholesale * MARKUP_RATE / 10) * 10;
+  }
+
+  // ═══════════════════════════════
+  // LOGIN
+  // ═══════════════════════════════
+  function handleLogin() {
+    const pw = document.getElementById('login-pass').value;
+    const err = document.getElementById('login-error');
+    if (pw === MEMBER_PASSWORD) {
+      document.getElementById('login-gate').classList.add('hidden');
+      document.getElementById('catalog-main').classList.add('visible');
+      renderProducts();
+    } else {
+      err.style.display = 'block';
+      document.getElementById('login-pass').value = '';
+    }
+  }
+  document.getElementById('login-pass').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleLogin();
+  });
+
+  // ═══════════════════════════════
+  // RENDER PRODUCTS
+  // ═══════════════════════════════
+  function renderProducts() {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = PRODUCTS.map(p => {
+      const salePrice = calcSalePrice(p.wholesalePrice);
+      const margin = salePrice - p.wholesalePrice;
+      return `
+        <div class="product-card">
+          <div class="product-image-wrap">
+            <div class="img-placeholder">
+              <div class="ph-icon">${p.emoji}</div>
+              <div class="ph-brand">${p.brand}</div>
+            </div>
+            ${p.popular ? '<span class="product-badge popular">Popular</span>' : '<span class="product-badge">Exclusive</span>'}
+          </div>
+          <div class="product-info">
+            <div class="product-brand">${p.brand}</div>
+            <div class="product-name">${p.name}</div>
+            <div class="product-size">${p.size} ／ ${p.notes}</div>
+            <div class="product-price-row">
+              <div class="price-block">
+                <div class="price-wholesale">卸値 ¥${p.wholesalePrice.toLocaleString()}</div>
+                <span class="price-sale">¥${salePrice.toLocaleString()}</span>
+                <span class="price-tax">（税込）</span>
+              </div>
+              <span class="price-margin">利益 ¥${margin.toLocaleString()}</span>
+            </div>
+            <button class="add-cart-btn" id="btn-${p.id}" onclick="addToCart(${p.id})">
+              <span>＋ カートに追加</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ═══════════════════════════════
+  // CART
+  // ═══════════════════════════════
+  let cart = [];
+
+  function addToCart(id) {
+    const product = PRODUCTS.find(p => p.id === id);
+    const existing = cart.find(c => c.id === id);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ ...product, qty: 1 });
+    }
+    updateCartUI();
+
+    // Button feedback
+    const btn = document.getElementById(`btn-${id}`);
+    btn.classList.add('added');
+    btn.querySelector('span').textContent = '✓ 追加しました';
+    setTimeout(() => {
+      btn.classList.remove('added');
+      btn.querySelector('span').textContent = '＋ カートに追加';
+    }, 1800);
+  }
+
+  function removeFromCart(id) {
+    cart = cart.filter(c => c.id !== id);
+    updateCartUI();
+  }
+
+  function updateCartUI() {
+    const count = cart.reduce((s, c) => s + c.qty, 0);
+    document.getElementById('cart-count').textContent = count;
+
+    const subtotal = cart.reduce((s, c) => s + calcSalePrice(c.wholesalePrice) * c.qty, 0);
+    const shipping = cart.length > 0 ? FIXED_SHIPPING : 0;
+    const total = subtotal + shipping;
+
+    document.getElementById('cart-subtotal').textContent = `¥${subtotal.toLocaleString()}`;
+    document.getElementById('cart-shipping').textContent = cart.length > 0 ? `¥${shipping.toLocaleString()}` : '¥0';
+    document.getElementById('cart-total').textContent = `¥${total.toLocaleString()}`;
+
+    const itemsEl = document.getElementById('cart-items');
+    if (cart.length === 0) {
+      itemsEl.innerHTML = '<div class="cart-empty">カートに商品がありません</div>';
+    } else {
+      itemsEl.innerHTML = cart.map(c => {
+        const salePrice = calcSalePrice(c.wholesalePrice);
+        return `
+          <div class="cart-item">
+            <div class="cart-item-img" style="display:flex;align-items:center;justify-content:center;font-size:2rem;">${c.emoji}</div>
+            <div>
+              <div class="cart-item-brand">${c.brand}</div>
+              <div class="cart-item-name">${c.name} ${c.size}</div>
+              <div class="cart-item-price">¥${(salePrice * c.qty).toLocaleString()}</div>
+              <button class="cart-item-remove" onclick="removeFromCart(${c.id})">✕ 削除</button>
+            </div>
+            <div></div>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+
+  function openCart() {
+    document.getElementById('cart-overlay').classList.add('open');
+    document.getElementById('cart-sidebar').classList.add('open');
+  }
+
+  function closeCart() {
+    document.getElementById('cart-overlay').classList.remove('open');
+    document.getElementById('cart-sidebar').classList.remove('open');
+  }
+
+  // ═══════════════════════════════
+  // STRIPE CHECKOUT
+  // ═══════════════════════════════
+  async function handleCheckout() {
+    if (cart.length === 0) return;
+
+    // Demo mode check
+    if (STRIPE_KEY.includes('YOUR_PUBLISHABLE_KEY')) {
+      document.getElementById('checkout-modal').classList.add('open');
+      return;
+    }
+
+    // 本番: Stripe Checkout
+    const stripe = Stripe(STRIPE_KEY);
+    const lineItems = cart.map(c => ({
+      price: c.stripePriceId,
+      quantity: c.qty
+    }));
+
+    // 送料を追加
+    lineItems.push({
+      price: 'price_SHIPPING_600', // ← Stripeで送料用のPriceを作成してください
+      quantity: 1
+    });
+
+    try {
+      const { error } = await stripe.redirectToCheckout({
+        lineItems,
+        mode: 'payment',
+        successUrl: window.location.origin + '/members-catalog.html?success=true',
+        cancelUrl: window.location.origin + '/members-catalog.html',
+        locale: 'ja'
+      });
+      if (error) alert(error.message);
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  // 成功メッセージ
+  if (window.location.search.includes('success=true')) {
+    setTimeout(() => {
+      alert('✅ ご注文ありがとうございました！発送準備を開始します。');
+    }, 500);
+  }
+</script>
+</body>
+</html>

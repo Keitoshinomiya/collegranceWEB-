@@ -1,0 +1,12 @@
+{
+  "name": "collegrance-website",
+  "version": "1.0.0",
+  "description": "COLLEGRANCE - 高級ブランド香水のお試し・小分け専門店",
+  "private": true,
+  "dependencies": {
+    "@netlify/functions": "^2.4.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

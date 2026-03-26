@@ -3,7 +3,7 @@
 
 [build]
   # 静的HTMLサイト + Netlify Functions
-  command = ""
+  command = "npm install"
   publish = "."
   functions = "netlify/functions"
 

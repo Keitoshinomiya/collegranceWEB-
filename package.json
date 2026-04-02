@@ -4,6 +4,7 @@
   "description": "COLLEGRANCE - 高級ブランド香水のお試し・小分け専門店",
   "private": true,
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.81.0",
     "@netlify/functions": "^2.4.0"
   },
   "engines": {

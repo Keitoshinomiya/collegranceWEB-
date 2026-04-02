@@ -1,0 +1,60 @@
+{
+  "_comment": "Amazon Attribution タグ設定。Amazon Ads コンソールでタグ発行後、各チャネルのtagに値を設定する。",
+  "_howto": "1. Amazon Ads > Amazonアトリビューション > キャンペーン作成 > チャネル別にタグを発行 2. 発行されたタグ(maas=xxx)のxxxをここに記入",
+  "channels": {
+    "website": {
+      "name": "自社サイト（collegrance.com）",
+      "tag": "",
+      "utm": "utm_source=collegrance&utm_medium=website"
+    },
+    "line": {
+      "name": "LINE公式アカウント",
+      "tag": "",
+      "utm": "utm_source=line&utm_medium=social"
+    },
+    "tiktok": {
+      "name": "TikTok投稿",
+      "tag": "",
+      "utm": "utm_source=tiktok&utm_medium=social"
+    },
+    "tiktokshop": {
+      "name": "TikTok Shop",
+      "tag": "",
+      "utm": "utm_source=tiktokshop&utm_medium=marketplace"
+    },
+    "instagram": {
+      "name": "Instagram",
+      "tag": "",
+      "utm": "utm_source=instagram&utm_medium=social"
+    },
+    "blog": {
+      "name": "ブログ記事",
+      "tag": "",
+      "utm": "utm_source=collegrance&utm_medium=blog"
+    }
+  },
+  "products": [
+    {"asin": "B0FRG5XX2Q", "name": "BYREDO Blanche"},
+    {"asin": "B0FSKMB6HR", "name": "DIPTYQUE Orpheon"},
+    {"asin": "B0FSKNF4QC", "name": "Dolce & Gabbana Light Blue"},
+    {"asin": "B0FSKQW44P", "name": "HERMÈS Un Jardin sur le Nil"},
+    {"asin": "B0FSKQBBXN", "name": "Maison Margiela Jazz Club"},
+    {"asin": "B0FSKSJVDC", "name": "Maison Margiela Lazy Sunday Morning"},
+    {"asin": "B0FSKRCH5G", "name": "TIFFANY Rose Gold"},
+    {"asin": "B0FSKMB6HG", "name": "DIPTYQUE Orpheon"},
+    {"asin": "B0FSKQGK6Z", "name": "HERMÈS Un Jardin sur le Nil"},
+    {"asin": "B0FSKQL8SR", "name": "LOEWE 001 Woman"},
+    {"asin": "B0FSKQLTQN", "name": "LOEWE 001 Man"},
+    {"asin": "B0FSKQWRJM", "name": "Jo Malone English Pear & Freesia"},
+    {"asin": "B0FSKRJKJ7", "name": "ISSEY MIYAKE L'Eau d'Issey"},
+    {"asin": "B0FSKNWSN5", "name": "Calvin Klein ck one"},
+    {"asin": "B0FSKNWDG8", "name": "DIOR Hypnotic Poison"},
+    {"asin": "B0FSKPQPZ7", "name": "LE LABO Another 13"},
+    {"asin": "B0FSKQ8QV8", "name": "YSL LIBRE"},
+    {"asin": "B0FSKSG813", "name": "DIOR Sauvage"},
+    {"asin": "B0FSKT7V2N", "name": "nonfiction Gentle Night"},
+    {"asin": "B0FSKRV7C1", "name": "BYREDO Gypsy Water"},
+    {"asin": "B0FSKM6THP", "name": "DECORTE Kimono Yui"},
+    {"asin": "B0FSKPTWMH", "name": "DIPTYQUE Fleur de Peau"}
+  ]
+}

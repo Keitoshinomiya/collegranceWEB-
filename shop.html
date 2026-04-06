@@ -76,18 +76,33 @@
     .site-header{position:sticky;top:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06);z-index:100;height:var(--header-h);display:flex;align-items:center;transition:box-shadow .3s var(--ease)}
     .header-inner{max-width:1200px;margin:0 auto;padding:0 24px;width:100%;display:flex;align-items:center;justify-content:space-between}
     .header-logo img{height:36px}
-    .header-nav{display:flex;align-items:center;gap:0}
-    .header-nav>li{list-style:none;position:relative}
-    .header-nav>li>a{display:block;padding:0 14px;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sub);transition:color .2s;line-height:var(--header-h)}
+    .header-nav{display:flex;align-items:center;gap:0;list-style:none}
+    .header-nav>li{position:relative}
+    .header-nav>li>a{display:block;padding:0 16px;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sub);transition:color .2s;line-height:var(--header-h)}
     .header-nav>li>a:hover,.header-nav>li:hover>a{color:var(--text)}
     .header-nav>li>a.active{color:var(--text);font-weight:500}
+
+    /* MEGA DROPDOWN */
+    .mega-drop{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:280px;background:var(--bg);border:1px solid var(--border);box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transition:all .25s var(--ease);z-index:110;pointer-events:none;padding:24px 28px}
+    .header-nav>li:hover .mega-drop{opacity:1;visibility:visible;pointer-events:auto}
+    .mega-drop-title{font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--light);margin-bottom:12px;font-weight:600;padding-bottom:8px;border-bottom:1px solid var(--border)}
+    .mega-drop-grid{display:grid;grid-template-columns:1fr;gap:0}
+    .mega-drop-grid.cols-2{grid-template-columns:1fr 1fr;gap:0 32px;min-width:420px}
+    .mega-drop-col h4{font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text);margin-bottom:8px;font-weight:600}
+    .mega-drop a{display:block;padding:7px 0;font-size:.66rem;color:var(--sub);letter-spacing:.03em;transition:color .2s}
+    .mega-drop a:hover{color:var(--text)}
+    .mega-drop a .mega-sub{display:block;font-size:.5rem;color:var(--light);margin-top:1px}
+    .mega-drop .mega-feat{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+    .mega-drop .mega-feat-link{display:flex;align-items:center;gap:8px;padding:8px 0;font-size:.62rem;color:var(--text);font-weight:500;letter-spacing:.04em}
+    .mega-drop .mega-feat-link svg{width:16px;height:16px;opacity:.5}
     .header-right{display:flex;align-items:center;gap:16px}
     .cart-btn{display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;font-family:var(--font);font-size:.68rem;letter-spacing:.08em;color:var(--text);transition:opacity .2s}
     .cart-btn:hover{opacity:.6}
     .cart-badge{background:var(--accent);color:#fff;font-size:.5rem;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500}
 
     /* SUB NAV */
-    .sub-nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .sub-nav{display:none} /* Replaced by mega dropdowns */
+    .sub-nav-old{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
     .sub-nav::-webkit-scrollbar{display:none}
     .sub-nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:stretch;gap:0}
     .sub-nav-group{display:flex;align-items:center;position:relative;padding:0 20px}
@@ -115,12 +130,33 @@
     .mobile-nav-links a{display:block;padding:14px 0;font-size:.78rem;color:var(--text);letter-spacing:.04em}
     .mobile-nav-links a:hover{color:var(--sub)}
 
-    /* HERO (compact) */
-    .shop-hero{padding:64px 24px 48px;text-align:center;background:var(--bg)}
-    .shop-hero h1{font-weight:300;font-size:clamp(1.4rem,3.5vw,2.2rem);letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px;color:var(--text)}
-    .shop-hero p{font-size:.78rem;color:var(--sub);letter-spacing:.06em;line-height:2}
-    .hero-ai-btn{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:14px 32px;background:linear-gradient(135deg,#1a1a1a,#333);color:#fff;border:none;font-family:var(--font);font-size:.72rem;letter-spacing:.08em;cursor:pointer;border-radius:40px;transition:all .3s var(--ease);box-shadow:0 4px 20px rgba(0,0,0,.15)}
-    .hero-ai-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+    /* HERO (slideshow) */
+    .shop-hero{position:relative;min-height:520px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+    .hero-slides{position:absolute;inset:0}
+    .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.2s ease-in-out;transform:scale(1.05)}
+    .hero-slide.active{opacity:1}
+    .shop-hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1) 0%,rgba(0,0,0,.5) 100%);z-index:1}
+    .shop-hero-content{position:relative;z-index:2;padding:40px 24px;max-width:680px}
+    .shop-hero h1{font-weight:300;font-size:clamp(1.6rem,4vw,2.6rem);letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px;color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.3)}
+    .shop-hero p{font-size:.82rem;color:rgba(255,255,255,.85);letter-spacing:.06em;line-height:2;margin-bottom:4px}
+    .shop-hero .hero-sub{font-size:.62rem;color:rgba(255,255,255,.6);letter-spacing:.08em;margin-bottom:0}
+    .hero-ai-btn{display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:16px 36px;background:rgba(255,255,255,.95);color:var(--text);border:none;font-family:var(--font);font-size:.72rem;letter-spacing:.08em;cursor:pointer;border-radius:40px;transition:all .3s var(--ease);box-shadow:0 4px 24px rgba(0,0,0,.2);font-weight:500}
+    .hero-ai-btn:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(0,0,0,.3);background:#fff}
+    .hero-dots{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:8px}
+    .hero-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .3s var(--ease);border:none;padding:0}
+    .hero-dot.active{background:#fff;transform:scale(1.3)}
+    @media(max-width:768px){
+      .shop-hero{min-height:420px}
+      .shop-hero h1{letter-spacing:.1em}
+      .hero-ai-btn{padding:14px 28px;font-size:.66rem}
+    }
+
+    /* LOAD MORE */
+    .load-more-wrap{text-align:center;padding:40px 16px;grid-column:1/-1}
+    .load-more-btn{width:100%;max-width:400px;padding:18px 48px;background:var(--accent);color:#fff;border:none;font-family:var(--font);font-size:.76rem;letter-spacing:.12em;cursor:pointer;transition:all .25s var(--ease);border-radius:4px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+    .load-more-btn:hover{background:#333;box-shadow:0 6px 24px rgba(0,0,0,.15)}
+    .load-more-btn:active{transform:scale(.98)}
+    .load-more-count{font-size:.56rem;color:var(--light);margin-top:10px;letter-spacing:.04em}
 
     /* Floating AI button */
     .floating-ai{position:fixed;bottom:24px;right:24px;z-index:90;display:flex;align-items:center;gap:8px;padding:14px 24px;background:linear-gradient(135deg,#1a1a1a,#333);color:#fff;border:none;font-family:var(--font);font-size:.66rem;letter-spacing:.08em;cursor:pointer;border-radius:40px;box-shadow:0 6px 24px rgba(0,0,0,.2);transition:all .3s var(--ease);opacity:0;transform:translateY(20px);pointer-events:none}
@@ -396,6 +432,53 @@
     .diag-result-btns a:hover,.diag-result-btns button:hover{border-color:var(--text)}
     .diag-result-btns .primary{background:var(--accent);color:#fff;border-color:var(--accent)}
 
+    /* WHY COLLEGRANCE */
+    .why-section{padding:64px 24px;background:var(--bg)}
+    .why-inner{max-width:1000px;margin:0 auto}
+    .why-header{text-align:center;margin-bottom:40px}
+    .why-header h2{font-weight:300;font-size:1.1rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+    .why-header p{font-size:.68rem;color:var(--sub);letter-spacing:.04em}
+    .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+    .why-card{text-align:center;padding:28px 20px}
+    .why-icon{font-size:1.8rem;margin-bottom:14px}
+    .why-card h3{font-size:.78rem;font-weight:500;letter-spacing:.06em;margin-bottom:10px}
+    .why-card p{font-size:.62rem;color:var(--sub);line-height:1.9;letter-spacing:.03em}
+    .why-badge{display:inline-block;font-size:.48rem;letter-spacing:.08em;padding:4px 10px;background:var(--bg2);border-radius:12px;color:var(--sub);margin-top:10px}
+
+    /* FAQ */
+    .faq-section{padding:64px 24px;background:var(--bg2);border-top:1px solid var(--border)}
+    .faq-inner{max-width:800px;margin:0 auto}
+    .faq-header{text-align:center;margin-bottom:32px}
+    .faq-header h2{font-weight:300;font-size:1.1rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+    .faq-item{border-bottom:1px solid var(--border);overflow:hidden}
+    .faq-q{padding:18px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:.74rem;font-weight:500;letter-spacing:.03em;color:var(--text);transition:color .2s}
+    .faq-q:hover{color:var(--sub)}
+    .faq-q .faq-arrow{font-size:.6rem;color:var(--light);transition:transform .3s var(--ease);flex-shrink:0}
+    .faq-item.open .faq-arrow{transform:rotate(180deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .4s var(--ease);padding:0 0 0 0}
+    .faq-item.open .faq-a{max-height:300px;padding-bottom:18px}
+    .faq-a-inner{font-size:.64rem;color:var(--sub);line-height:2;letter-spacing:.03em}
+
+    /* GIFT SECTION */
+    .gift-section{padding:48px 24px;background:var(--bg);border-top:1px solid var(--border)}
+    .gift-inner{max-width:900px;margin:0 auto;display:flex;gap:40px;align-items:center}
+    .gift-text{flex:1}
+    .gift-text h2{font-weight:300;font-size:1rem;letter-spacing:.1em;margin-bottom:10px}
+    .gift-text p{font-size:.64rem;color:var(--sub);line-height:1.9;letter-spacing:.03em;margin-bottom:16px}
+    .gift-features{display:flex;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+    .gift-feat{display:flex;align-items:center;gap:6px;font-size:.58rem;color:var(--sub);letter-spacing:.03em}
+    .gift-feat svg{width:16px;height:16px;opacity:.5;flex-shrink:0}
+    .gift-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--accent);color:#fff;border:none;font-family:var(--font);font-size:.64rem;letter-spacing:.1em;cursor:pointer;border-radius:2px;transition:background .2s}
+    .gift-btn:hover{background:#333}
+    .gift-visual{flex:0 0 200px;text-align:center;font-size:4rem;opacity:.15}
+
+    @media(max-width:768px){
+      .why-grid{grid-template-columns:1fr;gap:20px}
+      .why-card{padding:20px 16px}
+      .gift-inner{flex-direction:column;gap:24px}
+      .gift-visual{display:none}
+    }
+
     /* FOOTER */
     .catalog-footer{border-top:1px solid var(--border);padding:48px 24px 32px;background:var(--bg2)}
     .footer-inner{max-width:1200px;margin:0 auto}
@@ -491,10 +574,67 @@
     <div class="header-inner">
       <a href="index.html" class="header-logo"><img src="assets/images/logo.png" alt="COLLEGRANCE"></a>
       <ul class="header-nav">
-        <li><a href="shop.html" class="active">Shop</a></li>
-        <li><a href="brand-story.html">About</a></li>
-        <li><a href="journal.html">Journal</a></li>
-        <li><a href="contact.html">Support</a></li>
+        <li>
+          <a href="shop.html" class="active">Shop</a>
+          <div class="mega-drop">
+            <div class="mega-drop-grid cols-2">
+              <div class="mega-drop-col">
+                <h4>カテゴリ</h4>
+                <a href="shop.html">すべての商品<span class="mega-sub">130種類以上のブランド香水</span></a>
+                <a href="shop.html" onclick="setTimeout(function(){setMode('popular')},300)">人気ランキング<span class="mega-sub">売れ筋TOP商品</span></a>
+                <a href="shop.html" onclick="setTimeout(function(){setMode('sample')},300)">小分けで試す<span class="mega-sub">1.5ml お試しサイズ</span></a>
+                <a href="shop.html" onclick="setTimeout(function(){setMode('fullbottle')},300)">フルボトル<span class="mega-sub">正規フルサイズ</span></a>
+              </div>
+              <div class="mega-drop-col">
+                <h4>香り系統から探す</h4>
+                <a href="shop.html" onclick="setTimeout(function(){applyGuide('floral')},300)">フローラル</a>
+                <a href="shop.html" onclick="setTimeout(function(){applyGuide('citrus')},300)">シトラス・フレッシュ</a>
+                <a href="shop.html" onclick="setTimeout(function(){applyGuide('woody')},300)">ウッディ・スパイシー</a>
+                <a href="shop.html" onclick="setTimeout(function(){applyGuide('sweet')},300)">スイート・グルマン</a>
+                <a href="shop.html" onclick="setTimeout(function(){applyGuide('oriental')},300)">オリエンタル</a>
+              </div>
+            </div>
+            <div class="mega-feat">
+              <a href="#" onclick="event.preventDefault();openDiagnosis()" class="mega-feat-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.09 6.26L20 10.27l-4.91 3.82L16.18 21 12 17.27 7.82 21l1.09-6.91L4 10.27l5.91-2.01L12 2z"/></svg>
+                AIコンシェルジュに相談する
+              </a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <a href="brand-story.html">About</a>
+          <div class="mega-drop">
+            <div class="mega-drop-grid">
+              <a href="brand-story.html">ブランドストーリー<span class="mega-sub">COLLEGRANCEの想い</span></a>
+              <a href="#" onclick="event.preventDefault();openDiagnosis()">AI香り診断<span class="mega-sub">あなたにぴったりの一本を</span></a>
+              <a href="index.html#quality">品質へのこだわり<span class="mega-sub">化粧品製造販売業許可取得済み</span></a>
+              <a href="https://line.me/R/ti/p/@collegrance" target="_blank" rel="noopener">LINEコンシェルジュ<span class="mega-sub">個別のご相談はこちら</span></a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <a href="journal.html">Journal</a>
+          <div class="mega-drop">
+            <div class="mega-drop-grid">
+              <a href="journal.html">新着記事<span class="mega-sub">最新の香り情報</span></a>
+              <a href="journal.html#review">レビュー<span class="mega-sub">スタッフの本音レビュー</span></a>
+              <a href="journal.html#basics">香水の基礎知識<span class="mega-sub">EDT・EDPの違いなど</span></a>
+              <a href="journal.html#trend">トレンド<span class="mega-sub">今注目の香り</span></a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <a href="contact.html">Support</a>
+          <div class="mega-drop">
+            <div class="mega-drop-grid">
+              <a href="contact.html">お問い合わせ<span class="mega-sub">Netlify Forms</span></a>
+              <a href="tokushoho.html#shipping">配送・返品<span class="mega-sub">送料・返品ポリシー</span></a>
+              <a href="#faq" onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">FAQ<span class="mega-sub">よくあるご質問</span></a>
+              <a href="tokushoho.html">特定商取引法に基づく表記</a>
+            </div>
+          </div>
+        </li>
       </ul>
       <div class="header-right">
         <button class="cart-btn" onclick="openCart()">Cart <span class="cart-badge" id="cart-count">0</span></button>
@@ -582,11 +722,23 @@
 
   <!-- HERO -->
   <section class="shop-hero">
-    <h1 class="fade-up">Your Fragrance Collection</h1>
-    <p class="fade-up delay-1">小分けで試して、気に入ったらフルボトルへ。</p>
-    <button class="hero-ai-btn fade-up delay-2" onclick="openDiagnosis()">
-      <span class="ai-sparkle">&#10024;</span> AIが最適な香りを診断 <span style="font-size:.52rem;opacity:.7;margin-left:4px">— 30秒で完了</span>
-    </button>
+    <div class="hero-slides">
+      <div class="hero-slide active" style="background-image:url('assets/images/hero-main.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('assets/images/blog_image_sauvage.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('assets/images/blog_image_fleur_de_peau.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('assets/images/lazy-sunday-morning-hero.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('assets/images/about-collection.jpg')"></div>
+    </div>
+    <div class="shop-hero-overlay"></div>
+    <div class="shop-hero-content">
+      <h1 class="fade-up">Your Fragrance Collection</h1>
+      <p class="fade-up delay-1">小分けで試して、気に入ったらフルボトルへ。</p>
+      <p class="hero-sub fade-up delay-1">130種類以上のブランド香水を正規品でお届け</p>
+      <button class="hero-ai-btn fade-up delay-2" onclick="openDiagnosis()">
+        <svg class="ai-sparkle" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M12 2l2.09 6.26L20 10.27l-4.91 3.82L16.18 21 12 17.27 7.82 21l1.09-6.91L4 10.27l5.91-2.01L12 2z"/></svg> AIが最適な香りを診断
+      </button>
+    </div>
+    <div class="hero-dots" id="hero-dots"></div>
   </section>
 
   <!-- TRUST BAR -->
@@ -636,12 +788,12 @@
   <div class="quick-guide" id="quick-guide">
     <div class="quick-guide-q">どんな香りをお探しですか？</div>
     <div class="quick-guide-options">
-      <button class="quick-guide-btn" data-guide="floral" onclick="applyGuide('floral')"><span class="qg-emoji">&#127800;</span> 華やか・フローラル</button>
-      <button class="quick-guide-btn" data-guide="citrus" onclick="applyGuide('citrus')"><span class="qg-emoji">&#127819;</span> 爽やか・シトラス</button>
-      <button class="quick-guide-btn" data-guide="woody" onclick="applyGuide('woody')"><span class="qg-emoji">&#127795;</span> 深み・ウッディ</button>
-      <button class="quick-guide-btn" data-guide="sweet" onclick="applyGuide('sweet')"><span class="qg-emoji">&#127852;</span> 甘め・スイート</button>
-      <button class="quick-guide-btn" data-guide="oriental" onclick="applyGuide('oriental')"><span class="qg-emoji">&#10024;</span> エキゾチック・オリエンタル</button>
-      <button class="quick-guide-btn ai-btn" onclick="openDiagnosis()"><span class="ai-sparkle">&#10024;</span> AIコンシェルジュに相談</button>
+      <button class="quick-guide-btn" data-guide="floral" onclick="applyGuide('floral')"><svg class="qg-emoji" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><circle cx="12" cy="12" r="3"/><path d="M12 2a4 4 0 014 4c0 1.5-.8 2.8-2 3.5M12 2a4 4 0 00-4 4c0 1.5.8 2.8 2 3.5M22 12a4 4 0 01-4 4c-1.5 0-2.8-.8-3.5-2M22 12a4 4 0 00-4-4c-1.5 0-2.8.8-3.5 2M12 22a4 4 0 01-4-4c0-1.5.8-2.8 2-3.5M12 22a4 4 0 004-4c0-1.5-.8-2.8-2-3.5M2 12a4 4 0 014-4c1.5 0 2.8.8 3.5 2M2 12a4 4 0 004 4c1.5 0 2.8-.8 3.5-2"/></svg> 華やか・フローラル</button>
+      <button class="quick-guide-btn" data-guide="citrus" onclick="applyGuide('citrus')"><svg class="qg-emoji" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M17 8c0-4-3-6-5-6S7 4 7 8c0 5.5 3 8 5 8s5-2.5 5-8z"/><path d="M12 2v14"/><path d="M12 5c1.5 1 3 3 3 6"/></svg> 爽やか・シトラス</button>
+      <button class="quick-guide-btn" data-guide="woody" onclick="applyGuide('woody')"><svg class="qg-emoji" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M12 22V8"/><path d="M8 22h8"/><path d="M12 8c-3 0-6-3-6-6h12c0 3-3 6-6 6z"/><path d="M12 14c-4 0-8-3.5-8-7h16c0 3.5-4 7-8 7z"/></svg> 深み・ウッディ</button>
+      <button class="quick-guide-btn" data-guide="sweet" onclick="applyGuide('sweet')"><svg class="qg-emoji" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg> 甘め・スイート</button>
+      <button class="quick-guide-btn" data-guide="oriental" onclick="applyGuide('oriental')"><svg class="qg-emoji" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg> エキゾチック・オリエンタル</button>
+      <button class="quick-guide-btn ai-btn" onclick="openDiagnosis()"><svg class="ai-sparkle" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M12 2l2.09 6.26L20 10.27l-4.91 3.82L16.18 21 12 17.27 7.82 21l1.09-6.91L4 10.27l5.91-2.01L12 2z"/></svg> AIコンシェルジュに相談</button>
     </div>
     <button class="quick-guide-close" id="guide-close" onclick="clearGuide()">&#x2715; フィルターを解除</button>
   </div>
@@ -725,6 +877,111 @@
     </div>
   </section>
 
+  <!-- WHY COLLEGRANCE -->
+  <section class="why-section">
+    <div class="why-inner">
+      <div class="why-header">
+        <h2>Why COLLEGRANCE</h2>
+        <p>COLLEGRANCEが選ばれる3つの理由</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card fade-up">
+          <div class="why-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3h6v2H9zM12 5v6"/><path d="M8 11h8l1 9H7l1-9z"/><path d="M10 14h4"/></svg></div>
+          <h3>試してから買える</h3>
+          <p>1.5mlの小分けで気になる香りをお試し。気に入ったらフルボトルへ。もう香水選びで失敗しません。</p>
+          <span class="why-badge">小分け ¥750〜</span>
+        </div>
+        <div class="why-card fade-up delay-1">
+          <div class="why-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/></svg></div>
+          <h3>海外正規品をお得に</h3>
+          <p>海外正規代理店から直接仕入れ。化粧品製造販売業許可を取得した正規の販売体制で、国内定価よりもお求めやすい価格でお届けします。</p>
+          <span class="why-badge">化粧品製造販売業許可取得済み</span>
+        </div>
+        <div class="why-card fade-up delay-2">
+          <div class="why-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.09 6.26L20 10.27l-4.91 3.82L16.18 21 12 17.27 7.82 21l1.09-6.91L4 10.27l5.91-2.01L12 2z"/></svg></div>
+          <h3>AIがあなたの一本を見つける</h3>
+          <p>好みやシーンをAIが分析し、130商品以上の中からあなたにぴったりの香りをご提案。まるで専属コンシェルジュのような体験を。</p>
+          <span class="why-badge">AI Scent Concierge</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GIFT -->
+  <section class="gift-section" id="gift">
+    <div class="gift-inner">
+      <div class="gift-text">
+        <h2><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg> 大切な方への贈り物に</h2>
+        <p>COLLEGRANCEの香水は、ギフトラッピングに対応しています。誕生日、記念日、お祝いに — 香りのプレゼントは特別な思い出になります。</p>
+        <div class="gift-features">
+          <div class="gift-feat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+            ギフトラッピング（+¥300）
+          </div>
+          <div class="gift-feat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            メッセージカード付き
+          </div>
+          <div class="gift-feat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            2〜4営業日でお届け
+          </div>
+        </div>
+        <button class="gift-btn" onclick="currentMode='all';applyFilters();document.getElementById('grid').scrollIntoView({behavior:'smooth'})">ギフトにぴったりの香水を探す &rarr;</button>
+      </div>
+      <div class="gift-visual"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section" id="faq">
+    <div class="faq-inner">
+      <div class="faq-header">
+        <h2>FAQ</h2>
+      </div>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">正規品ですか？<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">はい、すべて正規品です。海外正規代理店から直接仕入れた並行輸入品を、化粧品製造販売業許可を取得した正規の体制でお届けしています。国内定価よりもお求めやすい価格でご提供できる理由は、海外からの直接仕入れによるものです。品質は国内正規品と全く同一です。</div></div>
+      </div>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">小分けとフルボトルの違いは？<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">小分け（1.5ml）はAmazonでご購入いただけるお試しサイズです。約2週間分の量で、気になる香りを気軽にお試しいただけます。フルボトルは正規サイズの香水で、当サイトから直接ご購入いただけます。小分けで気に入った香りがあれば、フルボトルへのステップアップがおすすめです。</div></div>
+      </div>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">送料はいくらですか？<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">小分けお試し（1.5ml）はAmazon経由でのお届けとなりますので、Amazonプライム会員の方は送料無料です。フルボトルは当サイトからの発送で、全国一律¥700（税込）。¥30,000以上のご購入で送料無料になります。ヤマト運輸でお届けし、発送後に追跡番号をお知らせします。</div></div>
+      </div>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">届くまでどのくらいかかりますか？<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">ご注文から2〜4営業日以内に発送いたします（土日祝を除く）。発送完了後、追跡番号をメールでお知らせしますので、配送状況をリアルタイムでご確認いただけます。</div></div>
+      </div>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">返品・交換はできますか？<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">商品到着から7日以内であれば、未開封・未使用の商品に限り返品・交換を承ります。商品に不備があった場合は、開封済みでも交換対応いたしますので、お気軽にお問い合わせください。返品時の送料は、お客様都合の場合はお客様負担、不備があった場合は当社負担となります。</div></div>
+      </div>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">支払い方法は？<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">クレジットカード決済（Visa、Mastercard、American Express、JCB）に対応しています。決済はStripeを通じて安全に処理されます。カード情報は当サイトでは一切保持しません。</div></div>
+      </div>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">ギフトラッピングは対応していますか？<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">はい、+¥300でギフトラッピングを承ります。メッセージカードもお付けできます。ご注文時にカート内のギフトオプションをご選択ください。大切な方への贈り物に、香りのプレゼントはいかがでしょうか。</div></div>
+      </div>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">テスター品とは何ですか？<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">テスター品は、百貨店等で使用される業務用の香水です。中身は正規品と全く同一ですが、外装箱が無地の白箱となります。その分お求めやすい価格でご提供しています。品質に一切の違いはございません。</div></div>
+      </div>
+    </div>
+  </section>
+
   <!-- LINE CTA -->
   <section class="line-cta">
     <h2 class="fade-up">LINE友だち追加で最新入荷情報をお届け</h2>
@@ -780,7 +1037,7 @@
   <!-- FLOATING AI BUTTON -->
   <button class="floating-ai" id="floating-ai" onclick="openDiagnosis()">
     <div class="ai-pulse"></div>
-    <span class="ai-sparkle">&#10024;</span> AI香り診断
+    <svg class="ai-sparkle" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M12 2l2.09 6.26L20 10.27l-4.91 3.82L16.18 21 12 17.27 7.82 21l1.09-6.91L4 10.27l5.91-2.01L12 2z"/></svg> AI香り診断
   </button>
 
   <!-- AI DIAGNOSIS MODAL -->
@@ -800,13 +1057,13 @@
         <!-- Step 0: Intro -->
         <div class="diag-step" id="diag-s0">
           <div style="text-align:center;margin-bottom:20px">
-            <div style="font-size:1.8rem;margin-bottom:10px">&#10024;</div>
+            <div style="margin-bottom:10px"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.09 6.26L20 10.27l-4.91 3.82L16.18 21 12 17.27 7.82 21l1.09-6.91L4 10.27l5.91-2.01L12 2z"/></svg></div>
             <h3 style="font-size:.96rem;font-weight:400;letter-spacing:.1em;margin-bottom:8px">AI Scent Concierge</h3>
             <p style="font-size:.66rem;color:#666;line-height:1.8">いくつかの質問にお答えいただくだけで、<br><strong>130商品以上</strong>の中からAIがあなたにぴったりの香りを見つけます。</p>
             <div style="display:flex;justify-content:center;gap:16px;margin-top:16px;font-size:.54rem;color:#999">
-              <span>&#9201; 約1分</span>
-              <span>&#127891; 全商品対象</span>
-              <span>&#129302; AI分析</span>
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg> 約1分</span>
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M4 6h16M4 10h16M4 14h10M4 18h12"/></svg> 全商品対象</span>
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h.01M15 9h.01M9 15h6"/></svg> AI分析</span>
             </div>
           </div>
           <button onclick="diagNext(0);document.getElementById('diag-progress').style.display='block'" style="width:100%;padding:14px;background:linear-gradient(135deg,#1a1a1a,#333);color:#fff;border:none;font-family:var(--font);font-size:.72rem;letter-spacing:.14em;cursor:pointer;border-radius:4px">診断スタート</button>
@@ -818,10 +1075,10 @@
           <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">COLLEGRANCEで香水を試したことはありますか？</h3>
           <div style="display:flex;flex-direction:column;gap:8px">
             <button class="diag-opt" onclick="diagSetRepeater(true)">
-              <div style="flex:1">&#128218; はい、試したことがある<br><span style="font-size:.52rem;color:#999">前回の体験をもとに次の香りをご提案します</span></div>
+              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> はい、試したことがある<br><span style="font-size:.52rem;color:#999">前回の体験をもとに次の香りをご提案します</span></div>
             </button>
             <button class="diag-opt" onclick="diagSetRepeater(false)">
-              <div style="flex:1">&#10024; いいえ、初めてです<br><span style="font-size:.52rem;color:#999">好みをヒアリングして最適な香りを見つけます</span></div>
+              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg> いいえ、初めてです<br><span style="font-size:.52rem;color:#999">好みをヒアリングして最適な香りを見つけます</span></div>
             </button>
           </div>
         </div>
@@ -841,9 +1098,9 @@
           <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 3</div>
           <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">その香り、いかがでしたか？</h3>
           <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagRepeaterFeeling('大好き！似た系統でもっと探したい')">&#128153; 大好き！似た系統でもっと探したい</button>
-            <button class="diag-opt" onclick="diagRepeaterFeeling('良かったけど、次は違う系統を試したい')">&#128260; 良かったけど、次は違う系統を試したい</button>
-            <button class="diag-opt" onclick="diagRepeaterFeeling('あまり好みではなかった')">&#128172; あまり好みではなかった</button>
+            <button class="diag-opt" onclick="diagRepeaterFeeling('大好き！似た系統でもっと探したい')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg> 大好き！似た系統でもっと探したい</button>
+            <button class="diag-opt" onclick="diagRepeaterFeeling('良かったけど、次は違う系統を試したい')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg> 良かったけど、次は違う系統を試したい</button>
+            <button class="diag-opt" onclick="diagRepeaterFeeling('あまり好みではなかった')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> あまり好みではなかった</button>
           </div>
         </div>
 
@@ -853,13 +1110,13 @@
           <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">次はどうされたいですか？</h3>
           <div style="display:flex;flex-direction:column;gap:8px">
             <button class="diag-opt" onclick="diagRepeaterWish('気に入った香りのフルボトルが欲しい')">
-              <div style="flex:1">&#129524; 気に入った香りのフルボトルが欲しい<br><span style="font-size:.52rem;color:#999">正規フルサイズを自社サイトで購入</span></div>
+              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M10 2h4v4h-4zM9 6h6l1 4H8l1-4z"/><rect x="8" y="10" width="8" height="11" rx="1"/><path d="M8 21h8"/></svg> 気に入った香りのフルボトルが欲しい<br><span style="font-size:.52rem;color:#999">正規フルサイズを自社サイトで購入</span></div>
             </button>
             <button class="diag-opt" onclick="diagRepeaterWish('別の香りを小分けで試したい')">
-              <div style="flex:1">&#128228; 別の香りを小分けで試したい<br><span style="font-size:.52rem;color:#999">新しい香りをAmazonでお試し</span></div>
+              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg> 別の香りを小分けで試したい<br><span style="font-size:.52rem;color:#999">新しい香りをAmazonでお試し</span></div>
             </button>
             <button class="diag-opt" onclick="diagRepeaterWish('おすすめを全部見たい')">
-              <div style="flex:1">&#128270; おすすめを全部見たい<br><span style="font-size:.52rem;color:#999">フルボトルも小分けも含めて提案</span></div>
+              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> おすすめを全部見たい<br><span style="font-size:.52rem;color:#999">フルボトルも小分けも含めて提案</span></div>
             </button>
           </div>
         </div>
@@ -869,10 +1126,10 @@
           <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 2</div>
           <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">香水を主に使いたいシーンは？</h3>
           <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagNewAnswer('scene','オフィス・仕事')">&#127970; オフィス・仕事 <span style="font-size:.54rem;color:#999">— 清潔感と信頼感</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scene','デート・ディナー')">&#127863; デート・ディナー <span style="font-size:.54rem;color:#999">— 魅力的な印象</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scene','休日・リラックス')">&#9749; 休日・リラックス <span style="font-size:.54rem;color:#999">— 自分のための香り</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scene','日常・カジュアル')">&#128095; 日常・カジュアル <span style="font-size:.54rem;color:#999">— 万能な香り</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('scene','オフィス・仕事')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 6h2M9 10h2M9 14h2M13 6h2M13 10h2M13 14h2M8 18h8"/></svg> オフィス・仕事 <span style="font-size:.54rem;color:#999">— 清潔感と信頼感</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('scene','デート・ディナー')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M8 22h8M12 18v4M12 2v4M8 6h8l-2 12H10L8 6z"/></svg> デート・ディナー <span style="font-size:.54rem;color:#999">— 魅力的な印象</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('scene','休日・リラックス')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M17 8h1a4 4 0 010 8h-1M3 8h14v9a4 4 0 01-4 4H7a4 4 0 01-4-4V8z"/><path d="M6 2v3M10 2v3M14 2v3"/></svg> 休日・リラックス <span style="font-size:.54rem;color:#999">— 自分のための香り</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('scene','日常・カジュアル')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg> 日常・カジュアル <span style="font-size:.54rem;color:#999">— 万能な香り</span></button>
           </div>
         </div>
 
@@ -881,11 +1138,11 @@
           <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 3</div>
           <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">好みの香りの系統は？</h3>
           <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagNewAnswer('scentType','シトラス・フレッシュ')">&#127819; シトラス・フレッシュ <span style="font-size:.54rem;color:#999">— 柑橘系の爽やかさ</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scentType','フローラル')">&#127800; フローラル <span style="font-size:.54rem;color:#999">— 花の華やかさ</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scentType','ウッディ・スパイシー')">&#127795; ウッディ・スパイシー <span style="font-size:.54rem;color:#999">— 深みと温かさ</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scentType','スイート・グルマン')">&#127852; スイート・グルマン <span style="font-size:.54rem;color:#999">— 甘くて魅惑的</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scentType','ムスク・クリーン')">&#128171; ムスク・クリーン <span style="font-size:.54rem;color:#999">— 清潔感と透明感</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('scentType','シトラス・フレッシュ')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M17 8c0-4-3-6-5-6S7 4 7 8c0 5.5 3 8 5 8s5-2.5 5-8z"/><path d="M12 2v14"/><path d="M12 5c1.5 1 3 3 3 6"/></svg> シトラス・フレッシュ <span style="font-size:.54rem;color:#999">— 柑橘系の爽やかさ</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('scentType','フローラル')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><circle cx="12" cy="12" r="3"/><path d="M12 2a4 4 0 014 4c0 1.5-.8 2.8-2 3.5M12 2a4 4 0 00-4 4c0 1.5.8 2.8 2 3.5M22 12a4 4 0 01-4 4c-1.5 0-2.8-.8-3.5-2M22 12a4 4 0 00-4-4c-1.5 0-2.8.8-3.5 2M12 22a4 4 0 01-4-4c0-1.5.8-2.8 2-3.5M12 22a4 4 0 004-4c0-1.5-.8-2.8-2-3.5M2 12a4 4 0 014-4c1.5 0 2.8.8 3.5 2M2 12a4 4 0 004 4c1.5 0 2.8-.8 3.5-2"/></svg> フローラル <span style="font-size:.54rem;color:#999">— 花の華やかさ</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('scentType','ウッディ・スパイシー')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M12 22V8"/><path d="M8 22h8"/><path d="M12 8c-3 0-6-3-6-6h12c0 3-3 6-6 6z"/><path d="M12 14c-4 0-8-3.5-8-7h16c0 3.5-4 7-8 7z"/></svg> ウッディ・スパイシー <span style="font-size:.54rem;color:#999">— 深みと温かさ</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('scentType','スイート・グルマン')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg> スイート・グルマン <span style="font-size:.54rem;color:#999">— 甘くて魅惑的</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('scentType','ムスク・クリーン')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg> ムスク・クリーン <span style="font-size:.54rem;color:#999">— 清潔感と透明感</span></button>
           </div>
         </div>
 
@@ -908,13 +1165,13 @@
           <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">どのように試してみたいですか？</h3>
           <div style="display:flex;flex-direction:column;gap:8px">
             <button class="diag-opt" onclick="diagNewAnswer('purchaseType','まず小分けで試したい')">
-              <div style="flex:1">&#128228; まず小分けで試したい<br><span style="font-size:.52rem;color:#999">1.5mlのお試し（¥750〜）Amazonで購入</span></div>
+              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg> まず小分けで試したい<br><span style="font-size:.52rem;color:#999">1.5mlのお試し（¥750〜）Amazonで購入</span></div>
             </button>
             <button class="diag-opt" onclick="diagNewAnswer('purchaseType','フルボトルで購入したい')">
-              <div style="flex:1">&#129524; フルボトルで購入したい<br><span style="font-size:.52rem;color:#999">正規フルサイズ（¥3,000〜）</span></div>
+              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M10 2h4v4h-4zM9 6h6l1 4H8l1-4z"/><rect x="8" y="10" width="8" height="11" rx="1"/><path d="M8 21h8"/></svg> フルボトルで購入したい<br><span style="font-size:.52rem;color:#999">正規フルサイズ（¥3,000〜）</span></div>
             </button>
             <button class="diag-opt" onclick="diagNewAnswer('purchaseType','両方見たい')">
-              <div style="flex:1">&#128270; まだ決めていない</div>
+              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> まだ決めていない</div>
             </button>
           </div>
         </div>
@@ -934,9 +1191,9 @@
           <div style="margin-bottom:14px">
             <div style="font-size:.58rem;color:#999;margin-bottom:6px">使いたい季節</div>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button class="diag-opt" onclick="selectMulti(this,'season','春夏')" style="flex:1;min-width:60px">&#9728;&#65039; 春夏</button>
-              <button class="diag-opt" onclick="selectMulti(this,'season','秋冬')" style="flex:1;min-width:60px">&#127810; 秋冬</button>
-              <button class="diag-opt" onclick="selectMulti(this,'season','オールシーズン')" style="flex:1;min-width:80px">&#127776; 通年</button>
+              <button class="diag-opt" onclick="selectMulti(this,'season','春夏')" style="flex:1;min-width:60px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg> 春夏</button>
+              <button class="diag-opt" onclick="selectMulti(this,'season','秋冬')" style="flex:1;min-width:60px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M11 20A7 7 0 019.8 6.9C15.5 4.9 17 2 17 2s2 4 2 8-1.2 8-3.5 10.2"/><path d="M11 13V7"/><path d="M7 10l4 3M15 10l-4 3"/></svg> 秋冬</button>
+              <button class="diag-opt" onclick="selectMulti(this,'season','オールシーズン')" style="flex:1;min-width:80px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M12 2l2.09 6.26L20 10.27l-4.91 3.82L16.18 21 12 17.27 7.82 21l1.09-6.91L4 10.27l5.91-2.01L12 2z"/></svg> 通年</button>
             </div>
           </div>
           <button id="diag-c1-next" onclick="diagCommon1Next()" disabled style="width:100%;padding:12px;background:#111;color:#fff;border:none;font-family:var(--font);font-size:.64rem;cursor:pointer;border-radius:2px;opacity:.35">次へ</button>
@@ -971,7 +1228,7 @@
           <h3 style="font-size:.88rem;font-weight:500;margin-bottom:10px">最後に、何かお伝えしたいことはありますか？</h3>
           <p style="font-size:.58rem;color:#999;line-height:1.7;margin-bottom:14px">ここに書いていただいた内容をAIコンシェルジュがしっかり読んで、あなただけのご提案に反映します。</p>
           <textarea id="diag-free" placeholder="例:&#10;・柔軟剤のLazy Sunday Morningと同じ香りが好き&#10;・職場でも嫌味にならない程度の香りがいい&#10;・彼女の誕生日プレゼントに考えています&#10;・甘すぎない、でも温かみのある香りが理想&#10;・なんでもいいのでおすすめを教えてほしい" style="width:100%;height:120px;border:1px solid #e8e8e8;padding:12px;font-family:var(--font);font-size:.66rem;resize:none;border-radius:4px;outline:none;margin-bottom:14px;line-height:1.8"></textarea>
-          <button onclick="submitDiagnosis()" style="width:100%;padding:14px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;font-family:var(--font);font-size:.72rem;letter-spacing:.1em;cursor:pointer;border-radius:4px">&#10024; AIコンシェルジュに診断してもらう</button>
+          <button onclick="submitDiagnosis()" style="width:100%;padding:14px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;font-family:var(--font);font-size:.72rem;letter-spacing:.1em;cursor:pointer;border-radius:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" style="vertical-align:middle"><path d="M12 2l2.09 6.26L20 10.27l-4.91 3.82L16.18 21 12 17.27 7.82 21l1.09-6.91L4 10.27l5.91-2.01L12 2z"/></svg> AIコンシェルジュに診断してもらう</button>
         </div>
 
         <!-- Loading -->
@@ -993,7 +1250,7 @@
           <div id="diag-result-list"></div>
           <div style="display:flex;gap:8px;margin-top:16px">
             <button onclick="restartDiagnosis()" style="flex:1;padding:12px;background:none;border:1px solid #e8e8e8;font-family:var(--font);font-size:.62rem;cursor:pointer;border-radius:2px">もう一度診断</button>
-            <button onclick="shareDiagLine()" style="flex:1;padding:12px;background:#06C755;color:#fff;border:none;font-family:var(--font);font-size:.62rem;cursor:pointer;border-radius:2px">&#128172; LINEで共有</button>
+            <button onclick="shareDiagLine()" style="flex:1;padding:12px;background:#06C755;color:#fff;border:none;font-family:var(--font);font-size:.62rem;cursor:pointer;border-radius:2px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" style="vertical-align:middle"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> LINEで共有</button>
           </div>
           <div style="text-align:center;margin-top:10px">
             <button onclick="closeDiagnosis()" style="background:none;border:none;font-family:var(--font);font-size:.58rem;color:#999;cursor:pointer;letter-spacing:.06em">ショップに戻る</button>
@@ -1016,6 +1273,13 @@
     <div class="cart-foot">
       <div class="cart-row-sm"><span>小計</span><span id="c-sub">&yen;0</span></div>
       <div class="cart-row-sm"><span>送料</span><span id="c-ship">&yen;0</span></div>
+      <div class="cart-row-sm" style="margin-top:8px">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.62rem;color:var(--sub)">
+          <input type="checkbox" id="gift-wrap" onchange="refreshCart()" style="accent-color:var(--accent)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg> ギフトラッピング (+&yen;300)
+        </label>
+        <span id="c-gift">&yen;0</span>
+      </div>
       <div class="cart-divider"></div>
       <div class="cart-total-row">
         <span class="cart-total-label">合計（税込）</span>
@@ -1023,7 +1287,7 @@
       </div>
       <div id="ship-msg"></div>
       <button class="checkout-btn" id="checkout-btn" onclick="doCheckout()" disabled>お支払いに進む &rarr;</button>
-      <div class="stripe-safe">&#128274; Powered by Stripe &mdash; 安全なカード決済</div>
+      <div class="stripe-safe"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Powered by Stripe &mdash; 安全なカード決済</div>
     </div>
   </div>
 
@@ -1085,7 +1349,7 @@ function populatePopular(){
   container.innerHTML = popular.map(function(p, i){
     var imgHtml = p.img
       ? '<img src="' + p.img + '" alt="' + p.brand + ' ' + p.name + '" loading="lazy">'
-      : '<div style="width:100%;aspect-ratio:4/5;background:#f7f7f7;display:flex;align-items:center;justify-content:center;font-size:1.5rem;opacity:.15">&#129524;</div>';
+      : '<div style="width:100%;aspect-ratio:4/5;background:#f7f7f7;display:flex;align-items:center;justify-content:center;opacity:.15"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2h4v4h-4zM9 6h6l1 4H8l1-4z"/><rect x="8" y="10" width="8" height="11" rx="1"/><path d="M8 21h8"/></svg></div>';
     var priceLabel = p.type === 'sample_and_fullbottle' && p.samplePrice
       ? '小分け &yen;' + p.samplePrice.toLocaleString() + '〜'
       : '&yen;' + p.sellPrice.toLocaleString();
@@ -1244,36 +1508,68 @@ function getFilteredProducts(){
   return list;
 }
 
+var ITEMS_PER_PAGE = window.innerWidth <= 768 ? 12 : 24;
+var currentVisibleCount = ITEMS_PER_PAGE;
+var allCards = [];
+
 function buildGrid(){
   const filtered = getFilteredProducts();
   const g = document.getElementById('grid');
 
   /* Handle variant groups -- only show first in each group */
   const renderedGroups = new Set();
-  const cards = [];
+  allCards = [];
   for(const p of filtered){
     if(p.variantGroup){
       if(renderedGroups.has(p.variantGroup)) continue;
       renderedGroups.add(p.variantGroup);
     }
-    cards.push(p);
+    allCards.push(p);
   }
 
   /* Count */
   const countEl = document.getElementById('result-count');
-  if(countEl) countEl.textContent = cards.length + ' 件';
+  if(countEl) countEl.textContent = allCards.length + ' 件';
 
-  g.innerHTML = cards.map(p => renderCard(p)).join('');
+  /* Reset visible count on filter change */
+  currentVisibleCount = ITEMS_PER_PAGE;
+  renderVisibleCards();
+}
 
-  if(!cards.length){
+function renderVisibleCards(){
+  var g = document.getElementById('grid');
+  var visible = allCards.slice(0, currentVisibleCount);
+
+  g.innerHTML = visible.map(function(p){ return renderCard(p); }).join('');
+
+  /* Load more button */
+  if(currentVisibleCount < allCards.length){
+    var remaining = allCards.length - currentVisibleCount;
+    g.innerHTML += '<div class="load-more-wrap">' +
+      '<button class="load-more-btn" onclick="loadMore()">もっと見る（残り ' + remaining + ' 件）</button>' +
+      '<div class="load-more-count">' + currentVisibleCount + ' / ' + allCards.length + ' 件を表示中</div>' +
+    '</div>';
+  }
+
+  if(!allCards.length){
     g.innerHTML = '<div class="empty-state">該当する商品が見つかりませんでした</div>';
+  }
+}
+
+function loadMore(){
+  currentVisibleCount += ITEMS_PER_PAGE;
+  renderVisibleCards();
+  /* Scroll to where new items start */
+  var cards = document.querySelectorAll('.product-card');
+  if(cards.length > currentVisibleCount - ITEMS_PER_PAGE){
+    cards[currentVisibleCount - ITEMS_PER_PAGE].scrollIntoView({behavior:'smooth', block:'start'});
   }
 }
 
 function renderCard(p){
   const price    = p.sellPrice;
   const imgSrc   = p.img || '';
-  const fallback = '<div class="img-ph"><div class="img-ph-icon">&#129524;</div><div class="img-ph-brand">' + p.brand + '</div></div>';
+  const fallback = '<div class="img-ph"><div class="img-ph-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2h4v4h-4zM9 6h6l1 4H8l1-4z"/><rect x="8" y="10" width="8" height="11" rx="1"/><path d="M8 21h8"/></svg></div><div class="img-ph-brand">' + p.brand + '</div></div>';
   const tagsHtml = (p.tags || []).map(function(t){ return '<span class="p-tag">' + t + '</span>'; }).join('');
   const isSample = p.type === 'sample_and_fullbottle';
   const amazonAsin = p.amazonAsin || '';
@@ -1521,11 +1817,14 @@ function refreshCart(){
   var sub   = cart.reduce(function(s,c){ return s + c.sellPrice * c.qty; }, 0);
   var free  = sub >= FREE_SHIP;
   var ship  = cart.length === 0 ? 0 : (free ? 0 : SHIPPING);
-  var total = sub + ship;
+  var giftWrap = document.getElementById('gift-wrap');
+  var giftFee = (giftWrap && giftWrap.checked && cart.length > 0) ? 300 : 0;
+  var total = sub + ship + giftFee;
 
   document.getElementById('cart-count').textContent = count;
   document.getElementById('c-sub').textContent  = '\u00a5' + sub.toLocaleString();
   document.getElementById('c-ship').textContent = free ? '\u00a50 (無料)' : (cart.length ? '\u00a5' + SHIPPING.toLocaleString() : '\u00a50');
+  document.getElementById('c-gift').textContent = giftFee > 0 ? '\u00a5' + giftFee.toLocaleString() : '\u00a50';
   document.getElementById('c-total').textContent = '\u00a5' + total.toLocaleString();
   document.getElementById('checkout-btn').disabled = cart.length === 0;
 
@@ -1564,7 +1863,7 @@ function refreshCart(){
       return '<div class="cart-row">' +
         (c.img
           ? '<img src="' + c.img + '" alt="" class="cart-thumb" onerror="this.style.display=\'none\'">'
-          : '<div class="cart-thumb" style="display:flex;align-items:center;justify-content:center;font-size:1.2rem">&#129524;</div>') +
+          : '<div class="cart-thumb" style="display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2h4v4h-4zM9 6h6l1 4H8l1-4z"/><rect x="8" y="10" width="8" height="11" rx="1"/><path d="M8 21h8"/></svg></div>') +
         '<div>' +
           '<div class="cart-brand">' + c.brand + '</div>' +
           '<div class="cart-name">' + c.name + '</div>' +
@@ -1602,18 +1901,54 @@ async function doCheckout(){
   var checkoutItems = cart.map(function(c){ return ga4Item(c, c.qty); });
   var checkoutTotal = cart.reduce(function(s,c){ return s + c.sellPrice * c.qty; }, 0);
   ga4Event('begin_checkout', { currency: 'JPY', value: checkoutTotal, items: checkoutItems });
-  var stripe = Stripe(STRIPE_PK);
-  var lineItems = cart.map(function(c){ return {price: c.stripePriceId, quantity: c.qty}; });
-  var sub = cart.reduce(function(s,c){ return s + c.sellPrice * c.qty; }, 0);
-  if(sub < FREE_SHIP) lineItems.push({price: 'price_SHIPPING_700', quantity: 1});
-  var result = await stripe.redirectToCheckout({
-    lineItems: lineItems,
-    mode: 'payment',
-    locale: 'ja',
-    successUrl: location.origin + '/shop.html?ok=1',
-    cancelUrl:  location.origin + '/shop.html'
+
+  /* Build items payload for Netlify Function */
+  var items = cart.map(function(c){
+    return {
+      productId: c.id,
+      name: (c.brand ? c.brand + ' - ' : '') + c.name + (c.nameJa ? ' (' + c.nameJa + ')' : ''),
+      brand: c.brand || '',
+      price: c.sellPrice,
+      quantity: c.qty,
+      image: c.img || ''
+    };
   });
-  if(result.error) alert(result.error.message);
+
+  var giftWrapEl = document.getElementById('gift-wrap');
+  var giftWrap = !!(giftWrapEl && giftWrapEl.checked && cart.length > 0);
+
+  /* Channel & diagnosis metadata */
+  var ch = (window.CLGTracking && window.CLGTracking.getChannelData()) || {};
+  var diagSession = '';
+  try { var ds = JSON.parse(localStorage.getItem('clg_diagnosis_session') || '{}'); diagSession = ds.sessionId || ''; } catch(e){}
+
+  var metadata = {
+    channel: ch.channel || 'direct',
+    gift_wrap: giftWrap ? 'yes' : 'no',
+    diagnosis_session_id: diagSession
+  };
+
+  try {
+    var btn = document.getElementById('checkout-btn');
+    if(btn){ btn.disabled = true; btn.textContent = '処理中...'; }
+
+    var res = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: items, giftWrap: giftWrap, metadata: metadata })
+    });
+    var data = await res.json();
+    if(data.url){
+      window.location.href = data.url;
+    } else {
+      alert(data.error || 'チェックアウトの作成に失敗しました。');
+      if(btn){ btn.disabled = false; btn.textContent = 'お支払いに進む →'; }
+    }
+  } catch(err){
+    alert('エラーが発生しました: ' + err.message);
+    var btn2 = document.getElementById('checkout-btn');
+    if(btn2){ btn2.disabled = false; btn2.textContent = 'お支払いに進む →'; }
+  }
 }
 
 /* ===== SUCCESS ===== */
@@ -2008,6 +2343,35 @@ function showDiagFallback(){
   };
   showDiagResult(data);
 }
+
+/* ===== HERO SLIDESHOW ===== */
+(function(){
+  var slides = document.querySelectorAll('.hero-slide');
+  if(slides.length < 2) return;
+  var dotsWrap = document.getElementById('hero-dots');
+  var current = 0;
+  var interval = 5000;
+
+  /* Create dots */
+  slides.forEach(function(_, i){
+    var dot = document.createElement('button');
+    dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = function(){ goTo(i); };
+    dotsWrap.appendChild(dot);
+  });
+
+  function goTo(idx){
+    slides[current].classList.remove('active');
+    dotsWrap.children[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    dotsWrap.children[current].classList.add('active');
+  }
+
+  setInterval(function(){
+    goTo((current + 1) % slides.length);
+  }, interval);
+})();
 
 /* ===== FLOATING AI BUTTON ===== */
 (function(){

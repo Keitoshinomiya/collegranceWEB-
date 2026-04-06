@@ -5,7 +5,8 @@
   "private": true,
   "dependencies": {
     "@anthropic-ai/sdk": "^0.81.0",
-    "@netlify/functions": "^2.4.0"
+    "@netlify/functions": "^2.4.0",
+    "stripe": "^17.0.0"
   },
   "engines": {
     "node": ">=18"

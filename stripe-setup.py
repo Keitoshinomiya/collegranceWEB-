@@ -126,10 +126,12 @@ def create_stripe_product(product: dict, dry_run: bool = False) -> tuple:
 
     images = []
     if product.get("img"):
-        # Only include if it looks like a full URL; local paths won't work on Stripe
         img = product["img"]
         if img.startswith("http"):
             images.append(img)
+        else:
+            # Convert local path to production URL
+            images.append("https://collegrance.com/" + img)
 
     sell_price = product["sellPrice"]
 

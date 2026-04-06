@@ -55,8 +55,8 @@ for key, items in groups.items():
     for i in range(len(items)):
         for j in range(i+1, len(items)):
             a, b = items[i], items[j]
-            if a['size'].lower().replace('ml','') == b['size'].lower().replace('ml','') and a['sellPrice'] != b['sellPrice']:
-                errors.append(f"[同サイズ価格不一致] id={a['id']} vs id={b['id']} {a['brand']} {a['name'][:20]} {a['size']} ¥{a['sellPrice']} vs ¥{b['sellPrice']}")
+            if a['size'].lower().replace('ml','') == b['size'].lower().replace('ml','') and a.get('concentration','') == b.get('concentration','') and a['sellPrice'] != b['sellPrice']:
+                errors.append(f"[同サイズ同濃度で価格不一致] id={a['id']} vs id={b['id']} {a['brand']} {a['name'][:20]} {a['size']} ¥{a['sellPrice']} vs ¥{b['sellPrice']}")
 
 # Result
 print(f"=== 価格チェック（{len(instock)}商品） ===\n")

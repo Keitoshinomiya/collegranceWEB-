@@ -127,6 +127,18 @@ exports.handler = async (event) => {
 
       await sendSlackMessage(slackMsg);
 
+      // Send receipt email via Stripe
+      if (paymentIntent && customerEmail && customerEmail !== '不明') {
+        try {
+          await stripe.paymentIntents.update(paymentIntent, {
+            receipt_email: customerEmail,
+          });
+          console.log(`Receipt email sent to ${customerEmail}`);
+        } catch (emailErr) {
+          console.error('Failed to send receipt email:', emailErr.message);
+        }
+      }
+
       // --- Future: Google Spreadsheet logging ---
       // TODO: Append order data to Google Sheet
       // const { google } = require('googleapis');

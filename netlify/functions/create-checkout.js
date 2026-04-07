@@ -100,8 +100,15 @@ exports.handler = async (event) => {
       metadata: sessionMetadata,
       payment_intent_data: {
         metadata: sessionMetadata,
+        receipt_email: undefined, // Will use customer email from checkout form
       },
       customer_creation: 'always',
+      invoice_creation: {
+        enabled: true,
+      },
+      consent_collection: {
+        promotions: 'auto',
+      },
     });
 
     return {

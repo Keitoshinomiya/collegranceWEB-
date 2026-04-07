@@ -1,38 +1,80 @@
 # COLLEGRANCE サイト運用スキル一覧
-Last Updated: 2026-04-02
+Last Updated: 2026-04-08
 
 ---
 
-## 1. 在庫更新（毎週・自動）
+## 1. 在庫更新（メイクアップExcel受信時の完全フロー）
 **トリガー**: メイクアップ（yamamoto@makeup-inc.com）から価格リストExcelが届いた時
 **自動スクリプト**: `python check-makeup-email.py`（Mac Mini cronで毎朝10時実行）
 
-### 自動処理フロー
+### Step 1: Excel取得
 ```
-Gmail API で新着メールチェック
+Gmail API で yamamoto@makeup-inc.com の新着メールチェック
   ↓ 添付Excelを自動ダウンロード
-  ↓ カテゴリ「香水」× ¥3,000以上でフィルタ
-  ↓ products.json更新:
-     ・inStock ON/OFF（リストにある=true、ない=false）
-     ・価格更新（卸値×1.25×1.10）
-     ・concentration設定（Excelのspec列）
-     ・重複チェック → Slack通知
-  ↓ 新商品があれば:
-     ・products.jsonに追加
-     ・Claudeでnotes + description生成
-     ・画像取得（fetch-product-images.py）
-     ・画像品質チェック（validate-images.py）
-  ↓ catalog_full.json再生成
-  ↓ 価格5重チェック（check-prices.py）
-  ↓ Slackにレポート送信
+  ↓ Slackに「新しい価格リストが届きました」通知
 ```
 
-### 手動確認が必要な項目
-- 新商品の画像目視確認（特にEDT/EDP瓶の違い）
-- 重複商品の価格判断（Slack通知で確認依頼が来る）
-- 最終デプロイ承認
+### Step 2: メイクアップExcelとk-styleスプシの照合
+```
+メイクアップExcel: カテゴリ「香水」× 販売価格¥3,000以上でフィルタ
+  ↓
+k-styleスプシ（https://docs.google.com/spreadsheets/d/1B2Y5Lh670VzwS7TvvPGuhK-4t_pCwAdebJTdxwhSQH4/）と照合
+  ↓
+同一商品がある場合 → 高い方の卸値を採用（安全策）
+  ・理由: k-styleは安いが情報伝搬が遅い。高い方で設定すればどちらから仕入れても利益が出る
+  ・判断に迷う場合 → Slack（C091LDC8MKN）でKeitoに確認
+```
 
-**注意**: 小分け商品（id 1-23）のinStockはAmazon在庫に依存するため、このExcelでは変更しない
+### Step 3: products.json更新
+```
+・inStock ON/OFF（リストにある=true、ない=false）
+・価格更新（高い方の卸値 × 1.25 × 1.10、10円切上）
+・concentration設定（Excelのspec列: EDTSP→EDT, EDPSP→EDP等）
+・同一商品のサイズ違いは最大サイズのみ表示（小さいサイズはinStock=false）
+・重複チェック（同ブランド・同名・同サイズ・同濃度）→ 重複あればSlack通知
+```
+
+### Step 4: 新商品の処理
+```
+新商品があれば:
+  ① products.jsonに追加（全必須フィールドを埋める）
+  ② concentration（濃度）設定
+  ③ Claudeでnotes（Top/Heart/Base）+ description生成
+  ④ 画像取得（python fetch-product-images.py --id {新ID}）
+  ⑤ 画像品質チェック（python validate-images.py --id {新ID}）
+  ⑥ Keitoに画像目視確認依頼（特にEDT/EDP瓶の違い）
+```
+
+### Step 5: カタログ・表示更新
+```
+・catalog_full.json再生成（AI診断用、全在庫商品をカバー）
+・デフォルト並び順の確認:
+  ① 小分けあり商品が最上位
+  ② 売上数順
+  ③ ブランド人気度順
+  ④ ブランド名アルファベット順
+```
+
+### Step 6: 検証
+```
+・python check-prices.py（価格5重チェック: 計算・サイズ整合・範囲・濃度・重複）
+・python validate-images.py（画像品質チェック: 全商品）
+・検索テスト（部分一致・日本語・英語・複数語で引っかかるか）
+・Slackにレポート送信
+```
+
+### Step 7: デプロイ
+```
+・git add / commit / push
+・Netlifyプレビューで確認
+・Keitoの承認後、mainにマージ（本番反映）
+```
+
+### 注意事項
+- 小分け商品（id 1-23）のinStockはAmazon在庫に依存するため、このExcelでは変更しない
+- k-styleにしかない商品もproducts.jsonに追加する（k-styleスプシを都度確認）
+- 画像カバー率100%を維持（新商品追加時は必ず画像取得）
+- AI診断カタログ（catalog_full.json）も100%カバーを維持
 
 ### cron設定（Mac Mini）
 ```
@@ -41,11 +83,21 @@ Gmail API で新着メールチェック
 
 ---
 
-## 2. 価格更新
-**トリガー**: 仕入れ値変更時
-**計算式**: `販売価格 = 卸値（税抜）× 1.25（マージン）× 1.10（消費税）` → 10円単位切り上げ
+## 2. 価格ルール
+**計算式**: `販売価格 = 高い方の卸値（税抜）× 1.25（マージン）× 1.10（消費税）` → 10円単位切り上げ
 **対象ファイル**: products.json, catalog_full.json
-**スクリプト**: `python update-prices.py`
+
+**仕入れ先比較**:
+- メイクアップ（Excel、3日に1回更新）とk-style（スプシ、更新遅め）を比較
+- **高い方の卸値を採用**（安全策: どちらから仕入れても利益確保）
+- 判断に迷う場合はSlackでKeitoに確認
+
+**チェックスクリプト**: `python check-prices.py`
+- 計算チェック（卸値×1.25×1.10 = sellPrice）
+- サイズ整合（大サイズが小サイズより安くないか）
+- 価格範囲（¥1,000未満 or ¥60,000超は異常）
+- 濃度漏れ（全商品にconcentration必須）
+- 重複（同ブランド・同名・同サイズ・同濃度で複数存在しないか）
 
 ---
 
@@ -55,9 +107,10 @@ Gmail API で新着メールチェック
 ### 3a. 画像取得
 1. `python fetch-product-images.py` — 画像がない商品を自動検出
 2. 画像ソース優先順: **公式サイト > 大手EC（Sephora等）> DuckDuckGo検索**
-3. `rembg`で背景除去 → グラデーション背景(#F5F3F0〜#EBE8E4)に合成
-4. 800x1000px、JPEG quality 92で保存
-5. 保存先: `assets/images/fullbottle/`
+3. **検索クエリにEDT/EDPの濃度を必ず含める**
+4. `rembg`で背景除去 → グラデーション背景(#F5F3F0〜#EBE8E4)に合成
+5. 800x1000px、JPEG quality 92で保存
+6. 保存先: `assets/images/fullbottle/`
 
 **オプション**: `--all` 全再取得 / `--id 1 3 8` 指定IDのみ
 
@@ -84,14 +137,14 @@ python validate-images.py --id 21  # 指定IDのみ
 | ブランド | EDT | EDP | 注意点 |
 |---|---|---|---|
 | DIPTYQUE | 新型:楕円型白ラベル | 楕円型黒ラベル | ラベル色で判別 |
-| LOEWE | 同デザイン | 同デザイン | **箱の表記で判別**（画像に箱がある場合要注意） |
+| LOEWE | 同デザイン | 同デザイン | **箱の表記で判別** |
 | DIOR Sauvage | 同デザイン | キャップ微妙に異なる | |
 | Jo Malone | 全ライン共通 | — | |
 | BYREDO | 全サイズ共通 | — | |
 
-- **画像取得時に濃度（EDT/EDP）を検索クエリに必ず含める**
 - **箱付き画像の場合、箱の表記が商品データの濃度と一致しているか確認**
-- **容量違いでも瓶形状が異なることがある** — 仕入れる実物の容量に合った画像を使用
+- **広告画像（モデル+ロゴ等）は使用しない** — 瓶単体 or 箱+瓶のプロダクトショットのみ
+- **画像カバー率100%を維持** — 在庫あり商品に画像がない状態にしない
 
 ---
 
@@ -104,7 +157,7 @@ python validate-images.py --id 21  # 指定IDのみ
 | name / nameJa | Excelの商品名 | 英語名+日本語名 |
 | size | Excelの容量 | |
 | **concentration** | **Excelのspec列** | **必須。EDT/EDP/EDC/Cologne/Parfum/Body Care** |
-| cost | Excelの単価 | |
+| cost | 高い方の卸値（メイクアップ or k-style） | |
 | sellPrice | cost × 1.25 × 1.10 | 10円切上 |
 | notes | Claudeで生成 | "Top, Heart, Base" 形式 |
 | tags | Claudeで推定 | floral/woody/citrus/sweet/oriental |
@@ -116,7 +169,8 @@ python validate-images.py --id 21  # 指定IDのみ
 
 ## 5. AI診断カタログ更新
 **トリガー**: 在庫更新後
-**手順**:
+**目標**: 全在庫商品がカタログに含まれていること（100%カバー）
+
 1. products.jsonの全inStock商品からcatalog_full.jsonを再生成
 2. 新商品にはClaudeでフレグランスノート（Top/Heart/Base）と日本語説明文を生成
 3. **全商品にspec（濃度）が入っていることを確認**
@@ -124,7 +178,32 @@ python validate-images.py --id 21  # 指定IDのみ
 
 ---
 
-## 6. Amazon小分け価格同期
+## 6. 商品表示ルール
+
+### デフォルト並び順（おすすめ順）
+1. **小分けあり商品**（type=sample_and_fullbottle）が最上位
+2. **売上数順**（salesCount降順）
+3. **ブランド人気度**（全商品の売上合計で順位付け）
+4. **ブランド名アルファベット順**
+
+### サイズ違いの扱い
+- 同一商品のサイズ違いは**最大サイズのみ表示**
+- 小さいサイズはinStock=false
+
+### 検索
+- 部分一致対応（「マルジェラ」「レイジー」「ナイル」等）
+- 複数語AND検索（「マルジェラ ジャズ」で Jazz Club のみ）
+- 日本語・英語混在OK
+- 検索対象: ブランド名、商品名、日本語名、notes、濃度、サイズ
+
+### 「もっと見る」ボタン
+- PC: 初期24商品表示
+- モバイル: 初期12商品表示
+- ボタンクリックで追加読み込み
+
+---
+
+## 7. Amazon小分け価格同期
 **トリガー**: Amazon販売価格を変更した時
 **データソース**: Googleスプレッドシート `1gJhlnIB-01-oF8krjL3VzyhXZgKjLQALulirzx-Arzc` (gid=912844206)
 **対象**: products.jsonの`samplePrice`（id 1-23）
@@ -132,7 +211,7 @@ python validate-images.py --id 21  # 指定IDのみ
 
 ---
 
-## 7. Amazonレビュー更新
+## 8. Amazonレビュー更新
 **トリガー**: 月1回程度
 **方法**: Seller Central「ブランド」→「カスタマーレビュー」
 **対象**: products.jsonの`amazonRating`、`amazonReviewCount`
@@ -140,27 +219,10 @@ python validate-images.py --id 21  # 指定IDのみ
 
 ---
 
-## 8. TikTok動画差替
+## 9. TikTok動画差替
 **場所**: shop.html内の`<!-- SOCIAL PROOF -->`セクション
 **形式**: `<iframe src="https://www.tiktok.com/embed/v2/{VIDEO_ID}"`
 **現在**: 7610032768461917458, 7611025632880790792, 7611870041704959252
-
----
-
-## 9. デプロイ
-1. `git add` (対象ファイルを指定)
-2. `git commit -m "内容"`
-3. `git push`
-4. NetlifyがGitHub連携で自動デプロイ
-
-**Netlify環境変数**:
-- `ANTHROPIC_API_KEY` — AI診断
-- `STRIPE_SECRET_KEY` — Stripe決済（テスト: `sk_test_`、本番: `sk_live_`）
-- `STRIPE_WEBHOOK_SECRET` — Webhook署名検証
-- `SLACK_BOT_TOKEN` — Slack通知
-- `SLACK_CHANNEL_ID` — C091LDC8MKN
-- `LINE_CHANNEL_ACCESS_TOKEN` — LINE配信
-- `BROADCAST_ENABLED` — LINE配信の安全スイッチ
 
 ---
 
@@ -173,7 +235,6 @@ python validate-images.py --id 21  # 指定IDのみ
 ## 11. 注文処理（Stripe決済後）
 **トリガー**: Slackに注文通知が届いた時
 
-**手順**:
 1. Slack通知で注文内容・配送先を確認
 2. 商品を準備・梱包（ギフトラッピングの場合はラッピング+メッセージカード）
 3. ヤマト運輸で発送
@@ -185,7 +246,7 @@ python validate-images.py --id 21  # 指定IDのみ
 ---
 
 ## 12. 本番デプロイ手順（重要）
-**現在**: shop.htmlは `feature/catalog-image-enhancements` ブランチにある。本番（main）には未反映。
+**現在**: shop.htmlは `feature/catalog-image-enhancements` ブランチ。本番（main）には未反映。
 
 **デプロイ時のチェックリスト**:
 1. shop.htmlの`STRIPE_PK`を`pk_live_...`に戻す
@@ -197,6 +258,15 @@ python validate-images.py --id 21  # 指定IDのみ
 7. mainにマージ → Netlify自動デプロイ
 8. 決済テスト（本番カードで小額商品を購入→返金）
 
+**Netlify環境変数**:
+- `STRIPE_SECRET_KEY` — テスト中は`sk_test_`、本番は`sk_live_`
+- `STRIPE_WEBHOOK_SECRET` — Webhook署名検証
+- `ANTHROPIC_API_KEY` — AI診断
+- `SLACK_BOT_TOKEN` — Slack通知
+- `SLACK_CHANNEL_ID` — C091LDC8MKN
+- `LINE_CHANNEL_ACCESS_TOKEN` — LINE配信
+- `BROADCAST_ENABLED` — LINE配信の安全スイッチ
+
 ---
 
 ## 13. Slack通知
@@ -206,7 +276,8 @@ python validate-images.py --id 21  # 指定IDのみ
 
 **通知されるもの**:
 - 新規注文（Stripe Webhook経由）
-- 在庫更新時の重複商品価格確認（手動トリガー）
+- 在庫更新時のレポート（新商品追加、在庫切れ、価格変更）
+- 重複商品の価格確認依頼
 
 **重複商品の価格確認フロー**:
 1. 在庫更新で重複検出

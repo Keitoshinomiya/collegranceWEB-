@@ -137,6 +137,10 @@ python validate-images.py --id 21  # 指定IDのみ
 
 **Netlify環境変数**:
 - `ANTHROPIC_API_KEY` — AI診断
+- `STRIPE_SECRET_KEY` — Stripe決済（テスト: `sk_test_`、本番: `sk_live_`）
+- `STRIPE_WEBHOOK_SECRET` — Webhook署名検証
+- `SLACK_BOT_TOKEN` — Slack通知
+- `SLACK_CHANNEL_ID` — C091LDC8MKN
 - `LINE_CHANNEL_ACCESS_TOKEN` — LINE配信
 - `BROADCAST_ENABLED` — LINE配信の安全スイッチ
 
@@ -145,3 +149,49 @@ python validate-images.py --id 21  # 指定IDのみ
 ## 10. ブログ記事追加
 **データソース**: `assets/js/articles.js`（window.journalArticles）
 **手順**: 記事HTML作成 → articles.jsに追加 → 日付降順で自動表示
+
+---
+
+## 11. 注文処理（Stripe決済後）
+**トリガー**: Slackに注文通知が届いた時
+
+**手順**:
+1. Slack通知で注文内容・配送先を確認
+2. 商品を準備・梱包（ギフトラッピングの場合はラッピング+メッセージカード）
+3. ヤマト運輸で発送
+4. info@collegrance.com から発送完了メール送信（追跡番号付き）
+5. Stripeダッシュボード（https://dashboard.stripe.com/payments）で注文ステータス確認
+
+**返品対応**: 未開封・未使用7日以内 → Stripeダッシュボードから返金処理
+
+---
+
+## 12. 本番デプロイ手順（重要）
+**現在**: shop.htmlは `feature/catalog-image-enhancements` ブランチにある。本番（main）には未反映。
+
+**デプロイ時のチェックリスト**:
+1. shop.htmlの`STRIPE_PK`を`pk_live_...`に戻す
+2. Netlify環境変数の`STRIPE_SECRET_KEY`を`sk_live_...`に戻す
+3. Stripe本番用Webhookを作成（URL: `https://collegrance.com/.netlify/functions/stripe-webhook`）
+4. Webhook Signing Secretを`STRIPE_WEBHOOK_SECRET`に設定
+5. `python check-prices.py` で全商品価格チェック
+6. `python validate-images.py` で全画像チェック
+7. mainにマージ → Netlify自動デプロイ
+8. 決済テスト（本番カードで小額商品を購入→返金）
+
+---
+
+## 13. Slack通知
+**Bot名**: COLLEGRANCE Bot
+**チャンネル**: C091LDC8MKN
+**Token**: `.env`の`SLACK_BOT_TOKEN`
+
+**通知されるもの**:
+- 新規注文（Stripe Webhook経由）
+- 在庫更新時の重複商品価格確認（手動トリガー）
+
+**重複商品の価格確認フロー**:
+1. 在庫更新で重複検出
+2. Slackに「k-style ¥XX vs メイクアップ ¥YY どちらにしますか？」を通知
+3. Keitoが回答 → 価格を確定
+4. 基本ルール: **高い方の仕入れ値 × 25%マージン**

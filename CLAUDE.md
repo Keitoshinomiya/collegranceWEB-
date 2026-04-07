@@ -66,6 +66,22 @@ Last Updated: 2026-04-07
 - **安い方から仕入れる** — 同じ商品でも仕入れ先が異なる場合がある
 - **在庫の真実**: メイクアップの週次Excelが最新在庫。リストにない=仕入れ不可
 
+### 在庫更新の自動化
+- **スクリプト**: `check-makeup-email.py`（Gmail API + Python）
+- **送信者**: 山本明彦 <yamamoto@makeup-inc.com>
+- **頻度**: 週2〜3回（「X/X 価格リスト 【メイクアップ 山本】」形式）
+- **Mac Mini cron**: 毎朝10時に自動チェック
+- **処理**: Excel添付DL → 在庫更新 → 重複チェック → 新商品notes+画像生成 → Slack通知
+
+### 新商品追加時の必須処理
+1. products.jsonに追加（全必須フィールド埋める）
+2. **concentration（濃度）設定**（Excelのspec列から）
+3. **Claudeでnotes + description生成**
+4. **商品画像取得**（`fetch-product-images.py --id {新ID}`）
+5. **画像品質チェック**（`validate-images.py --id {新ID}`）
+6. **Keitoに画像目視確認依頼**（特にEDT/EDP瓶）
+7. catalog_full.json再生成
+
 ---
 
 ## 2. shop.html（統合ショップページ）

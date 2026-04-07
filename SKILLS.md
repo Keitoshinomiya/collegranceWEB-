@@ -3,23 +3,41 @@ Last Updated: 2026-04-02
 
 ---
 
-## 1. 在庫更新（毎週）
-**トリガー**: メイクアップから在庫Excelが届いた時
-**手順**:
-1. Excelファイルを `/Users/keito/Downloads/` に保存
-2. 以下を実行:
-   - カテゴリ「香水」かつ販売価格¥3,000以上でフィルタ
-   - products.jsonの`inStock`を更新（リストにある=true、ない=false）
-   - 新商品があればproducts.jsonに追加
-   - 価格変更があれば`卸値×1.25×1.10`で再計算
-   - **全商品に`concentration`（EDT/EDP等）を設定**（Excelのspec列から取得）
-   - catalog_full.jsonを再生成
-3. 新商品にはClaudeでnotes + description を生成
-4. 新商品の画像を取得 → 品質チェック → Keitoに目視確認依頼
-5. `netlify dev`でローカル確認
-6. Git commit → Netlifyデプロイ
+## 1. 在庫更新（毎週・自動）
+**トリガー**: メイクアップ（yamamoto@makeup-inc.com）から価格リストExcelが届いた時
+**自動スクリプト**: `python check-makeup-email.py`（Mac Mini cronで毎朝10時実行）
+
+### 自動処理フロー
+```
+Gmail API で新着メールチェック
+  ↓ 添付Excelを自動ダウンロード
+  ↓ カテゴリ「香水」× ¥3,000以上でフィルタ
+  ↓ products.json更新:
+     ・inStock ON/OFF（リストにある=true、ない=false）
+     ・価格更新（卸値×1.25×1.10）
+     ・concentration設定（Excelのspec列）
+     ・重複チェック → Slack通知
+  ↓ 新商品があれば:
+     ・products.jsonに追加
+     ・Claudeでnotes + description生成
+     ・画像取得（fetch-product-images.py）
+     ・画像品質チェック（validate-images.py）
+  ↓ catalog_full.json再生成
+  ↓ 価格5重チェック（check-prices.py）
+  ↓ Slackにレポート送信
+```
+
+### 手動確認が必要な項目
+- 新商品の画像目視確認（特にEDT/EDP瓶の違い）
+- 重複商品の価格判断（Slack通知で確認依頼が来る）
+- 最終デプロイ承認
 
 **注意**: 小分け商品（id 1-23）のinStockはAmazon在庫に依存するため、このExcelでは変更しない
+
+### cron設定（Mac Mini）
+```
+0 10 * * * cd /Users/keito/GitHub/collegranceWEB- && SLACK_BOT_TOKEN=xoxb-... python3 check-makeup-email.py >> /var/log/collegrance-inventory.log 2>&1
+```
 
 ---
 

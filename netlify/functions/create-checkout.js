@@ -106,9 +106,6 @@ exports.handler = async (event) => {
       invoice_creation: {
         enabled: true,
       },
-      consent_collection: {
-        promotions: 'auto',
-      },
     });
 
     return {

@@ -1468,15 +1468,19 @@ function getFilteredProducts(){
     list = list.slice(0, 30);
   }
 
-  /* Search */
+  /* Search — partial match, multi-word, Japanese/English */
   const q = (document.getElementById('search-input').value || '').trim().toLowerCase();
   if(q){
-    list = list.filter(p =>
-      p.brand.toLowerCase().includes(q) ||
-      p.name.toLowerCase().includes(q) ||
-      (p.nameJa || '').toLowerCase().includes(q) ||
-      (p.notes || '').toLowerCase().includes(q)
-    );
+    var words = q.split(/[\s　]+/).filter(function(w){ return w.length > 0; });
+    list = list.filter(function(p){
+      var haystack = [
+        p.brand, p.name, p.nameJa || '',
+        p.notes || '', p.concentration || '',
+        p.size || ''
+      ].join(' ').toLowerCase();
+      /* All words must match (AND search) */
+      return words.every(function(w){ return haystack.includes(w); });
+    });
   }
 
   /* Brand */
@@ -1504,6 +1508,30 @@ function getFilteredProducts(){
   else if(sort === 'price-asc')  list.sort((a,b) => a.sellPrice - b.sellPrice);
   else if(sort === 'price-desc') list.sort((a,b) => b.sellPrice - a.sellPrice);
   else if(sort === 'brand-asc') list.sort((a,b) => a.brand.localeCompare(b.brand));
+  else {
+    /* Default: おすすめ順 — 小分けあり優先 → 売上順 → 人気ブランド順 */
+    var brandPopularity = {};
+    PRODUCTS.forEach(function(p){
+      if(!brandPopularity[p.brand]) brandPopularity[p.brand] = 0;
+      brandPopularity[p.brand] += (p.salesCount || 0);
+    });
+    list.sort(function(a, b){
+      /* 1. 小分けあり商品を上位 */
+      var aHasSample = a.type === 'sample_and_fullbottle' ? 1 : 0;
+      var bHasSample = b.type === 'sample_and_fullbottle' ? 1 : 0;
+      if(bHasSample !== aHasSample) return bHasSample - aHasSample;
+      /* 2. 売上がある商品を上位 */
+      var aSales = a.salesCount || 0;
+      var bSales = b.salesCount || 0;
+      if(bSales !== aSales) return bSales - aSales;
+      /* 3. ブランド人気度（全商品の売上合計） */
+      var aBrand = brandPopularity[a.brand] || 0;
+      var bBrand = brandPopularity[b.brand] || 0;
+      if(bBrand !== aBrand) return bBrand - aBrand;
+      /* 4. ブランド名アルファベット順 */
+      return a.brand.localeCompare(b.brand);
+    });
+  }
 
   return list;
 }

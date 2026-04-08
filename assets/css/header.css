@@ -1,0 +1,54 @@
+/* =============================================
+   COLLEGRANCE — Shared Header & Mobile Nav CSS
+   ============================================= */
+
+/* HEADER */
+.site-header{position:sticky;top:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06);z-index:100;height:var(--header-h,64px);display:flex;align-items:center;transition:box-shadow .3s cubic-bezier(.4,0,.2,1)}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 24px;width:100%;display:flex;align-items:center;justify-content:space-between}
+.header-logo img{height:36px}
+.header-nav{display:flex;align-items:center;gap:0;list-style:none}
+.header-nav>li{position:relative}
+.header-nav>li>a{display:block;padding:0 16px;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sub,#666);transition:color .2s;line-height:var(--header-h,64px)}
+.header-nav>li>a:hover,.header-nav>li:hover>a{color:var(--text,#1a1a1a)}
+.header-nav>li>a.active{color:var(--text,#1a1a1a);font-weight:500}
+
+/* MEGA DROPDOWN */
+.mega-drop{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:280px;background:var(--bg,#fff);border:1px solid var(--border,#e8e8e8);box-shadow:0 16px 48px rgba(0,0,0,.14);opacity:0;visibility:hidden;transition:all .25s cubic-bezier(.4,0,.2,1);z-index:110;pointer-events:none;padding:24px 28px}
+.header-nav>li:hover .mega-drop{opacity:1;visibility:visible;pointer-events:auto}
+.mega-drop-title{font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--light,#999);margin-bottom:12px;font-weight:600;padding-bottom:8px;border-bottom:1px solid var(--border,#e8e8e8)}
+.mega-drop-grid{display:grid;grid-template-columns:1fr;gap:0}
+.mega-drop-grid.cols-2{grid-template-columns:1fr 1fr;gap:0 32px;min-width:420px}
+.mega-drop-col h4{font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text,#1a1a1a);margin-bottom:8px;font-weight:600}
+.mega-drop a{display:block;padding:7px 0;font-size:.66rem;color:var(--sub,#666);letter-spacing:.03em;transition:color .2s}
+.mega-drop a:hover{color:var(--text,#1a1a1a)}
+.mega-drop a .mega-sub{display:block;font-size:.5rem;color:var(--light,#999);margin-top:1px}
+.mega-drop .mega-feat{margin-top:16px;padding-top:14px;border-top:1px solid var(--border,#e8e8e8)}
+.mega-drop .mega-feat-link{display:flex;align-items:center;gap:8px;padding:8px 0;font-size:.62rem;color:var(--text,#1a1a1a);font-weight:500;letter-spacing:.04em}
+.mega-drop .mega-feat-link svg{width:16px;height:16px;opacity:.5}
+
+/* HEADER RIGHT */
+.header-right{display:flex;align-items:center;gap:16px}
+
+/* HAMBURGER (mobile) */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;width:40px;height:40px;flex-shrink:0}
+.hamburger span{display:block;width:20px;height:1.5px;background:var(--text,#1a1a1a);margin:4px auto;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+
+/* MOBILE DRAWER */
+.mobile-nav{display:none;position:fixed;top:var(--header-h,64px);left:0;right:0;bottom:0;background:var(--bg,#fff);z-index:99;overflow-y:auto;padding:24px 20px 80px;transform:translateY(-10px);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.mobile-nav.open{display:block;transform:translateY(0);opacity:1}
+.mobile-nav-section{margin-bottom:24px}
+.mobile-nav-title{font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--light,#999);margin-bottom:10px;font-weight:600}
+.mobile-nav-links{list-style:none;padding:0;margin:0}
+.mobile-nav-links li{border-bottom:1px solid var(--border,#e8e8e8)}
+.mobile-nav-links a{display:block;padding:14px 0;font-size:.78rem;color:var(--text,#1a1a1a);letter-spacing:.04em}
+.mobile-nav-links a:hover{color:var(--sub,#666)}
+
+/* RESPONSIVE — mobile: hide nav, show hamburger */
+@media(max-width:768px){
+  .header-inner{padding:0 14px}
+  .header-nav{display:none!important}
+  .hamburger{display:block}
+}

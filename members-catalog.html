@@ -331,6 +331,7 @@
       .price-main{font-size:1.05rem}
     }
   </style>
+  <link rel="stylesheet" href="assets/css/header.css">
 </head>
 <body>
 
@@ -353,12 +354,113 @@
   <header class="site-header">
     <div class="header-inner">
       <a href="index.html" class="header-logo"><img src="assets/images/logo.png" alt="COLLEGRANCE"></a>
+      <ul class="header-nav">
+        <li>
+          <a href="shop.html">Shop</a>
+          <div class="mega-drop">
+            <div class="mega-drop-grid cols-2">
+              <div class="mega-drop-col">
+                <h4>カテゴリ</h4>
+                <a href="shop.html">すべての商品<span class="mega-sub">130種類以上のブランド香水</span></a>
+                <a href="shop.html#popular">人気ランキング<span class="mega-sub">売れ筋TOP商品</span></a>
+                <a href="shop.html#sample">小分けで試す<span class="mega-sub">1.5ml お試しサイズ</span></a>
+                <a href="shop.html#fullbottle">フルボトル<span class="mega-sub">正規フルサイズ</span></a>
+              </div>
+              <div class="mega-drop-col">
+                <h4>香り系統から探す</h4>
+                <a href="shop.html">フローラル</a>
+                <a href="shop.html">シトラス・フレッシュ</a>
+                <a href="shop.html">ウッディ・スパイシー</a>
+                <a href="shop.html">スイート・グルマン</a>
+                <a href="shop.html">オリエンタル</a>
+              </div>
+            </div>
+            <div class="mega-feat">
+              <a href="shop.html" class="mega-feat-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.09 6.26L20 10.27l-4.91 3.82L16.18 21 12 17.27 7.82 21l1.09-6.91L4 10.27l5.91-2.01L12 2z"/></svg>
+                AIコンシェルジュに相談する
+              </a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <a href="brand-story.html">About</a>
+          <div class="mega-drop">
+            <div class="mega-drop-grid">
+              <a href="brand-story.html">ブランドストーリー<span class="mega-sub">COLLEGRANCEの想い</span></a>
+              <a href="shop.html">AI香り診断<span class="mega-sub">あなたにぴったりの一本を</span></a>
+              <a href="index.html#quality">品質へのこだわり<span class="mega-sub">化粧品製造販売業許可取得済み</span></a>
+              <a href="https://line.me/R/ti/p/@collegrance" target="_blank" rel="noopener">LINEコンシェルジュ<span class="mega-sub">個別のご相談はこちら</span></a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <a href="journal.html">Journal</a>
+          <div class="mega-drop">
+            <div class="mega-drop-grid">
+              <a href="journal.html">新着記事<span class="mega-sub">最新の香り情報</span></a>
+              <a href="journal.html#review">レビュー<span class="mega-sub">スタッフの本音レビュー</span></a>
+              <a href="journal.html#basics">香水の基礎知識<span class="mega-sub">EDT・EDPの違いなど</span></a>
+              <a href="journal.html#trend">トレンド<span class="mega-sub">今注目の香り</span></a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <a href="contact.html">Support</a>
+          <div class="mega-drop">
+            <div class="mega-drop-grid">
+              <a href="contact.html">お問い合わせ<span class="mega-sub">メールフォーム</span></a>
+              <a href="tokushoho.html#shipping">配送・返品<span class="mega-sub">送料・返品ポリシー</span></a>
+              <a href="contact.html#faq">FAQ<span class="mega-sub">よくあるご質問</span></a>
+              <a href="tokushoho.html">特定商取引法に基づく表記</a>
+            </div>
+          </div>
+        </li>
+      </ul>
       <div class="header-right">
-        <span class="header-badge">Full Bottle</span>
-        <button class="cart-btn" onclick="openCart()">Cart <span class="cart-badge" id="cart-count">0</span></button>
+        <button class="hamburger" id="hamburger" onclick="toggleMobileNav()">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">Shop</div>
+      <ul class="mobile-nav-links">
+        <li><a href="shop.html">すべての商品</a></li>
+        <li><a href="shop.html#brand">ブランド別</a></li>
+        <li><a href="shop.html#scent">香り系統別</a></li>
+        <li><a href="shop.html#price">価格帯別</a></li>
+      </ul>
+    </div>
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">About</div>
+      <ul class="mobile-nav-links">
+        <li><a href="brand-story.html">ブランドストーリー</a></li>
+        <li><a href="shop.html">香り診断</a></li>
+        <li><a href="https://line.me/R/ti/p/@collegrance" target="_blank" rel="noopener">LINEコンシェルジュ</a></li>
+      </ul>
+    </div>
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">Journal</div>
+      <ul class="mobile-nav-links">
+        <li><a href="journal.html">新着記事</a></li>
+        <li><a href="journal.html#review">レビュー</a></li>
+        <li><a href="journal.html#basics">香水の基礎知識</a></li>
+      </ul>
+    </div>
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">Support</div>
+      <ul class="mobile-nav-links">
+        <li><a href="contact.html">お問い合わせ</a></li>
+        <li><a href="tokushoho.html#shipping">配送・返品</a></li>
+        <li><a href="tokushoho.html">特商法</a></li>
+      </ul>
+    </div>
+  </nav>
 
   <!-- ===== LP SECTION 1: HERO ===== -->
   <section class="lp-hero">
@@ -941,6 +1043,22 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   },{passive:true});
 })();
+</script>
+<script>
+function toggleMobileNav(){
+  var nav = document.getElementById('mobile-nav');
+  var btn = document.getElementById('hamburger');
+  var isOpen = nav.classList.contains('open');
+  if(isOpen){
+    nav.classList.remove('open');
+    btn.classList.remove('open');
+    document.body.style.overflow = '';
+  } else {
+    nav.classList.add('open');
+    btn.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
 </script>
 </body>
 </html>

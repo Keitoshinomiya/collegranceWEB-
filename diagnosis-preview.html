@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+    <!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6DM95225F6');
+</script>
+<script src="/assets/js/tracking.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Scent Quiz Preview - COLLEGRANCE</title>
     <!-- Fonts & CSS -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
     <style>
         /* Preview Specific Styles */
         body { background-color: #f9f9f9; }
@@ -120,7 +129,7 @@
             border-radius: 20px;
             font-size: 0.9rem;
             margin-bottom: 15px;
-            font-family: 'Courier Prime', monospace;
+            font-family: 'Zen Kaku Gothic Antique', sans-serif;
         }
 
         .result-product-card {
@@ -148,7 +157,7 @@
         }
         
         .result-brand {
-            font-family: 'Courier Prime', monospace;
+            font-family: 'Zen Kaku Gothic Antique', sans-serif;
             font-size: 0.9rem;
             letter-spacing: 0.1em;
             color: #666;
@@ -156,7 +165,7 @@
         }
         
         .result-name {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Zen Kaku Gothic Antique', sans-serif;
             font-size: 2rem;
             margin-bottom: 15px;
             line-height: 1.2;
@@ -233,6 +242,13 @@
   <style>
     :root{--text:#1a1a1a;--sub:#666;--light:#999;--bg:#fff;--border:#e8e8e8;--header-h:64px}
   </style>
+    <link rel="canonical" href="https://collegrance.com/diagnosis-preview.html">
+    <meta property="og:title" content="AI香り診断 | COLLEGRANCE">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://collegrance.com/diagnosis-preview.html">
+    <meta property="og:image" content="https://collegrance.com/assets/images/hero-main.jpg">
+    <meta property="og:description" content="AIがあなたにぴったりの香りを診断。130商品以上から最適な1本を提案します。">
+    <link rel="stylesheet" href="assets/css/footer.css">
 </head>
 <body>
 
@@ -830,5 +846,29 @@ function toggleMobileNav(){
   }
 }
 </script>
+
+  <footer class="catalog-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <h3>COLLEGRANCE</h3>
+          <p>香りはえらべる。もっと自由に。</p>
+        </div>
+        <div class="footer-info-col">
+          <h4>運営会社</h4>
+          <p>合同会社ヤシノミ<br>化粧品製造販売業許可取得済み</p>
+        </div>
+      </div>
+      <nav class="footer-links">
+        <a href="/tokushoho.html">特定商取引法に基づく表記</a>
+        <a href="/privacy.html">プライバシーポリシー</a>
+        <a href="mailto:info@collegrance.com">お問い合わせ</a>
+        <a href="http://www.amazon.co.jp/collegrance" target="_blank" rel="noopener">Amazonストア</a>
+        <a href="/index.html">トップページ</a>
+      </nav>
+      <div class="footer-copy">&copy; 2024 COLLEGRANCE. All rights reserved.</div>
+    </div>
+  </footer>
+
 </body>
 </html>

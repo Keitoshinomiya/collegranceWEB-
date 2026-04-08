@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+    <!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6DM95225F6');
+</script>
+<script src="/assets/js/tracking.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANOTHER 13 - COLLEGRANCE</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
-    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
+<!-- CSS -->
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- Favicon -->
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
@@ -118,6 +127,7 @@
   <style>
     :root{--text:#1a1a1a;--sub:#666;--light:#999;--bg:#fff;--border:#e8e8e8;--header-h:64px}
   </style>
+    <link rel="stylesheet" href="assets/css/footer.css">
 </head>
 <body>
     <!-- Header -->
@@ -283,25 +293,28 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <h3>COLLEGRANCE</h3>
-                    <p>香りはえらべる。もっと自由に。</p>
-                </div>
-                <div class="footer-links">
-                    <ul>
-                        <li><a href="contact.html">お問い合わせ</a></li>
-                        <li><a href="tokushoho.html">特定商取引法に基づく表記</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 COLLEGRANCE. All rights reserved.</p>
-            </div>
+  <footer class="catalog-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <h3>COLLEGRANCE</h3>
+          <p>香りはえらべる。もっと自由に。</p>
         </div>
-    </footer>
+        <div class="footer-info-col">
+          <h4>運営会社</h4>
+          <p>合同会社ヤシノミ<br>化粧品製造販売業許可取得済み</p>
+        </div>
+      </div>
+      <nav class="footer-links">
+        <a href="/tokushoho.html">特定商取引法に基づく表記</a>
+        <a href="/privacy.html">プライバシーポリシー</a>
+        <a href="mailto:info@collegrance.com">お問い合わせ</a>
+        <a href="http://www.amazon.co.jp/collegrance" target="_blank" rel="noopener">Amazonストア</a>
+        <a href="/index.html">トップページ</a>
+      </nav>
+      <div class="footer-copy">&copy; 2024 COLLEGRANCE. All rights reserved.</div>
+    </div>
+  </footer>
         <!-- Floating Action Buttons Container -->
     <div class="fab-container">
         <!-- Amazon FAB -->

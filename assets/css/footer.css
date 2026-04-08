@@ -1,0 +1,18 @@
+/* ─── Unified Footer Styles ─── */
+.catalog-footer{border-top:1px solid var(--border);padding:48px 24px 32px;background:var(--bg2, #faf9f7)}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:flex;justify-content:space-between;gap:40px;margin-bottom:32px;flex-wrap:wrap}
+.footer-brand-col h3{font-size:.88rem;font-weight:400;letter-spacing:.2em;margin-bottom:6px}
+.footer-brand-col p{font-size:.62rem;color:var(--sub, #666);letter-spacing:.04em}
+.footer-info-col h4{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;font-weight:500;color:var(--text, #1a1a1a)}
+.footer-info-col p{font-size:.6rem;color:var(--sub, #666);letter-spacing:.03em;line-height:1.8}
+.footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:20px;flex-wrap:wrap}
+.footer-links a{font-size:.62rem;letter-spacing:.1em;color:var(--sub, #666);transition:color .2s;padding:4px 0;text-decoration:none}
+.footer-links a:hover{color:var(--text, #1a1a1a)}
+.footer-copy{text-align:center;font-size:.54rem;letter-spacing:.12em;color:var(--light, #999);text-transform:uppercase}
+
+@media(max-width:768px){
+  .footer-top{flex-direction:column;gap:24px}
+  .footer-links{gap:16px}
+  .footer-links a{font-size:.6rem;min-height:44px;display:flex;align-items:center}
+}

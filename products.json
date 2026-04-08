@@ -225,7 +225,7 @@
     "name": "Kimono Yui",
     "nameJa": "キモノユイ",
     "size": "100ml",
-    "cost": 7500,
+    "cost": 6300,
     "img": "assets/images/fullbottle/product_09.jpg",
     "notes": "Sudachi, Orange Flower, Vanilla",
     "tags": [
@@ -234,7 +234,7 @@
     ],
     "popular": false,
     "id": 9,
-    "sellPrice": 10320,
+    "sellPrice": 8670,
     "shipping": "standard",
     "stripePriceId": "price_existing_9",
     "source": "purchase_history",

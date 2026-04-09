@@ -2420,6 +2420,48 @@ function showDiagFallback(){
   observer.observe(heroBtn);
 })();
 
+/* ===== AMAZON LINK CLICK TRACKING (with source attribution) ===== */
+document.addEventListener('click', function(e){
+  var link = e.target.closest('a[href*="amazon.co.jp"], a[href*="amzn."]');
+  if(!link) return;
+
+  var href = link.href;
+  var asin = (href.match(/\/dp\/([A-Z0-9]{10})/) || [])[1] || '';
+  var product = asin ? PRODUCTS.find(function(p){ return p.amazonAsin === asin; }) : null;
+
+  /* Get channel info from tracking.js */
+  var channelData = {};
+  try { channelData = window.CLGTracking ? window.CLGTracking.getChannelData() || {} : {}; } catch(ex){}
+
+  /* Get referrer source */
+  var urlParams = new URLSearchParams(window.location.search);
+  var source = channelData.channel || urlParams.get('utm_source') || document.referrer || 'direct';
+
+  /* Diagnosis attribution */
+  var diagData = {};
+  try { diagData = JSON.parse(localStorage.getItem('clg_diag_recs') || '{}'); } catch(ex){}
+  var fromDiagnosis = diagData.productIds && product && diagData.productIds.includes(product.id);
+
+  ga4Event('amazon_click', {
+    event_category: 'outbound',
+    asin: asin,
+    product_name: product ? product.brand + ' ' + product.name : '',
+    product_id: product ? product.id : '',
+    link_url: href,
+    page_path: window.location.pathname,
+    /* Source attribution */
+    source: source,
+    channel: channelData.channel || '',
+    utm_source: channelData.utm_source || urlParams.get('utm_source') || '',
+    utm_medium: channelData.utm_medium || urlParams.get('utm_medium') || '',
+    utm_campaign: channelData.utm_campaign || urlParams.get('utm_campaign') || '',
+    referrer: document.referrer,
+    /* Diagnosis attribution */
+    from_diagnosis: fromDiagnosis ? 'yes' : 'no',
+    diagnosis_session: fromDiagnosis ? diagData.sessionId : '',
+  });
+});
+
 /* Track cart abandonment */
 window.addEventListener('beforeunload', function(){
   if(cart.length > 0){

@@ -152,7 +152,13 @@ ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
     const message = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 2000,
-      system: SYSTEM_PROMPT + "\n\n" + PRODUCT_CATALOG,
+      system: [
+        {
+          type: "text",
+          text: SYSTEM_PROMPT + "\n\n" + PRODUCT_CATALOG,
+          cache_control: { type: "ephemeral" }
+        }
+      ],
       messages: [{ role: "user", content: userMessage }],
     });
 

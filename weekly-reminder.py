@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 毎週金曜10:00にSlack秘書Botから在庫更新リマインドを送信
-crontab: 0 10 * * 5 python3 /Users/keito/GitHub/collegranceWEB-/weekly-reminder.py
+crontab: 0 10 * * 5 cd /Users/keito/GitHub/collegranceWEB- && python3 weekly-reminder.py
 """
 import os, requests
 
@@ -20,20 +20,31 @@ SLACK_CHANNEL = 'C091LDC8MKN'
 
 requests.post('https://slack.com/api/chat.postMessage', json={
     'channel': SLACK_CHANNEL,
-    'text': (
-        "📅 *週次在庫更新のお時間です*\n\n"
-        "ターミナルで以下のコマンドを実行してください:\n"
-        "```\n"
-        "python3 weekly-update.py\n"
-        "```\n"
-        "処理内容:\n"
-        "• メイクアップExcel取得\n"
-        "• k-styleスプシ照合\n"
-        "• 価格・在庫更新\n"
-        "• 画像チェック\n"
-        "• デプロイ\n\n"
-        "完了後、レポートがこのチャンネルに届きます。"
-    ),
+    'blocks': [
+        {
+            "type": "header",
+            "text": {"type": "plain_text", "text": "📅 週次在庫更新のお時間です"}
+        },
+        {
+            "type": "section",
+            "text": {"type": "mrkdwn", "text": "ターミナルで以下のコマンドを実行してください:"}
+        },
+        {
+            "type": "section",
+            "text": {"type": "mrkdwn", "text": "```cd /Users/keito/GitHub/collegranceWEB- && python3 weekly-update.py```"}
+        },
+        {
+            "type": "section",
+            "text": {"type": "mrkdwn", "text": "*処理内容:*\n• メイクアップ最新Excel取得（Gmail API）\n• k-styleスプシ照合（価格比較）\n• products.json 価格・在庫更新\n• 新商品の画像取得・品質チェック\n• AI診断カタログ更新\n• 価格8項目チェック\n• Git push → 自動デプロイ"}
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "context",
+            "elements": [{"type": "mrkdwn", "text": "完了後、レポートがこのチャンネルに届きます。所要時間: 約10秒"}]
+        }
+    ]
 }, headers={
     'Authorization': f'Bearer {SLACK_BOT_TOKEN}',
     'Content-Type': 'application/json',

@@ -103,6 +103,7 @@ exports.handler = async (event) => {
         receipt_email: undefined, // Will use customer email from checkout form
       },
       customer_creation: 'always',
+      allow_promotion_codes: true,
       invoice_creation: {
         enabled: true,
       },

@@ -109,8 +109,7 @@
     "concentration": "EDP",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 142,
-    "availabilityNote": "在庫100前後"
+    "salesCount": 142
   },
   {
     "brand": "Jo Malone London",
@@ -367,9 +366,7 @@
     "concentration": "EDP",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 21,
-    "availabilityNote": "時々欠品あり",
-    "limitedStock": true
+    "salesCount": 21
   },
   {
     "brand": "ISSEY MIYAKE",
@@ -2707,7 +2704,9 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "limitedStock": true,
+    "availabilityNote": "時々欠品あり"
   },
   {
     "id": 113,
@@ -4273,8 +4272,8 @@
     "salesCount": 0,
     "stripePriceId": "",
     "source": "kstyle",
-    "availabilityNote": "基本受発注品",
-    "limitedStock": true
+    "limitedStock": true,
+    "availabilityNote": "基本受発注品"
   },
   {
     "brand": "YSL",

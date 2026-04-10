@@ -159,12 +159,25 @@
     .load-more-count{font-size:.56rem;color:var(--light);margin-top:10px;letter-spacing:.04em}
 
     /* Floating AI button */
-    .floating-ai{position:fixed;bottom:24px;right:24px;z-index:90;display:flex;align-items:center;gap:8px;padding:14px 24px;background:linear-gradient(135deg,#1a1a1a,#333);color:#fff;border:none;font-family:var(--font);font-size:.66rem;letter-spacing:.08em;cursor:pointer;border-radius:40px;box-shadow:0 6px 24px rgba(0,0,0,.2);transition:all .3s var(--ease);opacity:0;transform:translateY(20px);pointer-events:none}
-    .floating-ai.show{opacity:1;transform:translateY(0);pointer-events:auto}
-    .floating-ai:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(0,0,0,.3)}
-    .floating-ai .ai-sparkle{display:inline-block;animation:sparkle 2s ease-in-out infinite}
-    .floating-ai .ai-pulse{position:absolute;inset:-3px;border-radius:44px;background:linear-gradient(135deg,#6366f1,#8b5cf6);opacity:0;animation:ai-pulse 3s ease-in-out infinite;z-index:-1}
-    @keyframes ai-pulse{0%,100%{opacity:0;transform:scale(1)}50%{opacity:.3;transform:scale(1.05)}}
+    /* Floating CTA buttons (2 buttons stacked) */
+    .floating-ctas{position:fixed;bottom:24px;right:24px;z-index:90;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(20px);pointer-events:none;transition:all .3s var(--ease)}
+    .floating-ctas.show{opacity:1;transform:translateY(0);pointer-events:auto}
+    .floating-cta{display:flex;align-items:center;gap:0;padding:0;border:none;cursor:pointer;border-radius:40px;box-shadow:0 4px 20px rgba(0,0,0,.15);transition:all .3s var(--ease);overflow:hidden;text-decoration:none}
+    .floating-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+    .floating-cta-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .floating-cta-icon svg{width:20px;height:20px}
+    .floating-cta-label{font-family:var(--font);font-size:.62rem;letter-spacing:.06em;white-space:nowrap;max-width:0;overflow:hidden;transition:all .3s var(--ease);padding:0;opacity:0}
+    .floating-cta:hover .floating-cta-label{max-width:200px;padding:0 16px 0 0;opacity:1}
+    /* AI diagnosis button */
+    .floating-cta-ai{background:linear-gradient(135deg,#1a1a1a,#333);color:#fff}
+    .floating-cta-ai .floating-cta-icon svg{stroke:#fff}
+    /* LINE button */
+    .floating-cta-line{background:#06C755;color:#fff}
+    .floating-cta-line .floating-cta-icon svg{fill:#fff}
+    @media(max-width:768px){
+      .floating-ctas{bottom:72px;right:16px;gap:8px}
+      .floating-cta-icon{width:44px;height:44px}
+    }
 
     /* A. POPULAR PICKS — horizontal scroll */
     .popular-section{padding:40px 0 32px;background:var(--bg);border-bottom:1px solid var(--border)}
@@ -1035,11 +1048,21 @@
     </div>
   </div>
 
-  <!-- FLOATING AI BUTTON -->
-  <button class="floating-ai" id="floating-ai" onclick="openDiagnosis()">
-    <div class="ai-pulse"></div>
-    <svg class="ai-sparkle" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><path d="M12 2l2.09 6.26L20 10.27l-4.91 3.82L16.18 21 12 17.27 7.82 21l1.09-6.91L4 10.27l5.91-2.01L12 2z"/></svg> AI香り診断
-  </button>
+  <!-- FLOATING CTA BUTTONS -->
+  <div class="floating-ctas" id="floating-ctas">
+    <a href="https://line.me/R/ti/p/@collegrance" target="_blank" rel="noopener" class="floating-cta floating-cta-line">
+      <div class="floating-cta-icon">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+      </div>
+      <span class="floating-cta-label">公式LINEで相談</span>
+    </a>
+    <button class="floating-cta floating-cta-ai" onclick="openDiagnosis()">
+      <div class="floating-cta-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.09 6.26L20 10.27l-4.91 3.82L16.18 21 12 17.27 7.82 21l1.09-6.91L4 10.27l5.91-2.01L12 2z"/></svg>
+      </div>
+      <span class="floating-cta-label">AI香り診断</span>
+    </button>
+  </div>
 
   <!-- AI DIAGNOSIS MODAL -->
   <div id="diagnosis-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" onclick="closeDiagnosis()"></div>
@@ -2403,18 +2426,18 @@ function showDiagFallback(){
   }, interval);
 })();
 
-/* ===== FLOATING AI BUTTON ===== */
+/* ===== FLOATING CTA BUTTONS ===== */
 (function(){
-  var floatingBtn = document.getElementById('floating-ai');
+  var floatingCtas = document.getElementById('floating-ctas');
   var heroBtn = document.querySelector('.hero-ai-btn');
-  if(!floatingBtn || !heroBtn) return;
+  if(!floatingCtas || !heroBtn) return;
 
   var observer = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
       if(entry.isIntersecting){
-        floatingBtn.classList.remove('show');
+        floatingCtas.classList.remove('show');
       } else {
-        floatingBtn.classList.add('show');
+        floatingCtas.classList.add('show');
       }
     });
   }, { threshold: 0 });

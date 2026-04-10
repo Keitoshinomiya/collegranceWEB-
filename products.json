@@ -89,7 +89,7 @@
     "name": "Orpheon",
     "nameJa": "オルフェオン",
     "size": "75ml",
-    "cost": 20700,
+    "cost": 20500,
     "img": "assets/images/fullbottle/product_04.jpg",
     "notes": "Juniper Berry, Jasmine, Powder",
     "tags": [
@@ -97,7 +97,7 @@
     ],
     "popular": true,
     "id": 4,
-    "sellPrice": 28470,
+    "sellPrice": 28190,
     "shipping": "standard",
     "stripePriceId": "price_existing_4",
     "source": "purchase_history",
@@ -109,7 +109,8 @@
     "concentration": "EDP",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 142
+    "salesCount": 142,
+    "availabilityNote": "在庫100前後"
   },
   {
     "brand": "Jo Malone London",
@@ -346,7 +347,7 @@
     "name": "Fleur de Peau",
     "nameJa": "フルールドゥポー",
     "size": "75ml",
-    "cost": 20600,
+    "cost": 20500,
     "img": "assets/images/fullbottle/product_13.jpg",
     "notes": "Pink Pepper, Iris, Musk",
     "tags": [
@@ -354,7 +355,7 @@
     ],
     "popular": false,
     "id": 13,
-    "sellPrice": 28330,
+    "sellPrice": 28190,
     "shipping": "standard",
     "stripePriceId": "price_existing_13",
     "source": "purchase_history",
@@ -366,7 +367,9 @@
     "concentration": "EDP",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 21
+    "salesCount": 21,
+    "availabilityNote": "時々欠品あり",
+    "limitedStock": true
   },
   {
     "brand": "ISSEY MIYAKE",
@@ -4269,7 +4272,9 @@
     "popular": false,
     "salesCount": 0,
     "stripePriceId": "",
-    "source": "kstyle"
+    "source": "kstyle",
+    "availabilityNote": "基本受発注品",
+    "limitedStock": true
   },
   {
     "brand": "YSL",
@@ -4386,7 +4391,7 @@
     "id": 188,
     "sellPrice": 31360,
     "img": "assets/images/fullbottle/product_188.jpg",
-    "inStock": true,
+    "inStock": false,
     "type": "fullbottle",
     "shipping": "standard",
     "tester": false,

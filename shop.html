@@ -297,6 +297,7 @@
     /* Tags on image */
     .tag{position:absolute;top:12px;left:12px;font-size:.48rem;letter-spacing:.18em;text-transform:uppercase;padding:5px 12px;background:var(--bg);color:var(--text);border-radius:2px;font-weight:500;box-shadow:var(--shadow-sm)}
     .tag.tester{background:#f5f0e6;color:#8b6914;border:none;font-weight:600}
+    .tag.limited{background:#fde8e8;color:#c53030;border:none;font-weight:600;top:auto;bottom:12px;left:12px}
 
     /* Product body */
     .p-body{padding:18px 20px 20px}
@@ -1642,6 +1643,7 @@ function renderCard(p){
       (imgSrc && p.notes ? '<div class="img-overlay" id="overlay-' + p.id + '">' + notesOverlay + '</div>' : '') +
       (imgSrc && !p.notes ? '<div class="img-overlay"><span class="zoom-hint">View</span></div>' : '') +
       (p.tester ? '<span class="tag tester">Tester</span>' : '') +
+      (p.limitedStock ? '<span class="tag limited">お早めに</span>' : '') +
     '</div>' +
     '<div class="p-body">' +
       '<div class="p-brand">' + p.brand + concHtml + '</div>' +

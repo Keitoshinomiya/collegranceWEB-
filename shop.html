@@ -2272,7 +2272,7 @@ async function submitDiagnosis(){
   } catch(e){}
 
   try {
-    var resp = await fetch('/api/ai-diagnosis', {
+    var resp = await fetch('/.netlify/functions/ai-diagnosis', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ answers: diagAnswers })

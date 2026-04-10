@@ -247,13 +247,23 @@ def step4_new_products():
 # STEP 5: catalog_full.json再生成
 # ============================================================
 def step5_update_catalog():
-    log("Step 5: catalog_full.json更新")
+    log("Step 5: catalog_full.json更新（AI診断カタログ同期）")
 
     with open(PRODUCTS_JSON) as f:
         products = json.load(f)
     with open(CATALOG_JSON) as f:
         catalog = json.load(f)
 
+    instock_ids = set(p['id'] for p in products if p.get('inStock') != False)
+
+    # 1. 在庫なし商品をカタログから削除（AI診断で推薦されないように）
+    before = len(catalog)
+    catalog = [c for c in catalog if not c.get('productsJsonId') or c['productsJsonId'] in instock_ids]
+    removed = before - len(catalog)
+    if removed:
+        log(f"  在庫なし商品をカタログから削除: {removed}件")
+
+    # 2. 在庫あるがカタログにない商品を追加
     catalog_ids = set(c.get('productsJsonId') for c in catalog if c.get('productsJsonId'))
     instock = [p for p in products if p.get('inStock') != False]
 

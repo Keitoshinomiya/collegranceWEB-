@@ -6,3 +6,6 @@ node_modules/
 deno.lock
 __pycache__/
 .DS_Store
+gmail_token.pickle
+collegranceWEB-
+.last_makeup_check

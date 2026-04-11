@@ -11,7 +11,16 @@ let PRODUCT_CATALOG = "";
 let VALID_IDS = new Set(); // バリデーション用: カタログに存在するIDセット
 let VALID_ID_LIST = ""; // プロンプト埋め込み用IDリスト文字列
 try {
-  const catalogPath = path.join(__dirname, "../../catalog_full.json");
+  // Netlifyでは included_files で catalog_full.json をバンドル
+  // __dirname相対 or process.cwd()相対で読み込む
+  const candidates = [
+    path.join(__dirname, "../../catalog_full.json"),
+    path.join(__dirname, "catalog_full.json"),
+    path.join(process.cwd(), "catalog_full.json"),
+    "/var/task/catalog_full.json",
+  ];
+  const catalogPath = candidates.find((p) => fs.existsSync(p));
+  if (!catalogPath) throw new Error("catalog_full.json not found in: " + candidates.join(", "));
   const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
   const filtered = catalog.filter((p) => p.sellPrice >= 3000);
   // バリデーション用IDセット構築
@@ -36,8 +45,8 @@ try {
     });
   PRODUCT_CATALOG = `\n\n══════════════════════════════════════════\n⚠️ 以下のリストに掲載されている商品「のみ」から選んでください。\nこのリスト以外の商品は絶対に推薦しないでください。\n存在しないブランド・商品を推薦した場合、お客様が購入できず信頼を失います。\n══════════════════════════════════════════\n\nCOLLEGRANCEの全取扱商品カタログ（${lines.length}商品）:\n\n${lines.join("\n\n")}\n\n══════════════════════════════════════════\n以上が全${lines.length}商品です。上記以外の商品は取り扱いがありません。\nAcqua di Parma, Creed, Tom Ford Tobacco Vanille, Le Labo等、\n上記リストにないブランド・商品は絶対に推薦禁止です。\n══════════════════════════════════════════`;
 } catch (e) {
-  // Fallback: catalog not yet generated
-  PRODUCT_CATALOG = "カタログ読み込みエラー。商品名とブランドのみで推薦してください。";
+  console.error("Catalog load error:", e.message);
+  PRODUCT_CATALOG = "カタログ読み込みエラー: " + e.message;
 }
 
 const SYSTEM_PROMPT = `あなたはCOLLEGRANCE（コレグランス）のAI香りコンシェルジュです。

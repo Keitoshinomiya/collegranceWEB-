@@ -10,6 +10,9 @@
   [build.environment]
     NODE_VERSION = "18"
 
+[functions]
+  included_files = ["catalog_full.json", "products.json"]
+
 # Netlify Functions: /api/* → /.netlify/functions/*
 [[redirects]]
   from = "/api/*"

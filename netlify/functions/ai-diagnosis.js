@@ -245,11 +245,11 @@ ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
 
     return { statusCode: 200, headers, body: JSON.stringify(result) };
   } catch (err) {
-    console.error("AI Diagnosis Error:", err);
+    console.error("AI Diagnosis Error:", err.stack || err);
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: err.message || "Internal server error" }),
+      body: JSON.stringify({ error: err.message || "Internal server error", stack: err.stack }),
     };
   }
 };

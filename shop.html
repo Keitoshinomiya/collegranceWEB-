@@ -98,7 +98,13 @@
     .header-right{display:flex;align-items:center;gap:16px}
     .cart-btn{display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;font-family:var(--font);font-size:.68rem;letter-spacing:.08em;color:var(--text);transition:opacity .2s}
     .cart-btn:hover{opacity:.6}
-    .cart-badge{background:var(--accent);color:#fff;font-size:.5rem;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500}
+    .cart-badge{background:var(--accent);color:#fff;font-size:.5rem;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .cart-badge.bounce{transform:scale(1.5)}
+    /* カート追加トースト */
+    .cart-toast{position:fixed;bottom:-80px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:12px 24px;border-radius:8px;font-family:var(--font);font-size:.68rem;letter-spacing:.04em;display:flex;align-items:center;gap:10px;z-index:10001;box-shadow:0 4px 20px rgba(0,0,0,.25);transition:bottom .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap}
+    .cart-toast.show{bottom:100px}
+    .cart-toast svg{flex-shrink:0}
+    @media(max-width:767px){.cart-toast.show{bottom:80px}}
 
     /* SUB NAV */
     .sub-nav{display:none} /* Replaced by mega dropdowns */
@@ -1841,6 +1847,7 @@ function addCart(id){
   } catch(e){}
   ga4Event('add_to_cart', cartParams);
   refreshCart();
+  /* ボタンの「Added」表示（カードのボタンがある場合） */
   var btn = document.getElementById('btn-' + id);
   var txt = document.getElementById('btn-txt-' + id);
   if(btn){
@@ -1852,7 +1859,25 @@ function addCart(id){
       txt.textContent = originalText;
     }, 1500);
   }
+  /* トースト通知 + カートバッジバウンス */
+  showCartToast(p.brand + ' ' + (p.nameJa || p.name));
 }
+var cartToastTimer = null;
+function showCartToast(productName){
+  var toast = document.getElementById('cart-toast');
+  var msg = document.getElementById('cart-toast-msg');
+  msg.textContent = productName ? productName + ' をカートに追加しました' : 'カートに追加しました';
+  if(cartToastTimer) clearTimeout(cartToastTimer);
+  toast.classList.add('show');
+  /* カートバッジのバウンス */
+  var badge = document.getElementById('cart-count');
+  badge.classList.remove('bounce');
+  void badge.offsetWidth; /* reflow */
+  badge.classList.add('bounce');
+  setTimeout(function(){ badge.classList.remove('bounce'); }, 400);
+  cartToastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 2500);
+}
+
 function changeQty(id, d){
   var item = cart.find(function(x){ return x.id === id; });
   if(!item) return;
@@ -2504,5 +2529,9 @@ window.addEventListener('beforeunload', function(){
   }
 });
 </script>
+<div class="cart-toast" id="cart-toast">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+  <span id="cart-toast-msg">カートに追加しました</span>
+</div>
 </body>
 </html>

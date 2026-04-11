@@ -1388,21 +1388,22 @@ function populatePopular(){
   }).join('');
 }
 function scrollToProduct(id){
-  var grid = document.getElementById('grid');
-  var cards = grid.querySelectorAll('.product-card');
-  /* Ensure we're showing all products */
+  /* Ensure we're showing all products in "all" tab */
   setMode('all');
+  /* Expand visible count so the target product is rendered */
+  currentVisibleCount = filteredProducts.length;
+  renderVisibleCards();
   setTimeout(function(){
     var cards2 = document.getElementById('grid').querySelectorAll('.product-card');
     for(var i=0; i<cards2.length; i++){
       if(cards2[i].dataset.productId == id){
         cards2[i].scrollIntoView({behavior:'smooth', block:'center'});
         cards2[i].style.boxShadow = '0 0 0 3px rgba(0,0,0,.15)';
-        setTimeout(function(){ cards2[i].style.boxShadow = ''; }, 2000);
+        (function(card){ setTimeout(function(){ card.style.boxShadow = ''; }, 2000); })(cards2[i]);
         break;
       }
     }
-  }, 100);
+  }, 150);
 }
 
 /* ===== B. POPULATE BRAND TILES ===== */
@@ -2318,7 +2319,14 @@ function showDiagResult(data){
   if(msgEl) msgEl.textContent = data.personalMessage || data.summary || '';
 
   var list = document.getElementById('diag-result-list');
-  list.innerHTML = data.recommendations.map(function(rec){
+  /* フロント側バリデーション: products.jsonに存在しない推薦を除外 */
+  var validRecs = data.recommendations.filter(function(rec){
+    var rawId = String(rec.productId || '').replace(/^id=/,'');
+    var numId = parseInt(rawId);
+    return PRODUCTS.some(function(x){ return x.id === numId && x.inStock !== false; });
+  });
+  if(validRecs.length === 0) validRecs = data.recommendations; /* 万が一全滅ならそのまま表示 */
+  list.innerHTML = validRecs.map(function(rec, idx){
     /* Parse productId — AI may return "id=16", "16", 16, or product code like "HER1273" */
     var rawId = String(rec.productId || '').replace(/^id=/,'');
     var numId = parseInt(rawId);
@@ -2334,13 +2342,14 @@ function showDiagResult(data){
     }
     if(p && sellPrice > 0){
       btnsHtml += '<button onclick="closeDiagnosis();addCart(' + numId + ')" class="' + (asin ? '' : 'primary') + '">フルボトル &yen;' + sellPrice.toLocaleString() + '</button>';
+      btnsHtml += '<button onclick="closeDiagnosis();scrollToProduct(' + numId + ')" style="background:transparent;border:1px solid #999;color:#555">ショップで見る</button>';
     }
     if(!btnsHtml){
       btnsHtml = '<button onclick="closeDiagnosis();document.getElementById(\'search-input\').value=\'' + (rec.brand||'') + '\';applyFilters()" class="primary">ショップで探す</button>';
     }
     return '<div class="diag-result-card">' +
       '<div style="display:flex;gap:12px;align-items:start">' +
-        (rec.rank === 1 && imgHtml ? imgHtml : '<div class="diag-result-rank">' + rec.rank + '</div>') +
+        (idx === 0 && imgHtml ? imgHtml : '<div class="diag-result-rank">' + (idx + 1) + '</div>') +
         '<div class="diag-result-info">' +
           '<div class="diag-result-brand">' + rec.brand + (p && p.concentration ? ' <span style="font-size:.42rem;border:1px solid #ddd;padding:1px 4px;border-radius:2px;margin-left:4px">' + p.concentration + '</span>' : '') + '</div>' +
           '<div class="diag-result-name">' + rec.name + (rec.matchScore ? ' <span style="font-size:.5rem;color:#3a7d44;font-weight:400">' + rec.matchScore + '%</span>' : '') + '</div>' +

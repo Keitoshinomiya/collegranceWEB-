@@ -266,6 +266,20 @@ def build_article_html(article: Dict[str, Any], image_path: str, category: str) 
       <link rel="stylesheet" href="assets/css/header.css">
   <style>
     :root{{--text:#1a1a1a;--sub:#666;--light:#999;--bg:#fff;--border:#e8e8e8;--header-h:64px}}
+    .product-card-inline{{display:flex;gap:14px;align-items:center;background:#faf9f7;border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin:16px 0}}
+    .product-card-inline img{{width:56px;height:70px;object-fit:cover;border-radius:3px;flex-shrink:0}}
+    .product-card-inline .pci-info{{flex:1}}
+    .product-card-inline .pci-brand{{font-size:.5rem;color:var(--light);letter-spacing:.08em}}
+    .product-card-inline .pci-name{{font-size:.7rem;font-weight:500;color:var(--text);margin:2px 0 4px}}
+    .product-card-inline .pci-price{{font-size:.58rem;color:var(--sub);margin-bottom:6px}}
+    .product-card-inline .pci-btns{{display:flex;gap:8px;flex-wrap:wrap}}
+    .product-card-inline .pci-btns a{{font-size:.52rem;padding:5px 12px;border-radius:3px;text-decoration:none;letter-spacing:.04em;transition:opacity .2s}}
+    .product-card-inline .pci-btn-shop{{background:var(--text);color:#fff}}
+    .product-card-inline .pci-btn-sample{{background:transparent;border:1px solid var(--border);color:var(--sub)}}
+    .product-card-inline .pci-btns a:hover{{opacity:.7}}
+    .cta-box{{background:#f5f3f0;border-left:3px solid var(--text);padding:16px 20px;margin:24px 0;border-radius:0 4px 4px 0}}
+    .cta-box a{{color:var(--text);font-weight:500}}
+    @media(max-width:767px){{.product-card-inline{{flex-direction:column;align-items:start;gap:10px}}.product-card-inline img{{width:100%;height:140px;border-radius:4px}}}}
   </style>
     <link rel="stylesheet" href="assets/css/footer.css">
 </head>

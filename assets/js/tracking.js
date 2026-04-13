@@ -64,13 +64,15 @@
 
       // 1. UTMパラメータから判定
       if (utmSource) {
-        if (utmSource.includes('line')) {
+        if (utmSource.includes('threads')) {
+          channel = 'threads';
+        } else if (utmSource.includes('line')) {
           channel = 'line';
         } else if (utmSource.includes('tiktok') || utmSource.includes('tik_tok')) {
           channel = 'tiktok';
         } else if (utmSource.includes('instagram') || utmSource.includes('ig')) {
           channel = 'instagram';
-        } else if (utmSource.includes('blog') || utmMedium.includes('blog')) {
+        } else if (utmSource.includes('blog') || utmMedium.includes('blog') || utmMedium.includes('article')) {
           channel = 'blog';
         } else if (utmSource.includes('google')) {
           channel = 'google';
@@ -83,12 +85,16 @@
       }
       // 2. リファラーから判定
       else if (referrer) {
-        if (referrer.includes('line.me') || referrer.includes('liff.line.me')) {
+        if (referrer.includes('threads.net')) {
+          channel = 'threads';
+        } else if (referrer.includes('line.me') || referrer.includes('liff.line.me') || referrer.includes('liff')) {
           channel = 'line';
         } else if (referrer.includes('tiktok.com')) {
           channel = 'tiktok';
         } else if (referrer.includes('instagram.com')) {
           channel = 'instagram';
+        } else if (referrer.includes('amazon.co.jp') || referrer.includes('amazon.com')) {
+          channel = 'amazon';
         } else if (referrer.includes('google.') || referrer.includes('bing.') || referrer.includes('yahoo.')) {
           channel = 'organic_search';
         } else if (referrer.includes('collegrance.com')) {
@@ -125,6 +131,10 @@
     save(data) {
       try {
         sessionStorage.setItem(CONFIG.sessionKey, JSON.stringify(data));
+        // 簡易キーにも保存（他のスクリプトやGA4グローバルパラメータ用）
+        sessionStorage.setItem('clg_source', data.channel || '');
+        sessionStorage.setItem('clg_medium', data.utm_medium || '');
+        sessionStorage.setItem('clg_campaign', data.utm_campaign || '');
         // チャネルはローカルストレージにも保存（Stripe決済後の復元用）
         localStorage.setItem(CONFIG.storageKey, JSON.stringify({
           channel: data.channel,
@@ -158,6 +168,39 @@
       }
       if (CONFIG.debug) {
         console.log(`[CLG Track] ${eventName}`, params);
+      }
+    },
+
+    /**
+     * 流入元情報を自動付与してGA4イベントを送信
+     * shop.html内のga4Event等からも利用可能
+     */
+    sendWithSource(eventName, params) {
+      params = params || {};
+      params.traffic_source = sessionStorage.getItem('clg_source') || 'unknown';
+      params.traffic_medium = sessionStorage.getItem('clg_medium') || '';
+      params.traffic_campaign = sessionStorage.getItem('clg_campaign') || '';
+      this.send(eventName, params);
+    },
+
+    /**
+     * GA4グローバルパラメータに流入元を設定
+     * 全イベントに自動付与される
+     */
+    setGlobalSourceParams() {
+      if (typeof gtag === 'function') {
+        gtag('set', {
+          'traffic_source': sessionStorage.getItem('clg_source') || 'unknown',
+          'traffic_medium': sessionStorage.getItem('clg_medium') || '',
+          'traffic_campaign': sessionStorage.getItem('clg_campaign') || ''
+        });
+        if (CONFIG.debug) {
+          console.log('[CLG Track] GA4 global params set', {
+            traffic_source: sessionStorage.getItem('clg_source'),
+            traffic_medium: sessionStorage.getItem('clg_medium'),
+            traffic_campaign: sessionStorage.getItem('clg_campaign')
+          });
+        }
       }
     }
   };
@@ -279,13 +322,34 @@
   };
 
   // ============================================================
+  // LINE遷移トラッキング
+  // ============================================================
+  const LineTracker = {
+    init(channelData) {
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[href*="lin.ee"], a[href*="line.me"], a[href*="liff.line.me"]');
+        if (!link) return;
+
+        Analytics.sendWithSource('click_line', {
+          event_category: 'outbound',
+          link_url:       link.href,
+          page_path:      window.location.pathname
+        });
+      });
+    }
+  };
+
+  // ============================================================
   // 初期化
   // ============================================================
   function init() {
     // 1. チャネル判定
     const channelData = ChannelDetector.detect();
 
-    // 2. チャネル検出イベント送信（初回訪問時のみ）
+    // 2. GA4グローバルパラメータに流入元を設定（全イベントに自動付与）
+    Analytics.setGlobalSourceParams();
+
+    // 3. チャネル検出イベント送信（初回訪問時のみ）
     if (!sessionStorage.getItem('clg_channel_sent')) {
       Analytics.send(CONFIG.events.channelDetect, {
         channel:      channelData.channel,
@@ -297,11 +361,14 @@
       sessionStorage.setItem('clg_channel_sent', '1');
     }
 
-    // 3. Amazonリンクトラッキング
+    // 4. Amazonリンクトラッキング
     AmazonTracker.init(channelData);
 
-    // 4. 購入トラッキング
+    // 5. 購入トラッキング
     PurchaseTracker.init(channelData);
+
+    // 6. LINE遷移トラッキング
+    LineTracker.init(channelData);
 
     if (CONFIG.debug) {
       console.log('[CLG Track] Initialized', channelData);
@@ -321,6 +388,12 @@
     getChannelData: () => ChannelDetector.getSaved(),
     trackPurchase: (data) => PurchaseTracker.savePurchase(data),
     config: CONFIG
+  };
+
+  // グローバルヘルパー: 流入元付きGA4イベント送信
+  // shop.html内のga4Event等から呼び出し可能
+  window.ga4EventWithSource = function(eventName, params) {
+    Analytics.sendWithSource(eventName, params);
   };
 
 })();

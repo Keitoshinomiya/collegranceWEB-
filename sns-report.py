@@ -25,6 +25,7 @@ try:
         Dimension,
         Filter,
         FilterExpression,
+        FilterExpressionList,
         Metric,
         OrderBy,
         RunReportRequest,
@@ -50,7 +51,7 @@ SLACK_BOT_TOKEN = os.environ.get('SLACK_BOT_TOKEN', '')
 SLACK_CHANNEL = 'C091LDC8MKN'
 
 # GA4 設定
-GA4_PROPERTY_ID = '375320029'
+GA4_PROPERTY_ID = '357932107'  # CHO-JUアカウントだがCOLLEGRANCEも含む
 SERVICE_ACCOUNT_PATH = os.path.join(SCRIPT_DIR, 'ga4-service-account.json')
 PROPERTY = f'properties/{GA4_PROPERTY_ID}'
 
@@ -87,16 +88,34 @@ def _run_report(
     order_bys: Optional[List[Any]] = None,
     limit: int = 0,
 ) -> Optional[Any]:
-    """GA4 Data API でレポートを取得。失敗時は None。"""
+    """GA4 Data API でレポートを取得。collegrance.comのみフィルタ。失敗時は None。"""
     if ga4_client is None:
         return None
     try:
+        # collegrance.com のデータのみ抽出（CHO-JU等を除外）
+        host_filter = FilterExpression(
+            filter=Filter(
+                field_name='hostName',
+                string_filter=Filter.StringFilter(
+                    value='collegrance.com',
+                    match_type=Filter.StringFilter.MatchType.EXACT,
+                ),
+            )
+        )
+        # 既存フィルタがある場合はANDで結合
+        if dimension_filter is not None:
+            combined_filter = FilterExpression(
+                and_group=FilterExpressionList(expressions=[host_filter, dimension_filter])
+            )
+        else:
+            combined_filter = host_filter
+
         req = RunReportRequest(
             property=PROPERTY,
             date_ranges=date_ranges,
             dimensions=[Dimension(name=d) for d in dimensions],
             metrics=[Metric(name=m) for m in metrics],
-            dimension_filter=dimension_filter,
+            dimension_filter=combined_filter,
             order_bys=order_bys or [],
             limit=limit if limit > 0 else 0,
         )

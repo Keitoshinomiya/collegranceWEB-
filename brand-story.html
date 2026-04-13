@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
     <!-- Google Analytics (GA4) -->
+    <!-- ※ G-6DM95225F6 の部分をお客様の測定IDに書き換えてください -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -15,9 +16,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COLLEGRANCE | Brand Story — 私たちが届けたい香りの体験</title>
-    <meta name="description" content="COLLEGRANCEが大切にしていること。高級ブランド香水との出会いを、もっと自由に、もっと身近に。品質管理の哲学と、香りを通じて届けたい体験について。">
+    <meta name="description" content="COLLEGRANCEが大切にしていること。高級ブランド香水との出会いを、もっと自由に、もっと身近に。品質管理の哲学と、お客様の声をご紹介します。">
     <meta name="keywords" content="コレグランス,香水,お試し,小分け,アトマイザー,少量,サンプル,ブランド香水,メゾンマルジェラ,ルラボ,エルメス">
-
+    
     <!-- Canonical -->
     <link rel="canonical" href="https://collegrance.com/brand-story.html">
 
@@ -38,7 +39,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
 <!-- CSS -->
     <link rel="stylesheet" href="assets/css/styles.css">
-
+    
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico">
     <link rel="icon" href="assets/images/logo.png" type="image/png">
@@ -49,31 +50,50 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://collegrance.com/brand-story.html">
     <meta property="og:image" content="https://collegrance.com/assets/images/hero-main.jpg">
-    <meta property="og:description" content="COLLEGRANCEが大切にしていること。高級ブランド香水との出会いを、もっと自由に、もっと身近に。品質管理の哲学と、香りを通じて届けたい体験について。">
+    <meta property="og:description" content="COLLEGRANCEが大切にしていること。高級ブランド香水との出会いを、もっと自由に、もっと身近に。品質管理の哲学と、お客様の声をご紹介します。">
     <meta property="og:site_name" content="COLLEGRANCE (コレグランス)">
     <meta property="og:locale" content="ja_JP">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="COLLEGRANCE | Brand Story — 私たちが届けたい香りの体験">
-    <meta name="twitter:description" content="COLLEGRANCEが大切にしていること。高級ブランド香水との出会いを、もっと自由に、もっと身近に。">
+    <meta name="twitter:description" content="COLLEGRANCEが大切にしていること。高級ブランド香水との出会いを、もっと自由に、もっと身近に。品質管理の哲学と、お客様の声をご紹介します。">
     <meta name="twitter:image" content="https://collegrance.com/assets/images/hero-main.jpg">
 
     <!-- Structured Data (JSON-LD) for Google -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "AboutPage",
-      "name": "COLLEGRANCE Brand Story",
-      "url": "https://collegrance.com/brand-story.html",
-      "description": "COLLEGRANCEが大切にしていること。高級ブランド香水との出会いを、もっと自由に、もっと身近に。",
-      "mainEntity": {
+      "@type": "OnlineStore",
+      "name": "COLLEGRANCE (コレグランス)",
+      "alternateName": "コレグランス",
+      "url": "https://collegrance.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://collegrance.com/assets/images/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://collegrance.com/assets/images/logo.png",
+      "description": "高級ブランド香水のお試し・小分け専門店。エルメス、ルラボ、マルジェラなどの正規品を1.5mlからお届けします。",
+      "foundingDate": "2024",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "JP"
+      },
+      "brand": {
         "@type": "Brand",
-        "name": "COLLEGRANCE",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://collegrance.com/assets/images/logo.png"
-        }
+        "name": "COLLEGRANCE"
+      },
+      "sameAs": [
+        "https://www.instagram.com/collrgrance",
+        "https://twitter.com/collegrance",
+        "https://www.facebook.com/collegrance"
+      ],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://collegrance.com/product-list.html?q={search_term_string}",
+        "query-input": "required name=search_term_string"
       }
     }
     </script>
@@ -235,7 +255,7 @@
     <!-- Hero Section - Textured Background & Centered Bottle -->
     <section class="hero reveal-on-scroll">
         <div class="hero-bg-texture"></div>
-
+        
         <div class="hero-bottle-container" onclick="toggleHeroSound()">
             <video id="heroVideo" class="hero-bg-video" autoplay muted loop playsinline>
                 <source src="assets/videos/collegrance_hero_mobile.mp4" type="video/mp4" media="(max-width: 768px)">
@@ -254,27 +274,14 @@
                 </h1>
             </div>
 
-            <!-- スクロール誘導 -->
-            <div class="reveal-on-scroll reveal-delay-3" style="margin-top:48px;text-align:center;">
-                <a href="#brand-message" style="display:inline-block;color:#fff;text-decoration:none;opacity:.7;transition:opacity .3s;animation:scrollBounce 2s infinite;">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M7 13l5 5 5-5"></path>
-                        <path d="M7 6l5 5 5-5"></path>
-                    </svg>
-                </a>
+            <div class="hero-cta-group reveal-on-scroll reveal-delay-3">
+                <a href="/" class="btn-primary">ショップを見る</a>
             </div>
         </div>
-        <style>
-            @keyframes scrollBounce {
-                0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-                40% { transform: translateY(8px); }
-                60% { transform: translateY(4px); }
-            }
-        </style>
     </section>
 
     <!-- Brand Message Section -->
-    <section id="brand-message" class="brand-message-section reveal-on-scroll">
+    <section class="brand-message-section reveal-on-scroll">
         <div class="container">
             <div class="brand-message-content">
                 <p class="brand-description">
@@ -283,7 +290,75 @@
                     けれど<strong>COLLEGRANCE</strong>となら、きっと見つかるはずです。
                 </p>
                 <div class="brand-cta">
-                    <a href="#philosophy" class="btn-secondary">品質へのこだわり</a>
+                    <a href="#trust" class="btn-secondary">品質へのこだわり</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scent Discovery Section -->
+    <section id="discovery" class="discovery-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>SCENT DISCOVERY</h2>
+                <p class="section-subtitle">直感で選ぶ、新しい香りの探し方</p>
+            </div>
+            
+            <!-- By Category -->
+            <div class="discovery-block">
+                <h3>BY CATEGORY</h3>
+                <div class="category-grid four-columns">
+                    <a href="/" class="category-item" data-filter-target="#EBE65F">
+                        <div class="cat-icon icon-citrus">C</div>
+                        <div class="cat-info">
+                            <span class="cat-en">CITRUS & GREEN</span>
+                            <span class="cat-jp">爽快系</span>
+                        </div>
+                    </a>
+                    <a href="/" class="category-item" data-filter-target="#FAF5BE">
+                        <div class="cat-icon icon-warm">W</div>
+                        <div class="cat-info">
+                            <span class="cat-en">WARM & GOURMAND</span>
+                            <span class="cat-jp">甘美・スパイス系</span>
+                        </div>
+                    </a>
+                    <a href="/" class="category-item" data-filter-target="#5AB9BE">
+                        <div class="cat-icon icon-clean">M</div>
+                        <div class="cat-info">
+                            <span class="cat-en">CLEAN MUSK & AQUATIC</span>
+                            <span class="cat-jp">清潔感・マリン系</span>
+                        </div>
+                    </a>
+                    <a href="/" class="category-item" data-filter-target="#FFC3B9">
+                        <div class="cat-icon icon-floral">F</div>
+                        <div class="cat-info">
+                            <span class="cat-en">FLORAL & FRUITY</span>
+                            <span class="cat-jp">花々・果実系</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- By Scene -->
+            <div class="discovery-block mt-large">
+                <h3>BY SCENE</h3>
+                <div class="scene-grid">
+                    <a href="#" class="scene-item">
+                        <span class="scene-time">MORNING</span>
+                        <span class="scene-jp">爽やかな朝に</span>
+                    </a>
+                    <a href="#" class="scene-item">
+                        <span class="scene-time">WORK</span>
+                        <span class="scene-jp">オフィスで</span>
+                    </a>
+                    <a href="#" class="scene-item">
+                        <span class="scene-time">NIGHT</span>
+                        <span class="scene-jp">夜のひととき</span>
+                    </a>
+                    <a href="#" class="scene-item">
+                        <span class="scene-time">RELAX</span>
+                        <span class="scene-jp">休日の癒やし</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -309,9 +384,257 @@
         </div>
     </section>
 
-    <!-- Brand Storytelling Sections (Zig-Zag Layout) -->
-    <section id="about" class="about-section">
+    <!-- Ranking Section -->
+    <section id="ranking" class="ranking-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>POPULAR RANKING</h2>
+                <p class="section-subtitle">今、選ばれている香り</p>
+            </div>
+            <div class="carousel-container">
+                <button class="carousel-nav prev" aria-label="Previous" onclick="scrollCarousel('ranking', -1)">&#8592;</button>
+                <div class="ranking-carousel" id="rankingCarousel">
+                    <div class="ranking-track" id="rankingTrack">
+                    <!-- Rank 1 -->
+                        <div class="ranking-item carousel-item reveal-on-scroll">
+                        <div class="rank-badge">1</div>
+                        <div class="rank-image">
+                            <img src="assets/images/MRG-LazySun-EDT.jpg" alt="Maison Margiela Lazy Sunday Morning" loading="lazy">
+                        </div>
+                        <div class="rank-info">
+                            <span class="rank-brand">Maison Margiela</span>
+                            <span class="rank-name">Lazy Sunday Morning</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="/" class="btn-product amazon-btn">ショップ</a>
+                            <a href="/" class="btn-product stripe-btn">Buy Full</a>
+                        </div>
+                    </div>
+                    <!-- Rank 2 -->
+                    <div class="ranking-item carousel-item">
+                        <div class="rank-badge">2</div>
+                        <div class="rank-image">
+                            <img src="assets/images/HRM-Nile-EDT.jpg" alt="HERMÈS Un Jardin sur le Nil">
+                        </div>
+                        <div class="rank-info">
+                            <span class="rank-brand">HERMÈS</span>
+                            <span class="rank-name">Un Jardin sur le Nil</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="/" class="btn-product amazon-btn">ショップ</a>
+                            <a href="/" class="btn-product stripe-btn">Buy Full</a>
+                        </div>
+                    </div>
+                    <!-- Rank 3 -->
+                    <div class="ranking-item carousel-item">
+                        <div class="rank-badge">3</div>
+                        <div class="rank-image">
+                            <img src="assets/images/MRG-JazzClub-EDT.jpg" alt="Maison Margiela Jazz Club">
+                        </div>
+                        <div class="rank-info">
+                            <span class="rank-brand">Maison Margiela</span>
+                            <span class="rank-name">Jazz Club</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="/" class="btn-product amazon-btn">ショップ</a>
+                            <a href="/" class="btn-product stripe-btn">Buy Full</a>
+                        </div>
+                    </div>
+                    <!-- Rank 4 -->
+                    <div class="ranking-item carousel-item">
+                        <div class="rank-badge">4</div>
+                        <div class="rank-image">
+                            <img src="assets/images/DPTY-Orpheon-EDP.jpg" alt="DIPTYQUE Orpheon">
+                        </div>
+                        <div class="rank-info">
+                            <span class="rank-brand">DIPTYQUE</span>
+                            <span class="rank-name">Orpheon</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="/" class="btn-product amazon-btn">ショップ</a>
+                            <a href="/" class="btn-product stripe-btn">Buy Full</a>
+                        </div>
+                    </div>
+                    <!-- Rank 5 -->
+                    <div class="ranking-item carousel-item">
+                        <div class="rank-badge">5</div>
+                        <div class="rank-image">
+                            <img src="assets/images/JML-EnglishPear-C.jpg" alt="Jo Malone London English Pear & Freesia">
+                        </div>
+                        <div class="rank-info">
+                            <span class="rank-brand">Jo Malone London</span>
+                            <span class="rank-name">English Pear & Freesia</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="/" class="btn-product amazon-btn">ショップ</a>
+                            <a href="/" class="btn-product stripe-btn">Buy Full</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-nav next" aria-label="Next" onclick="scrollCarousel('ranking', 1)">&#8594;</button>
+        </div>
+        </div>
+    </section>
 
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>VOICE</h2>
+                <p class="section-subtitle">お客様の声</p>
+            </div>
+            <div class="carousel-container">
+                <button class="carousel-nav prev" aria-label="Previous" onclick="scrollCarousel('reviews', -1)">&#8592;</button>
+                <div class="reviews-carousel" id="reviewsCarousel">
+                    <div class="reviews-track" id="reviewsTrack">
+                    <!-- Review 1 -->
+                    <div class="review-card enhanced">
+                        <div class="review-image">
+                            <img src="assets/images/MRG-LazySun-EDT.jpg" alt="Maison Margiela Lazy Sunday Morning">
+                        </div>
+                        <div class="review-content">
+                            <div class="review-stars">★★★★★</div>
+                            <h4 class="review-product">Maison Margiela<br><span class="product-name">Lazy Sunday Morning</span></h4>
+                            <p class="review-text">"リネンのような清潔感のある香りで、休日にぴったりです。1.5mlというサイズも試しやすくて良いです。アトマイザーの噴霧量もちょうどよく、使い切れるサイズ感が気に入りました。"</p>
+                            <p class="review-author">- 30代 女性</p>
+                        </div>
+                    </div>
+                    <!-- Review 2 -->
+                    <div class="review-card enhanced">
+                        <div class="review-image">
+                            <img src="assets/images/LLB-Another13-EDP.jpg" alt="LE LABO Another 13">
+                        </div>
+                        <div class="review-content">
+                            <div class="review-stars">★★★★★</div>
+                            <h4 class="review-product">LE LABO<br><span class="product-name">Another 13</span></h4>
+                            <p class="review-text">"ルラボの香りを少しだけ試したくて購入しました。独特なムスクの香りが癖になります。パッケージのデザインもシンプルで素敵で、ポーチに入れて持ち歩くのに最適です。"</p>
+                            <p class="review-author">- 20代 男性</p>
+                        </div>
+                    </div>
+                    <!-- Review 3 -->
+                    <div class="review-card enhanced">
+                        <div class="review-image">
+                            <img src="assets/images/HRM-Nile-EDT.jpg" alt="HERMÈS Un Jardin sur le Nil">
+                        </div>
+                        <div class="review-content">
+                            <div class="review-stars">★★★★☆</div>
+                            <h4 class="review-product">HERMÈS<br><span class="product-name">Un Jardin sur le Nil</span></h4>
+                            <p class="review-text">"上品で爽やかな香り。フルボトルは高価で迷っていましたが、このサイズなら気軽に試せて助かります。発送も早くて丁寧でした。"</p>
+                            <p class="review-author">- 40代 女性</p>
+                        </div>
+                    </div>
+                    <!-- Review 4 -->
+                    <div class="review-card enhanced">
+                        <div class="review-image">
+                            <img src="assets/images/BYR-Blanche-EDP.jpg" alt="BYREDO Blanche">
+                        </div>
+                        <div class="review-content">
+                            <div class="review-stars">★★★★★</div>
+                            <h4 class="review-product">BYREDO<br><span class="product-name">Blanche</span></h4>
+                            <p class="review-text">"石鹸のような清潔感があり、シーンを選ばず使えます。フルボトルを買う前のテストに最適でした。香りの種類が豊富なので、次は違う香りも試してみたいです。"</p>
+                            <p class="review-author">- 20代 女性</p>
+                        </div>
+                    </div>
+                    <!-- Review 5 (New) -->
+                    <div class="review-card enhanced">
+                        <div class="review-image">
+                            <img src="assets/images/MRG-JazzClub-EDT.jpg" alt="Maison Margiela Jazz Club">
+                        </div>
+                        <div class="review-content">
+                            <div class="review-stars">★★★★★</div>
+                            <h4 class="review-product">Maison Margiela<br><span class="product-name">Jazz Club</span></h4>
+                            <p class="review-text">"大人の隠れ家のような、スモーキーで甘い香り。秋冬の夜に纏いたくなる、深みのあるフレグランスです。"</p>
+                            <p class="review-author">- 30代 男性</p>
+                        </div>
+                    </div>
+                    <!-- Review 6 (New) -->
+                    <div class="review-card enhanced">
+                        <div class="review-image">
+                            <img src="assets/images/TFFY-RoseGold-EDP.jpg" alt="TIFFANY & CO. Rose Gold">
+                        </div>
+                        <div class="review-content">
+                            <div class="review-stars">★★★★☆</div>
+                            <h4 class="review-product">TIFFANY & CO.<br><span class="product-name">Rose Gold</span></h4>
+                            <p class="review-text">"透明感のあるローズの香り。甘すぎず、上品で洗練された印象。仕事場でも使いやすいです。"</p>
+                            <p class="review-author">- 20代 女性</p>
+                        </div>
+                    </div>
+                    <!-- Review 7 (New) -->
+                    <div class="review-card enhanced">
+                        <div class="review-image">
+                            <img src="assets/images/DIO-Sauvage-EDT.jpg" alt="DIOR Sauvage">
+                        </div>
+                        <div class="review-content">
+                            <div class="review-stars">★★★★★</div>
+                            <h4 class="review-product">DIOR<br><span class="product-name">Sauvage</span></h4>
+                            <p class="review-text">"力強く、スパイシー。男性へのプレゼントとして購入しましたが、自分でも使いたくなるような魅力を感じました。"</p>
+                            <p class="review-author">- 30代 女性</p>
+                        </div>
+                    </div>
+                    <!-- Review 8 (New) -->
+                    <div class="review-card enhanced">
+                        <div class="review-image">
+                            <img src="assets/images/DG-LightBlue-EDT.jpg" alt="DOLCE & GABBANA Light Blue">
+                        </div>
+                        <div class="review-content">
+                            <div class="review-stars">★★★★☆</div>
+                            <h4 class="review-product">DOLCE & GABBANA<br><span class="product-name">Light Blue</span></h4>
+                            <p class="review-text">"永遠の定番。地中海の風を感じるような爽やかさ。夏だけでなく、リフレッシュしたい時に一年中使えます。"</p>
+                            <p class="review-author">- 40代 男性</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-nav next" aria-label="Next" onclick="scrollCarousel('reviews', 1)">&#8594;</button>
+        </div>
+        </div>
+    </section>
+
+    <!-- Trust & Quality Section (最重要セクション) -->
+    <section id="trust" class="trust-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>厳選とスピードへのこだわり</h2>
+                <p class="section-subtitle">選び抜いた香りを、Amazon配送で最短当日にお手元へ</p>
+            </div>
+            
+            <div class="trust-stats">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="22">0</div>
+                    <div class="stat-label">CURATED SCENTS<br><span style="font-size:0.7em; opacity:0.7;">厳選されたラインナップ</span></div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-animation-container">
+                        <div class="truck-anim">
+                            <div class="truck-body"></div>
+                            <div class="truck-cab"></div>
+                            <div class="truck-wheel wheel-front"></div>
+                            <div class="truck-wheel wheel-back"></div>
+                            <div class="wind-lines">
+                                <span></span><span></span><span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-label">DELIVERY TIME<br><span style="font-size:0.7em; opacity:0.7;">最短当日発送・翌日お届け</span></div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number-text">¥680~</div>
+                    <div class="stat-label">STARTING PRICE<br><span style="font-size:0.7em; opacity:0.7;">1本あたりの価格</span></div>
+                </div>
+            </div>
+            
+            
+
+        </div>
+    </section>
+
+
+
+    <section id="about" class="about-section">
+    <!-- Brand Storytelling Sections (Zig-Zag Layout) -->
+    
     <!-- 1. The Signature (New Video) -->
     <section class="video-split-section">
         <div class="container">
@@ -402,7 +725,85 @@
         </div>
     </section>
 
+    <!-- Product Lineup Section (Removed - see shop page) -->
+    <!-- Service Section -->
+    <section id="service" class="service-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>サービス内容</h2>
+                <p class="section-subtitle">気になる香りを、カジュアルにトライしてみる</p>
+            </div>
+            
+            <div class="carousel-container">
+                <button class="carousel-nav prev" aria-label="Previous" onclick="scrollCarousel('service', -1)">&#8592;</button>
+                <div class="service-carousel" id="serviceCarousel">
+                    <div class="service-track" id="serviceTrack">
+                        <div class="service-card">
+                            <img src="assets/images/service-bottles.jpg" alt="香水テスト体験" class="service-image" loading="lazy">
+                            <h3>小分けボトル 1.5ml</h3>
+                            <p class="price">約1,000円 / 本</p>
+                            <p>通常の1/10以下の価格設定で、高級ブランドの香水を気軽にお試しいただけます</p>
+                        </div>
+                        
+                        <div class="service-card">
+                            <img src="assets/images/service-selection.jpg" alt="COLLEGRANCE厳選ラインナップ" class="service-image" loading="lazy">
+                            <h3>厳選された22種類</h3>
+                            <p class="price">プロが選び抜いた至高の香り</p>
+                            <p>世界中の数ある名香の中から、本当に価値のある22種類だけを厳選しました</p>
+                        </div>
+                        
+                        <div class="service-card">
+                            <img src="assets/images/service-minimal.jpg" alt="ミニマルデザイン" class="service-image" loading="lazy">
+                            <h3>ミニマルデザイン</h3>
+                            <p class="price">プレゼントにも最適</p>
+                            <p>手になじむボトル形状と高級感のあるパッケージで、ギフトとしてもお使いいただけます</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-nav next" aria-label="Next" onclick="scrollCarousel('service', 1)">&#8594;</button>
+            </div>
+        </div>
+    </section>
+
     <!-- LINE Concierge Section -->
+    <!-- Special Campaign Section -->
+    <section class="campaign-section" id="campaign">
+        <div class="container">
+            <div class="campaign-inner">
+                <div class="campaign-image-box">
+                    <img src="assets/images/campaign_case_2.jpg" alt="オリジナル香水ケース" class="campaign-img">
+                </div>
+                <div class="campaign-content">
+                    <div class="campaign-label">SPECIAL GIFT</div>
+                    <h2 class="campaign-title">購入者様全員プレゼント<br>オリジナル香水ケース</h2>
+                    <p class="campaign-text">
+                        COLLEGRANCEで商品をご購入後、公式LINEのアンケートにお答えいただいた方全員に、
+                        持ち運びに便利な「オリジナル香水ケース」をプレゼントいたします。
+                        <br>
+                        大切な香水を、より安全に、よりおしゃれに持ち歩けます。
+                    </p>
+                    <div class="campaign-steps">
+                        <div class="c-step">
+                            <div class="c-step-num">01</div>
+                            <div class="c-step-desc">商品を購入</div>
+                        </div>
+                        <div class="c-step-arrow">▶</div>
+                        <div class="c-step">
+                            <div class="c-step-num">02</div>
+                            <div class="c-step-desc">LINEアンケート回答</div>
+                        </div>
+                        <div class="c-step-arrow">▶</div>
+                        <div class="c-step">
+                            <div class="c-step-num">03</div>
+                            <div class="c-step-desc">もれなくプレゼント</div>
+                        </div>
+                    </div>
+                    <a href="/" class="btn-primary campaign-btn" onclick="gtag('event', 'click_campaign', {'event_category': 'promotion', 'event_label': 'case_giveaway'});">対象商品を見る</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="line-concierge-section">
         <div class="container">
             <div class="line-concierge-card">
@@ -425,11 +826,123 @@
         </div>
     </section>
 
-    <!-- Shop CTA (控えめ) -->
-    <section style="padding:48px 24px;text-align:center">
-      <p style="font-size:.68rem;color:#666;letter-spacing:.08em;margin-bottom:16px">COLLEGRANCEのコレクションをご覧ください</p>
-      <a href="/" style="display:inline-block;padding:12px 32px;border:1px solid #1a1a1a;color:#1a1a1a;font-size:.62rem;letter-spacing:.12em;text-decoration:none;transition:all .25s">SHOP NOW →</a>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <div class="cta-background-image">
+                    <img src="https://images.unsplash.com/photo-1470058869958-2a77ade41c02?auto=format&fit=crop&w=2000&q=80" alt="COLLEGRANCE ロゴ" class="cta-bg-logo" loading="lazy">
+                </div>
+                <h2>あなたが本当に好きだと思える香りと出会う旅へ</h2>
+                <p>店頭で試すだけではなく、ふだんの中で使ってみるから、<br>本当にお気に入りの香りかどうかがわかる。</p>
+                <div class="cta-buttons">
+                    <a href="/" class="btn-primary large">ショップを見る</a>
+                    <a href="contact.html" class="btn-secondary large">ご質問・お問い合わせ</a>
+                </div>
+            </div>
+        </div>
     </section>
+
+    <!-- FAQ Section (New) -->
+    <section class="faq-section fade-in-section">
+        <div class="container faq-container">
+            <div class="section-header">
+                <h2>FAQ</h2>
+                <p class="section-subtitle">よくあるご質問</p>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>商品は正規品ですか？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        中身の香水はすべて信頼できる正規ルートから調達した正規品を使用しておりますが、本商品は各ブランドの公式商品ではなく、弊社（合同会社ヤシノミ）が独自に小分け（リパッケージ）した商品となります。<br><br>
+                        弊社は「化粧品製造業」および「化粧品製造販売業」の許可を正式に取得しており、薬機法を遵守し、国内の自社ラボにて厳格な品質・衛生管理のもとで充填作業を行っております。ブランドとの出所混同を避けるため独自のパッケージで提供しておりますが、品質には万全を期しておりますので安心してお使いください。
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>1.5mlでどのくらい使えますか？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        約20〜25プッシュ分となります。1日1〜2プッシュの使用で約2週間、毎日しっかり使っても1週間〜10日ほどお楽しみいただけます。香りをじっくり試すのに最適な量です。
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>注文から何日で届きますか？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        商品はAmazon倉庫から発送されます。正確な配送日程については、ご購入時にAmazonの商品ページおよび注文画面に表示される「配送予定日」をご確認ください。お急ぎ便などが利用可能な場合もございます。
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>プレゼント用のラッピングはありますか？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        COLLEGRANCEの商品は専用のパッケージにお入れしてお届けしますが、ギフト用のラッピングをご希望の場合は、Amazonでの注文時に「ギフト設定」をご利用ください。<br>
+                        カート画面にて「ギフトの設定」にチェックを入れることで、Amazon指定のラッピング（有料）やメッセージカードをお選びいただけます。
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>届いた商品に不具合があった場合は？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        万が一、液漏れや破損、スプレー不良などの不具合がございましたら、大変お手数ですが本サイトの「お問い合わせフォーム」または「公式LINE」よりご連絡ください。<br>
+                        状況を確認の上、速やかに交換等の対応をさせていただきます。
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>フルボトルの在庫がない、または探している香水がない場合は？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        フルボトルの在庫状況は変動いたします。サイト上で「取り扱いなし」となっている場合や、お探しの香水が見当たらない場合でも、お取り寄せが可能なことがございます。<br>
+                        「公式LINE」や「お問い合わせフォーム」より、お気軽にご相談ください。コンシェルジュが在庫確認や入荷予定をお伝えいたします。
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>キャンセル・返品はできますか？</span>
+                    <span class="faq-toggle-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        商品の性質上（化粧品）、お客様都合による開封後の返品・交換はお受けしておりません。未開封品に限り、Amazonの返品ポリシーに従って対応可能な場合がございます。<br>
+                        商品に瑕疵（欠陥）がある場合はこの限りではありませんので、不具合の際はご連絡ください。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Bottom Navigation (New) -->
 
     <!-- Footer -->
   <footer class="catalog-footer">
@@ -454,6 +967,10 @@
       <div class="footer-copy">&copy; 2024 COLLEGRANCE. All rights reserved.</div>
     </div>
   </footer>
+
+    </div>
+
+    </div>
 
     <!-- JavaScript -->
     <script src="assets/js/script.js"></script>

@@ -95,8 +95,8 @@ exports.handler = async (event) => {
         allowed_countries: ['JP'],
       },
       shipping_options,
-      success_url: SITE_URL + '/shop.html?ok=1&session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: SITE_URL + '/shop.html',
+      success_url: SITE_URL + '/?ok=1&session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: SITE_URL + '/',
       metadata: sessionMetadata,
       payment_intent_data: {
         metadata: sessionMetadata,

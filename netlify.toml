@@ -78,6 +78,13 @@
   status = 200
   force = false
 
+# shop.html → トップページにリダイレクト（ページ構成変更に伴う301リダイレクト）
+[[redirects]]
+  from = "/shop.html"
+  to = "/"
+  status = 301
+  force = true
+
 # 404エラーページの設定（存在する場合）
 [[redirects]]
   from = "/*"

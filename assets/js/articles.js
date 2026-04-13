@@ -6,6 +6,96 @@
  */
 const journalArticles = [
     {
+        id: 'eau_de_toilette_vs_eau_de_parfum_guide',
+        date: '2026-04-13',
+        category: 'KNOWLEDGE',
+        title: '【一発で解決】オードトワレとオードパルファムの違い｜濃度・持続時間・選び方を完全比較',
+        excerpt: 'EDT（オードトワレ）とEDP（オードパルファム）の違いを一発で解決。濃度・持続時間・価格の比較と、あなたに合うのはどちらかを診断します。',
+        image: 'assets/images/logo.png',
+        link: 'article-eau-de-toilette-vs-eau-de-parfum-guide.html'
+    },
+    {
+        id: 'office_perfume_etiquette_guide',
+        date: '2026-04-13',
+        category: 'KNOWLEDGE',
+        title: '【完全ガイド】職場での香水マナー｜オフィスで好印象を与える香りの選び方とNGライン',
+        excerpt: '職場に香水をつけていくのはマナー違反？OKとNGの境界線を明確にし、オフィスで好印象を与える香りの選び方・つけ方を解説します。',
+        image: 'assets/images/logo.png',
+        link: 'article-office-perfume-etiquette-guide.html'
+    },
+    {
+        id: 'summer_refreshing_perfume_2026',
+        date: '2026-04-13',
+        category: 'TREND',
+        title: '【2026年夏】爽やかな香水おすすめ8選｜暑い日でも好印象を保つ香りの選び方',
+        excerpt: '夏こそ香水の出番。汗と混ざっても爽やかさを保つ、夏に最適な香水を8本厳選。シトラス・マリン・グリーンティーなど、涼感を演出する香りの選び方も。',
+        image: 'assets/images/logo.png',
+        link: 'article-summer-refreshing-perfume-2026.html'
+    },
+    {
+        id: 'woody_mens_fragrance_popular_picks',
+        date: '2026-04-13',
+        category: 'REVIEW',
+        title: '【大人の色気】ウッディ系メンズ香水おすすめ6選｜木の温もりが演出する知的なセクシーさ',
+        excerpt: 'ウッディ系香水は「大人の男」の代名詞。サンダルウッド、シダーウッド、ベチバーなど木の香りが持つ魅力と、メンズ人気の6本を香りのプロが厳選。',
+        image: 'assets/images/logo.png',
+        link: 'article-woody-mens-fragrance-popular-picks.html'
+    },
+    {
+        id: 'perfume_too_much_how_to_fix',
+        date: '2026-04-13',
+        category: 'HOW TO',
+        title: '【緊急対応】香水をつけすぎた！すぐにできる5つの対処法と予防テクニック',
+        excerpt: '香水をつけすぎた…そんな時に焦らず対処できる方法を5つ紹介。出先でもできる応急処置と、二度と繰り返さないための予防テクニックも解説。',
+        image: 'assets/images/logo.png',
+        link: 'article-perfume-too-much-how-to-fix.html'
+    },
+    {
+        id: 'floral_perfume_women_recommended_2026',
+        date: '2026-04-13',
+        category: 'REVIEW',
+        title: '【2026年版】フローラル系香水おすすめ7選｜甘すぎない大人のフローラルを厳選',
+        excerpt: 'フローラル系香水は「甘すぎてちょっと…」と思っていませんか？大人の女性にこそ似合う、洗練されたフローラルフレグランスを7本厳選しました。',
+        image: 'assets/images/logo.png',
+        link: 'article-floral-perfume-women-recommended-2026.html'
+    },
+    {
+        id: 'perfume_storage_tips_prevent_deterioration',
+        date: '2026-04-13',
+        category: 'KNOWLEDGE',
+        title: '【プロ直伝】香水の正しい保管方法5選｜劣化を防いで香りを長持ちさせるコツ',
+        excerpt: 'お気に入りの香水、正しく保管できていますか？光・温度・湿度が香りに与える影響と、プロが実践する5つの保管テクニックを解説します。',
+        image: 'assets/images/logo.png',
+        link: 'article-perfume-storage-tips-prevent-deterioration.html'
+    },
+    {
+        id: 'niche_perfume_brands_recommended',
+        date: '2026-04-13',
+        category: 'REVIEW',
+        title: '【脱・定番】ニッチ香水ブランドおすすめ5選｜被らない香りで差をつける',
+        excerpt: '人と被らない香りを探しているあなたへ。BYREDO、DIPTYQUE、LE LABOなど、知る人ぞ知るニッチフレグランスブランドの魅力と代表作をプロが厳選紹介。',
+        image: 'assets/images/logo.png',
+        link: 'article-niche-perfume-brands-recommended.html'
+    },
+    {
+        id: 'fragrance_notes_top_middle_base_guide',
+        date: '2026-04-13',
+        category: 'KNOWLEDGE',
+        title: '【保存版】香水のトップ・ミドル・ラストノートとは？香りの三層構造をわかりやすく解説',
+        excerpt: '香水の「トップノート」「ミドルノート」「ラストノート」って何？香りが時間とともに変化する仕組みを、初心者でもわかるように図解で解説します。',
+        image: 'assets/images/logo.png',
+        link: 'article-fragrance-notes-top-middle-base-guide.html'
+    },
+    {
+        id: 'mens_fragrance_30s_attractive',
+        date: '2026-04-13',
+        category: 'LIFESTYLE',
+        title: '【30代メンズ必見】本当にモテる香水の選び方とは？女性が思わず振り返る3つの香り',
+        excerpt: '30代男性が本当にモテるための香水選びのコツとは？「いい匂い」と思わせる距離感と、女性ウケ抜群のおすすめ香水を香りのプロが厳選して紹介します。',
+        image: 'assets/images/logo.png',
+        link: 'article-mens-fragrance-30s-attractive.html'
+    },
+    {
         id: 'perfume_vending_machine_trend',
         date: '2026-03-04',
         category: 'TREND',

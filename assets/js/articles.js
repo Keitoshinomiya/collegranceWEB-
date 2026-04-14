@@ -6,6 +6,33 @@
  */
 const journalArticles = [
     {
+        id: 'hermes_un_jardin_sur_le_nil_review_exotic',
+        date: '2026-04-14',
+        category: 'REVIEW',
+        title: '【旅する香水】エルメス"ナイルの庭"はなぜ人を虜にするのか？グリーンマンゴーが描くエキゾチックな水辺',
+        excerpt: 'エルメス「ナイルの庭」が20年近く愛され続ける理由とは？グリーンマンゴーとロータスが描くエキゾチックな水辺の世界を、香りのプロが徹底レビューします。',
+        image: 'assets/images/journal/hermes-un-jardin-sur-le-nil-review-exotic.png',
+        link: 'article-hermes-un-jardin-sur-le-nil-review-exotic.html'
+    },
+    {
+        id: 'dolce_gabbana_light_blue_review_summer_citrus',
+        date: '2026-04-14',
+        category: 'REVIEW',
+        title: '【夏の定番】ドルチェ＆ガッバーナ ライトブルーが20年以上愛され続ける理由。地中海の風を纏う爽快シトラス',
+        excerpt: '発売から20年以上、夏の定番として不動の人気を誇るD&Gライトブルー。シチリアンレモンが描く地中海の爽快感と、愛され続ける3つの理由を徹底レビューします。',
+        image: 'assets/images/journal/dolce-gabbana-light-blue-review-summer-citrus.png',
+        link: 'article-dolce-gabbana-light-blue-review-summer-citrus.html'
+    },
+    {
+        id: 'loewe_001_woman_review_woody_floral',
+        date: '2026-04-14',
+        category: 'REVIEW',
+        title: '【LOEWEの隠れた名香】001ウーマンはなぜ"彼女の香り"と呼ばれるのか？甘く柔らかいウッディフローラルの魅力',
+        excerpt: 'LOEWEの001ウーマンが「彼女の香り」と愛される理由とは？ベルガモット×サンダルウッド×バニラが描く、甘く柔らかいウッディフローラルの魅力を徹底レビューします。',
+        image: 'assets/images/journal/loewe-001-woman-review-woody-floral.png',
+        link: 'article-loewe-001-woman-review-woody-floral.html'
+    },
+    {
         id: 'eau_de_toilette_vs_eau_de_parfum_guide',
         date: '2026-03-13',
         category: 'KNOWLEDGE',

@@ -107,6 +107,37 @@
     .cart-toast svg{flex-shrink:0}
     @media(max-width:767px){.cart-toast.show{bottom:80px}}
 
+    /* SAMPLE→FULLBOTTLE 専用LP */
+    .sample-lp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:none;overflow-y:auto;-webkit-overflow-scrolling:touch}
+    .sample-lp-overlay.active{display:flex;justify-content:center;align-items:flex-start;padding:24px}
+    .sample-lp{background:#fff;max-width:480px;width:100%;border-radius:8px;overflow:hidden;margin:auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+    .sample-lp-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.06);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;color:#666;font-size:1.2rem}
+    .sample-lp-hero{position:relative;background:linear-gradient(135deg,#f8f7f5,#ede9e4);padding:32px 24px;text-align:center}
+    .sample-lp-badge{display:inline-block;background:#1a1a1a;color:#fff;font-size:.46rem;letter-spacing:.12em;padding:4px 12px;border-radius:2px;margin-bottom:16px}
+    .sample-lp-img{width:140px;height:180px;object-fit:contain;margin:0 auto 16px;display:block}
+    .sample-lp-brand{font-size:.56rem;color:#999;letter-spacing:.1em;margin-bottom:2px}
+    .sample-lp-name{font-size:.9rem;font-weight:500;color:#1a1a1a;margin-bottom:4px}
+    .sample-lp-conc{font-size:.48rem;color:#999;border:1px solid #ddd;padding:1px 6px;border-radius:2px;display:inline-block}
+    .sample-lp-body{padding:24px}
+    .sample-lp-msg{font-size:.64rem;color:#444;line-height:1.8;margin-bottom:20px;text-align:center}
+    .sample-lp-compare{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-bottom:24px;padding:16px;background:#faf9f7;border-radius:6px}
+    .sample-lp-col{text-align:center}
+    .sample-lp-col-label{font-size:.46rem;color:#999;letter-spacing:.08em;margin-bottom:6px}
+    .sample-lp-col-price{font-size:.9rem;font-weight:600;color:#1a1a1a}
+    .sample-lp-col-detail{font-size:.48rem;color:#888;margin-top:4px;line-height:1.5}
+    .sample-lp-arrow{font-size:1.2rem;color:#ccc}
+    .sample-lp-cospa{text-align:center;font-size:.54rem;color:#3a7d44;font-weight:500;margin-bottom:20px;padding:8px;background:#f0faf0;border-radius:4px}
+    .sample-lp-btns{display:flex;flex-direction:column;gap:10px}
+    .sample-lp-btn-main{display:block;width:100%;padding:14px;background:#1a1a1a;color:#fff;border:none;font-family:var(--font);font-size:.68rem;letter-spacing:.1em;cursor:pointer;border-radius:4px;text-align:center;text-decoration:none;transition:opacity .2s}
+    .sample-lp-btn-main:hover{opacity:.8}
+    .sample-lp-btn-sub{display:block;width:100%;padding:10px;background:transparent;color:#666;border:1px solid #ddd;font-family:var(--font);font-size:.58rem;letter-spacing:.06em;cursor:pointer;border-radius:4px;text-align:center;text-decoration:none}
+    .sample-lp-notes{margin-top:20px;padding-top:16px;border-top:1px solid #eee}
+    .sample-lp-notes-title{font-size:.5rem;color:#999;letter-spacing:.1em;margin-bottom:8px;text-align:center}
+    .sample-lp-notes-grid{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.54rem}
+    .sample-lp-notes-label{color:#bbb;font-weight:500}
+    .sample-lp-notes-value{color:#666}
+    @media(max-width:767px){.sample-lp{border-radius:0;min-height:100vh}.sample-lp-overlay.active{padding:0}}
+
     /* SUB NAV */
     .sub-nav{display:none} /* Replaced by mega dropdowns */
     .sub-nav-old{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -2135,8 +2166,82 @@ if(location.search.includes('ok=1')){
 /* ===== PRODUCT PERMALINK: ?product=ID でその商品にスクロール ===== */
 /* loadProducts()完了後に実行するため、フラグだけ立てる */
 var _pendingProductScroll = null;
-if(location.search.includes('product=')){
-  _pendingProductScroll = parseInt(new URLSearchParams(location.search).get('product'));
+var _pendingSampleLP = false;
+(function(){
+  var params = new URLSearchParams(location.search);
+  if(params.get('product')){
+    _pendingProductScroll = parseInt(params.get('product'));
+  }
+  if(params.get('from') === 'sample' && params.get('product')){
+    _pendingSampleLP = true;
+    _pendingProductScroll = null; /* LPモードではスクロールしない */
+  }
+})();
+
+function showSampleLP(productId){
+  var p = PRODUCTS.find(function(x){ return x.id === productId; });
+  if(!p) return;
+
+  var samplePrice = p.samplePrice || 850;
+  var fullPrice = p.sellPrice;
+  var samplePushes = 20;
+  var fullPushes = 600;
+  var costPerPushSample = Math.round(samplePrice / samplePushes);
+  var costPerPushFull = Math.round(fullPrice / fullPushes);
+  var savings = Math.round((1 - costPerPushFull / costPerPushSample) * 100);
+
+  var notesHtml = '';
+  if(p.notes){
+    var parts = p.notes.split(',').map(function(n){ return n.trim(); });
+    notesHtml = '<div class="sample-lp-notes">' +
+      '<div class="sample-lp-notes-title">FRAGRANCE NOTES</div>' +
+      '<div class="sample-lp-notes-grid">' +
+        (parts[0] ? '<div class="sample-lp-notes-label">Top</div><div class="sample-lp-notes-value">' + parts[0] + '</div>' : '') +
+        (parts[1] ? '<div class="sample-lp-notes-label">Heart</div><div class="sample-lp-notes-value">' + parts[1] + '</div>' : '') +
+        (parts[2] ? '<div class="sample-lp-notes-label">Base</div><div class="sample-lp-notes-value">' + parts[2] + '</div>' : '') +
+      '</div></div>';
+  }
+
+  var lp = document.getElementById('sample-lp');
+  lp.innerHTML =
+    '<button class="sample-lp-close" onclick="closeSampleLP()">&times;</button>' +
+    '<div class="sample-lp-hero">' +
+      '<div class="sample-lp-badge">小分けをお試しいただいた方へ</div>' +
+      (p.img ? '<img class="sample-lp-img" src="' + p.img + '" alt="' + p.brand + ' ' + p.name + '">' : '') +
+      '<div class="sample-lp-brand">' + p.brand + '</div>' +
+      '<div class="sample-lp-name">' + (p.nameJa || p.name) + '</div>' +
+      (p.concentration ? '<span class="sample-lp-conc">' + p.concentration + ' ' + p.size + '</span>' : '') +
+    '</div>' +
+    '<div class="sample-lp-body">' +
+      '<p class="sample-lp-msg">お試しいただきありがとうございます。<br>気に入っていただけましたら、フルボトルでずっとお使いいただけます。</p>' +
+      '<div class="sample-lp-compare">' +
+        '<div class="sample-lp-col">' +
+          '<div class="sample-lp-col-label">小分け 1.5ml</div>' +
+          '<div class="sample-lp-col-price">&yen;' + samplePrice.toLocaleString() + '</div>' +
+          '<div class="sample-lp-col-detail">約' + samplePushes + 'プッシュ<br>1プッシュ ¥' + costPerPushSample + '</div>' +
+        '</div>' +
+        '<div class="sample-lp-arrow">→</div>' +
+        '<div class="sample-lp-col">' +
+          '<div class="sample-lp-col-label">フルボトル ' + p.size + '</div>' +
+          '<div class="sample-lp-col-price">&yen;' + fullPrice.toLocaleString() + '</div>' +
+          '<div class="sample-lp-col-detail">約' + fullPushes + 'プッシュ<br>1プッシュ ¥' + costPerPushFull + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="sample-lp-cospa">フルボトルなら1プッシュあたり約' + savings + '%おトク</div>' +
+      '<div class="sample-lp-btns">' +
+        '<button class="sample-lp-btn-main" onclick="closeSampleLP();addCart(' + p.id + ')">フルボトルをカートに追加</button>' +
+        '<button class="sample-lp-btn-sub" onclick="closeSampleLP()">ショップを見る</button>' +
+      '</div>' +
+      notesHtml +
+    '</div>';
+
+  document.getElementById('sample-lp-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSampleLP(){
+  document.getElementById('sample-lp-overlay').classList.remove('active');
+  document.body.style.overflow = '';
 }
 
 /* ===== SCROLL ANIMATIONS ===== */
@@ -2156,8 +2261,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
   /* Load products on page ready */
   loadProducts().then(function(){
-    /* パーマリンク: ?product=ID のスクロール実行 */
-    if(_pendingProductScroll){
+    if(_pendingSampleLP){
+      var pid = parseInt(new URLSearchParams(location.search).get('product'));
+      setTimeout(function(){ showSampleLP(pid); }, 300);
+    } else if(_pendingProductScroll){
       setTimeout(function(){ scrollToProduct(_pendingProductScroll); }, 300);
     }
   });
@@ -2627,6 +2734,10 @@ window.addEventListener('beforeunload', function(){
 <div class="cart-toast" id="cart-toast">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
   <span id="cart-toast-msg">カートに追加しました</span>
+</div>
+<!-- SAMPLE→FULLBOTTLE 専用LP オーバーレイ -->
+<div class="sample-lp-overlay" id="sample-lp-overlay" onclick="if(event.target===this)closeSampleLP()">
+  <div class="sample-lp" id="sample-lp"></div>
 </div>
 </body>
 </html>

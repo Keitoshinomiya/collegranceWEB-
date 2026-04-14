@@ -2182,13 +2182,7 @@ function showSampleLP(productId){
   var p = PRODUCTS.find(function(x){ return x.id === productId; });
   if(!p) return;
 
-  var samplePrice = p.samplePrice || 850;
   var fullPrice = p.sellPrice;
-  var samplePushes = 20;
-  var fullPushes = 600;
-  var costPerPushSample = Math.round(samplePrice / samplePushes);
-  var costPerPushFull = Math.round(fullPrice / fullPushes);
-  var savings = Math.round((1 - costPerPushFull / costPerPushSample) * 100);
 
   var notesHtml = '';
   if(p.notes){
@@ -2206,31 +2200,39 @@ function showSampleLP(productId){
   lp.innerHTML =
     '<button class="sample-lp-close" onclick="closeSampleLP()">&times;</button>' +
     '<div class="sample-lp-hero">' +
-      '<div class="sample-lp-badge">小分けをお試しいただいた方へ</div>' +
+      '<div class="sample-lp-badge">この香りが好きなあなたへ</div>' +
       (p.img ? '<img class="sample-lp-img" src="' + p.img + '" alt="' + p.brand + ' ' + p.name + '">' : '') +
       '<div class="sample-lp-brand">' + p.brand + '</div>' +
       '<div class="sample-lp-name">' + (p.nameJa || p.name) + '</div>' +
       (p.concentration ? '<span class="sample-lp-conc">' + p.concentration + ' ' + p.size + '</span>' : '') +
     '</div>' +
     '<div class="sample-lp-body">' +
-      '<p class="sample-lp-msg">お試しいただきありがとうございます。<br>気に入っていただけましたら、フルボトルでずっとお使いいただけます。</p>' +
+      '<p class="sample-lp-msg">小分けでお試しいただいた香りを、<br>安心してフルボトルでお届けします。</p>' +
       '<div class="sample-lp-compare">' +
         '<div class="sample-lp-col">' +
-          '<div class="sample-lp-col-label">小分け 1.5ml</div>' +
-          '<div class="sample-lp-col-price">&yen;' + samplePrice.toLocaleString() + '</div>' +
-          '<div class="sample-lp-col-detail">約' + samplePushes + 'プッシュ<br>1プッシュ ¥' + costPerPushSample + '</div>' +
+          '<div class="sample-lp-col-label">小分けでお試し</div>' +
+          '<div class="sample-lp-col-price">1.5ml</div>' +
+          '<div class="sample-lp-col-detail">約1週間分</div>' +
         '</div>' +
         '<div class="sample-lp-arrow">→</div>' +
         '<div class="sample-lp-col">' +
-          '<div class="sample-lp-col-label">フルボトル ' + p.size + '</div>' +
-          '<div class="sample-lp-col-price">&yen;' + fullPrice.toLocaleString() + '</div>' +
-          '<div class="sample-lp-col-detail">約' + fullPushes + 'プッシュ<br>1プッシュ ¥' + costPerPushFull + '</div>' +
+          '<div class="sample-lp-col-label">フルボトル</div>' +
+          '<div class="sample-lp-col-price">' + p.size + '</div>' +
+          '<div class="sample-lp-col-detail">毎日使って約半年〜1年</div>' +
         '</div>' +
       '</div>' +
-      '<div class="sample-lp-cospa">フルボトルなら1プッシュあたり約' + savings + '%おトク</div>' +
+      '<div class="sample-lp-cospa">毎日のルーティンに、お気に入りの香りを</div>' +
+      '<div style="font-size:1rem;font-weight:600;text-align:center;color:#1a1a1a;margin-bottom:16px">&yen;' + fullPrice.toLocaleString() + ' <span style="font-size:.54rem;font-weight:400;color:#999">税込</span></div>' +
       '<div class="sample-lp-btns">' +
         '<button class="sample-lp-btn-main" onclick="closeSampleLP();addCart(' + p.id + ')">フルボトルをカートに追加</button>' +
         '<button class="sample-lp-btn-sub" onclick="closeSampleLP()">ショップを見る</button>' +
+      '</div>' +
+      /* 安心ポイント */
+      '<div style="margin-top:20px;padding-top:16px;border-top:1px solid #eee;display:flex;flex-direction:column;gap:8px">' +
+        '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>小分けと同じ正規品をフルサイズでお届け</div>' +
+        '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>化粧品製造販売業許可取得済み</div>' +
+        '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>2〜4営業日でお届け（¥30,000以上で送料無料）</div>' +
+        '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>未開封なら7日以内返品OK</div>' +
       '</div>' +
       notesHtml +
     '</div>';

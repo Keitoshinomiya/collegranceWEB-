@@ -351,3 +351,32 @@ python3 sns-report.py --monthly   # 月次
 ```
 - GA4 Property: 357932107（CHO-JUアカウント、**hostName=collegrance.comフィルタ済み**）
 - サービスアカウント: `ga4-service-account.json`（gitignored）
+
+---
+
+## 14. AI最適化（llms.txt + 構造化データ）
+
+### llms.txt（AI向けサイト情報）
+- `llms.txt` — 基本版（サイト概要、専門領域、主要ページ）
+- `llms-full.txt` — 詳細版（記事一覧、商品一覧、FAQ）
+- **記事追加時は `llms-full.txt` の記事一覧も更新すること**
+
+### 構造化データ（index.html内）
+- **Organization** — 合同会社ヤシノミの事業者情報、連絡先、SNSリンク
+- **FAQPage** — FAQ8問の構造化データ（FAQ変更時はJSON-LDも更新）
+- **BlogPosting** — 各記事HTMLに設置済み（generate-articles.pyで自動生成）
+- 今後: Product構造化データの追加を検討（generate-articles.pyにTODOコメント記載済み）
+
+### AI参照されるために意識すべきこと
+- 独自の一次情報（嗅ぎ比べ、販売実績）を記事に含める
+- 事実を明確に書く（「¥850で約20プッシュ」のような具体的数値）
+- 構造化データを正確に保つ（FAQやProductの内容変更時はJSON-LDも更新）
+
+---
+
+## 15. プライバシーポリシー・法務
+
+- `privacy.html` — 個人情報保護法準拠（9項目網羅）
+- `tokushoho.html` — 特定商取引法に基づく表記
+- **更新が必要なタイミング**: Meta Pixel導入時、新しい第三者サービス追加時、配送ポリシー変更時
+- 事業者: 合同会社ヤシノミ、代表: 四宮慶人、info@collegrance.com

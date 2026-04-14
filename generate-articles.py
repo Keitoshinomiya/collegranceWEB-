@@ -258,6 +258,14 @@ def build_article_html(article: Dict[str, Any], image_path: str, category: str) 
     "description": "{description}"
 }}
     </script>
+    <!-- TODO: 記事内にproduct-card-inlineがある場合、以下のようなaboutフィールドを
+         BlogPosting構造化データに追加して、言及商品をProduct構造化データとして列挙する。
+         drafts.jsonに products フィールド（配列）を持たせ、テンプレート側で自動展開する。
+         例:
+         "about": [
+           {{"@type": "Product", "name": "Jazz Club", "brand": {{"@type": "Brand", "name": "Maison Margiela"}}}}
+         ]
+    -->
 
     <!-- Fonts & CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">

@@ -1426,22 +1426,20 @@ function populatePopular(){
   }).join('');
 }
 function scrollToProduct(id){
-  /* Ensure we're showing all products in "all" tab */
+  /* 全商品を表示するモードに切り替え */
   setMode('all');
-  /* Expand visible count so the target product is rendered */
-  currentVisibleCount = filteredProducts.length;
+  /* 全カードを表示（もっと見るを展開） */
+  currentVisibleCount = allCards.length;
   renderVisibleCards();
+  /* DOMレンダリング後にスクロール */
   setTimeout(function(){
-    var cards2 = document.getElementById('grid').querySelectorAll('.product-card');
-    for(var i=0; i<cards2.length; i++){
-      if(cards2[i].dataset.productId == id){
-        cards2[i].scrollIntoView({behavior:'smooth', block:'center'});
-        cards2[i].style.boxShadow = '0 0 0 3px rgba(0,0,0,.15)';
-        (function(card){ setTimeout(function(){ card.style.boxShadow = ''; }, 2000); })(cards2[i]);
-        break;
-      }
+    var card = document.querySelector('.product-card[data-product-id="' + id + '"]');
+    if(card){
+      card.scrollIntoView({behavior:'smooth', block:'center'});
+      card.style.boxShadow = '0 0 0 3px rgba(0,0,0,.15)';
+      setTimeout(function(){ card.style.boxShadow = ''; }, 3000);
     }
-  }, 150);
+  }, 300);
 }
 
 /* ===== JOURNAL PICKS ===== */

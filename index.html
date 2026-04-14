@@ -2135,11 +2135,10 @@ if(location.search.includes('ok=1')){
 }
 
 /* ===== PRODUCT PERMALINK: ?product=ID でその商品にスクロール ===== */
+/* loadProducts()完了後に実行するため、フラグだけ立てる */
+var _pendingProductScroll = null;
 if(location.search.includes('product=')){
-  window.addEventListener('load', function(){
-    var pid = new URLSearchParams(location.search).get('product');
-    if(pid) setTimeout(function(){ scrollToProduct(parseInt(pid)); }, 500);
-  });
+  _pendingProductScroll = parseInt(new URLSearchParams(location.search).get('product'));
 }
 
 /* ===== SCROLL ANIMATIONS ===== */
@@ -2158,7 +2157,12 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 
   /* Load products on page ready */
-  loadProducts();
+  loadProducts().then(function(){
+    /* パーマリンク: ?product=ID のスクロール実行 */
+    if(_pendingProductScroll){
+      setTimeout(function(){ scrollToProduct(_pendingProductScroll); }, 300);
+    }
+  });
 });
 
 /* ===== MOBILE NAV ===== */

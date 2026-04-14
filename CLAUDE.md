@@ -1,5 +1,5 @@
 # COLLEGRANCE Website - Claude Code ルール
-Last Updated: 2026-04-07
+Last Updated: 2026-04-14
 
 > **運用スキル一覧**: `SKILLS.md` を参照（在庫更新、価格更新、画像生成・品質管理、AI診断カタログ更新、デプロイ等）
 
@@ -8,9 +8,9 @@ Last Updated: 2026-04-07
 ## プロジェクト概要
 - **サイト**: collegrance.com（高級ブランド香水の小分け販売 + フルボトル直販）
 - **構成**: 静的HTML + JS + Netlify Functions → GitHub → Netlify
-- **ブランチ**: `feature/catalog-image-enhancements`（新shop.html）、`main`（本番）
-- **プレビュー**: https://deploy-preview-55--collegrance.netlify.app/shop.html
-- **GA4**: G-6DM95225F6
+- **ブランチ**: `feature/catalog-image-enhancements`（開発）、`main`（本番）
+- **ページ構成**: `index.html` = ショップ（トップ）、`brand-story.html` = ブランドストーリー（旧トップ）
+- **GA4**: G-6DM95225F6（Property ID: 357932107、CHO-JUアカウント内。**hostName=collegrance.comフィルタ必須**）
 - **Stripe**: acct_1SVQAgIYUZm6bpup（フルボトル販売用）
   - 本番キー: `pk_live_...` / `sk_live_...`
   - テストキー: `pk_test_...` / `sk_test_...`（プレビュー環境で使用中）
@@ -284,3 +284,70 @@ ABOUT: ブランドストーリー | AI香り診断 | 品質へのこだわり |
 JOURNAL: 新着記事 | レビュー | 香水の基礎知識 | トレンド
 SUPPORT: お問い合わせ | 配送・返品 | FAQ | 特商法
 ```
+
+---
+
+## 11. ブログ記事量産フロー
+
+### 生成手順（2ステップ）
+```
+Step 1: Claude Code に「記事を10本書いて drafts.json に保存して」と指示
+Step 2: python3 generate-articles.py
+  → Nano Banana (Gemini API) で画像生成 → HTML作成 → articles.js更新 → Slack通知
+```
+
+### 記事内の商品導線ルール（必ず守ること）
+- **product-card-inline** のショップボタン: `href="/?product={商品ID}"`（`/` ではなく商品直リンク）
+- **小分けボタン**: `小分けで試す ¥{価格}` と価格を表示、ASINはproducts.jsonの`amazonAsin`を使用
+- **記事末尾CTA**: AI香り診断への誘導を必ず入れる
+- **ASIN注意**: products.jsonのamazonAsinフィールドを正とし、推測でASINを書かない
+
+### キャッシュバスティング（重要）
+- `articles.js` はキャッシュ対策で `?v=YYYYMMDD` パラメータ付きで読み込んでいる
+- **記事追加後は全HTMLの `articles.js?v=` の日付を更新すること**
+- netlify.tomlでJSファイルは `max-age=0, must-revalidate`（毎回確認）に設定済み
+- CSS・画像は長期キャッシュ（変更なし）
+
+### 画像生成
+- Gemini API モデル: `gemini-2.5-flash-image`（Nano Banana）
+- 無料枠: 1日50枚（Google AI Studio経由）
+- 保存先: `assets/images/journal/{slug}.png`
+
+### 記事の日付
+- SEO自然化のため過去日付に分散して設定
+- articles.js の `date` と HTML内の `<time>`, `datePublished`, `dateModified` を全て一致させる
+
+---
+
+## 12. 商品パーマリンクと小分けLP
+
+### 商品パーマリンク
+- URL: `collegrance.com/?product={ID}`
+- アクセスするとページ読み込み後に該当商品カードまでスクロール+ハイライト
+- 各商品カードに共有ボタン（↑マーク）あり、クリックでURLコピー
+- LINEやSNSで「この商品です」と個別共有可能
+
+### 小分け→フルボトル専用LP
+- URL: `collegrance.com/?from=sample&product={ID}`
+- 小分け購入者向けの専用オーバーレイモーダルを表示
+- 内容: 商品画像、使用期間比較（1週間→半年〜1年）、安心ポイント4つ、カート追加ボタン
+- LINE配信のシナリオからこのURLを送ることで、フルボトルへの転換を促進
+- `type=sample_and_fullbottle` の商品のみ対象（22商品）
+
+---
+
+## 13. SNSトラッキングとレポート
+
+### UTMリンク設計（UTM_LINKS.md参照）
+- Threads: `?utm_source=threads&utm_medium=social&utm_campaign=profile`
+- Instagram: `?utm_source=instagram&utm_medium=social&utm_campaign=profile`
+- tracking.jsがUTMパラメータ+リファラーから流入元を自動判定し、全GA4イベントに`traffic_source`を付与
+
+### レポートスクリプト（sns-report.py）
+```
+python3 sns-report.py --daily     # 日次（朝バッチに組み込み予定）
+python3 sns-report.py --weekly    # 週次（月曜バッチに組み込み予定）
+python3 sns-report.py --monthly   # 月次
+```
+- GA4 Property: 357932107（CHO-JUアカウント、**hostName=collegrance.comフィルタ済み**）
+- サービスアカウント: `ga4-service-account.json`（gitignored）

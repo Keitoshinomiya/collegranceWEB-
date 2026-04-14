@@ -1715,7 +1715,7 @@ function renderCard(p){
   }
 
   return '<div class="product-card" data-product-id="' + p.id + '">' +
-    '<button class="share-btn" onclick="event.stopPropagation();copyProductLink(' + p.id + ',\'' + p.brand.replace(/'/g,"\\'") + ' ' + (p.nameJa||p.name).replace(/'/g,"\\'") + '\')" title="商品リンクをコピー"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>' +
+    '<button class="share-btn" onclick="event.stopPropagation();copyProductLink(' + p.id + ',\'' + p.brand.replace(/'/g,"\\'") + ' ' + (p.nameJa||p.name).replace(/'/g,"\\'") + '\')" title="商品リンクをコピー"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>' +
     '<div class="img-wrap" onclick="handleImgClick(event,' + p.id + ')">' +
       (imgSrc ? '<img src="' + imgSrc + '" alt="' + p.brand + ' ' + p.name + '" loading="lazy">' : fallback) +
       (imgSrc && p.notes ? '<div class="img-overlay" id="overlay-' + p.id + '">' + notesOverlay + '</div>' : '') +
@@ -1916,18 +1916,35 @@ function copyProductLink(id, name){
   var url = 'https://collegrance.com/?product=' + id;
   if(navigator.clipboard){
     navigator.clipboard.writeText(url).then(function(){
-      showCartToast(name + ' のリンクをコピーしました');
+      showShareToast('リンクをコピーしました');
     });
   } else {
-    /* fallback */
     var t = document.createElement('textarea');
     t.value = url;
     document.body.appendChild(t);
     t.select();
     document.execCommand('copy');
     document.body.removeChild(t);
-    showCartToast(name + ' のリンクをコピーしました');
+    showShareToast('リンクをコピーしました');
   }
+}
+var shareToastTimer = null;
+function showShareToast(msg){
+  var toast = document.getElementById('cart-toast');
+  var icon = toast.querySelector('svg');
+  var msgEl = document.getElementById('cart-toast-msg');
+  /* アイコンをリンクマークに変更 */
+  icon.innerHTML = '<path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>';
+  icon.setAttribute('stroke', '#60a5fa');
+  msgEl.textContent = msg;
+  if(shareToastTimer) clearTimeout(shareToastTimer);
+  toast.classList.add('show');
+  shareToastTimer = setTimeout(function(){
+    toast.classList.remove('show');
+    /* アイコンをチェックマークに戻す */
+    icon.innerHTML = '<path d="M20 6L9 17l-5-5"/>';
+    icon.setAttribute('stroke', '#4ade80');
+  }, 2500);
 }
 
 var cartToastTimer = null;

@@ -288,6 +288,11 @@ def build_article_html(article: Dict[str, Any], image_path: str, category: str) 
     .cta-box{{background:#f5f3f0;border-left:3px solid var(--text);padding:16px 20px;margin:24px 0;border-radius:0 4px 4px 0}}
     .cta-box a{{color:var(--text);font-weight:500}}
     @media(max-width:767px){{.product-card-inline{{flex-direction:column;align-items:start;gap:10px}}.product-card-inline img{{width:100%;height:140px;border-radius:4px}}}}
+    .share-bar{{display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 0}}
+    .share-bar-label{{font-size:.46rem;color:#999;letter-spacing:.08em}}
+    .share-bar a,.share-bar button{{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid #e8e8e8;background:#fff;cursor:pointer;transition:all .2s}}
+    .share-bar a:hover,.share-bar button:hover{{background:#f5f5f5;border-color:#ccc}}
+    .share-bar-bottom{{border-top:1px solid #eee;margin-top:32px;padding-top:20px}}
   </style>
     <link rel="stylesheet" href="assets/css/footer.css">
 </head>
@@ -410,10 +415,24 @@ def build_article_html(article: Dict[str, Any], image_path: str, category: str) 
         <div class="article-meta"><time>{date_str}</time></div>
     </header>
 
+    <div class="share-bar">
+      <span class="share-bar-label">SHARE</span>
+      <a href="" class="share-x" target="_blank" rel="noopener" title="Xでシェア"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1a1a1a"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="" class="share-line" target="_blank" rel="noopener" title="LINEでシェア"><svg width="16" height="16" viewBox="0 0 24 24" fill="#06C755"><path d="M12 2C6.48 2 2 5.81 2 10.5c0 3.31 2.45 6.18 6.08 7.35-.09.78-.48 2.92-.5 3.1-.03.27.1.27.21.2.08-.06 3.19-2.16 4.49-3.04.57.08 1.14.12 1.72.12 5.52 0 10-3.81 10-8.5S17.52 2 12 2z"/></svg></a>
+      <button class="share-copy" onclick="copyArticleLink()" title="リンクをコピー"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+    </div>
+
     <div class="article-body">
         <img src="{image_path}" alt="{title}" class="article-image">
 
         {body_html}
+    </div>
+
+    <div class="share-bar share-bar-bottom">
+      <span class="share-bar-label">SHARE THIS ARTICLE</span>
+      <a href="" class="share-x" target="_blank" rel="noopener" title="Xでシェア"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1a1a1a"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="" class="share-line" target="_blank" rel="noopener" title="LINEでシェア"><svg width="16" height="16" viewBox="0 0 24 24" fill="#06C755"><path d="M12 2C6.48 2 2 5.81 2 10.5c0 3.31 2.45 6.18 6.08 7.35-.09.78-.48 2.92-.5 3.1-.03.27.1.27.21.2.08-.06 3.19-2.16 4.49-3.04.57.08 1.14.12 1.72.12 5.52 0 10-3.81 10-8.5S17.52 2 12 2z"/></svg></a>
+      <button class="share-copy" onclick="copyArticleLink()" title="リンクをコピー"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
     </div>
 </article>
 
@@ -469,6 +488,26 @@ function toggleMobileNav(){{
     btn.classList.add('open');
     document.body.style.overflow = 'hidden';
   }}
+}}
+</script>
+<script>
+(function(){{
+  var title = document.querySelector('.article-title').textContent;
+  var url = location.href;
+  var xLinks = document.querySelectorAll('.share-x');
+  for(var i=0;i<xLinks.length;i++){{
+    xLinks[i].href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(title + ' | COLLEGRANCE') + '&url=' + encodeURIComponent(url);
+  }}
+  var lineLinks = document.querySelectorAll('.share-line');
+  for(var i=0;i<lineLinks.length;i++){{
+    lineLinks[i].href = 'https://line.me/R/msg/text/?' + encodeURIComponent(title + '\\n' + url);
+  }}
+}})();
+function copyArticleLink(){{
+  var url = location.href;
+  if(navigator.clipboard){{ navigator.clipboard.writeText(url); }}
+  else {{ var t=document.createElement('textarea');t.value=url;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t); }}
+  alert('リンクをコピーしました');
 }}
 </script>
 </body>

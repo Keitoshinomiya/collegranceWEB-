@@ -2342,6 +2342,7 @@ function showSampleLP(productId){
         '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>未開封なら7日以内返品OK</div>' +
       '</div>' +
       notesHtml +
+      findRelatedArticles(p) +
     '</div>';
 
   document.getElementById('sample-lp-overlay').classList.add('active');
@@ -2351,6 +2352,30 @@ function showSampleLP(productId){
 function closeSampleLP(){
   document.getElementById('sample-lp-overlay').classList.remove('active');
   document.body.style.overflow = '';
+}
+
+/* ===== LP用: 関連記事検索 ===== */
+function findRelatedArticles(product){
+  if(typeof journalArticles === 'undefined') return '';
+  var brand = product.brand.toLowerCase();
+  var name = product.name.toLowerCase();
+  var nameJa = (product.nameJa || '').toLowerCase();
+  var matched = journalArticles.filter(function(a){
+    var t = (a.title + ' ' + a.excerpt).toLowerCase();
+    return t.includes(brand) || t.includes(name) || (nameJa && t.includes(nameJa));
+  }).slice(0, 2);
+  if(!matched.length) return '';
+  var html = '<div style="margin-top:20px;padding-top:16px;border-top:1px solid #eee">' +
+    '<div style="font-size:.5rem;color:#999;letter-spacing:.1em;text-align:center;margin-bottom:12px">RELATED ARTICLES</div>';
+  matched.forEach(function(a){
+    html += '<a href="' + a.link + '" style="display:flex;gap:10px;align-items:center;padding:8px 0;text-decoration:none;color:inherit;border-bottom:1px solid #f5f5f5">' +
+      '<img src="' + a.image + '" style="width:48px;height:48px;object-fit:cover;border-radius:3px;flex-shrink:0">' +
+      '<div><div style="font-size:.46rem;color:#999;letter-spacing:.08em">' + a.category + '</div>' +
+      '<div style="font-size:.54rem;color:#333;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">' + a.title + '</div></div>' +
+    '</a>';
+  });
+  html += '</div>';
+  return html;
 }
 
 /* ===== 小分けおすすめLP（?from=recommend&product=ID） ===== */
@@ -2406,6 +2431,7 @@ function showRecommendLP(productId){
         '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>気に入ったらフルボトルもご用意しています</div>' +
       '</div>' +
       notesHtml +
+      findRelatedArticles(p) +
     '</div>';
 
   document.getElementById('sample-lp-overlay').classList.add('active');

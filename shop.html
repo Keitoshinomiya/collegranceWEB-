@@ -2269,6 +2269,7 @@ if(location.search.includes('ok=1')){
 /* loadProducts()完了後に実行するため、フラグだけ立てる */
 var _pendingProductScroll = null;
 var _pendingSampleLP = false;
+var _pendingRecommendLP = false;
 (function(){
   var params = new URLSearchParams(location.search);
   if(params.get('product')){
@@ -2276,7 +2277,11 @@ var _pendingSampleLP = false;
   }
   if(params.get('from') === 'sample' && params.get('product')){
     _pendingSampleLP = true;
-    _pendingProductScroll = null; /* LPモードではスクロールしない */
+    _pendingProductScroll = null;
+  }
+  if(params.get('from') === 'recommend' && params.get('product')){
+    _pendingRecommendLP = true;
+    _pendingProductScroll = null;
   }
 })();
 
@@ -2348,6 +2353,71 @@ function closeSampleLP(){
   document.body.style.overflow = '';
 }
 
+/* ===== 小分けおすすめLP（?from=recommend&product=ID） ===== */
+function showRecommendLP(productId){
+  var p = PRODUCTS.find(function(x){ return x.id === productId; });
+  if(!p) return;
+
+  var samplePrice = p.samplePrice || 850;
+  var asin = p.amazonAsin || '';
+
+  var notesHtml = '';
+  if(p.notes){
+    var parts = p.notes.split(',').map(function(n){ return n.trim(); });
+    notesHtml = '<div class="sample-lp-notes">' +
+      '<div class="sample-lp-notes-title">FRAGRANCE NOTES</div>' +
+      '<div class="sample-lp-notes-grid">' +
+        (parts[0] ? '<div class="sample-lp-notes-label">Top</div><div class="sample-lp-notes-value">' + parts[0] + '</div>' : '') +
+        (parts[1] ? '<div class="sample-lp-notes-label">Heart</div><div class="sample-lp-notes-value">' + parts[1] + '</div>' : '') +
+        (parts[2] ? '<div class="sample-lp-notes-label">Base</div><div class="sample-lp-notes-value">' + parts[2] + '</div>' : '') +
+      '</div></div>';
+  }
+
+  var amazonUrl = asin ? 'https://www.amazon.co.jp/dp/' + asin + '?th=1&psc=1' : 'http://www.amazon.co.jp/collegrance';
+
+  var lp = document.getElementById('sample-lp');
+  lp.innerHTML =
+    '<button class="sample-lp-close" onclick="closeSampleLP()">&times;</button>' +
+    '<div class="sample-lp-hero">' +
+      '<div class="sample-lp-badge">あなたが気になっていた香り</div>' +
+      (p.img ? '<img class="sample-lp-img" src="' + p.img + '" alt="' + p.brand + ' ' + p.name + '">' : '') +
+      '<div class="sample-lp-brand">' + p.brand + '</div>' +
+      '<div class="sample-lp-name">' + (p.nameJa || p.name) + '</div>' +
+      (p.concentration ? '<span class="sample-lp-conc">' + p.concentration + ' ' + p.size + '</span>' : '') +
+    '</div>' +
+    '<div class="sample-lp-body">' +
+      '<p class="sample-lp-msg">気になる香りは、まず小分けでお試しください。<br>1.5mlで約1週間、じっくりお楽しみいただけます。</p>' +
+      '<div class="sample-lp-compare">' +
+        '<div class="sample-lp-col">' +
+          '<div class="sample-lp-col-label">小分けサイズ</div>' +
+          '<div class="sample-lp-col-price">1.5ml</div>' +
+          '<div class="sample-lp-col-detail">約20プッシュ<br>約1週間分</div>' +
+        '</div>' +
+        '<div class="sample-lp-arrow">→</div>' +
+        '<div class="sample-lp-col">' +
+          '<div class="sample-lp-col-label">こんな方におすすめ</div>' +
+          '<div class="sample-lp-col-price" style="font-size:.7rem">お試し</div>' +
+          '<div class="sample-lp-col-detail">自分の肌で香りを確認<br>ミドル〜ラストまで体験</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="sample-lp-cospa">店頭では分からない「本当の相性」を、自分の肌で確かめる</div>' +
+      '<div style="font-size:1rem;font-weight:600;text-align:center;color:#1a1a1a;margin-bottom:16px">&yen;' + samplePrice.toLocaleString() + ' <span style="font-size:.54rem;font-weight:400;color:#999">税込・送料無料</span></div>' +
+      '<div class="sample-lp-btns">' +
+        '<a href="' + amazonUrl + '" target="_blank" rel="noopener" class="sample-lp-btn-main" onclick="ga4Event(\'click_amazon\',{product_id:' + p.id + ',from:\'recommend_lp\'})">小分けで試してみる</a>' +
+        '<button class="sample-lp-btn-sub" onclick="closeSampleLP()">ショップで他の香りも見る</button>' +
+      '</div>' +
+      '<div style="margin-top:20px;padding-top:16px;border-top:1px solid #eee;display:flex;flex-direction:column;gap:8px">' +
+        '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>正規品を自社ラボで丁寧に充填</div>' +
+        '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Amazon発送で最短翌日お届け</div>' +
+        '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>気に入ったらフルボトルもご用意しています</div>' +
+      '</div>' +
+      notesHtml +
+    '</div>';
+
+  document.getElementById('sample-lp-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
 /* ===== SCROLL ANIMATIONS ===== */
 document.addEventListener('DOMContentLoaded', function(){
   var obs = new IntersectionObserver(function(entries){
@@ -2365,9 +2435,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
   /* Load products on page ready */
   loadProducts().then(function(){
+    var pid = parseInt(new URLSearchParams(location.search).get('product'));
     if(_pendingSampleLP){
-      var pid = parseInt(new URLSearchParams(location.search).get('product'));
       setTimeout(function(){ showSampleLP(pid); }, 300);
+    } else if(_pendingRecommendLP){
+      setTimeout(function(){ showRecommendLP(pid); }, 300);
     } else if(_pendingProductScroll){
       setTimeout(function(){ scrollToProduct(_pendingProductScroll); }, 300);
     }

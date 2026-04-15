@@ -2332,7 +2332,7 @@ function showSampleLP(productId){
       '<div style="font-size:1rem;font-weight:600;text-align:center;color:#1a1a1a;margin-bottom:16px">&yen;' + fullPrice.toLocaleString() + ' <span style="font-size:.54rem;font-weight:400;color:#999">税込</span></div>' +
       '<div class="sample-lp-btns">' +
         '<button class="sample-lp-btn-main" onclick="closeSampleLP();addCart(' + p.id + ')">フルボトルをカートに追加</button>' +
-        '<button class="sample-lp-btn-sub" onclick="closeSampleLP()">ショップを見る</button>' +
+        '<button class="sample-lp-btn-sub" onclick="closeSampleLP();scrollToProduct(' + p.id + ')">ショップで見る</button>' +
       '</div>' +
       /* 安心ポイント */
       '<div style="margin-top:20px;padding-top:16px;border-top:1px solid #eee;display:flex;flex-direction:column;gap:8px">' +
@@ -2398,7 +2398,7 @@ function showRecommendLP(productId){
       '<div style="font-size:1rem;font-weight:600;text-align:center;color:#1a1a1a;margin-bottom:16px">&yen;' + samplePrice.toLocaleString() + ' <span style="font-size:.54rem;font-weight:400;color:#999">税込・送料無料</span></div>' +
       '<div class="sample-lp-btns">' +
         '<a href="' + amazonUrl + '" target="_blank" rel="noopener" class="sample-lp-btn-main" onclick="ga4Event(\'click_amazon\',{product_id:' + p.id + ',from:\'recommend_lp\'})">小分けで試してみる</a>' +
-        '<button class="sample-lp-btn-sub" onclick="closeSampleLP()">ショップで他の香りも見る</button>' +
+        '<button class="sample-lp-btn-sub" onclick="closeSampleLP();scrollToProduct(' + p.id + ')">ショップで見る</button>' +
       '</div>' +
       '<div style="margin-top:20px;padding-top:16px;border-top:1px solid #eee;display:flex;flex-direction:column;gap:8px">' +
         '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>正規品を自社ラボで丁寧に充填</div>' +

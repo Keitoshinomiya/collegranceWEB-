@@ -7,7 +7,7 @@
 const journalArticles = [
     {
         id: 'jo_malone_combining_guide',
-        date: '2026-04-15',
+        date: '2025-12-23',
         category: 'HOW TO',
         title: '【プロ直伝】ジョーマローン香水の組み合わせガイド｜人気レイヤリング10選',
         excerpt: 'Jo Maloneの魅力はレイヤリング（重ねづけ）。人気の組み合わせ10選と、失敗しないコツをプロが解説。あなただけのオリジナルの香りを作る方法。',
@@ -16,7 +16,7 @@ const journalArticles = [
     },
     {
         id: 'lazy_sunday_morning_similar_perfumes',
-        date: '2026-04-15',
+        date: '2026-01-04',
         category: 'REVIEW',
         title: '【比較レビュー】レイジーサンデーモーニングに似てる香水4選｜清潔感系フレグランスを探す旅',
         excerpt: 'マルジェラのレイジーサンデーモーニングが好きな人へ。似た系統の清潔感ある香水4本を、実際に嗅ぎ比べて徹底比較。次の一本が見つかります。',
@@ -25,7 +25,7 @@ const journalArticles = [
     },
     {
         id: 'attractive_womens_perfume_picks',
-        date: '2026-04-15',
+        date: '2026-01-22',
         category: 'REVIEW',
         title: '【男性が振り返る香り】モテる女性の香水おすすめ5選｜2026年レディース香水ガイド',
         excerpt: '男性が思わず振り返る女性の香りとは？男性目線で「もう一度会いたい」と思わせるレディース香水おすすめ5選を、香りのプロが解説します。',
@@ -34,7 +34,7 @@ const journalArticles = [
     },
     {
         id: 'attractive_mens_perfume_ranking',
-        date: '2026-04-15',
+        date: '2026-01-01',
         category: 'RANKING',
         title: '【女性500人に聞いた】本当にモテるメンズ香水ランキングTOP5｜2026年最新版',
         excerpt: '女性が本当に「いい匂い」と思うメンズ香水はどれ？女性500人アンケートの結果から導いた、モテるメンズ香水ランキングTOP5を発表します。',
@@ -43,7 +43,7 @@ const journalArticles = [
     },
     {
         id: 'replica_perfume_all_types_guide',
-        date: '2026-04-15',
+        date: '2026-02-06',
         category: 'REVIEW',
         title: '【全種類レビュー】マルジェラ レプリカ香水おすすめガイド｜人気の秘密と各フレグランスの特徴',
         excerpt: 'Maison Margiela REPLICA（レプリカ）の全種類を徹底レビュー。各フレグランスの特徴・おすすめシーン・口コミ評価を比較。あなたにぴったりの一本が見つかります。',
@@ -52,7 +52,7 @@ const journalArticles = [
     },
     {
         id: 'byredo_perfume_ranking_popular',
-        date: '2026-04-15',
+        date: '2026-01-19',
         category: 'RANKING',
         title: '【2026年最新】BYREDO（バイレード）香水の人気ランキングTOP5｜ニッチ香水の最高峰',
         excerpt: 'BYREDO（バイレード）の香水、どれを選べば間違いない？日本での売上とSNS評価から導いた2026年最新の人気ランキングTOP5をプロが解説します。',
@@ -61,7 +61,7 @@ const journalArticles = [
     },
     {
         id: 'perfume_decant_sites_comparison',
-        date: '2026-04-15',
+        date: '2025-12-26',
         category: 'KNOWLEDGE',
         title: '【2026年版】香水の量り売り・小分け販売サイトおすすめ比較｜安心して買えるのはどこ？',
         excerpt: '香水の量り売り・小分け販売サイトを徹底比較。品質・価格・品揃え・信頼性の4軸で主要サイトを分析し、安心して買えるおすすめを紹介します。',
@@ -70,7 +70,7 @@ const journalArticles = [
     },
     {
         id: 'perfume_gift_guide_complete',
-        date: '2026-04-15',
+        date: '2025-12-29',
         category: 'LIFESTYLE',
         title: '【完全ガイド】香水をプレゼントする時の選び方｜男女別・年代別・予算別おすすめ',
         excerpt: '香水のプレゼント、喜ばれるか不安ですか？男女別・年代別・予算別に失敗しない選び方とおすすめ香水を、ギフトのプロが徹底解説します。',
@@ -79,7 +79,7 @@ const journalArticles = [
     },
     {
         id: 'mens_perfume_20s_ranking_2026',
-        date: '2026-04-15',
+        date: '2026-02-03',
         category: 'RANKING',
         title: '【2026年版】20代メンズにおすすめの香水ランキングTOP5｜モテと清潔感を両立する選び方',
         excerpt: '20代メンズが選ぶべき香水は？清潔感・コスパ・女性ウケを重視した2026年版おすすめランキングTOP5を、香水のプロが本音で解説します。',
@@ -88,7 +88,7 @@ const journalArticles = [
     },
     {
         id: 'maison_margiela_perfume_ranking_2026',
-        date: '2026-04-15',
+        date: '2026-02-15',
         category: 'RANKING',
         title: '【2026年最新】マルジェラ香水の人気ランキングTOP5｜レプリカシリーズを徹底比較',
         excerpt: 'Maison Margiela（メゾン マルジェラ）の香水、結局どれが人気？レプリカシリーズを中心に、売上・口コミ・リピート率から導いた2026年最新ランキングをプロが解説します。',
@@ -97,7 +97,7 @@ const journalArticles = [
     },
     {
         id: 'perfume_memory_proust_effect_brain',
-        date: '2026-04-15',
+        date: '2026-01-13',
         category: 'KNOWLEDGE',
         title: '【香水と記憶の科学】プルースト効果とは？脳科学が解き明かす「匂い」と「思い出」の関係',
         excerpt: 'ある匂いを嗅いだ瞬間、忘れていた記憶が鮮明に蘇る。この「プルースト効果」の正体を脳科学の視点から解説。香水を「記憶のタイムカプセル」として楽しむ方法も紹介します。',
@@ -106,7 +106,7 @@ const journalArticles = [
     },
     {
         id: 'perfume_bedtime_relaxation',
-        date: '2026-04-15',
+        date: '2026-01-16',
         category: 'LIFESTYLE',
         title: '【寝る前の香水】眠りの質が変わる？リラックス香水3選と安眠のための使い方',
         excerpt: '香水は「お出かけの時だけ」と思っていませんか？実は寝る前の香りが睡眠の質を劇的に変えることも。リラックス効果の高い香水3選と、安眠のための正しい使い方を紹介します。',
@@ -115,7 +115,7 @@ const journalArticles = [
     },
     {
         id: 'perfume_gift_women_30s',
-        date: '2026-04-15',
+        date: '2026-01-31',
         category: 'LIFESTYLE',
         title: '【30代女性に贈る香水ギフト】本当に喜ばれるプレゼント5選と選び方のコツ',
         excerpt: '30代女性への香水プレゼント、「失敗したくない」あなたへ。香りのプロが選ぶ喜ばれる5本と、絶対に外さない選び方のルールを伝授します。ギフトラッピング対応あり。',
@@ -124,7 +124,7 @@ const journalArticles = [
     },
     {
         id: 'musk_perfume_unisex_recommended',
-        date: '2026-04-15',
+        date: '2026-02-18',
         category: 'REVIEW',
         title: '【ムスク系香水おすすめ5選】男女で共有できるユニセックスムスクの世界',
         excerpt: 'ムスク系香水の魅力とおすすめ5選を紹介。「肌の匂い」と形容される柔らかいムスクから、モダンなスキンセントまで。男女で共有できるユニセックスムスクの世界を案内します。',
@@ -133,7 +133,7 @@ const journalArticles = [
     },
     {
         id: 'perfume_date_women_recommended',
-        date: '2026-04-15',
+        date: '2026-02-12',
         category: 'LIFESTYLE',
         title: '【2026年版】デートにおすすめの香水5選｜彼の記憶に残る女性の香り',
         excerpt: 'デートで好印象を残す女性の香水選び。「いい匂いだった」と記憶に刻まれる香り5選を、シーン別・距離感別に厳選。つけ方のコツも伝授します。',
@@ -142,7 +142,7 @@ const journalArticles = [
     },
     {
         id: 'jo_malone_blackberry_bay_review_autumn',
-        date: '2026-04-15',
+        date: '2026-02-27',
         category: 'REVIEW',
         title: '【Jo Malone ブラックベリー&ベイ レビュー】秋を纏う香水｜英国庭園のベリーとベイリーフの調和',
         excerpt: 'Jo Maloneブラックベリー&ベイを徹底レビュー。深く熟したブラックベリーとベイリーフが描く英国の秋。季節感のある香水をお探しの方に最適な、ナチュラルでエレガントな一本です。',
@@ -151,7 +151,7 @@ const journalArticles = [
     },
     {
         id: 'dior_hypnotic_poison_review_seductive',
-        date: '2026-04-15',
+        date: '2026-03-05',
         category: 'REVIEW',
         title: '【DIOR ヒプノティック プワゾン レビュー】毒という名の誘惑｜最もセクシーなディオールの傑作',
         excerpt: 'DIORヒプノティック プワゾンを徹底レビュー。アプリコットとバニラが描く禁断の甘さ。「毒」と名付けられた伝説的フレグランスが、なぜ四半世紀を経た今も人を虜にし続けるのかを解き明かします。',
@@ -160,7 +160,7 @@ const journalArticles = [
     },
     {
         id: 'le_labo_another_13_review_mystery',
-        date: '2026-04-15',
+        date: '2026-03-08',
         category: 'REVIEW',
         title: '【LE LABO アナザー13 レビュー】説明できない魅力｜ムスクの概念を覆す革新的フレグランス',
         excerpt: 'LE LABOアナザー13を徹底レビュー。アンブロキサンとジャスミンが作り出す「説明できないのに惹かれる」不思議な香り。なぜファッション業界人がこぞって愛用するのか、その秘密に迫ります。',
@@ -169,7 +169,7 @@ const journalArticles = [
     },
     {
         id: 'ysl_libre_review_strong_woman',
-        date: '2026-04-15',
+        date: '2026-03-11',
         category: 'REVIEW',
         title: '【YSL リブレ レビュー】自由を纏う女性のための香り｜ラベンダー×バニラの革命的フレグランス',
         excerpt: 'YSLリブレを徹底レビュー。ラベンダーとバニラという意外な組み合わせが生んだ「自由」の香り。なぜ世界中の女性がこの香水に共感するのか、その秘密を解き明かします。',
@@ -178,7 +178,7 @@ const journalArticles = [
     },
     {
         id: 'diptyque_orpheon_review_intellectual_woody',
-        date: '2026-04-15',
+        date: '2026-03-14',
         category: 'REVIEW',
         title: '【DIPTYQUE オルフェオン レビュー】知的な男のための香り｜60年代パリの劇場が生んだウッディの傑作',
         excerpt: 'DIPTYQUEオルフェオンを徹底レビュー。ジュニパーベリーとジャスミンが織りなす知的でセクシーなウッディフレグランス。60年代パリの劇場にインスパイアされた香りの魅力を紐解きます。',
@@ -187,7 +187,7 @@ const journalArticles = [
     },
     {
         id: 'hermes_un_jardin_sur_le_nil_review_exotic',
-        date: '2026-04-14',
+        date: '2026-03-17',
         category: 'REVIEW',
         title: '【旅する香水】エルメス"ナイルの庭"はなぜ人を虜にするのか？グリーンマンゴーが描くエキゾチックな水辺',
         excerpt: 'エルメス「ナイルの庭」が20年近く愛され続ける理由とは？グリーンマンゴーとロータスが描くエキゾチックな水辺の世界を、香りのプロが徹底レビューします。',
@@ -196,7 +196,7 @@ const journalArticles = [
     },
     {
         id: 'dolce_gabbana_light_blue_review_summer_citrus',
-        date: '2026-04-14',
+        date: '2026-03-20',
         category: 'REVIEW',
         title: '【夏の定番】ドルチェ＆ガッバーナ ライトブルーが20年以上愛され続ける理由。地中海の風を纏う爽快シトラス',
         excerpt: '発売から20年以上、夏の定番として不動の人気を誇るD&Gライトブルー。シチリアンレモンが描く地中海の爽快感と、愛され続ける3つの理由を徹底レビューします。',
@@ -205,7 +205,7 @@ const journalArticles = [
     },
     {
         id: 'loewe_001_woman_review_woody_floral',
-        date: '2026-04-14',
+        date: '2026-03-23',
         category: 'REVIEW',
         title: '【LOEWEの隠れた名香】001ウーマンはなぜ"彼女の香り"と呼ばれるのか？甘く柔らかいウッディフローラルの魅力',
         excerpt: 'LOEWEの001ウーマンが「彼女の香り」と愛される理由とは？ベルガモット×サンダルウッド×バニラが描く、甘く柔らかいウッディフローラルの魅力を徹底レビューします。',
@@ -214,7 +214,7 @@ const journalArticles = [
     },
     {
         id: 'eau_de_toilette_vs_eau_de_parfum_guide',
-        date: '2026-03-13',
+        date: '2026-01-28',
         category: 'KNOWLEDGE',
         title: '【一発で解決】オードトワレとオードパルファムの違い｜濃度・持続時間・選び方を完全比較',
         excerpt: 'EDT（オードトワレ）とEDP（オードパルファム）の違いを一発で解決。濃度・持続時間・価格の比較と、あなたに合うのはどちらかを診断します。',
@@ -223,7 +223,7 @@ const journalArticles = [
     },
     {
         id: 'office_perfume_etiquette_guide',
-        date: '2026-03-17',
+        date: '2026-02-09',
         category: 'KNOWLEDGE',
         title: '【完全ガイド】職場での香水マナー｜オフィスで好印象を与える香りの選び方とNGライン',
         excerpt: '職場に香水をつけていくのはマナー違反？OKとNGの境界線を明確にし、オフィスで好印象を与える香りの選び方・つけ方を解説します。',
@@ -232,7 +232,7 @@ const journalArticles = [
     },
     {
         id: 'summer_refreshing_perfume_2026',
-        date: '2026-03-21',
+        date: '2026-01-07',
         category: 'TREND',
         title: '【2026年夏】爽やかな香水おすすめ8選｜暑い日でも好印象を保つ香りの選び方',
         excerpt: '夏こそ香水の出番。汗と混ざっても爽やかさを保つ、夏に最適な香水を8本厳選。シトラス・マリン・グリーンティーなど、涼感を演出する香りの選び方も。',
@@ -241,7 +241,7 @@ const journalArticles = [
     },
     {
         id: 'woody_mens_fragrance_popular_picks',
-        date: '2026-03-25',
+        date: '2026-03-26',
         category: 'REVIEW',
         title: '【大人の色気】ウッディ系メンズ香水おすすめ6選｜木の温もりが演出する知的なセクシーさ',
         excerpt: 'ウッディ系香水は「大人の男」の代名詞。サンダルウッド、シダーウッド、ベチバーなど木の香りが持つ魅力と、メンズ人気の6本を香りのプロが厳選。',
@@ -250,7 +250,7 @@ const journalArticles = [
     },
     {
         id: 'perfume_too_much_how_to_fix',
-        date: '2026-03-28',
+        date: '2026-01-10',
         category: 'HOW TO',
         title: '【緊急対応】香水をつけすぎた！すぐにできる5つの対処法と予防テクニック',
         excerpt: '香水をつけすぎた…そんな時に焦らず対処できる方法を5つ紹介。出先でもできる応急処置と、二度と繰り返さないための予防テクニックも解説。',
@@ -259,7 +259,7 @@ const journalArticles = [
     },
     {
         id: 'floral_perfume_women_recommended_2026',
-        date: '2026-04-01',
+        date: '2026-03-29',
         category: 'REVIEW',
         title: '【2026年版】フローラル系香水おすすめ7選｜甘すぎない大人のフローラルを厳選',
         excerpt: 'フローラル系香水は「甘すぎてちょっと…」と思っていませんか？大人の女性にこそ似合う、洗練されたフローラルフレグランスを7本厳選しました。',
@@ -268,7 +268,7 @@ const journalArticles = [
     },
     {
         id: 'perfume_storage_tips_prevent_deterioration',
-        date: '2026-04-04',
+        date: '2026-02-21',
         category: 'KNOWLEDGE',
         title: '【プロ直伝】香水の正しい保管方法5選｜劣化を防いで香りを長持ちさせるコツ',
         excerpt: 'お気に入りの香水、正しく保管できていますか？光・温度・湿度が香りに与える影響と、プロが実践する5つの保管テクニックを解説します。',
@@ -277,7 +277,7 @@ const journalArticles = [
     },
     {
         id: 'niche_perfume_brands_recommended',
-        date: '2026-04-07',
+        date: '2026-04-01',
         category: 'REVIEW',
         title: '【脱・定番】ニッチ香水ブランドおすすめ5選｜被らない香りで差をつける',
         excerpt: '人と被らない香りを探しているあなたへ。BYREDO、DIPTYQUE、LE LABOなど、知る人ぞ知るニッチフレグランスブランドの魅力と代表作をプロが厳選紹介。',
@@ -286,7 +286,7 @@ const journalArticles = [
     },
     {
         id: 'fragrance_notes_top_middle_base_guide',
-        date: '2026-04-10',
+        date: '2026-03-02',
         category: 'KNOWLEDGE',
         title: '【保存版】香水のトップ・ミドル・ラストノートとは？香りの三層構造をわかりやすく解説',
         excerpt: '香水の「トップノート」「ミドルノート」「ラストノート」って何？香りが時間とともに変化する仕組みを、初心者でもわかるように図解で解説します。',
@@ -295,7 +295,7 @@ const journalArticles = [
     },
     {
         id: 'mens_fragrance_30s_attractive',
-        date: '2026-04-12',
+        date: '2026-02-24',
         category: 'LIFESTYLE',
         title: '【30代メンズ必見】本当にモテる香水の選び方とは？女性が思わず振り返る3つの香り',
         excerpt: '30代男性が本当にモテるための香水選びのコツとは？「いい匂い」と思わせる距離感と、女性ウケ抜群のおすすめ香水を香りのプロが厳選して紹介します。',
@@ -304,7 +304,7 @@ const journalArticles = [
     },
     {
         id: 'perfume_vending_machine_trend',
-        date: '2026-03-04',
+        date: '2026-01-25',
         category: 'TREND',
         title: '話題の「香水自販機」って？ワンプッシュから手軽に試せる新しい香水の選び方',
         excerpt: 'SNSで話題沸騰中の「香水自動販売機」。ワンプッシュから手軽に試せるトレンドと、失敗しない香水の選び方をご紹介します。',
@@ -313,7 +313,7 @@ const journalArticles = [
     },
     {
         id: 'nonfiction_gentle_night_review',
-        date: '2026-03-04',
+        date: '2026-04-04',
         category: 'REVIEW',
         title: 'NONFICTION「GENTLE NIGHT」レビュー：穏やかな夜に寄り添うスエードとシダーウッドの香り',
         excerpt: '甘く柔らかなスエードと落ち着いたシダーウッドが絶妙に絡み合う、NONFICTIONのシグネチャー「GENTLE NIGHT」の魅力に迫ります。',
@@ -322,7 +322,7 @@ const journalArticles = [
     },
     {
         id: 'byredo_gypsy_water_review',
-        date: '2026-01-21',
+        date: '2026-04-07',
         category: 'REVIEW',
         title: '【神秘の香り】バイレード「ジプシーウォーター」はなぜ人々を魅了するのか？甘くないバニラが描く自由な魂',
         excerpt: '【神秘の香り】BYREDO(バイレード)の一番人気「GYPSY WATER(ジプシーウォーター)」。甘くないバニラとウッディが織りなす、神秘的でジェンダーレスな香りの魅力を徹底レビュー。',
@@ -331,7 +331,7 @@ const journalArticles = [
     },
     {
         id: 'diptyque_tam_dao_review',
-        date: '2026-01-20',
+        date: '2026-04-10',
         category: 'REVIEW',
         title: '【冬のメンズ香水決定版】ディプティック「タムダオ」のウッドが深く香る理由',
         excerpt: '【冬のメンズ香水決定版】Diptyque(ディプティック)の傑作「TAM DAO(タムダオ)」。なぜ冬に選ばれるのか？ウッド系の深みとスパイスの温もりが演出する大人の色気を徹底レビュー。',

@@ -6,6 +6,96 @@
  */
 const journalArticles = [
     {
+        id: 'perfume_memory_proust_effect_brain',
+        date: '2026-04-15',
+        category: 'KNOWLEDGE',
+        title: '【香水と記憶の科学】プルースト効果とは？脳科学が解き明かす「匂い」と「思い出」の関係',
+        excerpt: 'ある匂いを嗅いだ瞬間、忘れていた記憶が鮮明に蘇る。この「プルースト効果」の正体を脳科学の視点から解説。香水を「記憶のタイムカプセル」として楽しむ方法も紹介します。',
+        image: 'assets/images/journal/perfume-memory-proust-effect-brain.png',
+        link: 'article-perfume-memory-proust-effect-brain.html'
+    },
+    {
+        id: 'perfume_bedtime_relaxation',
+        date: '2026-04-15',
+        category: 'LIFESTYLE',
+        title: '【寝る前の香水】眠りの質が変わる？リラックス香水3選と安眠のための使い方',
+        excerpt: '香水は「お出かけの時だけ」と思っていませんか？実は寝る前の香りが睡眠の質を劇的に変えることも。リラックス効果の高い香水3選と、安眠のための正しい使い方を紹介します。',
+        image: 'assets/images/journal/perfume-bedtime-relaxation.png',
+        link: 'article-perfume-bedtime-relaxation.html'
+    },
+    {
+        id: 'perfume_gift_women_30s',
+        date: '2026-04-15',
+        category: 'LIFESTYLE',
+        title: '【30代女性に贈る香水ギフト】本当に喜ばれるプレゼント5選と選び方のコツ',
+        excerpt: '30代女性への香水プレゼント、「失敗したくない」あなたへ。香りのプロが選ぶ喜ばれる5本と、絶対に外さない選び方のルールを伝授します。ギフトラッピング対応あり。',
+        image: 'assets/images/journal/perfume-gift-women-30s.png',
+        link: 'article-perfume-gift-women-30s.html'
+    },
+    {
+        id: 'musk_perfume_unisex_recommended',
+        date: '2026-04-15',
+        category: 'REVIEW',
+        title: '【ムスク系香水おすすめ5選】男女で共有できるユニセックスムスクの世界',
+        excerpt: 'ムスク系香水の魅力とおすすめ5選を紹介。「肌の匂い」と形容される柔らかいムスクから、モダンなスキンセントまで。男女で共有できるユニセックスムスクの世界を案内します。',
+        image: 'assets/images/journal/musk-perfume-unisex-recommended.png',
+        link: 'article-musk-perfume-unisex-recommended.html'
+    },
+    {
+        id: 'perfume_date_women_recommended',
+        date: '2026-04-15',
+        category: 'LIFESTYLE',
+        title: '【2026年版】デートにおすすめの香水5選｜彼の記憶に残る女性の香り',
+        excerpt: 'デートで好印象を残す女性の香水選び。「いい匂いだった」と記憶に刻まれる香り5選を、シーン別・距離感別に厳選。つけ方のコツも伝授します。',
+        image: 'assets/images/journal/perfume-date-women-recommended.png',
+        link: 'article-perfume-date-women-recommended.html'
+    },
+    {
+        id: 'jo_malone_blackberry_bay_review_autumn',
+        date: '2026-04-15',
+        category: 'REVIEW',
+        title: '【Jo Malone ブラックベリー&ベイ レビュー】秋を纏う香水｜英国庭園のベリーとベイリーフの調和',
+        excerpt: 'Jo Maloneブラックベリー&ベイを徹底レビュー。深く熟したブラックベリーとベイリーフが描く英国の秋。季節感のある香水をお探しの方に最適な、ナチュラルでエレガントな一本です。',
+        image: 'assets/images/journal/jo-malone-blackberry-bay-review-autumn.png',
+        link: 'article-jo-malone-blackberry-bay-review-autumn.html'
+    },
+    {
+        id: 'dior_hypnotic_poison_review_seductive',
+        date: '2026-04-15',
+        category: 'REVIEW',
+        title: '【DIOR ヒプノティック プワゾン レビュー】毒という名の誘惑｜最もセクシーなディオールの傑作',
+        excerpt: 'DIORヒプノティック プワゾンを徹底レビュー。アプリコットとバニラが描く禁断の甘さ。「毒」と名付けられた伝説的フレグランスが、なぜ四半世紀を経た今も人を虜にし続けるのかを解き明かします。',
+        image: 'assets/images/journal/dior-hypnotic-poison-review-seductive.png',
+        link: 'article-dior-hypnotic-poison-review-seductive.html'
+    },
+    {
+        id: 'le_labo_another_13_review_mystery',
+        date: '2026-04-15',
+        category: 'REVIEW',
+        title: '【LE LABO アナザー13 レビュー】説明できない魅力｜ムスクの概念を覆す革新的フレグランス',
+        excerpt: 'LE LABOアナザー13を徹底レビュー。アンブロキサンとジャスミンが作り出す「説明できないのに惹かれる」不思議な香り。なぜファッション業界人がこぞって愛用するのか、その秘密に迫ります。',
+        image: 'assets/images/journal/le-labo-another-13-review-mystery.png',
+        link: 'article-le-labo-another-13-review-mystery.html'
+    },
+    {
+        id: 'ysl_libre_review_strong_woman',
+        date: '2026-04-15',
+        category: 'REVIEW',
+        title: '【YSL リブレ レビュー】自由を纏う女性のための香り｜ラベンダー×バニラの革命的フレグランス',
+        excerpt: 'YSLリブレを徹底レビュー。ラベンダーとバニラという意外な組み合わせが生んだ「自由」の香り。なぜ世界中の女性がこの香水に共感するのか、その秘密を解き明かします。',
+        image: 'assets/images/journal/ysl-libre-review-strong-woman.png',
+        link: 'article-ysl-libre-review-strong-woman.html'
+    },
+    {
+        id: 'diptyque_orpheon_review_intellectual_woody',
+        date: '2026-04-15',
+        category: 'REVIEW',
+        title: '【DIPTYQUE オルフェオン レビュー】知的な男のための香り｜60年代パリの劇場が生んだウッディの傑作',
+        excerpt: 'DIPTYQUEオルフェオンを徹底レビュー。ジュニパーベリーとジャスミンが織りなす知的でセクシーなウッディフレグランス。60年代パリの劇場にインスパイアされた香りの魅力を紐解きます。',
+        image: 'assets/images/journal/diptyque-orpheon-review-intellectual-woody.png',
+        link: 'article-diptyque-orpheon-review-intellectual-woody.html'
+    },
+    {
         id: 'hermes_un_jardin_sur_le_nil_review_exotic',
         date: '2026-04-14',
         category: 'REVIEW',

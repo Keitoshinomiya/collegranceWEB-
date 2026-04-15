@@ -77,6 +77,18 @@
       <link rel="stylesheet" href="assets/css/header.css">
   <style>
     :root{--text:#1a1a1a;--sub:#666;--light:#999;--bg:#fff;--border:#e8e8e8;--header-h:64px}
+    .product-card-inline{display:flex;gap:14px;align-items:center;background:#faf9f7;border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin:16px 0}
+    .product-card-inline img{width:56px;height:70px;object-fit:cover;border-radius:3px;flex-shrink:0}
+    .product-card-inline .pci-info{flex:1}
+    .product-card-inline .pci-brand{font-size:.5rem;color:var(--light);letter-spacing:.08em}
+    .product-card-inline .pci-name{font-size:.7rem;font-weight:500;color:var(--text);margin:2px 0 4px}
+    .product-card-inline .pci-price{font-size:.58rem;color:var(--sub);margin-bottom:6px}
+    .product-card-inline .pci-btns{display:flex;gap:8px;flex-wrap:wrap}
+    .product-card-inline .pci-btns a{font-size:.52rem;padding:5px 12px;border-radius:3px;text-decoration:none;letter-spacing:.04em;transition:opacity .2s}
+    .product-card-inline .pci-btn-shop{background:var(--text);color:#fff}
+    .product-card-inline .pci-btn-sample{background:transparent;border:1px solid var(--border);color:var(--sub)}
+    .product-card-inline .pci-btns a:hover{opacity:.7}
+    @media(max-width:767px){.product-card-inline{flex-direction:column;align-items:start;gap:10px}.product-card-inline img{width:100%;height:140px;border-radius:4px}}
   </style>
     <link rel="stylesheet" href="assets/css/footer.css">
 </head>
@@ -207,6 +219,20 @@
         <p>そんな冬の空気に、ふわりと知的な温もりを添えてくれる香りをお探しではないでしょうか？ 甘すぎるバニラやムスクではなく、もっと静かで、芯のある香り。今回は、そんな大人の男性にこそ選んでほしい、ディプティックの傑作「TAM DAO（タムダオ）」をご紹介します。</p>
 
         <img src="assets/images/diptyque-tam-dao.jpg" alt="Diptyque Tam Dao" class="article-image">
+
+            <div class="product-card-inline">
+  <img src="assets/images/fullbottle/product_19.jpg" alt="DIPTYQUE タムダオ">
+  <div class="pci-info">
+    <div class="pci-brand">DIPTYQUE</div>
+    <div class="pci-name">タムダオ</div>
+    <div class="pci-price">フルボトル ¥22,690 / 小分け ¥1,100</div>
+    <div class="pci-btns">
+      <a href="/?product=19" class="pci-btn-shop">ショップで見る</a>
+      <a href="https://www.amazon.co.jp/dp/B0FSKM6THP?th=1&psc=1" target="_blank" rel="noopener" class="pci-btn-sample">小分けで試す ¥1,100</a>
+    </div>
+  </div>
+</div>
+
         <h2>記憶の奥底に触れる、神聖な森の香り</h2>
         <p>ディプティックの中でも不動の人気を誇る「タムダオ」。そのインスピレーションの源は、創業者の一人が幼少期を過ごしたインドシナの神聖な森にあります。寺院で焚かれるサンダルウッド、湿り気を帯びた木々の息吹。それは単なるファッションとしての香水を超え、纏う人の「記憶」や「物語」に訴えかける深みを持っています。</p>
 

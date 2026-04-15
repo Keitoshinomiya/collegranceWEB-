@@ -25,6 +25,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
+  <!-- Preconnect: Stripe & Netlify Functions -->
+  <link rel="preconnect" href="https://js.stripe.com">
+  <link rel="preconnect" href="https://api.stripe.com">
+  <link rel="dns-prefetch" href="https://checkout.stripe.com">
+
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
 
@@ -49,7 +54,7 @@
 
   <!-- Stripe -->
   <script src="/assets/js/articles.js?v=20260415c" defer></script>
-  <script src="https://js.stripe.com/v3/"></script>
+  <script src="https://js.stripe.com/v3/" async></script>
 
   <style>
     :root {

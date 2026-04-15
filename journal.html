@@ -65,7 +65,7 @@
     <style>
         /* Journal Page Specific Styles */
         .page-header {
-            padding: 180px 0 60px;
+            padding: 180px 0 40px;
             text-align: center;
             background-color: #fafafa;
         }
@@ -77,6 +77,38 @@
         }
         .page-header .section-subtitle {
             margin-bottom: 0;
+        }
+
+        /* ヒーロー記事 */
+        .jh-hero{margin:32px 0;border-radius:6px;overflow:hidden;position:relative}
+        .jh-hero a{display:block;text-decoration:none;color:inherit}
+        .jh-hero-img{width:100%;height:360px;object-fit:cover;display:block}
+        .jh-hero-overlay{position:absolute;bottom:0;left:0;right:0;padding:32px 28px;background:linear-gradient(transparent,rgba(0,0,0,.7))}
+        .jh-hero-cat{display:inline-block;font-size:.46rem;letter-spacing:.1em;color:#fff;background:rgba(255,255,255,.25);padding:3px 10px;border-radius:2px;margin-bottom:8px;backdrop-filter:blur(4px)}
+        .jh-hero-title{font-size:1.1rem;font-weight:500;color:#fff;line-height:1.6;margin-bottom:6px}
+        .jh-hero-excerpt{font-size:.58rem;color:rgba(255,255,255,.8);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+        /* PICK UP */
+        .jh-section-label{font-size:.5rem;letter-spacing:.15em;color:#999;margin-bottom:16px;font-weight:500}
+        .jh-picks{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px}
+        .jh-pick{text-decoration:none;color:inherit;border-radius:4px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+        .jh-pick:hover{transform:translateY(-3px);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+        .jh-pick-img{width:100%;height:140px;object-fit:cover;display:block}
+        .jh-pick-body{padding:12px 14px}
+        .jh-pick-cat{font-size:.42rem;letter-spacing:.1em;color:#999;margin-bottom:4px}
+        .jh-pick-title{font-size:.62rem;font-weight:500;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+        /* セクション区切り */
+        .jh-divider{border:none;border-top:1px solid #e8e8e8;margin:0 0 24px}
+        .jh-all-label{font-size:.5rem;letter-spacing:.15em;color:#999;margin-bottom:8px;font-weight:500}
+
+        @media(max-width:767px){
+            .jh-hero-img{height:220px}
+            .jh-hero-overlay{padding:20px 16px}
+            .jh-hero-title{font-size:.82rem}
+            .jh-picks{grid-template-columns:1fr;gap:12px}
+            .jh-pick{display:flex;gap:12px}
+            .jh-pick-img{width:100px;height:80px;flex-shrink:0}
         }
 
         /* 検索バー */
@@ -331,8 +363,19 @@
     </div>
 
     <div class="container journal-content-area">
+        <!-- ヒーロー記事（最新1本） -->
+        <div class="jh-hero" id="jh-hero"></div>
+
+        <!-- PICK UP（おすすめ3本） -->
+        <div class="jh-section-label">PICK UP</div>
+        <div class="jh-picks" id="jh-picks"></div>
+
+        <!-- 区切り -->
+        <hr class="jh-divider">
+        <div class="jh-all-label">ALL ARTICLES</div>
+
         <!-- 検索バー -->
-        <div class="journal-search-wrap" style="margin-top:24px; margin-bottom:16px;">
+        <div class="journal-search-wrap" style="margin-bottom:16px;">
             <input type="text" id="journal-search" placeholder="記事を検索...">
         </div>
 
@@ -668,6 +711,43 @@ function toggleMobileNav(){
 
   var allArticles = journalArticles.slice().sort(function(a,b){ return b.date.localeCompare(a.date); });
   var currentCat = 'ALL';
+
+  /* ヒーロー記事（最新1本） */
+  var heroArticle = allArticles[0];
+  var heroEl = document.getElementById('jh-hero');
+  if(heroEl && heroArticle){
+    heroEl.innerHTML = '<a href="' + heroArticle.link + '">' +
+      '<img class="jh-hero-img" src="' + heroArticle.image + '" alt="">' +
+      '<div class="jh-hero-overlay">' +
+        '<div class="jh-hero-cat">' + heroArticle.category + '</div>' +
+        '<div class="jh-hero-title">' + heroArticle.title + '</div>' +
+        '<div class="jh-hero-excerpt">' + heroArticle.excerpt + '</div>' +
+      '</div>' +
+    '</a>';
+  }
+
+  /* PICK UP（2〜4番目の記事、カテゴリが被らないように） */
+  var picks = [];
+  var usedCats = {};
+  for(var i = 1; i < allArticles.length && picks.length < 3; i++){
+    var cat = allArticles[i].category;
+    if(!usedCats[cat]){
+      picks.push(allArticles[i]);
+      usedCats[cat] = true;
+    }
+  }
+  var picksEl = document.getElementById('jh-picks');
+  if(picksEl){
+    picksEl.innerHTML = picks.map(function(a){
+      return '<a href="' + a.link + '" class="jh-pick">' +
+        '<img class="jh-pick-img" src="' + a.image + '" alt="" loading="lazy">' +
+        '<div class="jh-pick-body">' +
+          '<div class="jh-pick-cat">' + a.category + '</div>' +
+          '<div class="jh-pick-title">' + a.title + '</div>' +
+        '</div>' +
+      '</a>';
+    }).join('');
+  }
 
   function renderArticles(){
     var filtered = currentCat === 'ALL' ? allArticles : allArticles.filter(function(a){ return a.category === currentCat; });

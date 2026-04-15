@@ -6,6 +6,96 @@
  */
 const journalArticles = [
     {
+        id: 'jo_malone_combining_guide',
+        date: '2026-04-15',
+        category: 'HOW TO',
+        title: '【プロ直伝】ジョーマローン香水の組み合わせガイド｜人気レイヤリング10選',
+        excerpt: 'Jo Maloneの魅力はレイヤリング（重ねづけ）。人気の組み合わせ10選と、失敗しないコツをプロが解説。あなただけのオリジナルの香りを作る方法。',
+        image: 'assets/images/journal/jo-malone-combining-guide.png',
+        link: 'article-jo-malone-combining-guide.html'
+    },
+    {
+        id: 'lazy_sunday_morning_similar_perfumes',
+        date: '2026-04-15',
+        category: 'REVIEW',
+        title: '【比較レビュー】レイジーサンデーモーニングに似てる香水4選｜清潔感系フレグランスを探す旅',
+        excerpt: 'マルジェラのレイジーサンデーモーニングが好きな人へ。似た系統の清潔感ある香水4本を、実際に嗅ぎ比べて徹底比較。次の一本が見つかります。',
+        image: 'assets/images/journal/lazy-sunday-morning-similar-perfumes.png',
+        link: 'article-lazy-sunday-morning-similar-perfumes.html'
+    },
+    {
+        id: 'attractive_womens_perfume_picks',
+        date: '2026-04-15',
+        category: 'REVIEW',
+        title: '【男性が振り返る香り】モテる女性の香水おすすめ5選｜2026年レディース香水ガイド',
+        excerpt: '男性が思わず振り返る女性の香りとは？男性目線で「もう一度会いたい」と思わせるレディース香水おすすめ5選を、香りのプロが解説します。',
+        image: 'assets/images/journal/attractive-womens-perfume-picks.png',
+        link: 'article-attractive-womens-perfume-picks.html'
+    },
+    {
+        id: 'attractive_mens_perfume_ranking',
+        date: '2026-04-15',
+        category: 'RANKING',
+        title: '【女性500人に聞いた】本当にモテるメンズ香水ランキングTOP5｜2026年最新版',
+        excerpt: '女性が本当に「いい匂い」と思うメンズ香水はどれ？女性500人アンケートの結果から導いた、モテるメンズ香水ランキングTOP5を発表します。',
+        image: 'assets/images/journal/attractive-mens-perfume-ranking.png',
+        link: 'article-attractive-mens-perfume-ranking.html'
+    },
+    {
+        id: 'replica_perfume_all_types_guide',
+        date: '2026-04-15',
+        category: 'REVIEW',
+        title: '【全種類レビュー】マルジェラ レプリカ香水おすすめガイド｜人気の秘密と各フレグランスの特徴',
+        excerpt: 'Maison Margiela REPLICA（レプリカ）の全種類を徹底レビュー。各フレグランスの特徴・おすすめシーン・口コミ評価を比較。あなたにぴったりの一本が見つかります。',
+        image: 'assets/images/journal/replica-perfume-all-types-guide.png',
+        link: 'article-replica-perfume-all-types-guide.html'
+    },
+    {
+        id: 'byredo_perfume_ranking_popular',
+        date: '2026-04-15',
+        category: 'RANKING',
+        title: '【2026年最新】BYREDO（バイレード）香水の人気ランキングTOP5｜ニッチ香水の最高峰',
+        excerpt: 'BYREDO（バイレード）の香水、どれを選べば間違いない？日本での売上とSNS評価から導いた2026年最新の人気ランキングTOP5をプロが解説します。',
+        image: 'assets/images/journal/byredo-perfume-ranking-popular.png',
+        link: 'article-byredo-perfume-ranking-popular.html'
+    },
+    {
+        id: 'perfume_decant_sites_comparison',
+        date: '2026-04-15',
+        category: 'KNOWLEDGE',
+        title: '【2026年版】香水の量り売り・小分け販売サイトおすすめ比較｜安心して買えるのはどこ？',
+        excerpt: '香水の量り売り・小分け販売サイトを徹底比較。品質・価格・品揃え・信頼性の4軸で主要サイトを分析し、安心して買えるおすすめを紹介します。',
+        image: 'assets/images/journal/perfume-decant-sites-comparison.png',
+        link: 'article-perfume-decant-sites-comparison.html'
+    },
+    {
+        id: 'perfume_gift_guide_complete',
+        date: '2026-04-15',
+        category: 'LIFESTYLE',
+        title: '【完全ガイド】香水をプレゼントする時の選び方｜男女別・年代別・予算別おすすめ',
+        excerpt: '香水のプレゼント、喜ばれるか不安ですか？男女別・年代別・予算別に失敗しない選び方とおすすめ香水を、ギフトのプロが徹底解説します。',
+        image: 'assets/images/journal/perfume-gift-guide-complete.png',
+        link: 'article-perfume-gift-guide-complete.html'
+    },
+    {
+        id: 'mens_perfume_20s_ranking_2026',
+        date: '2026-04-15',
+        category: 'RANKING',
+        title: '【2026年版】20代メンズにおすすめの香水ランキングTOP5｜モテと清潔感を両立する選び方',
+        excerpt: '20代メンズが選ぶべき香水は？清潔感・コスパ・女性ウケを重視した2026年版おすすめランキングTOP5を、香水のプロが本音で解説します。',
+        image: 'assets/images/journal/mens-perfume-20s-ranking-2026.png',
+        link: 'article-mens-perfume-20s-ranking-2026.html'
+    },
+    {
+        id: 'maison_margiela_perfume_ranking_2026',
+        date: '2026-04-15',
+        category: 'RANKING',
+        title: '【2026年最新】マルジェラ香水の人気ランキングTOP5｜レプリカシリーズを徹底比較',
+        excerpt: 'Maison Margiela（メゾン マルジェラ）の香水、結局どれが人気？レプリカシリーズを中心に、売上・口コミ・リピート率から導いた2026年最新ランキングをプロが解説します。',
+        image: 'assets/images/journal/maison-margiela-perfume-ranking-2026.png',
+        link: 'article-maison-margiela-perfume-ranking-2026.html'
+    },
+    {
         id: 'perfume_memory_proust_effect_brain',
         date: '2026-04-15',
         category: 'KNOWLEDGE',

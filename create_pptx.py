@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""COLLEGRANCE 事業全体像 PowerPoint 生成スクリプト（16スライド版・完全最終版）"""
+"""COLLEGRANCE 事業全体像 PowerPoint 生成スクリプト（20スライド版・v2）"""
 
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
@@ -28,7 +28,7 @@ COLOR_PURPLE = RGBColor(0x7B, 0x1F, 0xA2)
 COLOR_TEAL = RGBColor(0x00, 0x89, 0x7B)
 COLOR_MELL_GRAY = RGBColor(0x88, 0x88, 0x88)
 FONT_NAME = "Meiryo"
-TOTAL_SLIDES = 16
+TOTAL_SLIDES = 20
 
 prs = Presentation()
 prs.slide_width = SLIDE_WIDTH
@@ -188,6 +188,25 @@ def add_table(slide, left, top, width, height, rows, cols, data, col_widths=None
                 cell.fill.solid()
                 cell.fill.fore_color.rgb = COLOR_WHITE if r % 2 == 1 else COLOR_LIGHT_BG
     return table_shape
+
+
+def add_oval(slide, left, top, width, height, fill_color, text="",
+             font_size=14, font_color=COLOR_WHITE, bold=True):
+    """楕円を追加"""
+    shape = slide.shapes.add_shape(MSO_SHAPE.OVAL, left, top, width, height)
+    shape.fill.solid()
+    shape.fill.fore_color.rgb = fill_color
+    shape.line.fill.background()
+    tf = shape.text_frame
+    tf.word_wrap = True
+    tf.paragraphs[0].alignment = PP_ALIGN.CENTER
+    if text:
+        tf.paragraphs[0].text = text
+        tf.paragraphs[0].font.size = Pt(font_size)
+        tf.paragraphs[0].font.color.rgb = font_color
+        tf.paragraphs[0].font.bold = bold
+        tf.paragraphs[0].font.name = FONT_NAME
+    return shape
 
 
 # ══════════════════════════════════════════════════════════════
@@ -484,9 +503,188 @@ def slide_03_business_model():
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド4: 競合分析
+# スライド4: ビジネスの統合方程式（新規）
 # ══════════════════════════════════════════════════════════════
-def slide_04_competitor():
+def slide_04_business_equation():
+    slide = prs.slides.add_slide(blank_layout)
+    add_section_title(slide, "ビジネスの方程式", "全体像を1つの式で理解する")
+
+    # ── STEP 1 ──
+    add_textbox(slide, Inches(0.8), Inches(1.3), Inches(11), Inches(0.4),
+                "STEP 1: 全体の利益方程式", font_size=18, bold=True, color=COLOR_GREEN)
+
+    # メインの方程式ボックス
+    add_rect(slide, Inches(0.8), Inches(1.8), Inches(11.5), Inches(0.6), COLOR_LIGHT_BG,
+             font_size=20, font_color=COLOR_BLACK, bold=True)
+    shape = slide.shapes[-1]
+    tf = shape.text_frame
+    tf.paragraphs[0].text = "総利益 = 直接販売利益 + LINE経由利益 - 固定費"
+    tf.paragraphs[0].font.size = Pt(22)
+    tf.paragraphs[0].font.bold = True
+    tf.paragraphs[0].font.color.rgb = COLOR_BLACK
+    tf.paragraphs[0].font.name = FONT_NAME
+    tf.paragraphs[0].alignment = PP_ALIGN.CENTER
+
+    # 直接販売の内訳（黒系ボックス）
+    add_rect(slide, Inches(0.8), Inches(2.6), Inches(5.5), Inches(0.5), COLOR_BLACK,
+             text="直接販売利益 = 各チャネル注文数 x チャネル別粗利", font_size=13,
+             font_color=COLOR_WHITE, bold=True)
+
+    # LINE経由の内訳（緑系ボックス）
+    add_rect(slide, Inches(6.5), Inches(2.6), Inches(5.8), Inches(0.5), COLOR_GREEN_DARK,
+             text="LINE経由利益 = 全注文 x くじ参加率 x LTV x LINE利益率", font_size=13,
+             font_color=COLOR_WHITE, bold=True)
+
+    # LINE経由の説明
+    add_rect(slide, Inches(6.5), Inches(3.2), Inches(5.8), Inches(0.4), COLOR_GREEN_LIGHT,
+             text="LINE経由は広告費ゼロ・モール手数料ゼロ → 利益率が2〜3倍", font_size=12,
+             font_color=COLOR_GREEN_DARK, bold=True)
+
+    # ── STEP 2 ──
+    add_textbox(slide, Inches(0.8), Inches(3.9), Inches(11), Inches(0.4),
+                "STEP 2: 展開すると", font_size=18, bold=True, color=COLOR_GREEN)
+
+    # 各チャネルの方程式
+    channels_eq = [
+        ("Amazon", "注文 x ¥554 - 広告費", COLOR_BLACK, "¥554/個"),
+        ("TikTok", "注文 x ¥360（広告費ほぼゼロ）", COLOR_BLUE, "¥360/個"),
+        ("メルカリ", "注文 x ¥315", COLOR_PURPLE, "¥315/個"),
+    ]
+
+    eq_y = Inches(4.4)
+    for i, (ch_name, formula, color, margin) in enumerate(channels_eq):
+        x = Inches(0.8) + i * Inches(3.8)
+        add_rect(slide, x, eq_y, Inches(3.5), Inches(0.45), color,
+                 text=f"{ch_name}: {margin}", font_size=12, font_color=COLOR_WHITE, bold=True)
+        add_textbox(slide, x, eq_y + Inches(0.5), Inches(3.5), Inches(0.3),
+                    formula, font_size=10, color=COLOR_BODY, alignment=PP_ALIGN.CENTER)
+
+    # LINE経由
+    add_rect(slide, Inches(0.8), Inches(5.3), Inches(7.0), Inches(0.5), COLOR_GREEN,
+             text="LINE経由: 全注文 x くじ参加率 x ¥1,670 x 45%", font_size=14,
+             font_color=COLOR_WHITE, bold=True)
+
+    # ナイトライト
+    add_rect(slide, Inches(8.0), Inches(5.3), Inches(4.3), Inches(0.5), COLOR_ORANGE,
+             text="ナイトライト: ¥3,180/個", font_size=14,
+             font_color=COLOR_WHITE, bold=True)
+
+    # 固定費
+    add_textbox(slide, Inches(0.8), Inches(5.95), Inches(11), Inches(0.3),
+                "- 固定費（パート人件費 月16万円 + その他）", font_size=12, color=COLOR_RED, bold=True)
+
+    # 下部まとめ
+    add_rect(slide, Inches(0.8), Inches(6.3), Inches(11.5), Inches(0.5), COLOR_GREEN_LIGHT,
+             font_size=13, font_color=COLOR_GREEN_DARK, bold=True)
+    shape = slide.shapes[-1]
+    tf = shape.text_frame
+    tf.paragraphs[0].text = "ポイント: 直接販売で稼ぎつつ、LINE経由で「広告費ゼロの高利益」を積み上げる二重構造"
+    tf.paragraphs[0].font.size = Pt(14)
+    tf.paragraphs[0].font.bold = True
+    tf.paragraphs[0].font.color.rgb = COLOR_GREEN_DARK
+    tf.paragraphs[0].font.name = FONT_NAME
+    tf.paragraphs[0].alignment = PP_ALIGN.CENTER
+
+    add_footer(slide)
+    add_slide_number(slide, 4)
+
+
+# ══════════════════════════════════════════════════════════════
+# スライド5: 利益最大化の因数分解（新規）
+# ══════════════════════════════════════════════════════════════
+def slide_05_decomposition():
+    slide = prs.slides.add_slide(blank_layout)
+    add_section_title(slide, "利益を最大化する3つのマスター変数", "なぜこの3つなのか")
+
+    # 方程式
+    add_rect(slide, Inches(0.8), Inches(1.3), Inches(11.5), Inches(0.5), COLOR_LIGHT_BG,
+             font_size=20, font_color=COLOR_BLACK, bold=True)
+    shape = slide.shapes[-1]
+    tf = shape.text_frame
+    tf.paragraphs[0].text = "利益 ∝ レビュー数 x くじ参加率 x オーガニックリーチ"
+    tf.paragraphs[0].font.size = Pt(22)
+    tf.paragraphs[0].font.bold = True
+    tf.paragraphs[0].font.color.rgb = COLOR_BLACK
+    tf.paragraphs[0].font.name = FONT_NAME
+    tf.paragraphs[0].alignment = PP_ALIGN.CENTER
+
+    # 3つの変数を大きな丸で表現
+    var_data = [
+        ("1", "レビュー数", "全チャネルのCVRに効く", COLOR_GREEN,
+         ["レビュー↑ → Amazon CVR↑", "+ TikTok CVR↑ + メルカリ CVR↑",
+          "→ 直接利益もLINE経由利益も両方増える",
+          "→ 最も「広く」効く変数"]),
+        ("2", "くじ参加率", "注文を「資産」に変える変換率", COLOR_RED,
+         ["5% → 20% で下流が全て4倍",
+          "→ LINE登録↑ → LTV売上↑（広告費ゼロ）",
+          "→ 最も「利益率」を改善する変数"]),
+        ("3", "オーガニックリーチ", "広告に依存しない集客力", COLOR_BLUE,
+         ["TikTok動画 + SEO + Threads + IG",
+          "→ 広告費なしで注文↑ → TACOS↓",
+          "→ 最も「長期的に」重要な変数"]),
+    ]
+
+    for i, (num, title, subtitle, color, details) in enumerate(var_data):
+        x = Inches(0.5) + i * Inches(4.2)
+        # 大きな丸
+        oval = add_oval(slide, x + Inches(0.9), Inches(2.1), Inches(2.2), Inches(2.2), color,
+                        text=f"{num}\n{title}", font_size=16, font_color=COLOR_WHITE, bold=True)
+        tf = oval.text_frame
+        # 丸の中のテキストを調整
+        tf.paragraphs[0].text = f"{num}"
+        tf.paragraphs[0].font.size = Pt(28)
+        tf.paragraphs[0].font.bold = True
+        tf.paragraphs[0].font.color.rgb = COLOR_WHITE
+        tf.paragraphs[0].font.name = FONT_NAME
+        tf.paragraphs[0].alignment = PP_ALIGN.CENTER
+        p2 = tf.add_paragraph()
+        p2.text = title
+        p2.font.size = Pt(13)
+        p2.font.bold = True
+        p2.font.color.rgb = COLOR_WHITE
+        p2.font.name = FONT_NAME
+        p2.alignment = PP_ALIGN.CENTER
+
+        # サブタイトル
+        add_textbox(slide, x, Inches(4.4), Inches(4.0), Inches(0.3),
+                    subtitle, font_size=11, bold=True, color=color, alignment=PP_ALIGN.CENTER)
+
+        # 詳細
+        for j, detail in enumerate(details):
+            add_textbox(slide, x + Inches(0.2), Inches(4.75) + j * Inches(0.28), Inches(3.8), Inches(0.28),
+                        detail, font_size=9, color=COLOR_BODY)
+
+    # 下部: なぜこの3つか
+    add_rect(slide, Inches(0.5), Inches(6.0), Inches(12.3), Inches(0.8), COLOR_GREEN_LIGHT,
+             font_size=11, font_color=COLOR_BLACK)
+    shape = slide.shapes[-1]
+    tf = shape.text_frame
+    tf.paragraphs[0].text = "なぜこの3つか？ → 統合方程式の全ての項に掛け算で登場する"
+    tf.paragraphs[0].font.size = Pt(14)
+    tf.paragraphs[0].font.bold = True
+    tf.paragraphs[0].font.color.rgb = COLOR_BLACK
+    tf.paragraphs[0].font.name = FONT_NAME
+    tf.paragraphs[0].alignment = PP_ALIGN.LEFT
+    formulas = [
+        "直接販売 = リーチ(3) x CVR(1) x 粗利    /    LINE経由 = リーチ(3) x CVR(1) x くじ参加率(2) x LTV",
+        "→ 1つでもゼロなら利益は伸びない / 3つ全て伸ばすと指数関数的に成長",
+    ]
+    for f in formulas:
+        p = tf.add_paragraph()
+        p.text = f
+        p.font.size = Pt(11)
+        p.font.color.rgb = COLOR_BODY
+        p.font.name = FONT_NAME
+        p.alignment = PP_ALIGN.LEFT
+
+    add_footer(slide)
+    add_slide_number(slide, 5)
+
+
+# ══════════════════════════════════════════════════════════════
+# スライド6: 競合分析
+# ══════════════════════════════════════════════════════════════
+def slide_06_competitor():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "競合分析", "主要競合: MELL fragrance（メルフレグランス）")
 
@@ -567,13 +765,13 @@ def slide_04_competitor():
     p2.alignment = PP_ALIGN.CENTER
 
     add_footer(slide)
-    add_slide_number(slide, 4)
+    add_slide_number(slide, 6)
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド5: Amazon販売実績
+# スライド7: Amazon販売実績
 # ══════════════════════════════════════════════════════════════
-def slide_05_amazon_sales():
+def slide_07_amazon_sales():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "Amazon販売実績", "2025年10月〜2026年3月（実測+推定値）")
 
@@ -656,13 +854,13 @@ def slide_05_amazon_sales():
                 font_size=9, color=COLOR_SUB)
 
     add_footer(slide)
-    add_slide_number(slide, 5)
+    add_slide_number(slide, 7)
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド6: ユニットエコノミクス
+# スライド8: ユニットエコノミクス
 # ══════════════════════════════════════════════════════════════
-def slide_06_unit_economics():
+def slide_08_unit_economics():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "ユニットエコノミクス", "1個あたりの利益構造")
 
@@ -793,13 +991,13 @@ def slide_06_unit_economics():
     tf.paragraphs[0].alignment = PP_ALIGN.CENTER
 
     add_footer(slide)
-    add_slide_number(slide, 6)
+    add_slide_number(slide, 8)
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド7: 月別P/L（実績）
+# スライド9: 月別P/L（実績）
 # ══════════════════════════════════════════════════════════════
-def slide_07_monthly_pl():
+def slide_09_monthly_pl():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "Amazon小分け事業 月別P/L", "2025年10月〜2026年3月")
 
@@ -862,13 +1060,13 @@ def slide_07_monthly_pl():
                 font_size=9, color=COLOR_SUB)
 
     add_footer(slide)
-    add_slide_number(slide, 7)
+    add_slide_number(slide, 9)
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド8: アンケートファネル分析
+# スライド10: アンケートファネル分析
 # ══════════════════════════════════════════════════════════════
-def slide_08_funnel():
+def slide_10_funnel():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "アンケートファネル分析", "Amazon購入者 → LINE登録 → クロスセル/アップセル対象")
 
@@ -915,13 +1113,13 @@ def slide_08_funnel():
                           alignment=PP_ALIGN.LEFT)
 
     add_footer(slide)
-    add_slide_number(slide, 8)
+    add_slide_number(slide, 10)
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド9: 顧客属性
+# スライド11: 顧客属性
 # ══════════════════════════════════════════════════════════════
-def slide_09_customer():
+def slide_11_customer():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "顧客属性（アンケートデータ）", "回答者: 1,258人")
 
@@ -1006,13 +1204,13 @@ def slide_09_customer():
                     font_size=12, bold=True, color=COLOR_BLACK)
 
     add_footer(slide)
-    add_slide_number(slide, 9)
+    add_slide_number(slide, 11)
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド10: 販売チャネル詳細
+# スライド12: 販売チャネル詳細
 # ══════════════════════════════════════════════════════════════
-def slide_10_channels():
+def slide_12_channels():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "販売チャネル詳細")
 
@@ -1059,13 +1257,13 @@ def slide_10_channels():
                     desc, font_size=12, color=color)
 
     add_footer(slide)
-    add_slide_number(slide, 10)
+    add_slide_number(slide, 12)
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド11: LINE CRM設計
+# スライド13: LINE CRM設計
 # ══════════════════════════════════════════════════════════════
-def slide_11_line_crm():
+def slide_13_line_crm():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "LINE CRM設計", "LINE Harness（自社開発CRM/MA）")
 
@@ -1117,13 +1315,129 @@ def slide_11_line_crm():
              font_size=14, font_color=COLOR_BLACK, bold=True)
 
     add_footer(slide)
-    add_slide_number(slide, 11)
+    add_slide_number(slide, 13)
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド12: SNS + 自社サイト
+# スライド14: 香りくじ施策（新規）
 # ══════════════════════════════════════════════════════════════
-def slide_12_site_sns():
+def slide_14_kuji():
+    slide = prs.slides.add_slide(blank_layout)
+    add_section_title(slide, "香りくじ — くじ参加率5%→20%への施策",
+                      "全チャネル共通のLINE登録インセンティブ")
+
+    # ── 左: 現状の課題 ──
+    add_textbox(slide, Inches(0.8), Inches(1.3), Inches(5), Inches(0.3),
+                "現状の課題", font_size=16, bold=True, color=COLOR_RED)
+    add_textbox(slide, Inches(0.8), Inches(1.7), Inches(5), Inches(0.5),
+                "ケースプレゼント: 獲得単価¥220、登録率5.3%\nTikTok/メルカリ購入者にはケースが重複して使えない",
+                font_size=12, color=COLOR_BODY)
+
+    # ── 中央: くじのビジュアル（角丸四角形）──
+    kuji_x = Inches(0.8)
+    kuji_y = Inches(2.5)
+    kuji_w = Inches(5.5)
+    kuji_h = Inches(4.0)
+
+    kuji_box = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
+                                       kuji_x, kuji_y, kuji_w, kuji_h)
+    kuji_box.fill.solid()
+    kuji_box.fill.fore_color.rgb = RGBColor(0xFA, 0xFA, 0xFA)
+    kuji_box.line.color.rgb = COLOR_GREEN
+    kuji_box.line.width = Pt(2)
+    kuji_box.adjustments[0] = 0.05
+
+    tf = kuji_box.text_frame
+    tf.word_wrap = True
+    # タイトル
+    tf.paragraphs[0].text = "COLLEGRANCE 香りくじ"
+    tf.paragraphs[0].font.size = Pt(18)
+    tf.paragraphs[0].font.bold = True
+    tf.paragraphs[0].font.color.rgb = COLOR_GREEN
+    tf.paragraphs[0].font.name = FONT_NAME
+    tf.paragraphs[0].alignment = PP_ALIGN.CENTER
+
+    kuji_lines = [
+        "",
+        "全員: 自社EC ¥300 OFFクーポン",
+        "",
+        "1/100: フルボトル ¥10,000 OFFチケット",
+        "5/100: フルボトル ¥1,000 OFF",
+        "20/100: 自社EC ¥500 OFF",
+        "",
+        "じゃんけん演出 → 結果表示",
+        "「あなたは90人目。あと10人でチャンスリセット！」",
+        "→ もう1本買って再挑戦したくなる",
+    ]
+    for line in kuji_lines:
+        p = tf.add_paragraph()
+        p.text = line
+        p.font.size = Pt(11) if line else Pt(5)
+        p.font.color.rgb = COLOR_RED if "1/100" in line else (COLOR_GREEN_DARK if "全員" in line else COLOR_BODY)
+        p.font.bold = "1/100" in line or "全員" in line
+        p.font.name = FONT_NAME
+        p.alignment = PP_ALIGN.LEFT
+        p.space_after = Pt(1)
+
+    # ── 右: 仕組み ──
+    rx = Inches(6.8)
+    add_textbox(slide, rx, Inches(1.3), Inches(6), Inches(0.3),
+                "仕組み", font_size=16, bold=True, color=COLOR_GREEN)
+
+    steps = [
+        ("1", "全商品にバリアブル印刷カード同梱", "ラクスル発注、¥2/枚"),
+        ("2", "ユニークコード → LINE登録 → コード入力", "SP-APIで注文突合"),
+        ("3", "認証OK → じゃんけん演出 → 結果", "クーポン自動配信"),
+        ("4", "1注文1回限り", "不正防止"),
+    ]
+    for i, (num, title, sub) in enumerate(steps):
+        y = Inches(1.7) + i * Inches(0.65)
+        add_rect(slide, rx, y, Inches(0.4), Inches(0.4), COLOR_GREEN,
+                 text=num, font_size=14, font_color=COLOR_WHITE, bold=True)
+        add_textbox(slide, rx + Inches(0.5), y, Inches(5.5), Inches(0.3),
+                    title, font_size=12, bold=True, color=COLOR_BLACK)
+        add_textbox(slide, rx + Inches(0.5), y + Inches(0.3), Inches(5.5), Inches(0.3),
+                    sub, font_size=10, color=COLOR_GRAY)
+
+    # ── 右下: コスト ──
+    add_textbox(slide, rx, Inches(4.5), Inches(6), Inches(0.3),
+                "コスト分析", font_size=16, bold=True, color=COLOR_GREEN)
+
+    cost_data = [
+        [("項目", True, COLOR_WHITE), ("金額", True, COLOR_WHITE), ("備考", True, COLOR_WHITE)],
+        [("カード印刷", False, COLOR_BODY), ("¥8,000/月", False, COLOR_BODY),
+         ("4,000枚 x ¥2", False, COLOR_GRAY)],
+        [("1等(月8人)", False, COLOR_BODY), ("¥80,000", False, COLOR_RED),
+         ("¥10,000 OFF x 8人", False, COLOR_GRAY)],
+        [("2等クーポン使用", False, COLOR_BODY), ("¥8,000", False, COLOR_BODY),
+         ("使用時のみ発生", False, COLOR_GRAY)],
+        [("合計", True, COLOR_BLACK), ("¥96,000/月", True, COLOR_RED),
+         ("獲得単価 ¥120/人", True, COLOR_GREEN)],
+    ]
+    add_table(slide, rx, Inches(4.9), Inches(5.8), Inches(1.8),
+              5, 3, cost_data,
+              col_widths=[Inches(2.0), Inches(1.5), Inches(2.3)])
+
+    # 下部ポイント
+    add_rect(slide, rx, Inches(6.3), Inches(5.8), Inches(0.5), COLOR_GREEN_LIGHT,
+             font_size=11, font_color=COLOR_GREEN_DARK, bold=True)
+    shape = slide.shapes[-1]
+    tf = shape.text_frame
+    tf.paragraphs[0].text = "1等を¥10,000 OFFチケットにすれば使用時のみコスト発生 + フルボトル購入が必ず発生"
+    tf.paragraphs[0].font.size = Pt(11)
+    tf.paragraphs[0].font.bold = True
+    tf.paragraphs[0].font.color.rgb = COLOR_GREEN_DARK
+    tf.paragraphs[0].font.name = FONT_NAME
+    tf.paragraphs[0].alignment = PP_ALIGN.CENTER
+
+    add_footer(slide)
+    add_slide_number(slide, 14)
+
+
+# ══════════════════════════════════════════════════════════════
+# スライド15: SNS + 自社サイト
+# ══════════════════════════════════════════════════════════════
+def slide_15_site_sns():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "自社サイト + SNS戦略")
 
@@ -1202,13 +1516,13 @@ def slide_12_site_sns():
                 font_size=12, bold=True, color=COLOR_GREEN)
 
     add_footer(slide)
-    add_slide_number(slide, 12)
+    add_slide_number(slide, 15)
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド13: 月別売上目標（積み上げ棒グラフ）★最重要
+# スライド16: 月別売上目標（積み上げ棒グラフ）★最重要
 # ══════════════════════════════════════════════════════════════
-def slide_13_monthly_target():
+def slide_16_monthly_target():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "月別売上目標（2026年4月〜2027年1月）", "累計: ¥57,200,000（目標5,000万超え）")
 
@@ -1294,13 +1608,13 @@ def slide_13_monthly_target():
     tf.paragraphs[0].alignment = PP_ALIGN.CENTER
 
     add_footer(slide)
-    add_slide_number(slide, 13)
+    add_slide_number(slide, 16)
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド14: チャネル別KPI
+# スライド17: チャネル別KPI
 # ══════════════════════════════════════════════════════════════
-def slide_14_channel_kpi():
+def slide_17_channel_kpi():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "チャネル別KPI")
 
@@ -1408,13 +1722,80 @@ def slide_14_channel_kpi():
         p.alignment = PP_ALIGN.LEFT
 
     add_footer(slide)
-    add_slide_number(slide, 14)
+    add_slide_number(slide, 17)
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド15: 利益シミュレーション
+# スライド18: 成長のフライホイール（新規）
 # ══════════════════════════════════════════════════════════════
-def slide_15_profit_simulation():
+def slide_18_flywheel():
+    slide = prs.slides.add_slide(blank_layout)
+    add_section_title(slide, "成長のフライホイール", "一度回り始めると、広告費を増やさなくても成長する")
+
+    # 中心のLINE
+    cx = Inches(6.0)
+    cy = Inches(3.8)
+    add_oval(slide, cx, cy, Inches(1.6), Inches(1.6), COLOR_GREEN,
+             text="LINE\n(中心)", font_size=16, font_color=COLOR_WHITE, bold=True)
+
+    # フライホイールの各ノード（円形配置）
+    # 上から時計回り
+    nodes = [
+        (Inches(5.2), Inches(1.5), "各チャネルで\n購入", COLOR_BLACK),
+        (Inches(8.5), Inches(2.0), "くじカード\n同梱", COLOR_GREEN_DARK),
+        (Inches(10.0), Inches(4.0), "LINE登録", COLOR_GREEN),
+        (Inches(8.5), Inches(5.8), "シナリオ\n配信", COLOR_BLUE),
+        (Inches(5.2), Inches(6.3), "フルボトル\n購入", COLOR_RED),
+        (Inches(2.0), Inches(5.8), "クロスセル\n/レビュー", COLOR_PURPLE),
+        (Inches(0.8), Inches(4.0), "CVR↑\n全チャネル", COLOR_ORANGE),
+        (Inches(2.0), Inches(2.0), "注文↑\n(広告費不変)", COLOR_BLACK),
+    ]
+
+    node_w = Inches(1.7)
+    node_h = Inches(1.0)
+
+    for (nx, ny, text, color) in nodes:
+        add_rect(slide, nx, ny, node_w, node_h, color,
+                 text=text, font_size=10, font_color=COLOR_WHITE, bold=True)
+
+    # ノード間の矢印（時計回り）
+    arrow_pairs = [
+        (Inches(6.9), Inches(1.8), Inches(0.5), Inches(0.25)),   # 購入→くじ
+        (Inches(10.0), Inches(3.0), Inches(0.25), Inches(0.4)),  # くじ→LINE（下矢印）
+        (Inches(10.0), Inches(5.2), Inches(0.25), Inches(0.4)),  # LINE→シナリオ（下矢印）
+        (Inches(7.3), Inches(6.5), Inches(0.5), Inches(0.25)),   # シナリオ→FB（左矢印的に）
+        (Inches(3.9), Inches(6.5), Inches(0.5), Inches(0.25)),   # FB→クロスセル
+        (Inches(2.0), Inches(5.2), Inches(0.25), Inches(0.4)),   # クロスセル→CVR
+        (Inches(2.0), Inches(3.1), Inches(0.25), Inches(0.4)),   # CVR→注文
+        (Inches(3.7), Inches(1.8), Inches(0.5), Inches(0.25)),   # 注文→購入
+    ]
+
+    # 右矢印: 購入→くじ、注文→購入
+    add_arrow(slide, arrow_pairs[0][0], arrow_pairs[0][1], arrow_pairs[0][2], arrow_pairs[0][3], COLOR_GRAY)
+    add_arrow(slide, arrow_pairs[7][0], arrow_pairs[7][1], arrow_pairs[7][2], arrow_pairs[7][3], COLOR_GRAY)
+
+    # 下矢印: くじ→LINE、LINE→シナリオ
+    add_down_arrow(slide, arrow_pairs[1][0], arrow_pairs[1][1], arrow_pairs[1][2], arrow_pairs[1][3], COLOR_GRAY)
+    add_down_arrow(slide, arrow_pairs[2][0], arrow_pairs[2][1], arrow_pairs[2][2], arrow_pairs[2][3], COLOR_GRAY)
+
+    # 下部の方程式
+    add_rect(slide, Inches(0.5), Inches(7.0), Inches(12.3), Inches(0.0), COLOR_WHITE)  # spacer
+
+    # ── 右側: ナイトライト分岐 ──
+    add_textbox(slide, Inches(5.2), Inches(7.0), Inches(7), Inches(0.0), "", font_size=1)
+
+    # フライホイールの下に方程式
+    # 代わりにスライド下部に補足テキスト
+    # （フッターの上に配置）
+
+    add_footer(slide)
+    add_slide_number(slide, 18)
+
+
+# ══════════════════════════════════════════════════════════════
+# スライド19: 利益シミュレーション
+# ══════════════════════════════════════════════════════════════
+def slide_19_profit_simulation():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "利益シミュレーション", "10ヶ月累計（2026年4月〜2027年1月）")
 
@@ -1530,13 +1911,13 @@ def slide_15_profit_simulation():
                     f"{name} {pct:.0f}%", font_size=8, color=COLOR_BODY)
 
     add_footer(slide)
-    add_slide_number(slide, 15)
+    add_slide_number(slide, 19)
 
 
 # ══════════════════════════════════════════════════════════════
-# スライド16: ロードマップ
+# スライド20: ロードマップ
 # ══════════════════════════════════════════════════════════════
-def slide_16_roadmap():
+def slide_20_roadmap():
     slide = prs.slides.add_slide(blank_layout)
     add_section_title(slide, "ロードマップ", "2026年4月〜2027年1月")
 
@@ -1623,7 +2004,7 @@ def slide_16_roadmap():
     tf.paragraphs[0].font.name = FONT_NAME
     tf.paragraphs[0].alignment = PP_ALIGN.CENTER
     p2 = tf.add_paragraph()
-    p2.text = "Amazon基盤 × TikTok/メルカリ拡大 × LINE CRM育成 × ナイトライト新規事業"
+    p2.text = "Amazon基盤 x TikTok/メルカリ拡大 x LINE CRM育成 x ナイトライト新規事業"
     p2.font.size = Pt(14)
     p2.font.color.rgb = RGBColor(0xCC, 0xFF, 0xCC)
     p2.font.name = FONT_NAME
@@ -1631,7 +2012,7 @@ def slide_16_roadmap():
 
 
     add_footer(slide)
-    add_slide_number(slide, 16)
+    add_slide_number(slide, 20)
 
 
 # ══════════════════════════════════════════════════════════════
@@ -1640,21 +2021,25 @@ def slide_16_roadmap():
 slide_01_cover()
 slide_02_overview()
 slide_03_business_model()
-slide_04_competitor()
-slide_05_amazon_sales()
-slide_06_unit_economics()
-slide_07_monthly_pl()
-slide_08_funnel()
-slide_09_customer()
-slide_10_channels()
-slide_11_line_crm()
-slide_12_site_sns()
-slide_13_monthly_target()
-slide_14_channel_kpi()
-slide_15_profit_simulation()
-slide_16_roadmap()
+slide_04_business_equation()    # 新規: ビジネスの統合方程式
+slide_05_decomposition()        # 新規: 利益最大化の因数分解
+slide_06_competitor()
+slide_07_amazon_sales()
+slide_08_unit_economics()
+slide_09_monthly_pl()
+slide_10_funnel()
+slide_11_customer()
+slide_12_channels()
+slide_13_line_crm()
+slide_14_kuji()                 # 新規: 香りくじ施策
+slide_15_site_sns()
+slide_16_monthly_target()
+slide_17_channel_kpi()
+slide_18_flywheel()             # 新規: 成長のフライホイール
+slide_19_profit_simulation()
+slide_20_roadmap()
 
-output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "COLLEGRANCE_事業全体像.pptx")
+output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "COLLEGRANCE_事業全体像_v2.pptx")
 prs.save(output_path)
-print(f"✅ 生成完了: {output_path}")
+print(f"生成完了: {output_path}")
 print(f"   スライド数: {len(prs.slides)}")

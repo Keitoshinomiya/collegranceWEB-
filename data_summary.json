@@ -1,0 +1,28 @@
+{
+  "amazon_monthly": {
+    "2025-10": {"orders": 1587, "revenue": 1731301, "source": "実測"},
+    "2025-11": {"orders": 2494, "revenue": 2548903, "source": "実測"},
+    "2025-12": {"orders": 4941, "revenue": 5391007, "source": "推定"},
+    "2026-01": {"orders": 3433, "revenue": 3745957, "source": "推定"},
+    "2026-02": {"orders": 4378, "revenue": 4776590, "source": "推定"},
+    "2026-03": {"orders": 4323, "revenue": 4717131, "source": "推定"},
+    "2026-04": {"orders": 1653, "revenue": 1719297, "source": "推定(4/15まで)"}
+  },
+  "amazon_total": {"orders": 22809, "revenue": 24630186, "avg_unit_price": 1079},
+  "survey": {
+    "total_responses": 1258,
+    "want_to_try_other": 1087,
+    "want_to_try_other_pct": 86.4,
+    "considering_fullbottle": 728,
+    "considering_fullbottle_pct": 57.9,
+    "satisfaction_4plus_pct": 88.9,
+    "gender_male_pct": 70.0,
+    "top_age": "50代 25%",
+    "top_source": "YouTube 29%"
+  },
+  "line": {
+    "friends": 1300,
+    "registration_rate_pct": 5.3
+  },
+  "ad_spend_monthly": 1000000
+}

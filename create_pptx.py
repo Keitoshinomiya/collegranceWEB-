@@ -316,6 +316,37 @@ def slide_03_business_model():
         p.font.name = FONT_NAME
         p.alignment = PP_ALIGN.CENTER
 
+    # 今後追加予定: Instagram & Threads（点線ボックス）
+    future_y = row1_y + box_h + Inches(0.15)
+    for i, (label, sub) in enumerate([
+        ("Instagram", "世界観構築→AI診断誘導"),
+        ("Threads", "中の人投稿→認知拡大"),
+    ]):
+        fx = Inches(0.5) + Inches(1.15) * i
+        shape = slide.shapes.add_shape(
+            MSO_SHAPE.ROUNDED_RECTANGLE, fx, future_y, Inches(1.1), Inches(0.65))
+        shape.fill.background()  # 塗りなし
+        shape.line.color.rgb = COLOR_GRAY
+        shape.line.dash_style = 2  # MSO_LINE_DASH_STYLE.DASH = 2
+        shape.line.width = Pt(1)
+        tf = shape.text_frame
+        tf.word_wrap = True
+        tf.paragraphs[0].text = label
+        tf.paragraphs[0].font.size = Pt(9)
+        tf.paragraphs[0].font.bold = True
+        tf.paragraphs[0].font.color.rgb = COLOR_GRAY
+        tf.paragraphs[0].font.name = FONT_NAME
+        tf.paragraphs[0].alignment = PP_ALIGN.CENTER
+        p = tf.add_paragraph()
+        p.text = sub
+        p.font.size = Pt(7)
+        p.font.color.rgb = COLOR_SUB
+        p.font.name = FONT_NAME
+        p.alignment = PP_ALIGN.CENTER
+    # 「今後追加予定」ラベル
+    add_textbox(slide, Inches(0.5), future_y + Inches(0.68), Inches(2.3), Inches(0.25),
+                "※ 今後追加予定（集客チャネル）", font_size=7, color=COLOR_SUB)
+
     add_arrow(slide, Inches(2.8), row1_y + Inches(0.5), arrow_w, arrow_h)
 
     # Box 2: Amazon小分け購入

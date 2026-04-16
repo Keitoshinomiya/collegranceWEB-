@@ -1,28 +1,87 @@
 {
-  "amazon_monthly": {
-    "2025-10": {"orders": 1587, "revenue": 1731301, "source": "実測"},
-    "2025-11": {"orders": 2494, "revenue": 2548903, "source": "実測"},
-    "2025-12": {"orders": 4941, "revenue": 5391007, "source": "推定"},
-    "2026-01": {"orders": 3433, "revenue": 3745957, "source": "推定"},
-    "2026-02": {"orders": 4378, "revenue": 4776590, "source": "推定"},
-    "2026-03": {"orders": 4323, "revenue": 4717131, "source": "推定"},
-    "2026-04": {"orders": 1653, "revenue": 1719297, "source": "推定(4/15まで)"}
+  "amazon_ad": {
+    "2025-10": {
+      "ad_cost": 829402,
+      "ad_sales": 1410208,
+      "roas": 1.7,
+      "cpc": 78
+    },
+    "2025-11": {
+      "ad_cost": 758425,
+      "ad_sales": 1754354,
+      "roas": 2.31,
+      "cpc": 55
+    },
+    "2025-12": {
+      "ad_cost": 802605,
+      "ad_sales": 3358243,
+      "roas": 4.18,
+      "cpc": 56
+    },
+    "2026-01": {
+      "ad_cost": 618290,
+      "ad_sales": 2366891,
+      "roas": 3.83,
+      "cpc": 59
+    },
+    "2026-02": {
+      "ad_cost": 839654,
+      "ad_sales": 3369295,
+      "roas": 4.01,
+      "cpc": 59
+    },
+    "2026-03": {
+      "ad_cost": 702310,
+      "ad_sales": 2511019,
+      "roas": 3.58,
+      "cpc": 59
+    }
   },
-  "amazon_total": {"orders": 22809, "revenue": 24630186, "avg_unit_price": 1079},
-  "survey": {
-    "total_responses": 1258,
-    "want_to_try_other": 1087,
-    "want_to_try_other_pct": 86.4,
-    "considering_fullbottle": 728,
-    "considering_fullbottle_pct": 57.9,
-    "satisfaction_4plus_pct": 88.9,
-    "gender_male_pct": 70.0,
-    "top_age": "50代 25%",
-    "top_source": "YouTube 29%"
+  "amazon_orders": {
+    "2025-10": {
+      "orders": 1587,
+      "source": "実測"
+    },
+    "2025-11": {
+      "orders": 2494,
+      "source": "実測"
+    },
+    "2025-12": {
+      "orders": 4941,
+      "source": "推定"
+    },
+    "2026-01": {
+      "orders": 3433,
+      "source": "推定"
+    },
+    "2026-02": {
+      "orders": 4378,
+      "source": "推定"
+    },
+    "2026-03": {
+      "orders": 4323,
+      "source": "推定"
+    }
   },
-  "line": {
-    "friends": 1300,
-    "registration_rate_pct": 5.3
+  "amazon_total_orders": 21156,
+  "amazon_total_revenue_incl": 22827324,
+  "amazon_total_ad_spend": 4550686,
+  "amazon_total_profit": 5400596,
+  "amazon_avg_unit_price_incl": 1079,
+  "amazon_avg_cogs": 432,
+  "stripe_fullbottle": {
+    "total_orders": 5,
+    "total_revenue": 59800
   },
-  "ad_spend_monthly": 1000000
+  "survey_total": 1258,
+  "survey_fullbottle_considering": 728,
+  "survey_want_try_other": 1087,
+  "line_friends": 1300,
+  "unit_economics": {
+    "avg_cogs_per_unit": 432,
+    "avg_price_excl": 980,
+    "amazon_fee_per_unit": 78,
+    "profit_per_unit_before_ad": 470,
+    "profit_per_unit_with_case": 750
+  }
 }

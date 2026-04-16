@@ -419,23 +419,45 @@ def slide_03_business_model():
     p.font.name = FONT_NAME
     p.alignment = PP_ALIGN.CENTER
 
-    # ── Row 3: ナイトライトループ ──
-    row3_y = Inches(5.2)
+    # ── Row 3: サステナブルループ ──
+    row3_y = Inches(5.0)
     add_textbox(slide, Inches(0.5), row3_y, Inches(12), Inches(0.4),
                 "サステナブルループ（新規事業）", font_size=14, bold=True, color=COLOR_GREEN)
 
-    loop_y = Inches(5.7)
-    loop_items = [
-        ("空き瓶回収", Inches(0.5)),
-        ("3Dプリンタ\nナイトライト製作", Inches(3.0)),
-        ("TikTok動画\nで認知拡大", Inches(5.8)),
-        ("新規購入者\n→ ループ", Inches(8.5)),
-    ]
-    for text, x in loop_items:
-        add_rect(slide, x, loop_y, Inches(2.0), Inches(0.8), COLOR_GREEN_LIGHT,
-                 text=text, font_size=10, font_color=COLOR_BLACK)
-    for x in [Inches(2.55), Inches(5.1), Inches(7.85)]:
-        add_arrow(slide, x, loop_y + Inches(0.25), Inches(0.4), Inches(0.25), COLOR_GREEN)
+    loop_y = Inches(5.5)
+
+    # 空き瓶の出所（2つ）
+    # ①小分け製造時の空き瓶
+    b_src1 = add_rect(slide, Inches(0.4), loop_y, Inches(2.2), Inches(0.7), COLOR_GREEN_LIGHT,
+                 text="① 小分け製造時の空き瓶\n（自社ラボで発生）", font_size=9, font_color=COLOR_BLACK)
+    # ②フルボトル購入者の空き瓶
+    b_src2 = add_rect(slide, Inches(0.4), loop_y + Inches(0.85), Inches(2.2), Inches(0.7), COLOR_GREEN_LIGHT,
+                 text="② お客様のフルボトル空き瓶\n（将来の回収事業）", font_size=9, font_color=COLOR_BLACK)
+
+    # 矢印 → 3Dプリンタ
+    add_arrow(slide, Inches(2.7), loop_y + Inches(0.55), Inches(0.4), Inches(0.25), COLOR_GREEN)
+
+    # 3Dプリンタ製作
+    add_rect(slide, Inches(3.2), loop_y + Inches(0.2), Inches(2.2), Inches(0.9), COLOR_GREEN,
+             text="3Dプリンタ\nナイトライト製作", font_size=11, font_color=COLOR_WHITE)
+
+    # 矢印 → 販売+動画
+    add_arrow(slide, Inches(5.5), loop_y + Inches(0.45), Inches(0.4), Inches(0.25), COLOR_GREEN)
+
+    # 販売 & TikTok動画
+    add_rect(slide, Inches(6.0), loop_y, Inches(2.2), Inches(0.7), COLOR_BLACK,
+             text="TikTok Shop / 自社EC\nメルカリShopで販売", font_size=9, font_color=COLOR_WHITE)
+    add_rect(slide, Inches(6.0), loop_y + Inches(0.85), Inches(2.2), Inches(0.7), COLOR_BLACK,
+             text="製作動画をTikTok投稿\nサステナブル×おしゃれ", font_size=9, font_color=COLOR_WHITE)
+
+    # 矢印 → 認知拡大 → ループ
+    add_arrow(slide, Inches(8.3), loop_y + Inches(0.55), Inches(0.4), Inches(0.25), COLOR_GREEN)
+
+    add_rect(slide, Inches(8.8), loop_y + Inches(0.2), Inches(2.0), Inches(0.9), COLOR_GREEN_LIGHT,
+             text="新規認知\n→ 小分け購入\n→ ループ", font_size=10, font_color=COLOR_GREEN_DARK)
+
+    # フルボトル→空き瓶の接続矢印（Row2のフルボトルからRow3へ）
+    add_down_arrow(slide, Inches(9.8), Inches(4.9), Inches(0.3), Inches(0.3))
 
     add_footer(slide)
     add_slide_number(slide, 3)

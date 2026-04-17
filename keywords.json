@@ -92,7 +92,7 @@
   {
     "keyword": "香水 体温 香り方 変わる 理由",
     "category": "KNOWLEDGE",
-    "used": false
+    "used": true
   },
   {
     "keyword": "香水 冬 甘い おすすめ メンズ",
@@ -102,7 +102,7 @@
   {
     "keyword": "グルマン系 香水 トレンド 2026",
     "category": "TREND",
-    "used": false
+    "used": true
   },
   {
     "keyword": "香水 持続時間 長い 選び方",
@@ -127,7 +127,7 @@
   {
     "keyword": "結婚式 香水 マナー おすすめ",
     "category": "LIFESTYLE",
-    "used": false
+    "used": true
   },
   {
     "keyword": "クリーン系 香水 トレンド サステナブル",
@@ -142,7 +142,7 @@
   {
     "keyword": "香水 初心者 失敗しない 選び方",
     "category": "KNOWLEDGE",
-    "used": false
+    "used": true
   },
   {
     "keyword": "香水 記憶 プルースト効果 脳科学",
@@ -200,13 +200,13 @@
   {
     "keyword": "香水 プレゼント 彼氏 おすすめ",
     "category": "LIFESTYLE",
-    "used": false,
+    "used": true,
     "volume": 500
   },
   {
     "keyword": "香水 プレゼント 彼女 おすすめ",
     "category": "LIFESTYLE",
-    "used": false,
+    "used": true,
     "volume": 500
   },
   {
@@ -218,13 +218,13 @@
   {
     "keyword": "バイレード 香水 芸能人 愛用",
     "category": "TREND",
-    "used": false,
+    "used": true,
     "volume": 500
   },
   {
     "keyword": "マルジェラ 香水 メンズ おすすめ",
     "category": "REVIEW",
-    "used": false,
+    "used": true,
     "volume": 500
   },
   {
@@ -260,13 +260,13 @@
   {
     "keyword": "香水 レディース 人気 20代 ブランド",
     "category": "RANKING",
-    "used": false,
+    "used": true,
     "volume": 500
   },
   {
     "keyword": "ディプティック おすすめ 人気 ランキング",
     "category": "RANKING",
-    "used": false,
+    "used": true,
     "volume": 500
   },
   {

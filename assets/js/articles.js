@@ -6,6 +6,186 @@
  */
 const journalArticles = [
     {
+        id: 'perfume_beginner_guide_first_fragrance',
+        date: '2026-04-17',
+        category: 'KNOWLEDGE',
+        title: '【超初心者向け】香水の選び方完全ガイド｜最初の1本で失敗しないための7つのルール',
+        excerpt: '香水デビューしたいけど何から始めればいい？完全初心者向けに、香水の選び方・買い方・つけ方を7つのルールで解説。「難しそう」が「楽しい！」に変わるガイドです。',
+        image: 'assets/images/journal/perfume-beginner-guide-first-fragrance.png',
+        link: 'article-perfume-beginner-guide-first-fragrance.html'
+    },
+    {
+        id: 'perfume_body_temperature_scent_change_science',
+        date: '2026-04-16',
+        category: 'KNOWLEDGE',
+        title: '【なぜ同じ香水なのに違う？】体温で香りが変わる科学的理由｜自分に合う香水を見つけるヒント',
+        excerpt: '同じ香水なのに、人によって香りが違う理由を科学的に解説。体温・肌質・pHが香りに与える影響と、自分の体質に合った香水の見つけ方を紹介します。',
+        image: 'assets/images/journal/perfume-body-temperature-scent-change-science.png',
+        link: 'article-perfume-body-temperature-scent-change-science.html'
+    },
+    {
+        id: 'wedding_perfume_etiquette_recommended',
+        date: '2026-04-15',
+        category: 'LIFESTYLE',
+        title: '【結婚式の香水マナー】ゲストはつけてOK？NGライン・おすすめの香りと量を完全ガイド',
+        excerpt: '結婚式に香水をつけていくのはマナー違反？ゲストとして守るべきルールと、式場で好印象を与える香りの選び方・つけ方を解説。',
+        image: 'assets/images/journal/wedding-perfume-etiquette-recommended.png',
+        link: 'article-wedding-perfume-etiquette-recommended.html'
+    },
+    {
+        id: 'gourmand_perfume_trend_2026_sweet',
+        date: '2026-04-14',
+        category: 'TREND',
+        title: '【2026年トレンド】グルマン系香水とは？甘い香りの新潮流とおすすめフレグランス',
+        excerpt: '2026年のトレンド「グルマン系香水」を完全解説。コーヒー、チョコレート、キャラメルなど「食べたくなる」香りの魅力と、おすすめのグルマンフレグランスを紹介します。',
+        image: 'assets/images/journal/gourmand-perfume-trend-2026-sweet.png',
+        link: 'article-gourmand-perfume-trend-2026-sweet.html'
+    },
+    {
+        id: 'diptyque_perfume_ranking_popular_guide',
+        date: '2026-04-13',
+        category: 'RANKING',
+        title: '【2026年最新】DIPTYQUE（ディプティック）香水おすすめランキングTOP3｜パリの美意識を纏う',
+        excerpt: 'DIPTYQUE(ディプティック)の香水、どれを選べば間違いない？SNS評価と売上から導いた人気ランキングTOP3と、各フレグランスの魅力を徹底比較します。',
+        image: 'assets/images/journal/diptyque-perfume-ranking-popular-guide.png',
+        link: 'article-diptyque-perfume-ranking-popular-guide.html'
+    },
+    {
+        id: 'womens_perfume_20s_brand_ranking_2026',
+        date: '2026-04-12',
+        category: 'RANKING',
+        title: '【2026年版】20代女性に人気の香水ブランドランキングTOP5｜SNSで話題の「今どき」フレグランス',
+        excerpt: '20代女性に今人気の香水ブランドは？SNS評価・売上・リピート率から導いた2026年最新ランキングTOP5。各ブランドの代表作と選び方のコツを紹介。',
+        image: 'assets/images/journal/womens-perfume-20s-brand-ranking-2026.png',
+        link: 'article-womens-perfume-20s-brand-ranking-2026.html'
+    },
+    {
+        id: 'margiela_perfume_mens_recommended_guide',
+        date: '2026-04-11',
+        category: 'REVIEW',
+        title: '【男性必見】マルジェラの香水はメンズに合う？おすすめ5選と「女子ウケ」の真実',
+        excerpt: 'Maison Margiela(マルジェラ)の香水はメンズでも使える？男性におすすめの5本と、女性からの評価・使い方のコツを解説。レイジーサンデーモーニングからジャズクラブまで。',
+        image: 'assets/images/journal/margiela-perfume-mens-recommended-guide.png',
+        link: 'article-margiela-perfume-mens-recommended-guide.html'
+    },
+    {
+        id: 'byredo_celebrity_favorite_perfume_trend',
+        date: '2026-04-09',
+        category: 'TREND',
+        title: '【芸能人愛用】BYREDO（バイレード）を選ぶセレブたち｜なぜ業界人はこのブランドに惹かれるのか',
+        excerpt: 'BYREDO(バイレード)はなぜ芸能人やファッション業界人に愛されるのか？愛用者の傾向と人気の理由、代表作の魅力を徹底解説。ニッチフレグランスの頂点に立つブランドの秘密。',
+        image: 'assets/images/journal/byredo-celebrity-favorite-perfume-trend.png',
+        link: 'article-byredo-celebrity-favorite-perfume-trend.html'
+    },
+    {
+        id: 'perfume_gift_girlfriend_recommended',
+        date: '2026-04-08',
+        category: 'LIFESTYLE',
+        title: '【2026年版】彼女に贈る香水プレゼントおすすめ7選｜「センスいい！」と言われる選び方',
+        excerpt: '彼女への香水プレゼント、「センスいい！」と喜ばれる7本を厳選。価格帯別の選び方と、絶対に失敗しないための3つのルールを香りのプロが解説。',
+        image: 'assets/images/journal/perfume-gift-girlfriend-recommended.png',
+        link: 'article-perfume-gift-girlfriend-recommended.html'
+    },
+    {
+        id: 'perfume_gift_boyfriend_recommended',
+        date: '2026-04-06',
+        category: 'LIFESTYLE',
+        title: '【2026年版】彼氏に贈る香水プレゼントおすすめ7選｜価格帯別・失敗しない選び方ガイド',
+        excerpt: '彼氏への香水プレゼント、何を選べば喜ばれる？¥3,000台〜¥30,000台まで価格帯別に厳選したおすすめ7本と、男性が本当に嬉しい香水ギフトの選び方を解説。',
+        image: 'assets/images/journal/perfume-gift-boyfriend-recommended.png',
+        link: 'article-perfume-gift-boyfriend-recommended.html'
+    },
+    {
+        id: 'oriental_perfume_guide_spice_incense',
+        date: '2026-04-05',
+        category: 'KNOWLEDGE',
+        title: '【魅惑の東洋】オリエンタル系香水とは？スパイスとお香が生む深い官能美の世界を完全解説',
+        excerpt: 'オリエンタル系香水の魅力を完全解説。スパイス・バニラ・インセンスが生む官能的な香りの世界。初心者向けの選び方から上級者向けのおすすめまで、プロが紹介します。',
+        image: 'assets/images/journal/oriental-perfume-guide-spice-incense.png',
+        link: 'article-oriental-perfume-guide-spice-incense.html'
+    },
+    {
+        id: 'jimmy_choo_perfume_guide_all_lineup',
+        date: '2026-04-03',
+        category: 'REVIEW',
+        title: '【全ライン比較】ジミーチュウの香水はどれがおすすめ？レディース・メンズ全種類ガイド',
+        excerpt: 'Jimmy Choo(ジミーチュウ)の香水を全種類比較。レディース8種・メンズ5種の特徴と選び方を解説。コスパ最強のデザイナーズフレグランスの魅力をプロが紹介。',
+        image: 'assets/images/journal/jimmy-choo-perfume-guide-all-lineup.png',
+        link: 'article-jimmy-choo-perfume-guide-all-lineup.html'
+    },
+    {
+        id: 'margiela_bubble_bath_review_clean_comfort',
+        date: '2026-04-02',
+        category: 'REVIEW',
+        title: '【お風呂上がりの幸福感】マルジェラ「バブル バス」レビュー｜石鹸とムスクが描く究極の清潔感フレグランス',
+        excerpt: 'Maison Margiela REPLICA「バブル バス」を徹底レビュー。ココナッツミルクとホワイトムスクが描く「お風呂上がりの幸福感」。レイジーサンデーモーニングとの違いも比較解説。',
+        image: 'assets/images/journal/margiela-bubble-bath-review-clean-comfort.png',
+        link: 'article-margiela-bubble-bath-review-clean-comfort.html'
+    },
+    {
+        id: 'couple_pair_fragrance_sharing_guide',
+        date: '2026-03-31',
+        category: 'LIFESTYLE',
+        title: '【ペア香水のすすめ】カップルで共有できるユニセックス香水5選｜2人で同じ香りを纏う新しい楽しみ方',
+        excerpt: 'カップルで同じ香水を共有する「ペア香水」が新しいトレンドに。男女で使えるユニセックスフレグランス5選と、2人で楽しむ香りの選び方を紹介。',
+        image: 'assets/images/journal/couple-pair-fragrance-sharing-guide.png',
+        link: 'article-couple-pair-fragrance-sharing-guide.html'
+    },
+    {
+        id: 'how_to_find_signature_scent_guide',
+        date: '2026-03-30',
+        category: 'HOW TO',
+        title: '【一生モノの香り】シグネチャーセントの見つけ方｜自分だけの「定番香水」を選ぶ5つのステップ',
+        excerpt: '「自分の香り」を見つけたいけど、何から始めればいい？シグネチャーセント（定番香水）を見つけるための5つのステップを、香りのプロが具体的に解説します。',
+        image: 'assets/images/journal/how-to-find-signature-scent-guide.png',
+        link: 'article-how-to-find-signature-scent-guide.html'
+    },
+    {
+        id: 'chloe_edp_review_rose_classic_feminine',
+        date: '2026-03-28',
+        category: 'REVIEW',
+        title: '【女性の憧れ】クロエ オードパルファムが「永遠の定番」である理由｜ローズ香水の最高傑作を徹底レビュー',
+        excerpt: 'Chloé（クロエ）のオードパルファムを徹底レビュー。なぜこのローズ香水が10年以上「女性の定番」として君臨し続けるのか。香りの特徴、年齢層、つけ方のコツまで完全解説。',
+        image: 'assets/images/journal/chloe-edp-review-rose-classic-feminine.png',
+        link: 'article-chloe-edp-review-rose-classic-feminine.html'
+    },
+    {
+        id: 'clean_perfume_all_types_guide_fresh',
+        date: '2026-03-27',
+        category: 'REVIEW',
+        title: '【全種類比較】CLEAN（クリーン）の香水おすすめガイド｜清潔感の最高峰を選ぶ',
+        excerpt: 'CLEAN(クリーン)の香水全種類を徹底比較。「洗いたてのシーツ」「朝のシャワー」など清潔感をテーマにした香水ブランドの全ラインナップと、あなたに合う一本の選び方を解説。',
+        image: 'assets/images/journal/clean-perfume-all-types-guide-fresh.png',
+        link: 'article-clean-perfume-all-types-guide-fresh.html'
+    },
+    {
+        id: 'rainy_season_perfume_guide_humidity',
+        date: '2026-03-25',
+        category: 'LIFESTYLE',
+        title: '【梅雨の香水術】湿度80%でも好印象。雨の日に映える香水の選び方とおすすめ5選',
+        excerpt: '梅雨時期の香水選び、間違っていませんか？湿度が高い日は香りが変わります。雨の日でも好印象を保つ香水の選び方と、プロおすすめの5本を紹介。',
+        image: 'assets/images/journal/rainy-season-perfume-guide-humidity.png',
+        link: 'article-rainy-season-perfume-guide-humidity.html'
+    },
+    {
+        id: 'prada_paradoxe_review_modern_feminine',
+        date: '2026-03-24',
+        category: 'REVIEW',
+        title: '【矛盾という名の美しさ】プラダ「パラドックス」レビュー｜知的な女性が選ぶモダンフローラルの新定番',
+        excerpt: 'PRADA Paradoxe（パラドックス）を徹底レビュー。「矛盾」をコンセプトにした革新的フレグランス。アンバーとフローラルが共存する知的な香りは、なぜ現代の女性に支持されるのか。',
+        image: 'assets/images/journal/prada-paradoxe-review-modern-feminine.png',
+        link: 'article-prada-paradoxe-review-modern-feminine.html'
+    },
+    {
+        id: 'tom_ford_neroli_portofino_review_luxury_citrus',
+        date: '2026-03-21',
+        category: 'REVIEW',
+        title: '【究極の地中海】トムフォード「ネロリ ポルトフィーノ」レビュー｜セレブが愛する最高峰シトラスの魅力',
+        excerpt: 'TOM FORDの名作「ネロリ ポルトフィーノ」を徹底レビュー。イタリア・リヴィエラの風を閉じ込めた究極のシトラスフレグランス。なぜセレブやファッション業界人がこぞって愛用するのか、その秘密に迫ります。',
+        image: 'assets/images/journal/tom-ford-neroli-portofino-review-luxury-citrus.png',
+        link: 'article-tom-ford-neroli-portofino-review-luxury-citrus.html'
+    },
+    {
         id: 'jo_malone_combining_guide',
         date: '2025-12-23',
         category: 'HOW TO',

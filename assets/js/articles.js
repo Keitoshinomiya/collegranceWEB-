@@ -7,7 +7,7 @@
 const journalArticles = [
     {
         id: 'diptyque_mens_gift_recommended',
-        date: '2026-04-27',
+        date: '2026-04-10',
         category: 'LIFESTYLE',
         title: '【男性へ贈るDIPTYQUE】ディプティック香水のメンズギフトおすすめ3選｜ワンランク上の贈り物',
         excerpt: '男性への香水ギフトにDIPTYQUE(ディプティック)を選ぶ理由と、メンズにおすすめの3本を厳選。「センスいい！」と喜ばれるワンランク上の贈り方を解説。',
@@ -16,7 +16,7 @@ const journalArticles = [
     },
     {
         id: 'perfume_trial_sample_sites_comparison_2026',
-        date: '2026-04-26',
+        date: '2026-04-07',
         category: 'KNOWLEDGE',
         title: '【2026年最新版】香水のお試し・小分けサイトはどこがおすすめ？品質と価格で比較',
         excerpt: '香水のお試し・小分け販売サイトを品質・価格・品揃え・安心感で比較。2026年最新のおすすめサイトと、安心して買うためのチェックポイントを解説。',
@@ -25,7 +25,7 @@ const journalArticles = [
     },
     {
         id: 'jo_malone_peony_combining_recommended',
-        date: '2026-04-25',
+        date: '2026-04-04',
         category: 'HOW TO',
         title: '【ジョーマローン】ピオニー&ブラッシュスエードの組み合わせガイド｜最高のレイヤリング5選',
         excerpt: 'Jo Maloneのピオニー&ブラッシュスエードに合う組み合わせ（コンバイニング）を5パターン厳選。イングリッシュペアーやネクタリンとの相性を解説。',
@@ -34,7 +34,7 @@ const journalArticles = [
     },
     {
         id: 'le_labo_ranking_popular_recommended',
-        date: '2026-04-24',
+        date: '2026-04-01',
         category: 'RANKING',
         title: '【2026年版】LE LABO（ルラボ）人気ランキング｜NYの調香アトリエが生む唯一無二の香り',
         excerpt: 'LE LABO(ルラボ)の人気香水をランキングで紹介。Another 13を筆頭に、NYブルックリン発のニッチフレグランスの魅力と選び方を解説。',
@@ -43,7 +43,7 @@ const journalArticles = [
     },
     {
         id: 'byredo_mens_recommended_popular',
-        date: '2026-04-23',
+        date: '2026-03-29',
         category: 'REVIEW',
         title: '【男がBYREDOを選ぶ理由】バイレードのメンズおすすめ3選｜ニッチ香水で差をつける',
         excerpt: 'BYREDO(バイレード)を選ぶ男性が増えている理由と、メンズにおすすめの3本を厳選。ジプシーウォーター・ブランシュの男性的な魅力を解説。',
@@ -52,7 +52,7 @@ const journalArticles = [
     },
     {
         id: 'mens_perfume_40s_mature_attractive',
-        date: '2026-04-22',
+        date: '2026-03-26',
         category: 'LIFESTYLE',
         title: '【40代メンズの香水選び】大人の余裕を演出する香水5選｜若作りにならない選び方のコツ',
         excerpt: '40代男性が本当に似合う香水とは？若者向けの爽やか系でもなく、おじさんっぽい重さでもない。大人の余裕と品格を纏うための香水5選と選び方のコツ。',
@@ -61,7 +61,7 @@ const journalArticles = [
     },
     {
         id: 'atomizer_travel_perfume_guide',
-        date: '2026-04-21',
+        date: '2026-03-22',
         category: 'HOW TO',
         title: '【持ち運びの正解】香水アトマイザーの選び方ガイド｜旅行・外出先でのスマートな香水術',
         excerpt: '香水のアトマイザー、どれを選べばいい？旅行・通勤・デートに便利な持ち運びサイズの選び方と、スマートな使い方を解説。',

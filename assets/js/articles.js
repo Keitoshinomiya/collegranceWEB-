@@ -6,6 +6,96 @@
  */
 const journalArticles = [
     {
+        id: 'diptyque_mens_gift_recommended',
+        date: '2026-04-27',
+        category: 'LIFESTYLE',
+        title: '【男性へ贈るDIPTYQUE】ディプティック香水のメンズギフトおすすめ3選｜ワンランク上の贈り物',
+        excerpt: '男性への香水ギフトにDIPTYQUE(ディプティック)を選ぶ理由と、メンズにおすすめの3本を厳選。「センスいい！」と喜ばれるワンランク上の贈り方を解説。',
+        image: 'assets/images/journal/diptyque-mens-gift-recommended.png',
+        link: 'article-diptyque-mens-gift-recommended.html'
+    },
+    {
+        id: 'perfume_trial_sample_sites_comparison_2026',
+        date: '2026-04-26',
+        category: 'KNOWLEDGE',
+        title: '【2026年最新版】香水のお試し・小分けサイトはどこがおすすめ？品質と価格で比較',
+        excerpt: '香水のお試し・小分け販売サイトを品質・価格・品揃え・安心感で比較。2026年最新のおすすめサイトと、安心して買うためのチェックポイントを解説。',
+        image: 'assets/images/journal/perfume-trial-sample-sites-comparison-2026.png',
+        link: 'article-perfume-trial-sample-sites-comparison-2026.html'
+    },
+    {
+        id: 'jo_malone_peony_combining_recommended',
+        date: '2026-04-25',
+        category: 'HOW TO',
+        title: '【ジョーマローン】ピオニー&ブラッシュスエードの組み合わせガイド｜最高のレイヤリング5選',
+        excerpt: 'Jo Maloneのピオニー&ブラッシュスエードに合う組み合わせ（コンバイニング）を5パターン厳選。イングリッシュペアーやネクタリンとの相性を解説。',
+        image: 'assets/images/journal/jo-malone-peony-combining-recommended.png',
+        link: 'article-jo-malone-peony-combining-recommended.html'
+    },
+    {
+        id: 'le_labo_ranking_popular_recommended',
+        date: '2026-04-24',
+        category: 'RANKING',
+        title: '【2026年版】LE LABO（ルラボ）人気ランキング｜NYの調香アトリエが生む唯一無二の香り',
+        excerpt: 'LE LABO(ルラボ)の人気香水をランキングで紹介。Another 13を筆頭に、NYブルックリン発のニッチフレグランスの魅力と選び方を解説。',
+        image: 'assets/images/journal/le-labo-ranking-popular-recommended.png',
+        link: 'article-le-labo-ranking-popular-recommended.html'
+    },
+    {
+        id: 'byredo_mens_recommended_popular',
+        date: '2026-04-23',
+        category: 'REVIEW',
+        title: '【男がBYREDOを選ぶ理由】バイレードのメンズおすすめ3選｜ニッチ香水で差をつける',
+        excerpt: 'BYREDO(バイレード)を選ぶ男性が増えている理由と、メンズにおすすめの3本を厳選。ジプシーウォーター・ブランシュの男性的な魅力を解説。',
+        image: 'assets/images/journal/byredo-mens-recommended-popular.png',
+        link: 'article-byredo-mens-recommended-popular.html'
+    },
+    {
+        id: 'mens_perfume_40s_mature_attractive',
+        date: '2026-04-22',
+        category: 'LIFESTYLE',
+        title: '【40代メンズの香水選び】大人の余裕を演出する香水5選｜若作りにならない選び方のコツ',
+        excerpt: '40代男性が本当に似合う香水とは？若者向けの爽やか系でもなく、おじさんっぽい重さでもない。大人の余裕と品格を纏うための香水5選と選び方のコツ。',
+        image: 'assets/images/journal/mens-perfume-40s-mature-attractive.png',
+        link: 'article-mens-perfume-40s-mature-attractive.html'
+    },
+    {
+        id: 'atomizer_travel_perfume_guide',
+        date: '2026-04-21',
+        category: 'HOW TO',
+        title: '【持ち運びの正解】香水アトマイザーの選び方ガイド｜旅行・外出先でのスマートな香水術',
+        excerpt: '香水のアトマイザー、どれを選べばいい？旅行・通勤・デートに便利な持ち運びサイズの選び方と、スマートな使い方を解説。',
+        image: 'assets/images/journal/atomizer-travel-perfume-guide.png',
+        link: 'article-atomizer-travel-perfume-guide.html'
+    },
+    {
+        id: 'sweet_perfume_women_popular_recommended',
+        date: '2026-04-20',
+        category: 'REVIEW',
+        title: '【甘い香りの正解】スイート系レディース香水おすすめ5選｜甘すぎない大人のスイートフレグランス',
+        excerpt: '甘い香水が好きだけど「甘すぎ」は避けたい。大人の女性に似合う、上品なスイート系レディース香水おすすめ5選を香りのプロが厳選。',
+        image: 'assets/images/journal/sweet-perfume-women-popular-recommended.png',
+        link: 'article-sweet-perfume-women-popular-recommended.html'
+    },
+    {
+        id: 'perfume_long_lasting_tips_guide',
+        date: '2026-04-19',
+        category: 'KNOWLEDGE',
+        title: '【持続時間を伸ばす】香水が長持ちしない原因と解決法｜8時間キープするためのプロの技',
+        excerpt: '香水がすぐ消えてしまう原因は？持続時間を劇的に伸ばす方法と、長持ちする香水の選び方をプロが解説。EDTでも8時間キープするテクニックを紹介。',
+        image: 'assets/images/journal/perfume-long-lasting-tips-guide.png',
+        link: 'article-perfume-long-lasting-tips-guide.html'
+    },
+    {
+        id: 'citrus_perfume_recommended_spring_summer',
+        date: '2026-04-18',
+        category: 'REVIEW',
+        title: '【春夏の相棒】シトラス系香水おすすめ7選｜爽やかに駆け抜ける柑橘フレグランスの選び方',
+        excerpt: '春夏に最適なシトラス系香水を7本厳選。レモン・ベルガモット・グレープフルーツなど、爽やかな柑橘フレグランスの選び方と使いこなし方を解説。',
+        image: 'assets/images/journal/citrus-perfume-recommended-spring-summer.png',
+        link: 'article-citrus-perfume-recommended-spring-summer.html'
+    },
+    {
         id: 'perfume_beginner_guide_first_fragrance',
         date: '2026-04-17',
         category: 'KNOWLEDGE',

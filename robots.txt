@@ -2,3 +2,20 @@ User-agent: *
 Allow: /
 
 Sitemap: https://collegrance.com/sitemap.xml
+
+# AI / LLM crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# LLMs.txt — AI向けサイト情報
+# https://collegrance.com/llms.txt (基本版)
+# https://collegrance.com/llms-full.txt (詳細版)

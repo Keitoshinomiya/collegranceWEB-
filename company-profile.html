@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会社案内 | 合同会社ヤシノミ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;500;700&family=Noto+Serif+JP:wght@400;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+    color: #2c2c2c;
+    background: #fff;
+    line-height: 1.7;
+    font-size: 13px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 0;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ===== PAGE 1: 表紙 ===== */
+  .cover {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cover-top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #c9a96e, #e8d5a3, #c9a96e);
+  }
+
+  .cover-logo {
+    width: 120px;
+    margin-bottom: 24px;
+    filter: brightness(0) invert(1);
+  }
+
+  .cover h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+  }
+
+  .cover-subtitle {
+    font-size: 14px;
+    color: #c9a96e;
+    letter-spacing: 6px;
+    margin-bottom: 48px;
+  }
+
+  .cover-divider {
+    width: 60px;
+    height: 1px;
+    background: #c9a96e;
+    margin-bottom: 48px;
+  }
+
+  .cover h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 8px;
+    margin-bottom: 12px;
+  }
+
+  .cover-date {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 24px;
+  }
+
+  .cover-bottom {
+    position: absolute;
+    bottom: 40px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+  }
+
+  /* ===== PAGE 2: 会社概要 ===== */
+  .content-page {
+    padding: 32mm 24mm 24mm 24mm;
+    position: relative;
+  }
+
+  .page-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20mm;
+    background: #1a1a2e;
+    display: flex;
+    align-items: center;
+    padding: 0 24mm;
+  }
+
+  .page-header-title {
+    color: #c9a96e;
+    font-size: 11px;
+    letter-spacing: 4px;
+  }
+
+  .page-header-logo {
+    height: 16px;
+    filter: brightness(0) invert(1);
+    margin-left: auto;
+  }
+
+  .section-number {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 48px;
+    color: #e8e0d4;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: -8px;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+    letter-spacing: 2px;
+  }
+
+  .section-title-en {
+    font-size: 10px;
+    color: #999;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+  }
+
+  .info-table th {
+    text-align: left;
+    width: 120px;
+    padding: 10px 16px 10px 0;
+    font-weight: 500;
+    color: #1a1a2e;
+    border-bottom: 1px solid #e8e0d4;
+    vertical-align: top;
+    font-size: 12px;
+  }
+
+  .info-table td {
+    padding: 10px 0;
+    border-bottom: 1px solid #e8e0d4;
+    font-size: 12px;
+  }
+
+  /* ===== 許認可バッジ ===== */
+  .license-badges {
+    display: flex;
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .license-badge {
+    flex: 1;
+    background: linear-gradient(135deg, #f8f6f2, #f0ebe3);
+    border: 1px solid #c9a96e;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .license-badge .badge-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+  }
+
+  .license-badge .badge-title {
+    font-weight: 700;
+    font-size: 13px;
+    color: #1a1a2e;
+    margin-bottom: 2px;
+  }
+
+  .license-badge .badge-desc {
+    font-size: 10px;
+    color: #888;
+  }
+
+  /* ===== PAGE 3: 事業内容 ===== */
+  .brand-card {
+    background: #f8f6f2;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .brand-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .brand-card h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 16px;
+    color: #1a1a2e;
+  }
+
+  .brand-card-url {
+    font-size: 11px;
+    color: #c9a96e;
+  }
+
+  .brand-card p {
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+
+  .brand-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .brand-tag {
+    background: #1a1a2e;
+    color: #fff;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 12px;
+  }
+
+  .channel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .channel-item {
+    text-align: center;
+    background: #f8f6f2;
+    border-radius: 8px;
+    padding: 16px 12px;
+  }
+
+  .channel-item .ch-icon {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  .channel-item .ch-name {
+    font-weight: 700;
+    font-size: 13px;
+    color: #1a1a2e;
+  }
+
+  .channel-item .ch-desc {
+    font-size: 10px;
+    color: #888;
+    margin-top: 2px;
+  }
+
+  /* ===== 数字ハイライト ===== */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .stat-box {
+    background: #1a1a2e;
+    color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .stat-box .stat-number {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #c9a96e;
+    line-height: 1.2;
+  }
+
+  .stat-box .stat-unit {
+    font-size: 12px;
+    color: #c9a96e;
+  }
+
+  .stat-box .stat-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 4px;
+  }
+
+  /* ===== PAGE 4: 取引実績・強み ===== */
+  .strength-list {
+    list-style: none;
+    margin: 16px 0;
+  }
+
+  .strength-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e8e0d4;
+  }
+
+  .strength-list .str-num {
+    background: #c9a96e;
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .strength-list .str-title {
+    font-weight: 700;
+    color: #1a1a2e;
+    font-size: 13px;
+  }
+
+  .strength-list .str-desc {
+    font-size: 11px;
+    color: #666;
+    margin-top: 2px;
+  }
+
+  .partner-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+  }
+
+  .partner-table th {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 8px 12px;
+    font-size: 11px;
+    text-align: left;
+    font-weight: 500;
+  }
+
+  .partner-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #e8e0d4;
+    font-size: 11px;
+  }
+
+  .partner-table tr:nth-child(even) {
+    background: #f8f6f2;
+  }
+
+  /* ===== ブランド一覧 ===== */
+  .brand-logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0;
+  }
+
+  .brand-logo-item {
+    background: #f8f6f2;
+    border: 1px solid #e8e0d4;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 10px;
+    color: #555;
+    font-weight: 500;
+  }
+
+  /* ===== 価格維持ポリシー ===== */
+  .policy-box {
+    background: linear-gradient(135deg, #f8f6f2, #f0ebe3);
+    border-left: 4px solid #c9a96e;
+    padding: 16px 20px;
+    margin: 16px 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .policy-box h4 {
+    font-size: 13px;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+  }
+
+  .policy-box p {
+    font-size: 11px;
+    color: #555;
+  }
+
+  /* ===== フッター ===== */
+  .page-footer {
+    position: absolute;
+    bottom: 12mm;
+    left: 24mm;
+    right: 24mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 9px;
+    color: #ccc;
+    border-top: 1px solid #e8e0d4;
+    padding-top: 8px;
+  }
+
+  .page-number {
+    color: #c9a96e;
+    font-weight: 700;
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; box-shadow: none; }
+  }
+
+  @media screen {
+    .page {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+      margin-bottom: 24px;
+    }
+    body { background: #eee; padding: 24px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== PAGE 1: 表紙 ===== -->
+<div class="page cover">
+  <div class="cover-top-bar"></div>
+  <img src="assets/images/logo.png" alt="COLLEGRANCE" class="cover-logo">
+  <h1>COLLEGRANCE</h1>
+  <div class="cover-subtitle">FRAGRANCE BOUTIQUE</div>
+  <div class="cover-divider"></div>
+  <h2>会社案内</h2>
+  <p style="font-size:13px; color:rgba(255,255,255,0.7); letter-spacing:3px;">COMPANY PROFILE</p>
+  <div class="cover-date">2026年4月</div>
+  <div class="cover-bottom">合同会社ヤシノミ ｜ YASHI-NOMI LLC</div>
+</div>
+
+<!-- ===== PAGE 2: 会社概要 ===== -->
+<div class="page content-page">
+  <div class="page-header">
+    <span class="page-header-title">COMPANY PROFILE</span>
+    <img src="assets/images/logo.png" alt="" class="page-header-logo">
+  </div>
+
+  <div class="section-number">01</div>
+  <div class="section-title">会社概要</div>
+  <div class="section-title-en">COMPANY OVERVIEW</div>
+
+  <table class="info-table">
+    <tr><th>法人名</th><td>合同会社ヤシノミ（Yashi-Nomi LLC）</td></tr>
+    <tr><th>設立</th><td>2023年</td></tr>
+    <tr><th>代表者</th><td>四宮 慶人（Keito Shinomiya）</td></tr>
+    <tr><th>所在地</th><td>〒563-0032 大阪府池田市石橋1-15-33 平尾ビル2F</td></tr>
+    <tr><th>電話番号</th><td>080-4242-1092</td></tr>
+    <tr><th>メール</th><td>info@yashi-nomi.com</td></tr>
+    <tr><th>事業内容</th><td>フレグランス・コスメのEC販売、自社ブランド運営、ECコンサルティング</td></tr>
+    <tr><th>販売チャネル</th><td>Amazon Japan / 楽天市場 / 自社EC / TikTok Shop</td></tr>
+  </table>
+
+  <div style="font-weight:700; font-size:14px; color:#1a1a2e; margin: 20px 0 12px;">許認可</div>
+
+  <div class="license-badges">
+    <div class="license-badge">
+      <div class="badge-icon">�icing</div>
+      <div class="badge-icon">🏭</div>
+      <div class="badge-title">化粧品製造業許可</div>
+      <div class="badge-desc">自社での検品・ラベル貼り・<br>品質管理が可能</div>
+    </div>
+    <div class="license-badge">
+      <div class="badge-icon">📋</div>
+      <div class="badge-title">化粧品製造販売業許可</div>
+      <div class="badge-desc">自社名義での輸入・通関・<br>販売が可能</div>
+    </div>
+    <div class="license-badge">
+      <div class="badge-icon">🌐</div>
+      <div class="badge-title">自社通関対応</div>
+      <div class="badge-desc">海外からの直接仕入れ<br>ラベル対応まで一貫</div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-box">
+      <div class="stat-number">192</div>
+      <div class="stat-unit">商品</div>
+      <div class="stat-label">取扱SKU数</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">40</div>
+      <div class="stat-unit">ブランド</div>
+      <div class="stat-label">取扱ブランド数</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">100</div>
+      <div class="stat-unit">万円/月〜</div>
+      <div class="stat-label">月間仕入高（拡大中）</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>合同会社ヤシノミ — CONFIDENTIAL</span>
+    <span class="page-number">02</span>
+  </div>
+</div>
+
+<!-- ===== PAGE 3: 事業内容 ===== -->
+<div class="page content-page">
+  <div class="page-header">
+    <span class="page-header-title">COMPANY PROFILE</span>
+    <img src="assets/images/logo.png" alt="" class="page-header-logo">
+  </div>
+
+  <div class="section-number">02</div>
+  <div class="section-title">事業内容・ブランド</div>
+  <div class="section-title-en">BUSINESS & BRANDS</div>
+
+  <div class="brand-card">
+    <div class="brand-card-header">
+      <h3>COLLEGRANCE</h3>
+      <span class="brand-card-url">collegrance.com</span>
+    </div>
+    <p>高級ブランド香水の小分け販売＋フルボトル直販を行うフレグランスブティック。<br>
+    AI香り診断によるパーソナライズ提案、ブランドストーリーを重視した商品紹介で、<br>
+    香水初心者からコレクターまで幅広いお客様にご利用いただいています。</p>
+    <div class="brand-tags">
+      <span class="brand-tag">小分け販売</span>
+      <span class="brand-tag">フルボトル直販</span>
+      <span class="brand-tag">AI香り診断</span>
+      <span class="brand-tag">192 SKU / 40ブランド</span>
+    </div>
+  </div>
+
+  <div class="brand-card">
+    <div class="brand-card-header">
+      <h3>CHO-JU</h3>
+      <span class="brand-card-url">cho-ju.com</span>
+    </div>
+    <p>自社開発の健康食品ブランド。Amazon Japanで展開中。<br>
+    自社商品の企画・製造・販売の実績があり、EC運営の知見を蓄積しています。</p>
+    <div class="brand-tags">
+      <span class="brand-tag">自社開発</span>
+      <span class="brand-tag">健康食品</span>
+      <span class="brand-tag">Amazon出品</span>
+    </div>
+  </div>
+
+  <div style="font-weight:700; font-size:14px; color:#1a1a2e; margin: 20px 0 8px;">販売チャネル</div>
+
+  <div class="channel-grid">
+    <div class="channel-item">
+      <div class="ch-icon">🛒</div>
+      <div class="ch-name">Amazon Japan</div>
+      <div class="ch-desc">メイン販売チャネル<br>小分け＋フルボトル</div>
+    </div>
+    <div class="channel-item">
+      <div class="ch-icon">🏬</div>
+      <div class="ch-name">楽天市場</div>
+      <div class="ch-desc">出店済み<br>フレグランス販売</div>
+    </div>
+    <div class="channel-item">
+      <div class="ch-icon">🌐</div>
+      <div class="ch-name">自社EC</div>
+      <div class="ch-desc">collegrance.com<br>Stripe決済対応</div>
+    </div>
+    <div class="channel-item">
+      <div class="ch-icon">📱</div>
+      <div class="ch-name">TikTok Shop</div>
+      <div class="ch-desc">新規展開中<br>COLLEGRANCE出品</div>
+    </div>
+    <div class="channel-item">
+      <div class="ch-icon">💬</div>
+      <div class="ch-name">LINE公式</div>
+      <div class="ch-desc">@collegrance<br>CRM・リピート促進</div>
+    </div>
+    <div class="channel-item">
+      <div class="ch-icon">📊</div>
+      <div class="ch-name">ECコンサル</div>
+      <div class="ch-desc">Amazon運営支援<br>広告最適化</div>
+    </div>
+  </div>
+
+  <div style="font-weight:700; font-size:14px; color:#1a1a2e; margin: 16px 0 8px;">取扱ブランド（一部）</div>
+
+  <div class="brand-logos">
+    <span class="brand-logo-item">DIOR</span>
+    <span class="brand-logo-item">CHANEL</span>
+    <span class="brand-logo-item">YSL</span>
+    <span class="brand-logo-item">TOM FORD</span>
+    <span class="brand-logo-item">Jo Malone</span>
+    <span class="brand-logo-item">Maison Margiela</span>
+    <span class="brand-logo-item">BYREDO</span>
+    <span class="brand-logo-item">LE LABO</span>
+    <span class="brand-logo-item">DIPTYQUE</span>
+    <span class="brand-logo-item">LOEWE</span>
+    <span class="brand-logo-item">HERMÈS</span>
+    <span class="brand-logo-item">GUCCI</span>
+    <span class="brand-logo-item">PRADA</span>
+    <span class="brand-logo-item">BVLGARI</span>
+    <span class="brand-logo-item">Calvin Klein</span>
+    <span class="brand-logo-item">BURBERRY</span>
+    <span class="brand-logo-item">Maison Francis Kurkdjian</span>
+    <span class="brand-logo-item">Chloé</span>
+    <span class="brand-logo-item">Giorgio Armani</span>
+    <span class="brand-logo-item">VERSACE</span>
+    <span class="brand-logo-item">Lancôme</span>
+    <span class="brand-logo-item">CLEAN</span>
+    <span class="brand-logo-item">TIFFANY & CO.</span>
+    <span class="brand-logo-item">他17ブランド</span>
+  </div>
+
+  <div class="page-footer">
+    <span>合同会社ヤシノミ — CONFIDENTIAL</span>
+    <span class="page-number">03</span>
+  </div>
+</div>
+
+<!-- ===== PAGE 4: 取引実績・強み ===== -->
+<div class="page content-page">
+  <div class="page-header">
+    <span class="page-header-title">COMPANY PROFILE</span>
+    <img src="assets/images/logo.png" alt="" class="page-header-logo">
+  </div>
+
+  <div class="section-number">03</div>
+  <div class="section-title">お取引における弊社の強み</div>
+  <div class="section-title-en">OUR STRENGTHS</div>
+
+  <ul class="strength-list">
+    <li>
+      <span class="str-num">1</span>
+      <div>
+        <div class="str-title">化粧品製造業・製造販売業を保有</div>
+        <div class="str-desc">海外からの直接仕入れ→通関→日本語ラベル貼り→販売まで自社で一貫対応。<br>仕入先様に余計なご負担をおかけしません。</div>
+      </div>
+    </li>
+    <li>
+      <span class="str-num">2</span>
+      <div>
+        <div class="str-title">価格維持への徹底した配慮</div>
+        <div class="str-desc">最安値競争に参加せず、ブランド価値を守る販売価格を設定。<br>自社EC（collegrance.com）での定価販売を基本としています。</div>
+      </div>
+    </li>
+    <li>
+      <span class="str-num">3</span>
+      <div>
+        <div class="str-title">マルチチャネル展開力</div>
+        <div class="str-desc">Amazon・楽天・自社EC・TikTok Shop・LINEと複数チャネルを運営。<br>商品の露出と回転率を高め、安定した仕入れ量を実現します。</div>
+      </div>
+    </li>
+    <li>
+      <span class="str-num">4</span>
+      <div>
+        <div class="str-title">ブランディング力のある自社サイト</div>
+        <div class="str-desc">AI香り診断、ブランドストーリー記事、プロフェッショナルな商品ページで<br>ブランドイメージを損なわない販売環境を構築しています。</div>
+      </div>
+    </li>
+    <li>
+      <span class="str-num">5</span>
+      <div>
+        <div class="str-title">成長中の事業規模</div>
+        <div class="str-desc">月間仕入高100万円から継続的に拡大中。<br>新規ブランド・SKU追加に積極的に取り組んでいます。</div>
+      </div>
+    </li>
+  </ul>
+
+  <div style="font-weight:700; font-size:14px; color:#1a1a2e; margin: 20px 0 8px;">主要お取引先</div>
+
+  <table class="partner-table">
+    <tr>
+      <th>お取引先</th>
+      <th>取引内容</th>
+      <th>取引期間</th>
+    </tr>
+    <tr>
+      <td>株式会社メイクアップ</td>
+      <td>香水・化粧品の卸仕入れ（フルボトル主体）</td>
+      <td>2025年〜</td>
+    </tr>
+    <tr>
+      <td>株式会社K-STYLE</td>
+      <td>香水卸仕入れ（小分け・ニッチブランド）</td>
+      <td>2025年〜</td>
+    </tr>
+    <tr>
+      <td>有限会社ユーロエージェント</td>
+      <td>香水卸仕入れ</td>
+      <td>2025年〜</td>
+    </tr>
+  </table>
+
+  <div class="policy-box">
+    <h4>📌 価格維持ポリシー</h4>
+    <p>弊社は、メーカー様・輸入元様のブランド価値を最も重要な資産と認識しています。<br>
+    Amazon等のモール販売においても、最低販売価格を遵守し、値崩れの原因となる価格競争には参加しません。<br>
+    自社ECサイト（collegrance.com）では定価販売を基本とし、ブランドイメージの維持に努めています。</p>
+  </div>
+
+  <div style="margin-top: 24px; text-align: center; padding: 20px; background: #f8f6f2; border-radius: 8px;">
+    <p style="font-size: 12px; color: #888; margin-bottom: 8px;">お取引に関するお問い合わせ</p>
+    <p style="font-size: 14px; font-weight: 700; color: #1a1a2e;">合同会社ヤシノミ　代表 四宮 慶人</p>
+    <p style="font-size: 12px; color: #555; margin-top: 4px;">
+      📧 info@yashi-nomi.com　｜　📞 080-4242-1092<br>
+      🌐 collegrance.com　｜　📍 大阪府池田市石橋1-15-33
+    </p>
+  </div>
+
+  <div class="page-footer">
+    <span>合同会社ヤシノミ — CONFIDENTIAL</span>
+    <span class="page-number">04</span>
+  </div>
+</div>
+
+</body>
+</html>

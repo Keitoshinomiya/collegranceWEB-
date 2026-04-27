@@ -120,14 +120,16 @@ def process_excel(excel_path):
     ws = wb['Sheet1']
 
     # Excel商品を抽出
+    # 列マッピング: [2]=商品コード [4]=ブランド [5]=商品名 [6]=規格(EDT等)
+    # [7]=容量 [8]=性別 [11]=在庫数 [13]=単価(税抜) [14]=商品カテゴリー
     excel_items = []
     for row in ws.iter_rows(min_row=2, max_row=ws.max_row, values_only=True):
-        cat = str(row[13] or '')
+        cat = str(row[14] or '')
         if cat != '香水':
             continue
         brand = str(row[4] or '').strip()
         name = str(row[5] or '').strip()
-        cost_raw = row[12]
+        cost_raw = row[13]
         if not brand or not cost_raw:
             continue
         try:
@@ -141,7 +143,7 @@ def process_excel(excel_path):
         spec = str(row[6] or '').strip()
         size = str(row[7] or '').strip()
         gender = str(row[8] or '').strip()
-        stock = str(row[10] or '')
+        stock = str(row[11] or '')
         code = str(row[2] or '')
 
         excel_items.append({

@@ -1444,6 +1444,16 @@
           </div>
           <!-- Personal Message from AI -->
           <div id="diag-personal-msg" style="font-size:.66rem;color:#444;line-height:1.9;padding:16px;background:#fafafa;border-left:3px solid #6366f1;border-radius:0 4px 4px 0;margin-bottom:20px"></div>
+          <!-- 🎁 AI診断特典クーポン -->
+          <div id="diag-coupon-box" style="display:none;margin-bottom:20px;padding:16px;background:linear-gradient(135deg,#fef3e2 0%,#fdf0f4 100%);border:1.5px dashed #c97a8a;border-radius:6px;text-align:center">
+            <div style="font-size:.48rem;letter-spacing:.18em;color:#a85a72;text-transform:uppercase;margin-bottom:6px;font-weight:600">🎁 AI診断特典</div>
+            <div style="font-size:.95rem;font-weight:600;color:#333;margin-bottom:4px">フルボトル <span style="color:#c97a8a">10% OFF</span></div>
+            <div style="font-size:.52rem;color:#666;line-height:1.6;margin-bottom:12px">下記コードを Stripe決済画面の「プロモーションコード」欄に入力してください</div>
+            <div id="diag-coupon-code" style="display:inline-block;font-family:'SF Mono','Courier New',monospace;font-size:1rem;font-weight:600;letter-spacing:.08em;color:#1a1a1a;background:#fff;padding:10px 18px;border-radius:4px;border:1px solid #d4a5b3;margin-bottom:8px;cursor:pointer;user-select:all" onclick="copyDiagCoupon()">読み込み中...</div>
+            <button onclick="copyDiagCoupon()" id="diag-coupon-copy-btn" style="display:block;margin:0 auto;padding:6px 14px;background:#c97a8a;color:#fff;border:none;font-family:var(--font);font-size:.54rem;cursor:pointer;border-radius:3px;letter-spacing:.06em">📋 コードをコピー</button>
+            <div id="diag-coupon-timer" style="font-size:.5rem;color:#a85a72;margin-top:10px;font-weight:500"></div>
+            <div style="font-size:.46rem;color:#999;margin-top:6px;line-height:1.5">※24時間限定・1回限り使用可能<br>※また診断するたびに新しいクーポンを発行できます</div>
+          </div>
           <div style="font-size:.52rem;letter-spacing:.12em;color:#999;text-transform:uppercase;margin-bottom:12px">Recommendations</div>
           <div id="diag-result-list"></div>
           <div style="display:flex;gap:8px;margin-top:16px">
@@ -2806,6 +2816,9 @@ function showDiagResult(data){
     answers_for_whom: diagAnswers.forWhom || ''
   });
 
+  /* 🎁 診断完了クーポン発行（毎回新コード、24h限定、10% OFF） */
+  issueDiagCoupon();
+
   /* Save recommended product IDs for purchase attribution */
   try {
     localStorage.setItem('clg_diag_recs', JSON.stringify({
@@ -2814,6 +2827,99 @@ function showDiagResult(data){
       timestamp: new Date().toISOString()
     }));
   } catch(e){}
+}
+
+/* ===== 🎁 AI診断クーポン発行 ===== */
+var diagCouponState = { code: '', expiresAt: 0, timerInterval: null };
+
+async function issueDiagCoupon(){
+  var box = document.getElementById('diag-coupon-box');
+  var codeEl = document.getElementById('diag-coupon-code');
+  var timerEl = document.getElementById('diag-coupon-timer');
+  if(!box || !codeEl) return;
+  box.style.display = 'block';
+  codeEl.textContent = '読み込み中...';
+  if(timerEl) timerEl.textContent = '';
+
+  try {
+    var res = await fetch('/.netlify/functions/create-diagnosis-coupon', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: diagSessionId || '' })
+    });
+    var data = await res.json();
+    if(!res.ok || !data.code) throw new Error(data.error || 'クーポン発行に失敗しました');
+
+    diagCouponState.code = data.code;
+    diagCouponState.expiresAt = data.expiresAt * 1000; // Unix秒 → ms
+    codeEl.textContent = data.code;
+
+    /* GA4: クーポン発行 */
+    if(typeof ga4Event === 'function'){
+      ga4Event('diagnosis_coupon_issued', {
+        coupon_code: data.code,
+        session_id: diagSessionId || '',
+        percent_off: data.percentOff || 10
+      });
+    }
+
+    /* カウントダウンタイマー開始 */
+    if(diagCouponState.timerInterval) clearInterval(diagCouponState.timerInterval);
+    updateDiagCouponTimer();
+    diagCouponState.timerInterval = setInterval(updateDiagCouponTimer, 1000 * 30); // 30秒ごと更新
+  } catch(err){
+    console.error('Coupon issue error:', err);
+    codeEl.textContent = '⚠️ 取得失敗';
+    if(timerEl) timerEl.textContent = '時間をおいて再度お試しください';
+  }
+}
+
+function updateDiagCouponTimer(){
+  var timerEl = document.getElementById('diag-coupon-timer');
+  if(!timerEl || !diagCouponState.expiresAt) return;
+  var ms = diagCouponState.expiresAt - Date.now();
+  if(ms <= 0){
+    timerEl.textContent = '⏰ 期限切れ';
+    if(diagCouponState.timerInterval) clearInterval(diagCouponState.timerInterval);
+    return;
+  }
+  var totalMin = Math.floor(ms / 60000);
+  var h = Math.floor(totalMin / 60);
+  var m = totalMin % 60;
+  timerEl.textContent = '⏱ 残り ' + h + '時間 ' + m + '分';
+}
+
+function copyDiagCoupon(){
+  if(!diagCouponState.code) return;
+  var btn = document.getElementById('diag-coupon-copy-btn');
+  function done(){
+    if(btn){
+      var orig = btn.textContent;
+      btn.textContent = '✓ コピーしました';
+      btn.style.background = '#3a7d44';
+      setTimeout(function(){ btn.textContent = orig; btn.style.background = '#c97a8a'; }, 2000);
+    }
+    if(typeof ga4Event === 'function'){
+      ga4Event('diagnosis_coupon_copied', { coupon_code: diagCouponState.code });
+    }
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(diagCouponState.code).then(done).catch(function(){
+      var ta = document.createElement('textarea');
+      ta.value = diagCouponState.code;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch(e){}
+      document.body.removeChild(ta);
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = diagCouponState.code;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch(e){}
+    document.body.removeChild(ta);
+  }
 }
 
 function showDiagFallback(){

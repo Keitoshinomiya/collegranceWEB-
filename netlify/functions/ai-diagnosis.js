@@ -10,6 +10,8 @@ const client = new Anthropic({
 let PRODUCT_CATALOG = "";
 let VALID_IDS = new Set(); // バリデーション用: カタログに存在するIDセット
 let VALID_ID_LIST = ""; // プロンプト埋め込み用IDリスト文字列
+let SAMPLE_IDS = new Set(); // 小分けあり（Amazon送客対象）IDセット
+let SAMPLE_PRODUCTS_BY_POPULARITY = []; // 売上順の小分け商品（フォールバック用）
 try {
   // Netlifyでは included_files で catalog_full.json をバンドル
   // __dirname相対 or process.cwd()相対で読み込む
@@ -27,7 +29,16 @@ try {
   filtered.forEach((p) => {
     const id = p.productsJsonId || p.code;
     VALID_IDS.add(String(id));
+    // 小分けあり商品も別途記録（Amazon送客のため、診断結果に必ず1つ含める）
+    if (p.samplePrice && p.amazonAsin) {
+      SAMPLE_IDS.add(String(id));
+    }
   });
+  // フォールバック用: 小分けあり商品を売上順にソート
+  SAMPLE_PRODUCTS_BY_POPULARITY = filtered
+    .filter((p) => p.samplePrice && p.amazonAsin)
+    .sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
+
   // プロンプト内のプレースホルダーにIDリストを埋め込む
   VALID_ID_LIST = [...VALID_IDS].join(", ");
   const lines = filtered
@@ -84,6 +95,15 @@ ALLOWED_IDS: [VALID_ID_PLACEHOLDER]
 - 予算、季節、年代、性別、用途すべて考慮する
 - プレゼントの場合はギフトとしての魅力も説明
 - 自由記述の内容には必ず直接触れて共感+知識を示すこと
+
+🎁 重要な販売戦略ルール（必須）:
+- 推薦する3本のうち、**最低1本は必ず【小分け+フルボトル】タグの商品**を選んでください
+- 理由: 小分け（¥750〜¥1,800）からまず気軽に試せるため、初めての方でも購入ハードルが低く、
+  「気に入ればフルボトルへ」という自然なステップを提供できます
+- お客様の好みに最もマッチする小分け商品を選ぶことが理想ですが、
+  完璧にマッチしなくても近い系統の【小分け+フルボトル】商品を1本は含めてください
+- 【小分け+フルボトル】商品を含める位置は1〜3位のどこでも構いません
+  （1位ベストマッチがフルボトルのみなら、2位 or 3位に小分け商品を入れる）
 
 トーンとスタイル:
 - 百貨店の香水フロアのプロの販売員のように、温かく知的に
@@ -249,6 +269,49 @@ ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
         }
       } else {
         break;
+      }
+    }
+
+    // 🎁 セーフティネット: 推薦3本のうち最低1本は小分けあり商品を保証
+    // AIがプロンプト指示を守らなかった場合のフォールバック
+    if (result && Array.isArray(result.recommendations) && result.recommendations.length > 0) {
+      const recIds = result.recommendations.map((r) =>
+        String(r.productId || "").replace(/^id=/, "")
+      );
+      const hasSample = recIds.some((id) => SAMPLE_IDS.has(id));
+
+      if (!hasSample && SAMPLE_PRODUCTS_BY_POPULARITY.length > 0) {
+        // 既に推薦されているIDを除外して、人気順で最良の小分け商品を選ぶ
+        const recIdSet = new Set(recIds);
+        const fallback = SAMPLE_PRODUCTS_BY_POPULARITY.find((p) => {
+          const fbId = String(p.productsJsonId || p.code);
+          return !recIdSet.has(fbId);
+        });
+
+        if (fallback) {
+          const fbId = String(fallback.productsJsonId || fallback.code);
+          const fallbackRec = {
+            rank: 3,
+            productId: fbId,
+            name: fallback.nameEn || fallback.name,
+            brand: fallback.brandEn || fallback.brand,
+            reason: `まずは小分け（¥${fallback.samplePrice}）から気軽にお試しいただける人気商品です。多くの方にご好評いただいており、香りを実際に肌で確かめてから判断できます。気に入っていただけたら、そのままフルボトルへとステップアップいただけます。`,
+            scene: "初めての香水購入や、新しい香りに挑戦したい時にぴったりの1本です。",
+            matchScore: 80,
+            isPopularSamplePick: true, // フロント側で「人気の小分け」バッジ表示用フラグ
+          };
+
+          // ランク3を置換 or 追加（3本未満の場合）
+          if (result.recommendations.length >= 3) {
+            result.recommendations[2] = fallbackRec;
+          } else {
+            result.recommendations.push({
+              ...fallbackRec,
+              rank: result.recommendations.length + 1,
+            });
+          }
+          console.log(`[SafetyNet] Inserted popular sample product: id=${fbId} ${fallback.nameEn || fallback.name}`);
+        }
       }
     }
 

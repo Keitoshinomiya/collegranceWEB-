@@ -2785,11 +2785,15 @@ function showDiagResult(data){
     if(!btnsHtml){
       btnsHtml = '<button onclick="closeDiagnosis();document.getElementById(\'search-input\').value=\'' + (rec.brand||'') + '\';applyFilters()" class="primary">ショップで探す</button>';
     }
-    return '<div class="diag-result-card">' +
+    /* 人気の小分けバッジ（AIフォールバック or 単に小分け対応商品） */
+    var popularBadge = rec.isPopularSamplePick
+      ? '<span style="display:inline-block;font-size:.42rem;background:linear-gradient(135deg,#ff9f43 0%,#ee5a6f 100%);color:#fff;padding:2px 6px;border-radius:3px;margin-left:6px;font-weight:600;letter-spacing:.04em;vertical-align:middle">🎁 人気の小分け</span>'
+      : '';
+    return '<div class="diag-result-card"' + (rec.isPopularSamplePick ? ' style="border-color:#ee5a6f;background:linear-gradient(180deg,#fffaf6 0%,#fff 100%)"' : '') + '>' +
       '<div style="display:flex;gap:12px;align-items:start">' +
         (idx === 0 && imgHtml ? imgHtml : '<div class="diag-result-rank">' + (idx + 1) + '</div>') +
         '<div class="diag-result-info">' +
-          '<div class="diag-result-brand">' + rec.brand + (p && p.concentration ? ' <span style="font-size:.42rem;border:1px solid #ddd;padding:1px 4px;border-radius:2px;margin-left:4px">' + p.concentration + '</span>' : '') + '</div>' +
+          '<div class="diag-result-brand">' + rec.brand + (p && p.concentration ? ' <span style="font-size:.42rem;border:1px solid #ddd;padding:1px 4px;border-radius:2px;margin-left:4px">' + p.concentration + '</span>' : '') + popularBadge + '</div>' +
           '<div class="diag-result-name">' + rec.name + (rec.matchScore ? ' <span style="font-size:.5rem;color:#3a7d44;font-weight:400">' + rec.matchScore + '%</span>' : '') + '</div>' +
           '<div class="diag-result-reason">' + rec.reason + '</div>' +
           (rec.scene ? '<div style="font-size:.54rem;color:#8b6914;background:#faf6ed;padding:4px 8px;border-radius:2px;margin-bottom:8px;line-height:1.5">' + rec.scene + '</div>' : '') +

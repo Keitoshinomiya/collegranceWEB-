@@ -1,7 +1,23 @@
 # COLLEGRANCE Website - Claude Code ルール
-Last Updated: 2026-04-14
+Last Updated: 2026-04-29
 
 > **運用スキル一覧**: `SKILLS.md` を参照（在庫更新、価格更新、画像生成・品質管理、AI診断カタログ更新、デプロイ等）
+
+## ⚠️ 統合作業時の必読ファイル
+
+このプロジェクトは LINE公式アカウント（`~/line-harness-oss/`）と密に連携します。
+LINE連携・タグ・フォーム・テンプレート・クーポン規則・URL契約に関わる作業をする場合は、
+**必ず最初に以下を確認**してください：
+
+📜 **`~/projects-collegrance/INTEGRATION_CONTRACT.md`**
+
+このファイルが「両プロジェクト間の合意事項」の単一の真実です。
+契約に違反する変更を加える前に、CONTRACT.md を**先に**更新してください。
+
+関連ファイル:
+- `~/projects-collegrance/PROJECT_OVERVIEW.md` — 全体図
+- `~/projects-collegrance/CHANGELOG.md` — 契約変更履歴
+- `~/projects-collegrance/shared/tags.json` — タグ定義（機械可読）
 
 ## 常に日本語で応答してください。
 

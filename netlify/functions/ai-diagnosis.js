@@ -12,6 +12,8 @@ let VALID_IDS = new Set(); // バリデーション用: カタログに存在す
 let VALID_ID_LIST = ""; // プロンプト埋め込み用IDリスト文字列
 let SAMPLE_IDS = new Set(); // 小分けあり（Amazon送客対象）IDセット
 let SAMPLE_PRODUCTS_BY_POPULARITY = []; // 売上順の小分け商品（フォールバック用）
+let ALL_PRODUCTS_BY_POPULARITY = []; // 売上順の全カタログ商品（不足時の補完用）
+let CATALOG_BY_ID = new Map(); // ID → 商品オブジェクト（高速参照用）
 try {
   // Netlifyでは included_files で catalog_full.json をバンドル
   // __dirname相対 or process.cwd()相対で読み込む
@@ -27,16 +29,21 @@ try {
   const filtered = catalog.filter((p) => p.sellPrice >= 3000);
   // バリデーション用IDセット構築
   filtered.forEach((p) => {
-    const id = p.productsJsonId || p.code;
-    VALID_IDS.add(String(id));
+    const id = String(p.productsJsonId || p.code);
+    VALID_IDS.add(id);
+    CATALOG_BY_ID.set(id, p);
     // 小分けあり商品も別途記録（Amazon送客のため、診断結果に必ず1つ含める）
     if (p.samplePrice && p.amazonAsin) {
-      SAMPLE_IDS.add(String(id));
+      SAMPLE_IDS.add(id);
     }
   });
   // フォールバック用: 小分けあり商品を売上順にソート
   SAMPLE_PRODUCTS_BY_POPULARITY = filtered
     .filter((p) => p.samplePrice && p.amazonAsin)
+    .sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
+  // 全商品を売上順にソート（3本未満時の補完用）
+  ALL_PRODUCTS_BY_POPULARITY = filtered
+    .slice()
     .sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
 
   // プロンプト内のプレースホルダーにIDリストを埋め込む
@@ -256,62 +263,125 @@ ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
           break;
         }
 
-        console.warn(`Attempt ${attempt}: Invalid productIds found:`, invalidRecs.map(r => r.productId));
+        console.warn(`[CATALOG_VIOLATION] Attempt ${attempt}: Invalid productIds detected`, {
+          invalidIds: invalidRecs.map(r => r.productId),
+          invalidNames: invalidRecs.map(r => `${r.brand} - ${r.name}`),
+          totalCount: invalidRecs.length,
+          attempt,
+        });
 
         if (attempt === MAX_ATTEMPTS) {
           // 最終試行でもダメ → カタログ外の推薦を除外し、有効なもののみ返す
+          const removedCount = invalidRecs.length;
           result.recommendations = result.recommendations.filter((rec) => {
             const id = String(rec.productId || "").replace(/^id=/, "");
             return VALID_IDS.has(id);
           });
           // ランクを振り直す
           result.recommendations.forEach((rec, i) => { rec.rank = i + 1; });
+          console.warn(`[CATALOG_VIOLATION] Final cleanup: removed ${removedCount} invalid recommendations, ${result.recommendations.length} remaining`);
         }
       } else {
         break;
       }
     }
 
-    // 🎁 セーフティネット: 推薦3本のうち最低1本は小分けあり商品を保証
-    // AIがプロンプト指示を守らなかった場合のフォールバック
-    if (result && Array.isArray(result.recommendations) && result.recommendations.length > 0) {
-      const recIds = result.recommendations.map((r) =>
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 🛡️ 最終保証ロジック（3段階）
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    if (result && Array.isArray(result.recommendations)) {
+      // ─── Step 1: カタログ内のIDのみに最終フィルタ（防御的二重チェック）───
+      const beforeFilter = result.recommendations.length;
+      result.recommendations = result.recommendations.filter((rec) => {
+        const id = String(rec.productId || "").replace(/^id=/, "");
+        return VALID_IDS.has(id);
+      });
+      if (beforeFilter !== result.recommendations.length) {
+        console.warn(`[FINAL_GUARD] Filter removed ${beforeFilter - result.recommendations.length} non-catalog items in final guard`);
+      }
+
+      // ─── Step 2: 3本に満たない場合、人気商品で補完 ───
+      const recIdSet = new Set(
+        result.recommendations.map((r) => String(r.productId || "").replace(/^id=/, ""))
+      );
+      const TARGET_COUNT = 3;
+      let filledCount = 0;
+      while (result.recommendations.length < TARGET_COUNT) {
+        // 重複しない人気商品を取得
+        const filler = ALL_PRODUCTS_BY_POPULARITY.find((p) => {
+          const fId = String(p.productsJsonId || p.code);
+          return !recIdSet.has(fId);
+        });
+        if (!filler) break; // カタログに残り商品がない（極めて稀）
+        const fillerId = String(filler.productsJsonId || filler.code);
+        recIdSet.add(fillerId);
+        result.recommendations.push({
+          rank: result.recommendations.length + 1,
+          productId: fillerId,
+          name: filler.nameEn || filler.name,
+          brand: filler.brandEn || filler.brand,
+          reason: `多くの方にご好評いただいている人気商品です。${filler.notes ? `${filler.notes}という構成で、` : ""}幅広い方におすすめできる一本です。`,
+          scene: "様々なシーンでお楽しみいただけます。",
+          matchScore: 75,
+          isFillerPick: true, // 補完商品マーカー
+        });
+        filledCount++;
+      }
+      if (filledCount > 0) {
+        console.warn(`[FINAL_GUARD] Filled ${filledCount} missing slots with popular products`);
+      }
+
+      // ─── Step 3: 小分けあり商品が0個の場合、ランク3を人気の小分け商品に置換 ───
+      const finalRecIds = result.recommendations.map((r) =>
         String(r.productId || "").replace(/^id=/, "")
       );
-      const hasSample = recIds.some((id) => SAMPLE_IDS.has(id));
+      const hasSample = finalRecIds.some((id) => SAMPLE_IDS.has(id));
 
       if (!hasSample && SAMPLE_PRODUCTS_BY_POPULARITY.length > 0) {
-        // 既に推薦されているIDを除外して、人気順で最良の小分け商品を選ぶ
-        const recIdSet = new Set(recIds);
-        const fallback = SAMPLE_PRODUCTS_BY_POPULARITY.find((p) => {
+        const finalRecIdSet = new Set(finalRecIds);
+        const sampleFallback = SAMPLE_PRODUCTS_BY_POPULARITY.find((p) => {
           const fbId = String(p.productsJsonId || p.code);
-          return !recIdSet.has(fbId);
+          return !finalRecIdSet.has(fbId);
         });
 
-        if (fallback) {
-          const fbId = String(fallback.productsJsonId || fallback.code);
-          const fallbackRec = {
+        if (sampleFallback) {
+          const fbId = String(sampleFallback.productsJsonId || sampleFallback.code);
+          const sampleRec = {
             rank: 3,
             productId: fbId,
-            name: fallback.nameEn || fallback.name,
-            brand: fallback.brandEn || fallback.brand,
-            reason: `まずは小分け（¥${fallback.samplePrice}）から気軽にお試しいただける人気商品です。多くの方にご好評いただいており、香りを実際に肌で確かめてから判断できます。気に入っていただけたら、そのままフルボトルへとステップアップいただけます。`,
+            name: sampleFallback.nameEn || sampleFallback.name,
+            brand: sampleFallback.brandEn || sampleFallback.brand,
+            reason: `まずは小分け（¥${sampleFallback.samplePrice}）から気軽にお試しいただける人気商品です。多くの方にご好評いただいており、香りを実際に肌で確かめてから判断できます。気に入っていただけたら、そのままフルボトルへとステップアップいただけます。`,
             scene: "初めての香水購入や、新しい香りに挑戦したい時にぴったりの1本です。",
             matchScore: 80,
-            isPopularSamplePick: true, // フロント側で「人気の小分け」バッジ表示用フラグ
+            isPopularSamplePick: true,
           };
 
-          // ランク3を置換 or 追加（3本未満の場合）
           if (result.recommendations.length >= 3) {
-            result.recommendations[2] = fallbackRec;
+            result.recommendations[2] = sampleRec;
           } else {
-            result.recommendations.push({
-              ...fallbackRec,
-              rank: result.recommendations.length + 1,
-            });
+            result.recommendations.push({ ...sampleRec, rank: result.recommendations.length + 1 });
           }
-          console.log(`[SafetyNet] Inserted popular sample product: id=${fbId} ${fallback.nameEn || fallback.name}`);
+          console.log(`[FINAL_GUARD] Injected popular sample product (no sample in original recs): id=${fbId} ${sampleFallback.nameEn || sampleFallback.name}`);
         }
+      }
+
+      // ─── Step 4: 最終的なランクを正規化（必ず1,2,3になる）───
+      result.recommendations.forEach((rec, i) => { rec.rank = i + 1; });
+
+      // ─── 統合チェック・ログ出力 ───
+      const finalIds = result.recommendations.map((r) => String(r.productId).replace(/^id=/, ""));
+      const allInCatalog = finalIds.every((id) => VALID_IDS.has(id));
+      const sampleInRecs = finalIds.filter((id) => SAMPLE_IDS.has(id)).length;
+      console.log(`[FINAL_GUARD] Result: ${result.recommendations.length}件, カタログ内: ${allInCatalog ? "✅" : "❌"}, 小分けあり: ${sampleInRecs}件`);
+
+      if (!allInCatalog || result.recommendations.length < 3 || sampleInRecs === 0) {
+        console.error(`[FINAL_GUARD_FAIL] ⚠️ 保証条件を満たせなかった！`, {
+          recommendations: result.recommendations,
+          allInCatalog,
+          count: result.recommendations.length,
+          sampleCount: sampleInRecs,
+        });
       }
     }
 

@@ -228,6 +228,16 @@
 
 /* SP対応 — モバイルでは画面下からのボトムシート風 */
 @media (max-width: 768px) {
+  /* card に z-index:200 を付けると stacking context ができ、その内部の
+     position:fixed popover も stacking context 内に閉じ込められる結果、
+     body::after のバックドロップ（z-index:1000）の下に来てしまう。
+     モバイルでは card 側の z-index を解除して、popover が body 直下と
+     同じ stacking context で z-index 競合できるようにする。 */
+  .product-card.journal-open,
+  .product-card-simple.journal-open {
+    z-index: auto !important;
+  }
+
   .product-card-simple .journal-popover,
   .product-card .journal-popover {
     /* viewport 下部に固定表示。カード幅の狭さに引きずられない */

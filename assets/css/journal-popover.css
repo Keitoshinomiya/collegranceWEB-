@@ -162,8 +162,7 @@
   flex: 0 0 40px;
   width: 40px;
   height: 40px;
-  background: #f4f4f4 center/cover no-repeat;
-  filter: sepia(8%) grayscale(8%);
+  background: #f4f4f4;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -172,6 +171,15 @@
   color: #999;
   text-transform: uppercase;
   flex-shrink: 0;
+  overflow: hidden;
+}
+.product-card-simple .journal-popover .pop-thumb img,
+.product-card .journal-popover .pop-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: sepia(8%) grayscale(8%);
 }
 .product-card-simple .journal-popover .pop-meta,
 .product-card .journal-popover .pop-meta {
@@ -211,17 +219,88 @@
   }
 }
 
-/* SP対応 — ポップオーバーが画面端で見切れないように */
+/* index.html の .product-card は overflow:hidden が設定されているため、
+   ポップオーバー展開時のみ overflow:visible にしてクリップを解除する */
+.product-card.journal-open {
+  overflow: visible !important;
+  z-index: 200 !important;
+}
+
+/* SP対応 — モバイルでは画面下からのボトムシート風 */
 @media (max-width: 768px) {
+  /* card に z-index:200 を付けると stacking context ができ、その内部の
+     position:fixed popover も stacking context 内に閉じ込められる結果、
+     body::after のバックドロップ（z-index:1000）の下に来てしまう。
+     モバイルでは card 側の z-index を解除して、popover が body 直下と
+     同じ stacking context で z-index 競合できるようにする。 */
+  .product-card.journal-open,
+  .product-card-simple.journal-open {
+    z-index: auto !important;
+  }
+
   .product-card-simple .journal-popover,
   .product-card .journal-popover {
-    left: -10px;
-    right: -10px;
-    padding: 14px 14px 10px;
+    /* viewport 下部に固定表示。カード幅の狭さに引きずられない */
+    position: fixed !important;
+    left: 16px !important;
+    right: 16px !important;
+    bottom: 16px !important;
+    top: auto !important;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 18px 18px 14px;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.18), 0 12px 32px rgba(0, 0, 0, 0.18);
+    border-radius: 6px;
+    z-index: 1001;
+    -webkit-overflow-scrolling: touch;
   }
+  /* モバイルでは矢印インジケータは不要（ボトムシートでカードに繋がっていない） */
+  .product-card-simple .journal-popover::before,
+  .product-card .journal-popover::before {
+    display: none;
+  }
+  /* サムネを大きく＋タイトルを読みやすく */
+  .product-card-simple .journal-popover .pop-thumb,
+  .product-card .journal-popover .pop-thumb {
+    flex: 0 0 56px;
+    width: 56px;
+    height: 56px;
+  }
+  .product-card-simple .journal-popover .pop-name,
+  .product-card .journal-popover .pop-name {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    -webkit-line-clamp: 3;
+  }
+  .product-card-simple .journal-popover li a,
+  .product-card .journal-popover li a {
+    padding: 12px 0;
+    gap: 12px;
+  }
+  .product-card-simple .journal-popover .pop-head,
+  .product-card .journal-popover .pop-head {
+    margin-bottom: 6px;
+    padding-bottom: 10px;
+  }
+  /* トリガーUIの英字フォント微調整 */
   .product-card-simple .journal-stamp .en,
   .product-card .journal-stamp .en {
     font-size: 0.72rem;
     letter-spacing: 0.28em;
   }
+  /* バックドロップ：body にクラスが付いた時のみ表示 */
+  body.journal-popover-open::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: 1000;
+    animation: journal-backdrop-fade 0.2s ease-out;
+  }
+}
+@keyframes journal-backdrop-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }

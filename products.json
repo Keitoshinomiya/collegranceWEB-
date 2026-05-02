@@ -25,7 +25,8 @@
     "amazonReviewCount": 116,
     "amazonRating": 4.2,
     "concentration": "EDT",
-    "salesCount": 1159
+    "salesCount": 1159,
+    "slug": "lazy-sunday-morning"
   },
   {
     "brand": "HERMÈS",
@@ -53,7 +54,8 @@
     "amazonReviewCount": 81,
     "amazonRating": 4.2,
     "concentration": "EDT",
-    "salesCount": 655
+    "salesCount": 655,
+    "slug": "hermes-un-jardin-sur-le-nil"
   },
   {
     "brand": "Maison Margiela",
@@ -82,7 +84,8 @@
     "amazonReviewCount": 19,
     "amazonRating": 4.2,
     "concentration": "EDT",
-    "salesCount": 342
+    "salesCount": 342,
+    "slug": "margiela-jazz-club"
   },
   {
     "brand": "DIPTYQUE",
@@ -109,7 +112,8 @@
     "concentration": "EDP",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 142
+    "salesCount": 142,
+    "slug": "diptyque-orpheon"
   },
   {
     "brand": "Jo Malone London",
@@ -137,7 +141,8 @@
     "concentration": "Cologne",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 121
+    "salesCount": 121,
+    "slug": "jo-malone-english-pear"
   },
   {
     "brand": "LOEWE",
@@ -164,7 +169,8 @@
     "amazonReviewCount": 8,
     "amazonRating": 4.2,
     "concentration": "EDT",
-    "salesCount": 271
+    "salesCount": 271,
+    "slug": "loewe-001-man"
   },
   {
     "brand": "BYREDO",
@@ -191,7 +197,8 @@
     "concentration": "EDP",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 114
+    "salesCount": 114,
+    "slug": "byredo-blanche"
   },
   {
     "brand": "LE LABO",
@@ -218,7 +225,8 @@
     "amazonReviewCount": 9,
     "amazonRating": 4.2,
     "concentration": "EDP",
-    "salesCount": 6
+    "salesCount": 6,
+    "slug": "le-labo-another-13"
   },
   {
     "brand": "DECORTE",
@@ -246,7 +254,8 @@
     "concentration": "EDT",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 0
+    "salesCount": 0,
+    "slug": "decorte-kimono-yui"
   },
   {
     "brand": "LOEWE",
@@ -279,7 +288,8 @@
     "concentration": "EDT",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 107
+    "salesCount": 107,
+    "slug": "loewe-001-woman"
   },
   {
     "brand": "TIFFANY & CO.",
@@ -306,7 +316,8 @@
     "concentration": "EDP",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 42
+    "salesCount": 42,
+    "slug": "tiffany-rose-gold"
   },
   {
     "brand": "DIOR",
@@ -339,7 +350,8 @@
     "concentration": "EDT",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 36
+    "salesCount": 36,
+    "slug": "dior-sauvage"
   },
   {
     "brand": "DIPTYQUE",
@@ -366,7 +378,8 @@
     "concentration": "EDP",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 21
+    "salesCount": 21,
+    "slug": "diptyque-fleur-de-peau"
   },
   {
     "brand": "ISSEY MIYAKE",
@@ -394,7 +407,8 @@
     "concentration": "EDT",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 29
+    "salesCount": 29,
+    "slug": "issey-miyake-leau-dissey"
   },
   {
     "brand": "YSL",
@@ -427,7 +441,8 @@
     "concentration": "EDP",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 36
+    "salesCount": 36,
+    "slug": "ysl-libre"
   },
   {
     "brand": "Calvin Klein",
@@ -454,7 +469,8 @@
     "concentration": "EDT",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 34
+    "salesCount": 34,
+    "slug": "ck-one"
   },
   {
     "brand": "DIOR",
@@ -482,7 +498,8 @@
     "concentration": "EDT",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 16
+    "salesCount": 16,
+    "slug": "dior-hypnotic-poison"
   },
   {
     "brand": "Dolce & Gabbana",
@@ -509,7 +526,8 @@
     "amazonReviewCount": 1,
     "amazonRating": 4.2,
     "concentration": "EDT",
-    "salesCount": 0
+    "salesCount": 0,
+    "slug": "dg-light-blue"
   },
   {
     "brand": "DIPTYQUE",
@@ -536,7 +554,8 @@
     "concentration": "EDT",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 0
+    "salesCount": 0,
+    "slug": "diptyque-tam-dao"
   },
   {
     "brand": "Jo Malone London",
@@ -564,7 +583,8 @@
     "amazonReviewCount": 1,
     "amazonRating": 4.2,
     "concentration": "Cologne",
-    "salesCount": 0
+    "salesCount": 0,
+    "slug": "jo-malone-nectarine"
   },
   {
     "brand": "THE HOUSE OF OUD",
@@ -592,7 +612,8 @@
     "amazonReviewCount": 4,
     "amazonRating": 4.2,
     "concentration": "EDP",
-    "salesCount": 12
+    "salesCount": 12,
+    "slug": "house-of-oud-the-time"
   },
   {
     "brand": "BYREDO",
@@ -620,7 +641,8 @@
     "concentration": "EDP",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 0
+    "salesCount": 0,
+    "slug": "byredo-gypsy-water"
   },
   {
     "brand": "NONFICTION",
@@ -649,7 +671,8 @@
     "concentration": "EDP",
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
-    "salesCount": 0
+    "salesCount": 0,
+    "slug": "nonfiction-gentle-night"
   },
   {
     "id": 24,

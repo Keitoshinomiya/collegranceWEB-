@@ -588,7 +588,8 @@ const journalArticles = [
         title: 'NONFICTION「GENTLE NIGHT」レビュー：穏やかな夜に寄り添うスエードとシダーウッドの香り',
         excerpt: '甘く柔らかなスエードと落ち着いたシダーウッドが絶妙に絡み合う、NONFICTIONのシグネチャー「GENTLE NIGHT」の魅力に迫ります。',
         image: 'assets/images/gentle_night_1.jpg',
-        link: 'article-nonfiction-gentle-night.html'
+        link: 'article-nonfiction-gentle-night.html',
+        relatedProducts: ['nonfiction-gentle-night']
     },
     {
         id: 'byredo_gypsy_water_review',
@@ -597,7 +598,8 @@ const journalArticles = [
         title: '【神秘の香り】バイレード「ジプシーウォーター」はなぜ人々を魅了するのか？甘くないバニラが描く自由な魂',
         excerpt: '【神秘の香り】BYREDO(バイレード)の一番人気「GYPSY WATER(ジプシーウォーター)」。甘くないバニラとウッディが織りなす、神秘的でジェンダーレスな香りの魅力を徹底レビュー。',
         image: 'assets/images/byredo-gypsy-water-forest-atmosphere.jpg',
-        link: 'article-byredo-gypsy-water.html'
+        link: 'article-byredo-gypsy-water.html',
+        relatedProducts: ['byredo-gypsy-water']
     },
     {
         id: 'diptyque_tam_dao_review',
@@ -606,7 +608,8 @@ const journalArticles = [
         title: '【冬のメンズ香水決定版】ディプティック「タムダオ」のウッドが深く香る理由',
         excerpt: '【冬のメンズ香水決定版】Diptyque(ディプティック)の傑作「TAM DAO(タムダオ)」。なぜ冬に選ばれるのか？ウッド系の深みとスパイスの温もりが演出する大人の色気を徹底レビュー。',
         image: 'assets/images/diptyque-tam-dao.jpg',
-        link: 'article-diptyque-tam-dao.html'
+        link: 'article-diptyque-tam-dao.html',
+        relatedProducts: ['diptyque-tam-dao']
     },
     {
         id: 'olfactory_fatigue_trivia',
@@ -624,7 +627,8 @@ const journalArticles = [
         title: '【賢い選択】いきなりボトルは買わない。お試し香水で作る「香りのワードローブ」という新習慣',
         excerpt: '洋服を着替えるように、香りも毎日変えたい。でもフルボトルを何本も買うのは大変...。そんなあなたに提案したい、1.5mlサイズを組み合わせて作る「香りのワードローブ」の楽しみ方。',
         image: 'assets/images/scent_wardrobe.jpg',
-        link: 'article-scent-wardrobe.html'
+        link: 'article-scent-wardrobe.html',
+        relatedProducts: ['lazy-sunday-morning', 'byredo-blanche', 'jo-malone-nectarine']
     },
     {
         id: 'perfume_history_trivia',
@@ -642,7 +646,8 @@ const journalArticles = [
         title: '【透明感No.1】コスメデコルテ「キモノ ユイ」はモテる？酢橘とピンクペッパーの香りを徹底レビュー',
         excerpt: '「奇跡の透明感」とSNSで話題。日本の美意識を表現したコスメデコルテ「キモノ ユイ(YUI)」の評判は？酢橘の爽やかさとバニラの甘さが織りなす、男女ウケ抜群の香りを深掘り解説。',
         image: 'assets/images/kimono_yui.jpg',
-        link: 'kimono_yui.html'
+        link: 'kimono_yui.html',
+        relatedProducts: ['decorte-kimono-yui']
     },
     {
         id: 'jo_malone_nectarine_review',
@@ -651,7 +656,8 @@ const journalArticles = [
         title: '【桃香水の傑作】ジョーマローン「ネクタリン ブロッサム ＆ ハニー」は男ウケする？リアルな口コミと評判',
         excerpt: 'ジョーマローン人気No.1のフルーティな香り「ネクタリン ブロッサム ＆ ハニー」。甘すぎる？若すぎる？そんな疑問に答える、大人女子のための桃香水レビュー。コンバイニングのコツも紹介。',
         image: 'assets/images/jo_malone_nectarine.jpg',
-        link: 'jo_malone_nectarine.html'
+        link: 'jo_malone_nectarine.html',
+        relatedProducts: ['jo-malone-nectarine']
     },
     {
         id: 'fragrance_trivia_rubbing',
@@ -669,7 +675,8 @@ const journalArticles = [
         title: '【永遠の定番】CK-ONE(シーケーワン)が30年愛され続ける理由。ジェンダーレス香水の金字塔を再評価',
         excerpt: '発売から30年経っても色褪せないCalvin Klein「CK-ONE」。世界初のユニセックス香水として歴史を変えた名香の魅力、シトラスノートの特徴、現代にこそ響くジェンダーレスな価値を再レビューします。',
         image: 'assets/images/ck-one-review.jpg',
-        link: 'article-ck-one.html'
+        link: 'article-ck-one.html',
+        relatedProducts: ['ck-one']
     },
     {
         id: 'byredo_blanche_review',
@@ -678,7 +685,8 @@ const journalArticles = [
         title: '【純白の香り】BYREDO(バイレード)「ブランシュ」の魅力とは？"洗い立てのシーツ"を超える、究極の清潔感',
         excerpt: 'BYREDO(バイレード)のアイコン的香水「BLANCHE(ブランシュ)」。白という色を香りで表現した、透明感あふれるアルデヒドとホワイトローズの香り。マルジェラとの違いや評判を徹底レビュー。',
         image: 'assets/images/byredo-blanche-review.jpg',
-        link: 'article-byredo-blanche.html'
+        link: 'article-byredo-blanche.html',
+        relatedProducts: ['byredo-blanche']
     },
     {
         id: 'perfume_expiry_guide',
@@ -696,7 +704,8 @@ const journalArticles = [
         title: '【K-POPアイドルも虜に】Diptyque「フルール ドゥ ポー」はなぜ"伝説"なのか？肌に溶け込む究極のムスクを徹底レビュー',
         excerpt: 'TXTのヨンジュンなど、人気K-POPアイドルも愛用するDiptyque(ディプティック)の「フルール ドゥ ポー」。肌そのものが美しく香るような「究極のムスク」の魅力、香りの特徴、おすすめの使い方を徹底レビュー。',
         image: 'assets/images/blog_image_fleur_de_peau.jpg',
-        link: 'article-diptyque-fleur-de-peau.html'
+        link: 'article-diptyque-fleur-de-peau.html',
+        relatedProducts: ['diptyque-fleur-de-peau']
     },
     {
         id: 'dior_sauvage_review',
@@ -705,7 +714,8 @@ const journalArticles = [
         title: '【メンズ香水の頂点】Dior「ソヴァージュ」が世界を魅了する理由。"野生"と"気品"が同居する最強のモテ香水',
         excerpt: 'ジョニー・デップのCMでおなじみ、Dior「ソヴァージュ」。世界で最も売れているメンズ香水の人気の秘密、香りの特徴、そして「つけすぎ注意」を防ぐプロのテクニックまで徹底解説します。',
         image: 'assets/images/blog_image_sauvage.jpg',
-        link: 'article-dior-sauvage.html'
+        link: 'article-dior-sauvage.html',
+        relatedProducts: ['dior-sauvage']
     },
     {
         id: 'skin_diagnosis_guide',
@@ -723,7 +733,8 @@ const journalArticles = [
         title: '【ギフトに最適】ティファニー「ローズゴールド」が喜ばれる理由は？年齢層と香りの特徴',
         excerpt: 'ブラックカラントとブルーローズの透明感あふれる香り。年齢層や口コミ、プレゼントに選ばれる「夢が叶う」ストーリーを解説します。',
         image: 'assets/images/tiffany-rosegold-holiday.jpg',
-        link: 'article-tiffany-rosegold.html'
+        link: 'article-tiffany-rosegold.html',
+        relatedProducts: ['tiffany-rose-gold']
     },
     {
         id: 'lazy_sunday_morning_review',
@@ -732,7 +743,8 @@ const journalArticles = [
         title: '【なぜ人気？】マルジェラ「レイジーサンデーモーニング」が男女に愛される理由とリアルな口コミ',
         excerpt: 'SNSで話題の「洗い立てのシーツの香り」。男女問わず愛される理由や、実際に使って分かったメリット・デメリットを徹底解説します。',
         image: 'assets/images/lazy-sunday-morning-hero.jpg',
-        link: 'article-lazy-sunday-morning.html'
+        link: 'article-lazy-sunday-morning.html',
+        relatedProducts: ['lazy-sunday-morning']
     },
     {
         id: 'fragrance_basics',
@@ -750,7 +762,8 @@ const journalArticles = [
         title: '2025年春のトレンド！「お試し香水」で先取りする、桜とフローラルの新作特集',
         excerpt: 'もうすぐ春。重たいウッディから軽やかなフローラルへ衣替えしませんか？来年注目の「透明感のある桜」や「生花系フローラル」をいち早くチェック。',
         image: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80',
-        link: 'article-seasonal-trend.html'
+        link: 'article-seasonal-trend.html',
+        relatedProducts: ['ck-one', 'jo-malone-nectarine', 'byredo-gypsy-water']
     },
     {
         id: 'gift_guide',
@@ -759,7 +772,8 @@ const journalArticles = [
         title: '失敗しないプレゼント選び。おしゃれな「お試し香水ギフト」が喜ばれる5つの理由',
         excerpt: '香水のプレゼントはハードルが高い？いいえ、ミニサイズなら「センスがいい」と喜ばれる最高のプチギフトになります。相手に気を遣わせない贈り方のコツ。',
         image: 'https://images.unsplash.com/photo-1513116476489-7635e79feb27?auto=format&fit=crop&w=800&q=80',
-        link: 'article-gift-guide.html'
+        link: 'article-gift-guide.html',
+        relatedProducts: ['tiffany-rose-gold', 'jo-malone-nectarine', 'lazy-sunday-morning']
     },
     {
         id: 'scent_layering',
@@ -777,7 +791,8 @@ const journalArticles = [
         title: '2025年最新｜香水初心者におすすめの人気ブランドTOP5と失敗しない選び方',
         excerpt: 'マルジェラ、ジョーマローン、SHIRO...今みんなが選んでいるブランドはこれ！初めての一本で迷ったらチェックしたい、絶対にハズさない鉄板ラインナップ。',
         image: 'https://images.unsplash.com/photo-1718466044521-d38654f3ba0a?auto=format&fit=crop&w=800&q=80',
-        link: 'article-brand-ranking.html'
+        link: 'article-brand-ranking.html',
+        relatedProducts: ['lazy-sunday-morning', 'byredo-gypsy-water', 'jo-malone-nectarine']
     },
     {
         id: 'full_vs_trial',

@@ -211,6 +211,13 @@
   }
 }
 
+/* index.html の .product-card は overflow:hidden が設定されているため、
+   ポップオーバー展開時のみ overflow:visible にしてクリップを解除する */
+.product-card.journal-open {
+  overflow: visible !important;
+  z-index: 200 !important;
+}
+
 /* SP対応 — ポップオーバーが画面端で見切れないように */
 @media (max-width: 768px) {
   .product-card-simple .journal-popover,

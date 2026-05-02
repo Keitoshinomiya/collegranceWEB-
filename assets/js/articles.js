@@ -12,7 +12,9 @@ const journalArticles = [
         title: '【男性へ贈るDIPTYQUE】ディプティック香水のメンズギフトおすすめ3選｜ワンランク上の贈り物',
         excerpt: '男性への香水ギフトにDIPTYQUE(ディプティック)を選ぶ理由と、メンズにおすすめの3本を厳選。「センスいい！」と喜ばれるワンランク上の贈り方を解説。',
         image: 'assets/images/journal/diptyque-mens-gift-recommended.png',
-        link: 'article-diptyque-mens-gift-recommended.html'
+        link: 'article-diptyque-mens-gift-recommended.html',
+
+        relatedProducts: ['diptyque-orpheon', 'diptyque-tam-dao', 'diptyque-fleur-de-peau']
     },
     {
         id: 'perfume_trial_sample_sites_comparison_2026',
@@ -30,7 +32,9 @@ const journalArticles = [
         title: '【ジョーマローン】ピオニー&ブラッシュスエードの組み合わせガイド｜最高のレイヤリング5選',
         excerpt: 'Jo Maloneのピオニー&ブラッシュスエードに合う組み合わせ（コンバイニング）を5パターン厳選。イングリッシュペアーやネクタリンとの相性を解説。',
         image: 'assets/images/journal/jo-malone-peony-combining-recommended.png',
-        link: 'article-jo-malone-peony-combining-recommended.html'
+        link: 'article-jo-malone-peony-combining-recommended.html',
+
+        relatedProducts: ['jo-malone-english-pear', 'jo-malone-nectarine']
     },
     {
         id: 'le_labo_ranking_popular_recommended',
@@ -39,7 +43,9 @@ const journalArticles = [
         title: '【2026年版】LE LABO（ルラボ）人気ランキング｜NYの調香アトリエが生む唯一無二の香り',
         excerpt: 'LE LABO(ルラボ)の人気香水をランキングで紹介。Another 13を筆頭に、NYブルックリン発のニッチフレグランスの魅力と選び方を解説。',
         image: 'assets/images/journal/le-labo-ranking-popular-recommended.png',
-        link: 'article-le-labo-ranking-popular-recommended.html'
+        link: 'article-le-labo-ranking-popular-recommended.html',
+
+        relatedProducts: ['le-labo-another-13']
     },
     {
         id: 'byredo_mens_recommended_popular',
@@ -48,7 +54,9 @@ const journalArticles = [
         title: '【男がBYREDOを選ぶ理由】バイレードのメンズおすすめ3選｜ニッチ香水で差をつける',
         excerpt: 'BYREDO(バイレード)を選ぶ男性が増えている理由と、メンズにおすすめの3本を厳選。ジプシーウォーター・ブランシュの男性的な魅力を解説。',
         image: 'assets/images/journal/byredo-mens-recommended-popular.png',
-        link: 'article-byredo-mens-recommended-popular.html'
+        link: 'article-byredo-mens-recommended-popular.html',
+
+        relatedProducts: ['byredo-blanche', 'byredo-gypsy-water']
     },
     {
         id: 'mens_perfume_40s_mature_attractive',
@@ -57,7 +65,9 @@ const journalArticles = [
         title: '【40代メンズの香水選び】大人の余裕を演出する香水5選｜若作りにならない選び方のコツ',
         excerpt: '40代男性が本当に似合う香水とは？若者向けの爽やか系でもなく、おじさんっぽい重さでもない。大人の余裕と品格を纏うための香水5選と選び方のコツ。',
         image: 'assets/images/journal/mens-perfume-40s-mature-attractive.png',
-        link: 'article-mens-perfume-40s-mature-attractive.html'
+        link: 'article-mens-perfume-40s-mature-attractive.html',
+
+        relatedProducts: ['dior-sauvage']
     },
     {
         id: 'atomizer_travel_perfume_guide',
@@ -75,7 +85,9 @@ const journalArticles = [
         title: '【甘い香りの正解】スイート系レディース香水おすすめ5選｜甘すぎない大人のスイートフレグランス',
         excerpt: '甘い香水が好きだけど「甘すぎ」は避けたい。大人の女性に似合う、上品なスイート系レディース香水おすすめ5選を香りのプロが厳選。',
         image: 'assets/images/journal/sweet-perfume-women-popular-recommended.png',
-        link: 'article-sweet-perfume-women-popular-recommended.html'
+        link: 'article-sweet-perfume-women-popular-recommended.html',
+
+        relatedProducts: ['dior-hypnotic-poison', 'jo-malone-nectarine']
     },
     {
         id: 'perfume_long_lasting_tips_guide',
@@ -93,7 +105,9 @@ const journalArticles = [
         title: '【春夏の相棒】シトラス系香水おすすめ7選｜爽やかに駆け抜ける柑橘フレグランスの選び方',
         excerpt: '春夏に最適なシトラス系香水を7本厳選。レモン・ベルガモット・グレープフルーツなど、爽やかな柑橘フレグランスの選び方と使いこなし方を解説。',
         image: 'assets/images/journal/citrus-perfume-recommended-spring-summer.png',
-        link: 'article-citrus-perfume-recommended-spring-summer.html'
+        link: 'article-citrus-perfume-recommended-spring-summer.html',
+
+        relatedProducts: ['hermes-un-jardin-sur-le-nil', 'ck-one', 'dg-light-blue', 'issey-miyake-leau-dissey']
     },
     {
         id: 'perfume_beginner_guide_first_fragrance',
@@ -129,7 +143,9 @@ const journalArticles = [
         title: '【2026年トレンド】グルマン系香水とは？甘い香りの新潮流とおすすめフレグランス',
         excerpt: '2026年のトレンド「グルマン系香水」を完全解説。コーヒー、チョコレート、キャラメルなど「食べたくなる」香りの魅力と、おすすめのグルマンフレグランスを紹介します。',
         image: 'assets/images/journal/gourmand-perfume-trend-2026-sweet.png',
-        link: 'article-gourmand-perfume-trend-2026-sweet.html'
+        link: 'article-gourmand-perfume-trend-2026-sweet.html',
+
+        relatedProducts: ['dior-hypnotic-poison', 'jo-malone-nectarine']
     },
     {
         id: 'diptyque_perfume_ranking_popular_guide',
@@ -138,7 +154,9 @@ const journalArticles = [
         title: '【2026年最新】DIPTYQUE（ディプティック）香水おすすめランキングTOP3｜パリの美意識を纏う',
         excerpt: 'DIPTYQUE(ディプティック)の香水、どれを選べば間違いない？SNS評価と売上から導いた人気ランキングTOP3と、各フレグランスの魅力を徹底比較します。',
         image: 'assets/images/journal/diptyque-perfume-ranking-popular-guide.png',
-        link: 'article-diptyque-perfume-ranking-popular-guide.html'
+        link: 'article-diptyque-perfume-ranking-popular-guide.html',
+
+        relatedProducts: ['diptyque-orpheon', 'diptyque-tam-dao', 'diptyque-fleur-de-peau']
     },
     {
         id: 'womens_perfume_20s_brand_ranking_2026',
@@ -147,7 +165,9 @@ const journalArticles = [
         title: '【2026年版】20代女性に人気の香水ブランドランキングTOP5｜SNSで話題の「今どき」フレグランス',
         excerpt: '20代女性に今人気の香水ブランドは？SNS評価・売上・リピート率から導いた2026年最新ランキングTOP5。各ブランドの代表作と選び方のコツを紹介。',
         image: 'assets/images/journal/womens-perfume-20s-brand-ranking-2026.png',
-        link: 'article-womens-perfume-20s-brand-ranking-2026.html'
+        link: 'article-womens-perfume-20s-brand-ranking-2026.html',
+
+        relatedProducts: ['ysl-libre']
     },
     {
         id: 'margiela_perfume_mens_recommended_guide',
@@ -156,7 +176,9 @@ const journalArticles = [
         title: '【男性必見】マルジェラの香水はメンズに合う？おすすめ5選と「女子ウケ」の真実',
         excerpt: 'Maison Margiela(マルジェラ)の香水はメンズでも使える？男性におすすめの5本と、女性からの評価・使い方のコツを解説。レイジーサンデーモーニングからジャズクラブまで。',
         image: 'assets/images/journal/margiela-perfume-mens-recommended-guide.png',
-        link: 'article-margiela-perfume-mens-recommended-guide.html'
+        link: 'article-margiela-perfume-mens-recommended-guide.html',
+
+        relatedProducts: ['lazy-sunday-morning', 'margiela-jazz-club']
     },
     {
         id: 'byredo_celebrity_favorite_perfume_trend',
@@ -165,7 +187,9 @@ const journalArticles = [
         title: '【芸能人愛用】BYREDO（バイレード）を選ぶセレブたち｜なぜ業界人はこのブランドに惹かれるのか',
         excerpt: 'BYREDO(バイレード)はなぜ芸能人やファッション業界人に愛されるのか？愛用者の傾向と人気の理由、代表作の魅力を徹底解説。ニッチフレグランスの頂点に立つブランドの秘密。',
         image: 'assets/images/journal/byredo-celebrity-favorite-perfume-trend.png',
-        link: 'article-byredo-celebrity-favorite-perfume-trend.html'
+        link: 'article-byredo-celebrity-favorite-perfume-trend.html',
+
+        relatedProducts: ['byredo-blanche', 'byredo-gypsy-water']
     },
     {
         id: 'perfume_gift_girlfriend_recommended',
@@ -174,7 +198,9 @@ const journalArticles = [
         title: '【2026年版】彼女に贈る香水プレゼントおすすめ7選｜「センスいい！」と言われる選び方',
         excerpt: '彼女への香水プレゼント、「センスいい！」と喜ばれる7本を厳選。価格帯別の選び方と、絶対に失敗しないための3つのルールを香りのプロが解説。',
         image: 'assets/images/journal/perfume-gift-girlfriend-recommended.png',
-        link: 'article-perfume-gift-girlfriend-recommended.html'
+        link: 'article-perfume-gift-girlfriend-recommended.html',
+
+        relatedProducts: ['tiffany-rose-gold']
     },
     {
         id: 'perfume_gift_boyfriend_recommended',
@@ -192,7 +218,9 @@ const journalArticles = [
         title: '【魅惑の東洋】オリエンタル系香水とは？スパイスとお香が生む深い官能美の世界を完全解説',
         excerpt: 'オリエンタル系香水の魅力を完全解説。スパイス・バニラ・インセンスが生む官能的な香りの世界。初心者向けの選び方から上級者向けのおすすめまで、プロが紹介します。',
         image: 'assets/images/journal/oriental-perfume-guide-spice-incense.png',
-        link: 'article-oriental-perfume-guide-spice-incense.html'
+        link: 'article-oriental-perfume-guide-spice-incense.html',
+
+        relatedProducts: ['dior-hypnotic-poison', 'house-of-oud-the-time']
     },
     {
         id: 'jimmy_choo_perfume_guide_all_lineup',
@@ -219,7 +247,9 @@ const journalArticles = [
         title: '【ペア香水のすすめ】カップルで共有できるユニセックス香水5選｜2人で同じ香りを纏う新しい楽しみ方',
         excerpt: 'カップルで同じ香水を共有する「ペア香水」が新しいトレンドに。男女で使えるユニセックスフレグランス5選と、2人で楽しむ香りの選び方を紹介。',
         image: 'assets/images/journal/couple-pair-fragrance-sharing-guide.png',
-        link: 'article-couple-pair-fragrance-sharing-guide.html'
+        link: 'article-couple-pair-fragrance-sharing-guide.html',
+
+        relatedProducts: ['ck-one', 'byredo-gypsy-water']
     },
     {
         id: 'how_to_find_signature_scent_guide',
@@ -246,7 +276,9 @@ const journalArticles = [
         title: '【全種類比較】CLEAN（クリーン）の香水おすすめガイド｜清潔感の最高峰を選ぶ',
         excerpt: 'CLEAN(クリーン)の香水全種類を徹底比較。「洗いたてのシーツ」「朝のシャワー」など清潔感をテーマにした香水ブランドの全ラインナップと、あなたに合う一本の選び方を解説。',
         image: 'assets/images/journal/clean-perfume-all-types-guide-fresh.png',
-        link: 'article-clean-perfume-all-types-guide-fresh.html'
+        link: 'article-clean-perfume-all-types-guide-fresh.html',
+
+        relatedProducts: ['byredo-blanche']
     },
     {
         id: 'rainy_season_perfume_guide_humidity',
@@ -282,7 +314,9 @@ const journalArticles = [
         title: '【プロ直伝】ジョーマローン香水の組み合わせガイド｜人気レイヤリング10選',
         excerpt: 'Jo Maloneの魅力はレイヤリング（重ねづけ）。人気の組み合わせ10選と、失敗しないコツをプロが解説。あなただけのオリジナルの香りを作る方法。',
         image: 'assets/images/journal/jo-malone-combining-guide.png',
-        link: 'article-jo-malone-combining-guide.html'
+        link: 'article-jo-malone-combining-guide.html',
+
+        relatedProducts: ['jo-malone-english-pear', 'jo-malone-nectarine']
     },
     {
         id: 'lazy_sunday_morning_similar_perfumes',
@@ -291,7 +325,9 @@ const journalArticles = [
         title: '【比較レビュー】レイジーサンデーモーニングに似てる香水4選｜清潔感系フレグランスを探す旅',
         excerpt: 'マルジェラのレイジーサンデーモーニングが好きな人へ。似た系統の清潔感ある香水4本を、実際に嗅ぎ比べて徹底比較。次の一本が見つかります。',
         image: 'assets/images/journal/lazy-sunday-morning-similar-perfumes.png',
-        link: 'article-lazy-sunday-morning-similar-perfumes.html'
+        link: 'article-lazy-sunday-morning-similar-perfumes.html',
+
+        relatedProducts: ['lazy-sunday-morning']
     },
     {
         id: 'attractive_womens_perfume_picks',
@@ -300,7 +336,9 @@ const journalArticles = [
         title: '【男性が振り返る香り】モテる女性の香水おすすめ5選｜2026年レディース香水ガイド',
         excerpt: '男性が思わず振り返る女性の香りとは？男性目線で「もう一度会いたい」と思わせるレディース香水おすすめ5選を、香りのプロが解説します。',
         image: 'assets/images/journal/attractive-womens-perfume-picks.png',
-        link: 'article-attractive-womens-perfume-picks.html'
+        link: 'article-attractive-womens-perfume-picks.html',
+
+        relatedProducts: ['ysl-libre', 'loewe-001-woman', 'jo-malone-nectarine']
     },
     {
         id: 'attractive_mens_perfume_ranking',
@@ -309,7 +347,9 @@ const journalArticles = [
         title: '【女性500人に聞いた】本当にモテるメンズ香水ランキングTOP5｜2026年最新版',
         excerpt: '女性が本当に「いい匂い」と思うメンズ香水はどれ？女性500人アンケートの結果から導いた、モテるメンズ香水ランキングTOP5を発表します。',
         image: 'assets/images/journal/attractive-mens-perfume-ranking.png',
-        link: 'article-attractive-mens-perfume-ranking.html'
+        link: 'article-attractive-mens-perfume-ranking.html',
+
+        relatedProducts: ['dior-sauvage']
     },
     {
         id: 'replica_perfume_all_types_guide',
@@ -318,7 +358,9 @@ const journalArticles = [
         title: '【全種類レビュー】マルジェラ レプリカ香水おすすめガイド｜人気の秘密と各フレグランスの特徴',
         excerpt: 'Maison Margiela REPLICA（レプリカ）の全種類を徹底レビュー。各フレグランスの特徴・おすすめシーン・口コミ評価を比較。あなたにぴったりの一本が見つかります。',
         image: 'assets/images/journal/replica-perfume-all-types-guide.png',
-        link: 'article-replica-perfume-all-types-guide.html'
+        link: 'article-replica-perfume-all-types-guide.html',
+
+        relatedProducts: ['lazy-sunday-morning', 'margiela-jazz-club']
     },
     {
         id: 'byredo_perfume_ranking_popular',
@@ -327,7 +369,9 @@ const journalArticles = [
         title: '【2026年最新】BYREDO（バイレード）香水の人気ランキングTOP5｜ニッチ香水の最高峰',
         excerpt: 'BYREDO（バイレード）の香水、どれを選べば間違いない？日本での売上とSNS評価から導いた2026年最新の人気ランキングTOP5をプロが解説します。',
         image: 'assets/images/journal/byredo-perfume-ranking-popular.png',
-        link: 'article-byredo-perfume-ranking-popular.html'
+        link: 'article-byredo-perfume-ranking-popular.html',
+
+        relatedProducts: ['byredo-blanche', 'byredo-gypsy-water']
     },
     {
         id: 'perfume_decant_sites_comparison',
@@ -345,7 +389,9 @@ const journalArticles = [
         title: '【完全ガイド】香水をプレゼントする時の選び方｜男女別・年代別・予算別おすすめ',
         excerpt: '香水のプレゼント、喜ばれるか不安ですか？男女別・年代別・予算別に失敗しない選び方とおすすめ香水を、ギフトのプロが徹底解説します。',
         image: 'assets/images/journal/perfume-gift-guide-complete.png',
-        link: 'article-perfume-gift-guide-complete.html'
+        link: 'article-perfume-gift-guide-complete.html',
+
+        relatedProducts: ['tiffany-rose-gold']
     },
     {
         id: 'mens_perfume_20s_ranking_2026',
@@ -354,7 +400,9 @@ const journalArticles = [
         title: '【2026年版】20代メンズにおすすめの香水ランキングTOP5｜モテと清潔感を両立する選び方',
         excerpt: '20代メンズが選ぶべき香水は？清潔感・コスパ・女性ウケを重視した2026年版おすすめランキングTOP5を、香水のプロが本音で解説します。',
         image: 'assets/images/journal/mens-perfume-20s-ranking-2026.png',
-        link: 'article-mens-perfume-20s-ranking-2026.html'
+        link: 'article-mens-perfume-20s-ranking-2026.html',
+
+        relatedProducts: ['dior-sauvage']
     },
     {
         id: 'maison_margiela_perfume_ranking_2026',
@@ -363,7 +411,9 @@ const journalArticles = [
         title: '【2026年最新】マルジェラ香水の人気ランキングTOP5｜レプリカシリーズを徹底比較',
         excerpt: 'Maison Margiela（メゾン マルジェラ）の香水、結局どれが人気？レプリカシリーズを中心に、売上・口コミ・リピート率から導いた2026年最新ランキングをプロが解説します。',
         image: 'assets/images/journal/maison-margiela-perfume-ranking-2026.png',
-        link: 'article-maison-margiela-perfume-ranking-2026.html'
+        link: 'article-maison-margiela-perfume-ranking-2026.html',
+
+        relatedProducts: ['lazy-sunday-morning', 'margiela-jazz-club']
     },
     {
         id: 'perfume_memory_proust_effect_brain',
@@ -381,7 +431,9 @@ const journalArticles = [
         title: '【寝る前の香水】眠りの質が変わる？リラックス香水3選と安眠のための使い方',
         excerpt: '香水は「お出かけの時だけ」と思っていませんか？実は寝る前の香りが睡眠の質を劇的に変えることも。リラックス効果の高い香水3選と、安眠のための正しい使い方を紹介します。',
         image: 'assets/images/journal/perfume-bedtime-relaxation.png',
-        link: 'article-perfume-bedtime-relaxation.html'
+        link: 'article-perfume-bedtime-relaxation.html',
+
+        relatedProducts: ['nonfiction-gentle-night']
     },
     {
         id: 'perfume_gift_women_30s',
@@ -390,7 +442,9 @@ const journalArticles = [
         title: '【30代女性に贈る香水ギフト】本当に喜ばれるプレゼント5選と選び方のコツ',
         excerpt: '30代女性への香水プレゼント、「失敗したくない」あなたへ。香りのプロが選ぶ喜ばれる5本と、絶対に外さない選び方のルールを伝授します。ギフトラッピング対応あり。',
         image: 'assets/images/journal/perfume-gift-women-30s.png',
-        link: 'article-perfume-gift-women-30s.html'
+        link: 'article-perfume-gift-women-30s.html',
+
+        relatedProducts: ['tiffany-rose-gold']
     },
     {
         id: 'musk_perfume_unisex_recommended',
@@ -399,7 +453,9 @@ const journalArticles = [
         title: '【ムスク系香水おすすめ5選】男女で共有できるユニセックスムスクの世界',
         excerpt: 'ムスク系香水の魅力とおすすめ5選を紹介。「肌の匂い」と形容される柔らかいムスクから、モダンなスキンセントまで。男女で共有できるユニセックスムスクの世界を案内します。',
         image: 'assets/images/journal/musk-perfume-unisex-recommended.png',
-        link: 'article-musk-perfume-unisex-recommended.html'
+        link: 'article-musk-perfume-unisex-recommended.html',
+
+        relatedProducts: ['le-labo-another-13', 'ck-one', 'diptyque-fleur-de-peau']
     },
     {
         id: 'perfume_date_women_recommended',
@@ -426,7 +482,9 @@ const journalArticles = [
         title: '【DIOR ヒプノティック プワゾン レビュー】毒という名の誘惑｜最もセクシーなディオールの傑作',
         excerpt: 'DIORヒプノティック プワゾンを徹底レビュー。アプリコットとバニラが描く禁断の甘さ。「毒」と名付けられた伝説的フレグランスが、なぜ四半世紀を経た今も人を虜にし続けるのかを解き明かします。',
         image: 'assets/images/journal/dior-hypnotic-poison-review-seductive.png',
-        link: 'article-dior-hypnotic-poison-review-seductive.html'
+        link: 'article-dior-hypnotic-poison-review-seductive.html',
+
+        relatedProducts: ['dior-hypnotic-poison']
     },
     {
         id: 'le_labo_another_13_review_mystery',
@@ -435,7 +493,9 @@ const journalArticles = [
         title: '【LE LABO アナザー13 レビュー】説明できない魅力｜ムスクの概念を覆す革新的フレグランス',
         excerpt: 'LE LABOアナザー13を徹底レビュー。アンブロキサンとジャスミンが作り出す「説明できないのに惹かれる」不思議な香り。なぜファッション業界人がこぞって愛用するのか、その秘密に迫ります。',
         image: 'assets/images/journal/le-labo-another-13-review-mystery.png',
-        link: 'article-le-labo-another-13-review-mystery.html'
+        link: 'article-le-labo-another-13-review-mystery.html',
+
+        relatedProducts: ['le-labo-another-13']
     },
     {
         id: 'ysl_libre_review_strong_woman',
@@ -444,7 +504,9 @@ const journalArticles = [
         title: '【YSL リブレ レビュー】自由を纏う女性のための香り｜ラベンダー×バニラの革命的フレグランス',
         excerpt: 'YSLリブレを徹底レビュー。ラベンダーとバニラという意外な組み合わせが生んだ「自由」の香り。なぜ世界中の女性がこの香水に共感するのか、その秘密を解き明かします。',
         image: 'assets/images/journal/ysl-libre-review-strong-woman.png',
-        link: 'article-ysl-libre-review-strong-woman.html'
+        link: 'article-ysl-libre-review-strong-woman.html',
+
+        relatedProducts: ['ysl-libre']
     },
     {
         id: 'diptyque_orpheon_review_intellectual_woody',
@@ -453,7 +515,9 @@ const journalArticles = [
         title: '【DIPTYQUE オルフェオン レビュー】知的な男のための香り｜60年代パリの劇場が生んだウッディの傑作',
         excerpt: 'DIPTYQUEオルフェオンを徹底レビュー。ジュニパーベリーとジャスミンが織りなす知的でセクシーなウッディフレグランス。60年代パリの劇場にインスパイアされた香りの魅力を紐解きます。',
         image: 'assets/images/journal/diptyque-orpheon-review-intellectual-woody.png',
-        link: 'article-diptyque-orpheon-review-intellectual-woody.html'
+        link: 'article-diptyque-orpheon-review-intellectual-woody.html',
+
+        relatedProducts: ['diptyque-orpheon']
     },
     {
         id: 'hermes_un_jardin_sur_le_nil_review_exotic',
@@ -462,7 +526,9 @@ const journalArticles = [
         title: '【旅する香水】エルメス"ナイルの庭"はなぜ人を虜にするのか？グリーンマンゴーが描くエキゾチックな水辺',
         excerpt: 'エルメス「ナイルの庭」が20年近く愛され続ける理由とは？グリーンマンゴーとロータスが描くエキゾチックな水辺の世界を、香りのプロが徹底レビューします。',
         image: 'assets/images/journal/hermes-un-jardin-sur-le-nil-review-exotic.png',
-        link: 'article-hermes-un-jardin-sur-le-nil-review-exotic.html'
+        link: 'article-hermes-un-jardin-sur-le-nil-review-exotic.html',
+
+        relatedProducts: ['hermes-un-jardin-sur-le-nil']
     },
     {
         id: 'dolce_gabbana_light_blue_review_summer_citrus',
@@ -471,7 +537,9 @@ const journalArticles = [
         title: '【夏の定番】ドルチェ＆ガッバーナ ライトブルーが20年以上愛され続ける理由。地中海の風を纏う爽快シトラス',
         excerpt: '発売から20年以上、夏の定番として不動の人気を誇るD&Gライトブルー。シチリアンレモンが描く地中海の爽快感と、愛され続ける3つの理由を徹底レビューします。',
         image: 'assets/images/journal/dolce-gabbana-light-blue-review-summer-citrus.png',
-        link: 'article-dolce-gabbana-light-blue-review-summer-citrus.html'
+        link: 'article-dolce-gabbana-light-blue-review-summer-citrus.html',
+
+        relatedProducts: ['dg-light-blue']
     },
     {
         id: 'loewe_001_woman_review_woody_floral',
@@ -480,7 +548,9 @@ const journalArticles = [
         title: '【LOEWEの隠れた名香】001ウーマンはなぜ"彼女の香り"と呼ばれるのか？甘く柔らかいウッディフローラルの魅力',
         excerpt: 'LOEWEの001ウーマンが「彼女の香り」と愛される理由とは？ベルガモット×サンダルウッド×バニラが描く、甘く柔らかいウッディフローラルの魅力を徹底レビューします。',
         image: 'assets/images/journal/loewe-001-woman-review-woody-floral.png',
-        link: 'article-loewe-001-woman-review-woody-floral.html'
+        link: 'article-loewe-001-woman-review-woody-floral.html',
+
+        relatedProducts: ['loewe-001-woman']
     },
     {
         id: 'eau_de_toilette_vs_eau_de_parfum_guide',
@@ -507,7 +577,9 @@ const journalArticles = [
         title: '【2026年夏】爽やかな香水おすすめ8選｜暑い日でも好印象を保つ香りの選び方',
         excerpt: '夏こそ香水の出番。汗と混ざっても爽やかさを保つ、夏に最適な香水を8本厳選。シトラス・マリン・グリーンティーなど、涼感を演出する香りの選び方も。',
         image: 'assets/images/journal/summer-refreshing-perfume-2026.png',
-        link: 'article-summer-refreshing-perfume-2026.html'
+        link: 'article-summer-refreshing-perfume-2026.html',
+
+        relatedProducts: ['hermes-un-jardin-sur-le-nil', 'ck-one', 'dg-light-blue', 'issey-miyake-leau-dissey']
     },
     {
         id: 'woody_mens_fragrance_popular_picks',
@@ -516,7 +588,9 @@ const journalArticles = [
         title: '【大人の色気】ウッディ系メンズ香水おすすめ6選｜木の温もりが演出する知的なセクシーさ',
         excerpt: 'ウッディ系香水は「大人の男」の代名詞。サンダルウッド、シダーウッド、ベチバーなど木の香りが持つ魅力と、メンズ人気の6本を香りのプロが厳選。',
         image: 'assets/images/journal/woody-mens-fragrance-popular-picks.png',
-        link: 'article-woody-mens-fragrance-popular-picks.html'
+        link: 'article-woody-mens-fragrance-popular-picks.html',
+
+        relatedProducts: ['margiela-jazz-club', 'dior-sauvage', 'diptyque-tam-dao', 'house-of-oud-the-time', 'nonfiction-gentle-night']
     },
     {
         id: 'perfume_too_much_how_to_fix',
@@ -534,7 +608,9 @@ const journalArticles = [
         title: '【2026年版】フローラル系香水おすすめ7選｜甘すぎない大人のフローラルを厳選',
         excerpt: 'フローラル系香水は「甘すぎてちょっと…」と思っていませんか？大人の女性にこそ似合う、洗練されたフローラルフレグランスを7本厳選しました。',
         image: 'assets/images/journal/floral-perfume-women-recommended-2026.png',
-        link: 'article-floral-perfume-women-recommended-2026.html'
+        link: 'article-floral-perfume-women-recommended-2026.html',
+
+        relatedProducts: ['jo-malone-english-pear', 'loewe-001-woman', 'tiffany-rose-gold', 'jo-malone-nectarine']
     },
     {
         id: 'perfume_storage_tips_prevent_deterioration',
@@ -552,7 +628,9 @@ const journalArticles = [
         title: '【脱・定番】ニッチ香水ブランドおすすめ5選｜被らない香りで差をつける',
         excerpt: '人と被らない香りを探しているあなたへ。BYREDO、DIPTYQUE、LE LABOなど、知る人ぞ知るニッチフレグランスブランドの魅力と代表作をプロが厳選紹介。',
         image: 'assets/images/journal/niche-perfume-brands-recommended.png',
-        link: 'article-niche-perfume-brands-recommended.html'
+        link: 'article-niche-perfume-brands-recommended.html',
+
+        relatedProducts: ['byredo-blanche', 'byredo-gypsy-water', 'le-labo-another-13', 'house-of-oud-the-time', 'nonfiction-gentle-night']
     },
     {
         id: 'fragrance_notes_top_middle_base_guide',
@@ -570,7 +648,9 @@ const journalArticles = [
         title: '【30代メンズ必見】本当にモテる香水の選び方とは？女性が思わず振り返る3つの香り',
         excerpt: '30代男性が本当にモテるための香水選びのコツとは？「いい匂い」と思わせる距離感と、女性ウケ抜群のおすすめ香水を香りのプロが厳選して紹介します。',
         image: 'assets/images/journal/mens-fragrance-30s-attractive.png',
-        link: 'article-mens-fragrance-30s-attractive.html'
+        link: 'article-mens-fragrance-30s-attractive.html',
+
+        relatedProducts: ['dior-sauvage', 'margiela-jazz-club']
     },
     {
         id: 'perfume_vending_machine_trend',

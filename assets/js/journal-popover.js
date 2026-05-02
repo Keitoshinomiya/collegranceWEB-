@@ -29,16 +29,29 @@
         );
     }
 
+    // ポップオーバー内サムネ用に Unsplash 画像 URL を小さく（w=120 q=70）置換する。
+    // ローカル画像はそのまま返す。
+    function thumbUrl(url) {
+        if (!url) return '';
+        if (/images\.unsplash\.com/.test(url)) {
+            var u = url;
+            u = u.replace(/([?&])w=\d+/, '$1w=120');
+            u = u.replace(/([?&])q=\d+/, '$1q=70');
+            return u;
+        }
+        return url;
+    }
+
     function buildPopover(articles) {
         var items = articles.map(function (a) {
-            var bg = a.image ? "background-image:url('" + escapeHtml(a.image) + "')" : '';
             var initials = (a.category || 'JOURNAL').slice(0, 3).toUpperCase();
+            var thumb = a.image
+                ? '<img src="' + escapeHtml(thumbUrl(a.image)) + '" loading="lazy" decoding="async" alt="">'
+                : escapeHtml(initials);
             return (
                 '<li>' +
                     '<a href="' + escapeHtml(a.link) + '">' +
-                        '<span class="pop-thumb" style="' + bg + '" aria-hidden="true">' +
-                            (a.image ? '' : escapeHtml(initials)) +
-                        '</span>' +
+                        '<span class="pop-thumb" aria-hidden="true">' + thumb + '</span>' +
                         '<span class="pop-meta">' +
                             '<span class="pop-cat">' + escapeHtml(a.category || 'Journal') + '</span>' +
                             '<span class="pop-name">' + escapeHtml(a.title) + '</span>' +
@@ -120,6 +133,12 @@
         return el.closest('.product-card-simple, .product-card');
     }
 
+    // body クラスを更新（モバイル時のバックドロップ用）
+    function syncBodyClass() {
+        var anyOpen = !!document.querySelector('.journal-stamp.open');
+        document.body.classList.toggle('journal-popover-open', anyOpen);
+    }
+
     // ポップオーバーをすべて閉じる
     function closeAllPopovers() {
         document.querySelectorAll('.journal-stamp.open').forEach(function (s) {
@@ -127,6 +146,7 @@
             var c = closestCard(s);
             if (c) c.classList.remove('journal-open');
         });
+        syncBodyClass();
     }
 
     // ===== グローバルイベント（1度だけ登録） =====
@@ -143,6 +163,7 @@
             if (!isOpen) {
                 stamp.classList.add('open');
                 if (card) card.classList.add('journal-open');
+                syncBodyClass();
             }
             return;
         }
@@ -153,11 +174,12 @@
                 stamp2.classList.remove('open');
                 var card2 = closestCard(stamp2);
                 if (card2) card2.classList.remove('journal-open');
+                syncBodyClass();
             }
             return;
         }
-        // 外側クリックで閉じる
-        if (!e.target.closest('.journal-stamp')) {
+        // 外側クリックで閉じる（ポップオーバー内・トリガー以外）
+        if (!e.target.closest('.journal-stamp') && !e.target.closest('[data-popover-toggle]')) {
             closeAllPopovers();
         }
     });

@@ -6,14 +6,13 @@
  *
  * 使い方:
  *   GET /.netlify/functions/shipping-csv?session=cs_live_xxx
+ *   GET /.netlify/functions/shipping-csv?session=cs_live_xxx&phone=09012345678
+ *      → 電話番号がStripe側で空の場合、URLパラメータで補完可能
  *
  * オプション環境変数（B2クラウド契約者情報）:
  *   YAMATO_BILLING_CUSTOMER_CODE  ご請求先顧客コード（半角10〜12文字）
  *   YAMATO_BILLING_CLASS_CODE     ご請求先分類コード（半角3文字、任意）
  *   YAMATO_FREIGHT_CONTROL_NO     運賃管理番号（半角2文字）
- *
- * これらが未設定でもCSV取り込みは動きますが、B2クラウドの「ご依頼主情報」
- * プリセットから自動補完されることが多いです。
  */
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const iconv = require('iconv-lite');
@@ -30,7 +29,7 @@ const SENDER = {
 // B2クラウド契約者情報（環境変数で上書き可能）
 const BILLING_CUSTOMER_CODE = process.env.YAMATO_BILLING_CUSTOMER_CODE || '080424210981';
 const BILLING_CLASS_CODE = process.env.YAMATO_BILLING_CLASS_CODE || '';
-const FREIGHT_CONTROL_NO = process.env.YAMATO_FREIGHT_CONTROL_NO || '';
+const FREIGHT_CONTROL_NO = process.env.YAMATO_FREIGHT_CONTROL_NO || '01';
 
 // 95列フル仕様のCSV列定義（newb2web_template1.xls 「外部データ取り込み基本レイアウト」準拠）
 // 各列の値を生成するマッピング
@@ -141,6 +140,39 @@ function buildRow(ctx) {
 }
 
 /**
+ * 品名を B2クラウド仕様（全角25文字/半角50文字）に短縮
+ * 半角=1, 全角=2 で文字数換算
+ */
+function truncateProductName(text, maxByteLength = 50) {
+  if (!text) return '';
+  let bytes = 0;
+  let result = '';
+  for (const ch of text) {
+    // ASCII（半角英数記号）= 1, それ以外（日本語など）= 2
+    const charBytes = ch.charCodeAt(0) < 128 ? 1 : 2;
+    if (bytes + charBytes > maxByteLength) break;
+    bytes += charBytes;
+    result += ch;
+  }
+  return result;
+}
+
+/**
+ * 商品名を伝票用に短縮（ブランド名 + 主要部分のみ）
+ * 例: "Maison Margiela - Lazy Sunday Morning (レイジーサンデーモーニング)"
+ *  →  "Maison Margiela Lazy Sunday Morning"
+ */
+function simplifyProductName(text) {
+  if (!text) return '香水';
+  // 括弧内の日本語表記を削除
+  let simplified = text.replace(/\s*\([^)]*\)\s*/g, ' ').trim();
+  // 「ブランド - 商品名」のハイフンを除去（フラット化）
+  simplified = simplified.replace(/\s*-\s*/g, ' ').trim();
+  // B2クラウド仕様で最大半角50文字に切り詰め
+  return truncateProductName(simplified, 50);
+}
+
+/**
  * 日付フォーマット（B2クラウド: YYYY/MM/DD）
  */
 function formatDate(date) {
@@ -178,6 +210,8 @@ function escapeCsv(value) {
 
 exports.handler = async (event) => {
   const sessionId = event.queryStringParameters?.session;
+  // 電話番号の手動補完（Stripeで未入力の場合用）
+  const phoneOverride = event.queryStringParameters?.phone;
 
   if (!sessionId) {
     return { statusCode: 400, body: 'session parameter required' };
@@ -208,11 +242,18 @@ exports.handler = async (event) => {
     const shipDate = formatDate(addBusinessDays(today, 1));    // 翌営業日発送
     const arriveDate = formatDate(addBusinessDays(today, 4));  // 4営業日後到着
 
-    // 商品名（送料・ギフトラッピング除外）
+    // 商品名（送料・ギフトラッピング除外、長すぎる名前は短縮）
     const lineItems = session.line_items?.data || [];
     const productNames = lineItems
       .filter((item) => !/送料|ギフトラッピング/.test(item.description || ''))
-      .map((item) => `${item.description}${item.quantity > 1 ? ` x${item.quantity}` : ''}`);
+      .map((item) => {
+        const baseName = simplifyProductName(item.description);
+        const qtySuffix = item.quantity > 1 ? ` x${item.quantity}` : '';
+        return truncateProductName(baseName + qtySuffix, 50);
+      });
+
+    // 電話番号: URLパラメータ優先、なければStripeの値
+    const phone = phoneOverride || customerDetails.phone || '';
 
     // 1行のCSVデータを構築
     const row = buildRow({
@@ -220,7 +261,7 @@ exports.handler = async (event) => {
       shipDate,
       arriveDate,
       recipient: {
-        phone: customerDetails.phone || '',
+        phone: phone,
         postal: (addr.postal_code || '').replace(/-/g, ''),
         address: `${addr.state || ''}${addr.city || ''}${addr.line1 || ''}`,
         building: addr.line2 || '',

@@ -188,6 +188,10 @@ exports.handler = async (event) => {
       invoice_creation: {
         enabled: true,
       },
+      // ヤマトB2クラウド伝票発行に必要なため電話番号を必須化
+      phone_number_collection: {
+        enabled: true,
+      },
     });
 
     return {

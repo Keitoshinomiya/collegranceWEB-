@@ -1,28 +1,61 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const SLACK_CHANNEL = 'C091LDC8MKN';
-const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
+const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL; // 優先: Incoming Webhook URL（推奨）
+const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;     // フォールバック: Bot Token
 
 /**
- * Send a message to Slack via Web API (chat.postMessage)
+ * Slack送信。Webhook URL → Bot Token の順で試す。
+ * 両方失敗してもログに残し、決済処理自体は止めない。
  */
 async function sendSlackMessage(text) {
-  const res = await fetch('https://slack.com/api/chat.postMessage', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-    },
-    body: JSON.stringify({
-      channel: SLACK_CHANNEL,
-      text,
-    }),
-  });
-  const data = await res.json();
-  if (!data.ok) {
-    console.error('Slack API error:', data.error);
+  // ① Incoming Webhook URL（推奨方式・トークン管理不要・最も堅牢）
+  if (SLACK_WEBHOOK_URL) {
+    try {
+      const res = await fetch(SLACK_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      });
+      if (res.ok) {
+        console.log('[Slack] sent via Webhook URL');
+        return { ok: true, method: 'webhook' };
+      }
+      const errText = await res.text();
+      console.error(`[Slack] Webhook URL failed: ${res.status} ${errText}`);
+    } catch (err) {
+      console.error('[Slack] Webhook URL exception:', err.message);
+    }
   }
-  return data;
+
+  // ② Bot Token（フォールバック）
+  if (SLACK_BOT_TOKEN) {
+    try {
+      const res = await fetch('https://slack.com/api/chat.postMessage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+        },
+        body: JSON.stringify({ channel: SLACK_CHANNEL, text }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        console.log('[Slack] sent via Bot Token');
+        return { ok: true, method: 'token' };
+      }
+      console.error(`[Slack] Bot Token API error: ${data.error}`);
+    } catch (err) {
+      console.error('[Slack] Bot Token exception:', err.message);
+    }
+  }
+
+  // ③ 両方失敗 → 強くログ。Stripe ダッシュボードで気付ける
+  console.error('🚨🚨🚨 [SLACK_FAILURE] 全Slack通知方式が失敗しました。Stripe Dashboardで注文を確認してください。');
+  console.error('--- 送信予定だったメッセージ（コピペで通知）---');
+  console.error(text);
+  console.error('--- ここまで ---');
+  return { ok: false, method: 'none' };
 }
 
 /**

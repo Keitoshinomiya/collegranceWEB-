@@ -24,11 +24,11 @@ const SENDER = {
   postal: '5630032',
   addressFirst: '大阪府池田市石橋1-15-33',
   addressSecond: '平尾ビル2F',
-  name: '合同会社ヤシノミ',
+  name: 'COLLEGRANCE',
 };
 
 // B2クラウド契約者情報（環境変数で上書き可能）
-const BILLING_CUSTOMER_CODE = process.env.YAMATO_BILLING_CUSTOMER_CODE || '';
+const BILLING_CUSTOMER_CODE = process.env.YAMATO_BILLING_CUSTOMER_CODE || '080424210981';
 const BILLING_CLASS_CODE = process.env.YAMATO_BILLING_CLASS_CODE || '';
 const FREIGHT_CONTROL_NO = process.env.YAMATO_FREIGHT_CONTROL_NO || '';
 

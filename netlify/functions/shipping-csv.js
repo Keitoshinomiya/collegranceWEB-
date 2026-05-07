@@ -1,12 +1,19 @@
 /**
- * ヤマトB2クラウド 伝票発行用CSV生成エンドポイント
+ * ヤマトB2クラウド 外部データ取り込み用 CSV生成
+ *
+ * テンプレート: newb2web_template1.xls 「外部データ取り込み基本レイアウト」95列に準拠
+ * 取り込み時は「ヘッダなし」を選択してください（このCSVはヘッダ行を出力しません）
  *
  * 使い方:
  *   GET /.netlify/functions/shipping-csv?session=cs_live_xxx
  *
- * → Stripe Checkout Session の情報からB2クラウド形式のCSVを生成して返却。
- *    ファイル名: shipping_<注文番号>.csv （Shift_JIS、ヘッダ行付き）
- *    ダウンロード後、B2クラウドの「ファイル取り込み」にアップロードすれば伝票発行可能。
+ * オプション環境変数（B2クラウド契約者情報）:
+ *   YAMATO_BILLING_CUSTOMER_CODE  ご請求先顧客コード（半角10〜12文字）
+ *   YAMATO_BILLING_CLASS_CODE     ご請求先分類コード（半角3文字、任意）
+ *   YAMATO_FREIGHT_CONTROL_NO     運賃管理番号（半角2文字）
+ *
+ * これらが未設定でもCSV取り込みは動きますが、B2クラウドの「ご依頼主情報」
+ * プリセットから自動補完されることが多いです。
  */
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const iconv = require('iconv-lite');
@@ -20,44 +27,118 @@ const SENDER = {
   name: '合同会社ヤシノミ',
 };
 
-// B2クラウド CSV ヘッダー（基本29列構成）
-const CSV_HEADERS = [
-  'お客様管理番号',         // 1
-  '送り状種類',              // 2 (0=発払)
-  'クール区分',              // 3 (0=通常)
-  '伝票番号',                // 4 (空欄=自動採番)
-  '出荷予定日',              // 5
-  'お届け予定日',            // 6
-  '配達時間帯',              // 7 (0=指定なし)
-  'お届け先コード',          // 8
-  'お届け先電話番号',        // 9
-  'お届け先電話番号枝番',    // 10
-  'お届け先郵便番号',        // 11
-  'お届け先住所',            // 12
-  'お届け先アパートマンション名', // 13
-  'お届け先会社・部門名1',   // 14
-  'お届け先会社・部門名2',   // 15
-  'お届け先名',              // 16
-  'お届け先名(カナ)',        // 17
-  'お届け先敬称',            // 18 (様)
-  'ご依頼主コード',          // 19
-  'ご依頼主電話番号',        // 20
-  'ご依頼主電話番号枝番',    // 21
-  'ご依頼主郵便番号',        // 22
-  'ご依頼主住所',            // 23
-  'ご依頼主アパートマンション名', // 24
-  'ご依頼主名',              // 25
-  'ご依頼主名(カナ)',        // 26
-  '品名コード1',             // 27
-  '品名1',                   // 28
-  '品名コード2',             // 29
-  '品名2',                   // 30
-  '荷扱い1',                 // 31
-  '荷扱い2',                 // 32
-  '記事',                    // 33
-  'コレクト代金引換金額',    // 34
-  'コレクト内消費税額等',    // 35
-];
+// B2クラウド契約者情報（環境変数で上書き可能）
+const BILLING_CUSTOMER_CODE = process.env.YAMATO_BILLING_CUSTOMER_CODE || '';
+const BILLING_CLASS_CODE = process.env.YAMATO_BILLING_CLASS_CODE || '';
+const FREIGHT_CONTROL_NO = process.env.YAMATO_FREIGHT_CONTROL_NO || '';
+
+// 95列フル仕様のCSV列定義（newb2web_template1.xls 「外部データ取り込み基本レイアウト」準拠）
+// 各列の値を生成するマッピング
+function buildRow(ctx) {
+  const {
+    orderNumber, shipDate, arriveDate,
+    recipient, products, sender,
+  } = ctx;
+
+  // 95列を順番に埋める
+  return [
+    /*  1 */ orderNumber,                                                     // お客様管理番号
+    /*  2 */ '0',                                                             // 送り状種類: 0=発払い
+    /*  3 */ '0',                                                             // クール区分: 0=通常
+    /*  4 */ '',                                                              // 伝票番号（B2クラウドにて付与）
+    /*  5 */ shipDate,                                                        // 出荷予定日 YYYY/MM/DD
+    /*  6 */ arriveDate,                                                      // お届け予定日 YYYY/MM/DD
+    /*  7 */ '',                                                              // 配達時間帯（指定なし）
+    /*  8 */ '',                                                              // お届け先コード
+    /*  9 */ recipient.phone,                                                 // お届け先電話番号
+    /* 10 */ '',                                                              // お届け先電話番号枝番
+    /* 11 */ recipient.postal,                                                // お届け先郵便番号
+    /* 12 */ recipient.address,                                               // お届け先住所
+    /* 13 */ recipient.building,                                              // お届け先アパートマンション名
+    /* 14 */ '',                                                              // お届け先会社・部門１
+    /* 15 */ '',                                                              // お届け先会社・部門２
+    /* 16 */ recipient.name,                                                  // お届け先名
+    /* 17 */ '',                                                              // お届け先名(カナ)
+    /* 18 */ '様',                                                             // 敬称
+    /* 19 */ '',                                                              // ご依頼主コード
+    /* 20 */ sender.phone,                                                    // ご依頼主電話番号
+    /* 21 */ '',                                                              // ご依頼主電話番号枝番
+    /* 22 */ sender.postal,                                                   // ご依頼主郵便番号
+    /* 23 */ sender.addressFirst,                                             // ご依頼主住所
+    /* 24 */ sender.addressSecond,                                            // ご依頼主アパートマンション
+    /* 25 */ sender.name,                                                     // ご依頼主名
+    /* 26 */ '',                                                              // ご依頼主名(カナ)
+    /* 27 */ '',                                                              // 品名コード１
+    /* 28 */ products[0] || '香水',                                            // 品名１
+    /* 29 */ '',                                                              // 品名コード２
+    /* 30 */ products[1] || '',                                                // 品名２
+    /* 31 */ '',                                                              // 荷扱い１
+    /* 32 */ '',                                                              // 荷扱い２
+    /* 33 */ `Order ${orderNumber}`,                                          // 記事
+    /* 34 */ '',                                                              // コレクト代金引換額(税込)
+    /* 35 */ '',                                                              // 内消費税額等
+    /* 36 */ '0',                                                             // 止置き: 0=利用しない
+    /* 37 */ '',                                                              // 営業所コード
+    /* 38 */ '1',                                                             // 発行枚数
+    /* 39 */ '1',                                                             // 個数口表示フラグ: 1=印字する
+    /* 40 */ BILLING_CUSTOMER_CODE,                                           // 請求先顧客コード（必須）
+    /* 41 */ BILLING_CLASS_CODE,                                              // 請求先分類コード
+    /* 42 */ FREIGHT_CONTROL_NO,                                              // 運賃管理番号（必須）
+    /* 43 */ '0',                                                             // クロネコwebコレクトデータ登録: 無し
+    /* 44 */ '',                                                              // クロネコwebコレクト加盟店番号
+    /* 45 */ '',                                                              // クロネコwebコレクト申込受付番号１
+    /* 46 */ '',                                                              // クロネコwebコレクト申込受付番号２
+    /* 47 */ '',                                                              // クロネコwebコレクト申込受付番号３
+    /* 48 */ '0',                                                             // お届け予定eメール利用区分: 利用しない
+    /* 49 */ '',                                                              // お届け予定eメールe-mailアドレス
+    /* 50 */ '',                                                              // 入力機種
+    /* 51 */ '',                                                              // お届け予定eメールメッセージ
+    /* 52 */ '0',                                                             // お届け完了eメール利用区分: 利用しない
+    /* 53 */ '',                                                              // お届け完了eメールe-mailアドレス
+    /* 54 */ '',                                                              // お届け完了eメールメッセージ
+    /* 55 */ '0',                                                             // クロネコ収納代行利用区分: 利用しない
+    /* 56 */ '',                                                              // 予備
+    /* 57 */ '',                                                              // 収納代行請求金額(税込)
+    /* 58 */ '',                                                              // 収納代行内消費税額等
+    /* 59 */ '',                                                              // 収納代行請求先郵便番号
+    /* 60 */ '',                                                              // 収納代行請求先住所
+    /* 61 */ '',                                                              // 収納代行請求先住所(アパマン)
+    /* 62 */ '',                                                              // 収納代行請求先会社・部門名１
+    /* 63 */ '',                                                              // 収納代行請求先会社・部門名２
+    /* 64 */ '',                                                              // 収納代行請求先名(漢字)
+    /* 65 */ '',                                                              // 収納代行請求先名(カナ)
+    /* 66 */ '',                                                              // 収納代行問合せ先名(漢字)
+    /* 67 */ '',                                                              // 収納代行問合せ先郵便番号
+    /* 68 */ '',                                                              // 収納代行問合せ先住所
+    /* 69 */ '',                                                              // 収納代行問合せ先住所(アパマン)
+    /* 70 */ '',                                                              // 収納代行問合せ先電話番号
+    /* 71 */ '',                                                              // 収納代行管理番号
+    /* 72 */ '',                                                              // 収納代行品名
+    /* 73 */ '',                                                              // 収納代行備考
+    /* 74 */ '',                                                              // 複数口くくりキー
+    /* 75 */ '',                                                              // 検索キータイトル1
+    /* 76 */ '',                                                              // 検索キー1
+    /* 77 */ '',                                                              // 検索キータイトル2
+    /* 78 */ '',                                                              // 検索キー2
+    /* 79 */ '',                                                              // 検索キータイトル3
+    /* 80 */ '',                                                              // 検索キー3
+    /* 81 */ '',                                                              // 検索キータイトル4
+    /* 82 */ '',                                                              // 検索キー4
+    /* 83 */ '',                                                              // 検索キータイトル5（自動）
+    /* 84 */ '',                                                              // 検索キー5（自動）
+    /* 85 */ '',                                                              // 予備
+    /* 86 */ '',                                                              // 予備
+    /* 87 */ '0',                                                             // 投函予定メール利用区分
+    /* 88 */ '',                                                              // 投函予定メールe-mailアドレス
+    /* 89 */ '',                                                              // 投函予定メールメッセージ
+    /* 90 */ '0',                                                             // 投函完了メール（お届け先宛）利用区分
+    /* 91 */ '',                                                              // 投函完了メール（お届け先宛）e-mailアドレス
+    /* 92 */ '',                                                              // 投函完了メール（お届け先宛）メッセージ
+    /* 93 */ '0',                                                             // 投函完了メール（ご依頼主宛）利用区分
+    /* 94 */ '',                                                              // 投函完了メール（ご依頼主宛）e-mailアドレス
+    /* 95 */ '',                                                              // 投函完了メール（ご依頼主宛）メッセージ
+  ];
+}
 
 /**
  * 日付フォーマット（B2クラウド: YYYY/MM/DD）
@@ -84,12 +165,12 @@ function addBusinessDays(date, days) {
 }
 
 /**
- * CSV値のエスケープ（カンマやダブルクォート対応）
+ * CSV値のエスケープ（カンマやダブルクォートを含む場合のみダブルクォート囲み）
  */
 function escapeCsv(value) {
   if (value == null) return '';
   const str = String(value);
-  if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+  if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
     return '"' + str.replace(/"/g, '""') + '"';
   }
   return str;
@@ -99,14 +180,11 @@ exports.handler = async (event) => {
   const sessionId = event.queryStringParameters?.session;
 
   if (!sessionId) {
-    return {
-      statusCode: 400,
-      body: 'session parameter required',
-    };
+    return { statusCode: 400, body: 'session parameter required' };
   }
 
   try {
-    // Stripeセッション取得（line_items含む）
+    // Stripeセッション取得
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ['line_items', 'line_items.data.price.product'],
     });
@@ -122,80 +200,38 @@ exports.handler = async (event) => {
     const shippingDetails = session.shipping_details || customerDetails;
     const addr = shippingDetails.address || customerDetails.address || {};
 
-    // 注文番号（管理番号）
+    // 注文番号（管理番号、最大50文字以内）
     const orderNumber = session.id.replace('cs_live_', '').slice(0, 20);
 
-    // お届け予定日（営業日2日後 → 配達は3〜5日後で安全側）
+    // お届け予定日
     const today = new Date();
-    const shipDate = addBusinessDays(today, 1);    // 翌営業日に発送想定
-    const arriveDate = addBusinessDays(today, 4);  // 4営業日後到着想定
+    const shipDate = formatDate(addBusinessDays(today, 1));    // 翌営業日発送
+    const arriveDate = formatDate(addBusinessDays(today, 4));  // 4営業日後到着
 
-    // 商品名
+    // 商品名（送料・ギフトラッピング除外）
     const lineItems = session.line_items?.data || [];
     const productNames = lineItems
       .filter((item) => !/送料|ギフトラッピング/.test(item.description || ''))
       .map((item) => `${item.description}${item.quantity > 1 ? ` x${item.quantity}` : ''}`);
-    const productName1 = productNames[0] || '香水';
-    const productName2 = productNames.slice(1).join(' / ') || '';
 
-    // 住所を「番地まで」と「建物名」に分割（B2クラウドの仕様）
-    const addressLine1 = addr.line1 || '';
-    const addressLine2 = addr.line2 || '';
+    // 1行のCSVデータを構築
+    const row = buildRow({
+      orderNumber,
+      shipDate,
+      arriveDate,
+      recipient: {
+        phone: customerDetails.phone || '',
+        postal: (addr.postal_code || '').replace(/-/g, ''),
+        address: `${addr.state || ''}${addr.city || ''}${addr.line1 || ''}`,
+        building: addr.line2 || '',
+        name: customerDetails.name || '',
+      },
+      products: productNames,
+      sender: SENDER,
+    });
 
-    // 郵便番号（ハイフンなし）
-    const postalDest = (addr.postal_code || '').replace(/-/g, '');
-
-    // 電話番号（ハイフン整形維持）
-    const phone = customerDetails.phone || '';
-
-    // ご依頼主住所
-    const senderAddrFull = SENDER.addressFirst;
-    const senderAddrSecond = SENDER.addressSecond;
-
-    // 1行のCSVデータ
-    const row = [
-      orderNumber,                             // お客様管理番号
-      '0',                                     // 送り状種類: 発払
-      '0',                                     // クール区分: 通常
-      '',                                      // 伝票番号: 空欄（自動採番）
-      formatDate(shipDate),                    // 出荷予定日
-      formatDate(arriveDate),                  // お届け予定日
-      '0',                                     // 配達時間帯: 指定なし
-      '',                                      // お届け先コード
-      phone,                                   // お届け先電話番号
-      '',                                      // お届け先電話番号枝番
-      postalDest,                              // お届け先郵便番号
-      `${addr.state || ''}${addr.city || ''}${addressLine1}`,  // お届け先住所
-      addressLine2,                            // お届け先アパートマンション名
-      '',                                      // お届け先会社・部門名1
-      '',                                      // お届け先会社・部門名2
-      customerDetails.name || '',              // お届け先名
-      '',                                      // お届け先名(カナ)
-      '様',                                    // お届け先敬称
-      '',                                      // ご依頼主コード
-      SENDER.phone,                            // ご依頼主電話番号
-      '',                                      // ご依頼主電話番号枝番
-      SENDER.postal,                           // ご依頼主郵便番号
-      senderAddrFull,                          // ご依頼主住所
-      senderAddrSecond,                        // ご依頼主アパートマンション名
-      SENDER.name,                             // ご依頼主名
-      '',                                      // ご依頼主名(カナ)
-      '',                                      // 品名コード1
-      productName1,                            // 品名1
-      '',                                      // 品名コード2
-      productName2,                            // 品名2
-      '',                                      // 荷扱い1
-      '',                                      // 荷扱い2
-      `Order ${orderNumber}`,                  // 記事
-      '',                                      // コレクト代金引換金額
-      '',                                      // コレクト内消費税額等
-    ];
-
-    // CSV生成（ヘッダ + 1行）
-    const csvText = [
-      CSV_HEADERS.map(escapeCsv).join(','),
-      row.map(escapeCsv).join(','),
-    ].join('\r\n');
+    // CSVテキスト生成（ヘッダなし、CRLF改行）
+    const csvText = row.map(escapeCsv).join(',') + '\r\n';
 
     // Shift_JISエンコード（B2クラウド標準）
     const csvBuffer = iconv.encode(csvText, 'Shift_JIS');

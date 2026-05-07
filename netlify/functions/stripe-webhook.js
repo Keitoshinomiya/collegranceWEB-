@@ -138,24 +138,38 @@ exports.handler = async (event) => {
       const total = fullSession.amount_total || 0;
       const shippingAddress = formatAddress(fullSession.shipping_details);
 
+      // 顧客電話番号
+      const customerPhone = fullSession.customer_details?.phone || '未入力';
+
+      // 配送ラベル発行用の追加情報
+      const shippingCsvUrl = `https://collegrance.com/.netlify/functions/shipping-csv?session=${session.id}`;
+      const stripeUrl = `https://dashboard.stripe.com/payments/${paymentIntent}`;
+
       // Build Slack message
       const slackMsg = [
         ':shopping_cart: *新規注文*',
         '',
-        `注文者: ${customerName}`,
-        `メール: ${customerEmail}`,
+        `*注文者:* ${customerName}`,
+        `*メール:* ${customerEmail}`,
+        `*電話:* ${customerPhone}`,
         '',
-        '商品:',
+        '*商品:*',
         ...productLines,
         '',
         `小計: ¥${subtotal.toLocaleString()}`,
         `送料: ¥${shippingAmount.toLocaleString()}`,
         `ギフトラッピング: ${hasGiftWrap ? 'あり' : 'なし'}`,
-        `合計: ¥${total.toLocaleString()}`,
+        `*合計: ¥${total.toLocaleString()}*`,
         '',
-        `配送先: ${shippingAddress}`,
+        '*配送先:*',
+        shippingAddress,
         '',
-        `Stripeダッシュボード: https://dashboard.stripe.com/payments/${paymentIntent}`,
+        '━━━━━━━━━━━━━━━━━━━━━━',
+        ':package: *発送・伝票発行*',
+        `<${shippingCsvUrl}|:arrow_down: ヤマトB2クラウド用CSVをダウンロード>`,
+        '_↑ クリックでCSV取得 → B2クラウドの「ファイル取り込み」にアップロードで伝票発行_',
+        '',
+        `<${stripeUrl}|:credit_card: Stripeダッシュボードで詳細確認>`,
       ].join('\n');
 
       await sendSlackMessage(slackMsg);

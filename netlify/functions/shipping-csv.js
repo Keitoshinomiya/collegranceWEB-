@@ -26,6 +26,9 @@ const SENDER = {
   name: 'COLLEGRANCE',
 };
 
+// お届け先電話番号が空の場合のフォールバック（弊社の代表番号）
+const FALLBACK_RECIPIENT_PHONE = '08042421092';
+
 // B2クラウド契約者情報（環境変数で上書き可能）
 const BILLING_CUSTOMER_CODE = process.env.YAMATO_BILLING_CUSTOMER_CODE || '080424210981';
 const BILLING_CLASS_CODE = process.env.YAMATO_BILLING_CLASS_CODE || '';
@@ -252,8 +255,11 @@ exports.handler = async (event) => {
         return truncateProductName(baseName + qtySuffix, 50);
       });
 
-    // 電話番号: URLパラメータ優先、なければStripeの値
-    const phone = phoneOverride || customerDetails.phone || '';
+    // 電話番号: URLパラメータ最優先 → Stripeの値 → 弊社代表番号フォールバック
+    // 1. URLパラメータ（手動指定があれば最優先）
+    // 2. Stripeチェックアウトでお客様が入力した番号
+    // 3. どちらも空なら弊社代表 08042421092（B2必須項目を埋めるため）
+    const phone = phoneOverride || customerDetails.phone || FALLBACK_RECIPIENT_PHONE;
 
     // 1行のCSVデータを構築
     const row = buildRow({

@@ -240,10 +240,11 @@ exports.handler = async (event) => {
     // 注文番号（管理番号、最大50文字以内）
     const orderNumber = session.id.replace('cs_live_', '').slice(0, 20);
 
-    // お届け予定日
+    // 出荷予定日のみ指定（お届け予定日は空欄＝ヤマトの自動最短配送に任せる）
+    // 過去にお届け予定日を指定したため「その日まで保管」されるトラブルが発生したため
     const today = new Date();
     const shipDate = formatDate(addBusinessDays(today, 1));    // 翌営業日発送
-    const arriveDate = formatDate(addBusinessDays(today, 4));  // 4営業日後到着
+    const arriveDate = '';  // 空欄→ヤマト最短配送
 
     // 商品名（送料・ギフトラッピング除外、長すぎる名前は短縮）
     const lineItems = session.line_items?.data || [];

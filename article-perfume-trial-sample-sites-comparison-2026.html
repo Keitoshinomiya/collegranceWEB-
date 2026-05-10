@@ -104,7 +104,20 @@
     .share-bar a,.share-bar button{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid #e8e8e8;background:#fff;cursor:pointer;transition:all .2s}
     .share-bar a:hover,.share-bar button:hover{background:#f5f5f5;border-color:#ccc}
     .share-bar-bottom{border-top:1px solid #eee;margin-top:32px;padding-top:20px}
-  </style>
+  
+    /* ========== 関連記事セクション ========== */
+    .related-articles-section{margin:48px 0 32px;padding:32px 24px;background:#faf9f7;border-radius:8px}
+    .related-articles-heading{font-size:1.1rem;font-weight:500;color:var(--text);margin-bottom:24px;text-align:center;letter-spacing:.05em}
+    .related-articles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .related-article-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--border);border-radius:6px;overflow:hidden;text-decoration:none;color:var(--text);transition:transform .2s ease,box-shadow .2s ease}
+    .related-article-card:hover{transform:translateY(-4px);box-shadow:0 4px 16px rgba(0,0,0,.08);text-decoration:none}
+    .related-card-image{aspect-ratio:16/10;overflow:hidden;background:#f0eee8}
+    .related-card-image img{width:100%;height:100%;object-fit:cover;display:block}
+    .related-card-body{padding:14px 16px}
+    .related-card-cat{display:inline-block;font-size:.62rem;color:var(--sub);letter-spacing:.1em;margin-bottom:6px;text-transform:uppercase}
+    .related-card-title{font-size:.78rem;line-height:1.5;margin:0;font-weight:500;color:var(--text);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    @media(max-width:640px){.related-articles-section{padding:24px 16px}.related-articles-grid{grid-template-columns:repeat(2,1fr);gap:10px}.related-card-title{font-size:.7rem}}
+</style>
     <link rel="stylesheet" href="assets/css/footer.css">
 </head>
 <body>
@@ -238,6 +251,49 @@
 
         <p>「高級香水を買う前に少量だけ試したい」——そんなニーズに応えて、最近は<strong>香水の小分け・量り売りサービス</strong>が急増しています。</p><p>でも、増えすぎて<strong>「どこで買えば安心なの？」</strong>と迷う方も多いはず。この記事では、小分け香水を安心して買うためのチェックポイントと、おすすめの選び方を解説します。</p><h2>小分け香水サイトを選ぶ5つのチェックポイント</h2><ol><li><strong>化粧品製造販売業許可を持っているか</strong><br>香水を小分けして販売するには、法律上この許可が必須。無許可の販売は違法です。必ず確認を。</li><li><strong>正規品を使用しているか</strong><br>「並行輸入の正規品」と「コピー品」は全く違います。仕入れルートを明示しているサイトが安心。</li><li><strong>衛生管理が明示されているか</strong><br>香水は化粧品。製造環境のクリーンさが品質に直結します。</li><li><strong>品揃え</strong><br>試したいブランドが揃っているか。ニッチブランド（BYREDO、LE LABO等）の取り扱いがあるかも重要。</li><li><strong>価格の妥当性</strong><br>安すぎる場合は品質に疑問。高すぎる場合はコスパが悪い。</li></ol><h2>COLLEGRANCEが選ばれる理由</h2><div class="product-card-inline"><img src="assets/images/fullbottle/product_01.jpg" alt="COLLEGRANCE 小分け香水"><div class="pci-info"><div class="pci-brand">COLLEGRANCE</div><div class="pci-name">130種類以上のブランド香水を1.5ml小分けで</div><div class="pci-price">¥750〜¥1,800（約20プッシュ・2週間分）</div><div class="pci-btns"><a href="/" class="pci-btn-shop">ショップを見る</a><a href="https://www.amazon.co.jp/collegrance" target="_blank" rel="noopener" class="pci-btn-sample">Amazonストア</a></div></div></div><ul><li><strong>化粧品製造販売業許可取得済み</strong>：法的に認められた正規の小分け販売</li><li><strong>正規品のみ</strong>：海外正規代理店から直接仕入れた並行輸入品</li><li><strong>130種類以上</strong>：Maison Margiela、BYREDO、LE LABO、DIPTYQUEなどニッチブランドも充実</li><li><strong>Amazon出品</strong>：Amazon上での評価4.2、購入者レビューで品質確認可能</li><li><strong>AI香り診断</strong>：何を選べばいいかわからない方にAIが最適な1本を提案</li></ul><h2>「小分けで試す→フルボトル」が最も賢い買い方</h2><p>いきなり¥10,000〜¥50,000のフルボトルを買って「合わなかった」は悲しい。<strong>¥750〜の小分けで2週間試して、「これだ！」と確信した香りだけフルボトルを迎える</strong>のが、香水のプロも実践する最も賢い方法です。</p><div class='cta-box'><p><strong>AI香り診断であなただけの1本を見つけませんか？</strong><br>好み・シーン・季節から、プロのAIがぴったりの香水を提案します。<br><a href='/'>AI香り診断を受けてみる →</a></p></div>
     </div>
+            <!-- ========== 関連記事 ========== -->
+            <section class="related-articles-section">
+                <h3 class="related-articles-heading">▼ あわせて読みたい</h3>
+                <div class="related-articles-grid">
+                <a href="article-perfume-decant-sites-comparison.html" class="related-article-card">
+                    <div class="related-card-image">
+                        <img src="assets/images/journal/perfume-decant-sites-comparison.png" alt="" loading="lazy">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-card-cat">KNOWLEDGE</span>
+                        <h4 class="related-card-title">【2026年版】香水の量り売り・小分け販売サイトおすすめ比較｜安心して買えるのはどこ？</h4>
+                    </div>
+                </a>
+                <a href="article-perfume-beginner-guide-first-fragrance.html" class="related-article-card">
+                    <div class="related-card-image">
+                        <img src="assets/images/journal/perfume-beginner-guide-first-fragrance.png" alt="" loading="lazy">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-card-cat">KNOWLEDGE</span>
+                        <h4 class="related-card-title">【超初心者向け】香水の選び方完全ガイド｜最初の1本で失敗しないための7つのルール</h4>
+                    </div>
+                </a>
+                <a href="article-full-vs-trial.html" class="related-article-card">
+                    <div class="related-card-image">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=80" alt="" loading="lazy">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-card-cat">KNOWLEDGE</span>
+                        <h4 class="related-card-title">高級香水は「お試し香水」が賢い！フルボトル購入前に知っておきたいコスパの真実</h4>
+                    </div>
+                </a>
+                <a href="article-trial-perfume.html" class="related-article-card">
+                    <div class="related-card-image">
+                        <img src="https://images.unsplash.com/photo-1654524437870-58365dea153b?auto=format&fit=crop&w=800&q=80" alt="" loading="lazy">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-card-cat">KNOWLEDGE</span>
+                        <h4 class="related-card-title">【プロが解説】香水選びで失敗しないための「お試しサイズ」活用術</h4>
+                    </div>
+                </a>
+                </div>
+            </section>
+
 
     <div class="share-bar share-bar-bottom">
       <span class="share-bar-label">SHARE THIS ARTICLE</span>

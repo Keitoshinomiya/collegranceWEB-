@@ -94,7 +94,20 @@
 .share-bar a,.share-bar button{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid #e8e8e8;background:#fff;cursor:pointer;transition:all .2s}
 .share-bar a:hover,.share-bar button:hover{background:#f5f5f5;border-color:#ccc}
 .share-bar-bottom{border-top:1px solid #eee;margin-top:32px;padding-top:20px}
-  </style>
+  
+    /* ========== 関連記事セクション ========== */
+    .related-articles-section{margin:48px 0 32px;padding:32px 24px;background:#faf9f7;border-radius:8px}
+    .related-articles-heading{font-size:1.1rem;font-weight:500;color:var(--text);margin-bottom:24px;text-align:center;letter-spacing:.05em}
+    .related-articles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .related-article-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--border);border-radius:6px;overflow:hidden;text-decoration:none;color:var(--text);transition:transform .2s ease,box-shadow .2s ease}
+    .related-article-card:hover{transform:translateY(-4px);box-shadow:0 4px 16px rgba(0,0,0,.08);text-decoration:none}
+    .related-card-image{aspect-ratio:16/10;overflow:hidden;background:#f0eee8}
+    .related-card-image img{width:100%;height:100%;object-fit:cover;display:block}
+    .related-card-body{padding:14px 16px}
+    .related-card-cat{display:inline-block;font-size:.62rem;color:var(--sub);letter-spacing:.1em;margin-bottom:6px;text-transform:uppercase}
+    .related-card-title{font-size:.78rem;line-height:1.5;margin:0;font-weight:500;color:var(--text);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    @media(max-width:640px){.related-articles-section{padding:24px 16px}.related-articles-grid{grid-template-columns:repeat(2,1fr);gap:10px}.related-card-title{font-size:.7rem}}
+</style>
     <link rel="stylesheet" href="assets/css/footer.css">
 </head>
 <body>
@@ -299,6 +312,49 @@
 
             <h2>自分に合う香りがわからない方へ</h2><p>130種類以上の中から選ぶのは大変ですよね。COLLEGRANCEの<a href='/'>AI香り診断</a>なら、いくつかの質問に答えるだけで、あなたにぴったりの香水を3本提案してくれます。</p><div class='cta-box'><p><strong>AI香り診断であなただけの1本を見つけませんか？</strong><br>好み・シーン・季節から、プロのAIがぴったりの香水を提案します。<br><a href='/'>AI香り診断を受けてみる →</a></p></div>
         </div>
+            <!-- ========== 関連記事 ========== -->
+            <section class="related-articles-section">
+                <h3 class="related-articles-heading">▼ あわせて読みたい</h3>
+                <div class="related-articles-grid">
+                <a href="article-diptyque-orpheon-review-intellectual-woody.html" class="related-article-card">
+                    <div class="related-card-image">
+                        <img src="assets/images/journal/diptyque-orpheon-review-intellectual-woody.png" alt="" loading="lazy">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-card-cat">REVIEW</span>
+                        <h4 class="related-card-title">【DIPTYQUE オルフェオン レビュー】知的な男のための香り｜60年代パリの劇場が生んだウッディの傑作</h4>
+                    </div>
+                </a>
+                <a href="article-diptyque-tam-dao.html" class="related-article-card">
+                    <div class="related-card-image">
+                        <img src="assets/images/diptyque-tam-dao.jpg" alt="" loading="lazy">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-card-cat">REVIEW</span>
+                        <h4 class="related-card-title">【冬のメンズ香水決定版】ディプティック「タムダオ」のウッドが深く香る理由</h4>
+                    </div>
+                </a>
+                <a href="article-diptyque-perfume-ranking-popular-guide.html" class="related-article-card">
+                    <div class="related-card-image">
+                        <img src="assets/images/journal/diptyque-perfume-ranking-popular-guide.png" alt="" loading="lazy">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-card-cat">RANKING</span>
+                        <h4 class="related-card-title">【2026年最新】DIPTYQUE（ディプティック）香水おすすめランキングTOP3｜パリの美意識を纏う</h4>
+                    </div>
+                </a>
+                <a href="article-musk-perfume-unisex-recommended.html" class="related-article-card">
+                    <div class="related-card-image">
+                        <img src="assets/images/journal/musk-perfume-unisex-recommended.png" alt="" loading="lazy">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-card-cat">REVIEW</span>
+                        <h4 class="related-card-title">【ムスク系香水おすすめ5選】男女で共有できるユニセックスムスクの世界</h4>
+                    </div>
+                </a>
+                </div>
+            </section>
+
         <div class="share-bar share-bar-bottom">
   <span class="share-bar-label">SHARE THIS ARTICLE</span>
   <a href="" class="share-x" target="_blank" rel="noopener" title="Xでシェア"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1a1a1a"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>

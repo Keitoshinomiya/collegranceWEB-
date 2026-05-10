@@ -104,7 +104,20 @@
     .share-bar a,.share-bar button{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid #e8e8e8;background:#fff;cursor:pointer;transition:all .2s}
     .share-bar a:hover,.share-bar button:hover{background:#f5f5f5;border-color:#ccc}
     .share-bar-bottom{border-top:1px solid #eee;margin-top:32px;padding-top:20px}
-  </style>
+  
+    /* ========== 関連記事セクション ========== */
+    .related-articles-section{margin:48px 0 32px;padding:32px 24px;background:#faf9f7;border-radius:8px}
+    .related-articles-heading{font-size:1.1rem;font-weight:500;color:var(--text);margin-bottom:24px;text-align:center;letter-spacing:.05em}
+    .related-articles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .related-article-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--border);border-radius:6px;overflow:hidden;text-decoration:none;color:var(--text);transition:transform .2s ease,box-shadow .2s ease}
+    .related-article-card:hover{transform:translateY(-4px);box-shadow:0 4px 16px rgba(0,0,0,.08);text-decoration:none}
+    .related-card-image{aspect-ratio:16/10;overflow:hidden;background:#f0eee8}
+    .related-card-image img{width:100%;height:100%;object-fit:cover;display:block}
+    .related-card-body{padding:14px 16px}
+    .related-card-cat{display:inline-block;font-size:.62rem;color:var(--sub);letter-spacing:.1em;margin-bottom:6px;text-transform:uppercase}
+    .related-card-title{font-size:.78rem;line-height:1.5;margin:0;font-weight:500;color:var(--text);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    @media(max-width:640px){.related-articles-section{padding:24px 16px}.related-articles-grid{grid-template-columns:repeat(2,1fr);gap:10px}.related-card-title{font-size:.7rem}}
+</style>
     <link rel="stylesheet" href="assets/css/footer.css">
 </head>
 <body>
@@ -238,6 +251,49 @@
 
         <p>NYブルックリン生まれの<strong>LE LABO（ルラボ）</strong>。「ラボラトリー（研究室）」の名の通り、<strong>一本一本を注文後にハンドブレンド</strong>するという、香水業界の常識を覆したブランドです。</p><p>ラベルには製造日と購入者の名前が手書きされる——そんなパーソナルな体験が、世界中のフレグランス愛好家を虜にしています。</p><h2>LE LABOが特別な理由</h2><ul><li><strong>フレッシュネスへのこだわり</strong>：注文後にブレンド。工場の大量生産品とは鮮度が違う</li><li><strong>成分名がそのまま商品名</strong>：「Another 13」は13番目の処方という意味</li><li><strong>City Exclusives</strong>：都市限定の香りがあり、コレクター心をくすぐる</li></ul><h2>LE LABO 人気ランキング</h2><h3>第1位：Another 13 — 「説明できない魅力」の代名詞</h3><p>アンブロキサンとジャスミンが作り出す<strong>「説明できないけど惹かれる」</strong>不思議な香り。肌の上で「自分だけの匂い」になるスキンセントの最高峰。ファッション業界人の愛用率が異常に高いことでも有名。</p><p><strong>持続時間</strong>：10時間以上。EDPの中でもトップクラス。</p><div class="product-card-inline"><img src="assets/images/fullbottle/product_08.jpg" alt="LE LABO Another 13"><div class="pci-info"><div class="pci-brand">LE LABO</div><div class="pci-name">アナザー13 EDP</div><div class="pci-price">フルボトル ¥50,880 / 小分け ¥1,500</div><div class="pci-btns"><a href="/?product=8" class="pci-btn-shop">ショップで見る</a><a href="https://www.amazon.co.jp/dp/B0G2Q33XRD?th=1&psc=1" class="pci-btn-sample">小分けで試す ¥1,500</a></div></div></div><h2>LE LABOを試すなら小分けから</h2><p>フルボトル¥50,880は、いきなり買うには勇気がいる価格。でも<strong>小分け¥1,500なら約20プッシュ</strong>、2週間じっくり「自分の肌での香り」を確かめられます。</p><p>LE LABOは肌によって大きく香りが変わるブランドなので、必ず自分の肌で試してから購入を決めてください。</p><div class='cta-box'><p><strong>AI香り診断であなただけの1本を見つけませんか？</strong><br>好み・シーン・季節から、プロのAIがぴったりの香水を提案します。<br><a href='/'>AI香り診断を受けてみる →</a></p></div>
     </div>
+            <!-- ========== 関連記事 ========== -->
+            <section class="related-articles-section">
+                <h3 class="related-articles-heading">▼ あわせて読みたい</h3>
+                <div class="related-articles-grid">
+                <a href="article-le-labo-another-13-review-mystery.html" class="related-article-card">
+                    <div class="related-card-image">
+                        <img src="assets/images/journal/le-labo-another-13-review-mystery.png" alt="" loading="lazy">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-card-cat">REVIEW</span>
+                        <h4 class="related-card-title">【LE LABO アナザー13 レビュー】説明できない魅力｜ムスクの概念を覆す革新的フレグランス</h4>
+                    </div>
+                </a>
+                <a href="article-niche-perfume-brands-recommended.html" class="related-article-card">
+                    <div class="related-card-image">
+                        <img src="assets/images/journal/niche-perfume-brands-recommended.png" alt="" loading="lazy">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-card-cat">REVIEW</span>
+                        <h4 class="related-card-title">【脱・定番】ニッチ香水ブランドおすすめ5選｜被らない香りで差をつける</h4>
+                    </div>
+                </a>
+                <a href="article-byredo-perfume-ranking-popular.html" class="related-article-card">
+                    <div class="related-card-image">
+                        <img src="assets/images/journal/byredo-perfume-ranking-popular.png" alt="" loading="lazy">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-card-cat">RANKING</span>
+                        <h4 class="related-card-title">【2026年最新】BYREDO（バイレード）香水の人気ランキングTOP5｜ニッチ香水の最高峰</h4>
+                    </div>
+                </a>
+                <a href="article-byredo-celebrity-favorite-perfume-trend.html" class="related-article-card">
+                    <div class="related-card-image">
+                        <img src="assets/images/journal/byredo-celebrity-favorite-perfume-trend.png" alt="" loading="lazy">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-card-cat">TREND</span>
+                        <h4 class="related-card-title">【芸能人愛用】BYREDO（バイレード）を選ぶセレブたち｜なぜ業界人はこのブランドに惹かれるのか</h4>
+                    </div>
+                </a>
+                </div>
+            </section>
+
 
     <div class="share-bar share-bar-bottom">
       <span class="share-bar-label">SHARE THIS ARTICLE</span>

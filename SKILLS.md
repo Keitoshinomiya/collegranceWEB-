@@ -40,9 +40,12 @@ k-styleスプシ（https://docs.google.com/spreadsheets/d/1B2Y5Lh670VzwS7TvvPGuh
   ① products.jsonに追加（全必須フィールドを埋める）
   ② concentration（濃度）設定
   ③ Claudeでnotes（Top/Heart/Base）+ description生成
-  ④ 画像取得（python fetch-product-images.py --id {新ID}）
-  ⑤ 画像品質チェック（python validate-images.py --id {新ID}）
-  ⑥ Keitoに画像目視確認依頼（特にEDT/EDP瓶の違い）
+  ④ 価格計算: sellPrice = ceil((卸値×1.25×1.10 + 700) / 10) × 10
+     ※ 送料¥700内包・10円切上。¥3,000未満は除外（inStock:false）
+  ⑤ 画像取得（python fetch-product-images.py --id {新ID}）
+     ※ .jpg + .webp 両方を自動生成（2026-05-13〜）
+  ⑥ 画像品質チェック（python validate-images.py --id {新ID}）
+  ⑦ Keitoに画像目視確認依頼（特にEDT/EDP瓶の違い）
 ```
 
 ### Step 5: カタログ・表示更新
@@ -110,9 +113,20 @@ k-styleスプシ（https://docs.google.com/spreadsheets/d/1B2Y5Lh670VzwS7TvvPGuh
 3. **検索クエリにEDT/EDPの濃度を必ず含める**
 4. `rembg`で背景除去 → グラデーション背景(#F5F3F0〜#EBE8E4)に合成
 5. 800x1000px、JPEG quality 92で保存
-6. 保存先: `assets/images/fullbottle/`
+6. **WebP版 (quality 82) も自動生成**（2026-05-13〜、表示高速化のため）
+7. 保存先: `assets/images/fullbottle/` （`.jpg` と `.webp` の2ファイル）
 
 **オプション**: `--all` 全再取得 / `--id 1 3 8` 指定IDのみ
+
+### 3a-2. 既存画像のWebP補完（必要時）
+画像取得をスキップしてWebPだけ生成したい場合:
+```
+python3 convert-images-to-webp.py                    # 未変換のみ（冪等）
+python3 convert-images-to-webp.py --force            # 全件再変換
+python3 convert-images-to-webp.py --dir assets/images/fullbottle  # 個別指定
+```
+- `.jpg/.png` から `.webp` (quality 82) を生成、元ファイルは残す
+- index.html の `imgPicture()` ヘルパが `<picture>` タグでWebP優先配信
 
 ### 3b. 品質チェック（必ず取得後に実行）
 ```

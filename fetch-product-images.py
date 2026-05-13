@@ -202,6 +202,15 @@ def compose_product_image(fg_rgba, output_path):
     bg.paste(fg_resized, (x, y), fg_resized)
 
     bg.save(output_path, "JPEG", quality=QUALITY, optimize=True)
+
+    # 2026-05-13: 同時にWebP版も生成（ページ高速化のため）
+    # 既存の <picture> タグが .webp を優先配信する
+    try:
+        webp_path = os.path.splitext(output_path)[0] + ".webp"
+        bg.convert("RGB").save(webp_path, "WEBP", quality=82, method=6)
+    except Exception as _e:
+        print(f"  ⚠️ WebP生成失敗: {_e}")
+
     return os.path.getsize(output_path)
 
 

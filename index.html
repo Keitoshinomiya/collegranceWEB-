@@ -903,11 +903,11 @@
   <!-- HERO -->
   <section class="shop-hero">
     <div class="hero-slides">
-      <div class="hero-slide active" style="background-image:url('assets/images/hero-main.jpg')"></div>
-      <div class="hero-slide" style="background-image:url('assets/images/blog_image_sauvage.jpg')"></div>
-      <div class="hero-slide" style="background-image:url('assets/images/blog_image_fleur_de_peau.jpg')"></div>
-      <div class="hero-slide" style="background-image:url('assets/images/lazy-sunday-morning-hero.jpg')"></div>
-      <div class="hero-slide" style="background-image:url('assets/images/about-collection.jpg')"></div>
+      <div class="hero-slide active" style="background-image:image-set(url('assets/images/hero-main.webp') type('image/webp'),url('assets/images/hero-main.jpg') type('image/jpeg'))"></div>
+      <div class="hero-slide" style="background-image:image-set(url('assets/images/blog_image_sauvage.webp') type('image/webp'),url('assets/images/blog_image_sauvage.jpg') type('image/jpeg'))"></div>
+      <div class="hero-slide" style="background-image:image-set(url('assets/images/blog_image_fleur_de_peau.webp') type('image/webp'),url('assets/images/blog_image_fleur_de_peau.jpg') type('image/jpeg'))"></div>
+      <div class="hero-slide" style="background-image:image-set(url('assets/images/lazy-sunday-morning-hero.webp') type('image/webp'),url('assets/images/lazy-sunday-morning-hero.jpg') type('image/jpeg'))"></div>
+      <div class="hero-slide" style="background-image:image-set(url('assets/images/about-collection.webp') type('image/webp'),url('assets/images/about-collection.jpg') type('image/jpeg'))"></div>
     </div>
     <div class="shop-hero-overlay"></div>
     <div class="shop-hero-content">
@@ -1526,6 +1526,22 @@ let currentScent  = 'all';
 let currentBrand  = '';
 let currentPrice  = '';
 
+/* ===== IMAGE HELPER: WebP+JPEGフォールバック対応 ===== */
+/* 既存の.jpg/.png画像に加えて、同じパスの.webpを優先配信する。
+   モダンブラウザはWebP、古いブラウザはJPEGフォールバック。
+   eager: true で上部の画像を優先読み込み（fetchpriority=high） */
+function imgPicture(src, alt, opts){
+  opts = opts || {};
+  var webp = src.replace(/\.(jpe?g|png)$/i, '.webp');
+  var loading = opts.eager ? 'eager' : 'lazy';
+  var priority = opts.eager ? ' fetchpriority="high"' : '';
+  var cls = opts.className ? ' class="' + opts.className + '"' : '';
+  return '<picture>'
+    + '<source srcset="' + webp + '" type="image/webp">'
+    + '<img src="' + src + '" alt="' + (alt||'').replace(/"/g,'&quot;') + '" loading="' + loading + '"' + priority + cls + '>'
+    + '</picture>';
+}
+
 /* ===== LOAD PRODUCTS ===== */
 async function loadProducts(){
   try {
@@ -1559,8 +1575,9 @@ function populatePopular(){
   var container = document.getElementById('popular-scroll');
   if(!container || !popular.length) return;
   container.innerHTML = popular.map(function(p, i){
+    /* Popular Picks: 上位4枚はeager loading（above-the-fold想定） */
     var imgHtml = p.img
-      ? '<img src="' + p.img + '" alt="' + p.brand + ' ' + p.name + '" loading="lazy">'
+      ? imgPicture(p.img, p.brand + ' ' + p.name, { eager: i < 4 })
       : '<div style="width:100%;aspect-ratio:4/5;background:#f7f7f7;display:flex;align-items:center;justify-content:center;opacity:.15"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2h4v4h-4zM9 6h6l1 4H8l1-4z"/><rect x="8" y="10" width="8" height="11" rx="1"/><path d="M8 21h8"/></svg></div>';
     var priceLabel = p.type === 'sample_and_fullbottle' && p.samplePrice
       ? '小分け &yen;' + p.samplePrice.toLocaleString() + '〜'
@@ -1600,7 +1617,7 @@ function populateJournalPicks(){
   var articles = journalArticles.slice(0, 4);
   grid.innerHTML = articles.map(function(a){
     return '<a href="' + a.link + '" class="jp-card">' +
-      '<img class="jp-card-img" src="' + a.image + '" alt="" loading="lazy">' +
+      imgPicture(a.image, '', { className: 'jp-card-img' }) +
       '<div class="jp-card-body">' +
         '<div class="jp-cat">' + a.category + '</div>' +
         '<div class="jp-title">' + a.title + '</div>' +
@@ -1866,7 +1883,7 @@ function renderCard(p){
   return '<div class="product-card" data-product-id="' + p.id + '"' + (p.slug ? ' data-product-slug="' + p.slug + '"' : '') + '>' +
     '<button class="share-btn" onclick="event.stopPropagation();copyProductLink(' + p.id + ',\'' + p.brand.replace(/'/g,"\\'") + ' ' + (p.nameJa||p.name).replace(/'/g,"\\'") + '\')" title="商品リンクをコピー"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>' +
     '<div class="img-wrap" onclick="handleImgClick(event,' + p.id + ')">' +
-      (imgSrc ? '<img src="' + imgSrc + '" alt="' + p.brand + ' ' + p.name + '" loading="lazy">' : fallback) +
+      (imgSrc ? imgPicture(imgSrc, p.brand + ' ' + p.name) : fallback) +
       (imgSrc && p.notes ? '<div class="img-overlay" id="overlay-' + p.id + '">' + notesOverlay + '</div>' : '') +
       (imgSrc && !p.notes ? '<div class="img-overlay"><span class="zoom-hint">View</span></div>' : '') +
       (p.tester ? '<span class="tag tester">Tester</span>' : '') +

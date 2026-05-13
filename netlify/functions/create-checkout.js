@@ -1,7 +1,8 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-const FREE_SHIP_THRESHOLD = 30000;
-const SHIPPING_AMOUNT = 700;
+// 2026-05-13: 送料を全商品価格に内包したため、Stripe側送料は常に¥0
+const FREE_SHIP_THRESHOLD = 0;
+const SHIPPING_AMOUNT = 0;
 const GIFT_WRAP_AMOUNT = 300;
 const SITE_URL = 'https://collegrance.com';
 const ALLOWED_ORIGINS = ['https://collegrance.com', 'https://www.collegrance.com'];
@@ -151,7 +152,7 @@ exports.handler = async (event) => {
             amount: isFreeShipping ? 0 : SHIPPING_AMOUNT,
             currency: 'jpy',
           },
-          display_name: isFreeShipping ? '送料無料（¥30,000以上）' : '通常配送',
+          display_name: '送料無料',
           delivery_estimate: {
             minimum: { unit: 'business_day', value: 2 },
             maximum: { unit: 'business_day', value: 5 },

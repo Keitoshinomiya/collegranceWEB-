@@ -700,7 +700,7 @@
         "name": "送料はいくらですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "小分けお試し（1.5ml）はAmazon経由でのお届けとなりますので、Amazonプライム会員の方は送料無料です。フルボトルは当サイトからの発送で、全国一律¥700（税込）。¥30,000以上のご購入で送料無料になります。ヤマト運輸でお届けし、発送後に追跡番号をお知らせします。"
+          "text": "フルボトルは全品送料無料でお届けします。当サイトから直接、ヤマト運輸で発送し、発送完了後に追跡番号をメールでお知らせします。小分けお試し（1.5ml）はAmazon経由でのお届けで、Amazonプライム会員の方は送料無料です。"
         }
       },
       {
@@ -1142,7 +1142,7 @@
 
       <div class="faq-item" onclick="this.classList.toggle('open')">
         <div class="faq-q">送料はいくらですか？<span class="faq-arrow">&#9660;</span></div>
-        <div class="faq-a"><div class="faq-a-inner">小分けお試し（1.5ml）はAmazon経由でのお届けとなりますので、Amazonプライム会員の方は送料無料です。フルボトルは当サイトからの発送で、全国一律¥700（税込）。¥30,000以上のご購入で送料無料になります。ヤマト運輸でお届けし、発送後に追跡番号をお知らせします。</div></div>
+        <div class="faq-a"><div class="faq-a-inner">フルボトルは<strong>全品送料無料</strong>でお届けします。当サイトから直接、ヤマト運輸で発送し、発送完了後に追跡番号をメールでお知らせします。小分けお試し（1.5ml）はAmazon経由でのお届けで、Amazonプライム会員の方は送料無料です。</div></div>
       </div>
 
       <div class="faq-item" onclick="this.classList.toggle('open')">
@@ -1504,8 +1504,9 @@
 <script>
 /* ===== CONFIG ===== */
 const STRIPE_PK  = 'pk_live_51SVQAgIYUZm6bpupXM62Pkqujzc9mgVahZySODp0o3BsBwWyGlkAGXUgqRr88SocxWhruRwS3nzs3A3kHn0DkDPd00YLvtZGw9';
-const SHIPPING   = 700;
-const FREE_SHIP  = 30000;
+// 2026-05-13: 送料を全商品価格に内包。常に送料無料表示
+const SHIPPING   = 0;
+const FREE_SHIP  = 0;
 const MARKUP     = 1.20;
 const TAX        = 1.10;
 const SAMPLE_PRICE_DEFAULT = 680;
@@ -1528,7 +1529,7 @@ let currentPrice  = '';
 /* ===== LOAD PRODUCTS ===== */
 async function loadProducts(){
   try {
-    const r = await fetch('products.json');
+    const r = await fetch('products.json?v=20260513-shipbaked');
     if(!r.ok) throw new Error('HTTP ' + r.status);
     PRODUCTS = await r.json();
     PRODUCTS.forEach(p => {
@@ -2134,7 +2135,7 @@ function refreshCart(){
 
   document.getElementById('cart-count').textContent = count;
   document.getElementById('c-sub').textContent  = '\u00a5' + sub.toLocaleString();
-  document.getElementById('c-ship').textContent = free ? '\u00a50 (無料)' : (cart.length ? '\u00a5' + SHIPPING.toLocaleString() : '\u00a50');
+  document.getElementById('c-ship').textContent = cart.length ? '無料' : '\u00a50';
   document.getElementById('c-gift').textContent = giftFee > 0 ? '\u00a5' + giftFee.toLocaleString() : '\u00a50';
   document.getElementById('c-total').textContent = '\u00a5' + total.toLocaleString();
   document.getElementById('checkout-btn').disabled = cart.length === 0;
@@ -2143,14 +2144,9 @@ function refreshCart(){
   var html = '';
   if(cart.length === 0){
     html = '';
-  } else if(free){
-    html = '<div class="free-ship-msg">送料無料でお届けします</div>';
-    html += '<div class="ship-progress-bar ship-progress-complete"><div class="ship-progress-fill" style="width:100%"></div></div>';
   } else {
-    var remaining = FREE_SHIP - sub;
-    var pct = Math.min(Math.round((sub / FREE_SHIP) * 100), 100);
-    html = '<div class="ship-progress">あと \u00a5' + remaining.toLocaleString() + ' で送料無料</div>';
-    html += '<div class="ship-progress-bar"><div class="ship-progress-fill" style="width:' + pct + '%"></div></div>';
+    html = '<div class="free-ship-msg">全品送料無料でお届けします ✓</div>';
+    html += '<div class="ship-progress-bar ship-progress-complete"><div class="ship-progress-fill" style="width:100%"></div></div>';
   }
   html += '<div class="ship-progress" style="margin-top:4px">ご注文から2〜4日以内に発送いたします（土日祝除く）</div>';
   msg.innerHTML = html;
@@ -2355,7 +2351,7 @@ function showSampleLP(productId){
       '<div style="margin-top:20px;padding-top:16px;border-top:1px solid #eee;display:flex;flex-direction:column;gap:8px">' +
         '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>小分けと同じ正規品をフルサイズでお届け</div>' +
         '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>化粧品製造販売業許可取得済み</div>' +
-        '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>2〜4営業日でお届け（¥30,000以上で送料無料）</div>' +
+        '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>2〜4営業日でお届け（全品送料無料）</div>' +
         '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>未開封なら7日以内返品OK</div>' +
       '</div>' +
       findRelatedArticles(p) +

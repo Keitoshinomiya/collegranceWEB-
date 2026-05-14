@@ -108,6 +108,90 @@ body{
   font-size:.65rem;color:var(--sub);cursor:pointer;text-decoration:underline;
 }
 
+/* === プレビュー＆編集モーダル === */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);
+  display:none;align-items:flex-start;justify-content:center;
+  z-index:1000;overflow-y:auto;padding:24px 16px;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:#fff;border-radius:6px;width:100%;max-width:780px;
+  display:flex;flex-direction:column;max-height:90vh;
+}
+.modal-header{
+  padding:16px 20px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  background:#fafaf8;border-radius:6px 6px 0 0;
+}
+.modal-header h2{font-size:.95rem;margin:0;font-weight:500}
+.modal-close{
+  background:none;border:none;font-size:1.4rem;cursor:pointer;
+  color:var(--sub);padding:0 8px;line-height:1;
+}
+.modal-body{padding:16px 20px;overflow-y:auto;flex:1}
+.modal-footer{
+  padding:16px 20px;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  background:#fafaf8;border-radius:0 0 6px 6px;
+}
+
+.draft-card{
+  border:1px solid var(--border);border-radius:4px;
+  margin-bottom:12px;background:#fff;
+}
+.draft-card-header{
+  padding:10px 14px;background:#fafaf8;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;border-radius:4px 4px 0 0;font-size:.78rem;
+}
+.draft-card-header:hover{background:#f5f5f0}
+.draft-card-header .arrow{transition:transform .2s;color:var(--sub)}
+.draft-card.open .draft-card-header .arrow{transform:rotate(90deg)}
+.draft-card.edited .draft-card-header::after{
+  content:'✏️ 編集済';margin-left:8px;font-size:.6rem;color:var(--green);
+}
+.draft-card.sent .draft-card-header::after{
+  content:'✅ 送信完了';margin-left:8px;font-size:.6rem;color:var(--green);
+}
+.draft-card.failed .draft-card-header::after{
+  content:'❌ 送信失敗';margin-left:8px;font-size:.6rem;color:var(--red);
+}
+.draft-card-name{flex:1;font-weight:500}
+.draft-card-email{color:var(--sub);font-size:.7rem;margin-left:8px}
+
+.draft-card-body{
+  padding:14px;display:none;
+}
+.draft-card.open .draft-card-body{display:block}
+.draft-field{margin-bottom:10px}
+.draft-field label{
+  display:block;font-size:.65rem;color:var(--sub);
+  margin-bottom:4px;letter-spacing:.05em;text-transform:uppercase;
+}
+.draft-field input[type=text],
+.draft-field input[type=email],
+.draft-field textarea{
+  width:100%;padding:8px 10px;border:1px solid var(--border);
+  border-radius:3px;font-family:inherit;font-size:.78rem;
+  background:#fff;color:var(--text);outline:none;
+  transition:border-color .15s;
+}
+.draft-field input:focus,
+.draft-field textarea:focus{border-color:var(--accent)}
+.draft-field textarea{
+  min-height:280px;line-height:1.6;white-space:pre-wrap;
+  font-family:'Hiragino Sans','Yu Gothic',sans-serif;
+}
+.draft-field-readonly{
+  padding:8px 10px;background:#fafaf8;border-radius:3px;
+  font-size:.78rem;color:var(--sub);font-family:monospace;
+}
+.draft-card-error{
+  margin-top:8px;padding:8px;background:#fdf0f0;color:var(--red);
+  border-radius:3px;font-size:.7rem;
+}
+
 .actions-bar{
   display:flex;gap:12px;align-items:center;padding:16px;
   background:#fafaf8;border-radius:3px;margin-top:16px;
@@ -172,7 +256,7 @@ footer{padding:24px;text-align:center;color:var(--sub);font-size:.7rem}
       <div class="count" id="selected-count">0件選択中</div>
       <div style="flex:1"></div>
       <button class="btn-outline btn" onclick="clearAll()">クリア</button>
-      <button class="btn" id="send-btn" onclick="sendAll()">📧 選択した分の下書きをGmailに作成</button>
+      <button class="btn" id="send-btn" onclick="openPreviewModal()">📧 プレビュー&編集 → 送信</button>
     </div>
   </div>
 
@@ -182,6 +266,29 @@ footer{padding:24px;text-align:center;color:var(--sub);font-size:.7rem}
     <div id="result-list"></div>
   </div>
 
+</div>
+
+<!-- プレビュー＆編集モーダル -->
+<div class="modal-overlay" id="preview-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modal-title">📧 発送通知メール 一括送信</h2>
+      <button class="modal-close" onclick="closeModal()" aria-label="閉じる">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert info" style="font-size:.7rem;margin-bottom:12px">
+        💡 各行をクリックすると展開して<strong>件名・本文を編集</strong>できます。送信前に確認してください。
+      </div>
+      <div id="drafts-list"></div>
+    </div>
+    <div class="modal-footer">
+      <span class="count" id="modal-status">確認中...</span>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline" onclick="closeModal()">キャンセル</button>
+        <button class="btn" id="modal-send-btn" onclick="sendAllDrafts()">📧 すべて送信</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <footer>
@@ -418,62 +525,176 @@ function clearAll(){
   csvInput.value = '';
 }
 
-async function sendAll(){
+// ===== プレビュー＆編集モーダルの状態 =====
+let draftQueue = [];  // [{ order, subject, body, edited, status, errorMsg }]
+
+function sendAll(){
+  // 旧 sendAll は使われない（互換性のため残置）
+  openPreviewModal();
+}
+
+function openPreviewModal(){
   const selected = [];
   document.querySelectorAll('.order-check:checked').forEach(cb => {
     selected.push(parsedOrders[parseInt(cb.dataset.idx)]);
   });
   if(!selected.length) return;
-  if(!confirm(selected.length + '件の発送通知メール下書きを Gmail に作成します。よろしいですか？')) return;
 
-  document.getElementById('send-btn').disabled = true;
-  document.getElementById('send-btn').textContent = '送信中... (0/' + selected.length + ')';
+  // 編集可能な下書きキューを構築
+  draftQueue = selected.map(o => ({
+    order: o,
+    subject: '【COLLEGRANCE】ご注文の商品を発送いたしました',
+    body: generateEmailBody(o),
+    edited: false,
+    status: 'pending',  // pending | sent | failed
+    errorMsg: ''
+  }));
 
-  const results = [];
-  for(let i=0; i<selected.length; i++){
-    const o = selected[i];
-    document.getElementById('send-btn').textContent = '送信中... (' + i + '/' + selected.length + ')';
+  renderModal();
+  document.getElementById('preview-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  // 送信中なら確認
+  const sending = draftQueue.some(d => d.status === 'sending');
+  if(sending){ if(!confirm('送信処理中です。閉じてもよろしいですか？')) return; }
+  document.getElementById('preview-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  // 送信済みがあれば結果を表示
+  const sentCount = draftQueue.filter(d => d.status === 'sent').length;
+  if(sentCount > 0){ showFinalResult(); }
+}
+
+function renderModal(){
+  const pending = draftQueue.filter(d => d.status === 'pending').length;
+  const sent = draftQueue.filter(d => d.status === 'sent').length;
+  const failed = draftQueue.filter(d => d.status === 'failed').length;
+  document.getElementById('modal-title').textContent =
+    '📧 発送通知メール 一括送信（' + draftQueue.length + '件）';
+  document.getElementById('modal-status').textContent =
+    '未送信:' + pending + ' / 送信済:' + sent + (failed ? ' / 失敗:' + failed : '');
+  const sendBtn = document.getElementById('modal-send-btn');
+  sendBtn.disabled = pending === 0;
+  sendBtn.textContent = pending === 0 ? '✅ 全件送信完了' : '📧 ' + pending + '件すべて送信';
+
+  document.getElementById('drafts-list').innerHTML = draftQueue.map((d, i) => {
+    const name = d.order.stripeData?.customerName || d.order.csvName || '?';
+    const email = d.order.stripeData?.email || '?';
+    const statusCls = d.status === 'sent' ? 'sent' : (d.status === 'failed' ? 'failed' : (d.edited ? 'edited' : ''));
+    return '<div class="draft-card ' + statusCls + '" id="draft-' + i + '">' +
+      '<div class="draft-card-header" onclick="toggleDraft(' + i + ')">' +
+        '<span class="arrow">▶</span>' +
+        '<span class="draft-card-name">' + escapeHtml(name) + ' 様</span>' +
+        '<span class="draft-card-email">' + escapeHtml(email) + '</span>' +
+      '</div>' +
+      '<div class="draft-card-body">' +
+        '<div class="draft-field">' +
+          '<label>宛先（変更不可）</label>' +
+          '<div class="draft-field-readonly">' + escapeHtml(email) + '</div>' +
+        '</div>' +
+        '<div class="draft-field">' +
+          '<label>件名</label>' +
+          '<input type="text" id="subj-' + i + '" value="' + escapeAttr(d.subject) + '" oninput="updateDraft(' + i + ')">' +
+        '</div>' +
+        '<div class="draft-field">' +
+          '<label>本文</label>' +
+          '<textarea id="body-' + i + '" oninput="updateDraft(' + i + ')">' + escapeHtml(d.body) + '</textarea>' +
+        '</div>' +
+        (d.errorMsg ? '<div class="draft-card-error">⚠️ ' + escapeHtml(d.errorMsg) + '</div>' : '') +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function escapeAttr(s){
+  return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
+
+function toggleDraft(idx){
+  document.getElementById('draft-' + idx).classList.toggle('open');
+}
+
+function updateDraft(idx){
+  const d = draftQueue[idx];
+  const newSubj = document.getElementById('subj-' + idx).value;
+  const newBody = document.getElementById('body-' + idx).value;
+  const changed = newSubj !== d.subject || newBody !== d.body;
+  d.subject = newSubj;
+  d.body = newBody;
+  if(changed) d.edited = true;
+  // ヘッダーの「✏️ 編集済」表示更新
+  const card = document.getElementById('draft-' + idx);
+  if(d.edited && d.status === 'pending' && !card.classList.contains('edited')){
+    card.classList.add('edited');
+  }
+}
+
+async function sendAllDrafts(){
+  const pendingItems = draftQueue.filter(d => d.status === 'pending');
+  if(!pendingItems.length) return;
+  if(!confirm(pendingItems.length + '件のメールを送信します。よろしいですか？')) return;
+
+  const sendBtn = document.getElementById('modal-send-btn');
+  sendBtn.disabled = true;
+
+  for(let i=0; i<draftQueue.length; i++){
+    const d = draftQueue[i];
+    if(d.status !== 'pending') continue;
+    d.status = 'sending';
+    sendBtn.textContent = '送信中... (' + (i+1) + '/' + draftQueue.length + ')';
+    renderModal();
+    /* 展開状態を維持 */
+    document.getElementById('draft-' + i)?.classList.add('open');
+
     try {
-      const body = generateEmailBody(o);
-      const subject = '【COLLEGRANCE】ご注文の商品を発送いたしました';
       const res = await fetch('/.netlify/functions/shipping-create-draft', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          sessionId: o.stripeData.sessionId,
-          to: o.stripeData.email,
-          subject,
-          body,
-          trackingNumber: o.tracking,
-          shipDate: o.shipDate,
+          sessionId: d.order.stripeData.sessionId,
+          to: d.order.stripeData.email,
+          subject: d.subject,
+          body: d.body,
+          trackingNumber: d.order.tracking,
+          shipDate: d.order.shipDate,
         })
       });
       const data = await res.json();
-      results.push({ order: o, success: res.ok, message: data.message || data.error || '' });
+      if(res.ok && data.success){
+        d.status = 'sent';
+        d.errorMsg = '';
+      } else {
+        d.status = 'failed';
+        d.errorMsg = data.error || data.message || 'HTTP ' + res.status;
+      }
     } catch(err){
-      results.push({ order: o, success: false, message: err.message });
+      d.status = 'failed';
+      d.errorMsg = err.message;
     }
+    renderModal();
   }
 
-  // 結果表示
+  sendBtn.disabled = false;
+}
+
+function showFinalResult(){
   document.getElementById('result-section').style.display = 'block';
-  const ok = results.filter(r => r.success).length;
-  const ng = results.length - ok;
+  const ok = draftQueue.filter(d => d.status === 'sent').length;
+  const ng = draftQueue.filter(d => d.status === 'failed').length;
   document.getElementById('result-list').innerHTML =
     '<div class="alert ' + (ng === 0 ? 'success' : 'warning') + '">' +
       '✅ 成功: ' + ok + '件 / ❌ 失敗: ' + ng + '件' +
     '</div>' +
     '<ul style="font-size:.78rem;line-height:1.8">' +
-      results.map(r =>
-        '<li>' + (r.success ? '✅' : '❌') + ' ' +
-        (r.order.stripeData?.customerName || r.order.csvName || '?') +
-        ' (' + (r.order.stripeData?.email || '?') + ')' +
-        (r.message ? ' — ' + r.message : '') +
+      draftQueue.map(d =>
+        '<li>' + (d.status === 'sent' ? '✅' : '❌') + ' ' +
+        (d.order.stripeData?.customerName || d.order.csvName || '?') +
+        ' (' + (d.order.stripeData?.email || '?') + ')' +
+        (d.errorMsg ? ' — ' + d.errorMsg : '') +
         '</li>'
       ).join('') +
     '</ul>';
-  document.getElementById('send-btn').disabled = false;
-  document.getElementById('send-btn').textContent = '📧 選択した分の下書きをGmailに作成';
 }
 </script>
 </body>

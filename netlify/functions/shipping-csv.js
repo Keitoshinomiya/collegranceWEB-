@@ -39,7 +39,7 @@ const FREIGHT_CONTROL_NO = process.env.YAMATO_FREIGHT_CONTROL_NO || '01';
 function buildRow(ctx) {
   const {
     orderNumber, shipDate, arriveDate,
-    recipient, products, sender,
+    recipient, products, sender, articleMemo,
   } = ctx;
 
   // 95列を順番に埋める
@@ -76,7 +76,7 @@ function buildRow(ctx) {
     /* 30 */ products[1] || '',                                                // 品名２
     /* 31 */ '',                                                              // 荷扱い１
     /* 32 */ '',                                                              // 荷扱い２
-    /* 33 */ `Order ${orderNumber}`,                                          // 記事
+    /* 33 */ articleMemo || `Order ${orderNumber}`,                           // 記事（全角22文字以内）
     /* 34 */ '',                                                              // コレクト代金引換額(税込)
     /* 35 */ '',                                                              // 内消費税額等
     /* 36 */ '0',                                                             // 止置き: 0=利用しない
@@ -176,6 +176,76 @@ function simplifyProductName(text) {
 }
 
 /**
+ * 電話番号正規化（B2クラウド向け）
+ * Stripe は `+819022792345` 形式で保存することがあるが、B2 は国内形式 `09022792345` を要求。
+ * - 先頭 `+81` を `0` に置換
+ * - 数字とハイフン以外を除去
+ * - 例: "+81 90-2279-2345" → "09022792345"
+ */
+function normalizeJapanesePhone(phone) {
+  if (!phone) return '';
+  let p = String(phone).trim();
+  // 国際表記 +81... を 0... に
+  if (p.startsWith('+81')) {
+    p = '0' + p.slice(3);
+  } else if (p.startsWith('81') && p.length >= 11 && !p.startsWith('0')) {
+    // 0始まりでない+81欠落形式の救済（ごく稀）
+    p = '0' + p.slice(2);
+  }
+  // 数字以外を除去（空白・ハイフン・括弧等）
+  p = p.replace(/[^\d]/g, '');
+  return p;
+}
+
+/**
+ * B2クラウド列ごとの全角バイト換算上限（外部データ取り込み基本レイアウト準拠）
+ * - 半角ASCII = 1, 全角(非ASCII) = 2 で計数し、指定上限以内に切り詰める
+ */
+function truncateZenkaku(text, maxZenkaku) {
+  // 全角n文字 = 半角2n相当のbyte上限
+  return truncateProductName(text || '', maxZenkaku * 2);
+}
+
+function bytesOf(s) {
+  let b = 0;
+  for (const ch of String(s || '')) b += (ch.charCodeAt(0) < 128 ? 1 : 2);
+  return b;
+}
+
+/**
+ * 住所のスマート分割
+ * Stripeのline1にマンション名まで詰め込まれているケース (例: 加藤さん) を救済する。
+ * 16z上限を超える場合、上限内の最後のスペースで分割し、超過分をline2側に流す。
+ * スペースなしなら強制カット。
+ */
+function smartSplitAddress(line1, line2, zmax = 16) {
+  const l1 = (line1 || '').trim();
+  const l2 = (line2 || '').trim();
+  if (bytesOf(l1) <= zmax * 2) {
+    return { line1: l1, building: truncateZenkaku(l2, zmax) };
+  }
+  // 上限内の最後のスペース位置を探す
+  let bytes = 0;
+  let lastSpace = -1;
+  for (let i = 0; i < l1.length; i++) {
+    const cb = l1.charCodeAt(i) < 128 ? 1 : 2;
+    if (bytes + cb > zmax * 2) break;
+    bytes += cb;
+    if (l1[i] === ' ' || l1[i] === '　') lastSpace = i;
+  }
+  let head, overflow;
+  if (lastSpace > 0) {
+    head = l1.slice(0, lastSpace).trimEnd();
+    overflow = l1.slice(lastSpace + 1).trim();
+  } else {
+    head = truncateZenkaku(l1, zmax);
+    overflow = l1.slice(head.length).trim();
+  }
+  const combined = (overflow + (l2 ? ' ' + l2 : '')).trim();
+  return { line1: head, building: truncateZenkaku(combined, zmax) };
+}
+
+/**
  * 日付フォーマット（B2クラウド: YYYY/MM/DD）
  */
 function formatDate(date) {
@@ -215,6 +285,9 @@ exports.handler = async (event) => {
   const sessionId = event.queryStringParameters?.session;
   // 電話番号の手動補完（Stripeで未入力の場合用）
   const phoneOverride = event.queryStringParameters?.phone;
+  // 出荷予定日・お届け予定日のオーバーライド（YYYY-MM-DD or YYYY/MM/DD）
+  const shipDateOverride = event.queryStringParameters?.ship_date;
+  const arriveDateOverride = event.queryStringParameters?.arrive_date;
 
   if (!sessionId) {
     return { statusCode: 400, body: 'session parameter required' };
@@ -240,13 +313,15 @@ exports.handler = async (event) => {
     // 注文番号（管理番号、最大50文字以内）
     const orderNumber = session.id.replace('cs_live_', '').slice(0, 20);
 
-    // 出荷予定日のみ指定（お届け予定日は空欄＝ヤマトの自動最短配送に任せる）
-    // 過去にお届け予定日を指定したため「その日まで保管」されるトラブルが発生したため
+    // 出荷予定日・お届け予定日
+    // URLパラメータ指定があればそれを優先（YYYY/MM/DD 形式に正規化）
+    // なければ shipDate = 翌営業日、arriveDate = 空欄（ヤマト最短）
+    const normDate = (s) => (s ? s.replace(/-/g, '/') : '');
     const today = new Date();
-    const shipDate = formatDate(addBusinessDays(today, 1));    // 翌営業日発送
-    const arriveDate = '';  // 空欄→ヤマト最短配送
+    const shipDate = normDate(shipDateOverride) || formatDate(addBusinessDays(today, 1));
+    const arriveDate = normDate(arriveDateOverride) || '';
 
-    // 商品名（送料・ギフトラッピング除外、長すぎる名前は短縮）
+    // 商品名（送料・ギフトラッピング除外、長すぎる名前は短縮 = 全角25文字 / 半角50文字）
     const lineItems = session.line_items?.data || [];
     const productNames = lineItems
       .filter((item) => !/送料|ギフトラッピング/.test(item.description || ''))
@@ -258,9 +333,26 @@ exports.handler = async (event) => {
 
     // 電話番号: URLパラメータ最優先 → Stripeの値 → 弊社代表番号フォールバック
     // 1. URLパラメータ（手動指定があれば最優先）
-    // 2. Stripeチェックアウトでお客様が入力した番号
+    // 2. Stripeチェックアウトでお客様が入力した番号 (`+81...` は `0...` に正規化)
     // 3. どちらも空なら弊社代表 08042421092（B2必須項目を埋めるため）
-    const phone = phoneOverride || customerDetails.phone || FALLBACK_RECIPIENT_PHONE;
+    const rawPhone = phoneOverride || customerDetails.phone || FALLBACK_RECIPIENT_PHONE;
+    const phone = normalizeJapanesePhone(rawPhone) || FALLBACK_RECIPIENT_PHONE;
+
+    // === B2クラウド フィールド長制限（外部データ取り込み基本レイアウト準拠） ===
+    //  - 市区郡町村: 全角12文字
+    //  - 町・番地: 全角16文字
+    //  - マンション・ビル名: 全角16文字
+    //  - お届け先名: 全角16文字
+    //  - 品名1/2: 全角25文字（truncateProductName内で対応済）
+    //  - 記事(メモ): 全角22文字
+    // ※ 95列CSVの「住所」(col 12) は連結フィールドだが、B2側で都道府県/市区郡町村/町・番地 に分割パースされる。
+    //   そのため `state + city + line1` の合計を「市区郡町村+町番地の合計」とみなし、過長になる場合は line1 側を切り詰める。
+    const state = addr.state || '';
+    const city = truncateZenkaku(addr.city || '', 12);    // 市区郡町村: 全角12
+    // Stripeのline1にマンション名まで詰め込まれている場合の救済 (smart split)
+    const { line1, building } = smartSplitAddress(addr.line1, addr.line2, 16);
+    const recipientName = truncateZenkaku(customerDetails.name || '', 16); // お届け先名: 全角16
+    const articleMemo = truncateZenkaku(`Order ${orderNumber}`, 22); // 記事: 全角22
 
     // 1行のCSVデータを構築
     const row = buildRow({
@@ -268,14 +360,15 @@ exports.handler = async (event) => {
       shipDate,
       arriveDate,
       recipient: {
-        phone: phone,
+        phone,
         postal: (addr.postal_code || '').replace(/-/g, ''),
-        address: `${addr.state || ''}${addr.city || ''}${addr.line1 || ''}`,
-        building: addr.line2 || '',
-        name: customerDetails.name || '',
+        address: `${state}${city}${line1}`,
+        building,
+        name: recipientName,
       },
       products: productNames,
       sender: SENDER,
+      articleMemo,
     });
 
     // CSVテキスト生成（ヘッダなし、CRLF改行）

@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <title>発送通知一括作成 — COLLEGRANCE 管理</title>
 <meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#fafaf8; --text:#1a1a1a; --sub:#666; --border:#e0e0e0;
@@ -40,6 +43,7 @@ body{
   border:2px dashed var(--border);border-radius:4px;
   padding:48px 24px;text-align:center;cursor:pointer;
   background:#fafaf8;transition:all .2s;
+  user-select:none;
 }
 .dropzone:hover,.dropzone.dragover{
   border-color:var(--accent);background:#f5f5f0;
@@ -47,7 +51,10 @@ body{
 .dropzone-icon{font-size:2rem;margin-bottom:8px;opacity:.4}
 .dropzone-text{font-size:.85rem;color:var(--sub)}
 .dropzone-hint{font-size:.7rem;color:var(--sub);margin-top:8px;opacity:.7}
-#csv-input{display:none}
+#csv-input{
+  position:absolute;left:-9999px;width:0;height:0;opacity:0;
+  pointer-events:none;
+}
 
 .alert{padding:12px 16px;border-radius:3px;margin:12px 0;font-size:.78rem}
 .alert.error{background:#fdf0f0;color:var(--red);border:1px solid #f4c4c4}
@@ -125,12 +132,15 @@ footer{padding:24px;text-align:center;color:var(--sub);font-size:.7rem}
       B2クラウドの「発行済データダウンロード」からエクスポートしたCSV（Shift_JIS / 95列形式）を選択してください。<br>
       ファイル内の追跡番号（伝票番号）と出荷予定日が自動で読み取られます。
     </p>
-    <label class="dropzone" id="dropzone">
+    <div class="alert info" style="margin-bottom:16px;font-size:.72rem">
+      🔒 <strong>プライバシー:</strong> CSVはブラウザ内で解析され、住所・電話番号は弊社サーバーに送信されません。注文番号のみをStripe照合に使用します。
+    </div>
+    <div class="dropzone" id="dropzone" role="button" tabindex="0">
       <div class="dropzone-icon">📁</div>
       <div class="dropzone-text">CSVファイルを選択 or ドラッグ＆ドロップ</div>
       <div class="dropzone-hint">対応: B2クラウド外部データ取り込み基本レイアウト 95列（Shift_JIS）</div>
-      <input type="file" id="csv-input" accept=".csv">
-    </label>
+    </div>
+    <input type="file" id="csv-input" accept=".csv" aria-hidden="true">
     <div id="upload-status"></div>
   </div>
 

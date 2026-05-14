@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>発送通知一括作成 — COLLEGRANCE 管理</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{
+  --bg:#fafaf8; --text:#1a1a1a; --sub:#666; --border:#e0e0e0;
+  --accent:#1a1a1a; --green:#3a7d44; --red:#c66; --yellow:#d4a017;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:'Zen Kaku Gothic Antique',sans-serif;
+  font-size:14px;line-height:1.5;
+}
+.header{
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:16px 24px;display:flex;justify-content:space-between;align-items:center;
+}
+.header h1{font-size:1.1rem;margin:0;letter-spacing:.05em;font-weight:500}
+.header .nav-link{font-size:.7rem;color:var(--sub);text-decoration:none}
+.header .nav-link:hover{color:var(--text)}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+
+.step{
+  background:#fff;border:1px solid var(--border);border-radius:4px;
+  padding:24px;margin-bottom:16px;
+}
+.step-num{
+  display:inline-block;width:24px;height:24px;border-radius:50%;
+  background:var(--accent);color:#fff;text-align:center;line-height:24px;
+  font-size:.7rem;margin-right:8px;
+}
+.step h2{font-size:1rem;margin:0 0 12px;font-weight:500}
+.step-desc{color:var(--sub);font-size:.78rem;margin-bottom:16px}
+
+.dropzone{
+  border:2px dashed var(--border);border-radius:4px;
+  padding:48px 24px;text-align:center;cursor:pointer;
+  background:#fafaf8;transition:all .2s;
+}
+.dropzone:hover,.dropzone.dragover{
+  border-color:var(--accent);background:#f5f5f0;
+}
+.dropzone-icon{font-size:2rem;margin-bottom:8px;opacity:.4}
+.dropzone-text{font-size:.85rem;color:var(--sub)}
+.dropzone-hint{font-size:.7rem;color:var(--sub);margin-top:8px;opacity:.7}
+#csv-input{display:none}
+
+.alert{padding:12px 16px;border-radius:3px;margin:12px 0;font-size:.78rem}
+.alert.error{background:#fdf0f0;color:var(--red);border:1px solid #f4c4c4}
+.alert.warning{background:#fff8e0;color:var(--yellow);border:1px solid #f0d480}
+.alert.info{background:#e8f4f8;color:#3a6a7d;border:1px solid #b8d4e0}
+.alert.success{background:#eff7f0;color:var(--green);border:1px solid #c5e0c8}
+
+.table{width:100%;border-collapse:collapse;margin-top:16px;font-size:.78rem}
+.table th{
+  background:#fafaf8;text-align:left;padding:10px;font-weight:500;
+  border-bottom:2px solid var(--border);font-size:.7rem;letter-spacing:.05em;
+}
+.table td{padding:10px;border-bottom:1px solid var(--border);vertical-align:top}
+.table tr:hover{background:#fafaf8}
+.table .status-pending{color:var(--sub)}
+.table .status-ok{color:var(--green)}
+.table .status-error{color:var(--red)}
+.table .product{font-size:.72rem;color:var(--sub)}
+.table .tracking{font-family:monospace;font-size:.75rem;letter-spacing:.05em}
+.table .date{font-size:.7rem;color:var(--sub)}
+
+.btn{
+  padding:8px 16px;background:var(--accent);color:#fff;border:none;
+  font-family:inherit;font-size:.7rem;letter-spacing:.08em;
+  cursor:pointer;border-radius:2px;transition:opacity .2s;
+}
+.btn:hover{opacity:.85}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-sm{padding:5px 10px;font-size:.65rem}
+.btn-outline{background:#fff;color:var(--accent);border:1px solid var(--border)}
+.btn-outline:hover{background:#fafaf8}
+
+.summary{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:12px;margin-bottom:16px;
+}
+.summary-box{
+  background:#fff;border:1px solid var(--border);border-radius:3px;
+  padding:12px;text-align:center;
+}
+.summary-num{font-size:1.4rem;font-weight:500;letter-spacing:.05em}
+.summary-label{font-size:.65rem;color:var(--sub);letter-spacing:.05em}
+
+.email-preview{
+  margin-top:8px;padding:12px;background:#fafaf8;border-radius:3px;
+  font-size:.7rem;line-height:1.6;display:none;white-space:pre-wrap;
+  border-left:3px solid var(--accent);
+}
+.email-preview.show{display:block}
+.email-preview-toggle{
+  font-size:.65rem;color:var(--sub);cursor:pointer;text-decoration:underline;
+}
+
+.actions-bar{
+  display:flex;gap:12px;align-items:center;padding:16px;
+  background:#fafaf8;border-radius:3px;margin-top:16px;
+}
+.actions-bar .count{font-size:.78rem;color:var(--sub)}
+
+footer{padding:24px;text-align:center;color:var(--sub);font-size:.7rem}
+</style>
+</head>
+<body>
+<header class="header">
+  <h1>📦 発送通知一括作成</h1>
+  <a href="/" class="nav-link">← サイトに戻る</a>
+</header>
+
+<div class="container">
+
+  <!-- Step 1: CSV アップロード -->
+  <div class="step">
+    <h2><span class="step-num">1</span>B2クラウドの「発行済データ」CSVをアップロード</h2>
+    <p class="step-desc">
+      B2クラウドの「発行済データダウンロード」からエクスポートしたCSV（Shift_JIS / 95列形式）を選択してください。<br>
+      ファイル内の追跡番号（伝票番号）と出荷予定日が自動で読み取られます。
+    </p>
+    <label class="dropzone" id="dropzone">
+      <div class="dropzone-icon">📁</div>
+      <div class="dropzone-text">CSVファイルを選択 or ドラッグ＆ドロップ</div>
+      <div class="dropzone-hint">対応: B2クラウド外部データ取り込み基本レイアウト 95列（Shift_JIS）</div>
+      <input type="file" id="csv-input" accept=".csv">
+    </label>
+    <div id="upload-status"></div>
+  </div>
+
+  <!-- Step 2: 解析結果 + 確認 -->
+  <div class="step" id="parsed-section" style="display:none">
+    <h2><span class="step-num">2</span>解析結果（送信前に確認してください）</h2>
+    <div class="summary">
+      <div class="summary-box"><div class="summary-num" id="total-count">0</div><div class="summary-label">CSV行数</div></div>
+      <div class="summary-box"><div class="summary-num" id="matched-count">0</div><div class="summary-label">Stripe照合済み</div></div>
+      <div class="summary-box"><div class="summary-num" id="ready-count">0</div><div class="summary-label">送信可能</div></div>
+      <div class="summary-box"><div class="summary-num" id="error-count">0</div><div class="summary-label">要確認</div></div>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width:30px"><input type="checkbox" id="select-all" checked></th>
+          <th>注文情報</th>
+          <th>追跡番号</th>
+          <th>発送 / 到着</th>
+          <th>状態</th>
+          <th>プレビュー</th>
+        </tr>
+      </thead>
+      <tbody id="orders-tbody"></tbody>
+    </table>
+
+    <div class="actions-bar">
+      <div class="count" id="selected-count">0件選択中</div>
+      <div style="flex:1"></div>
+      <button class="btn-outline btn" onclick="clearAll()">クリア</button>
+      <button class="btn" id="send-btn" onclick="sendAll()">📧 選択した分の下書きをGmailに作成</button>
+    </div>
+  </div>
+
+  <!-- Step 3: 結果 -->
+  <div class="step" id="result-section" style="display:none">
+    <h2><span class="step-num">3</span>送信結果</h2>
+    <div id="result-list"></div>
+  </div>
+
+</div>
+
+<footer>
+  COLLEGRANCE 管理ツール — 発送通知一括作成<br>
+  問題があれば info@collegrance.com まで
+</footer>
+
+<!-- Shift_JIS デコード用 -->
+<script src="https://cdn.jsdelivr.net/npm/encoding-japanese@2.0.0/encoding.min.js"></script>
+<script>
+let parsedOrders = []; // [{rowIdx, orderNumber, tracking, shipDate, arriveDate, csvName, stripeData}]
+
+const dropzone = document.getElementById('dropzone');
+const csvInput = document.getElementById('csv-input');
+
+dropzone.addEventListener('click', () => csvInput.click());
+dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+dropzone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropzone.classList.remove('dragover');
+  if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+csvInput.addEventListener('change', (e) => {
+  if(e.target.files.length) handleFile(e.target.files[0]);
+});
+
+document.getElementById('select-all').addEventListener('change', (e) => {
+  document.querySelectorAll('.order-check').forEach(cb => cb.checked = e.target.checked);
+  updateSelectedCount();
+});
+
+function showStatus(type, msg){
+  document.getElementById('upload-status').innerHTML = '<div class="alert ' + type + '">' + msg + '</div>';
+}
+
+async function handleFile(file){
+  if(!file.name.toLowerCase().endsWith('.csv')){
+    showStatus('error', 'CSVファイルを選択してください');
+    return;
+  }
+  showStatus('info', '📁 ' + file.name + ' を解析中...');
+  try {
+    const buffer = await file.arrayBuffer();
+    // Shift_JIS デコード
+    const uint8 = new Uint8Array(buffer);
+    const decoded = Encoding.convert(uint8, { to: 'UNICODE', from: 'SJIS', type: 'string' });
+    const lines = decoded.split(/\r?\n/).filter(l => l.trim());
+    if(!lines.length){
+      showStatus('error', 'CSVが空です');
+      return;
+    }
+    // CSV行を簡易パース（"..."で囲まれたフィールドのカンマも考慮）
+    parsedOrders = lines.map((line, idx) => {
+      const cols = parseCsvLine(line);
+      return {
+        rowIdx: idx,
+        orderNumber: (cols[0] || '').trim(),
+        shipDate: (cols[4] || '').trim(),
+        arriveDate: (cols[5] || '').trim(),
+        tracking: (cols[3] || '').trim().replace(/-/g, ''),  // 伝票番号
+        csvName: (cols[15] || '').trim(),
+      };
+    }).filter(r => r.orderNumber);
+
+    showStatus('success', '✅ ' + parsedOrders.length + ' 件読み込み完了。Stripeと照合中...');
+    await lookupStripe();
+  } catch(err){
+    showStatus('error', '解析エラー: ' + err.message);
+  }
+}
+
+function parseCsvLine(line){
+  // 簡易CSVパーサ: ", " と"" のエスケープに対応
+  const cols = [];
+  let cur = '', inQuotes = false;
+  for(let i=0; i<line.length; i++){
+    const ch = line[i];
+    if(inQuotes){
+      if(ch === '"' && line[i+1] === '"'){ cur += '"'; i++; }
+      else if(ch === '"'){ inQuotes = false; }
+      else { cur += ch; }
+    } else {
+      if(ch === ','){ cols.push(cur); cur = ''; }
+      else if(ch === '"'){ inQuotes = true; }
+      else { cur += ch; }
+    }
+  }
+  cols.push(cur);
+  return cols;
+}
+
+async function lookupStripe(){
+  // バックエンドに注文番号一覧を送ってStripe照合
+  const orderNumbers = parsedOrders.map(o => o.orderNumber);
+  try {
+    const res = await fetch('/.netlify/functions/shipping-lookup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderNumbers })
+    });
+    if(!res.ok){
+      const errText = await res.text();
+      showStatus('error', 'Stripe照合API エラー (HTTP ' + res.status + '): ' + errText);
+      return;
+    }
+    const data = await res.json();
+    // マージ
+    parsedOrders.forEach(o => {
+      const found = data.results.find(r => r.orderNumberPrefix === o.orderNumber);
+      o.stripeData = found || null;
+    });
+    renderTable();
+  } catch(err){
+    showStatus('error', 'Stripe照合エラー: ' + err.message);
+  }
+}
+
+function renderTable(){
+  document.getElementById('parsed-section').style.display = 'block';
+  document.getElementById('total-count').textContent = parsedOrders.length;
+  const matched = parsedOrders.filter(o => o.stripeData);
+  const ready = matched.filter(o => o.tracking && o.stripeData.email && o.stripeData.status === 'complete');
+  const errors = parsedOrders.length - ready.length;
+  document.getElementById('matched-count').textContent = matched.length;
+  document.getElementById('ready-count').textContent = ready.length;
+  document.getElementById('error-count').textContent = errors;
+
+  const tbody = document.getElementById('orders-tbody');
+  tbody.innerHTML = parsedOrders.map((o, idx) => {
+    const s = o.stripeData;
+    let statusHtml, statusClass = 'status-pending';
+    let canSend = false;
+    if(!s){
+      statusHtml = '❌ Stripeに該当なし';
+      statusClass = 'status-error';
+    } else if(s.status !== 'complete'){
+      statusHtml = '⚠️ 未完了 (' + s.status + ')';
+      statusClass = 'status-error';
+    } else if(!o.tracking){
+      statusHtml = '⚠️ 追跡番号なし';
+      statusClass = 'status-error';
+    } else if(!s.email){
+      statusHtml = '⚠️ メアド未登録';
+      statusClass = 'status-error';
+    } else {
+      statusHtml = '✅ 送信可';
+      statusClass = 'status-ok';
+      canSend = true;
+    }
+
+    const orderInfo = s
+      ? '<strong>' + (s.customerName || o.csvName || '?') + '</strong> 様<br>' +
+        '<span class="product">' + (s.productName || '?') + '</span><br>' +
+        '<span class="date">📧 ' + (s.email || '?') + '</span>'
+      : '<strong>' + (o.csvName || '?') + '</strong><br><span class="product">注文番号: ' + o.orderNumber + '</span>';
+
+    const formattedTracking = formatTracking(o.tracking);
+    const emailPreview = canSend ? generateEmailBody(o) : '';
+
+    return '<tr>' +
+      '<td><input type="checkbox" class="order-check" data-idx="' + idx + '"' + (canSend ? ' checked' : ' disabled') + '></td>' +
+      '<td>' + orderInfo + '</td>' +
+      '<td><span class="tracking">' + (formattedTracking || '<span class="status-error">未発行</span>') + '</span></td>' +
+      '<td><span class="date">出荷: ' + (o.shipDate || '-') + '<br>到着: ' + (o.arriveDate || '-') + '</span></td>' +
+      '<td class="' + statusClass + '">' + statusHtml + '</td>' +
+      '<td>' +
+        (canSend
+          ? '<span class="email-preview-toggle" onclick="togglePreview(' + idx + ')">▼ 本文プレビュー</span>' +
+            '<div class="email-preview" id="preview-' + idx + '">' + escapeHtml(emailPreview) + '</div>'
+          : '-') +
+      '</td>' +
+    '</tr>';
+  }).join('');
+
+  document.querySelectorAll('.order-check').forEach(cb => cb.addEventListener('change', updateSelectedCount));
+  updateSelectedCount();
+}
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function formatTracking(t){
+  if(!t || t.length < 12) return '';
+  return t.slice(0,4) + '-' + t.slice(4,8) + '-' + t.slice(8,12);
+}
+
+function togglePreview(idx){
+  const el = document.getElementById('preview-' + idx);
+  el.classList.toggle('show');
+}
+
+function generateEmailBody(o){
+  const s = o.stripeData;
+  const tracking = formatTracking(o.tracking);
+  const trackingUrl = 'https://toi.kuronekoyamato.co.jp/cgi-bin/tneko?number01=' + o.tracking;
+  const shipDate = o.shipDate ? o.shipDate.replace(/^\d{4}\//, '').replace('/','/') : '';
+  const arriveDate = o.arriveDate ? o.arriveDate.replace(/^\d{4}\//, '').replace('/','/') : '';
+  const productName = s.productName || '商品';
+  const customerName = (s.customerName || o.csvName || '').replace(/\s*様$/, '');
+  // 苗字のみ抽出（スペース or 全角スペースで分割した最初）
+  const lastName = customerName.split(/[\s　]/)[0];
+
+  return lastName + ' 様\n\n' +
+    'この度はCOLLEGRANCEをご利用いただき、誠にありがとうございます。\n\n' +
+    'ご注文いただきました「' + productName + '」につきまして、\n' +
+    (shipDate ? shipDate + 'にヤマト運輸より発送いたしました。\n' : '本日ヤマト運輸より発送いたしました。\n') +
+    (arriveDate ? 'お届け予定日は ' + arriveDate + ' でございます。\n\n' : '\n') +
+    '■ 追跡番号: ' + tracking + '\n' +
+    '■ 配送状況の確認: ' + trackingUrl + '\n\n' +
+    '商品のお取り扱いやご使用について、ご不明な点がございましたら、\n' +
+    '本メールにお気軽にご返信くださいませ。\n\n' +
+    'ご注文の機会をいただき重ねて御礼申し上げます。\n' +
+    'COLLEGRANCE での香り体験を、心よりお楽しみいただけますよう願っております。\n\n' +
+    '━━━━━━━━━━━━━━━━━━━\n' +
+    'COLLEGRANCE｜合同会社ヤシノミ\n' +
+    'info@collegrance.com\n' +
+    'https://collegrance.com\n' +
+    '━━━━━━━━━━━━━━━━━━━';
+}
+
+function updateSelectedCount(){
+  const checked = document.querySelectorAll('.order-check:checked').length;
+  document.getElementById('selected-count').textContent = checked + '件選択中';
+  document.getElementById('send-btn').disabled = checked === 0;
+}
+
+function clearAll(){
+  parsedOrders = [];
+  document.getElementById('parsed-section').style.display = 'none';
+  document.getElementById('result-section').style.display = 'none';
+  document.getElementById('upload-status').innerHTML = '';
+  csvInput.value = '';
+}
+
+async function sendAll(){
+  const selected = [];
+  document.querySelectorAll('.order-check:checked').forEach(cb => {
+    selected.push(parsedOrders[parseInt(cb.dataset.idx)]);
+  });
+  if(!selected.length) return;
+  if(!confirm(selected.length + '件の発送通知メール下書きを Gmail に作成します。よろしいですか？')) return;
+
+  document.getElementById('send-btn').disabled = true;
+  document.getElementById('send-btn').textContent = '送信中... (0/' + selected.length + ')';
+
+  const results = [];
+  for(let i=0; i<selected.length; i++){
+    const o = selected[i];
+    document.getElementById('send-btn').textContent = '送信中... (' + i + '/' + selected.length + ')';
+    try {
+      const body = generateEmailBody(o);
+      const subject = '【COLLEGRANCE】ご注文の商品を発送いたしました';
+      const res = await fetch('/.netlify/functions/shipping-create-draft', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: o.stripeData.sessionId,
+          to: o.stripeData.email,
+          subject,
+          body,
+          trackingNumber: o.tracking,
+          shipDate: o.shipDate,
+        })
+      });
+      const data = await res.json();
+      results.push({ order: o, success: res.ok, message: data.message || data.error || '' });
+    } catch(err){
+      results.push({ order: o, success: false, message: err.message });
+    }
+  }
+
+  // 結果表示
+  document.getElementById('result-section').style.display = 'block';
+  const ok = results.filter(r => r.success).length;
+  const ng = results.length - ok;
+  document.getElementById('result-list').innerHTML =
+    '<div class="alert ' + (ng === 0 ? 'success' : 'warning') + '">' +
+      '✅ 成功: ' + ok + '件 / ❌ 失敗: ' + ng + '件' +
+    '</div>' +
+    '<ul style="font-size:.78rem;line-height:1.8">' +
+      results.map(r =>
+        '<li>' + (r.success ? '✅' : '❌') + ' ' +
+        (r.order.stripeData?.customerName || r.order.csvName || '?') +
+        ' (' + (r.order.stripeData?.email || '?') + ')' +
+        (r.message ? ' — ' + r.message : '') +
+        '</li>'
+      ).join('') +
+    '</ul>';
+  document.getElementById('send-btn').disabled = false;
+  document.getElementById('send-btn').textContent = '📧 選択した分の下書きをGmailに作成';
+}
+</script>
+</body>
+</html>

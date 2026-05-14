@@ -433,21 +433,6 @@
     .cart-total-label{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500}
     .cart-total-price{font-size:1.3rem;font-weight:700}
     .free-ship-msg{font-size:.6rem;color:#3a7d44;letter-spacing:.04em;text-align:center;margin-bottom:10px;font-weight:500}
-    /* クーポン適用UI (2026-05-14: PRJ-001 Phase 1) */
-    .coupon-list{margin:10px 0 6px}
-    .coupon-list-title{font-size:.58rem;color:var(--sub);letter-spacing:.08em;margin-bottom:6px;text-transform:uppercase}
-    .coupon-card{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-radius:3px;margin-bottom:4px;font-size:.62rem;line-height:1.4}
-    .coupon-card.applied{background:#eff7f0;border:1px solid #c5e0c8;color:#2e5e35}
-    .coupon-card.eligible{background:#fafaf8;border:1px solid #e8e8e8;color:var(--sub)}
-    .coupon-card.locked{background:#fafaf8;border:1px solid #e8e8e8;color:#aaa}
-    .coupon-card .coupon-info{flex:1;min-width:0}
-    .coupon-card .coupon-code{font-weight:500;letter-spacing:.05em;font-size:.6rem}
-    .coupon-card .coupon-detail{font-size:.55rem;opacity:.85;margin-top:2px}
-    .coupon-card .coupon-action{flex-shrink:0;font-size:.55rem}
-    .coupon-card.applied .coupon-action::before{content:"✓ ";font-weight:bold}
-    .coupon-card.locked .coupon-action::before{content:"⏳ "}
-    .coupon-remove{cursor:pointer;color:#999;font-size:.65rem;padding:0 4px}
-    .coupon-remove:hover{color:#c66}
     .ship-progress{font-size:.58rem;color:var(--sub);text-align:center;margin-bottom:10px;letter-spacing:.03em}
     .ship-progress-bar{width:100%;height:4px;background:#e8e8e8;border-radius:4px;margin:6px 0 8px;overflow:hidden}
     .ship-progress-fill{height:100%;background:linear-gradient(90deg,#3a7d44,#5cb868);border-radius:4px;transition:width .5s var(--ease)}
@@ -1505,12 +1490,6 @@
         </label>
         <span id="c-gift">&yen;0</span>
       </div>
-      <!-- クーポン適用UI (2026-05-14: PRJ-001 Phase 1) -->
-      <div id="cart-coupons" style="display:none"></div>
-      <div class="cart-row-sm" id="cart-discount-row" style="display:none;color:#3a7d44">
-        <span id="cart-discount-label">クーポン</span>
-        <span id="c-discount">-&yen;0</span>
-      </div>
       <div class="cart-divider"></div>
       <div class="cart-total-row">
         <span class="cart-total-label">合計（税込）</span>
@@ -1557,121 +1536,6 @@ let currentMode   = 'all';
 let currentScent  = 'all';
 let currentBrand  = '';
 let currentPrice  = '';
-
-/* ===== COUPON STORE: URL自動適用 + localStorage管理 (2026-05-14: PRJ-001 Phase 1) =====
-   仕様:
-   - URL `?coupon=CLG-XXX` (単一) または `?coupons=CLG-AAA:1000:0,CLG-BBB:500:10000` (複数) を受取
-   - localStorageに30日保存（期限切れは自動破棄）
-   - カート小計に応じて最も得な1枚を自動選択（Stripeは1セッション1割引）
-   - 手入力欄も併設（URLなしで配信されたコード救済用）
-   - 適用クーポンコードはdoCheckout時にNetlify Functionに渡し、Stripe側でpromotion_code照合
-   - 詳細: ~/projects-collegrance/INTEGRATION_CONTRACT.md "🎟️ クーポン" セクション */
-const CouponStore = (function(){
-  const KEY = 'clg_coupons_v1';
-  const TTL_DAYS = 30;
-  // プレフィックスホワイトリスト（Stripe側のURL契約に合わせる）
-  const ALLOWED_PREFIXES = ['CLG-', 'AID-', 'LIN-', 'LCK-'];
-
-  function isValidCode(code){
-    if(!code || typeof code !== 'string') return false;
-    const upper = code.trim().toUpperCase();
-    return ALLOWED_PREFIXES.some(p => upper.startsWith(p)) && upper.length >= 8;
-  }
-
-  function load(){
-    try {
-      const raw = localStorage.getItem(KEY);
-      if(!raw) return [];
-      const arr = JSON.parse(raw);
-      const now = Date.now();
-      // 期限切れを除外
-      return arr.filter(c => !c.expiresAt || new Date(c.expiresAt).getTime() > now);
-    } catch(e) { return []; }
-  }
-
-  function save(coupons){
-    try {
-      localStorage.setItem(KEY, JSON.stringify(coupons));
-    } catch(e) { /* quota */ }
-  }
-
-  function add(coupon){
-    // coupon: { code, amountOff?, minAmount?, expiresAt? }
-    if(!isValidCode(coupon.code)) return false;
-    const code = coupon.code.trim().toUpperCase();
-    const list = load();
-    // 重複排除
-    const exists = list.findIndex(c => c.code === code);
-    const expiresAt = coupon.expiresAt || new Date(Date.now() + TTL_DAYS*86400000).toISOString();
-    const entry = {
-      code,
-      amountOff: parseInt(coupon.amountOff || 0, 10) || 0,
-      minAmount: parseInt(coupon.minAmount || 0, 10) || 0,
-      savedAt: new Date().toISOString(),
-      expiresAt: expiresAt,
-    };
-    if(exists >= 0){
-      list[exists] = entry;
-    } else {
-      list.push(entry);
-    }
-    save(list);
-    return true;
-  }
-
-  function remove(code){
-    const upper = (code||'').toUpperCase();
-    const list = load().filter(c => c.code !== upper);
-    save(list);
-  }
-
-  function clear(){
-    save([]);
-  }
-
-  /* URL パース: ?coupon=CLG-XXX または ?coupons=CLG-A:1000:0,CLG-B:500:10000 */
-  function parseFromUrl(){
-    const params = new URLSearchParams(window.location.search);
-    const added = [];
-    // 単一形式
-    const single = params.get('coupon');
-    if(single){
-      if(add({ code: single })) added.push(single.toUpperCase());
-    }
-    // 複数形式
-    const multi = params.get('coupons');
-    if(multi){
-      multi.split(',').forEach(function(seg){
-        const parts = seg.split(':');
-        if(parts[0]){
-          const ok = add({
-            code: parts[0],
-            amountOff: parts[1] || 0,
-            minAmount: parts[2] || 0,
-          });
-          if(ok) added.push(parts[0].toUpperCase());
-        }
-      });
-    }
-    return added;
-  }
-
-  /* カート小計に応じて最も得な1枚を選択 */
-  function selectBest(subtotal){
-    const list = load();
-    if(!list.length) return null;
-    const eligible = list.filter(c => subtotal >= (c.minAmount || 0));
-    if(!eligible.length) return null;
-    // amountOff降順、同額なら最新savedAt優先
-    eligible.sort(function(a,b){
-      if(b.amountOff !== a.amountOff) return b.amountOff - a.amountOff;
-      return new Date(b.savedAt) - new Date(a.savedAt);
-    });
-    return eligible[0];
-  }
-
-  return { load, add, remove, clear, parseFromUrl, selectBest, isValidCode };
-})();
 
 /* ===== IMAGE HELPER: WebP+JPEGフォールバック対応 ===== */
 /* 既存の.jpg/.png画像に加えて、同じパスの.webpを優先配信する。
@@ -2177,52 +2041,6 @@ document.addEventListener('keydown', function(e){
 /* ===== CART ===== */
 var cart = [];
 
-/* === クーポンUI ヘルパー (2026-05-14: PRJ-001) === */
-function renderCouponList(subPlusGift, applied){
-  var container = document.getElementById('cart-coupons');
-  if(!container) return;
-  var coupons = CouponStore.load();
-  if(!coupons.length){
-    container.style.display = 'none';
-    container.innerHTML = '';
-    return;
-  }
-  container.style.display = 'block';
-  var html = '<div class="coupon-list"><div class="coupon-list-title">🎁 お持ちのクーポン</div>';
-  coupons.forEach(function(c){
-    var eligible = subPlusGift >= (c.minAmount || 0);
-    var isApplied = applied && applied.code === c.code;
-    var cls = isApplied ? 'applied' : (eligible ? 'eligible' : 'locked');
-    var detail = (c.amountOff > 0 ? '¥' + c.amountOff.toLocaleString() + ' OFF' : '割引クーポン');
-    if(c.minAmount > 0) detail += ' (¥' + c.minAmount.toLocaleString() + '以上)';
-    var actionTxt = '';
-    if(isApplied){
-      actionTxt = '適用中';
-    } else if(eligible){
-      actionTxt = '別クーポン適用中';
-    } else {
-      var diff = (c.minAmount || 0) - subPlusGift;
-      actionTxt = 'あと¥' + diff.toLocaleString() + 'で利用可';
-    }
-    html += '<div class="coupon-card ' + cls + '">';
-    html +=   '<div class="coupon-info">';
-    html +=     '<div class="coupon-code">' + c.code + '</div>';
-    html +=     '<div class="coupon-detail">' + detail + '</div>';
-    html +=   '</div>';
-    html +=   '<div class="coupon-action">' + actionTxt + '</div>';
-    html +=   '<span class="coupon-remove" onclick="removeCoupon(\'' + c.code + '\')" title="削除">×</span>';
-    html += '</div>';
-  });
-  html += '</div>';
-  container.innerHTML = html;
-}
-
-function removeCoupon(code){
-  if(!confirm('このクーポンを削除しますか？\n' + code)) return;
-  CouponStore.remove(code);
-  refreshCart();
-}
-
 function toggleCouponInput(){
   var area = document.getElementById('coupon-input-area');
   var toggle = document.getElementById('coupon-toggle-text');
@@ -2236,6 +2054,22 @@ function toggleCouponInput(){
   }
 }
 
+/* === シンプル版クーポン適用 (2026-05-14: PRJ-001 Phase 1) ===
+   localStorage に文字列で1つだけ保存。doCheckout時に Stripe Promotion Code に照合される。
+   割引額・条件は Stripe Checkout 画面で確認可能。サイト側では表示しない設計。 */
+var COUPON_STORAGE_KEY = 'clg_manual_coupon';
+var ALLOWED_COUPON_PREFIXES = ['CLG-', 'AID-', 'LIN-', 'LCK-'];
+
+function isValidCouponCode(code){
+  if(!code) return false;
+  var upper = code.trim().toUpperCase();
+  return ALLOWED_COUPON_PREFIXES.some(function(p){ return upper.startsWith(p); }) && upper.length >= 8;
+}
+
+function getStoredCoupon(){
+  try { return localStorage.getItem(COUPON_STORAGE_KEY) || ''; } catch(e){ return ''; }
+}
+
 function applyCouponManual(){
   var input = document.getElementById('coupon-input');
   var msg = document.getElementById('coupon-input-msg');
@@ -2245,20 +2079,19 @@ function applyCouponManual(){
     msg.textContent = 'コードを入力してください';
     return;
   }
-  if(!CouponStore.isValidCode(code)){
+  if(!isValidCouponCode(code)){
     msg.style.color = '#c66';
     msg.textContent = '正しい形式のコードを入力してください (例: CLG-XXXXXX)';
     return;
   }
-  /* 手入力時はメタデータ不明 → 暫定 amountOff=0 で登録。
-     決済時に Stripe Promotion Code 照合で実際の割引額が適用される。
-     UI上は「割引クーポン」とだけ表示し、Stripe checkout 画面で実額を確認可能。 */
-  CouponStore.add({ code: code, amountOff: 0, minAmount: 0 });
+  try { localStorage.setItem(COUPON_STORAGE_KEY, code); } catch(e){}
+  input.value = code;
   msg.style.color = '#3a7d44';
-  msg.textContent = '✓ クーポンを登録しました。決済時に適用されます。';
-  input.value = '';
-  refreshCart();
-  setTimeout(function(){ msg.textContent = ''; }, 4000);
+  msg.textContent = '✓ ' + code + ' を登録しました。決済画面で割引が適用されます。';
+}
+
+function clearStoredCoupon(){
+  try { localStorage.removeItem(COUPON_STORAGE_KEY); } catch(e){}
 }
 
 
@@ -2381,15 +2214,7 @@ function refreshCart(){
   var giftWrap = document.getElementById('gift-wrap');
   var giftFee = (giftWrap && giftWrap.checked && cart.length > 0) ? 300 : 0;
 
-  /* === クーポン評価 (2026-05-14: PRJ-001) === */
-  /* 適用条件: 小計≥最低額。最も得な1枚を自動選択。Stripeは1セッション1割引のため複数併用不可 */
-  var subPlusGift = sub + giftFee;
-  var bestCoupon = cart.length > 0 ? CouponStore.selectBest(subPlusGift) : null;
-  var discount = bestCoupon ? Math.min(bestCoupon.amountOff, subPlusGift) : 0;
-  window._appliedCoupon = bestCoupon; // doCheckoutから参照
-
-  var total = sub + ship + giftFee - discount;
-  if(total < 0) total = 0;
+  var total = sub + ship + giftFee;
 
   document.getElementById('cart-count').textContent = count;
   document.getElementById('c-sub').textContent  = '\u00a5' + sub.toLocaleString();
@@ -2397,21 +2222,6 @@ function refreshCart(){
   document.getElementById('c-gift').textContent = giftFee > 0 ? '\u00a5' + giftFee.toLocaleString() : '\u00a50';
   document.getElementById('c-total').textContent = '\u00a5' + total.toLocaleString();
   document.getElementById('checkout-btn').disabled = cart.length === 0;
-
-  /* 割引表示行 */
-  var discountRow = document.getElementById('cart-discount-row');
-  var discountLabel = document.getElementById('cart-discount-label');
-  var cDiscount = document.getElementById('c-discount');
-  if(discount > 0 && bestCoupon){
-    discountRow.style.display = 'flex';
-    discountLabel.textContent = 'クーポン (' + bestCoupon.code + ')';
-    cDiscount.textContent = '-\u00a5' + discount.toLocaleString();
-  } else {
-    discountRow.style.display = 'none';
-  }
-
-  /* クーポン一覧UI: 持っているクーポンを全件表示 */
-  renderCouponList(subPlusGift, bestCoupon);
 
   var msg = document.getElementById('ship-msg');
   var html = '';
@@ -2519,7 +2329,7 @@ async function doCheckout(){
         items: items,
         giftWrap: giftWrap,
         metadata: metadata,
-        couponCode: (window._appliedCoupon && window._appliedCoupon.code) || null
+        couponCode: getStoredCoupon() || null
       })
     });
     var data = await res.json();
@@ -2744,34 +2554,14 @@ document.addEventListener('DOMContentLoaded', function(){
     obs.observe(el);
   });
 
-  /* === URLからクーポン取り込み (2026-05-14: PRJ-001) === */
-  /* loadProductsの前に実行して、初回refreshCartで反映できるようにする */
+  /* === 保存済みクーポンコードを input に復元 (2026-05-14: PRJ-001) === */
   try {
-    var addedCoupons = CouponStore.parseFromUrl();
-    if(addedCoupons.length > 0){
-      console.log('[coupon] auto-loaded from URL:', addedCoupons);
-      /* URLからクーポンパラメータを削除して履歴をクリーンに保つ（操作可能なら）*/
-      var cleanUrl = new URL(location.href);
-      cleanUrl.searchParams.delete('coupon');
-      cleanUrl.searchParams.delete('coupons');
-      history.replaceState(null, '', cleanUrl.toString());
-      /* GA4: クーポン到達計測 */
-      ga4Event('coupon_received_from_url', {
-        coupon_count: addedCoupons.length,
-        first_code: addedCoupons[0],
-      });
-      /* トースト風通知（カート開いた時に気付く） */
-      setTimeout(function(){
-        var toast = document.getElementById('cart-toast');
-        var msgEl = document.getElementById('cart-toast-msg');
-        if(toast && msgEl){
-          msgEl.textContent = '🎁 クーポンを受け取りました（' + addedCoupons.length + '枚）';
-          toast.classList.add('show');
-          setTimeout(function(){ toast.classList.remove('show'); }, 2500);
-        }
-      }, 600);
+    var stored = getStoredCoupon();
+    if(stored){
+      var ci = document.getElementById('coupon-input');
+      if(ci) ci.value = stored;
     }
-  } catch(e){ console.error('coupon URL parse error:', e); }
+  } catch(e){}
 
   /* Load products on page ready */
   loadProducts().then(function(){

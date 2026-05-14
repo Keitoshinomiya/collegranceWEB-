@@ -1495,6 +1495,17 @@
         <span class="cart-total-label">合計（税込）</span>
         <span class="cart-total-price" id="c-total">&yen;0</span>
       </div>
+      <!-- クーポン手入力欄 (URLで自動適用されなかった場合のフォールバック) -->
+      <div id="coupon-input-wrap" style="margin:10px 0 8px;font-size:.6rem">
+        <div id="coupon-toggle" onclick="toggleCouponInput()" style="cursor:pointer;color:var(--sub);text-align:center;padding:4px 0;letter-spacing:.05em">
+          <span id="coupon-toggle-text">＋ クーポンコードをお持ちの方</span>
+        </div>
+        <div id="coupon-input-area" style="display:none;margin-top:6px;display:flex;gap:6px">
+          <input type="text" id="coupon-input" placeholder="CLG-XXXXXX" style="flex:1;padding:8px 10px;border:1px solid var(--border);border-radius:2px;font-family:var(--font);font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;outline:none">
+          <button type="button" onclick="applyCouponManual()" style="padding:8px 12px;background:var(--accent);color:#fff;border:none;font-family:var(--font);font-size:.6rem;letter-spacing:.08em;cursor:pointer;border-radius:2px">適用</button>
+        </div>
+        <div id="coupon-input-msg" style="margin-top:4px;font-size:.55rem"></div>
+      </div>
       <div id="ship-msg"></div>
       <button class="checkout-btn" id="checkout-btn" onclick="doCheckout()" disabled>お支払いに進む &rarr;</button>
       <div class="stripe-safe"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Powered by Stripe &mdash; 安全なカード決済</div>
@@ -1545,7 +1556,7 @@ function imgPicture(src, alt, opts){
 /* ===== LOAD PRODUCTS ===== */
 async function loadProducts(){
   try {
-    const r = await fetch('products.json?v=20260513-shipbaked');
+    const r = await fetch('products.json?v=20260514-coupons');
     if(!r.ok) throw new Error('HTTP ' + r.status);
     PRODUCTS = await r.json();
     PRODUCTS.forEach(p => {
@@ -2030,6 +2041,60 @@ document.addEventListener('keydown', function(e){
 /* ===== CART ===== */
 var cart = [];
 
+function toggleCouponInput(){
+  var area = document.getElementById('coupon-input-area');
+  var toggle = document.getElementById('coupon-toggle-text');
+  if(area.style.display === 'none'){
+    area.style.display = 'flex';
+    toggle.textContent = '－ 閉じる';
+    setTimeout(function(){ document.getElementById('coupon-input').focus(); }, 50);
+  } else {
+    area.style.display = 'none';
+    toggle.textContent = '＋ クーポンコードをお持ちの方';
+  }
+}
+
+/* === シンプル版クーポン適用 (2026-05-14: PRJ-001 Phase 1) ===
+   localStorage に文字列で1つだけ保存。doCheckout時に Stripe Promotion Code に照合される。
+   割引額・条件は Stripe Checkout 画面で確認可能。サイト側では表示しない設計。 */
+var COUPON_STORAGE_KEY = 'clg_manual_coupon';
+var ALLOWED_COUPON_PREFIXES = ['CLG-', 'AID-', 'LIN-', 'LCK-'];
+
+function isValidCouponCode(code){
+  if(!code) return false;
+  var upper = code.trim().toUpperCase();
+  return ALLOWED_COUPON_PREFIXES.some(function(p){ return upper.startsWith(p); }) && upper.length >= 8;
+}
+
+function getStoredCoupon(){
+  try { return localStorage.getItem(COUPON_STORAGE_KEY) || ''; } catch(e){ return ''; }
+}
+
+function applyCouponManual(){
+  var input = document.getElementById('coupon-input');
+  var msg = document.getElementById('coupon-input-msg');
+  var code = (input.value || '').trim().toUpperCase();
+  if(!code){
+    msg.style.color = '#c66';
+    msg.textContent = 'コードを入力してください';
+    return;
+  }
+  if(!isValidCouponCode(code)){
+    msg.style.color = '#c66';
+    msg.textContent = '正しい形式のコードを入力してください (例: CLG-XXXXXX)';
+    return;
+  }
+  try { localStorage.setItem(COUPON_STORAGE_KEY, code); } catch(e){}
+  input.value = code;
+  msg.style.color = '#3a7d44';
+  msg.textContent = '✓ ' + code + ' を登録しました。決済画面で割引が適用されます。';
+}
+
+function clearStoredCoupon(){
+  try { localStorage.removeItem(COUPON_STORAGE_KEY); } catch(e){}
+}
+
+
 /* ===== GA4 ECOMMERCE HELPERS ===== */
 function ga4Item(p, qty){
   return {
@@ -2148,6 +2213,7 @@ function refreshCart(){
   var ship  = cart.length === 0 ? 0 : (free ? 0 : SHIPPING);
   var giftWrap = document.getElementById('gift-wrap');
   var giftFee = (giftWrap && giftWrap.checked && cart.length > 0) ? 300 : 0;
+
   var total = sub + ship + giftFee;
 
   document.getElementById('cart-count').textContent = count;
@@ -2259,7 +2325,12 @@ async function doCheckout(){
     var res = await fetch('/.netlify/functions/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: items, giftWrap: giftWrap, metadata: metadata })
+      body: JSON.stringify({
+        items: items,
+        giftWrap: giftWrap,
+        metadata: metadata,
+        couponCode: getStoredCoupon() || null
+      })
     });
     var data = await res.json();
     if(data.url){
@@ -2482,6 +2553,15 @@ document.addEventListener('DOMContentLoaded', function(){
     el.style.animationPlayState = 'paused';
     obs.observe(el);
   });
+
+  /* === 保存済みクーポンコードを input に復元 (2026-05-14: PRJ-001) === */
+  try {
+    var stored = getStoredCoupon();
+    if(stored){
+      var ci = document.getElementById('coupon-input');
+      if(ci) ci.value = stored;
+    }
+  } catch(e){}
 
   /* Load products on page ready */
   loadProducts().then(function(){

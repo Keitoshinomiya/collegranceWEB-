@@ -74,7 +74,7 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body);
-    const { items, giftWrap, metadata } = body;
+    const { items, giftWrap, metadata, couponCode } = body;
 
     // === Bot対策4: metadata必須化（フロントエンドからのリクエストには必ず付く）===
     if (!metadata || typeof metadata !== 'object' || !('channel' in metadata)) {
@@ -161,15 +161,53 @@ exports.handler = async (event) => {
       },
     ];
 
+    // === クーポンコード事前適用 (2026-05-14: PRJ-001 Phase 1) ===
+    // ユーザーがLINEで受け取った CLG-XXX 等のコードを Stripe Promotion Code に変換
+    // promotion_code は ID 必要なので、code文字列から逆引きする
+    let discounts = undefined;
+    let appliedCouponInfo = null;
+    if (couponCode && typeof couponCode === 'string') {
+      const normalizedCode = couponCode.trim().toUpperCase();
+      // 許可するプレフィックス（衝突回避用ホワイトリスト）
+      const ALLOWED_PREFIXES = ['CLG-', 'AID-', 'LIN-', 'LCK-'];
+      const isKnownPrefix = ALLOWED_PREFIXES.some(p => normalizedCode.startsWith(p));
+      if (isKnownPrefix) {
+        try {
+          const list = await stripe.promotionCodes.list({ code: normalizedCode, active: true, limit: 1 });
+          if (list.data.length > 0) {
+            const promo = list.data[0];
+            discounts = [{ promotion_code: promo.id }];
+            appliedCouponInfo = {
+              code: promo.code,
+              id: promo.id,
+              coupon_id: promo.coupon && promo.coupon.id,
+            };
+            console.log('[coupon] pre-applied:', normalizedCode, '→', promo.id);
+          } else {
+            // 見つからないけど、Stripe checkout の手入力欄を残すので致命的ではない
+            console.warn('[coupon] code not found:', normalizedCode);
+          }
+        } catch (couponErr) {
+          // クーポンエラーで決済自体は止めない（手入力可能）
+          console.error('[coupon] lookup failed:', couponErr.message);
+        }
+      } else {
+        console.warn('[coupon] rejected unknown prefix:', normalizedCode);
+      }
+    }
+
     // Session metadata
     const sessionMetadata = {
       channel: (metadata && metadata.channel) || 'direct',
       gift_wrap: giftWrap ? 'yes' : 'no',
       diagnosis_session_id: (metadata && metadata.diagnosis_session_id) || '',
+      ...(appliedCouponInfo ? { applied_coupon_code: appliedCouponInfo.code } : {}),
     };
 
     // Create Checkout Session
-    const session = await stripe.checkout.sessions.create({
+    // 注意: discounts と allow_promotion_codes は同時指定不可
+    // → 事前適用クーポンがある場合は手入力欄をオフ、ない場合のみオン
+    const sessionParams = {
       mode: 'payment',
       locale: 'ja',
       line_items,
@@ -185,7 +223,6 @@ exports.handler = async (event) => {
         receipt_email: undefined, // Will use customer email from checkout form
       },
       customer_creation: 'always',
-      allow_promotion_codes: true,
       invoice_creation: {
         enabled: true,
       },
@@ -193,7 +230,14 @@ exports.handler = async (event) => {
       phone_number_collection: {
         enabled: true,
       },
-    });
+    };
+    if (discounts) {
+      sessionParams.discounts = discounts;
+    } else {
+      // クーポン未指定時のみ手入力欄を表示（StripeのDBレベルで制約）
+      sessionParams.allow_promotion_codes = true;
+    }
+    const session = await stripe.checkout.sessions.create(sessionParams);
 
     return {
       statusCode: 200,

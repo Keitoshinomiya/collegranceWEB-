@@ -325,7 +325,7 @@
         const rank = i + 1;
         const badge = rank <= 3 ? `<div class="ranking-badge">No. ${rank}</div>` : '';
         return `
-          <a class="ranking-card" href="/?from=sample&product=${prod.id}">
+          <a class="ranking-card" id="product-${prod.id}" href="/?from=sample&product=${prod.id}">
             ${badge}
             <img class="ranking-img" src="${escapeHTML(prod.img || '')}" alt="${escapeHTML(prod.brand + ' ' + prod.name)}" loading="lazy">
             <div class="ranking-brand">${escapeHTML(prod.brand)}</div>

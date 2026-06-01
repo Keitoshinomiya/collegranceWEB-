@@ -2231,10 +2231,15 @@ async function doCheckout(){
   var diagSession = '';
   try { var ds = JSON.parse(localStorage.getItem('clg_diagnosis_session') || '{}'); diagSession = ds.sessionId || ''; } catch(e){}
 
+  /* LINE Friend ID（LINE経由訪問時に ?lfid= で保存されたID） */
+  var lineFriendId = '';
+  try { lineFriendId = localStorage.getItem('clg_line_friend_id') || ''; } catch(e){}
+
   var metadata = {
     channel: ch.channel || 'direct',
     gift_wrap: giftWrap ? 'yes' : 'no',
-    diagnosis_session_id: diagSession
+    diagnosis_session_id: diagSession,
+    line_friend_id: lineFriendId
   };
 
   try {
@@ -2298,6 +2303,15 @@ var _pendingRecommendLP = false;
     _pendingRecommendLP = true;
     _pendingProductScroll = null;
   }
+  /* === LINE Friend ID キャッチ（?lfid=XXX で来訪時に localStorage 保存） === */
+  /* LINEのFlexメッセージ（シナリオStep2/Step4等）から &lfid={{friend_id}} で渡される */
+  /* Stripe決済時に metadata.line_friend_id として送信 → Worker側で資産化 */
+  try {
+    var _lfid = params.get('lfid');
+    if(_lfid && /^[a-zA-Z0-9-]{6,64}$/.test(_lfid)){
+      localStorage.setItem('clg_line_friend_id', _lfid);
+    }
+  } catch(e){}
 })();
 
 function showSampleLP(productId){

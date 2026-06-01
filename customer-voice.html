@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-6DM95225F6');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お客様の声 - COLLEGRANCE (コレグランス) | 体験者のリアルなレビュー</title>
+  <meta name="description" content="COLLEGRANCEで香水をお試しいただいたお客様の声。累計1,000人以上のリアルなレビューと、フルボトル購入を検討された方の本音をご覧いただけます。">
+  <meta name="keywords" content="コレグランス,お客様の声,香水レビュー,小分け感想,体験談,評判,口コミ">
+  <link rel="canonical" href="https://collegrance.com/customer-voice.html">
+
+  <!-- Performance: Resource Hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://line-crm-worker.shinomiya-keito.workers.dev">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/images/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/logo.png">
+
+  <!-- OGP -->
+  <meta property="og:title" content="お客様の声 | COLLEGRANCE">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://collegrance.com/customer-voice.html">
+  <meta property="og:image" content="https://collegrance.com/assets/images/hero-main.jpg">
+  <meta property="og:description" content="COLLEGRANCEを実際にお試しいただいたお客様のリアルな声をお届けします。">
+  <meta property="og:site_name" content="COLLEGRANCE">
+  <meta property="og:locale" content="ja_JP">
+
+  <style>
+    :root {
+      --text:#1a1a1a;--sub:#666;--light:#999;--bg:#fff;--bg2:#f7f7f7;--border:#e8e8e8;
+      --accent:#111;--font:'Zen Kaku Gothic Antique',sans-serif;--header-h:64px;
+      --ease:cubic-bezier(.4,0,.2,1);
+      --shadow-sm:0 2px 8px rgba(0,0,0,.06);
+      --shadow-md:0 8px 30px rgba(0,0,0,.1);
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.8;letter-spacing:.04em;-webkit-font-smoothing:antialiased}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;height:auto;display:block}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .fade-up{opacity:0;animation:fadeUp .7s var(--ease) forwards}
+
+    /* HEADER */
+    .site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);height:var(--header-h)}
+    .header-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:100%;display:flex;align-items:center;justify-content:space-between}
+    .site-logo{font-size:18px;font-weight:700;letter-spacing:.2em}
+    .site-nav{display:flex;gap:32px}
+    .site-nav a{font-size:13px;font-weight:500;letter-spacing:.1em;color:var(--sub);transition:color .2s}
+    .site-nav a:hover{color:var(--text)}
+    .site-nav a.active{color:var(--text);font-weight:700}
+    @media(max-width:768px){
+      .site-nav{gap:16px}
+      .site-nav a{font-size:11px}
+    }
+
+    /* HERO */
+    .voice-hero{background:linear-gradient(180deg,#fafaf8 0%,#fff 100%);padding:80px 24px 64px;text-align:center;border-bottom:1px solid var(--border)}
+    .voice-hero-eyebrow{font-size:11px;letter-spacing:.3em;color:var(--light);font-weight:500;margin-bottom:16px;text-transform:uppercase}
+    .voice-hero h1{font-size:36px;font-weight:300;letter-spacing:.1em;margin-bottom:16px;line-height:1.3}
+    .voice-hero .lead{font-size:15px;color:var(--sub);max-width:600px;margin:0 auto 48px;line-height:1.9}
+    @media(max-width:768px){
+      .voice-hero{padding:56px 20px 48px}
+      .voice-hero h1{font-size:26px}
+      .voice-hero .lead{font-size:13px;margin-bottom:32px}
+    }
+
+    /* STATS */
+    .stats-grid{max-width:880px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .stat-card{background:#fff;border:1px solid var(--border);padding:32px 16px;text-align:center;border-radius:2px}
+    .stat-num{font-size:36px;font-weight:300;letter-spacing:0;color:var(--text);line-height:1;margin-bottom:8px;font-variant-numeric:tabular-nums}
+    .stat-num .unit{font-size:16px;color:var(--sub);margin-left:4px}
+    .stat-label{font-size:11px;letter-spacing:.15em;color:var(--light);text-transform:uppercase}
+    @media(max-width:768px){
+      .stats-grid{gap:8px}
+      .stat-card{padding:20px 8px}
+      .stat-num{font-size:24px}
+      .stat-num .unit{font-size:12px}
+      .stat-label{font-size:9px}
+    }
+
+    /* SECTION */
+    section.voice-section{max-width:1100px;margin:0 auto;padding:80px 24px}
+    .section-eyebrow{font-size:11px;letter-spacing:.3em;color:var(--light);text-transform:uppercase;text-align:center;margin-bottom:12px}
+    .section-title{font-size:28px;font-weight:300;letter-spacing:.08em;text-align:center;margin-bottom:8px;line-height:1.4}
+    .section-sub{font-size:13px;color:var(--sub);text-align:center;margin-bottom:48px;max-width:560px;margin-left:auto;margin-right:auto}
+    @media(max-width:768px){
+      section.voice-section{padding:56px 20px}
+      .section-title{font-size:22px}
+    }
+
+    /* RANKING */
+    .ranking-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+    .ranking-card{background:#fff;border:1px solid var(--border);padding:20px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:all .25s var(--ease);position:relative}
+    .ranking-card:hover{box-shadow:var(--shadow-sm);border-color:#ccc;transform:translateY(-2px)}
+    .ranking-badge{position:absolute;top:8px;left:8px;background:var(--accent);color:#fff;font-size:10px;font-weight:700;letter-spacing:.1em;padding:4px 8px;border-radius:2px}
+    .ranking-img{width:120px;height:150px;object-fit:contain;margin-bottom:16px}
+    .ranking-brand{font-size:10px;letter-spacing:.2em;color:var(--light);text-transform:uppercase;margin-bottom:4px;font-weight:600}
+    .ranking-name{font-size:13px;color:var(--text);margin-bottom:12px;min-height:40px;display:flex;align-items:center;line-height:1.4}
+    .ranking-rating{font-size:18px;font-weight:600;letter-spacing:0;color:#d4a017;margin-bottom:4px}
+    .ranking-count{font-size:11px;color:var(--sub)}
+    .ranking-cta{margin-top:12px;font-size:11px;color:var(--sub);text-decoration:underline}
+
+    /* VOICE CARDS */
+    .voice-feed{columns:3;column-gap:20px;column-fill:balance}
+    @media(max-width:980px){.voice-feed{columns:2}}
+    @media(max-width:600px){.voice-feed{columns:1}}
+    .voice-card{break-inside:avoid;background:#fff;border:1px solid var(--border);padding:24px;margin-bottom:20px;border-radius:2px;transition:all .25s var(--ease);position:relative}
+    .voice-card:hover{box-shadow:var(--shadow-sm);border-color:#ccc}
+    .voice-rating{font-size:14px;color:#d4a017;letter-spacing:0;margin-bottom:12px;font-weight:600}
+    .voice-text{font-size:14px;line-height:1.85;color:var(--text);margin-bottom:16px;white-space:pre-wrap}
+    .voice-meta{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--light);letter-spacing:.05em;border-top:1px dashed var(--border);padding-top:12px}
+    .voice-meta-left{display:flex;gap:8px;flex-wrap:wrap}
+    .voice-meta-product{font-size:10px;color:var(--sub);text-decoration:underline}
+    .voice-meta-age{padding:2px 8px;background:var(--bg2);border-radius:999px}
+
+    /* LOAD MORE */
+    .load-more-wrap{text-align:center;margin-top:40px}
+    .load-more-btn{background:transparent;border:1px solid var(--text);color:var(--text);padding:14px 48px;font-size:13px;letter-spacing:.15em;font-family:inherit;cursor:pointer;transition:all .2s var(--ease)}
+    .load-more-btn:hover{background:var(--text);color:#fff}
+    .load-more-btn:disabled{opacity:.4;cursor:not-allowed}
+
+    /* LOADING */
+    .loading{text-align:center;color:var(--light);font-size:13px;padding:40px 0;letter-spacing:.1em}
+    .loading::after{content:'...';animation:dots 1.5s infinite}
+    @keyframes dots{0%{content:'.'}33%{content:'..'}66%{content:'...'}}
+
+    /* CTA */
+    .voice-cta-section{background:#1a1a1a;color:#fff;padding:80px 24px;text-align:center}
+    .voice-cta-eyebrow{font-size:11px;letter-spacing:.3em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px}
+    .voice-cta-title{font-size:28px;font-weight:300;letter-spacing:.08em;margin-bottom:16px;line-height:1.4}
+    .voice-cta-text{font-size:14px;color:rgba(255,255,255,.7);max-width:560px;margin:0 auto 32px;line-height:1.9}
+    .voice-cta-btn{display:inline-block;background:#fff;color:#1a1a1a;padding:16px 48px;font-size:13px;letter-spacing:.15em;font-weight:500;transition:all .2s var(--ease)}
+    .voice-cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,255,255,.15)}
+    @media(max-width:768px){
+      .voice-cta-section{padding:56px 20px}
+      .voice-cta-title{font-size:22px}
+    }
+
+    /* FOOTER */
+    .site-footer{background:#0f0f0f;color:rgba(255,255,255,.4);padding:32px 24px;text-align:center;font-size:11px;letter-spacing:.1em}
+    .site-footer a{color:rgba(255,255,255,.6)}
+
+    /* Disclaimer */
+    .disclaimer{max-width:1100px;margin:48px auto 0;padding:20px 24px;font-size:11px;color:var(--light);text-align:center;line-height:1.8;letter-spacing:.04em}
+    .disclaimer strong{color:var(--sub)}
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="site-logo">COLLEGRANCE</a>
+      <nav class="site-nav">
+        <a href="/">SHOP</a>
+        <a href="/brand-story.html">ABOUT</a>
+        <a href="/customer-voice.html" class="active">VOICE</a>
+        <a href="/#journal">JOURNAL</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="voice-hero">
+    <div class="voice-hero-eyebrow">Customer Voice</div>
+    <h1 class="fade-up">お客様の声</h1>
+    <p class="lead fade-up" style="animation-delay:.1s">
+      実際にお試しいただいた方々の、リアルなご感想をお届けします。<br>
+      これからの香り選びの、ご参考になりましたら。
+    </p>
+    <div class="stats-grid fade-up" style="animation-delay:.2s">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-total">-<span class="unit">名</span></div>
+        <div class="stat-label">Total Voices</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-fb-rate">-<span class="unit">%</span></div>
+        <div class="stat-label">フルボトル検討率</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-avg-rating">-<span class="unit">/5</span></div>
+        <div class="stat-label">Avg. Satisfaction</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RANKING ===== -->
+  <section class="voice-section">
+    <div class="section-eyebrow">Most Loved</div>
+    <h2 class="section-title">満足度の高い香り</h2>
+    <p class="section-sub">体験者からの評価が高かった香り。気になる1本があれば、まずは小分けから。</p>
+    <div class="ranking-list" id="ranking-list">
+      <div class="loading">読み込み中</div>
+    </div>
+  </section>
+
+  <!-- ===== VOICE FEED ===== -->
+  <section class="voice-section" style="background:#fafaf8;max-width:none;padding-left:0;padding-right:0">
+    <div style="max-width:1100px;margin:0 auto;padding:0 24px">
+      <div class="section-eyebrow">Real Voices</div>
+      <h2 class="section-title">みなさまの声</h2>
+      <p class="section-sub">ご感想として匿名でのご掲載に同意いただいた方の、ありのままのお声です。</p>
+      <div class="voice-feed" id="voice-feed">
+        <div class="loading">読み込み中</div>
+      </div>
+      <div class="load-more-wrap">
+        <button class="load-more-btn" id="load-more-btn" onclick="loadMoreVoices()">もっと見る</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="voice-cta-section">
+    <div class="voice-cta-eyebrow">Try Yours</div>
+    <div class="voice-cta-title">あなたの一本に、出会いに。</div>
+    <p class="voice-cta-text">気になる香りを、まずは小分けで気軽にお試しいただけます。</p>
+    <a href="/" class="voice-cta-btn">商品を見る →</a>
+  </section>
+
+  <!-- ===== DISCLAIMER ===== -->
+  <div class="disclaimer">
+    <strong>※</strong> 掲載しているお客様の声は、COLLEGRANCEのアンケートで「匿名でのサイト掲載に同意」をいただいた方の回答です。<br>
+    年代・性別以外の個人情報は表示しておりません。商品の体感には個人差があります。
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <p>&copy; COLLEGRANCE. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const API_BASE = 'https://line-crm-worker.shinomiya-keito.workers.dev';
+    let PRODUCTS = [];
+    let voicesLoaded = 0;
+    const VOICES_PAGE_SIZE = 30;
+
+    // HTMLエスケープ
+    function escapeHTML(s) {
+      if (s === null || s === undefined) return '';
+      const div = document.createElement('div');
+      div.textContent = String(s);
+      return div.innerHTML;
+    }
+
+    // 星評価表示
+    function ratingStars(rating) {
+      if (rating === null || rating === undefined) return '';
+      const r = Math.round(rating);
+      return '★'.repeat(r) + '☆'.repeat(5 - r);
+    }
+
+    // 商品IDから商品データ取得
+    function productById(id) {
+      return PRODUCTS.find(p => p.id === id);
+    }
+
+    // === LOAD PRODUCTS ===
+    async function loadProducts() {
+      try {
+        const r = await fetch('/products.json');
+        if (!r.ok) throw new Error('products.json fetch failed');
+        PRODUCTS = await r.json();
+      } catch (e) {
+        console.error('Failed to load products:', e);
+      }
+    }
+
+    // === LOAD AGGREGATE ===
+    async function loadAggregate() {
+      try {
+        const r = await fetch(`${API_BASE}/api/public/reviews/aggregate`);
+        const data = await r.json();
+        if (data.totalResponses !== undefined) {
+          document.getElementById('stat-total').innerHTML =
+            data.totalResponses.toLocaleString() + '<span class="unit">名</span>';
+        }
+        if (data.fullbottleInterestRate !== undefined) {
+          document.getElementById('stat-fb-rate').innerHTML =
+            (data.fullbottleInterestRate * 100).toFixed(1) + '<span class="unit">%</span>';
+        }
+        if (data.averageRating !== null && data.averageRating !== undefined) {
+          document.getElementById('stat-avg-rating').innerHTML =
+            data.averageRating.toFixed(1) + '<span class="unit">/5</span>';
+        }
+        renderRanking(data.byProduct || []);
+      } catch (e) {
+        console.error('Failed to load aggregate:', e);
+        document.getElementById('ranking-list').innerHTML =
+          '<p style="text-align:center;color:var(--light);grid-column:1/-1">データの読み込みに失敗しました。時間をおいて再度お試しください。</p>';
+      }
+    }
+
+    // === RENDER RANKING ===
+    function renderRanking(byProduct) {
+      // 件数3件以上 かつ 満足度の高い順 → 上位8件
+      const ranked = byProduct
+        .filter(p => p.count >= 3 && p.avgRating !== null)
+        .sort((a, b) => (b.avgRating - a.avgRating) || (b.count - a.count))
+        .slice(0, 8);
+
+      if (ranked.length === 0) {
+        document.getElementById('ranking-list').innerHTML =
+          '<p style="text-align:center;color:var(--light);grid-column:1/-1">表示できるデータがまだ揃っていません。</p>';
+        return;
+      }
+
+      const html = ranked.map((p, i) => {
+        const prod = productById(p.productId);
+        if (!prod) return '';
+        const rank = i + 1;
+        const badge = rank <= 3 ? `<div class="ranking-badge">No. ${rank}</div>` : '';
+        return `
+          <a class="ranking-card" href="/?from=sample&product=${prod.id}">
+            ${badge}
+            <img class="ranking-img" src="${escapeHTML(prod.img || '')}" alt="${escapeHTML(prod.brand + ' ' + prod.name)}" loading="lazy">
+            <div class="ranking-brand">${escapeHTML(prod.brand)}</div>
+            <div class="ranking-name">${escapeHTML(prod.nameJa || prod.name)}</div>
+            <div class="ranking-rating">★ ${p.avgRating.toFixed(1)}</div>
+            <div class="ranking-count">${p.count}名のレビュー</div>
+            <div class="ranking-cta">この香りを試す →</div>
+          </a>
+        `;
+      }).join('');
+      document.getElementById('ranking-list').innerHTML = html;
+    }
+
+    // === LOAD VOICES ===
+    async function loadVoices(replace = true) {
+      try {
+        const r = await fetch(`${API_BASE}/api/public/reviews/recent?limit=${VOICES_PAGE_SIZE}&minLength=30`);
+        const data = await r.json();
+        const voices = data.voices || [];
+        renderVoices(voices, replace);
+        voicesLoaded = voices.length;
+        const btn = document.getElementById('load-more-btn');
+        // 既に全件出てるならbtnを薄く
+        if (voices.length < VOICES_PAGE_SIZE) {
+          btn.disabled = true;
+          btn.textContent = 'すべて表示しました';
+        }
+      } catch (e) {
+        console.error('Failed to load voices:', e);
+        document.getElementById('voice-feed').innerHTML =
+          '<p style="text-align:center;color:var(--light)">お声の読み込みに失敗しました。時間をおいて再度お試しください。</p>';
+      }
+    }
+
+    // === RENDER VOICES ===
+    function renderVoices(voices, replace) {
+      if (!voices.length) {
+        if (replace) document.getElementById('voice-feed').innerHTML =
+          '<p style="text-align:center;color:var(--light)">まだお声が届いていません。</p>';
+        return;
+      }
+      const html = voices.map(v => {
+        const prod = v.productId ? productById(v.productId) : null;
+        const productLink = prod
+          ? `<a class="voice-meta-product" href="/?from=sample&product=${prod.id}">${escapeHTML(prod.brand)} ${escapeHTML(prod.nameJa || prod.name)}</a>`
+          : '';
+        const metaTags = [];
+        if (v.ageGroup) metaTags.push(`<span class="voice-meta-age">${escapeHTML(v.ageGroup)}</span>`);
+        if (v.gender) metaTags.push(`<span class="voice-meta-age">${escapeHTML(v.gender)}</span>`);
+        return `
+          <div class="voice-card">
+            ${v.rating ? `<div class="voice-rating">${ratingStars(v.rating)}</div>` : ''}
+            <p class="voice-text">${escapeHTML(v.impression)}</p>
+            <div class="voice-meta">
+              <div class="voice-meta-left">${metaTags.join('')}</div>
+              ${productLink}
+            </div>
+          </div>
+        `;
+      }).join('');
+      const feed = document.getElementById('voice-feed');
+      if (replace) feed.innerHTML = html;
+      else feed.insertAdjacentHTML('beforeend', html);
+    }
+
+    // === LOAD MORE ===
+    async function loadMoreVoices() {
+      const btn = document.getElementById('load-more-btn');
+      btn.disabled = true;
+      btn.textContent = '読み込み中...';
+      try {
+        // 次のページを取得
+        const next = voicesLoaded + VOICES_PAGE_SIZE;
+        const r = await fetch(`${API_BASE}/api/public/reviews/recent?limit=${next}&minLength=30`);
+        const data = await r.json();
+        const voices = data.voices || [];
+        // 既存分を超えた新しい分だけ追加
+        const newOnes = voices.slice(voicesLoaded);
+        if (newOnes.length === 0) {
+          btn.textContent = 'すべて表示しました';
+          return;
+        }
+        renderVoices(newOnes, false);
+        voicesLoaded = voices.length;
+        btn.disabled = false;
+        btn.textContent = 'もっと見る';
+        if (newOnes.length < VOICES_PAGE_SIZE) {
+          btn.disabled = true;
+          btn.textContent = 'すべて表示しました';
+        }
+      } catch (e) {
+        console.error('Failed to load more:', e);
+        btn.disabled = false;
+        btn.textContent = 'もっと見る';
+      }
+    }
+
+    // === INIT ===
+    (async function init() {
+      await loadProducts();
+      await Promise.all([loadAggregate(), loadVoices()]);
+    })();
+  </script>
+</body>
+</html>

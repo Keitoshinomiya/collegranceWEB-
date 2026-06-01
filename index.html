@@ -1702,7 +1702,13 @@ function scrollToProduct(id){
 function populateJournalPicks(){
   var grid = document.getElementById('jp-grid');
   if(!grid || typeof journalArticles === 'undefined') return;
-  var articles = journalArticles.slice(0, 4);
+  /* 未来日付の記事は除外し、公開日が来たものだけを新しい順に4本 */
+  var _today = new Date().toISOString().slice(0, 10);
+  var articles = journalArticles
+    .filter(function(a){ return a.date <= _today; })
+    .slice()
+    .sort(function(a,b){ return b.date.localeCompare(a.date); })
+    .slice(0, 4);
   grid.innerHTML = articles.map(function(a){
     return '<a href="' + a.link + '" class="jp-card">' +
       imgPicture(a.image, '', { className: 'jp-card-img' }) +

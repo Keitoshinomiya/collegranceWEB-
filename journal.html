@@ -709,7 +709,11 @@ function toggleMobileNav(){
 (function(){
   if(!window.journalArticles) return;
 
-  var allArticles = journalArticles.slice().sort(function(a,b){ return b.date.localeCompare(a.date); });
+  /* 公開日が未来の記事は一覧に出さない（記事は作り置きし、日が来たら自動的に登場させる） */
+  var _today = new Date().toISOString().slice(0, 10);
+  var allArticles = journalArticles.slice()
+    .filter(function(a){ return a.date <= _today; })
+    .sort(function(a,b){ return b.date.localeCompare(a.date); });
   var currentCat = 'ALL';
 
   /* ヒーロー記事（最新1本） */

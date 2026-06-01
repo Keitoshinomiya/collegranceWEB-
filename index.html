@@ -501,9 +501,16 @@
     .review-modal-bigstars{color:var(--gold);font-size:1rem;letter-spacing:2px;margin-bottom:4px}
     .review-modal-count{font-size:.6rem;color:rgba(255,255,255,.6);letter-spacing:.05em}
     .review-modal-dist{padding:20px 28px;border-bottom:1px solid var(--border);background:#faf9f7}
-    .dist-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+    .dist-hint{font-size:.52rem;color:var(--light);text-align:center;margin-bottom:10px;letter-spacing:.05em}
+    .dist-row{display:flex;align-items:center;gap:10px;margin-bottom:4px;width:100%;background:none;border:none;padding:5px 6px;font-family:inherit;border-radius:5px;transition:background .15s}
     .dist-row:last-child{margin-bottom:0}
-    .dist-label{font-size:.58rem;color:var(--sub);width:28px;flex-shrink:0}
+    .dist-row.clickable{cursor:pointer}
+    .dist-row.clickable:hover{background:rgba(201,168,76,.12)}
+    .dist-row.active{background:rgba(201,168,76,.22)}
+    .dist-label{font-size:.6rem;color:var(--sub);width:28px;flex-shrink:0;text-align:left}
+    .review-filter-head{display:flex;align-items:center;justify-content:space-between;padding:11px 28px;background:#fff;border-bottom:1px solid var(--border);font-size:.66rem;color:var(--text);font-weight:600}
+    .review-filter-clear{background:none;border:1px solid var(--border);color:var(--sub);font-size:.56rem;padding:4px 13px;border-radius:999px;cursor:pointer;font-family:inherit;transition:all .15s}
+    .review-filter-clear:hover{border-color:var(--gold);color:var(--gold)}
     .dist-bar-bg{display:block;flex:1;height:7px;background:#e8e4dc;border-radius:999px;overflow:hidden}
     .dist-bar-fill{display:block;height:100%;min-width:2px;background:var(--gold);border-radius:999px;transition:width .6s var(--ease)}
     .dist-pct{font-size:.62rem;color:var(--text);width:38px;text-align:right;flex-shrink:0;font-weight:600;font-variant-numeric:tabular-nums}
@@ -2542,6 +2549,9 @@ function closeSampleLP(){
 
 /* ===== お試し体験者レビュー モーダル ===== */
 /* 商品カードのレビューボタンから、その場で該当商品のお客様の声を表示 */
+var _reviewModalData = null;
+var _reviewModalProduct = null;
+var _reviewRatingFilter = null; /* null=すべて表示, 1-5=その評価のみ */
 function reviewStars(rating){
   if(rating === null || rating === undefined) return '';
   var r = Math.round(rating);
@@ -2550,6 +2560,7 @@ function reviewStars(rating){
 async function openReviewModal(productId){
   var p = PRODUCTS.find(function(x){ return x.id === productId; });
   if(!p) return;
+  _reviewRatingFilter = null; /* 開くたびに絞り込みをリセット */
   var modal = document.getElementById('review-modal');
   modal.innerHTML = '<button class="review-modal-close" onclick="closeReviewModal()">&times;</button>' +
     '<div class="review-modal-loading">お客様の声を読み込んでいます…</div>';
@@ -2568,27 +2579,40 @@ async function openReviewModal(productId){
   }
 }
 function renderReviewModal(p, data){
+  _reviewModalData = data;
+  _reviewModalProduct = p;
   var modal = document.getElementById('review-modal');
   var dist = data.ratingDistribution || {};
   var total = data.count || 0;
   var avg = (data.avgRating !== null && data.avgRating !== undefined) ? data.avgRating.toFixed(1) : '—';
+  var allVoices = data.voices || [];
 
-  /* 満足度分布バー（★5→★1） */
+  /* 満足度分布バー（★5→★1、コメント付きの声がある★はタップで絞り込み可能） */
   var distHtml = '';
   for(var s = 5; s >= 1; s--){
     var n = dist[s] || 0;
     var pct = total > 0 ? Math.round(n / total * 100) : 0;
+    var hasVoices = allVoices.some(function(v){ return v.rating === s; });
+    var cls = 'dist-row' + (_reviewRatingFilter === s ? ' active' : '') + (hasVoices ? ' clickable' : '');
+    var onclick = hasVoices ? ' onclick="filterReviewsByRating(' + s + ')"' : '';
     distHtml +=
-      '<div class="dist-row">' +
+      '<button type="button" class="' + cls + '"' + onclick + '>' +
         '<span class="dist-label">★' + s + '</span>' +
         '<span class="dist-bar-bg"><span class="dist-bar-fill" style="width:' + pct + '%"></span></span>' +
         '<span class="dist-pct">' + pct + '%</span>' +
         '<span class="dist-num">' + n + '名</span>' +
-      '</div>';
+      '</button>';
   }
 
-  /* 個別の声 */
-  var voices = data.voices || [];
+  /* 絞り込み中の見出し */
+  var filterHead = '';
+  if(_reviewRatingFilter !== null){
+    filterHead = '<div class="review-filter-head"><span>★' + _reviewRatingFilter + ' のお声を表示中</span>' +
+      '<button class="review-filter-clear" onclick="filterReviewsByRating(null)">すべて表示 ×</button></div>';
+  }
+
+  /* 個別の声（★フィルタ適用） */
+  var voices = (_reviewRatingFilter === null) ? allVoices : allVoices.filter(function(v){ return v.rating === _reviewRatingFilter; });
   var voicesHtml = '';
   if(voices.length){
     voicesHtml = voices.map(function(v){
@@ -2603,7 +2627,10 @@ function renderReviewModal(p, data){
       '</div>';
     }).join('');
   } else {
-    voicesHtml = '<div class="review-modal-voice" style="text-align:center;color:var(--light);font-size:.72rem">この香りのお声はまだ準備中です。</div>';
+    var emptyMsg = (_reviewRatingFilter !== null)
+      ? '★' + _reviewRatingFilter + ' のコメント付きレビューはまだありません。'
+      : 'この香りのお声はまだ準備中です。';
+    voicesHtml = '<div class="review-modal-voice" style="text-align:center;color:var(--light);font-size:.72rem">' + emptyMsg + '</div>';
   }
 
   modal.innerHTML =
@@ -2620,11 +2647,25 @@ function renderReviewModal(p, data){
       '</div>' +
       '<div class="review-modal-note">Amazon等で小分け（お試しサイズ）をご利用いただいた方のアンケート結果です</div>' +
     '</div>' +
-    '<div class="review-modal-dist">' + distHtml + '</div>' +
+    '<div class="review-modal-dist">' +
+      '<div class="dist-hint">▼ ★をタップすると評価別に絞り込めます</div>' +
+      distHtml +
+    '</div>' +
+    filterHead +
     '<div class="review-modal-voices">' + voicesHtml + '</div>' +
     '<div class="review-modal-foot">' +
       '<button class="review-modal-cta" onclick="closeReviewModal();showSampleLP(' + p.id + ')">この香りを試す →</button>' +
     '</div>';
+}
+function filterReviewsByRating(s){
+  /* 同じ★を再タップでトグル解除。null明示で全表示に戻す */
+  if(s === null){ _reviewRatingFilter = null; }
+  else { _reviewRatingFilter = (_reviewRatingFilter === s) ? null : s; }
+  if(_reviewModalProduct && _reviewModalData){
+    renderReviewModal(_reviewModalProduct, _reviewModalData);
+    var vc = document.querySelector('.review-modal-voices');
+    if(vc) vc.scrollTop = 0;
+  }
 }
 function closeReviewModal(){
   document.getElementById('review-modal-overlay').classList.remove('active');

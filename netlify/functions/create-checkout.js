@@ -197,10 +197,18 @@ exports.handler = async (event) => {
     }
 
     // Session metadata
+    // line_friend_id: LINE経由訪問時にlocalStorageから渡される。Stripe webhook → line-harness Worker で
+    // friends と紐付けて customer_web タグ付与・購入資産化に使用される（INTEGRATION_CONTRACT.md参照）
+    const rawLineFriendId = (metadata && metadata.line_friend_id) || '';
+    const lineFriendId = (typeof rawLineFriendId === 'string' && /^[a-zA-Z0-9-]{6,64}$/.test(rawLineFriendId))
+      ? rawLineFriendId
+      : '';
+
     const sessionMetadata = {
       channel: (metadata && metadata.channel) || 'direct',
       gift_wrap: giftWrap ? 'yes' : 'no',
       diagnosis_session_id: (metadata && metadata.diagnosis_session_id) || '',
+      ...(lineFriendId ? { line_friend_id: lineFriendId } : {}),
       ...(appliedCouponInfo ? { applied_coupon_code: appliedCouponInfo.code } : {}),
     };
 

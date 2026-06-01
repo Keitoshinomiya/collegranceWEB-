@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-6DM95225F6');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お客様の声 - COLLEGRANCE (コレグランス) | 体験者のリアルなレビュー</title>
+  <meta name="description" content="COLLEGRANCEで香水をお試しいただいたお客様の声。1,000人以上のリアルなレビューと満足度をご覧いただけます。気になる香りは、まず小分けから。">
+  <meta name="keywords" content="コレグランス,お客様の声,香水レビュー,小分け感想,体験談,評判,口コミ">
+  <link rel="canonical" href="https://collegrance.com/customer-voice.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://line-crm-worker.shinomiya-keito.workers.dev">
+
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="icon" href="assets/images/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/logo.png">
+
+  <meta property="og:title" content="お客様の声 | COLLEGRANCE">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://collegrance.com/customer-voice.html">
+  <meta property="og:image" content="https://collegrance.com/assets/images/hero-main.jpg">
+  <meta property="og:description" content="COLLEGRANCEを実際にお試しいただいたお客様のリアルな声をお届けします。">
+  <meta property="og:site_name" content="COLLEGRANCE">
+  <meta property="og:locale" content="ja_JP">
+
+  <style>
+    /* ===== index.html と同一のデザイントークン ===== */
+    :root {
+      --text:#1a1a1a;--sub:#666;--light:#999;--bg:#fff;--bg2:#f7f7f7;--border:#e8e8e8;
+      --accent:#111;--font:'Zen Kaku Gothic Antique',sans-serif;--header-h:64px;
+      --ease:cubic-bezier(.4,0,.2,1);--shadow-sm:0 2px 8px rgba(0,0,0,.06);
+      --shadow-md:0 8px 30px rgba(0,0,0,.1);--shadow-lg:0 16px 48px rgba(0,0,0,.14);
+      --gold:#c9a84c;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.8;letter-spacing:.04em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;height:auto;display:block}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    .fade-up{opacity:0;animation:fadeUp .8s var(--ease) forwards}
+    .delay-1{animation-delay:.12s}.delay-2{animation-delay:.24s}.delay-3{animation-delay:.36s}
+
+    /* ===== HEADER（index.htmlの世界観を踏襲・シンプル化） ===== */
+    .site-header{position:sticky;top:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06);z-index:100;height:var(--header-h);display:flex;align-items:center}
+    .header-inner{max-width:1200px;margin:0 auto;padding:0 24px;width:100%;display:flex;align-items:center;justify-content:space-between}
+    .header-logo img{height:36px}
+    .header-nav{display:flex;align-items:center;gap:0;list-style:none}
+    .header-nav>li>a{display:block;padding:0 16px;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sub);transition:color .2s;line-height:var(--header-h)}
+    .header-nav>li>a:hover{color:var(--text)}
+    .header-nav>li>a.active{color:var(--text);font-weight:500}
+    .header-cta{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text);border:1px solid var(--text);padding:9px 18px;transition:all .2s var(--ease)}
+    .header-cta:hover{background:var(--text);color:#fff}
+    @media(max-width:768px){
+      .header-nav>li>a{padding:0 9px;font-size:.52rem;letter-spacing:.1em}
+      .header-logo img{height:28px}
+      .header-cta{display:none}
+    }
+
+    /* ===== HERO ===== */
+    .voice-hero{background:linear-gradient(180deg,#faf9f7 0%,#fff 100%);padding:96px 24px 72px;text-align:center;border-bottom:1px solid var(--border)}
+    .voice-hero-eyebrow{font-size:.6rem;letter-spacing:.32em;color:var(--light);text-transform:uppercase;margin-bottom:20px}
+    .voice-hero h1{font-size:2.6rem;font-weight:300;letter-spacing:.14em;margin-bottom:20px;line-height:1.3}
+    .voice-hero .lead{font-size:.82rem;color:var(--sub);max-width:600px;margin:0 auto 56px;line-height:2}
+    @media(max-width:768px){
+      .voice-hero{padding:64px 20px 52px}
+      .voice-hero h1{font-size:1.8rem;letter-spacing:.1em}
+      .voice-hero .lead{font-size:.72rem;margin-bottom:40px}
+    }
+
+    /* STATS */
+    .stats-grid{max-width:840px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);background:#fff}
+    .stat-card{padding:36px 16px;text-align:center;border-right:1px solid var(--border)}
+    .stat-card:last-child{border-right:none}
+    .stat-num{font-size:2.5rem;font-weight:300;letter-spacing:0;color:var(--text);line-height:1;margin-bottom:10px;font-variant-numeric:tabular-nums}
+    .stat-num .unit{font-size:.9rem;color:var(--sub);margin-left:3px;font-weight:400}
+    .stat-label{font-size:.55rem;letter-spacing:.16em;color:var(--light);text-transform:uppercase}
+    @media(max-width:768px){
+      .stat-card{padding:24px 6px}
+      .stat-num{font-size:1.6rem}
+      .stat-num .unit{font-size:.7rem}
+      .stat-label{font-size:.48rem;letter-spacing:.1em}
+    }
+
+    /* SECTION COMMON */
+    section.voice-section{max-width:1180px;margin:0 auto;padding:88px 24px}
+    .section-eyebrow{font-size:.6rem;letter-spacing:.32em;color:var(--light);text-transform:uppercase;text-align:center;margin-bottom:14px}
+    .section-title{font-size:1.9rem;font-weight:300;letter-spacing:.1em;text-align:center;margin-bottom:12px;line-height:1.4}
+    .section-sub{font-size:.74rem;color:var(--sub);text-align:center;margin:0 auto 56px;max-width:560px;line-height:1.9}
+    @media(max-width:768px){
+      section.voice-section{padding:60px 20px}
+      .section-title{font-size:1.4rem}
+      .section-sub{margin-bottom:40px}
+    }
+
+    /* RANKING */
+    .ranking-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:24px}
+    .ranking-card{background:#fff;border:1px solid var(--border);padding:28px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:all .3s var(--ease);position:relative}
+    .ranking-card:hover{box-shadow:var(--shadow-md);border-color:transparent;transform:translateY(-4px)}
+    .ranking-rank{position:absolute;top:14px;left:14px;font-size:.62rem;font-weight:700;letter-spacing:.05em;color:var(--text)}
+    .ranking-rank.top{color:var(--gold)}
+    .ranking-img{width:130px;height:165px;object-fit:contain;margin-bottom:20px;mix-blend-mode:multiply}
+    .ranking-brand{font-size:.56rem;letter-spacing:.2em;color:var(--light);text-transform:uppercase;margin-bottom:5px}
+    .ranking-name{font-size:.82rem;color:var(--text);margin-bottom:16px;min-height:2.6em;display:flex;align-items:center;line-height:1.5}
+    .ranking-rating{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+    .ranking-rating .stars{color:var(--gold);font-size:.78rem;letter-spacing:1px}
+    .ranking-rating .num{font-size:.92rem;font-weight:500;color:var(--text)}
+    .ranking-count{font-size:.6rem;color:var(--light);margin-bottom:18px}
+    .ranking-cta{font-size:.62rem;letter-spacing:.1em;color:var(--text);border-top:1px solid var(--border);padding-top:14px;width:100%;transition:color .2s}
+    .ranking-card:hover .ranking-cta{color:var(--gold)}
+
+    /* VOICE FEED */
+    .voice-feed-wrap{background:#faf9f7}
+    .voice-feed{columns:3;column-gap:24px}
+    @media(max-width:980px){.voice-feed{columns:2}}
+    @media(max-width:600px){.voice-feed{columns:1}}
+    .voice-card{break-inside:avoid;background:#fff;border:1px solid var(--border);padding:28px 26px 22px;margin-bottom:24px;position:relative;transition:all .3s var(--ease)}
+    .voice-card:hover{box-shadow:var(--shadow-md);border-color:transparent}
+    .voice-card::before{content:'\201C';position:absolute;top:6px;left:18px;font-size:3.2rem;color:var(--border);font-family:Georgia,serif;line-height:1}
+    .voice-rating{color:var(--gold);font-size:.74rem;letter-spacing:1.5px;margin-bottom:14px;position:relative;z-index:1}
+    .voice-text{font-size:.78rem;line-height:1.95;color:var(--text);margin-bottom:18px;white-space:pre-wrap;position:relative;z-index:1}
+    .voice-meta{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:14px;gap:8px}
+    .voice-meta-tags{display:flex;gap:6px;flex-wrap:wrap}
+    .voice-meta-tag{font-size:.54rem;letter-spacing:.06em;color:var(--sub);background:var(--bg2);padding:3px 10px;border-radius:999px}
+    .voice-meta-product{font-size:.56rem;color:var(--light);text-align:right;line-height:1.4;transition:color .2s;max-width:50%}
+    .voice-meta-product:hover{color:var(--gold)}
+
+    .load-more-wrap{text-align:center;margin-top:48px}
+    .load-more-btn{background:transparent;border:1px solid var(--text);color:var(--text);padding:15px 56px;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;font-family:inherit;cursor:pointer;transition:all .25s var(--ease)}
+    .load-more-btn:hover{background:var(--text);color:#fff}
+    .load-more-btn:disabled{opacity:.35;cursor:default}
+    .load-more-btn:disabled:hover{background:transparent;color:var(--text)}
+
+    .loading{text-align:center;color:var(--light);font-size:.7rem;padding:48px 0;letter-spacing:.12em;grid-column:1/-1}
+
+    /* CTA */
+    .voice-cta-section{background:#1a1a1a;color:#fff;padding:96px 24px;text-align:center}
+    .voice-cta-eyebrow{font-size:.6rem;letter-spacing:.32em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:18px}
+    .voice-cta-title{font-size:1.9rem;font-weight:300;letter-spacing:.1em;margin-bottom:18px;line-height:1.4}
+    .voice-cta-text{font-size:.78rem;color:rgba(255,255,255,.7);max-width:540px;margin:0 auto 36px;line-height:2}
+    .voice-cta-btn{display:inline-block;background:#fff;color:#1a1a1a;padding:16px 56px;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;transition:all .25s var(--ease)}
+    .voice-cta-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(255,255,255,.16)}
+    @media(max-width:768px){
+      .voice-cta-section{padding:64px 20px}
+      .voice-cta-title{font-size:1.4rem}
+    }
+
+    /* DISCLAIMER */
+    .disclaimer{max-width:760px;margin:0 auto;padding:40px 24px;font-size:.6rem;color:var(--light);text-align:center;line-height:1.9}
+    .disclaimer strong{color:var(--sub)}
+
+    /* FOOTER（index.html catalog-footer 準拠） */
+    .catalog-footer{background:#0f0f0f;color:rgba(255,255,255,.65);padding:64px 24px 32px}
+    .footer-inner{max-width:1200px;margin:0 auto}
+    .footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:32px;margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .footer-brand-col h3{font-size:1.1rem;font-weight:300;letter-spacing:.2em;color:#fff;margin-bottom:10px}
+    .footer-brand-col p{font-size:.7rem;color:rgba(255,255,255,.5)}
+    .footer-info-col h4{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px}
+    .footer-info-col p{font-size:.7rem;line-height:1.8}
+    .footer-links{display:flex;flex-wrap:wrap;gap:24px;margin-bottom:28px}
+    .footer-links a{font-size:.64rem;letter-spacing:.06em;color:rgba(255,255,255,.6);transition:color .2s}
+    .footer-links a:hover{color:#fff}
+    .footer-copy{font-size:.56rem;letter-spacing:.08em;color:rgba(255,255,255,.3)}
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="header-logo"><img src="assets/images/logo.png" alt="COLLEGRANCE"></a>
+      <ul class="header-nav">
+        <li><a href="/">Shop</a></li>
+        <li><a href="brand-story.html">About</a></li>
+        <li><a href="customer-voice.html" class="active">Voice</a></li>
+        <li><a href="journal.html">Journal</a></li>
+        <li><a href="contact.html">Support</a></li>
+      </ul>
+      <a href="/" class="header-cta">商品を見る</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="voice-hero">
+    <div class="voice-hero-eyebrow">Customer Voice</div>
+    <h1 class="fade-up">お客様の声</h1>
+    <p class="lead fade-up delay-1">
+      実際にお試しいただいた方々の、ありのままのご感想を。<br>
+      これからの香り選びの、ささやかな道しるべになりましたら。
+    </p>
+    <div class="stats-grid fade-up delay-2">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-total">—<span class="unit">名</span></div>
+        <div class="stat-label">いただいたお声</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-fb-rate">—<span class="unit">%</span></div>
+        <div class="stat-label">フルボトル検討率</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-avg-rating">—<span class="unit">/5</span></div>
+        <div class="stat-label">平均満足度</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RANKING ===== -->
+  <section class="voice-section">
+    <div class="section-eyebrow">Most Loved</div>
+    <h2 class="section-title">満足度の高い香り</h2>
+    <p class="section-sub">お試しいただいた方からの評価が高かった香り。気になる一本があれば、まずは小分けから。</p>
+    <div class="ranking-list" id="ranking-list">
+      <div class="loading">読み込んでいます…</div>
+    </div>
+  </section>
+
+  <!-- ===== VOICE FEED ===== -->
+  <div class="voice-feed-wrap">
+    <section class="voice-section">
+      <div class="section-eyebrow">Real Voices</div>
+      <h2 class="section-title">みなさまの声</h2>
+      <p class="section-sub">匿名でのご掲載に同意いただいた方の、ありのままのお声です。</p>
+      <div class="voice-feed" id="voice-feed">
+        <div class="loading">読み込んでいます…</div>
+      </div>
+      <div class="load-more-wrap">
+        <button class="load-more-btn" id="load-more-btn" onclick="loadMoreVoices()">もっと見る</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== CTA ===== -->
+  <section class="voice-cta-section">
+    <div class="voice-cta-eyebrow">Try Yours</div>
+    <div class="voice-cta-title">あなたの一本に、出会いに。</div>
+    <p class="voice-cta-text">気になる香りは、まず小分けで気軽にお試しいただけます。</p>
+    <a href="/" class="voice-cta-btn">商品を見る</a>
+  </section>
+
+  <!-- ===== DISCLAIMER ===== -->
+  <div class="disclaimer">
+    <strong>※</strong> 掲載しているお客様の声は、COLLEGRANCEのアンケートで「匿名でのサイト掲載に同意」をいただいた方の回答です。年代・性別以外の個人情報は表示しておりません。香りの感じ方には個人差があります。
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="catalog-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <h3>COLLEGRANCE</h3>
+          <p>香りはえらべる。もっと自由に。</p>
+        </div>
+        <div class="footer-info-col">
+          <h4>運営会社</h4>
+          <p>合同会社ヤシノミ<br>化粧品製造販売業許可取得済み</p>
+        </div>
+      </div>
+      <nav class="footer-links">
+        <a href="/tokushoho.html">特定商取引法に基づく表記</a>
+        <a href="/privacy.html">プライバシーポリシー</a>
+        <a href="mailto:info@collegrance.com">お問い合わせ</a>
+        <a href="http://www.amazon.co.jp/collegrance" target="_blank" rel="noopener">Amazonストア</a>
+        <a href="/index.html">トップページ</a>
+      </nav>
+      <div class="footer-copy">&copy; 2024 COLLEGRANCE. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    const API_BASE = 'https://line-crm-worker.shinomiya-keito.workers.dev';
+    let PRODUCTS = [];
+    let voicesLoaded = 0;
+    const VOICES_PAGE_SIZE = 30;
+
+    function escapeHTML(s){
+      if(s === null || s === undefined) return '';
+      const div = document.createElement('div');
+      div.textContent = String(s);
+      return div.innerHTML;
+    }
+    function ratingStars(rating){
+      if(rating === null || rating === undefined) return '';
+      const r = Math.round(rating);
+      return '★'.repeat(r) + '☆'.repeat(Math.max(0, 5 - r));
+    }
+    function productById(id){ return PRODUCTS.find(p => p.id === id); }
+
+    async function loadProducts(){
+      try {
+        const r = await fetch('/products.json');
+        if(!r.ok) throw new Error('products.json fetch failed');
+        PRODUCTS = await r.json();
+      } catch(e){ console.error('Failed to load products:', e); }
+    }
+
+    async function loadAggregate(){
+      try {
+        const r = await fetch(`${API_BASE}/api/public/reviews/aggregate`);
+        const data = await r.json();
+        if(data.totalResponses !== undefined)
+          document.getElementById('stat-total').innerHTML = data.totalResponses.toLocaleString() + '<span class="unit">名</span>';
+        if(data.fullbottleInterestRate !== undefined)
+          document.getElementById('stat-fb-rate').innerHTML = (data.fullbottleInterestRate * 100).toFixed(0) + '<span class="unit">%</span>';
+        if(data.averageRating !== null && data.averageRating !== undefined)
+          document.getElementById('stat-avg-rating').innerHTML = data.averageRating.toFixed(1) + '<span class="unit">/5</span>';
+        renderRanking(data.byProduct || []);
+      } catch(e){
+        console.error('Failed to load aggregate:', e);
+        document.getElementById('ranking-list').innerHTML = '<p class="loading">データの読み込みに失敗しました。時間をおいて再度お試しください。</p>';
+      }
+    }
+
+    function renderRanking(byProduct){
+      const ranked = byProduct
+        .filter(p => p.count >= 3 && p.avgRating !== null)
+        .sort((a, b) => (b.avgRating - a.avgRating) || (b.count - a.count))
+        .slice(0, 8);
+      if(!ranked.length){
+        document.getElementById('ranking-list').innerHTML = '<p class="loading">表示できるデータがまだ揃っていません。</p>';
+        return;
+      }
+      document.getElementById('ranking-list').innerHTML = ranked.map((p, i) => {
+        const prod = productById(p.productId);
+        if(!prod) return '';
+        const rank = i + 1;
+        const rankCls = rank <= 3 ? 'ranking-rank top' : 'ranking-rank';
+        return `
+          <a class="ranking-card" id="product-${prod.id}" href="/?from=sample&product=${prod.id}">
+            <div class="${rankCls}">No.${rank}</div>
+            <img class="ranking-img" src="${escapeHTML(prod.img || '')}" alt="${escapeHTML(prod.brand + ' ' + prod.name)}" loading="lazy">
+            <div class="ranking-brand">${escapeHTML(prod.brand)}</div>
+            <div class="ranking-name">${escapeHTML(prod.nameJa || prod.name)}</div>
+            <div class="ranking-rating"><span class="stars">${ratingStars(p.avgRating)}</span><span class="num">${p.avgRating.toFixed(1)}</span></div>
+            <div class="ranking-count">${p.count}名のお声</div>
+            <div class="ranking-cta">この香りを試す →</div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    async function loadVoices(){
+      try {
+        const r = await fetch(`${API_BASE}/api/public/reviews/recent?limit=${VOICES_PAGE_SIZE}&minLength=30`);
+        const data = await r.json();
+        const voices = data.voices || [];
+        renderVoices(voices, true);
+        voicesLoaded = voices.length;
+        const btn = document.getElementById('load-more-btn');
+        if(voices.length < VOICES_PAGE_SIZE){ btn.disabled = true; btn.textContent = 'すべて表示しました'; }
+      } catch(e){
+        console.error('Failed to load voices:', e);
+        document.getElementById('voice-feed').innerHTML = '<p class="loading">お声の読み込みに失敗しました。時間をおいて再度お試しください。</p>';
+      }
+    }
+
+    function renderVoices(voices, replace){
+      if(!voices.length){
+        if(replace) document.getElementById('voice-feed').innerHTML = '<p class="loading">まだお声が届いていません。</p>';
+        return;
+      }
+      const html = voices.map(v => {
+        const prod = v.productId ? productById(v.productId) : null;
+        const productLink = prod
+          ? `<a class="voice-meta-product" href="/?from=sample&product=${prod.id}">${escapeHTML(prod.brand)}<br>${escapeHTML(prod.nameJa || prod.name)}</a>`
+          : '<span></span>';
+        const tags = [];
+        if(v.ageGroup) tags.push(`<span class="voice-meta-tag">${escapeHTML(v.ageGroup)}</span>`);
+        if(v.gender) tags.push(`<span class="voice-meta-tag">${escapeHTML(v.gender)}</span>`);
+        return `
+          <div class="voice-card">
+            ${v.rating ? `<div class="voice-rating">${ratingStars(v.rating)}</div>` : ''}
+            <p class="voice-text">${escapeHTML(v.impression)}</p>
+            <div class="voice-meta">
+              <div class="voice-meta-tags">${tags.join('')}</div>
+              ${productLink}
+            </div>
+          </div>
+        `;
+      }).join('');
+      const feed = document.getElementById('voice-feed');
+      if(replace) feed.innerHTML = html;
+      else feed.insertAdjacentHTML('beforeend', html);
+    }
+
+    async function loadMoreVoices(){
+      const btn = document.getElementById('load-more-btn');
+      btn.disabled = true; btn.textContent = '読み込み中…';
+      try {
+        const next = voicesLoaded + VOICES_PAGE_SIZE;
+        const r = await fetch(`${API_BASE}/api/public/reviews/recent?limit=${next}&minLength=30`);
+        const data = await r.json();
+        const voices = data.voices || [];
+        const newOnes = voices.slice(voicesLoaded);
+        if(newOnes.length === 0){ btn.textContent = 'すべて表示しました'; return; }
+        renderVoices(newOnes, false);
+        voicesLoaded = voices.length;
+        if(newOnes.length < VOICES_PAGE_SIZE){ btn.disabled = true; btn.textContent = 'すべて表示しました'; }
+        else { btn.disabled = false; btn.textContent = 'もっと見る'; }
+      } catch(e){
+        console.error('Failed to load more:', e);
+        btn.disabled = false; btn.textContent = 'もっと見る';
+      }
+    }
+
+    (async function init(){
+      await loadProducts();
+      await Promise.all([loadAggregate(), loadVoices()]);
+    })();
+  </script>
+</body>
+</html>

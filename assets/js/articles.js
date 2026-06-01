@@ -11,7 +11,7 @@ const journalArticles = [
         category: 'RANKING',
         title: '【2026年上半期】お客様レビューで選ばれた人気の香り TOP10｜コレグランス',
         excerpt: 'COLLEGRANCEでお試しいただいたお客様272名のアンケートから、人気の香りTOP10を発表。フルボトル検討率77.6%、平均満足度★4.49。リアルに選ばれた香水ランキングです。',
-        image: 'assets/images/fullbottle/product_1.jpg',
+        image: 'assets/images/journal/collegrance-popular-ranking-2026-first-half.jpg',
         link: 'article-collegrance-popular-ranking-2026-first-half.html'
     },
     {
@@ -20,7 +20,7 @@ const journalArticles = [
         category: 'KNOWLEDGE',
         title: 'YSL リブレの種類比較｜EDP・ロードゥパルファン・ル パルファンの違いと選び方',
         excerpt: 'YSL(イヴサンローラン)リブレの種類を徹底比較。EDP・ロードゥパルファン・ル パルファンの香り・濃さ・印象の違いと、シーン別の選び方を分かりやすく解説します。',
-        image: 'assets/images/fullbottle/product_15.jpg',
+        image: 'assets/images/journal/ysl-libre-types-edp-difference.jpg',
         link: 'article-ysl-libre-types-edp-difference.html',
         relatedProducts: ['ysl-libre']
     },
@@ -30,7 +30,7 @@ const journalArticles = [
         category: 'KNOWLEDGE',
         title: 'DIPTYQUE タムダオに似た香り｜サンダルウッド系おすすめ香水を徹底比較',
         excerpt: 'DIPTYQUE(ディプティック)タムダオに似た香りを探している方へ。サンダルウッド系のおすすめ香水を香調で徹底比較。タムダオの魅力と似た雰囲気の香水の選び方を解説します。',
-        image: 'assets/images/fullbottle/product_19.jpg',
+        image: 'assets/images/journal/diptyque-tam-dao-similar-sandalwood.jpg',
         link: 'article-diptyque-tam-dao-similar-sandalwood.html',
         relatedProducts: ['diptyque-tam-dao']
     },
@@ -40,7 +40,7 @@ const journalArticles = [
         category: 'RANKING',
         title: 'NONFICTION(ノンフィクション)香水の人気は？ジェントルナイトの魅力とブランド紹介',
         excerpt: 'NONFICTION(ノンフィクション)は注目の韓国発ニッチフレグランス。代表作ジェントルナイトのアンバー×サンダルウッド×ムスクの穏やかな香りの魅力と人気の理由を解説します。',
-        image: 'assets/images/fullbottle/product_23.jpg',
+        image: 'assets/images/journal/nonfiction-perfume-ranking-gentle-night.jpg',
         link: 'article-nonfiction-perfume-ranking-gentle-night.html',
         relatedProducts: ['nonfiction-gentle-night']
     },
@@ -50,7 +50,7 @@ const journalArticles = [
         category: 'REVIEW',
         title: 'THE HOUSE OF OUD（ザ ハウス オブ オード）とは？ザタイムの魅力と人気の理由',
         excerpt: 'THE HOUSE OF OUD(ザ ハウス オブ オード)とはどんなブランド？代表作ザタイム(The Time)のブルーティーが香る上質な世界観と、人気の理由・口コミを徹底解説します。',
-        image: 'assets/images/fullbottle/product_21.jpg',
+        image: 'assets/images/journal/the-house-of-oud-the-time-brand-guide.jpg',
         link: 'article-the-house-of-oud-the-time-brand-guide.html',
         relatedProducts: ['the-house-of-oud-the-time']
     },
@@ -60,7 +60,7 @@ const journalArticles = [
         category: 'REVIEW',
         title: 'ジョーマローン イングリッシュペアー&フリージア｜口コミ・似た香り・組み合わせガイド',
         excerpt: 'Jo Malone(ジョーマローン)イングリッシュペアー&フリージアの口コミ、似た香り、おすすめの組み合わせを徹底解説。洋梨とフリージアの上品な香りの魅力を紹介します。',
-        image: 'assets/images/fullbottle/product_5.jpg',
+        image: 'assets/images/journal/jo-malone-english-pear-review-similar-combining.jpg',
         link: 'article-jo-malone-english-pear-review-similar-combining.html',
         relatedProducts: ['jo-malone-english-pear']
     },
@@ -70,7 +70,7 @@ const journalArticles = [
         category: 'KNOWLEDGE',
         title: 'ドルチェ&ガッバーナ ライトブルー｜メンズ(プールオム)とレディースの違い・選び方',
         excerpt: 'ドルチェ&ガッバーナ ライトブルーのレディースとメンズ(プールオム)の違いを徹底解説。香りの違い、どちらが自分向きか、ペアでの使い方まで分かりやすく紹介します。',
-        image: 'assets/images/fullbottle/product_18.jpg',
+        image: 'assets/images/journal/dolce-gabbana-light-blue-mens-womens-difference.jpg',
         link: 'article-dolce-gabbana-light-blue-mens-womens-difference.html',
         relatedProducts: ['dolce-gabbana-light-blue']
     },
@@ -80,7 +80,7 @@ const journalArticles = [
         category: 'KNOWLEDGE',
         title: 'ディオール ソヴァージュ EDT・EDP・パルファン・エリクシールの違い徹底比較｜どれを選ぶ？',
         excerpt: 'DIOR(ディオール)ソヴァージュのEDT・EDP・パルファン・エリクシールの違いを徹底比較。香りの濃さ・持続時間・印象・価格の違いと、シーン別の選び方を解説します。',
-        image: 'assets/images/fullbottle/product_12.jpg',
+        image: 'assets/images/journal/dior-sauvage-edt-edp-elixir-difference.jpg',
         link: 'article-dior-sauvage-edt-edp-elixir-difference.html',
         relatedProducts: ['dior-sauvage']
     },
@@ -90,7 +90,7 @@ const journalArticles = [
         category: 'REVIEW',
         title: 'ディオール ヒプノティックプワゾンの魅力｜年齢層・付ける季節・シーン・似た香り',
         excerpt: 'DIOR(ディオール)ヒプノティックプワゾンの魅力を徹底解説。似合う年齢層、おすすめの季節・シーン、似た香りまで。甘く官能的なヴァニラとアーモンドの香りの世界を紹介。',
-        image: 'assets/images/fullbottle/product_17.jpg',
+        image: 'assets/images/journal/dior-hypnotic-poison-age-when-to-wear.jpg',
         link: 'article-dior-hypnotic-poison-age-when-to-wear.html',
         relatedProducts: ['dior-hypnotic-poison']
     },
@@ -100,7 +100,7 @@ const journalArticles = [
         category: 'REVIEW',
         title: '【徹底解説】バイレード ジプシーウォーターはどんな人に似合う？年齢層・口コミ・似た香りまで',
         excerpt: 'BYREDO(バイレード)ジプシーウォーターはどんな人に似合う？年齢層・性別・口コミ、そして似た香りまで徹底解説。甘くないバニラとウッディの神秘的な香りの魅力を紹介します。',
-        image: 'assets/images/fullbottle/product_22.jpg',
+        image: 'assets/images/journal/byredo-gypsy-water-who-suits-age-similar.jpg',
         link: 'article-byredo-gypsy-water-who-suits-age-similar.html',
         relatedProducts: ['byredo-gypsy-water']
     },

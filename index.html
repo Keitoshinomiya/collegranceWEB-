@@ -480,7 +480,7 @@
     .p-review-btn:hover{background:#f4f0e8;border-color:var(--gold)}
     .p-review-stars{color:var(--gold);font-size:.86rem;letter-spacing:1.5px;flex-shrink:0}
     .p-review-score{font-size:.86rem;font-weight:700;color:var(--text);flex-shrink:0}
-    .p-review-label{font-size:.62rem;color:var(--sub);flex:1;line-height:1.3}
+    .p-review-label{font-size:.62rem;color:var(--sub);flex:1;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .p-review-arrow{font-size:.72rem;color:var(--light);flex-shrink:0;transition:transform .2s var(--ease)}
     .p-review-btn:hover .p-review-arrow{transform:translateX(3px);color:var(--gold)}
 
@@ -1975,7 +1975,7 @@ function renderCard(p){
       '<div class="p-size">' + p.size + '</div>' +
       '<div class="p-tags">' + tagsHtml + '</div>' +
       /* お試し体験者レビュー — クリックでその場でモーダル表示（Amazon表示は廃止） */
-      (p.customerAvgRating ? '<button class="p-review-btn" onclick="event.stopPropagation();openReviewModal(' + p.id + ')" aria-label="お試し体験者の声を見る"><span class="p-review-stars">' + renderStars(p.customerAvgRating) + '</span><span class="p-review-score">' + p.customerAvgRating.toFixed(1) + '</span><span class="p-review-label">' + p.customerReviewCount + '名のお試し体験者の声</span><span class="p-review-arrow">&rarr;</span></button>' : '') +
+      (p.customerAvgRating ? '<button class="p-review-btn" onclick="event.stopPropagation();openReviewModal(' + p.id + ')" aria-label="お試し体験者の声を見る"><span class="p-review-stars">' + renderStars(p.customerAvgRating) + '</span><span class="p-review-score">' + p.customerAvgRating.toFixed(1) + '</span><span class="p-review-label">' + p.customerReviewCount + '名の声を見る</span><span class="p-review-arrow">&rarr;</span></button>' : '') +
       '<div class="p-auth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>正規品保証</div>' +
       (p.tester ? '<div class="p-tester-note">テスター品のため外装箱が無地の白箱となり、その分お安くご提供しております。商品本体は正規品と全く同一です。</div>' : '') +
       '<div class="p-price-row"><div><span class="price-main">&yen;' + price.toLocaleString() + '</span><span class="price-tax">税込</span></div></div>' +

@@ -2423,6 +2423,10 @@ async function doCheckout(){
     });
     var data = await res.json();
     if(data.url){
+      /* GA4 purchase用: カート情報を保存しサンクスページ(?ok=1)で発火させる */
+      try {
+        localStorage.setItem('clg_pending_purchase', JSON.stringify({ items: checkoutItems, value: checkoutTotal }));
+      } catch(e){}
       window.location.href = data.url;
     } else {
       alert(data.error || 'チェックアウトの作成に失敗しました。');
@@ -2438,6 +2442,23 @@ async function doCheckout(){
 /* ===== SUCCESS ===== */
 if(location.search.includes('ok=1')){
   window.addEventListener('load', function(){
+    /* === GA4 purchase イベント（サンクスページ到達=決済成立） === */
+    /* transaction_idにStripeのsession_idを使い、GA4側で重複排除。さらにlocalStorage削除で二重計測を防止 */
+    try {
+      var _p = new URLSearchParams(location.search);
+      var _txn = _p.get('session_id') || ('order_' + Date.now());
+      var _pending = JSON.parse(localStorage.getItem('clg_pending_purchase') || 'null');
+      if(_pending && typeof gtag === 'function'){
+        gtag('event', 'purchase', {
+          transaction_id: _txn,
+          currency: 'JPY',
+          value: _pending.value || 0,
+          items: _pending.items || []
+        });
+      }
+      localStorage.removeItem('clg_pending_purchase');
+    } catch(e){ console.warn('GA4 purchase tracking failed:', e); }
+
     if(window.CLGTracking){
       var ch = window.CLGTracking.getChannelData() || {};
       window.CLGTracking.trackPurchase({

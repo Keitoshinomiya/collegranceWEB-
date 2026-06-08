@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COLLEGRANCE — Links</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="COLLEGRANCE 公式リンク集">
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6DM95225F6');
+  function hubClick(dest){
+    try { gtag('event', 'hub_click', { destination: dest }); } catch(e){}
+  }
+</script>
+<style>
+  :root{ --cream:#faf9f7; --charcoal:#1a1a1a; --gold:#c9a84c; --muted:#777; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:var(--cream); color:var(--charcoal);
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; min-height:100vh;
+    display:flex; align-items:center; justify-content:center; padding:32px 20px;
+  }
+  .wrap{ width:100%; max-width:420px; text-align:center; }
+  .brand{ font-size:13px; letter-spacing:.38em; font-weight:700; color:var(--charcoal); }
+  .rule{ width:28px; height:2px; background:var(--gold); margin:18px auto 16px; }
+  .tag{ font-size:13px; color:var(--muted); line-height:1.9; margin-bottom:34px; }
+  a.btn{
+    display:block; text-decoration:none; border-radius:12px; padding:18px 20px; margin:12px 0;
+    text-align:left; transition:transform .12s ease, box-shadow .12s ease;
+  }
+  a.btn:active{ transform:scale(.99); }
+  .btn .label{ font-size:15px; font-weight:700; letter-spacing:.02em; }
+  .btn .sub{ font-size:12px; margin-top:4px; opacity:.78; }
+  .btn .arr{ float:right; font-size:14px; opacity:.6; }
+  .primary{ background:var(--charcoal); color:#fff; }
+  .secondary{ background:#fff; color:var(--charcoal); border:1px solid #e6e2da; }
+  .foot{ margin-top:30px; font-size:11px; color:#aaa; letter-spacing:.04em; }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="brand">COLLEGRANCE</div>
+    <div class="rule"></div>
+    <p class="tag">きょうの自分に、ちょうどいい香りを。<br>まずは気になる入口からどうぞ。</p>
+
+    <a class="btn primary" href="https://collegrance.com/" target="_blank" rel="noopener"
+       onclick="hubClick('site')">
+      <span class="arr">→</span>
+      <div class="label">公式オンラインストア</div>
+      <div class="sub">フルボトル・限定アイテム・ブログ</div>
+    </a>
+
+    <a class="btn secondary" href="https://www.amazon.co.jp/collegrance" target="_blank" rel="noopener"
+       onclick="hubClick('amazon')">
+      <span class="arr">→</span>
+      <div class="label">Amazonストア</div>
+      <div class="sub">1.5mlのお試しから気軽に</div>
+    </a>
+
+    <div class="foot">© COLLEGRANCE</div>
+  </main>
+</body>
+</html>

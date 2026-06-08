@@ -65,5 +65,24 @@
 
     <div class="foot">© COLLEGRANCE</div>
   </main>
+  <script>
+    // このハブ自身に付いた utm_* を、collegrance.com 行きのボタンへ引き継ぐ
+    // 例: links.html?utm_source=instagram → 公式サイトボタンにも utm_source=instagram が付与され、
+    //     GA4で「どのSNSから来たか」を正しく区別できる。
+    (function(){
+      var params = new URLSearchParams(window.location.search);
+      var utms = [];
+      params.forEach(function(v,k){ if(k.lastIndexOf('utm_',0)===0) utms.push([k,v]); });
+      if(!utms.length) return;
+      document.querySelectorAll('a.btn').forEach(function(a){
+        try{
+          var u = new URL(a.href);
+          if(!/(^|\.)collegrance\.com$/i.test(u.hostname)) return; // collegrance.com宛のみ(Amazonは対象外)
+          utms.forEach(function(p){ u.searchParams.set(p[0], p[1]); });
+          a.href = u.toString();
+        }catch(e){}
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -54,8 +54,13 @@ h1{font-size:1.15rem;font-weight:500;letter-spacing:.12em;margin:22px 0 8px}
 .ours .d{font-size:.62rem;color:var(--sub);line-height:1.9}
 .ours .price{font-size:1.25rem;font-weight:600;margin:10px 0 2px;letter-spacing:.04em}
 .ours .pnote{font-size:.52rem;color:var(--light);margin-bottom:14px}
-.btn-main{display:block;width:100%;padding:14px;background:var(--accent);color:#fff;font-size:.68rem;letter-spacing:.1em;border:none;border-radius:4px;text-decoration:none;cursor:pointer;font-family:var(--font)}
-.btn-main small{display:block;font-size:.52rem;opacity:.85;font-weight:300;margin-top:2px;letter-spacing:.06em}
+.lotbox{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:12px}
+.lotbox .l1{font-size:.66rem;letter-spacing:.06em}
+.lotbox .l2{font-size:.72rem;margin:2px 0}
+.lotbox .l2 b{font-size:1.05rem;letter-spacing:.02em}
+.lotbox .l3{font-size:.56rem;color:var(--sub)}
+.btn-main{display:block;width:100%;padding:14px;background:var(--accent);color:#fff;font-size:.72rem;letter-spacing:.1em;border:none;border-radius:4px;text-decoration:none;cursor:pointer;font-family:var(--font);font-weight:500}
+.btn-main small{display:block;font-size:.58rem;opacity:1;font-weight:400;margin-top:4px;letter-spacing:.06em}
 .btn-sub{display:block;width:100%;padding:11px;background:transparent;color:var(--sub);font-size:.6rem;letter-spacing:.06em;border:1px solid #ddd;border-radius:4px;text-decoration:none;cursor:pointer;margin-top:8px;font-family:var(--font)}
 footer{margin-top:46px;font-size:.5rem;color:var(--light);text-align:center;line-height:1.9;letter-spacing:.06em}
 .hide{display:none}
@@ -109,7 +114,12 @@ footer{margin-top:46px;font-size:.5rem;color:var(--light);text-align:center;line
     <p class="d">お試しいただいた1.5mLと同じ仕入れ・同じ保管のボトルです。<br>最安ではありませんが、納得いただける価格を心がけています。</p>
     <div class="price" id="o-price"></div>
     <div class="pnote">国内発送・お問い合わせ窓口あり</div>
-    <a class="btn-main" href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" id="btn-b">LINEで香りくじを引く（外れなし）<small>友だち追加 → メニューの「香りくじ」へ｜最低 ¥1,000 OFF（<span id="o-after1000"></span>）〜 最大フルボトル1本</small></a>
+    <div class="lotbox">
+      <div class="l1">外れなしの「香りくじ」参加で、最低でも ¥1,000 OFF</div>
+      <div class="l2">→ <b id="o-after1000"></b> でお求めいただけます</div>
+      <div class="l3">1等はフルボトル1本（または ¥10,000 OFF）</div>
+    </div>
+    <a class="btn-main" href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" id="btn-b">LINEで香りくじを引く<small>友だち追加 → トークメニューの「香りくじ」から（約1分）</small></a>
     <a class="btn-sub" href="#" id="btn-a">当店でそのまま購入する（¥500 OFF 自動適用・<span id="o-after500"></span>）</a>
   </div>
 </div>

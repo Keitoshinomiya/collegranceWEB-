@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <!-- 旧QRチラシ救済リダイレクト（契約書§フルボトルLP）:
+       モバイル×リファラーなし×クエリなし×初回訪問×bot以外 のみ /fullbottle/ へ1回だけ転送 -->
+  <script>
+  (function(){
+    try{
+      if(location.pathname!=='/'&&location.pathname!=='/index.html')return;
+      if(location.search){localStorage.setItem('clg_seen','1');return;}
+      var ua=navigator.userAgent||'';
+      var isMobile=/Android|iPhone|iPad|iPod/i.test(ua);
+      var isBot=/bot|crawl|spider|lighthouse|headless|preview|facebookexternalhit/i.test(ua);
+      var seen=localStorage.getItem('qr_redirected')||localStorage.getItem('fb_lp_visited');
+      if(!seen){for(var i=0;i<localStorage.length;i++){if((localStorage.key(i)||'').indexOf('clg_')===0){seen='1';break;}}}
+      if(isMobile&&!isBot&&!document.referrer&&!seen){
+        localStorage.setItem('qr_redirected','1');
+        location.replace('/fullbottle/?lot=legacy');
+        return;
+      }
+      localStorage.setItem('clg_seen','1');
+    }catch(e){}
+  })();
+  </script>
+
   <!-- Google Analytics (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
   <script>

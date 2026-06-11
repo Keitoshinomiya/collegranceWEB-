@@ -33,7 +33,9 @@ h1{font-size:1.15rem;font-weight:500;letter-spacing:.12em;margin:22px 0 8px}
 .pcard .b{font-size:.42rem;color:var(--light);letter-spacing:.08em;margin-top:7px}
 .pcard .n{font-size:.6rem;font-weight:500;line-height:1.5}
 .pcard.sel{border-color:var(--accent)}
-.pcard.other{display:flex;align-items:center;justify-content:center;color:var(--light);font-size:.62rem}
+.pcard.other{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.pcard.other .n{color:var(--text)}
+.pcard.other .b{margin-top:0}
 #rest{margin-top:8px}
 .phead{text-align:center;margin:26px 0 16px}
 .phead .b{font-size:.56rem;color:var(--light);letter-spacing:.1em}
@@ -133,8 +135,14 @@ Object.entries(P).forEach(([id,p])=>{
   grid.appendChild(d);
 });
 const o=document.createElement("div");
-o.className="pcard other";o.innerHTML="その他の<br>香り";
-o.onclick=()=>{alert("その他の香りのご案内は順次追加予定です。\nLINEの香りくじ（最低¥1,000 OFF）は全商品でご利用いただけます。");ev("lp_select_product",{product_id:"other"})};
+o.className="pcard other";
+o.innerHTML='<div class="n">その他の香り</div><div class="b">¥500 OFF適用で<br>商品一覧へ →</div>';
+o.onclick=()=>{
+  ev("lp_select_product",{product_id:"other"});
+  ev("lp_offer_a_tap",{product_id:"other"});
+  try{localStorage.setItem("clg_manual_coupon",FBL_CODE)}catch(err){}
+  location.href="/?utm_source=fullbottle_lp&utm_medium=referral&utm_campaign=other#grid";
+};
 grid.appendChild(o);
 
 let cur=null;

@@ -806,6 +806,25 @@
 </head>
 <body>
 
+  <!-- フルボトル購入ガイドへの戻り導線（LP訪問済みの人にだけ表示。一般訪問者には出ない） -->
+  <div id="fb-return" style="display:none;position:fixed;top:var(--header-h);left:0;right:0;z-index:9990;background:#1a1a1a;color:#fff;font-size:.62rem;letter-spacing:.08em;padding:9px 38px 9px 14px;text-align:center">
+    <a href="/fullbottle/" id="fb-return-link" style="color:#fff;text-decoration:none">→ フルボトル購入ガイドに戻る（チラシをお持ちの方）</a>
+    <button id="fb-return-close" aria-label="閉じる" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#999;font-size:1rem;cursor:pointer;line-height:1">×</button>
+  </div>
+  <script>
+  (function(){
+    try{
+      var lot = localStorage.getItem('fb_lp_visited');
+      if(lot && !sessionStorage.getItem('fb_return_closed')){
+        var bar=document.getElementById('fb-return');
+        document.getElementById('fb-return-link').href='/fullbottle/?lot='+encodeURIComponent(lot)+'&src=return';
+        bar.style.display='block';
+        document.getElementById('fb-return-close').onclick=function(){bar.style.display='none';try{sessionStorage.setItem('fb_return_closed','1')}catch(e){}};
+      }
+    }catch(e){}
+  })();
+  </script>
+
   <!-- HEADER -->
   <header class="site-header">
     <div class="header-inner">

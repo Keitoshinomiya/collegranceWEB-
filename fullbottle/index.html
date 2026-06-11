@@ -115,6 +115,8 @@ footer{margin-top:46px;font-size:.5rem;color:var(--light);text-align:center;line
 <script>
 const LOT = new URLSearchParams(location.search).get("lot") || "direct";
 const FBL_CODE = "FBL-2606A";
+// 訪問フラグ（トップページの「ガイドに戻る」バナー表示用。QR保有者=購入者のみがここに来る前提）
+try{localStorage.setItem("fb_lp_visited",LOT)}catch(e){}
 
 const P = {
   1:{name:"レイジーサンデーモーニング",brand:"MAISON MARGIELA REPLICA",size:"EDT 100mL",img:"/assets/images/fullbottle/product_01.jpg",price:13360},

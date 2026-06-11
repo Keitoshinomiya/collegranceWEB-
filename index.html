@@ -11,6 +11,10 @@
       var ua=navigator.userAgent||'';
       var isMobile=/Android|iPhone|iPad|iPod/i.test(ua);
       var isBot=/bot|crawl|spider|lighthouse|headless|preview|facebookexternalhit/i.test(ua);
+      /* LINE・SNSアプリ内ブラウザは除外（リッチメニュー・Flex・共有リンク経由の誤転送防止。
+         チラシQRはカメラアプリ→標準ブラウザで開かれるため影響なし） */
+      var isInApp=/\bLine\/|Instagram|FBAN|FBAV|Twitter|Barcelona|MicroMessenger/i.test(ua);
+      if(isInApp){localStorage.setItem('clg_seen','1');return;}
       var seen=localStorage.getItem('qr_redirected')||localStorage.getItem('fb_lp_visited');
       if(!seen){for(var i=0;i<localStorage.length;i++){if((localStorage.key(i)||'').indexOf('clg_')===0){seen='1';break;}}}
       if(isMobile&&!isBot&&!document.referrer&&!seen){

@@ -169,7 +169,7 @@ exports.handler = async (event) => {
     if (couponCode && typeof couponCode === 'string') {
       const normalizedCode = couponCode.trim().toUpperCase();
       // 許可するプレフィックス（衝突回避用ホワイトリスト）
-      const ALLOWED_PREFIXES = ['CLG-', 'AID-', 'LIN-', 'LCK-'];
+      const ALLOWED_PREFIXES = ['CLG-', 'AID-', 'LIN-', 'LCK-', 'FBL-'];
       const isKnownPrefix = ALLOWED_PREFIXES.some(p => normalizedCode.startsWith(p));
       if (isKnownPrefix) {
         try {

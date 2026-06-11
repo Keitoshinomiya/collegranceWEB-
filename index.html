@@ -2142,7 +2142,7 @@ function toggleCouponInput(){
    localStorage に文字列で1つだけ保存。doCheckout時に Stripe Promotion Code に照合される。
    割引額・条件は Stripe Checkout 画面で確認可能。サイト側では表示しない設計。 */
 var COUPON_STORAGE_KEY = 'clg_manual_coupon';
-var ALLOWED_COUPON_PREFIXES = ['CLG-', 'AID-', 'LIN-', 'LCK-'];
+var ALLOWED_COUPON_PREFIXES = ['CLG-', 'AID-', 'LIN-', 'LCK-', 'FBL-'];
 
 function isValidCouponCode(code){
   if(!code) return false;

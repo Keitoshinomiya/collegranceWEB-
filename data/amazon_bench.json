@@ -1,0 +1,9 @@
+{
+  "fetched_at": "2026-06-11",
+  "min_reviews": 100,
+  "1": {"am": {"asin": "B00JXMUR2W", "price": 12360, "rating": 4.2, "reviews": 607}, "rk": null},
+  "2": {"am": {"asin": "B000VOHCPQ", "price": 10729, "rating": 4.0, "reviews": 2186}, "rk": {"path": "osharecafe/10000158/", "price": 10712, "rating": 4.65, "reviews": 171}},
+  "3": {"am": {"asin": "B00JAMLFHQ", "price": 12512, "rating": 4.5, "reviews": 1115}, "rk": null},
+  "4": {"am": {"asin": "B0C4Z2T8L9", "price": 34500, "rating": 4.0, "reviews": 294, "note": "国内正規セット"}, "rk": null},
+  "7": {"am": null, "rk": null}
+}

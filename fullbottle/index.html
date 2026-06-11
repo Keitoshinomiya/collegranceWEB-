@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>フルボトル購入ガイド | COLLEGRANCE</title>
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-6DM95225F6');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--text:#1a1a1a;--sub:#666;--light:#999;--bg:#fff;--bg2:#faf9f7;--border:#e8e8e8;--accent:#111;--font:'Zen Kaku Gothic Antique',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.8;letter-spacing:.05em;font-size:14px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:520px;margin:0 auto;padding:0 22px 70px}
+.topbar{max-width:520px;margin:0 auto;padding:14px 22px 0}
+.topbar a{font-size:.58rem;color:var(--light);text-decoration:none;letter-spacing:.1em}
+header{text-align:center;padding:20px 0 6px}
+.logo{font-size:.7rem;letter-spacing:.42em;font-weight:500}
+h1{font-size:1.15rem;font-weight:500;letter-spacing:.12em;margin:22px 0 8px}
+.lead{font-size:.72rem;color:var(--sub);letter-spacing:.06em}
+.label{display:inline-block;background:var(--accent);color:#fff;font-size:.5rem;letter-spacing:.16em;padding:4px 12px;border-radius:2px;margin:40px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pcard{background:#fff;border:1px solid var(--border);border-radius:6px;padding:10px 8px 12px;text-align:center;cursor:pointer;transition:border-color .2s}
+.pcard img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;background:var(--bg2)}
+.pcard .b{font-size:.42rem;color:var(--light);letter-spacing:.08em;margin-top:7px}
+.pcard .n{font-size:.6rem;font-weight:500;line-height:1.5}
+.pcard.sel{border-color:var(--accent)}
+.pcard.other{display:flex;align-items:center;justify-content:center;color:var(--light);font-size:.62rem}
+#rest{margin-top:8px}
+.phead{text-align:center;margin:26px 0 16px}
+.phead .b{font-size:.56rem;color:var(--light);letter-spacing:.1em}
+.phead .n{font-size:.95rem;font-weight:500;letter-spacing:.08em}
+.phead .s{font-size:.5rem;color:var(--light);border:1px solid #ddd;padding:1px 7px;border-radius:2px;display:inline-block;margin-top:4px}
+.ctitle{font-size:.6rem;color:var(--sub);text-align:center;margin-bottom:8px;letter-spacing:.08em}
+.compare{background:var(--bg2);border-radius:6px;padding:6px 18px;margin-bottom:10px}
+.crow{display:flex;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid var(--border)}
+.crow:last-child{border-bottom:none}
+.crow .store{flex:1}
+.crow .store .sn{font-size:.72rem;font-weight:500}
+.crow .store .sd{font-size:.52rem;color:var(--light);line-height:1.5}
+.crow .pr{font-size:.78rem;font-weight:600;white-space:nowrap}
+.crow a.go{font-size:.56rem;color:var(--text);border:1px solid #ccc;border-radius:3px;padding:6px 10px;text-decoration:none;white-space:nowrap;letter-spacing:.06em}
+.caution{font-size:.56rem;color:#8a6d3b;background:#fdf8ee;border-radius:4px;padding:9px 13px;line-height:1.7;margin-bottom:26px}
+.ours{border:1px solid var(--accent);border-radius:6px;padding:20px 18px;text-align:center}
+.ours .t{font-size:.62rem;letter-spacing:.14em;margin-bottom:8px}
+.ours .d{font-size:.62rem;color:var(--sub);line-height:1.9}
+.ours .price{font-size:1.25rem;font-weight:600;margin:10px 0 2px;letter-spacing:.04em}
+.ours .pnote{font-size:.52rem;color:var(--light);margin-bottom:14px}
+.btn-main{display:block;width:100%;padding:14px;background:var(--accent);color:#fff;font-size:.68rem;letter-spacing:.1em;border:none;border-radius:4px;text-decoration:none;cursor:pointer;font-family:var(--font)}
+.btn-main small{display:block;font-size:.52rem;opacity:.85;font-weight:300;margin-top:2px;letter-spacing:.06em}
+.btn-sub{display:block;width:100%;padding:11px;background:transparent;color:var(--sub);font-size:.6rem;letter-spacing:.06em;border:1px solid #ddd;border-radius:4px;text-decoration:none;cursor:pointer;margin-top:8px;font-family:var(--font)}
+footer{margin-top:46px;font-size:.5rem;color:var(--light);text-align:center;line-height:1.9;letter-spacing:.06em}
+.hide{display:none}
+.fadein{animation:f .4s ease}
+@keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="topbar"><a href="/">← COLLEGRANCE トップページへ</a></div>
+<div class="wrap">
+
+<header>
+  <div class="logo">COLLEGRANCE</div>
+  <h1>フルボトル購入ガイド</h1>
+  <p class="lead">同じ香りでも、買う場所で価格と安心感が変わります。<br>比べてから、お決めください。</p>
+</header>
+
+<span class="label">SELECT</span>
+<div style="font-size:.72rem;margin-bottom:12px">お試し中の香りをお選びください</div>
+<div class="grid" id="pgrid"></div>
+
+<div id="rest" class="hide">
+  <div class="phead">
+    <div class="b" id="o-brand"></div>
+    <div class="n" id="o-name"></div>
+    <span class="s" id="o-size"></span>
+  </div>
+
+  <div class="ctitle">レビュー100件以上の出品に絞った、本日の最安値</div>
+  <div class="compare">
+    <div class="crow">
+      <div class="store"><div class="sn">Amazon</div><div class="sd" id="sd-amazon"></div></div>
+      <div class="pr" id="c-amazon"></div>
+      <a class="go" href="#" id="go-amazon" target="_blank" rel="noopener sponsored">出品を見る →</a>
+    </div>
+    <div class="crow">
+      <div class="store"><div class="sn">楽天市場</div><div class="sd" id="sd-rakuten"></div></div>
+      <div class="pr" id="c-rakuten"></div>
+      <a class="go" href="#" id="go-rakuten" target="_blank" rel="noopener sponsored">出品を見る →</a>
+    </div>
+    <div class="crow">
+      <div class="store"><div class="sn">COLLEGRANCE</div><div class="sd">お試しの1.5mLと同じ仕入れ・国内発送</div></div>
+      <div class="pr" id="c-ours"></div>
+      <a class="go" href="#go-ours" id="scroll-ours">詳細 ↓</a>
+    </div>
+  </div>
+  <div class="caution">※ レビュー件数が少ない・相場から極端に安い出品は、真贋や保管状態の確認が難しいため集計から除外しています。価格だけでなく出品者情報もあわせてご確認ください。</div>
+
+  <div class="ours" id="go-ours">
+    <div class="t">当店でお求めの場合</div>
+    <p class="d">お試しいただいた1.5mLと同じ仕入れ・同じ保管のボトルです。<br>最安ではありませんが、納得いただける価格を心がけています。</p>
+    <div class="price" id="o-price"></div>
+    <div class="pnote">国内発送・お問い合わせ窓口あり</div>
+    <a class="btn-main" href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" id="btn-b">LINEで香りくじを引く（外れなし）<small>友だち追加 → メニューの「香りくじ」へ｜最低 ¥1,000 OFF（<span id="o-after1000"></span>）〜 最大フルボトル1本</small></a>
+    <a class="btn-sub" href="#" id="btn-a">当店でそのまま購入する（¥500 OFF 自動適用・<span id="o-after500"></span>）</a>
+  </div>
+</div>
+
+<footer>
+  集計条件：各モールで「レビュー100件以上」の出品のうち最安値<span id="f-date"></span><br>
+  当ページのAmazon・楽天へのリンクはアフィリエイトリンクです<br>
+  © COLLEGRANCE / 合同会社ヤシノミ
+</footer>
+</div>
+
+<script>
+const AFF = { amazonTag: "collegrance-22", rakutenId: "54caa2f7.b27ec48f.54caa2f8.5791ad95" };
+const LOT = new URLSearchParams(location.search).get("lot") || "direct";
+const FBL_CODE = "FBL-2606A";
+const STALE_MS = 48 * 3600 * 1000;
+
+// 埋め込みフォールバック（/data/amazon_bench.json が日次で上書きする）
+let BENCH = {
+  fetched_at: "2026-06-11",
+  1:{am:{asin:"B00JXMUR2W",price:12360,rating:4.2,reviews:607},rk:null},
+  2:{am:{asin:"B000VOHCPQ",price:10729,rating:4.0,reviews:2186},rk:{path:"osharecafe/10000158/",price:10712,rating:4.65,reviews:171}},
+  3:{am:{asin:"B00JAMLFHQ",price:12512,rating:4.5,reviews:1115},rk:null},
+  4:{am:{asin:"B0C4Z2T8L9",price:34500,rating:4.0,reviews:294,note:"国内正規セット"},rk:null},
+  7:{am:null,rk:null}
+};
+const P = {
+  1:{name:"レイジーサンデーモーニング",brand:"MAISON MARGIELA REPLICA",size:"EDT 100mL",img:"/assets/images/fullbottle/product_01.jpg",price:13360},
+  2:{name:"ナイルの庭",brand:"HERMÈS",size:"EDT 100mL",img:"/assets/images/fullbottle/product_02.jpg",price:13360},
+  3:{name:"ジャズクラブ",brand:"MAISON MARGIELA REPLICA",size:"EDT 100mL",img:"/assets/images/fullbottle/product_03.jpg",price:14930},
+  4:{name:"オルフェオン",brand:"DIPTYQUE",size:"EDP 75mL",img:"/assets/images/fullbottle/product_04.jpg",price:28190},
+  7:{name:"ブランシュ",brand:"BYREDO",size:"EDP 100mL",img:"/assets/images/fullbottle/product_07.jpg",price:37280}
+};
+const yen=n=>"¥"+n.toLocaleString();
+const ev=(name,params)=>{ if(typeof gtag==="function") gtag("event",name,Object.assign({lot:LOT},params||{})); };
+const amazonURL=d=>"https://www.amazon.co.jp/dp/"+d.asin+(AFF.amazonTag?"?tag="+AFF.amazonTag:"");
+const rakutenURL=d=>{const u="https://item.rakuten.co.jp/"+d.path;return AFF.rakutenId?"https://hb.afl.rakuten.co.jp/ichiba/"+AFF.rakutenId+"/?pc="+encodeURIComponent(u):u};
+const isStale=()=>{const t=Date.parse(BENCH.fetched_at);return !t||Date.now()-t>STALE_MS};
+
+// 最新の相場データを取得（失敗時は埋め込み値で続行）
+fetch("/data/amazon_bench.json",{cache:"no-store"}).then(r=>r.json()).then(j=>{BENCH=j;updateDate();if(cur)render(cur)}).catch(()=>{});
+
+function updateDate(){
+  document.getElementById("f-date").textContent="（"+BENCH.fetched_at+" 時点・毎日自動更新）";
+}
+updateDate();
+
+const grid=document.getElementById("pgrid");
+Object.entries(P).forEach(([id,p])=>{
+  const d=document.createElement("div");
+  d.className="pcard";d.dataset.pid=id;
+  d.innerHTML=`<img src="${p.img}" alt="${p.name}" loading="lazy"><div class="b">${p.brand}</div><div class="n">${p.name}</div>`;
+  d.onclick=()=>select(id,d);
+  grid.appendChild(d);
+});
+const o=document.createElement("div");
+o.className="pcard other";o.innerHTML="その他の<br>香り";
+o.onclick=()=>{alert("その他の香りの相場ガイドは順次追加予定です。\nLINEの香りくじ（最低¥1,000 OFF）は全商品でご利用いただけます。");ev("lp_select_product",{product_id:"other"})};
+grid.appendChild(o);
+
+function mallRow(key,d,urlFn){
+  const sd=document.getElementById("sd-"+key),pr=document.getElementById("c-"+key),go=document.getElementById("go-"+key);
+  if(d){
+    sd.textContent=`★${d.rating}（${Number(d.reviews).toLocaleString()}件）`+(d.note?`・${d.note}`:"");
+    pr.textContent=isStale()?"更新中":yen(d.price);
+    go.style.display="";go.href=urlFn(d);
+  }else{
+    sd.textContent="条件を満たす出品が本日見つかりません";
+    pr.textContent="—";
+    go.style.display="none";
+  }
+}
+
+let cur=null;
+function render(id){
+  const p=P[id],b=BENCH[id]||{am:null,rk:null};
+  document.getElementById("o-brand").textContent=p.brand;
+  document.getElementById("o-name").textContent=p.name;
+  document.getElementById("o-size").textContent=p.size;
+  mallRow("amazon",b.am,amazonURL);
+  mallRow("rakuten",b.rk,rakutenURL);
+  document.getElementById("c-ours").textContent=yen(p.price);
+  document.getElementById("o-price").textContent=yen(p.price);
+  document.getElementById("o-after1000").textContent=yen(p.price-1000);
+  document.getElementById("o-after500").textContent=yen(p.price-500);
+}
+function select(id,el){
+  cur=id;
+  document.querySelectorAll(".pcard").forEach(c=>c.classList.remove("sel"));
+  if(el)el.classList.add("sel");
+  render(id);
+  const r=document.getElementById("rest");
+  r.classList.remove("hide");r.classList.add("fadein");
+  ev("lp_select_product",{product_id:id});
+  setTimeout(()=>r.scrollIntoView({behavior:"smooth",block:"start"}),60);
+}
+
+document.getElementById("go-amazon").addEventListener("click",()=>ev("lp_out_amazon",{product_id:cur}));
+document.getElementById("go-rakuten").addEventListener("click",()=>ev("lp_out_rakuten",{product_id:cur}));
+document.getElementById("scroll-ours").onclick=e=>{e.preventDefault();document.getElementById("go-ours").scrollIntoView({behavior:"smooth"})};
+document.getElementById("btn-b").addEventListener("click",()=>ev("lp_offer_b_tap",{product_id:cur}));
+document.getElementById("btn-a").onclick=e=>{
+  e.preventDefault();
+  ev("lp_offer_a_tap",{product_id:cur});
+  try{localStorage.setItem("clg_manual_coupon",FBL_CODE)}catch(err){}
+  location.href="/?utm_source=fullbottle_lp&utm_medium=referral&utm_campaign=offer_a#grid";
+};
+
+// ?p= で香りを事前選択（シェア・チラシ用）
+const pre=new URLSearchParams(location.search).get("p");
+if(pre&&P[pre]){
+  const el=document.querySelector(`.pcard[data-pid="${pre}"]`);
+  select(pre,el);
+}
+ev("lp_view");
+</script>
+</body>
+</html>

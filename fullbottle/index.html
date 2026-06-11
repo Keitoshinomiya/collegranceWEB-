@@ -58,7 +58,12 @@ h1{font-size:1.15rem;font-weight:500;letter-spacing:.12em;margin:22px 0 8px}
 .lotbox .l1{font-size:.66rem;letter-spacing:.06em}
 .lotbox .l2{font-size:.72rem;margin:2px 0}
 .lotbox .l2 b{font-size:1.05rem;letter-spacing:.02em}
-.lotbox .l3{font-size:.56rem;color:var(--sub)}
+.lotbox .l3{font-size:.52rem;color:var(--sub);line-height:1.6}
+.lotbox .tiers{margin:10px 0 8px;border-top:1px solid var(--border);text-align:left}
+.lotbox .tr{display:flex;gap:10px;align-items:baseline;padding:7px 2px;border-bottom:1px solid var(--border);font-size:.62rem}
+.lotbox .tn{font-weight:700;min-width:3.4em;white-space:nowrap}
+.lotbox .tp{color:var(--sub);min-width:2.8em;white-space:nowrap}
+.lotbox .td{flex:1}
 .btn-main{display:block;width:100%;padding:14px;background:var(--accent);color:#fff;font-size:.72rem;letter-spacing:.1em;border:none;border-radius:4px;text-decoration:none;cursor:pointer;font-family:var(--font);font-weight:500}
 .btn-main small{display:block;font-size:.58rem;opacity:1;font-weight:400;margin-top:4px;letter-spacing:.06em}
 .btn-sub{display:block;width:100%;padding:11px;background:transparent;color:var(--sub);font-size:.6rem;letter-spacing:.06em;border:1px solid #ddd;border-radius:4px;text-decoration:none;cursor:pointer;margin-top:8px;font-family:var(--font)}
@@ -115,9 +120,14 @@ footer{margin-top:46px;font-size:.5rem;color:var(--light);text-align:center;line
     <div class="price" id="o-price"></div>
     <div class="pnote">国内発送・お問い合わせ窓口あり</div>
     <div class="lotbox">
-      <div class="l1">外れなしの「香りくじ」参加で、最低でも ¥1,000 OFF</div>
+      <div class="l1">「香りくじ」は外れなし。最低でも ¥1,000 OFF</div>
       <div class="l2">→ <b id="o-after1000"></b> でお求めいただけます</div>
-      <div class="l3">1等はフルボトル1本（または ¥10,000 OFF）</div>
+      <div class="tiers">
+        <div class="tr"><span class="tn">1等</span><span class="tp">1%</span><span class="td">フルボトル1本 または ¥10,000 OFFクーポン</span></div>
+        <div class="tr"><span class="tn">2等</span><span class="tp">30%</span><span class="td">限定カラーケース ＋ ¥1,500 OFFクーポン</span></div>
+        <div class="tr"><span class="tn">参加賞</span><span class="tp">69%</span><span class="td">¥1,000 OFFクーポン</span></div>
+      </div>
+      <div class="l3">※ 割引クーポンは ¥10,000 以上のご購入でご利用いただけます（本ページ掲載の5商品はすべて対象）。クーポンの有効期限は発行から7日間です。</div>
     </div>
     <a class="btn-main" href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" id="btn-b">LINEで香りくじを引く<small>友だち追加 → トークメニューの「香りくじ」から（約1分）</small></a>
     <a class="btn-sub" href="#" id="btn-a">当店でそのまま購入する（¥500 OFF 自動適用・<span id="o-after500"></span>）</a>

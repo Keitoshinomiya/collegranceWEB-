@@ -226,6 +226,18 @@
     </div>
   </section>
 
+  <!-- ===== FULLBOTTLE VOICES ===== -->
+  <style>
+    .voice-decisive{margin-top:10px;padding:9px 13px;background:#faf9f7;border-left:2px solid #1a1a1a;font-size:.86em;line-height:1.7}
+    .voice-decisive b{display:block;font-size:.72em;color:#999;letter-spacing:.12em;margin-bottom:3px;font-weight:500}
+  </style>
+  <section class="voice-section" id="fb-voice-section" style="display:none">
+    <div class="section-eyebrow">Full Bottle</div>
+    <h2 class="section-title">フルボトルを選んだ方の声</h2>
+    <p class="section-sub">小分けで試したあと、フルボトルを手にされた方のご感想と「購入の決め手」です。</p>
+    <div class="voice-feed" id="fb-voice-feed"></div>
+  </section>
+
   <!-- ===== VOICE FEED ===== -->
   <div class="voice-feed-wrap">
     <section class="voice-section">
@@ -394,6 +406,34 @@
       else feed.insertAdjacentHTML('beforeend', html);
     }
 
+    async function loadFullbottleVoices(){
+      try {
+        const r = await fetch(`${API_BASE}/api/public/reviews/fullbottle?limit=12`);
+        const data = await r.json();
+        const voices = data.voices || [];
+        if(!voices.length) return; // 声が集まるまでセクションごと非表示
+        const html = voices.map(v => {
+          const prod = v.productId ? productById(v.productId) : null;
+          const pname = prod ? `${prod.brand} ${prod.nameJa || prod.name}` : (v.productName || '');
+          const tags = [];
+          if(v.ageGroup) tags.push(`<span class="voice-meta-tag">${escapeHTML(v.ageGroup)}</span>`);
+          if(v.gender) tags.push(`<span class="voice-meta-tag">${escapeHTML(v.gender)}</span>`);
+          return `
+            <div class="voice-card">
+              ${v.rating ? `<div class="voice-rating">${ratingStars(v.rating)}</div>` : ''}
+              <p class="voice-text">${escapeHTML(v.voice)}</p>
+              ${v.decisive ? `<div class="voice-decisive"><b>購入の決め手</b>${escapeHTML(v.decisive)}</div>` : ''}
+              <div class="voice-meta">
+                <div class="voice-meta-tags">${tags.join('')}</div>
+                <span class="voice-meta-product">${escapeHTML(pname)}</span>
+              </div>
+            </div>`;
+        }).join('');
+        document.getElementById('fb-voice-feed').innerHTML = html;
+        document.getElementById('fb-voice-section').style.display = '';
+      } catch(e){ console.error('fullbottle voices failed:', e); }
+    }
+
     async function loadMoreVoices(){
       const btn = document.getElementById('load-more-btn');
       btn.disabled = true; btn.textContent = '読み込み中…';
@@ -416,7 +456,7 @@
 
     (async function init(){
       await loadProducts();
-      await Promise.all([loadAggregate(), loadVoices()]);
+      await Promise.all([loadAggregate(), loadVoices(), loadFullbottleVoices()]);
     })();
   </script>
 </body>

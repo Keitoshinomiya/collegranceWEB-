@@ -105,7 +105,7 @@
     "stripePriceId": "price_existing_4",
     "source": "purchase_history",
     "tester": false,
-    "inStock": false,
+    "inStock": true,
     "type": "sample_and_fullbottle",
     "amazonAsin": "B0FSKMB6HG",
     "samplePrice": 1500,

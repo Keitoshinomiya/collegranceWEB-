@@ -464,9 +464,17 @@
     .social-proof-inner{max-width:1200px;margin:0 auto}
     .social-proof h2{font-weight:300;font-size:1.1rem;letter-spacing:.1em;text-align:center;margin-bottom:6px;color:var(--text)}
     .social-proof .section-sub{font-size:.68rem;color:var(--sub);text-align:center;letter-spacing:.06em;margin-bottom:32px}
-    .tiktok-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:960px;margin:0 auto}
-    .tiktok-embed-wrap{position:relative;width:100%;padding-bottom:177%;border-radius:8px;overflow:hidden;background:var(--bg2);box-shadow:var(--shadow-sm)}
-    .tiktok-embed-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+    /* TikTokバズ動画カルーセル（スマホ型フレーム） */
+    .tt-car{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding:12px 0 6px;padding-inline:max(16px,calc(50% - 610px));scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .tt-car::-webkit-scrollbar{display:none}
+    .tt-slide{flex:0 0 282px;max-width:282px;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;padding:0 6px}
+    .tt-badge{font-size:1.02rem;letter-spacing:.06em;color:var(--text);margin-bottom:10px;text-align:center;font-weight:500}
+    .tt-badge span{display:block;font-size:.64rem;color:var(--sub);letter-spacing:.04em;margin-top:4px;font-weight:300}
+    .tt-phone{width:250px;background:#0c0c0c;border:8px solid #1a1a1a;border-radius:38px;box-shadow:0 18px 44px rgba(0,0,0,.28),inset 0 0 0 1px #2b2b2b;position:relative;overflow:hidden}
+    .tt-phone .tt-notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:74px;height:17px;background:#000;border-radius:10px;z-index:3}
+    .tt-phone iframe{display:block;width:100%;aspect-ratio:9/16;border:0;background:#000;border-radius:30px}
+    .tt-try{margin-top:14px;font-size:.68rem;letter-spacing:.08em;color:var(--text);border:1px solid var(--border);padding:9px 18px;border-radius:999px;transition:all .2s;display:inline-block}
+    .tt-try:hover{background:var(--text);color:#fff;border-color:var(--text)}
     .social-proof-cta{text-align:center;margin-top:28px}
     .social-proof-cta a{font-size:.64rem;letter-spacing:.1em;color:var(--sub);border-bottom:1px solid var(--border);padding-bottom:2px;transition:color .2s}
     .social-proof-cta a:hover{color:var(--text);border-color:var(--text)}
@@ -535,11 +543,12 @@
     .p-amazon-badge{font-size:.44rem;letter-spacing:.06em;color:var(--light);opacity:.7}
 
     @media(max-width:768px){
-      .tiktok-grid{grid-template-columns:repeat(3,1fr);gap:8px}
+      .tt-slide{flex:0 0 258px;max-width:258px}
+      .tt-phone{width:228px}
       .social-proof{padding:48px 16px}
     }
     @media(max-width:480px){
-      .tiktok-grid{gap:6px}
+      .tt-phone{width:216px}
     }
 
     /* LINE CTA */
@@ -1124,22 +1133,33 @@
   <!-- SOCIAL PROOF -->
   <section class="social-proof">
     <div class="social-proof-inner">
-      <h2 class="fade-up">SNSで話題の香り</h2>
-      <p class="section-sub fade-up delay-1">TikTokでCOLLEGRANCEの香水を紹介いただいています</p>
-      <div class="tiktok-grid fade-up delay-2">
-        <div class="tiktok-embed-wrap">
-          <iframe src="https://www.tiktok.com/embed/v2/7610032768461917458" allow="encrypted-media" allowfullscreen></iframe>
-        </div>
-        <div class="tiktok-embed-wrap">
-          <iframe src="https://www.tiktok.com/embed/v2/7611025632880790792" allow="encrypted-media" allowfullscreen></iframe>
-        </div>
-        <div class="tiktok-embed-wrap">
-          <iframe src="https://www.tiktok.com/embed/v2/7611870041704959252" allow="encrypted-media" allowfullscreen></iframe>
-        </div>
+      <h2 class="fade-up">TikTokで話題の香り</h2>
+      <p class="section-sub fade-up delay-1">クリエイターの紹介動画は累計100万回以上再生されています</p>
+    </div>
+    <div class="tt-car fade-up delay-2">
+      <div class="tt-slide">
+        <div class="tt-badge">&#9654; 50万回再生<span>夏にオススメの爽やか香水｜@kaori.labo</span></div>
+        <div class="tt-phone"><div class="tt-notch"></div><iframe src="https://www.tiktok.com/player/v1/7654999863213477140?music_info=0&amp;description=0&amp;controls=1&amp;rel=0" allow="encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="TikTok ナイルの庭"></iframe></div>
+        <a class="tt-try" href="/?from=sample&amp;product=2">ナイルの庭を1.5mLで試す &rarr;</a>
       </div>
-      <div class="social-proof-cta fade-up delay-3">
-        <a href="https://www.tiktok.com/@collegrance" target="_blank" rel="noopener">TikTokでもっと見る &rarr;</a>
+      <div class="tt-slide">
+        <div class="tt-badge">&#9654; 42万回再生<span>洗いたてシーツのような香り｜@kaori.labo</span></div>
+        <div class="tt-phone"><div class="tt-notch"></div><iframe src="https://www.tiktok.com/player/v1/7655307672912284949?music_info=0&amp;description=0&amp;controls=1&amp;rel=0" allow="encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="TikTok レイジーサンデーモーニング"></iframe></div>
+        <a class="tt-try" href="/?from=sample&amp;product=1">レイジーサンデーモーニングを試す &rarr;</a>
       </div>
+      <div class="tt-slide">
+        <div class="tt-badge">&#9654; 15万回再生<span>男性につけて欲しい大人香水｜@kaori.labo</span></div>
+        <div class="tt-phone"><div class="tt-notch"></div><iframe src="https://www.tiktok.com/player/v1/7655551109402217748?music_info=0&amp;description=0&amp;controls=1&amp;rel=0" allow="encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="TikTok 大人香水"></iframe></div>
+        <a class="tt-try" href="#grid">話題の香りを探す &rarr;</a>
+      </div>
+      <div class="tt-slide">
+        <div class="tt-badge">&#9654; 2.9万回再生<span>お試しサイズで人気のAnother 13｜@momo_biyo1</span></div>
+        <div class="tt-phone"><div class="tt-notch"></div><iframe src="https://www.tiktok.com/player/v1/7654514165972765973?music_info=0&amp;description=0&amp;controls=1&amp;rel=0" allow="encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="TikTok Another 13"></iframe></div>
+        <a class="tt-try" href="/?from=sample&amp;product=8">アナザー13を1.5mLで試す &rarr;</a>
+      </div>
+    </div>
+    <div class="social-proof-cta fade-up delay-3">
+      <a href="https://www.tiktok.com/@collegrance" target="_blank" rel="noopener">TikTokでもっと見る &rarr;</a>
     </div>
   </section>
 

@@ -440,6 +440,20 @@
     .checkout-btn{width:100%;padding:14px;background:var(--accent);color:#fff;border:1px solid var(--accent);font-family:var(--font);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .3s var(--ease);margin-bottom:8px;border-radius:2px}
     .checkout-btn:hover{background:#333}
     .checkout-btn:disabled{opacity:.35;cursor:not-allowed;background:var(--accent)}
+    .cart-assure{margin:10px 0 10px;padding:9px 12px;background:var(--bg2);border-radius:4px;font-size:.6rem;color:var(--sub);line-height:1.9;letter-spacing:.04em}
+    .cart-assure .ok{color:#4a9d8f;font-weight:700;margin-right:5px}
+    /* ご注文からお届けまで */
+    .delivery-flow{max-width:680px;margin:70px auto 0;padding:0 20px}
+    .delivery-flow .df-label{text-align:center;font-size:.58rem;letter-spacing:.22em;color:var(--light);text-transform:uppercase;margin-bottom:8px}
+    .delivery-flow h2{text-align:center;font-size:1rem;letter-spacing:.12em;font-weight:600;margin-bottom:22px}
+    .delivery-flow img{width:100%;border-radius:6px;display:block;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+    .delivery-flow .df-cap{font-size:.68rem;color:var(--sub);line-height:2;margin-bottom:18px}
+    .delivery-flow .df-cap b{color:var(--text)}
+    .df-steps{list-style:none;counter-reset:dfs;padding:0}
+    .df-steps li{counter-increment:dfs;display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px dashed var(--border)}
+    .df-steps li::before{content:counter(dfs);flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:.6rem;display:flex;align-items:center;justify-content:center;margin-top:2px}
+    .df-steps li b{font-size:.72rem;display:block;letter-spacing:.06em}
+    .df-steps li span{font-size:.64rem;color:var(--sub);display:block;line-height:1.8}
     .stripe-safe{text-align:center;font-size:.52rem;color:var(--light);letter-spacing:.06em}
 
     /* SOCIAL PROOF */
@@ -1268,6 +1282,20 @@
     </div>
   </section>
 
+  <!-- ご注文からお届けまで -->
+  <section class="delivery-flow">
+    <div class="df-label">Delivery</div>
+    <h2>ご注文からお届けまで</h2>
+    <img src="/assets/images/collegrance-packing.jpg" alt="COLLEGRANCE専用段ボールへの梱包の様子" loading="lazy">
+    <p class="df-cap">ご注文のフルボトルは、<b>COLLEGRANCE専用段ボール</b>に緩衝材を敷き詰め、一つひとつ薄葉紙で包んでお届けします。</p>
+    <ol class="df-steps">
+      <li><div><b>ご注文確認</b><span>ご注文確認メールをすぐにお送りします</span></div></li>
+      <li><div><b>丁寧に梱包</b><span>専用段ボールで梱包します（1〜2営業日）</span></div></li>
+      <li><div><b>発送のお知らせ</b><span>ヤマト運輸の追跡番号をメールでお知らせします（LINEご登録の方はLINEにも）</span></div></li>
+      <li><div><b>お届け</b><span>発送から1〜2日で宅急便にてお届けします</span></div></li>
+    </ol>
+  </section>
+
   <!-- LINE CTA -->
   <section class="line-cta">
     <h2 class="fade-up">LINE友だち追加で最新入荷情報をお届け</h2>
@@ -1603,6 +1631,10 @@
         <div id="coupon-input-msg" style="margin-top:4px;font-size:.55rem"></div>
       </div>
       <div id="ship-msg"></div>
+      <div class="cart-assure">
+        <div><span class="ok">&#10003;</span>COLLEGRANCE専用段ボールで丁寧に梱包</div>
+        <div><span class="ok">&#10003;</span>発送時に追跡番号をメールでお知らせ</div>
+      </div>
       <button class="checkout-btn" id="checkout-btn" onclick="doCheckout()" disabled>お支払いに進む &rarr;</button>
       <div class="stripe-safe"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Powered by Stripe &mdash; 安全なカード決済</div>
     </div>
@@ -2510,7 +2542,28 @@ if(location.search.includes('ok=1')){
         timestamp: new Date().toISOString()
       });
     }
-    alert('ご注文ありがとうございました！準備が整い次第ご連絡いたします。');
+    /* サンクスモーダル: この後の流れ＋LINE誘導 */
+    (function(){
+      var ov = document.createElement('div');
+      ov.id = 'clg-thanks';
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(20,20,20,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+      ov.innerHTML =
+        '<div style="background:#faf9f7;border-radius:8px;max-width:420px;width:100%;max-height:88vh;overflow-y:auto;padding:28px 22px;text-align:left;font-size:13px;line-height:1.8">'
+        + '<div style="text-align:center;font-size:11px;letter-spacing:.22em;color:#999">THANK YOU</div>'
+        + '<div style="text-align:center;font-weight:700;font-size:16px;letter-spacing:.1em;margin:6px 0 14px">ご注文ありがとうございます</div>'
+        + '<img src="/assets/images/collegrance-packing.jpg" alt="梱包の様子" style="width:100%;border-radius:6px;margin-bottom:12px">'
+        + '<div style="font-size:12px;color:#555;margin-bottom:14px">ご注文のフルボトルは、<b style="color:#1a1a1a">COLLEGRANCE専用段ボール</b>に緩衝材を敷き詰め、一つひとつ薄葉紙で包んでお届けします。</div>'
+        + '<div style="border-top:1px dashed #ddd;padding-top:12px;font-size:12px;color:#555">'
+        + '<div style="margin-bottom:8px"><b style="color:#1a1a1a">1. ご注文確認</b>　確認メールをお送りしました</div>'
+        + '<div style="margin-bottom:8px"><b style="color:#1a1a1a">2. 丁寧に梱包</b>　1〜2営業日で梱包します</div>'
+        + '<div style="margin-bottom:8px"><b style="color:#1a1a1a">3. 発送のお知らせ</b>　ヤマト運輸の追跡番号をメールでお知らせします</div>'
+        + '<div style="margin-bottom:12px"><b style="color:#1a1a1a">4. お届け</b>　発送から1〜2日で宅急便にてお届けします</div>'
+        + '</div>'
+        + '<a href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" style="display:block;background:#06C755;color:#fff;text-align:center;padding:12px;border-radius:5px;text-decoration:none;font-size:12.5px;font-weight:700;margin-bottom:8px">LINE登録で発送通知をLINEでも受け取る</a>'
+        + '<button onclick="document.getElementById(\'clg-thanks\').remove()" style="display:block;width:100%;background:none;border:1px solid #ddd;border-radius:5px;padding:10px;font-size:12px;color:#666;cursor:pointer">閉じる</button>'
+        + '</div>';
+      document.body.appendChild(ov);
+    })();
     history.replaceState(null, '', '/');
   });
 }

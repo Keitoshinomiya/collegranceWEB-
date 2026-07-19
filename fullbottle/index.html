@@ -56,13 +56,29 @@ h1{font-size:1.15rem;font-weight:500;letter-spacing:.12em;margin:22px 0 8px}
 .lotbox .tn{font-weight:700;min-width:3.4em;white-space:nowrap}
 .lotbox .tp{color:var(--sub);min-width:2.8em;white-space:nowrap}
 .lotbox .td{flex:1}
-.btn-main{display:block;width:100%;padding:14px;background:var(--accent);color:#fff;font-size:.72rem;letter-spacing:.1em;border:none;border-radius:4px;text-decoration:none;cursor:pointer;font-family:var(--font);font-weight:500}
+.btn-main{display:block;width:100%;padding:14px;text-align:center;background:var(--accent);color:#fff;font-size:.72rem;letter-spacing:.1em;border:none;border-radius:4px;text-decoration:none;cursor:pointer;font-family:var(--font);font-weight:500}
 .btn-main small{display:block;font-size:.58rem;opacity:1;font-weight:400;margin-top:4px;letter-spacing:.06em}
-.btn-sub{display:block;width:100%;padding:11px;background:transparent;color:var(--sub);font-size:.6rem;letter-spacing:.06em;border:1px solid #ddd;border-radius:4px;text-decoration:none;cursor:pointer;margin-top:8px;font-family:var(--font)}
+.btn-sub{display:block;width:100%;padding:11px;text-align:center;background:transparent;color:var(--sub);font-size:.6rem;letter-spacing:.06em;border:1px solid #ddd;border-radius:4px;text-decoration:none;cursor:pointer;margin-top:8px;font-family:var(--font)}
 footer{margin-top:46px;font-size:.5rem;color:var(--light);text-align:center;line-height:1.9;letter-spacing:.06em}
 .hide{display:none}
 .fadein{animation:f .4s ease}
 @keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* ご注文からお届けまで */
+.dflow{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:18px 16px;margin:18px 0 4px}
+.dflow .dtitle{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-align:center;margin-bottom:12px}
+.dflow img{width:100%;border-radius:4px;display:block;margin-bottom:10px}
+.dflow .dcap{font-size:.62rem;color:var(--sub);line-height:1.9;margin-bottom:12px}
+.dflow .dcap b{color:var(--text)}
+.dsteps{list-style:none;counter-reset:ds}
+.dsteps li{counter-increment:ds;display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-top:1px dashed var(--border)}
+.dsteps li::before{content:counter(ds);flex:none;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:.58rem;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.dsteps li div{flex:1;text-align:left}
+.dsteps li b{font-size:.64rem;display:block;letter-spacing:.06em}
+.dsteps li span{font-size:.58rem;color:var(--sub);display:block;line-height:1.7}
+.lead2{font-size:.58rem;color:var(--light);margin-top:6px;letter-spacing:.08em}
+.trow{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-size:.56rem;color:var(--sub);margin:12px 0 14px;letter-spacing:.04em}
+.trow .tw{color:#4a9d8f;font-weight:700;margin-right:3px}
+footer a{color:var(--light);text-decoration:underline;text-underline-offset:2px}
 </style>
 </head>
 <body>
@@ -73,6 +89,7 @@ footer{margin-top:46px;font-size:.5rem;color:var(--light);text-align:center;line
   <div class="logo">COLLEGRANCE</div>
   <h1>フルボトル購入ガイド</h1>
   <p class="lead">お試しいただいた香りを選ぶと、<br>フルボトルのご案内が表示されます。</p>
+  <p class="lead2">お試しをお届けした方限定のご案内です</p>
 </header>
 
 <span class="label">SELECT</span>
@@ -101,13 +118,33 @@ footer{margin-top:46px;font-size:.5rem;color:var(--light);text-align:center;line
       </div>
       <div class="l3">※ 割引クーポンは ¥10,000 以上のご購入でご利用いただけます（本ページ掲載の5商品はすべて対象）。クーポンの有効期限は発行から7日間です。</div>
     </div>
-    <a class="btn-main" href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" id="btn-b">LINEで香りくじを引く<small>友だち追加 → トークメニューの「香りくじ」から（約1分）</small></a>
-    <a class="btn-sub" href="#" id="btn-a">LINE登録せずそのまま購入する（¥500 OFF 自動適用・<span id="o-after500"></span>）</a>
   </div>
+
+  <div class="dflow">
+      <div class="dtitle">ご注文からお届けまで</div>
+      <img src="/assets/images/collegrance-packing.jpg" alt="COLLEGRANCE専用段ボールへの梱包の様子" loading="lazy">
+      <p class="dcap">ご注文のフルボトルは、<b>COLLEGRANCE専用段ボール</b>に緩衝材を敷き詰め、一つひとつ薄葉紙で包んでお届けします。</p>
+      <ol class="dsteps">
+        <li><div><b>ご注文確認</b><span>ご注文確認メールをすぐにお送りします</span></div></li>
+        <li><div><b>丁寧に梱包</b><span>専用段ボールで梱包します（1〜2営業日）</span></div></li>
+        <li><div><b>発送のお知らせ</b><span>ヤマト運輸の追跡番号をメールでお知らせします</span></div></li>
+        <li><div><b>お届け</b><span>発送から1〜2日で宅急便にてお届けします</span></div></li>
+      </ol>
+  </div>
+
+  <div class="trow">
+    <div><span class="tw">&#10003;</span>正規品保証</div>
+    <div><span class="tw">&#10003;</span>追跡番号つきで国内発送</div>
+    <div><span class="tw">&#10003;</span>お問い合わせ窓口あり</div>
+  </div>
+
+  <a class="btn-main" href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" id="btn-b">LINEで香りくじを引く<small>友だち追加 → トークメニューの「香りくじ」から（約1分）</small></a>
+  <a class="btn-sub" href="#" id="btn-a">LINE登録せずそのまま購入する（¥500 OFF 自動適用・<span id="o-after500"></span>）</a>
 </div>
 
 <footer>
   価格・特典の内容は予告なく変更される場合があります<br>
+  <a href="/tokushoho.html">特定商取引法に基づく表記</a> ・ <a href="/contact.html">お問い合わせ</a> ・ <a href="/">COLLEGRANCEトップ</a><br>
   © COLLEGRANCE / 合同会社ヤシノミ
 </footer>
 </div>

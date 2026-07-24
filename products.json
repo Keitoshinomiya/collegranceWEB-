@@ -55,7 +55,8 @@
     "amazonRating": 4.2,
     "concentration": "EDT",
     "salesCount": 655,
-    "slug": "hermes-un-jardin-sur-le-nil"
+    "slug": "hermes-un-jardin-sur-le-nil",
+    "variantGroup": "herm-s-un-jardin-sur-le-nil"
   },
   {
     "brand": "Maison Margiela",
@@ -317,7 +318,8 @@
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
     "salesCount": 42,
-    "slug": "tiffany-rose-gold"
+    "slug": "tiffany-rose-gold",
+    "variantGroup": "rose-gold"
   },
   {
     "brand": "DIOR",
@@ -408,7 +410,8 @@
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
     "salesCount": 29,
-    "slug": "issey-miyake-leau-dissey"
+    "slug": "issey-miyake-leau-dissey",
+    "variantGroup": "issey-miyake-l-eau-d-issey"
   },
   {
     "brand": "YSL",
@@ -470,7 +473,8 @@
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
     "salesCount": 34,
-    "slug": "ck-one"
+    "slug": "ck-one",
+    "variantGroup": "calvin-klein-ck-one"
   },
   {
     "brand": "DIOR",
@@ -527,7 +531,8 @@
     "amazonRating": 4.2,
     "concentration": "EDT",
     "salesCount": 0,
-    "slug": "dg-light-blue"
+    "slug": "dg-light-blue",
+    "variantGroup": "light-blue"
   },
   {
     "brand": "DIPTYQUE",
@@ -555,7 +560,8 @@
     "amazonRating": 4.2,
     "amazonReviewCount": 0,
     "salesCount": 0,
-    "slug": "diptyque-tam-dao"
+    "slug": "diptyque-tam-dao",
+    "variantGroup": "diptyque-tam-dao"
   },
   {
     "brand": "Jo Malone London",
@@ -954,7 +960,8 @@
     "inStock": true,
     "type": "fullbottle",
     "concentration": "EDP",
-    "salesCount": 0
+    "salesCount": 0,
+    "variantGroup": "chloe-edp"
   },
   {
     "id": 35,
@@ -1002,7 +1009,8 @@
     "inStock": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "bvlgari-omnia-amethyste"
   },
   {
     "id": 37,
@@ -1051,7 +1059,8 @@
     "inStock": true,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "versace-yellow-diamond"
   },
   {
     "id": 39,
@@ -1100,7 +1109,8 @@
     "inStock": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "versace-dylan-blue-pour-femme"
   },
   {
     "id": 41,
@@ -1219,7 +1229,8 @@
     "inStock": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "calvin-klein-eternity"
   },
   {
     "id": 46,
@@ -1290,7 +1301,8 @@
     "inStock": true,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "lanvin-clat-d-arp-ge"
   },
   {
     "id": 49,
@@ -1411,7 +1423,8 @@
     "tester": false,
     "inStock": false,
     "type": "fullbottle",
-    "salesCount": 0
+    "salesCount": 0,
+    "variantGroup": "bvlgari-omnia-crystalline"
   },
   {
     "id": 54,
@@ -1436,7 +1449,8 @@
     "inStock": true,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "calvin-klein-eternity-for-men"
   },
   {
     "id": 55,
@@ -1580,7 +1594,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "diptyque-tam-dao"
   },
   {
     "id": 61,
@@ -1624,7 +1639,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "calvin-klein-eternity"
   },
   {
     "id": 63,
@@ -1647,7 +1663,8 @@
     "salesCount": 0,
     "concentration": "EDT",
     "inStock": false,
-    "_exclusion_reason": "shipping_baked_min_price_3000"
+    "_exclusion_reason": "shipping_baked_min_price_3000",
+    "variantGroup": "calvin-klein-eternity-for-men"
   },
   {
     "id": 64,
@@ -1780,7 +1797,8 @@
     "salesCount": 0,
     "concentration": "EDP",
     "inStock": false,
-    "_exclusion_reason": "shipping_baked_min_price_3000"
+    "_exclusion_reason": "shipping_baked_min_price_3000",
+    "variantGroup": "clean-69"
   },
   {
     "id": 70,
@@ -1825,7 +1843,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "clean-71"
   },
   {
     "id": 72,
@@ -1848,7 +1867,8 @@
     "salesCount": 0,
     "concentration": "EDP",
     "inStock": false,
-    "_exclusion_reason": "shipping_baked_min_price_3000"
+    "_exclusion_reason": "shipping_baked_min_price_3000",
+    "variantGroup": "clean-71"
   },
   {
     "id": 73,
@@ -1870,7 +1890,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "clean-73"
   },
   {
     "id": 74,
@@ -1892,7 +1913,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "clean-73"
   },
   {
     "id": 75,
@@ -1914,7 +1936,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "clean-75"
   },
   {
     "id": 76,
@@ -1937,7 +1960,8 @@
     "salesCount": 0,
     "concentration": "EDP",
     "inStock": false,
-    "_exclusion_reason": "shipping_baked_min_price_3000"
+    "_exclusion_reason": "shipping_baked_min_price_3000",
+    "variantGroup": "clean-75"
   },
   {
     "id": 77,
@@ -2113,7 +2137,8 @@
     "type": "fullbottle",
     "salesCount": 0,
     "concentration": "EDP",
-    "inStock": false
+    "inStock": false,
+    "variantGroup": "coach-ep"
   },
   {
     "id": 85,
@@ -2134,7 +2159,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "light-blue"
   },
   {
     "id": 86,
@@ -2156,7 +2182,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "light-blue"
   },
   {
     "id": 87,
@@ -2287,7 +2314,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "issey-miyake-l-eau-d-issey"
   },
   {
     "id": 93,
@@ -2617,7 +2645,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "lanc-me-miracle"
   },
   {
     "id": 108,
@@ -2639,7 +2668,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "lanc-me-miracle"
   },
   {
     "id": 109,
@@ -2704,7 +2734,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "lanvin-clat-d-arp-ge"
   },
   {
     "id": 112,
@@ -3035,7 +3066,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "versace-yellow-diamond"
   },
   {
     "id": 127,
@@ -3254,7 +3286,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "clean-69"
   },
   {
     "id": 137,
@@ -3275,7 +3308,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "dolce-gabbana-2025"
   },
   {
     "id": 138,
@@ -3297,7 +3331,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "versace-138"
   },
   {
     "id": 139,
@@ -3319,7 +3354,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "versace-138"
   },
   {
     "id": 140,
@@ -3341,7 +3377,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "versace-dylan-blue-pour-femme"
   },
   {
     "id": 141,
@@ -3363,7 +3400,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "coach-ep"
   },
   {
     "id": 142,
@@ -3407,7 +3445,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "bvlgari-omnia-amethyste"
   },
   {
     "id": 144,
@@ -3496,7 +3535,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "clean-classic-shower-fresh"
   },
   {
     "id": 148,
@@ -3519,7 +3559,8 @@
     "salesCount": 0,
     "concentration": "EDP",
     "inStock": false,
-    "_exclusion_reason": "shipping_baked_min_price_3000"
+    "_exclusion_reason": "shipping_baked_min_price_3000",
+    "variantGroup": "clean-classic-shower-fresh"
   },
   {
     "id": 149,
@@ -3542,7 +3583,8 @@
     "salesCount": 0,
     "concentration": "EDP",
     "inStock": false,
-    "_exclusion_reason": "shipping_baked_min_price_3000"
+    "_exclusion_reason": "shipping_baked_min_price_3000",
+    "variantGroup": "clean-149"
   },
   {
     "id": 150,
@@ -3629,7 +3671,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "calvin-klein-eternity"
   },
   {
     "id": 154,
@@ -3651,7 +3694,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "clean-154"
   },
   {
     "id": 155,
@@ -3672,7 +3716,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "clean-154"
   },
   {
     "id": 156,
@@ -3717,7 +3762,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "herm-s-un-jardin-sur-le-nil"
   },
   {
     "id": 158,
@@ -3739,7 +3785,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "clean-149"
   },
   {
     "id": 159,
@@ -3784,7 +3831,8 @@
     "tester": false,
     "type": "fullbottle",
     "concentration": "EDP",
-    "salesCount": 0
+    "salesCount": 0,
+    "variantGroup": "chloe-edp"
   },
   {
     "id": 161,
@@ -3827,7 +3875,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "calvin-klein-eternity-for-men"
   },
   {
     "id": 163,
@@ -3937,7 +3986,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "bvlgari-omnia-crystalline"
   },
   {
     "id": 168,
@@ -3980,7 +4030,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "herm-s-un-jardin-sur-le-nil"
   },
   {
     "id": 170,
@@ -4002,7 +4053,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "herm-s-un-jardin-sur-le-nil"
   },
   {
     "id": 171,
@@ -4090,7 +4142,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDT"
+    "concentration": "EDT",
+    "variantGroup": "dolce-gabbana-2025"
   },
   {
     "id": 175,
@@ -4112,7 +4165,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "rose-gold"
   },
   {
     "id": 176,
@@ -4133,7 +4187,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "rose-gold"
   },
   {
     "id": 177,
@@ -4220,7 +4275,8 @@
     "tester": false,
     "type": "fullbottle",
     "salesCount": 0,
-    "concentration": "EDP"
+    "concentration": "EDP",
+    "variantGroup": "lanc-me-miracle"
   },
   {
     "id": 181,
@@ -4390,7 +4446,8 @@
     "popular": false,
     "salesCount": 0,
     "stripePriceId": "",
-    "source": "kstyle"
+    "source": "kstyle",
+    "variantGroup": "chloe-edp"
   },
   {
     "brand": "Jo Malone London",
@@ -4514,6 +4571,7 @@
     "popular": false,
     "salesCount": 0,
     "stripePriceId": "",
-    "source": "kstyle"
+    "source": "kstyle",
+    "variantGroup": "calvin-klein-ck-one"
   }
 ]

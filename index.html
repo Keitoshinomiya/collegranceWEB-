@@ -91,8 +91,9 @@
     .header-nav>li>a.active{color:var(--text);font-weight:500}
 
     /* MEGA DROPDOWN */
-    .mega-drop{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:280px;background:var(--bg);border:1px solid var(--border);box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transition:all .25s var(--ease);z-index:110;pointer-events:none;padding:24px 28px}
-    .header-nav>li:hover .mega-drop{opacity:1;visibility:visible;pointer-events:auto}
+    .mega-drop{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:280px;background:var(--bg);border:1px solid var(--border);box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transition:all .25s var(--ease);transition-delay:.25s;z-index:110;pointer-events:none;padding:24px 28px}
+    .mega-drop::before{content:'';position:absolute;top:-18px;left:-12px;right:-12px;height:18px}
+    .header-nav>li:hover .mega-drop{opacity:1;visibility:visible;pointer-events:auto;transition-delay:0s}
     .mega-drop-title{font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--light);margin-bottom:12px;font-weight:600;padding-bottom:8px;border-bottom:1px solid var(--border)}
     .mega-drop-grid{display:grid;grid-template-columns:1fr;gap:0}
     .mega-drop-grid.cols-2{grid-template-columns:1fr 1fr;gap:0 32px;min-width:420px}
@@ -366,6 +367,10 @@
     .p-name{font-size:.88rem;font-weight:500;letter-spacing:.03em;line-height:1.5;margin-bottom:3px}
     .p-name-ja{font-size:.62rem;color:var(--sub);letter-spacing:.04em;margin-bottom:2px}
     .p-size{font-size:.62rem;color:var(--light);letter-spacing:.05em;margin-bottom:8px}
+    .p-variants{display:flex;gap:6px;margin:0 0 8px;flex-wrap:wrap}
+    .variant-btn{padding:5px 12px;font-size:.58rem;border:1px solid var(--border);background:var(--bg);cursor:pointer;border-radius:2px;font-family:var(--font);letter-spacing:.05em;color:var(--sub);transition:all .2s}
+    .variant-btn:hover{border-color:var(--text);color:var(--text)}
+    .variant-btn.active{border-color:var(--text);color:var(--text);font-weight:600;background:var(--bg2)}
     .p-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
     .p-tag{font-size:.46rem;letter-spacing:.08em;padding:2px 8px;background:var(--bg2);color:var(--sub);border-radius:10px;text-transform:uppercase}
     .p-notes{font-size:.58rem;color:var(--sub);letter-spacing:.03em;margin-bottom:12px;padding-top:10px;border-top:1px solid var(--border);line-height:1.8}
@@ -828,25 +833,6 @@
   </script>
 </head>
 <body>
-
-  <!-- フルボトル購入ガイドへの戻り導線（LP訪問済みの人にだけ表示。一般訪問者には出ない） -->
-  <div id="fb-return" style="display:none;position:fixed;top:var(--header-h);left:0;right:0;z-index:9990;background:#1a1a1a;color:#fff;font-size:.62rem;letter-spacing:.08em;padding:9px 38px 9px 14px;text-align:center">
-    <a href="/fullbottle/" id="fb-return-link" style="color:#fff;text-decoration:none">→ フルボトル購入ガイドに戻る（チラシをお持ちの方）</a>
-    <button id="fb-return-close" aria-label="閉じる" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#999;font-size:1rem;cursor:pointer;line-height:1">×</button>
-  </div>
-  <script>
-  (function(){
-    try{
-      var lot = localStorage.getItem('fb_lp_visited');
-      if(lot && !sessionStorage.getItem('fb_return_closed')){
-        var bar=document.getElementById('fb-return');
-        document.getElementById('fb-return-link').href='/fullbottle/?lot='+encodeURIComponent(lot)+'&src=return';
-        bar.style.display='block';
-        document.getElementById('fb-return-close').onclick=function(){bar.style.display='none';try{sessionStorage.setItem('fb_return_closed','1')}catch(e){}};
-      }
-    }catch(e){}
-  })();
-  </script>
 
   <!-- HEADER -->
   <header class="site-header">
@@ -1574,7 +1560,7 @@
           <div id="diag-coupon-box" style="display:none;margin-bottom:20px;padding:16px;background:linear-gradient(135deg,#fef3e2 0%,#fdf0f4 100%);border:1.5px dashed #c97a8a;border-radius:6px;text-align:center">
             <div style="font-size:.48rem;letter-spacing:.18em;color:#a85a72;text-transform:uppercase;margin-bottom:6px;font-weight:600">🎁 AI診断特典</div>
             <div style="font-size:.95rem;font-weight:600;color:#333;margin-bottom:4px">フルボトル <span style="color:#c97a8a">10% OFF</span></div>
-            <div style="font-size:.52rem;color:#666;line-height:1.6;margin-bottom:12px">下記コードを Stripe決済画面の「プロモーションコード」欄に入力してください</div>
+            <div style="font-size:.52rem;color:#666;line-height:1.6;margin-bottom:12px">✨ このクーポンは<strong>お会計時に自動で適用</strong>されます（コード入力不要）</div>
             <div id="diag-coupon-code" style="display:inline-block;font-family:'SF Mono','Courier New',monospace;font-size:1rem;font-weight:600;letter-spacing:.08em;color:#1a1a1a;background:#fff;padding:10px 18px;border-radius:4px;border:1px solid #d4a5b3;margin-bottom:8px;cursor:pointer;user-select:all" onclick="copyDiagCoupon()">読み込み中...</div>
             <button onclick="copyDiagCoupon()" id="diag-coupon-copy-btn" style="display:block;margin:0 auto;padding:6px 14px;background:#c97a8a;color:#fff;border:none;font-family:var(--font);font-size:.54rem;cursor:pointer;border-radius:3px;letter-spacing:.06em">📋 コードをコピー</button>
             <div id="diag-coupon-timer" style="font-size:.5rem;color:#a85a72;margin-top:10px;font-weight:500"></div>
@@ -1761,6 +1747,20 @@ function scrollToProduct(id){
   /* DOMレンダリング後にスクロール */
   setTimeout(function(){
     var card = document.querySelector('.product-card[data-product-id="' + id + '"]');
+    /* サイズ違い統合で非表示になっている場合は、表示中の兄弟カードを目的のサイズに切り替える */
+    if(!card){
+      var target = PRODUCTS.find(function(x){ return x.id === id; });
+      if(target && target.variantGroup){
+        var sib = PRODUCTS.find(function(x){
+          return x.variantGroup === target.variantGroup && x.id !== id &&
+            document.querySelector('.product-card[data-product-id="' + x.id + '"]');
+        });
+        if(sib){
+          switchVariant(sib.id, id);
+          card = document.querySelector('.product-card[data-product-id="' + id + '"]');
+        }
+      }
+    }
     if(card){
       card.scrollIntoView({behavior:'smooth', block:'center'});
       card.style.boxShadow = '0 0 0 3px rgba(0,0,0,.15)';
@@ -2003,6 +2003,35 @@ function loadMore(){
   }
 }
 
+/* ===== サイズバリエーション（100ml/30ml等を同一カード内で切替） ===== */
+function normSize(s){ return String(s || '').toLowerCase().replace(/\s/g,''); }
+function variantSiblings(p){
+  if(!p.variantGroup) return [p];
+  var sibs = PRODUCTS.filter(function(x){ return x.variantGroup === p.variantGroup && x.inStock !== false; });
+  /* 同サイズの重複データは表示中の商品を優先、次いで売上順で1件に絞る */
+  sibs.sort(function(a,b){
+    var ap = a.id === p.id ? -1 : 0, bp = b.id === p.id ? -1 : 0;
+    if(ap !== bp) return ap - bp;
+    return (b.salesCount || 0) - (a.salesCount || 0);
+  });
+  var seen = {}, out = [];
+  sibs.forEach(function(x){ var k = normSize(x.size); if(!seen[k]){ seen[k] = 1; out.push(x); } });
+  out.sort(function(a,b){ return (parseFloat(a.size) || 0) - (parseFloat(b.size) || 0); });
+  return out;
+}
+function switchVariant(fromId, toId){
+  if(fromId === toId) return;
+  var card = document.querySelector('.product-card[data-product-id="' + fromId + '"]');
+  var np = PRODUCTS.find(function(x){ return x.id === toId; });
+  if(!card || !np) return;
+  var tmp = document.createElement('div');
+  tmp.innerHTML = renderCard(np);
+  var newCard = tmp.firstElementChild;
+  card.replaceWith(newCard);
+  if(typeof viewObserver !== 'undefined') viewObserver.observe(newCard);
+  ga4Event('select_content', { content_type: 'size_variant', item_id: String(toId) });
+}
+
 function renderCard(p){
   const price    = p.sellPrice;
   const imgSrc   = p.img || '';
@@ -2026,6 +2055,17 @@ function renderCard(p){
 
   /* Concentration badge */
   var concHtml = p.concentration ? '<span class="p-conc">' + p.concentration + '</span>' : '';
+
+  /* サイズ切替ボタン（在庫のあるサイズ違いが2つ以上あるとき） */
+  var sibs = variantSiblings(p);
+  var sizeHtml;
+  if(sibs.length > 1){
+    sizeHtml = '<div class="p-variants">' + sibs.map(function(v){
+      return '<button class="variant-btn' + (v.id === p.id ? ' active' : '') + '" onclick="event.stopPropagation();switchVariant(' + p.id + ',' + v.id + ')" title="&yen;' + v.sellPrice.toLocaleString() + '">' + v.size + '</button>';
+    }).join('') + '</div>';
+  } else {
+    sizeHtml = '<div class="p-size">' + p.size + '</div>';
+  }
 
   /* Notes overlay content */
   var notesOverlay = '';
@@ -2058,7 +2098,7 @@ function renderCard(p){
       '<div class="p-brand">' + p.brand + concHtml + '</div>' +
       '<div class="p-name">' + p.name + '</div>' +
       (p.nameJa ? '<div class="p-name-ja">' + p.nameJa + '</div>' : '') +
-      '<div class="p-size">' + p.size + '</div>' +
+      sizeHtml +
       '<div class="p-tags">' + tagsHtml + '</div>' +
       /* お試し体験者レビュー — クリックでその場でモーダル表示（Amazon表示は廃止） */
       (p.customerAvgRating ? '<button class="p-review-btn" onclick="event.stopPropagation();openReviewModal(' + p.id + ')" aria-label="お試し体験者の声を見る"><span class="p-review-stars">' + renderStars(p.customerAvgRating) + '</span><span class="p-review-score">' + p.customerAvgRating.toFixed(1) + '</span><span class="p-review-label">' + p.customerReviewCount + '名の声を見る</span><span class="p-review-arrow">&rarr;</span></button>' : '') +
@@ -2432,6 +2472,15 @@ function openCart(){
   document.getElementById('cart-overlay').classList.add('open');
   document.getElementById('cart-sidebar').classList.add('open');
   document.body.style.overflow = 'hidden';
+  /* 保存済みクーポンがあれば自動適用予定であることを表示 */
+  try {
+    var storedCode = getStoredCoupon();
+    var msg = document.getElementById('coupon-input-msg');
+    if(storedCode && msg && !msg.textContent){
+      msg.style.color = '#3a7d44';
+      msg.textContent = '✓ クーポン ' + storedCode + ' がお会計時に自動適用されます';
+    }
+  } catch(e){}
 }
 function closeCart(){
   document.getElementById('cart-overlay').classList.remove('open');
@@ -2901,13 +2950,19 @@ document.addEventListener('DOMContentLoaded', function(){
 
   /* Load products on page ready */
   loadProducts().then(function(){
-    var pid = parseInt(new URLSearchParams(location.search).get('product'));
+    var qs = new URLSearchParams(location.search);
+    var pid = parseInt(qs.get('product'));
     if(_pendingSampleLP){
       setTimeout(function(){ showSampleLP(pid); }, 300);
     } else if(_pendingRecommendLP){
       setTimeout(function(){ showRecommendLP(pid); }, 300);
     } else if(_pendingProductScroll){
       setTimeout(function(){ scrollToProduct(_pendingProductScroll); }, 300);
+    } else if(qs.get('diagnosis') === '1'){
+      /* 記事CTAなどから ?diagnosis=1 で来訪 → 診断を自動起動（&ctx=woody 等で文脈引き継ぎ） */
+      diagEntryCtx = qs.get('ctx') || '';
+      diagEntrySource = 'url_param';
+      setTimeout(function(){ openDiagnosis(); }, 400);
     }
   });
 });
@@ -2977,12 +3032,11 @@ var viewObserver = new IntersectionObserver(function(entries){
 }, {threshold: 0.5});
 
 /* Observe product cards after grid build */
+/* data-product-id は renderCard が正しく設定済み（filteredのindexで上書きするとバリアント統合分だけズレるため使わない） */
 var origBuildGrid = buildGrid;
 buildGrid = function(){
   origBuildGrid();
-  document.querySelectorAll('.product-card').forEach(function(card, i){
-    var filtered = getFilteredProducts();
-    if(filtered[i]) card.dataset.productId = filtered[i].id;
+  document.querySelectorAll('.product-card').forEach(function(card){
     viewObserver.observe(card);
   });
 };
@@ -3008,6 +3062,15 @@ var diagAnswers = {};
 var diagSessionId = '';
 var diagIsRepeater = false;
 var diagTotalSteps = 7;
+/* 記事CTA経由の文脈引き継ぎ (?diagnosis=1&ctx=woody 等) */
+var diagEntryCtx = '';
+var diagEntrySource = '';
+var DIAG_CTX_LABELS = {
+  woody: 'ウッディ系', citrus: 'シトラス・フレッシュ系', floral: 'フローラル系',
+  sweet: 'スイート・グルマン系', musk: 'ムスク・クリーン系', oriental: 'オリエンタル系',
+  clean: 'クリーン系（石けん調）', mens: 'メンズ香水', womens: 'レディース香水',
+  gift: 'ギフト・プレゼント用の香水', couple: 'カップル・ペアで使う香水', beginner: '香水の基礎知識'
+};
 
 function openDiagnosis(){
   diagAnswers = {};
@@ -3032,7 +3095,7 @@ function openDiagnosis(){
         sel.appendChild(opt);
       });
   }
-  ga4Event('ai_diagnosis_start', { session_id: diagSessionId });
+  ga4Event('ai_diagnosis_start', { session_id: diagSessionId, entry_source: diagEntrySource || 'site', entry_ctx: diagEntryCtx || '' });
 }
 function closeDiagnosis(){
   document.getElementById('diagnosis-overlay').style.display = 'none';
@@ -3151,6 +3214,12 @@ function shareDiagLine(){
 
 async function submitDiagnosis(){
   diagAnswers.freeText = document.getElementById('diag-free').value.trim();
+
+  /* 記事CTA経由の場合、読んでいた記事の文脈をAIへのヒントとして追加 */
+  if(diagEntryCtx && DIAG_CTX_LABELS[diagEntryCtx]){
+    var ctxNote = '（' + DIAG_CTX_LABELS[diagEntryCtx] + 'の記事を読んで診断に来られたお客様です。その系統への興味も考慮してください）';
+    diagAnswers.freeText = diagAnswers.freeText ? diagAnswers.freeText + '\n' + ctxNote : ctxNote;
+  }
 
   showDiagStep('diag-loading', diagTotalSteps);
 
@@ -3288,6 +3357,14 @@ async function issueDiagCoupon(){
     diagCouponState.code = data.code;
     diagCouponState.expiresAt = data.expiresAt * 1000; // Unix秒 → ms
     codeEl.textContent = data.code;
+
+    /* 決済時の自動適用のため保存（既存のLINE系クーポンが入っている場合は上書きしない） */
+    try {
+      var stored = getStoredCoupon();
+      if(!stored || stored.indexOf('AID-') === 0){
+        localStorage.setItem(COUPON_STORAGE_KEY, data.code);
+      }
+    } catch(e){}
 
     /* GA4: クーポン発行 */
     if(typeof ga4Event === 'function'){

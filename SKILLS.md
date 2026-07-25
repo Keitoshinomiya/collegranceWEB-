@@ -28,7 +28,11 @@ k-styleスプシ（https://docs.google.com/spreadsheets/d/1B2Y5Lh670VzwS7TvvPGuh
 ### Step 3: products.json更新
 ```
 ・inStock ON/OFF（リストにある=true、ない=false）
-・価格更新（高い方の卸値 × 1.25 × 1.10、10円切上）
+・価格更新: **2026-07-25新方式** sellPrice = max(標準式, クーポン耐性式) 10円切上
+  - 標準式: 卸値×1.25×1.10 + ¥1,100（送料実費内包）
+  - クーポン耐性式: (卸値+1,100) ÷ 0.77309 + 1,500
+    （¥1,500クーポン適用後の受取額に対して利益率10%を保証。0.77309 = 1/1.1 − Stripe3.6% − 利益10%）
+  - 卸値の優先順: リスキー納品実績(実単価) > メイクアップ・k-styleの高い方
 ・concentration設定（Excelのspec列: EDTSP→EDT, EDPSP→EDP等）
 ・同一商品のサイズ違いは最大サイズのみ表示（小さいサイズはinStock=false）
 ・重複チェック（同ブランド・同名・同サイズ・同濃度）→ 重複あればSlack通知
@@ -40,8 +44,8 @@ k-styleスプシ（https://docs.google.com/spreadsheets/d/1B2Y5Lh670VzwS7TvvPGuh
   ① products.jsonに追加（全必須フィールドを埋める）
   ② concentration（濃度）設定
   ③ Claudeでnotes（Top/Heart/Base）+ description生成
-  ④ 価格計算: sellPrice = ceil((卸値×1.25×1.10 + 700) / 10) × 10
-     ※ 送料¥700内包・10円切上。¥3,000未満は除外（inStock:false）
+  ④ 価格計算: sellPrice = max(ceil((卸値×1.25×1.10+1100)/10)×10, ceil(((卸値+1100)/0.77309+1500)/10)×10)
+     ※ 送料¥1,100内包＋¥1,500クーポン利用時も利益率10%保証（2026-07-25方式）。¥3,000未満は除外（inStock:false）
   ⑤ 画像取得（python fetch-product-images.py --id {新ID}）
      ※ .jpg + .webp 両方を自動生成（2026-05-13〜）
   ⑥ 画像品質チェック（python validate-images.py --id {新ID}）
@@ -87,7 +91,8 @@ k-styleスプシ（https://docs.google.com/spreadsheets/d/1B2Y5Lh670VzwS7TvvPGuh
 ---
 
 ## 2. 価格ルール
-**計算式**: `販売価格 = 高い方の卸値（税抜）× 1.25（マージン）× 1.10（消費税）` → 10円単位切り上げ
+**計算式（2026-07-25改定）**: `販売価格 = max(卸値×1.25×1.10+1,100, (卸値+1,100)÷0.77309+1,500)` → 10円単位切り上げ
+（後者は¥1,500クーポン適用後でも利益率10%を保証する下限。卸値は納品実績＞メイクアップ/k-styleの高い方）
 **対象ファイル**: products.json, catalog_full.json
 
 **仕入れ先比較**:

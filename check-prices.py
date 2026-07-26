@@ -19,6 +19,15 @@ from collections import defaultdict
 
 MARGIN = 1.25
 TAX = 1.10
+# 2026-07-25 新価格方式: ¥1,500クーポン適用後も利益率10%を保証
+SHIP_COST = 1100                 # 送料+資材実費（価格に内包）
+COUPON = 1500                    # 想定最大クーポン
+NET_RATE = 1/1.10 - 0.036        # 税・Stripe手数料控除後の手取り率
+FLOOR_RATE = NET_RATE - 0.10     # さらに利益10%を確保する下限率
+# 手動例外（ユーザー決定の据置価格。フロア割れを許容する）
+PRICE_OVERRIDES = {
+    1: 14500,  # レイジーサンデーモーニング: Amazon実売に合わせる（2026-07-25 四宮決定）
+}
 
 with open('products.json') as f:
     products = json.load(f)
@@ -29,12 +38,23 @@ warnings = []
 verbose = '--verbose' in sys.argv
 
 # ============================================================
-# CHECK 1: sellPrice = cost × 1.25 × 1.10 (10円切上)
+# CHECK 1: sellPrice ≧ max(標準式, クーポン耐性フロア)（2026-07-25方式）
+#   標準式        : cost×1.25×1.10 + 1,100
+#   クーポン耐性式 : (cost+1,100) ÷ FLOOR_RATE + 1,500
+#   下回っていれば損失リスクとしてエラー。上回る分（据置維持等）は許容。
 # ============================================================
 for x in instock:
-    expected = math.ceil(x['cost'] * MARGIN * TAX / 10) * 10
-    if x['sellPrice'] != expected:
-        errors.append(f"[計算] id={x['id']} {x['brand']} {x['name']} cost=¥{x['cost']:,} 計算=¥{expected:,} 実際=¥{x['sellPrice']:,}")
+    std = math.ceil((x['cost'] * MARGIN * TAX + SHIP_COST) / 10) * 10
+    floor = math.ceil(((x['cost'] + SHIP_COST) / FLOOR_RATE + COUPON) / 10) * 10
+    expected = max(std, floor)
+    if x['id'] in PRICE_OVERRIDES:
+        if x['sellPrice'] != PRICE_OVERRIDES[x['id']]:
+            errors.append(f"[手動例外ズレ] id={x['id']} {x['brand']} {x['name']} 例外定義=¥{PRICE_OVERRIDES[x['id']]:,} 実際=¥{x['sellPrice']:,}")
+        continue
+    if x['sellPrice'] < expected:
+        errors.append(f"[価格不足/損失リスク] id={x['id']} {x['brand']} {x['name']} cost=¥{x['cost']:,} 必要=¥{expected:,} 実際=¥{x['sellPrice']:,}")
+    elif x['sellPrice'] > expected + 3000:
+        warnings.append(f"[割高注意] id={x['id']} {x['brand']} {x['name']} 基準=¥{expected:,} 実際=¥{x['sellPrice']:,}")
 
 # ============================================================
 # CHECK 2: 同一商品の大サイズが小サイズより安くないか
@@ -165,8 +185,8 @@ kstyle_data = {
     ('DIPTYQUE', 'Fleur de Peau', '75'): 20500,
     ('YSL', 'MYSLF', '100'): 13500,
     ('YSL', 'Mon Paris', '90'): 13800,
-    ('HERMÈS', 'ナイルの庭', '100'): 8600,
-    ('HERMÈS', '地中海の庭', '100'): 10900,
+    ('HERMÈS', 'ナイルの庭', '100'): 8400,  # 納品実績 2026-06
+    ('HERMÈS', '地中海の庭', '100'): 10100,  # k-styleスプシ 2026-07-25
     ('HERMÈS', '李氏の庭', '100'): 10050,
     ('Chloé', 'Chloé EDP', '75'): 8500,
     ('Jo Malone London', 'Wood Sage', '100'): 11500,

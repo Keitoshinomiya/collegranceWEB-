@@ -6,6 +6,33 @@
  */
 const journalArticles = [
     {
+        id: 'jo_malone_wood_sage_sea_salt_review_similar',
+        date: '2026-08-04',
+        category: 'REVIEW',
+        title: 'ジョーマローン ウッドセージ&シーソルト レビュー｜どんな香り？似てる香水も紹介',
+        excerpt: 'ジョーマローンの人気No.1「ウッドセージ&シーソルト」はどんな香り？海塩とセージが描く抜け感を徹底レビュー。口コミ傾向、メンズが使えるか、似てる香水まで解説します。',
+        image: 'assets/images/journal/jo-malone-wood-sage-sea-salt-review-similar.png',
+        link: 'article-jo-malone-wood-sage-sea-salt-review-similar.html'
+    },
+    {
+        id: 'woody_perfume_womens_recommended',
+        date: '2026-08-04',
+        category: 'REVIEW',
+        title: 'ウッディ系香水 レディースおすすめ5選｜甘くない、大人の女性の香り',
+        excerpt: 'ウッディ系香水のレディースおすすめを5本厳選。甘い香りに飽きた大人の女性へ、サンダルウッドやシダーが描く落ち着いた色気と、失敗しない選び方を解説します。',
+        image: 'assets/images/journal/woody-perfume-womens-recommended.png',
+        link: 'article-woody-perfume-womens-recommended.html'
+    },
+    {
+        id: 'le_labo_santal_33_review_similar',
+        date: '2026-08-04',
+        category: 'REVIEW',
+        title: 'ルラボ サンタル33はどんな香り？レビュー・似てる香水・人気の理由を解説',
+        excerpt: 'LE LABO(ルラボ)の代名詞サンタル33はどんな香り？サンダルウッド×カーダモン×レザーの香調を徹底レビュー。人気の理由、口コミの傾向、似てる香水まで解説します。',
+        image: 'assets/images/journal/le-labo-santal-33-review-similar.png',
+        link: 'article-le-labo-santal-33-review-similar.html'
+    },
+    {
         id: 'collegrance_popular_ranking_2026_first_half',
         date: '2026-06-28',
         category: 'RANKING',

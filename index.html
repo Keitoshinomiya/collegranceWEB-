@@ -1568,9 +1568,14 @@
           </div>
           <div style="font-size:.52rem;letter-spacing:.12em;color:#999;text-transform:uppercase;margin-bottom:12px">Recommendations</div>
           <div id="diag-result-list"></div>
-          <div style="display:flex;gap:8px;margin-top:16px">
+          <!-- 💬 診断結果のLINE保存（Phase 1: 保存コード方式） -->
+          <div id="diag-line-save" style="display:none;margin-top:16px">
+            <a id="diag-line-save-btn" href="#" target="_blank" rel="noopener" onclick="trackDiagLineSave()" style="display:block;text-align:center;padding:14px;background:#06C755;color:#fff;border-radius:4px;text-decoration:none;font-size:.66rem;font-weight:600;letter-spacing:.04em"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg> LINEで診断結果を保存する</a>
+            <div style="font-size:.5rem;color:#999;text-align:center;margin-top:6px;line-height:1.6">LINEで友だち追加すると、診断結果とクーポンが<br>トークに届きます（いつでも見返せます）</div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:12px">
             <button onclick="restartDiagnosis()" style="flex:1;padding:12px;background:none;border:1px solid #e8e8e8;font-family:var(--font);font-size:.62rem;cursor:pointer;border-radius:2px">もう一度診断</button>
-            <button onclick="shareDiagLine()" style="flex:1;padding:12px;background:#06C755;color:#fff;border:none;font-family:var(--font);font-size:.62rem;cursor:pointer;border-radius:2px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8a2 2 0 012-2h13a2 2 0 012 2v8.5a2 2 0 01-2 2h-13a2 2 0 01-2-2V8zM4.8 7.6l7.2 5.4 7.2-5.4"/></svg> 診断結果をLINEに送る</button>
+            <button onclick="shareDiagLine()" style="flex:1;padding:12px;background:none;border:1px solid #06C755;color:#06C755;font-family:var(--font);font-size:.62rem;cursor:pointer;border-radius:2px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06C755" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8a2 2 0 012-2h13a2 2 0 012 2v8.5a2 2 0 01-2 2h-13a2 2 0 01-2-2V8zM4.8 7.6l7.2 5.4 7.2-5.4"/></svg> 友だちにシェア</button>
           </div>
           <div style="text-align:center;margin-top:10px">
             <button onclick="closeDiagnosis()" style="background:none;border:none;font-family:var(--font);font-size:.58rem;color:#999;cursor:pointer;letter-spacing:.06em">ショップに戻る</button>
@@ -3164,7 +3169,8 @@ function diagNewAnswer(key, val){
   ga4Event('ai_diagnosis_answer', { session_id: diagSessionId, question: key, answer: val });
   var next = newNextStep[key];
   if(next){
-    showDiagStep(newStepMap[next] || 'diag-c1', newStepNum[next] || 6);
+    /* newStepMap[key] = そのキーに答えた後に表示する画面（2026-07-28修正: next で引くと1段飛んで diag-n3/diag-n5 が表示されないバグがあった） */
+    showDiagStep(newStepMap[key] || 'diag-c1', newStepNum[key] || 6);
   } else {
     document.getElementById('diag-c1-step').textContent = 'Step 6 / 8';
     showDiagStep('diag-c1', 6);
@@ -3264,6 +3270,9 @@ function showDiagResult(data){
     return PRODUCTS.some(function(x){ return x.id === numId && x.inStock !== false; });
   });
   if(validRecs.length === 0) validRecs = data.recommendations; /* 万が一全滅ならそのまま表示 */
+  diagLastRecs = validRecs; /* LINE保存用に保持 */
+  var saveBox = document.getElementById('diag-line-save');
+  if(saveBox) saveBox.style.display = 'none'; /* 再診断時は新コード取得まで非表示 */
   list.innerHTML = validRecs.map(function(rec, idx){
     /* Parse productId — AI may return "id=16", "16", 16, or product code like "HER1273" */
     var rawId = String(rec.productId || '').replace(/^id=/,'');
@@ -3379,10 +3388,61 @@ async function issueDiagCoupon(){
     if(diagCouponState.timerInterval) clearInterval(diagCouponState.timerInterval);
     updateDiagCouponTimer();
     diagCouponState.timerInterval = setInterval(updateDiagCouponTimer, 1000 * 30); // 30秒ごと更新
+
+    /* 💬 診断結果をWorkerへ保存（LINE保存ボタン有効化） */
+    submitDiagSave(data.code);
   } catch(err){
     console.error('Coupon issue error:', err);
     codeEl.textContent = '⚠️ 取得失敗';
     if(timerEl) timerEl.textContent = '時間をおいて再度お試しください';
+    submitDiagSave(''); /* クーポン失敗でもLINE保存は有効にする */
+  }
+}
+
+/* ===== 💬 診断結果のLINE保存（Phase 1・保存コード方式） =====
+   Worker(/api/diagnosis/submit)に結果を保存→保存コードDIAG-XXXXXXを取得。
+   ボタンは line.me/R/oaMessage でLINEを開き、コード付きメッセージを送信すると
+   Worker webhookが友だちと紐付けて結果サマリーを返信する。 */
+var diagLastRecs = null;
+var diagSaveCode = '';
+
+async function submitDiagSave(couponCode){
+  if(!diagLastRecs || !diagLastRecs.length) return;
+  try {
+    var recsPayload = diagLastRecs.slice(0,3).map(function(rec){
+      var numId = parseInt(String(rec.productId || '').replace(/^id=/,''));
+      return { id: numId, name: rec.name || '', brand: rec.brand || '' };
+    });
+    var top = recsPayload[0];
+    var topProduct = PRODUCTS.find(function(x){ return x.id === top.id; });
+    var res = await fetch('https://line-crm-worker.shinomiya-keito.workers.dev/api/diagnosis/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        session_id: diagSessionId || '',
+        answers: diagAnswers,
+        recommendations: recsPayload,
+        top_pick: { id: top.id, name: top.name, brand: top.brand, asin: (topProduct && topProduct.amazonAsin) ? topProduct.amazonAsin : '' },
+        coupon_code: couponCode || ''
+      })
+    });
+    var data = await res.json();
+    if(data && data.success && data.data && data.data.save_code){
+      diagSaveCode = data.data.save_code;
+      var btn = document.getElementById('diag-line-save-btn');
+      var box = document.getElementById('diag-line-save');
+      if(btn && box){
+        /* 1タップ保存: Worker → LINEログイン(友だち追加つき) → 自動紐付け → 結果がLINEに届く */
+        btn.href = 'https://line-crm-worker.shinomiya-keito.workers.dev/diagnosis/save?sid=' + encodeURIComponent(diagSessionId || '');
+        box.style.display = 'block';
+      }
+    }
+  } catch(e){ console.error('diag save submit error:', e); }
+}
+
+function trackDiagLineSave(){
+  if(typeof ga4Event === 'function'){
+    ga4Event('diagnosis_line_save_click', { session_id: diagSessionId || '', save_code: diagSaveCode || '' });
   }
 }
 

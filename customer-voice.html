@@ -216,6 +216,41 @@
     </div>
   </section>
 
+  <!-- ===== HOW WE COLLECT ===== -->
+  <style>
+    .how-section{max-width:900px;margin:0 auto;padding:56px 24px 8px;text-align:center}
+    .how-title{font-size:.68rem;letter-spacing:.22em;color:var(--light);text-transform:uppercase;margin-bottom:14px}
+    .how-lead{font-size:.88rem;color:var(--sub);line-height:2;margin-bottom:34px}
+    .how-steps{display:flex;justify-content:center;gap:0;flex-wrap:wrap}
+    .how-step{flex:1;min-width:200px;max-width:280px;padding:22px 18px;border:1px solid var(--border);background:#fff;position:relative}
+    .how-step + .how-step{margin-left:-1px}
+    .how-step-num{font-family:Georgia,serif;font-size:1.3rem;color:var(--light);margin-bottom:8px}
+    .how-step-t{font-size:.84rem;font-weight:500;margin-bottom:6px}
+    .how-step-d{font-size:.76rem;color:var(--sub);line-height:1.9}
+    @media(max-width:680px){.how-step{max-width:100%;flex:none;width:100%}.how-step + .how-step{margin-left:0;margin-top:-1px}}
+  </style>
+  <section class="how-section">
+    <div class="how-title">How We Collect</div>
+    <p class="how-lead">このページの声は、広告やレビューサイトからの転載ではありません。<br>実際にご購入いただいた方から、LINEを通じて直接いただいた回答だけを掲載しています。</p>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-step-num">01</div>
+        <div class="how-step-t">ご購入・お受け取り</div>
+        <div class="how-step-d">商品がお手元に届いた方だけが対象です。</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">02</div>
+        <div class="how-step-t">LINEでアンケート</div>
+        <div class="how-step-d">COLLEGRANCE公式LINEから、使い心地のアンケートをお送りしています。</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">03</div>
+        <div class="how-step-t">同意いただいた声のみ掲載</div>
+        <div class="how-step-d">掲載に同意いただいた回答を、添削せず原文のまま掲載しています。</div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== RANKING ===== -->
   <section class="voice-section">
     <div class="section-eyebrow">Most Loved</div>
@@ -234,7 +269,7 @@
   <section class="voice-section" id="fb-voice-section" style="display:none">
     <div class="section-eyebrow">Full Bottle</div>
     <h2 class="section-title">フルボトルを選んだ方の声</h2>
-    <p class="section-sub">小分けで試したあと、フルボトルを手にされた方のご感想と「購入の決め手」です。</p>
+    <p class="section-sub">小分けで試したあと、フルボトルを手にされた方に公式LINEでお届けするアンケートより。ご感想と「購入の決め手」を掲載しています。</p>
     <div class="voice-feed" id="fb-voice-feed"></div>
   </section>
 
@@ -249,7 +284,7 @@
   <section class="voice-section" id="winner-voice-section" style="display:none">
     <div class="section-eyebrow">Grand Prize</div>
     <h2 class="section-title">抽選1等・フルボトル当選者の声</h2>
-    <p class="section-sub">LINE抽選の1等（フルボトル1本）に当選された方の、受け取り時のお気持ちです。</p>
+    <p class="section-sub">公式LINEの抽選で1等（フルボトル1本）に当選された方が、受け取りフォームに寄せてくださったお気持ちです。</p>
     <div class="winner-stats" id="winner-stats"></div>
     <div class="voice-feed" id="winner-voice-feed"></div>
   </section>
@@ -259,7 +294,7 @@
     <section class="voice-section">
       <div class="section-eyebrow">Real Voices</div>
       <h2 class="section-title">みなさまの声</h2>
-      <p class="section-sub">匿名でのご掲載に同意いただいた方の、ありのままのお声です。</p>
+      <p class="section-sub">お試し香水をご購入いただいた方に公式LINEのアンケートでいただいた回答のうち、匿名でのご掲載に同意いただいたお声を、原文のまま掲載しています。</p>
       <div class="voice-feed" id="voice-feed">
         <div class="loading">読み込んでいます…</div>
       </div>

@@ -253,9 +253,9 @@
 
   <!-- ===== RANKING ===== -->
   <section class="voice-section">
-    <div class="section-eyebrow">Most Loved</div>
-    <h2 class="section-title">満足度の高い香り</h2>
-    <p class="section-sub">お試しいただいた方からの評価が高かった香り。気になる一本があれば、まずは小分けから。</p>
+    <div class="section-eyebrow">Most Chosen</div>
+    <h2 class="section-title">選ばれている香り</h2>
+    <p class="section-sub">いただいたお声の多い順に並べています。気になる一本があれば、まずは小分けから。</p>
     <div class="ranking-list" id="ranking-list">
       <div class="loading">読み込んでいます…</div>
     </div>
@@ -388,7 +388,7 @@
     function renderRanking(byProduct){
       const ranked = byProduct
         .filter(p => p.count >= 3 && p.avgRating !== null)
-        .sort((a, b) => (b.avgRating - a.avgRating) || (b.count - a.count))
+        .sort((a, b) => (b.count - a.count) || (b.avgRating - a.avgRating))
         .slice(0, 8);
       if(!ranked.length){
         document.getElementById('ranking-list').innerHTML = '<p class="loading">表示できるデータがまだ揃っていません。</p>';

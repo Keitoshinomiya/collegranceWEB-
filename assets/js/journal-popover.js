@@ -39,6 +39,9 @@
             u = u.replace(/([?&])q=\d+/, '$1q=70');
             return u;
         }
+        if (/assets\/images\/journal\/.+\.(png|jpe?g)$/.test(url)) {
+            return url.replace(/\.(png|jpe?g)$/, '.webp');
+        }
         return url;
     }
 

@@ -158,6 +158,17 @@ def generate_image_with_gemini(prompt: str, slug: str) -> Optional[str]:
                     f.write(base64.b64decode(b64_data))
 
                 print(f"  画像保存: {filepath}")
+                # webp sibling生成（表示用・幅1200/q80。pngはOG画像用に残す）
+                try:
+                    from PIL import Image as _Img
+                    _im = _Img.open(filepath)
+                    if _im.mode in ("RGBA", "P"):
+                        _im = _im.convert("RGB")
+                    if _im.width > 1200:
+                        _im = _im.resize((1200, int(_im.height * 1200 / _im.width)), _Img.LANCZOS)
+                    _im.save(filepath.rsplit(".", 1)[0] + ".webp", "WEBP", quality=80)
+                except Exception as _e:
+                    print(f"  [WARN] webp生成失敗: {_e}")
                 return f"assets/images/journal/{filename}"
 
         print("  [ERROR] Gemini: 画像データが見つかりません")
@@ -185,6 +196,7 @@ def build_article_html(article: Dict[str, Any], image_path: str, category: str) 
     body_html = article['body_html']
 
     og_image_url = f"https://collegrance.com/{image_path}" if image_path else "https://collegrance.com/assets/images/logo.png"
+    hero_image_path = image_path.rsplit(".", 1)[0] + ".webp" if image_path else ""
     canonical_url = f"https://collegrance.com/article-{slug}.html"
 
     html = f'''<!DOCTYPE html>
@@ -423,7 +435,7 @@ def build_article_html(article: Dict[str, Any], image_path: str, category: str) 
     </div>
 
     <div class="article-body">
-        <img src="{image_path}" alt="{title}" class="article-image">
+        <img src="{hero_image_path}" alt="{title}" class="article-image">
 
         {body_html}
     </div>

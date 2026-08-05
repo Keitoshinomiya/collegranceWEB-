@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const megaMenuHTML = `
                     <a href="${latestArticle.link}" class="featured-card">
                         <div class="featured-image">
-                            <img src="${latestArticle.image}" alt="${latestArticle.title}">
+                            <img src="${latestArticle.image.replace(/\.(png|jpe?g)$/, '.webp')}" alt="${latestArticle.title}" loading="lazy">
                         </div>
                         <div class="featured-info">
                             <h4>${latestArticle.title}</h4>

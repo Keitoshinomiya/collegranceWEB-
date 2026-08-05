@@ -300,6 +300,16 @@ def esc(s):
             .replace(">", "&gt;").replace('"', "&quot;"))
 
 
+def disp_img(path):
+    """表示用画像パス: webp siblingがあればwebpを返す（og/JSON-LDは元のまま）"""
+    base, ext = os.path.splitext(path)
+    if ext.lower() in (".png", ".jpg", ".jpeg"):
+        webp = base + ".webp"
+        if os.path.exists(os.path.join(ROOT, webp)):
+            return webp
+    return path
+
+
 def cta_block(ctx=""):
     diag = "/?diagnosis=1" + ("&ctx=" + ctx if ctx else "")
     g = "typeof gtag!=='undefined'&&gtag"
@@ -319,7 +329,7 @@ def related_cards(items):
     for a in items:
         cards += f"""
     <a class="cg-rel-card" href="/{a['link']}" onclick="typeof gtag!=='undefined'&&gtag('event','click_related_article',{{'event_category':'circulation','event_label':'{a['link']}'}});">
-      <img src="/{a['image']}" alt="{esc(a['title'])}" loading="lazy">
+      <img src="/{disp_img(a['image'])}" alt="{esc(a['title'])}" loading="lazy">
       <div class="cg-rel-body">
         <div class="cg-rel-cat">{a['category']}</div>
         <div class="cg-rel-title">{esc(a['title'])}</div>
@@ -451,7 +461,7 @@ def hub_page_html(hub, items, all_hubs_with_items):
     for a in items:
         cards += f"""
       <a class="cg-rel-card" href="/{a['link']}">
-        <img src="/{a['image']}" alt="{esc(a['title'])}" loading="lazy">
+        <img src="/{disp_img(a['image'])}" alt="{esc(a['title'])}" loading="lazy">
         <div class="cg-rel-body">
           <div class="cg-rel-cat">{a['category']} / {a['date'].replace('-', '.')}</div>
           <div class="cg-rel-title">{esc(a['title'])}</div>
@@ -555,7 +565,7 @@ def journal_static_cards(articles):
     for a in pub:
         html += f"""
 <a href="{a['link']}" class="journal-card">
-  <img class="journal-card-img" src="{a['image']}" alt="{esc(a['title'])}" loading="lazy">
+  <img class="journal-card-img" src="{disp_img(a['image'])}" alt="{esc(a['title'])}" loading="lazy">
   <div class="journal-card-body">
     <div class="journal-card-meta"><span class="journal-card-cat">{a['category']}</span><span class="journal-card-date">{a['date'].replace('-', '.')}</span></div>
     <div class="journal-card-title">{esc(a['title'])}</div>
@@ -571,7 +581,7 @@ def index_static_cards(articles):
     html = ""
     for a in pub[:4]:
         html += (f'<a href="{a["link"]}" class="jp-card">'
-                 f'<img src="{a["image"]}" alt="{esc(a["title"])}" class="jp-card-img" loading="lazy">'
+                 f'<img src="{disp_img(a["image"])}" alt="{esc(a["title"])}" class="jp-card-img" loading="lazy">'
                  f'<div class="jp-card-body"><div class="jp-cat">{a["category"]}</div>'
                  f'<div class="jp-title">{esc(a["title"])}</div></div></a>')
     return html

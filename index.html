@@ -1715,6 +1715,7 @@ async function loadProducts(){
     populateBrandTiles();
     populateJournalPicks();
     buildGrid();
+    restoreCart(); /* 保存済みカートの復元（7日以内・在庫あり商品のみ） */
     /* Update tab counts */
     var allCount = PRODUCTS.filter(function(p){ return p.inStock !== false; }).length;
     var el = document.getElementById('count-all');
@@ -2290,6 +2291,66 @@ document.addEventListener('keydown', function(e){
 /* ===== CART ===== */
 var cart = [];
 
+/* === カート永続化 & カゴ落ちスナップショット (2026-08-05 カゴ落ちLINEフォロー) ===
+   - カートは clg_cart_v1 に7日間保存（従来はメモリのみ＝リロードで消えていた）
+   - lfid保有者（LINE経由訪問者）のみ、カート内容を line-harness Worker へ送信
+     → 放置3時間でLINEフォロー配信。INTEGRATION_CONTRACT.md「カゴ落ちLINEフォロー」参照 */
+var CART_STORAGE_KEY = 'clg_cart_v1';
+var CART_TTL_MS = 7 * 24 * 60 * 60 * 1000; /* 7日 */
+var CART_SNAPSHOT_API = 'https://line-crm-worker.shinomiya-keito.workers.dev/api/cart/snapshot';
+
+function persistCart(){
+  try {
+    if(cart.length === 0){ localStorage.removeItem(CART_STORAGE_KEY); return; }
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify({
+      items: cart.map(function(c){ return { id: c.id, qty: c.qty }; }),
+      updated_at: Date.now()
+    }));
+  } catch(e){}
+}
+
+/* loadProducts() 完了後に1回だけ呼ぶ（PRODUCTS が要るため） */
+function restoreCart(){
+  try {
+    if(location.search.includes('ok=1')){ localStorage.removeItem(CART_STORAGE_KEY); return; }
+    var saved = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || 'null');
+    if(!saved || !saved.items || !saved.updated_at) return;
+    if(Date.now() - saved.updated_at > CART_TTL_MS){ localStorage.removeItem(CART_STORAGE_KEY); return; }
+    saved.items.forEach(function(it){
+      var p = PRODUCTS.find(function(x){ return x.id === it.id; });
+      if(!p || p.inStock === false) return;
+      if(cart.find(function(x){ return x.id === it.id; })) return;
+      cart.push(Object.assign({}, p, { qty: Math.min(Math.max(it.qty || 1, 1), 99) }));
+    });
+    if(cart.length) refreshCart();
+  } catch(e){}
+}
+
+/* Worker へのスナップショット送信（lfid が無い訪問者は何も送らない） */
+var _snapshotTimer = null;
+function buildSnapshotPayload(){
+  var fid = '';
+  try { fid = localStorage.getItem('clg_line_friend_id') || ''; } catch(e){}
+  if(!fid) return null;
+  return JSON.stringify({
+    friend_id: fid,
+    items: cart.map(function(c){ return { id: c.id, name: c.brand + ' ' + (c.nameJa || c.name), qty: c.qty, price: c.sellPrice }; }),
+    total_jpy: cart.reduce(function(s,c){ return s + c.sellPrice * c.qty; }, 0)
+  });
+}
+function scheduleCartSnapshot(){
+  if(_snapshotTimer) clearTimeout(_snapshotTimer);
+  _snapshotTimer = setTimeout(sendCartSnapshot, 30000); /* 30秒debounce */
+}
+function sendCartSnapshot(){
+  var payload = buildSnapshotPayload();
+  if(payload === null) return;
+  /* text/plain = simple request（preflight無し・sendBeaconと同条件）。Worker側は text で受けてJSON.parseする */
+  try {
+    fetch(CART_SNAPSHOT_API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: payload, keepalive: true }).catch(function(){});
+  } catch(e){}
+}
+
 function toggleCouponInput(){
   var area = document.getElementById('coupon-input-area');
   var toggle = document.getElementById('coupon-toggle-text');
@@ -2520,6 +2581,10 @@ function refreshCart(){
       '</div>';
     }).join('');
   }
+
+  /* カート永続化＋カゴ落ちスナップショット（変更起点は全て refreshCart を通る） */
+  persistCart();
+  scheduleCartSnapshot();
 }
 
 function openCart(){
@@ -2698,6 +2763,12 @@ var _pendingRecommendLP = false;
       localStorage.setItem('clg_line_friend_id', _lfid);
     }
   } catch(e){}
+  /* === カゴ落ちフォローLINEからの復帰計測（?from=line_cart・2026-08-05） === */
+  if(params.get('from') === 'line_cart'){
+    window.addEventListener('load', function(){
+      ga4Event('cart_recovery_return', { source: 'line' });
+    });
+  }
 })();
 
 function showSampleLP(productId){
@@ -3657,6 +3728,13 @@ window.addEventListener('beforeunload', function(){
     var total = cart.reduce(function(s,c){ return s + c.sellPrice * c.qty; }, 0);
     ga4Event('cart_abandonment', { currency: 'JPY', value: total, items: items, item_count: cart.length });
   }
+  /* カゴ落ちスナップショット即時送信（30秒debounce待ちを打ち切り。カート空も送って cleared 化） */
+  try {
+    var _snap = buildSnapshotPayload();
+    if(_snap !== null && navigator.sendBeacon){
+      navigator.sendBeacon(CART_SNAPSHOT_API, _snap);
+    }
+  } catch(e){}
 });
 </script>
 <div class="cart-toast" id="cart-toast">

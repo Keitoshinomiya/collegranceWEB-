@@ -478,6 +478,13 @@ def hub_page_html(hub, items, all_hubs_with_items):
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+      gtag('config', 'G-6DM95225F6');
+    </script>
     <script src="/assets/js/tracking.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{esc(page_title)} - COLLEGRANCE</title>

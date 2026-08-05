@@ -238,6 +238,22 @@
     <div class="voice-feed" id="fb-voice-feed"></div>
   </section>
 
+  <!-- ===== LOTTERY GRAND WINNERS ===== -->
+  <style>
+    .winner-stats{text-align:center;margin-bottom:26px;font-size:.92rem;color:var(--sub);line-height:2}
+    .winner-stats .winner-count{font-size:1.6rem;color:var(--text);font-weight:500;margin:0 4px}
+    .winner-bottle-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
+    .winner-bottle-tag{border:1px solid var(--border);padding:4px 12px;font-size:.8rem;color:var(--sub);background:#fff}
+    .voice-winner-name{font-size:.84rem;color:var(--sub);margin-top:10px;text-align:right}
+  </style>
+  <section class="voice-section" id="winner-voice-section" style="display:none">
+    <div class="section-eyebrow">Grand Prize</div>
+    <h2 class="section-title">抽選1等・フルボトル当選者の声</h2>
+    <p class="section-sub">LINE抽選の1等（フルボトル1本）に当選された方の、受け取り時のお気持ちです。</p>
+    <div class="winner-stats" id="winner-stats"></div>
+    <div class="voice-feed" id="winner-voice-feed"></div>
+  </section>
+
   <!-- ===== VOICE FEED ===== -->
   <div class="voice-feed-wrap">
     <section class="voice-section">
@@ -434,6 +450,30 @@
       } catch(e){ console.error('fullbottle voices failed:', e); }
     }
 
+    async function loadWinnerVoices(){
+      try {
+        const r = await fetch(`${API_BASE}/api/public/reviews/winners`);
+        const data = await r.json();
+        const voices = data.voices || [];
+        const stats = data.stats || {};
+        if(!voices.length) return; // 掲載同意済みの声が集まるまでセクションごと非表示
+        if(stats.grandBottleCount){
+          const tags = (stats.bottles || []).map(b =>
+            `<span class="winner-bottle-tag">${escapeHTML(b.name)} × ${b.count}本</span>`).join('');
+          document.getElementById('winner-stats').innerHTML =
+            `これまでに<span class="winner-count">${stats.grandBottleCount}</span>本のフルボトルをお渡ししました` +
+            `<div class="winner-bottle-tags">${tags}</div>`;
+        }
+        document.getElementById('winner-voice-feed').innerHTML = voices.map(v => `
+          <div class="voice-card">
+            ${v.rating ? `<div class="voice-rating">${ratingStars(v.rating)}</div>` : ''}
+            <p class="voice-text">${escapeHTML(v.voice)}</p>
+            <div class="voice-winner-name">${escapeHTML(v.name)} 様${v.bottle ? `（${escapeHTML(v.bottle)} ご当選）` : ''}</div>
+          </div>`).join('');
+        document.getElementById('winner-voice-section').style.display = '';
+      } catch(e){ console.error('winner voices failed:', e); }
+    }
+
     async function loadMoreVoices(){
       const btn = document.getElementById('load-more-btn');
       btn.disabled = true; btn.textContent = '読み込み中…';
@@ -456,7 +496,7 @@
 
     (async function init(){
       await loadProducts();
-      await Promise.all([loadAggregate(), loadVoices(), loadFullbottleVoices()]);
+      await Promise.all([loadAggregate(), loadVoices(), loadFullbottleVoices(), loadWinnerVoices()]);
     })();
   </script>
 </body>

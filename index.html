@@ -2633,7 +2633,7 @@ async function doCheckout(){
   /* Channel & diagnosis metadata */
   var ch = (window.CLGTracking && window.CLGTracking.getChannelData()) || {};
   var diagSession = '';
-  try { var ds = JSON.parse(localStorage.getItem('clg_diagnosis_session') || '{}'); diagSession = ds.sessionId || ''; } catch(e){}
+  try { var ds = JSON.parse(localStorage.getItem('clg_diag_session') || '{}'); diagSession = ds.sessionId || ''; } catch(e){}
 
   /* LINE Friend ID（LINE経由訪問時に ?lfid= で保存されたID） */
   var lineFriendId = '';

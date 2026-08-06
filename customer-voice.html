@@ -343,6 +343,17 @@
 
   <script>
     const API_BASE = 'https://line-crm-worker.shinomiya-keito.workers.dev';
+
+    /* === LINE Friend ID キャッチ（?lfid=XXX・2026-08-06 一斉配信Cアーム対応） ===
+       index.html と同じ仕様。ここで保存しておくと、その後トップに移動して
+       カートに入れた場合もカゴ落ちフォロー・購入紐付けが機能する */
+    try {
+      var _lfid = new URLSearchParams(location.search).get('lfid');
+      if(_lfid && /^[a-zA-Z0-9-]{6,64}$/.test(_lfid)){
+        localStorage.setItem('clg_line_friend_id', _lfid);
+      }
+    } catch(e){}
+
     let PRODUCTS = [];
     let voicesLoaded = 0;
     const VOICES_PAGE_SIZE = 30;

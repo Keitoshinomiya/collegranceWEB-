@@ -1,4 +1,32 @@
 {
+ "article-womens-perfume-40s-recommended-mature.html": {
+  "brands": [],
+  "notes": [],
+  "scenes": [
+   "age",
+   "womens"
+  ],
+  "category": "REVIEW"
+ },
+ "article-womens-perfume-30s-recommended-elegant.html": {
+  "brands": [],
+  "notes": [],
+  "scenes": [
+   "age",
+   "womens"
+  ],
+  "category": "REVIEW"
+ },
+ "article-margiela-jazz-club-review-how-scent.html": {
+  "brands": [
+   "margiela"
+  ],
+  "notes": [],
+  "scenes": [
+   "womens"
+  ],
+  "category": "REVIEW"
+ },
  "article-jo-malone-wood-sage-sea-salt-review-similar.html": {
   "brands": [
    "jo-malone"
@@ -223,7 +251,9 @@
    "citrus"
   ],
   "scenes": [
-   "season"
+   "mens",
+   "season",
+   "womens"
   ],
   "category": "REVIEW"
  },
@@ -728,7 +758,9 @@
   "notes": [],
   "scenes": [
    "age",
-   "mens"
+   "date",
+   "mens",
+   "office"
   ],
   "category": "LIFESTYLE"
  },

@@ -6,6 +6,33 @@
  */
 const journalArticles = [
     {
+        id: 'womens_perfume_40s_recommended_mature',
+        date: '2026-08-06',
+        category: 'REVIEW',
+        title: '40代女性におすすめの香水5選｜若作りせず品よく香る大人の名香',
+        excerpt: '40代女性におすすめの香水を5本厳選。甘すぎる香りは卒業して、品と余裕で選ぶ大人の名香を紹介。若作りに見えない香り選びのコツも解説します。',
+        image: 'assets/images/journal/womens-perfume-40s-recommended-mature.png',
+        link: 'article-womens-perfume-40s-recommended-mature.html'
+    },
+    {
+        id: 'womens_perfume_30s_recommended_elegant',
+        date: '2026-08-06',
+        category: 'REVIEW',
+        title: '30代女性におすすめの香水5選｜上品で褒められる大人の香りの選び方',
+        excerpt: '30代女性におすすめの香水を5本厳選。20代の頃と同じ香りに違和感が出てきた方へ、上品で褒められる大人の香りと失敗しない選び方を解説します。',
+        image: 'assets/images/journal/womens-perfume-30s-recommended-elegant.png',
+        link: 'article-womens-perfume-30s-recommended-elegant.html'
+    },
+    {
+        id: 'margiela_jazz_club_review_how_scent',
+        date: '2026-08-06',
+        category: 'REVIEW',
+        title: 'マルジェラ ジャズクラブはどんな香り？レビュー・口コミ・女性も使えるか解説',
+        excerpt: 'マルジェラ REPLICA「ジャズクラブ」はどんな香り？ラム×タバコ×バニラの大人の香調を徹底レビュー。口コミの傾向、持続時間、女性も使えるかまで解説します。',
+        image: 'assets/images/journal/margiela-jazz-club-review-how-scent.png',
+        link: 'article-margiela-jazz-club-review-how-scent.html'
+    },
+    {
         id: 'jo_malone_wood_sage_sea_salt_review_similar',
         date: '2026-08-04',
         category: 'REVIEW',
@@ -228,7 +255,7 @@ const journalArticles = [
         id: 'citrus_perfume_recommended_spring_summer',
         date: '2026-04-18',
         category: 'REVIEW',
-        title: '【春夏の相棒】シトラス系香水おすすめ7選｜爽やかに駆け抜ける柑橘フレグランスの選び方',
+        title: '柑橘系・シトラス香水おすすめ7選｜夏に爽やかなメンズ・レディースの選び方',
         excerpt: '春夏に最適なシトラス系香水を7本厳選。レモン・ベルガモット・グレープフルーツなど、爽やかな柑橘フレグランスの選び方と使いこなし方を解説。',
         image: 'assets/images/journal/citrus-perfume-recommended-spring-summer.png',
         link: 'article-citrus-perfume-recommended-spring-summer.html',
@@ -771,7 +798,7 @@ const journalArticles = [
         id: 'mens_fragrance_30s_attractive',
         date: '2026-02-24',
         category: 'LIFESTYLE',
-        title: '30代メンズにおすすめの香水｜本当にモテる大人の香りの選び方と厳選3本',
+        title: '30代メンズにおすすめの香水5選｜ビジネスもデートも使える大人の香りの選び方',
         excerpt: '30代男性が本当にモテるための香水選びのコツとは？「いい匂い」と思わせる距離感と、女性ウケ抜群のおすすめ香水を香りのプロが厳選して紹介します。',
         image: 'assets/images/journal/mens-fragrance-30s-attractive.png',
         link: 'article-mens-fragrance-30s-attractive.html',

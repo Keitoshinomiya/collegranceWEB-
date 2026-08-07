@@ -13,7 +13,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>お客様の声 - COLLEGRANCE (コレグランス) | 体験者のリアルなレビュー</title>
-  <meta name="description" content="COLLEGRANCEで香水をお試しいただいたお客様の声。1,000人以上のリアルなレビューと満足度をご覧いただけます。気になる香りは、まず小分けから。">
+  <meta name="description" content="COLLEGRANCEで香水をお試しいただいたお客様の声。累計2,000人以上のリアルなレビューと満足度をご覧いただけます。気になる香りは、まず小分けから。">
   <meta name="keywords" content="コレグランス,お客様の声,香水レビュー,小分け感想,体験談,評判,口コミ">
   <link rel="canonical" href="https://collegrance.com/customer-voice.html">
 
@@ -203,7 +203,7 @@
     <div class="stats-grid fade-up delay-2">
       <div class="stat-card">
         <div class="stat-num" id="stat-total">—<span class="unit">名</span></div>
-        <div class="stat-label">いただいたお声</div>
+        <div class="stat-label">いただいたお声（累計）</div>
       </div>
       <div class="stat-card">
         <div class="stat-num" id="stat-fb-rate">—<span class="unit">%</span></div>
@@ -214,6 +214,7 @@
         <div class="stat-label">平均満足度</div>
       </div>
     </div>
+    <p style="font-size:.58rem;color:var(--light);margin-top:14px" class="fade-up delay-3">※累計は2025年10月以降にアンケートへお答えいただいた総数です。個別の声の掲載は、同意をいただいた方のみ。</p>
   </section>
 
   <!-- ===== HOW WE COLLECT ===== -->
@@ -383,8 +384,9 @@
       try {
         const r = await fetch(`${API_BASE}/api/public/reviews/aggregate`);
         const data = await r.json();
-        if(data.totalResponses !== undefined)
-          document.getElementById('stat-total').innerHTML = data.totalResponses.toLocaleString() + '<span class="unit">名</span>';
+        const totalVoices = data.totalAllTime ?? data.totalResponses;
+        if(totalVoices !== undefined)
+          document.getElementById('stat-total').innerHTML = totalVoices.toLocaleString() + '<span class="unit">名</span>';
         if(data.fullbottleInterestRate !== undefined)
           document.getElementById('stat-fb-rate').innerHTML = (data.fullbottleInterestRate * 100).toFixed(0) + '<span class="unit">%</span>';
         if(data.averageRating !== null && data.averageRating !== undefined)

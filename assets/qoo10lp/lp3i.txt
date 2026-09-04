@@ -82,17 +82,17 @@
 <section class="hero">
   <div class="wrap">
     <p class="brandmark">COLLEGRANCE</p>
-    <h1>気になる香りを、<br><span class="num">11</span>種類から<span class="num">2</span>本。</h1>
-    <p>1本1.5mL。人気の2本なら1,210円。3本はまだ多い、でも1本では比べられない——その間の2本セットです。同じ香りを2本選ぶこともできます。</p>
-    <div class="hero-vials"><img src="https://collegrance.com/assets/images/qoo10/bottles/main_030.png" alt="レイジーサンデーモーニング"><img src="https://collegrance.com/assets/images/qoo10/bottles/main_018.png" alt="ナイルの庭"></div>
+    <h1>気になっていたあの香りを、<br><span class="num">11</span>種類から<span class="num">3</span>本。</h1>
+    <p>1本1.5mL。手のひらに収まるアトマイザーで、気になっていた香りをひとつずつ試せます。同じ香りを重ねて選ぶこともできます。</p>
+    <div class="hero-vials"><img src="https://collegrance.com/assets/images/qoo10/bottles/main_030.png" alt="レイジーサンデーモーニング"><img src="https://collegrance.com/assets/images/qoo10/bottles/main_018.png" alt="ナイルの庭"><img src="https://collegrance.com/assets/images/qoo10/bottles/main_039.png" alt="ジャズクラブ"></div>
     <div class="pricebox">
-      <div class="price">1,960<small>円</small></div>
-      <div class="price-from">人気2本の組み合わせなら 1,210円</div>
-      <div class="price-note">2本セット・各1.5mL<br>香りによって −380円〜+490円<br>ネコポス送料無料</div>
+      <div class="price">1,890<small>円</small></div>
+      <div class="price-from">1本あたり630円</div>
+      <div class="price-note">3本セット・各1.5mL<br>11種類すべて同一価格<br>ネコポス送料無料</div>
     </div>
     <div class="badges">
       <span class="badge badge--hot">ご注文から2営業日以内に発送</span>
-      <span class="badge badge--award">Amazon 売れ筋ランキング1位</span>
+      <span class="badge badge--award">Amazon ベストセラー1位獲得</span>
       <span class="badge badge--lic">化粧品製造業・製造販売業 許可取得</span>
       <span class="badge">11種類から自由に選べる</span>
       <span class="badge">香水ケース10色（+300円）</span>
@@ -108,26 +108,29 @@
   </div>
 </section>
 
-<section class="sec sec--wash">
+<section class="sec">
   <div class="wrap">
-    <p class="eyebrow">Price</p>
-    <h2>香りによって、価格が変わります</h2>
-    <p class="lede">本体1,960円に、香りごとの価格差を足し引きした金額がお支払い額です。原料の香水の価格が大きく違うためで、人気の2本ならぐっと安くなります。</p>
-    <table class="tiers"><tr><th>価格差（1本あたり）</th><th>香り</th></tr>
-      <tr><td class="delta">−380〜−300円</td><td>ナイル／レイジー／ジャズクラブ／ソヴァージュ／イングリッシュペアー</td></tr>
-      <tr><td class="delta">−180円</td><td>ヒプノティック</td></tr>
-      <tr><td class="delta">+180円</td><td>オルフェオン／ブランシュ／フルールドゥポー</td></tr>
-      <tr><td class="delta">+480〜+490円</td><td>アナザー／マッチャ</td></tr>
-    </table>
-    <p class="map-caption" style="margin-top:14px">例：ナイル／レイジー = <b>1,210円</b>　　ナイル／オルフェオン = <b>1,760円</b>　　オルフェオン／ブランシュ = <b>2,320円</b>　　アナザー／マッチャ = <b>2,930円</b></p>
+    <p class="eyebrow">How to order</p>
+    <h2>選び方は3ステップだけ</h2>
+    <p class="lede">1本目・2本目・3本目、それぞれのプルダウンから好きな香りを選んでカートに入れるだけです。</p>
+    <div class="steps">
+      <div class="step"><span class="n">STEP 1</span><h3>香りマップで絞る</h3><p>「甘い／さっぱり」「軽い／重い」の2軸で、自分の好みの位置を決めます。</p></div>
+      <div class="step"><span class="n">STEP 2</span><h3>3本を選ぶ</h3><p>1本目〜3本目のプルダウンから選択。同じ香りを重ねて選ぶこともできます。</p></div>
+      <div class="step"><span class="n">STEP 3</span><h3>ケースを足す</h3><p>持ち歩き用のケースは10色から。不要なら「追加購入なし」を選んでください。</p></div>
+    </div>
+    <div class="full-wrap"><img class="full" src="https://collegrance.com/assets/images/qoo10/pt/pt04.jpg?v=2" alt="香りを探す旅へ"></div>
   </div>
 </section>
+
+
+
+
 
 <section class="sec">
   <div class="wrap">
     <p class="eyebrow">Scent map</p>
     <h2>香りの地図</h2>
-    <p class="lede">11種類を「甘さ」と「重さ」で配置しました。丸の大きさは、いま選ばれている数です。近い位置の2本を選ぶと「どちらが好きか」が分かり、離れた2本なら「気分で使い分け」ができます。</p>
+    <p class="lede">11種類を「甘さ」と「重さ」で配置しました。丸の中の番号と名前は、下のラインナップ・ノートの番号と同じです。丸の大きさは、いま選ばれている数。まず大きい丸のあたりから探すと失敗しにくくなります。</p>
     
     <div class="maplead"><span><div class="lg big"></div>よく選ばれている</span><span><div class="lg"></div>少数派・通好み</span><span>番号は人気順です</span></div>
     <div class="mapwrap">
@@ -168,20 +171,20 @@
   <div class="wrap">
     <p class="eyebrow">Lineup — 11 scents</p>
     <h2>選べる11種類</h2>
-    <p class="lede">番号は香りの地図と対応しています。価格差は1本あたりです。</p>
+    <p class="lede">番号は香りの地図と対応しています。ラベルの色は香りの系統別。すべて1本1.5mLのアトマイザー入りです。</p>
     <img class="full" src="https://collegrance.com/assets/images/qoo10/pt/pt03.jpg?v=2" alt="香り別のラベルデザイン" style="margin-bottom:22px">
     <div class="cat">
-      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_030.png" alt="COLLEGRANCE No.030 レイジーサンデーモーニング"><div class="item-body"><span class="rank">NO. 1</span><p class="name">レイジーサンデーモーニング</p><span class="origin">COLLEGRANCE No.030</span><span class="notes">ペアー・アイリス・ホワイトムスク</span><span class="tag">石けん・ムスク</span><span class="delta">-370円</span></div></div>
-      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_018.png" alt="COLLEGRANCE No.018 ナイルの庭"><div class="item-body"><span class="rank">NO. 2</span><p class="name">ナイルの庭</p><span class="origin">COLLEGRANCE No.018</span><span class="notes">グリーンマンゴー・ロータス・シカモア</span><span class="tag">グリーン</span><span class="delta">-380円</span></div></div>
-      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_015.png" alt="COLLEGRANCE No.015 オルフェオン"><div class="item-body"><span class="rank">NO. 3</span><p class="name">オルフェオン</p><span class="origin">COLLEGRANCE No.015</span><span class="notes">ジュニパーベリー・ジャスミン・パウダー</span><span class="tag">ウッディ</span><span class="delta up">+180円</span></div></div>
-      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_039.png" alt="COLLEGRANCE No.039 ジャズクラブ"><div class="item-body"><span class="rank">NO. 4</span><p class="name">ジャズクラブ</p><span class="origin">COLLEGRANCE No.039</span><span class="notes">ピンクペッパー・ラム・タバコ</span><span class="tag">バニラ・アンバー</span><span class="delta">-350円</span></div></div>
-      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_006.png" alt="COLLEGRANCE No.006 ブランシュ"><div class="item-body"><span class="rank">NO. 5</span><p class="name">ブランシュ</p><span class="origin">COLLEGRANCE No.006</span><span class="notes">ホワイトローズ・ネロリ・ムスク</span><span class="tag">石けん・ムスク</span><span class="delta up">+180円</span></div></div>
-      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_014.png" alt="COLLEGRANCE No.014 ソヴァージュ"><div class="item-body"><span class="rank">NO. 6</span><p class="name">ソヴァージュ</p><span class="origin">COLLEGRANCE No.014</span><span class="notes">ベルガモット・ペッパー・アンブロキサン</span><span class="tag">スパイシー</span><span class="delta">-330円</span></div></div>
-      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_021.png" alt="COLLEGRANCE No.021 イングリッシュペアー"><div class="item-body"><span class="rank">NO. 7</span><p class="name">イングリッシュペアー</p><span class="origin">COLLEGRANCE No.021</span><span class="notes">ペアー・フリージア・パチョリ</span><span class="tag">フルーティ</span><span class="delta">-300円</span></div></div>
-      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_024.png" alt="COLLEGRANCE No.024 アナザー"><div class="item-body"><span class="rank">NO. 8</span><p class="name">アナザー</p><span class="origin">COLLEGRANCE No.024</span><span class="notes">アンブロキサン・ジャスミン・モス</span><span class="tag">石けん・ムスク</span><span class="delta up">+480円</span></div></div>
-      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_040.png" alt="COLLEGRANCE No.040 フルールドゥポー"><div class="item-body"><span class="rank">NO. 9</span><p class="name">フルールドゥポー</p><span class="origin">COLLEGRANCE No.040</span><span class="notes">ピンクペッパー・アイリス・ムスク</span><span class="tag">パウダリー</span><span class="delta up">+180円</span></div></div>
-      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_025.png" alt="COLLEGRANCE No.025 マッチャ"><div class="item-body"><span class="rank">NO. 10</span><p class="name">マッチャ</p><span class="origin">COLLEGRANCE No.025</span><span class="notes">抹茶・フィグ・シダー</span><span class="tag">グリーン</span><span class="delta up">+490円</span></div></div>
-      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_013.png" alt="COLLEGRANCE No.013 ヒプノティック プワゾン"><div class="item-body"><span class="rank">NO. 11</span><p class="name">ヒプノティック プワゾン</p><span class="origin">COLLEGRANCE No.013</span><span class="notes">アプリコット・ジャスミン・バニラ</span><span class="tag">バニラ・アンバー</span><span class="delta">-180円</span></div></div>
+      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_030.png" alt="COLLEGRANCE No.030 レイジーサンデーモーニング"><div class="item-body"><span class="rank">NO. 1</span><p class="name">レイジーサンデーモーニング</p><span class="origin">COLLEGRANCE No.030</span><span class="notes">ペアー・アイリス・ホワイトムスク</span><span class="tag">石けん・ムスク</span></div></div>
+      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_018.png" alt="COLLEGRANCE No.018 ナイルの庭"><div class="item-body"><span class="rank">NO. 2</span><p class="name">ナイルの庭</p><span class="origin">COLLEGRANCE No.018</span><span class="notes">グリーンマンゴー・ロータス・シカモア</span><span class="tag">グリーン</span></div></div>
+      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_015.png" alt="COLLEGRANCE No.015 オルフェオン"><div class="item-body"><span class="rank">NO. 3</span><p class="name">オルフェオン</p><span class="origin">COLLEGRANCE No.015</span><span class="notes">ジュニパーベリー・ジャスミン・パウダー</span><span class="tag">ウッディ</span></div></div>
+      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_039.png" alt="COLLEGRANCE No.039 ジャズクラブ"><div class="item-body"><span class="rank">NO. 4</span><p class="name">ジャズクラブ</p><span class="origin">COLLEGRANCE No.039</span><span class="notes">ピンクペッパー・ラム・タバコ</span><span class="tag">バニラ・アンバー</span></div></div>
+      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_006.png" alt="COLLEGRANCE No.006 ブランシュ"><div class="item-body"><span class="rank">NO. 5</span><p class="name">ブランシュ</p><span class="origin">COLLEGRANCE No.006</span><span class="notes">ホワイトローズ・ネロリ・ムスク</span><span class="tag">石けん・ムスク</span></div></div>
+      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_014.png" alt="COLLEGRANCE No.014 ソヴァージュ"><div class="item-body"><span class="rank">NO. 6</span><p class="name">ソヴァージュ</p><span class="origin">COLLEGRANCE No.014</span><span class="notes">ベルガモット・ペッパー・アンブロキサン</span><span class="tag">スパイシー</span></div></div>
+      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_021.png" alt="COLLEGRANCE No.021 イングリッシュペアー"><div class="item-body"><span class="rank">NO. 7</span><p class="name">イングリッシュペアー</p><span class="origin">COLLEGRANCE No.021</span><span class="notes">ペアー・フリージア・パチョリ</span><span class="tag">フルーティ</span></div></div>
+      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_024.png" alt="COLLEGRANCE No.024 アナザー"><div class="item-body"><span class="rank">NO. 8</span><p class="name">アナザー</p><span class="origin">COLLEGRANCE No.024</span><span class="notes">アンブロキサン・ジャスミン・モス</span><span class="tag">石けん・ムスク</span></div></div>
+      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_040.png" alt="COLLEGRANCE No.040 フルールドゥポー"><div class="item-body"><span class="rank">NO. 9</span><p class="name">フルールドゥポー</p><span class="origin">COLLEGRANCE No.040</span><span class="notes">ピンクペッパー・アイリス・ムスク</span><span class="tag">パウダリー</span></div></div>
+      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_025.png" alt="COLLEGRANCE No.025 マッチャ"><div class="item-body"><span class="rank">NO. 10</span><p class="name">マッチャ</p><span class="origin">COLLEGRANCE No.025</span><span class="notes">抹茶・フィグ・シダー</span><span class="tag">グリーン</span></div></div>
+      <div class="item"><img class="swatch" src="https://collegrance.com/assets/images/qoo10/bottles/main_013.png" alt="COLLEGRANCE No.013 ヒプノティック プワゾン"><div class="item-body"><span class="rank">NO. 11</span><p class="name">ヒプノティック プワゾン</p><span class="origin">COLLEGRANCE No.013</span><span class="notes">アプリコット・ジャスミン・バニラ</span><span class="tag">バニラ・アンバー</span></div></div>
       
     </div>
   </div>
@@ -207,16 +210,16 @@
     </div>
   </div>
 </section>
-
 <section class="sec">
   <div class="wrap">
-    <p class="eyebrow">Pairs</p>
-    <h2>迷ったら、この2本</h2>
+    <p class="eyebrow">Where to wear</p>
+    <h2>迷ったら、この3本</h2>
+    <p class="lede">はじめての方に選ばれている組み合わせです。</p>
     <div class="scenes">
-      <div class="scene"><h3>清潔感の2本　1,210円</h3><p><b>1 レイジーサンデーモーニング</b>／<b>2 ナイルの庭</b><br>いちばん選ばれている2本。石けんの清潔感と、みずみずしいグリーン。</p></div>
-      <div class="scene"><h3>甘さの2本　1,390円</h3><p><b>4 ジャズクラブ</b>／<b>11 ヒプノティック プワゾン</b><br>ラムとタバコ、アプリコットとバニラ。夜に会う日の使い分けに。</p></div>
-      <div class="scene"><h3>ムスクを比べる　2,070円</h3><p><b>1 レイジーサンデーモーニング</b>／<b>8 アナザー</b><br>同じ「石けん・ムスク」でも、軽やかさと肌になじむ深さがこんなに違う。</p></div>
-      <div class="scene"><h3>上品な2本　2,320円</h3><p><b>3 オルフェオン</b>／<b>5 ブランシュ</b><br>ウッディの余韻と、ホワイトローズの透明感。大人の定番。</p></div>
+      <div class="scene"><h3>はじめての1セット</h3><p><b>1 レイジーサンデーモーニング</b>／<b>2 ナイルの庭</b>／<b>4 ジャズクラブ</b><br>清潔感で外さない3本。香水が初めてでも重くなりません。</p></div>
+      <div class="scene"><h3>軽やかに、爽やかに</h3><p><b>2 ナイルの庭</b>／<b>7 イングリッシュペアー</b>／<b>6 ソヴァージュ</b><br>みずみずしいグリーンと果実。オフィスや学校でも気になりません。</p></div>
+      <div class="scene"><h3>夜に会う日</h3><p><b>4 ジャズクラブ</b>／<b>11 ヒプノティック プワゾン</b>／<b>9 フルールドゥポー</b><br>甘さと余韻のある3本。人と差がつく組み合わせです。</p></div>
+      <div class="scene"><h3>メンズにも</h3><p><b>6 ソヴァージュ</b>／<b>3 オルフェオン</b>／<b>4 ジャズクラブ</b><br>甘すぎない、大人っぽい定番。男女どちらでも使えます。</p></div>
     </div>
   </div>
 </section>
@@ -239,7 +242,7 @@
       <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_09.jpg?v=2" alt="香水ケース シルバー"><span>シルバー</span></div>
       <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_10.jpg?v=2" alt="香水ケース ゴールド"><span>ゴールド</span></div>
     </div>
-    <p class="map-caption">※ケースは1点あたり+300円です。2本に付けたい場合は数量を2にしてください。</p>
+    <p class="map-caption">※ケースは1点あたり+300円です。3本すべてに付けたい場合は数量を3にしてください。</p>
   </div>
 </section>
 
@@ -266,7 +269,7 @@
     <ul class="facts">
       <li><b>容量</b><span>1本1.5mL（約20〜30プッシュ・1〜2週間の目安）</span></li>
       <li><b>容器</b><span>2.0mLアトマイザー／中身が見える半透明タイプ</span></li>
-      <li><b>梱包</b><span>2本を緩衝材で保護し、専用の台紙に固定してお送りします</span></li>
+      <li><b>梱包</b><span>1本ずつ緩衝材で保護し、専用の台紙に固定してお送りします</span></li>
       <li><b>配送</b><span>ネコポス・追跡あり・全国送料無料</span></li>
       <li><b>保証</b><span>配送中の液漏れ・瓶の破損・スプレー不良は、必ず交換します</span></li>
     </ul>
@@ -280,8 +283,7 @@
     <h2>よくあるご質問</h2>
     <div class="faq">
       <div><h3>正規品と同じ香りですか？</h3><p>正規に流通している香水を仕入れ、COLLEGRANCEブランドとして独自に詰め替えを行っております。中身に手は加えていません。</p></div>
-      <div><h3>同じ香りを2本選べますか？</h3><p>選べます。1本目・2本目で同じ香りを指定してください。</p></div>
-      <div><h3>なぜ香りによって価格が違うのですか？</h3><p>原料になる香水の価格が、香りによって3〜4倍違うためです。高い香りだけを高く、人気の香りは安く。全部同じ値段にするより公平だと考えています。</p></div>
+      <div><h3>同じ香りを2本、3本選べますか？</h3><p>選べます。1本目・2本目・3本目それぞれで同じ香りを指定していただけます。</p></div>
       <div><h3>衛生面が心配です。</h3><p>大阪府の化粧品製造業許可を受けた自社の製造所で、使い捨て手袋と洗浄済みの器具を使って充填しています。充填日とロット番号は1本ずつ記録しています。</p></div>
       <div><h3>1.5mLでどのくらい使えますか？</h3><p>1回2プッシュで、20〜30回ほど。毎日つけて1〜2週間、休日だけなら1ヶ月ほどが目安です。</p></div>
       <div><h3>届いたら液が漏れていました。</h3><p>配送中の振動で液漏れ・破損・スプレー不良が起きた場合は、必ず交換します。商品に同封のご案内から連絡してください。</p></div>

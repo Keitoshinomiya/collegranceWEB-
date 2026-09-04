@@ -125,3 +125,11 @@
 
 [build.processing.images]
   compress = true
+
+# Qoo10商品詳細LPのソース（QSMエディタへfetchで流し込む用・CORS許可・キャッシュなし・noindex）
+[[headers]]
+  for = "/assets/qoo10lp/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "no-store, no-cache, must-revalidate"
+    X-Robots-Tag = "noindex, nofollow, noarchive"

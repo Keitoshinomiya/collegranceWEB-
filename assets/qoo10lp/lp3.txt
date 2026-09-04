@@ -153,7 +153,7 @@
       <div class="pt" style="grid-column:5;grid-row:15;"><div class="dot" style="width:42px;height:42px;background:#7FB673;font-size:14px;"><span>2</span></div><span class="lbl">2. ナイルの庭</span></div>
       <div class="pt" style="grid-column:14;grid-row:12;"><div class="dot" style="width:31px;height:31px;background:#A2865F;font-size:12px;"><span>3</span></div><span class="lbl">3. オルフェオン</span></div>
       <div class="pt" style="grid-column:17;grid-row:5;"><div class="dot" style="width:30px;height:30px;background:#C08A4A;font-size:12px;"><span>4</span></div><span class="lbl">4. ジャズクラブ</span></div>
-      <div class="pt" style="grid-column:6;grid-row:13;"><div class="dot" style="width:24px;height:24px;background:#9DB0AC;font-size:11px;"><span>5</span></div><span class="lbl">5. ブランシュ</span></div>
+      <div class="pt" style="grid-column:4;grid-row:12;"><div class="dot" style="width:24px;height:24px;background:#9DB0AC;font-size:11px;"><span>5</span></div><span class="lbl">5. ブランシュ</span></div>
       <div class="pt" style="grid-column:11;grid-row:15;"><div class="dot" style="width:23px;height:23px;background:#8A97AD;font-size:11px;"><span>6</span></div><span class="lbl">6. ソヴァージュ</span></div>
       <div class="pt" style="grid-column:7;grid-row:7;"><div class="dot" style="width:22px;height:22px;background:#E79A66;font-size:11px;"><span>7</span></div><span class="lbl">7. イングリッシュペアー</span></div>
       <div class="pt" style="grid-column:11;grid-row:12;"><div class="dot" style="width:21px;height:21px;background:#9DB0AC;font-size:10px;"><span>8</span></div><span class="lbl">8. アナザー</span></div>

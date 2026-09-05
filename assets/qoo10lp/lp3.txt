@@ -60,6 +60,7 @@
   .notegrid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);} .notegrid img{display:block;width:100%;height:auto;border-radius:2px;border:1px solid var(--sand);}
   .scenes{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);} .scene{background:var(--card);border:1px solid var(--sand);border-left:3px solid var(--teal);border-radius:2px;padding:16px 17px;}
   .scene h3{font-family:var(--f-disp);font-size:16px;font-weight:600;margin:0 0 4px;} .scene p{font-size:12.5px;color:var(--ink-soft);margin:0;line-height:1.8;} .scene b{color:var(--teal-deep);font-weight:500;}
+  .xsell{display:grid;gap:12px;grid-template-columns:repeat(3,1fr);} .xsell a{display:block;background:var(--card);border:1px solid var(--sand);border-radius:2px;padding:12px;text-decoration:none;color:var(--ink);} .xsell a.cur{border-color:var(--teal);background:var(--teal-wash);} .xsell img{display:block;width:100%;height:auto;border-radius:2px;margin-bottom:8px;} .xsell .xt{font-family:var(--f-disp);font-weight:600;font-size:15px;line-height:1.4;margin:0 0 2px;} .xsell .xp{font-family:var(--f-util);font-size:13px;color:var(--teal-deep);margin:0 0 4px;} .xsell .xd{font-size:11.5px;color:var(--ink-soft);line-height:1.6;margin:0;} .xsell .xgo{display:inline-block;margin-top:6px;font-size:11.5px;font-weight:700;color:var(--teal-deep);}
   .cases{display:grid;gap:9px;grid-template-columns:repeat(5,1fr);margin-bottom:16px;} .case{text-align:center;}
   .case .cs{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:3px;box-shadow:inset 0 0 0 1px rgba(28,39,38,.1);} .case span{display:block;font-family:var(--f-util);font-size:10.5px;letter-spacing:.06em;color:var(--ink-faint);margin-top:6px;}
   .lic-grid{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:stretch;} .cert{background:var(--card);border:1px solid var(--ink);border-radius:2px;padding:20px 20px 18px;outline:1px solid var(--sand);outline-offset:-6px;}
@@ -76,7 +77,7 @@
   .close{background:#22302F;color:#E8EFEE;padding:52px 0;} .close h2{color:#fff;} .close p{color:#AEBDBB;font-size:13.5px;max-width:32em;} .close .rule{width:44px;height:2px;background:var(--teal);margin:0 0 20px;}
   .close .sig{font-family:var(--f-util);font-size:11.5px;letter-spacing:.34em;color:var(--teal);margin-top:30px;}
   @media (max-width:640px){.hero h1{font-size:28px;} .hero h1 .num{font-size:36px;} h2{font-size:22px;} .steps{grid-template-columns:1fr;} .cat{grid-template-columns:1fr;} .scenes{grid-template-columns:1fr;} .notegrid{grid-template-columns:1fr;}
-    .cases{grid-template-columns:repeat(3,1fr);} .lic-grid{grid-template-columns:1fr;} .map{aspect-ratio:1/1.15;} .lbl{font-size:9px;padding:0 3px;} .maplegend{grid-template-columns:1fr;} .price{font-size:29px;} .hero-vials img{height:118px;} .hero-vials img:nth-child(2){height:106px;} .hero-vials img:nth-child(3){height:94px;} .facts b{flex-basis:78px;}}
+    .cases{grid-template-columns:repeat(3,1fr);} .xsell{grid-template-columns:1fr;} .lic-grid{grid-template-columns:1fr;} .map{aspect-ratio:1/1.15;} .lbl{font-size:9px;padding:0 3px;} .maplegend{grid-template-columns:1fr;} .price{font-size:29px;} .hero-vials img{height:118px;} .hero-vials img:nth-child(2){height:106px;} .hero-vials img:nth-child(3){height:94px;} .facts b{flex-basis:78px;}}
 </style>
 
 <section class="hero">
@@ -105,6 +106,19 @@
       <span class="note">※Amazon.co.jp 売れ筋ランキング「女性用オードトワレ・EDT」1位（2026年9月4日時点・COLLEGRANCE お試し香水 レイジーサンデーモーニング）</span></p>
     </div>
     <div class="full-wrap"><img class="full" src="https://collegrance.com/assets/images/qoo10/pt/pt01.jpg?v=2" alt="香りはえらべる。もっと自由に。"></div>
+  </div>
+</section>
+
+<section class="sec sec--wash">
+  <div class="wrap">
+    <p class="eyebrow">How to buy</p>
+    <h2>買い方は3つ。いまのページはこちら</h2>
+    <p class="lede">同じ11種類の香りを、本数で選べます。迷ったら3本セットが1本あたりいちばんお得です。</p>
+    <div class="xsell">
+      <a class="cur" href="https://www.qoo10.jp/g/1214929630"><img src="https://collegrance.com/assets/images/qoo10/main/main_3set_v2.png" alt="選べる3本セット"><p class="xt">選べる3本セット</p><p class="xp">1本あたり630円〜</p><p class="xd">いちばん選ばれている買い方。11種類から3本、同じ香りを重ねてもOK。</p><span class=xgo>▶ このページ</span></a>
+      <a class="" href="https://www.qoo10.jp/g/1217624405"><img src="https://collegrance.com/assets/images/qoo10/main/main_2set_v2.png" alt="選べる2本セット"><p class="xt">選べる2本セット</p><p class="xp">1,210円〜</p><p class="xd">3本は多い、1本では比べられない方に。2本で香りを比べる。</p><span class=xgo>▶ 商品ページを見る</span></a>
+      <a class="" href="https://www.qoo10.jp/g/1217623739"><img src="https://collegrance.com/assets/images/qoo10/main/main_1pc_v2.png" alt="お試し香水 1本"><p class="xt">お試し香水 1本</p><p class="xp">850円〜</p><p class="xd">まず1本。Amazonと同じ価格で、気になる香りを試す。</p><span class=xgo>▶ 商品ページを見る</span></a>
+    </div>
   </div>
 </section>
 
@@ -302,6 +316,19 @@
       <div><h3>1.5mLでどのくらい使えますか？</h3><p>1回2プッシュで、20〜30回ほど。毎日つけて1〜2週間、休日だけなら1ヶ月ほどが目安です。</p></div>
       <div><h3>届いたら液が漏れていました。</h3><p>配送中の振動で液漏れ・破損・スプレー不良が起きた場合は、必ず交換します。商品に同封のご案内から連絡してください。</p></div>
       <div><h3>プレゼントに使えますか？</h3><p>そのままお渡しいただける台紙入りでお送りしています。ケースを追加すると、より贈り物らしくなります。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--wash">
+  <div class="wrap">
+    <p class="eyebrow">How to buy</p>
+    <h2>ほかの買い方も見る</h2>
+    <p class="lede">3本・2本・1本、どれも同じ11種類の香りから選べます。</p>
+    <div class="xsell">
+      <a class="cur" href="https://www.qoo10.jp/g/1214929630"><img src="https://collegrance.com/assets/images/qoo10/main/main_3set_v2.png" alt="選べる3本セット"><p class="xt">選べる3本セット</p><p class="xp">1本あたり630円〜</p><p class="xd">いちばん選ばれている買い方。11種類から3本、同じ香りを重ねてもOK。</p><span class=xgo>▶ このページ</span></a>
+      <a class="" href="https://www.qoo10.jp/g/1217624405"><img src="https://collegrance.com/assets/images/qoo10/main/main_2set_v2.png" alt="選べる2本セット"><p class="xt">選べる2本セット</p><p class="xp">1,210円〜</p><p class="xd">3本は多い、1本では比べられない方に。2本で香りを比べる。</p><span class=xgo>▶ 商品ページを見る</span></a>
+      <a class="" href="https://www.qoo10.jp/g/1217623739"><img src="https://collegrance.com/assets/images/qoo10/main/main_1pc_v2.png" alt="お試し香水 1本"><p class="xt">お試し香水 1本</p><p class="xp">850円〜</p><p class="xd">まず1本。Amazonと同じ価格で、気になる香りを試す。</p><span class=xgo>▶ 商品ページを見る</span></a>
     </div>
   </div>
 </section>

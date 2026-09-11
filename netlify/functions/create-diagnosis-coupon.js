@@ -3,7 +3,8 @@
  *
  * 設計:
  * - 毎回ユニークなプロモコード `AID-XXXXXX` を発行（再診断 = 新コード）
- * - 10% OFF / 24時間後に自動失効 / 1回限り使用可能（max_redemptions=1）
+ * - 10% OFF / 30日後に自動失効 / 1回限り使用可能（max_redemptions=1）
+ *   ※2026-09-11: 24時間→30日に延長。小分けを試してからフルボトルを買う流れ（到着まで3〜5日）に合わせた
  * - Bot対策: Origin/Referer/User-Agentチェック + IPレート制限
  *
  * 入力: { sessionId?: string }
@@ -17,7 +18,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 const ALLOWED_ORIGINS = ['https://collegrance.com', 'https://www.collegrance.com'];
 const RATE_LIMIT_WINDOW_MS = 24 * 60 * 60 * 1000; // 24時間
 const RATE_LIMIT_MAX = 10; // 同一IPから24時間に最大10回まで（実利用は1〜2回想定、Bot対策）
-const COUPON_TTL_SEC = 24 * 60 * 60; // 24時間
+const COUPON_TTL_SEC = 30 * 24 * 60 * 60; // 30日（2026-09-11: 24時間→30日）
 
 // 簡易インメモリレート制限（Function instanceごと）
 const rateLimitStore = new Map();
@@ -111,7 +112,7 @@ exports.handler = async (event) => {
       duration: 'once',
       max_redemptions: 1,
       redeem_by: expiresAt,
-      name: 'AI診断特典 10% OFF',
+      name: 'AI診断特典 10% OFF（30日）',
       metadata: {
         source: 'ai_diagnosis',
         issued_at: new Date().toISOString(),

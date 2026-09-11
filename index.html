@@ -1579,22 +1579,43 @@
           </div>
           <!-- Personal Message from AI -->
           <div id="diag-personal-msg" style="font-size:.66rem;color:#444;line-height:1.9;padding:16px;background:#fafafa;border-left:3px solid #6366f1;border-radius:0 4px 4px 0;margin-bottom:20px"></div>
-          <!-- 🎁 AI診断特典クーポン -->
-          <div id="diag-coupon-box" style="display:none;margin-bottom:20px;padding:16px;background:linear-gradient(135deg,#fef3e2 0%,#fdf0f4 100%);border:1.5px dashed #c97a8a;border-radius:6px;text-align:center">
-            <div style="font-size:.48rem;letter-spacing:.18em;color:#a85a72;text-transform:uppercase;margin-bottom:6px;font-weight:600">🎁 AI診断特典</div>
-            <div style="font-size:.95rem;font-weight:600;color:#333;margin-bottom:4px">フルボトル <span style="color:#c97a8a">10% OFF</span></div>
-            <div style="font-size:.52rem;color:#666;line-height:1.6;margin-bottom:12px">✨ このクーポンは<strong>お会計時に自動で適用</strong>されます（コード入力不要）</div>
-            <div id="diag-coupon-code" style="display:inline-block;font-family:'SF Mono','Courier New',monospace;font-size:1rem;font-weight:600;letter-spacing:.08em;color:#1a1a1a;background:#fff;padding:10px 18px;border-radius:4px;border:1px solid #d4a5b3;margin-bottom:8px;cursor:pointer;user-select:all" onclick="copyDiagCoupon()">読み込み中...</div>
-            <button onclick="copyDiagCoupon()" id="diag-coupon-copy-btn" style="display:block;margin:0 auto;padding:6px 14px;background:#c97a8a;color:#fff;border:none;font-family:var(--font);font-size:.54rem;cursor:pointer;border-radius:3px;letter-spacing:.06em">📋 コードをコピー</button>
-            <div id="diag-coupon-timer" style="font-size:.5rem;color:#a85a72;margin-top:10px;font-weight:500"></div>
-            <div style="font-size:.46rem;color:#999;margin-top:6px;line-height:1.5">※24時間限定・1回限り使用可能<br>※また診断するたびに新しいクーポンを発行できます</div>
-          </div>
           <div style="font-size:.52rem;letter-spacing:.12em;color:#999;text-transform:uppercase;margin-bottom:12px">Recommendations</div>
           <div id="diag-result-list"></div>
-          <!-- 💬 診断結果のLINE保存（Phase 1: 保存コード方式） -->
-          <div id="diag-line-save" style="display:none;margin-top:16px">
-            <a id="diag-line-save-btn" href="#" target="_blank" rel="noopener" onclick="trackDiagLineSave()" style="display:block;text-align:center;padding:14px;background:#06C755;color:#fff;border-radius:4px;text-decoration:none;font-size:.66rem;font-weight:600;letter-spacing:.04em"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg> LINEで診断結果を保存する</a>
-            <div style="font-size:.5rem;color:#999;text-align:center;margin-top:6px;line-height:1.6">LINEで友だち追加すると、診断結果とクーポンが<br>トークに届きます（いつでも見返せます）</div>
+          <!-- 💬 主CTA: LINEで診断結果と特典を受け取る（2026-09-11: 初めての1本＋LINE導線に変更） -->
+          <div id="diag-line-save" style="margin-top:18px;padding:16px;background:#f2fbf4;border:1px solid #b9e6c4;border-radius:6px;text-align:center">
+            <div style="font-size:.48rem;letter-spacing:.18em;color:#1f8a3a;text-transform:uppercase;margin-bottom:6px;font-weight:600">Next Step</div>
+            <div style="font-size:.78rem;font-weight:500;color:#1a1a1a;margin-bottom:6px">この結果をLINEに残しておきませんか？</div>
+            <div style="font-size:.54rem;color:#555;line-height:1.75;margin-bottom:12px">おすすめの1.5mlお試しリンクと、気に入ったときに使えるフルボトル10%OFF（30日間）がトークに届きます。<br>お試しが手元に届いた後にも見返せます。</div>
+            <a id="diag-line-save-btn" href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" onclick="trackDiagLineSave()" data-ready="0" style="display:block;text-align:center;padding:14px;background:#06C755;color:#fff;border-radius:4px;text-decoration:none;font-size:.68rem;font-weight:600;letter-spacing:.04em;opacity:.55;pointer-events:none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg> LINEで診断結果と特典を受け取る</a>
+            <div id="diag-line-save-note" style="font-size:.48rem;color:#999;margin-top:6px;line-height:1.5">準備中…</div>
+          </div>
+          <!-- 📝 結果の自己評価（当たり外れの計測） -->
+          <div id="diag-feedback" style="margin-top:14px;padding:12px 14px;border:1px solid #eee;border-radius:6px">
+            <div id="diag-feedback-q" style="font-size:.58rem;color:#444;margin-bottom:8px;text-align:center">この提案、しっくりきましたか？</div>
+            <div id="diag-feedback-btns" style="display:flex;gap:6px">
+              <button onclick="sendDiagFeedback('good')" style="flex:1;padding:9px 4px;background:var(--bg);border:1px solid #e0e0e0;font-family:var(--font);font-size:.56rem;cursor:pointer;border-radius:3px;color:#333">😊 しっくりきた</button>
+              <button onclick="sendDiagFeedback('so_so')" style="flex:1;padding:9px 4px;background:var(--bg);border:1px solid #e0e0e0;font-family:var(--font);font-size:.56rem;cursor:pointer;border-radius:3px;color:#333">🤔 半分くらい</button>
+              <button onclick="sendDiagFeedback('bad')" style="flex:1;padding:9px 4px;background:var(--bg);border:1px solid #e0e0e0;font-family:var(--font);font-size:.56rem;cursor:pointer;border-radius:3px;color:#333">😐 ちがう気がする</button>
+            </div>
+            <div id="diag-feedback-reasons" style="display:none;margin-top:10px">
+              <div style="font-size:.52rem;color:#666;margin-bottom:6px;text-align:center">どのあたりが違いましたか？（任意）</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">
+                <button onclick="sendDiagFeedbackReason('系統が違う')" style="padding:6px 10px;background:#fff;border:1px solid #ddd;font-family:var(--font);font-size:.5rem;cursor:pointer;border-radius:12px;color:#444">香りの系統が違う</button>
+                <button onclick="sendDiagFeedbackReason('知らない商品')" style="padding:6px 10px;background:#fff;border:1px solid #ddd;font-family:var(--font);font-size:.5rem;cursor:pointer;border-radius:12px;color:#444">知らない商品ばかり</button>
+                <button onclick="sendDiagFeedbackReason('価格が高い')" style="padding:6px 10px;background:#fff;border:1px solid #ddd;font-family:var(--font);font-size:.5rem;cursor:pointer;border-radius:12px;color:#444">価格が高い</button>
+                <button onclick="sendDiagFeedbackReason('質問が答えにくい')" style="padding:6px 10px;background:#fff;border:1px solid #ddd;font-family:var(--font);font-size:.5rem;cursor:pointer;border-radius:12px;color:#444">質問が答えにくかった</button>
+                <button onclick="sendDiagFeedbackReason('その他')" style="padding:6px 10px;background:#fff;border:1px solid #ddd;font-family:var(--font);font-size:.5rem;cursor:pointer;border-radius:12px;color:#444">その他</button>
+              </div>
+            </div>
+            <div id="diag-feedback-thanks" style="display:none;font-size:.54rem;color:#3a7d44;text-align:center;line-height:1.6">ありがとうございます。提案の精度改善に使わせていただきます。</div>
+          </div>
+          <!-- 🎁 クーポン（控えめ表示・30日間有効） -->
+          <div id="diag-coupon-box" style="display:none;margin-top:14px;padding:12px 14px;background:#fafafa;border:1px dashed #d4c4a8;border-radius:6px;text-align:center">
+            <div style="font-size:.56rem;color:#333;margin-bottom:6px">気に入ったらフルボトル <strong style="color:#8b6914">10% OFF</strong></div>
+            <div id="diag-coupon-code" style="display:inline-block;font-family:'SF Mono','Courier New',monospace;font-size:.86rem;font-weight:600;letter-spacing:.08em;color:#1a1a1a;background:#fff;padding:8px 14px;border-radius:4px;border:1px solid #d4c4a8;margin-bottom:6px;cursor:pointer;user-select:all" onclick="copyDiagCoupon()">読み込み中...</div>
+            <button onclick="copyDiagCoupon()" id="diag-coupon-copy-btn" style="display:block;margin:0 auto;padding:5px 12px;background:#8b6914;color:#fff;border:none;font-family:var(--font);font-size:.5rem;cursor:pointer;border-radius:3px;letter-spacing:.06em">コードをコピー</button>
+            <div id="diag-coupon-timer" style="font-size:.48rem;color:#8b6914;margin-top:6px;font-weight:500"></div>
+            <div style="font-size:.46rem;color:#999;margin-top:4px;line-height:1.5">お会計時に自動で適用されます（1回限り）。LINEに保存しておくと後から見返せます。</div>
           </div>
           <div style="display:flex;gap:8px;margin-top:12px">
             <button onclick="restartDiagnosis()" style="flex:1;padding:12px;background:none;border:1px solid #e8e8e8;font-family:var(--font);font-size:.62rem;cursor:pointer;border-radius:2px">もう一度診断</button>
@@ -2442,13 +2463,13 @@ function addCart(id){
   var ex = cart.find(function(x){ return x.id === id; });
   if(ex){ ex.qty++; } else { cart.push(Object.assign({}, p, {qty:1})); }
   /* GA4: add_to_cart + diagnosis attribution */
-  var cartParams = { currency: 'JPY', value: p.sellPrice, items: [ga4Item(p)] };
+  var cartParams = { currency: 'JPY', value: p.sellPrice, items: [ga4Item(p)], from_diagnosis: 'no' };
   try {
     var diagRecs = JSON.parse(localStorage.getItem('clg_diag_recs') || '{}');
     if(diagRecs.productIds && diagRecs.productIds.includes(id)){
-      cartParams.from_diagnosis = true;
+      cartParams.from_diagnosis = 'yes';
       cartParams.diagnosis_session = diagRecs.sessionId;
-      cartParams.diagnosis_rank = diagRecs.productIds.indexOf(id) + 1;
+      cartParams.diagnosis_rank = String(diagRecs.productIds.indexOf(id) + 1);
     }
   } catch(e){}
   ga4Event('add_to_cart', cartParams);
@@ -3334,11 +3355,15 @@ function checkC2Ready(){
   }
 }
 function diagCommon1Next(){
+  ga4Event('ai_diagnosis_answer', { session_id: diagSessionId, question: 'strength', answer: diagAnswers.strength || '' });
+  ga4Event('ai_diagnosis_answer', { session_id: diagSessionId, question: 'season', answer: diagAnswers.season || '' });
   var stepNum = diagIsRepeater ? 6 : 7;
   document.getElementById('diag-c2-step').textContent = 'Step ' + stepNum + ' / ' + diagTotalSteps;
   showDiagStep('diag-c2', stepNum);
 }
 function diagCommon2Next(){
+  ga4Event('ai_diagnosis_answer', { session_id: diagSessionId, question: 'gender', answer: diagAnswers.gender || '' });
+  ga4Event('ai_diagnosis_answer', { session_id: diagSessionId, question: 'age', answer: diagAnswers.age || '' });
   var stepNum = diagIsRepeater ? 7 : 8;
   document.getElementById('diag-final-step').textContent = 'Step ' + stepNum + ' / ' + diagTotalSteps;
   showDiagStep('diag-final', stepNum);
@@ -3356,6 +3381,7 @@ function shareDiagLine(){
 
 async function submitDiagnosis(){
   diagAnswers.freeText = document.getElementById('diag-free').value.trim();
+  ga4Event('ai_diagnosis_answer', { session_id: diagSessionId, question: 'freeText', answer: diagAnswers.freeText ? 'あり' : 'なし' });
 
   /* 記事CTA経由の場合、読んでいた記事の文脈をAIへのヒントとして追加 */
   if(diagEntryCtx && DIAG_CTX_LABELS[diagEntryCtx]){
@@ -3407,8 +3433,7 @@ function showDiagResult(data){
   });
   if(validRecs.length === 0) validRecs = data.recommendations; /* 万が一全滅ならそのまま表示 */
   diagLastRecs = validRecs; /* LINE保存用に保持 */
-  var saveBox = document.getElementById('diag-line-save');
-  if(saveBox) saveBox.style.display = 'none'; /* 再診断時は新コード取得まで非表示 */
+  resetDiagResultUI(); /* LINE箱を準備中に戻し、評価UIを初期化（再診断対応） */
   list.innerHTML = validRecs.map(function(rec, idx){
     /* Parse productId — AI may return "id=16", "16", 16, or product code like "HER1273" */
     var rawId = String(rec.productId || '').replace(/^id=/,'');
@@ -3462,10 +3487,13 @@ function showDiagResult(data){
     answers_age: diagAnswers.age || '',
     answers_season: diagAnswers.season || '',
     answers_budget: diagAnswers.budget || '',
-    answers_for_whom: diagAnswers.forWhom || ''
+    answers_for_whom: diagAnswers.forWhom || '',
+    entry_source: diagEntrySource || 'site',
+    entry_ctx: diagEntryCtx || ''
   });
+  diagLastRecIds = recIds;
 
-  /* 🎁 診断完了クーポン発行（毎回新コード、24h限定、10% OFF） */
+  /* 🎁 診断完了クーポン発行（毎回新コード、30日間、フルボトル10% OFF。2026-09-11に24h→30日へ変更） */
   issueDiagCoupon();
 
   /* Save recommended product IDs for purchase attribution */
@@ -3520,10 +3548,9 @@ async function issueDiagCoupon(){
       });
     }
 
-    /* カウントダウンタイマー開始 */
+    /* 有効期限の表示（30日間なので日付で示す） */
     if(diagCouponState.timerInterval) clearInterval(diagCouponState.timerInterval);
     updateDiagCouponTimer();
-    diagCouponState.timerInterval = setInterval(updateDiagCouponTimer, 1000 * 30); // 30秒ごと更新
 
     /* 💬 診断結果をWorkerへ保存（LINE保存ボタン有効化） */
     submitDiagSave(data.code);
@@ -3565,36 +3592,120 @@ async function submitDiagSave(couponCode){
     var data = await res.json();
     if(data && data.success && data.data && data.data.save_code){
       diagSaveCode = data.data.save_code;
-      var btn = document.getElementById('diag-line-save-btn');
-      var box = document.getElementById('diag-line-save');
-      if(btn && box){
-        /* 1タップ保存: Worker → LINEログイン(友だち追加つき) → 自動紐付け → 結果がLINEに届く */
-        btn.href = 'https://line-crm-worker.shinomiya-keito.workers.dev/diagnosis/save?sid=' + encodeURIComponent(diagSessionId || '');
-        box.style.display = 'block';
-      }
+      /* 1タップ保存: Worker → LINEログイン(友だち追加つき) → 自動紐付け → 結果がLINEに届く */
+      setDiagLineButton('https://line-crm-worker.shinomiya-keito.workers.dev/diagnosis/save?sid=' + encodeURIComponent(diagSessionId || ''), '1', 'タップするとLINEが開きます（友だち追加→結果とクーポンが届きます）');
+    } else {
+      setDiagLineButton('https://lin.ee/BTytLdX', 'fallback', '友だち追加はできます（結果の自動送付は一時的にご利用いただけません）');
     }
-  } catch(e){ console.error('diag save submit error:', e); }
+  } catch(e){
+    console.error('diag save submit error:', e);
+    setDiagLineButton('https://lin.ee/BTytLdX', 'fallback', '友だち追加はできます（結果の自動送付は一時的にご利用いただけません）');
+  }
+}
+
+/* LINEボタンの状態切替（ready: '0'=準備中 / '1'=1タップ保存 / 'fallback'=友だち追加のみ） */
+function setDiagLineButton(href, ready, note){
+  var btn = document.getElementById('diag-line-save-btn');
+  var noteEl = document.getElementById('diag-line-save-note');
+  if(!btn) return;
+  btn.href = href;
+  btn.setAttribute('data-ready', ready);
+  var enabled = ready !== '0';
+  btn.style.opacity = enabled ? '1' : '.55';
+  btn.style.pointerEvents = enabled ? 'auto' : 'none';
+  if(noteEl) noteEl.textContent = note || '';
+}
+
+/* 結果画面の可変UIを初期状態へ（再診断時も同じ画面を使い回すため） */
+var diagLastRecIds = [];
+var diagFeedbackRating = '';
+function resetDiagResultUI(){
+  setDiagLineButton('https://lin.ee/BTytLdX', '0', '準備中…');
+  diagFeedbackRating = '';
+  var q = document.getElementById('diag-feedback-q');
+  var b = document.getElementById('diag-feedback-btns');
+  var r = document.getElementById('diag-feedback-reasons');
+  var t = document.getElementById('diag-feedback-thanks');
+  if(q) q.style.display = 'block';
+  if(b) b.style.display = 'flex';
+  if(r) r.style.display = 'none';
+  if(t) t.style.display = 'none';
 }
 
 function trackDiagLineSave(){
+  var btn = document.getElementById('diag-line-save-btn');
   if(typeof ga4Event === 'function'){
-    ga4Event('diagnosis_line_save_click', { session_id: diagSessionId || '', save_code: diagSaveCode || '' });
+    ga4Event('diagnosis_line_save_click', {
+      session_id: diagSessionId || '',
+      save_code: diagSaveCode || '',
+      entry_source: diagEntrySource || 'site',
+      entry_ctx: diagEntryCtx || '',
+      ready: btn ? btn.getAttribute('data-ready') : ''
+    });
   }
+}
+
+/* ===== 📝 診断結果の自己評価（当たり外れの計測・2026-09-11） =====
+   GA4 diagnosis_feedback(rating) と Worker /api/diagnosis/feedback（D1のform_submissionsに追記）の両方へ送る */
+function sendDiagFeedback(rating){
+  diagFeedbackRating = rating;
+  if(typeof ga4Event === 'function'){
+    ga4Event('diagnosis_feedback', {
+      session_id: diagSessionId || '',
+      rating: rating,
+      top_pick: diagLastRecIds[0] || '',
+      recommendations: diagLastRecIds.join(','),
+      entry_source: diagEntrySource || 'site',
+      entry_ctx: diagEntryCtx || ''
+    });
+  }
+  postDiagFeedback(rating, '');
+  var q = document.getElementById('diag-feedback-q');
+  var b = document.getElementById('diag-feedback-btns');
+  var r = document.getElementById('diag-feedback-reasons');
+  var t = document.getElementById('diag-feedback-thanks');
+  if(b) b.style.display = 'none';
+  if(rating === 'good'){
+    if(q) q.style.display = 'none';
+    if(t) t.style.display = 'block';
+  } else {
+    if(q) q.style.display = 'none';
+    if(r) r.style.display = 'block';
+  }
+}
+function sendDiagFeedbackReason(reason){
+  if(typeof ga4Event === 'function'){
+    ga4Event('diagnosis_feedback_reason', {
+      session_id: diagSessionId || '',
+      rating: diagFeedbackRating || '',
+      answer: reason,
+      top_pick: diagLastRecIds[0] || ''
+    });
+  }
+  postDiagFeedback(diagFeedbackRating, reason);
+  var r = document.getElementById('diag-feedback-reasons');
+  var t = document.getElementById('diag-feedback-thanks');
+  if(r) r.style.display = 'none';
+  if(t) t.style.display = 'block';
+}
+function postDiagFeedback(rating, reason){
+  try {
+    fetch('https://line-crm-worker.shinomiya-keito.workers.dev/api/diagnosis/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: diagSessionId || '', rating: rating || '', reason: reason || '' }),
+      keepalive: true
+    }).catch(function(){});
+  } catch(e){}
 }
 
 function updateDiagCouponTimer(){
   var timerEl = document.getElementById('diag-coupon-timer');
   if(!timerEl || !diagCouponState.expiresAt) return;
   var ms = diagCouponState.expiresAt - Date.now();
-  if(ms <= 0){
-    timerEl.textContent = '⏰ 期限切れ';
-    if(diagCouponState.timerInterval) clearInterval(diagCouponState.timerInterval);
-    return;
-  }
-  var totalMin = Math.floor(ms / 60000);
-  var h = Math.floor(totalMin / 60);
-  var m = totalMin % 60;
-  timerEl.textContent = '⏱ 残り ' + h + '時間 ' + m + '分';
+  if(ms <= 0){ timerEl.textContent = '期限切れ'; return; }
+  var d = new Date(diagCouponState.expiresAt);
+  timerEl.textContent = (d.getMonth() + 1) + '月' + d.getDate() + '日まで有効（30日間）';
 }
 
 function copyDiagCoupon(){
@@ -3605,7 +3716,7 @@ function copyDiagCoupon(){
       var orig = btn.textContent;
       btn.textContent = '✓ コピーしました';
       btn.style.background = '#3a7d44';
-      setTimeout(function(){ btn.textContent = orig; btn.style.background = '#c97a8a'; }, 2000);
+      setTimeout(function(){ btn.textContent = orig; btn.style.background = '#8b6914'; }, 2000);
     }
     if(typeof ga4Event === 'function'){
       ga4Event('diagnosis_coupon_copied', { coupon_code: diagCouponState.code });

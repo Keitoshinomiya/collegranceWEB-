@@ -1392,10 +1392,10 @@
           <div style="text-align:center;margin-bottom:20px">
             <div style="margin-bottom:10px"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c.55 3.9 2.4 5.75 6.3 6.3-3.9.55-5.75 2.4-6.3 6.3-.55-3.9-2.4-5.75-6.3-6.3 3.9-.55 5.75-2.4 6.3-6.3zM18.8 15.2c.3 2.1 1.3 3.1 3.4 3.4-2.1.3-3.1 1.3-3.4 3.4-.3-2.1-1.3-3.1-3.4-3.4 2.1-.3 3.1-1.3 3.4-3.4z"/></svg></div>
             <h3 style="font-size:.96rem;font-weight:400;letter-spacing:.1em;margin-bottom:8px">AI Scent Concierge</h3>
-            <p style="font-size:.66rem;color:#666;line-height:1.8">いくつかの質問にお答えいただくだけで、<br><strong>130商品以上</strong>の中からAIがあなたにぴったりの香りを見つけます。</p>
+            <p style="font-size:.66rem;color:#666;line-height:1.8"><strong>4つの質問</strong>に答えるだけ。<br>香水が初めての方でも、AIが「まず試す1本」と「気に入ったら次の1本」を1.5mlのお試しからご提案します。</p>
             <div style="display:flex;justify-content:center;gap:16px;margin-top:16px;font-size:.54rem;color:#999">
               <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg> 約1分</span>
-              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h16M4 14h10M4 18h12"/></svg> 全商品対象</span>
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h16M4 14h10M4 18h12"/></svg> 4問だけ</span>
               <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h.01M15 9h.01M9 15h6"/></svg> AI分析</span>
             </div>
           </div>
@@ -1411,7 +1411,7 @@
               <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> はい、試したことがある<br><span style="font-size:.52rem;color:#999">前回の体験をもとに次の香りをご提案します</span></div>
             </button>
             <button class="diag-opt" onclick="diagSetRepeater(false)">
-              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg> いいえ、初めてです<br><span style="font-size:.52rem;color:#999">好みをヒアリングして最適な香りを見つけます</span></div>
+              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg> いいえ、初めてです<br><span style="font-size:.52rem;color:#999">4つの質問で、まず試す1本をご提案します</span></div>
             </button>
           </div>
         </div>
@@ -1454,59 +1454,71 @@
           </div>
         </div>
 
-        <!-- NEW Step 2N: Scene -->
+        <!-- NEW Step 2N: 知っている匂いで選ぶ（2026-09-11: 香りの系統を聞くのをやめた） -->
         <div class="diag-step" id="diag-n2" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 2</div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">香水を主に使いたいシーンは？</h3>
+          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 2 / 5</div>
+          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:6px">ふだん「いい匂い」と感じるのはどれですか？</h3>
+          <p style="font-size:.56rem;color:#999;line-height:1.7;margin-bottom:14px">香水の知識は不要です。身近な匂いで、いちばん近いものを選んでください。</p>
           <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagNewAnswer('scene','オフィス・仕事')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 6h2M9 10h2M9 14h2M13 6h2M13 10h2M13 14h2M8 18h8"/></svg> オフィス・仕事 <span style="font-size:.54rem;color:#999">— 清潔感と信頼感</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scene','デート・ディナー')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8M12 18v4M12 2v4M8 6h8l-2 12H10L8 6z"/></svg> デート・ディナー <span style="font-size:.54rem;color:#999">— 魅力的な印象</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scene','休日・リラックス')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 010 8h-1M3 8h14v9a4 4 0 01-4 4H7a4 4 0 01-4-4V8z"/><path d="M6 2v3M10 2v3M14 2v3"/></svg> 休日・リラックス <span style="font-size:.54rem;color:#999">— 自分のための香り</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scene','日常・カジュアル')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg> 日常・カジュアル <span style="font-size:.54rem;color:#999">— 万能な香り</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('smell','洗いたての洗濯物・石けん')">🧺 洗いたての洗濯物・石けん <span style="font-size:.54rem;color:#999">— 清潔でやわらかい</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('smell','レモン・ミント・炭酸水')">🍋 レモン・ミント・炭酸水 <span style="font-size:.54rem;color:#999">— すっきり爽やか</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('smell','紅茶・緑茶・ハーブ')">🍵 紅茶・緑茶・ハーブ <span style="font-size:.54rem;color:#999">— 落ち着く・上品</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('smell','木・お香・古い本')">🪵 木・お香・古い本 <span style="font-size:.54rem;color:#999">— 深みがあって温かい</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('smell','花・化粧品売り場')">💐 花・化粧品売り場 <span style="font-size:.54rem;color:#999">— 華やか</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('smell','バニラ・焼き菓子')">🍮 バニラ・焼き菓子 <span style="font-size:.54rem;color:#999">— 甘くてやさしい</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('smell','わからない・特にない')">🤷 わからない・特にない <span style="font-size:.54rem;color:#999">— 定番から選びます</span></button>
           </div>
         </div>
 
-        <!-- NEW Step 3N: Scent type -->
+        <!-- NEW Step 3N: 印象 -->
         <div class="diag-step" id="diag-n3" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 3</div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">好みの香りの系統は？</h3>
+          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 3 / 5</div>
+          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">香りで、どう見られたいですか？</h3>
           <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagNewAnswer('scentType','シトラス・フレッシュ')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8c0-4-3-6-5-6S7 4 7 8c0 5.5 3 8 5 8s5-2.5 5-8z"/><path d="M12 2v14"/><path d="M12 5c1.5 1 3 3 3 6"/></svg> シトラス・フレッシュ <span style="font-size:.54rem;color:#999">— 柑橘系の爽やかさ</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scentType','フローラル')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2a4 4 0 014 4c0 1.5-.8 2.8-2 3.5M12 2a4 4 0 00-4 4c0 1.5.8 2.8 2 3.5M22 12a4 4 0 01-4 4c-1.5 0-2.8-.8-3.5-2M22 12a4 4 0 00-4-4c-1.5 0-2.8.8-3.5 2M12 22a4 4 0 01-4-4c0-1.5.8-2.8 2-3.5M12 22a4 4 0 004-4c0-1.5-.8-2.8-2-3.5M2 12a4 4 0 014-4c1.5 0 2.8.8 3.5 2M2 12a4 4 0 004 4c1.5 0 2.8-.8 3.5-2"/></svg> フローラル <span style="font-size:.54rem;color:#999">— 花の華やかさ</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scentType','ウッディ・スパイシー')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V8"/><path d="M8 22h8"/><path d="M12 8c-3 0-6-3-6-6h12c0 3-3 6-6 6z"/><path d="M12 14c-4 0-8-3.5-8-7h16c0 3.5-4 7-8 7z"/></svg> ウッディ・スパイシー <span style="font-size:.54rem;color:#999">— 深みと温かさ</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scentType','スイート・グルマン')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg> スイート・グルマン <span style="font-size:.54rem;color:#999">— 甘くて魅惑的</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('scentType','ムスク・クリーン')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg> ムスク・クリーン <span style="font-size:.54rem;color:#999">— 清潔感と透明感</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('impression','清潔感・好印象')">清潔感・好印象 <span style="font-size:.54rem;color:#999">— 職場でも安心</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('impression','ナチュラル・自然体')">ナチュラル・自然体 <span style="font-size:.54rem;color:#999">— つけている感を出さない</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('impression','知的・洗練')">知的・洗練 <span style="font-size:.54rem;color:#999">— 大人っぽく</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('impression','セクシー・色気')">セクシー・色気 <span style="font-size:.54rem;color:#999">— 印象に残したい</span></button>
+            <button class="diag-opt" onclick="diagNewAnswer('impression','個性的・唯一無二')">個性的・唯一無二 <span style="font-size:.54rem;color:#999">— 人とかぶりたくない</span></button>
           </div>
         </div>
 
-        <!-- NEW Step 4N: Impression -->
+        <!-- NEW Step 4N: 香水との距離（避けてきた理由） -->
         <div class="diag-step" id="diag-n4" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 4</div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">香りでどんな印象を与えたい？</h3>
+          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 4 / 5</div>
+          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">香水について、いちばん近い気持ちは？</h3>
           <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagNewAnswer('impression','清潔感・好印象')">清潔感・好印象</button>
-            <button class="diag-opt" onclick="diagNewAnswer('impression','知的・洗練')">知的・洗練</button>
-            <button class="diag-opt" onclick="diagNewAnswer('impression','セクシー・色気')">セクシー・色気</button>
-            <button class="diag-opt" onclick="diagNewAnswer('impression','個性的・唯一無二')">個性的・唯一無二</button>
-            <button class="diag-opt" onclick="diagNewAnswer('impression','ナチュラル・自然体')">ナチュラル・自然体</button>
+            <button class="diag-opt" onclick="diagNewAnswer('distance','強い香りが苦手')"><div style="flex:1">強い香りが苦手<br><span style="font-size:.52rem;color:#999">近くの人にだけ、ほのかに香る1本を選びます</span></div></button>
+            <button class="diag-opt" onclick="diagNewAnswer('distance','周りにどう思われるか不安')"><div style="flex:1">周りにどう思われるか少し不安<br><span style="font-size:.52rem;color:#999">「いい匂い」と言われやすい定番から選びます</span></div></button>
+            <button class="diag-opt" onclick="diagNewAnswer('distance','選び方がわからない')"><div style="flex:1">興味はあるけど、選び方がわからない<br><span style="font-size:.52rem;color:#999">失敗しにくい1本から始めます</span></div></button>
+            <button class="diag-opt" onclick="diagNewAnswer('distance','香水が好き・もっと知りたい')"><div style="flex:1">香水は好き。もっと知りたい<br><span style="font-size:.52rem;color:#999">少し個性のある香りも候補に入れます</span></div></button>
           </div>
         </div>
 
-        <!-- NEW Step 5N: Purchase type -->
+        <!-- NEW Step 5N: あなたについて（任意）＋ひとこと → 診断 -->
         <div class="diag-step" id="diag-n5" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 5</div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">どのように試してみたいですか？</h3>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagNewAnswer('purchaseType','まず小分けで試したい')">
-              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg> まず小分けで試したい<br><span style="font-size:.52rem;color:#999">1.5mlのお試し（¥750〜）Amazonで購入</span></div>
-            </button>
-            <button class="diag-opt" onclick="diagNewAnswer('purchaseType','フルボトルで購入したい')">
-              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="9" width="8" height="12" rx="2.2"/><path d="M10.5 9V7h3v2"/><rect x="10.2" y="3.6" width="3.6" height="2.4" rx="0.8"/></svg> フルボトルで購入したい<br><span style="font-size:.52rem;color:#999">正規フルサイズ（¥3,000〜）</span></div>
-            </button>
-            <button class="diag-opt" onclick="diagNewAnswer('purchaseType','両方見たい')">
-              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> まだ決めていない</div>
-            </button>
+          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 5 / 5</div>
+          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:4px">最後に、よろしければ教えてください</h3>
+          <p style="font-size:.56rem;color:#999;line-height:1.7;margin-bottom:14px">すべて任意です。そのまま診断に進めます。</p>
+          <div style="margin-bottom:12px">
+            <div style="font-size:.58rem;color:#999;margin-bottom:6px">性別</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="diag-opt" onclick="selectMulti(this,'gender','女性')" style="flex:1;min-width:80px">女性</button>
+              <button class="diag-opt" onclick="selectMulti(this,'gender','男性')" style="flex:1;min-width:80px">男性</button>
+              <button class="diag-opt" onclick="selectMulti(this,'gender','どちらでも')" style="flex:1;min-width:80px">どちらでも</button>
+            </div>
           </div>
+          <div style="margin-bottom:12px">
+            <div style="font-size:.58rem;color:#999;margin-bottom:6px">年代</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="diag-opt" onclick="selectMulti(this,'age','10〜20代')" style="flex:1;min-width:60px">10〜20代</button>
+              <button class="diag-opt" onclick="selectMulti(this,'age','30代')" style="flex:1;min-width:60px">30代</button>
+              <button class="diag-opt" onclick="selectMulti(this,'age','40代以上')" style="flex:1;min-width:60px">40代以上</button>
+            </div>
+          </div>
+          <div style="font-size:.58rem;color:#999;margin-bottom:6px">ひとこと（任意）</div>
+          <textarea id="diag-free-new" placeholder="例:&#10;・柔軟剤の香りが好き&#10;・職場でも嫌味にならない程度がいい&#10;・プレゼント用に考えています" style="width:100%;height:84px;border:1px solid #e8e8e8;padding:12px;font-family:var(--font);font-size:.66rem;resize:none;border-radius:4px;outline:none;margin-bottom:14px;line-height:1.8"></textarea>
+          <button onclick="submitDiagnosis()" style="width:100%;padding:14px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;font-family:var(--font);font-size:.72rem;letter-spacing:.1em;cursor:pointer;border-radius:4px">まず試す1本を提案してもらう</button>
         </div>
 
         <!-- COMMON: Strength + Season -->
@@ -3284,7 +3296,7 @@ function diagNext(step){
 function diagSetRepeater(isRepeater){
   diagIsRepeater = isRepeater;
   diagAnswers.isRepeater = isRepeater;
-  diagTotalSteps = isRepeater ? 7 : 8;
+  diagTotalSteps = isRepeater ? 7 : 5; /* 新規は5画面（2026-09-11: 8→5） */
   ga4Event('ai_diagnosis_answer', { session_id: diagSessionId, question: 'isRepeater', answer: isRepeater });
   if(isRepeater){
     showDiagStep('diag-r2', 2);
@@ -3318,20 +3330,23 @@ function diagRepeaterWish(val){
 }
 
 /* === NEW USER FLOW === */
-var newStepMap = { 'scene': 'diag-n3', 'scentType': 'diag-n4', 'impression': 'diag-n5', 'purchaseType': 'diag-c1' };
-var newStepNum = { 'scene': 3, 'scentType': 4, 'impression': 5, 'purchaseType': 6 };
-var newNextStep = { 'scene': 'scentType', 'scentType': 'impression', 'impression': 'purchaseType', 'purchaseType': null };
+/* 2026-09-11 新規フロー: smell(身近な匂い) → impression(印象) → distance(香水との距離) → n5(任意の属性＋ひとこと) */
+var newStepMap = { 'smell': 'diag-n3', 'impression': 'diag-n4', 'distance': 'diag-n5' };
+var newStepNum = { 'smell': 3, 'impression': 4, 'distance': 5 };
+var newNextStep = { 'smell': 'impression', 'impression': 'distance', 'distance': null };
+/* 身近な匂い → 従来の系統ラベル（AI・D1・LINE文面との互換用） */
+var SMELL_TO_TYPE = {
+  '洗いたての洗濯物・石けん': 'ムスク・クリーン', 'レモン・ミント・炭酸水': 'シトラス・フレッシュ', '紅茶・緑茶・ハーブ': 'ティー・グリーン',
+  '木・お香・古い本': 'ウッディ・スパイシー', '花・化粧品売り場': 'フローラル', 'バニラ・焼き菓子': 'スイート・グルマン', 'わからない・特にない': 'おまかせ（定番）'
+};
+/* 香水との距離 → 香りの強さ */
+var DISTANCE_TO_STRENGTH = { '強い香りが苦手': 'ほのかに', '周りにどう思われるか不安': 'ほのかに', '選び方がわからない': 'ほどよく', '香水が好き・もっと知りたい': 'ほどよく' };
 function diagNewAnswer(key, val){
   diagAnswers[key] = val;
+  if(key === 'smell'){ diagAnswers.scentType = SMELL_TO_TYPE[val] || val; }
+  if(key === 'distance'){ diagAnswers.strength = DISTANCE_TO_STRENGTH[val] || 'ほどよく'; diagAnswers.season = 'オールシーズン'; }
   ga4Event('ai_diagnosis_answer', { session_id: diagSessionId, question: key, answer: val });
-  var next = newNextStep[key];
-  if(next){
-    /* newStepMap[key] = そのキーに答えた後に表示する画面（2026-07-28修正: next で引くと1段飛んで diag-n3/diag-n5 が表示されないバグがあった） */
-    showDiagStep(newStepMap[key] || 'diag-c1', newStepNum[key] || 6);
-  } else {
-    document.getElementById('diag-c1-step').textContent = 'Step 6 / 8';
-    showDiagStep('diag-c1', 6);
-  }
+  showDiagStep(newStepMap[key] || 'diag-n5', newStepNum[key] || 5);
 }
 
 /* === COMMON STEPS === */
@@ -3380,7 +3395,13 @@ function shareDiagLine(){
 }
 
 async function submitDiagnosis(){
-  diagAnswers.freeText = document.getElementById('diag-free').value.trim();
+  var freeEl = document.getElementById(diagIsRepeater ? 'diag-free' : 'diag-free-new') || document.getElementById('diag-free');
+  diagAnswers.freeText = freeEl ? freeEl.value.trim() : '';
+  if(!diagIsRepeater){
+    /* 新規は性別・年代が任意なので、ここで回答有無ごと記録する */
+    ga4Event('ai_diagnosis_answer', { session_id: diagSessionId, question: 'gender', answer: diagAnswers.gender || '未回答' });
+    ga4Event('ai_diagnosis_answer', { session_id: diagSessionId, question: 'age', answer: diagAnswers.age || '未回答' });
+  }
   ga4Event('ai_diagnosis_answer', { session_id: diagSessionId, question: 'freeText', answer: diagAnswers.freeText ? 'あり' : 'なし' });
 
   /* 記事CTA経由の場合、読んでいた記事の文脈をAIへのヒントとして追加 */
@@ -3416,6 +3437,11 @@ async function submitDiagnosis(){
   }
 }
 
+/* 新規向け2本構成のラベル（リピーターは従来の順位表示） */
+function diagResultTag(idx){
+  if(diagIsRepeater) return '';
+  return idx === 0 ? 'まず試す1本' : (idx === 1 ? '気に入ったら次の1本' : '');
+}
 function showDiagResult(data){
   document.querySelectorAll('.diag-step').forEach(function(s){ s.style.display = 'none'; });
   /* Profile type + personal message */
@@ -3463,6 +3489,7 @@ function showDiagResult(data){
       '<div style="display:flex;gap:12px;align-items:start">' +
         (idx === 0 && imgHtml ? imgHtml : '<div class="diag-result-rank">' + (idx + 1) + '</div>') +
         '<div class="diag-result-info">' +
+          (diagResultTag(idx) ? '<div style="display:inline-block;font-size:.46rem;letter-spacing:.1em;color:#fff;background:' + (idx === 0 ? '#1a1a1a' : '#8b6914') + ';padding:3px 8px;border-radius:2px;margin-bottom:6px">' + diagResultTag(idx) + '</div>' : '') +
           '<div class="diag-result-brand">' + rec.brand + (p && p.concentration ? ' <span style="font-size:.42rem;border:1px solid #ddd;padding:1px 4px;border-radius:2px;margin-left:4px">' + p.concentration + '</span>' : '') + popularBadge + '</div>' +
           '<div class="diag-result-name">' + rec.name + (rec.matchScore ? ' <span style="font-size:.5rem;color:#3a7d44;font-weight:400">' + rec.matchScore + '%</span>' : '') + '</div>' +
           '<div class="diag-result-reason">' + rec.reason + '</div>' +
@@ -3488,6 +3515,8 @@ function showDiagResult(data){
     answers_season: diagAnswers.season || '',
     answers_budget: diagAnswers.budget || '',
     answers_for_whom: diagAnswers.forWhom || '',
+    answers_smell: diagAnswers.smell || '',
+    answers_distance: diagAnswers.distance || '',
     entry_source: diagEntrySource || 'site',
     entry_ctx: diagEntryCtx || ''
   });
@@ -3743,12 +3772,14 @@ function copyDiagCoupon(){
 
 function showDiagFallback(){
   /* Simple local fallback if API fails */
-  var typeMap = { 'シトラス・フレッシュ': 'citrus', 'フローラル': 'floral', 'ウッディ・スパイシー': 'woody', 'スイート・グルマン': 'sweet', 'ムスク・クリーン': 'floral' };
+  var typeMap = { 'シトラス・フレッシュ': 'citrus', 'フローラル': 'floral', 'ウッディ・スパイシー': 'woody', 'スイート・グルマン': 'sweet', 'ムスク・クリーン': 'floral', 'ティー・グリーン': 'citrus' };
   var scent = typeMap[diagAnswers.scentType] || 'floral';
-  var matched = PRODUCTS.filter(function(p){ return p.inStock !== false && p.type === 'sample_and_fullbottle' && p.tags && p.tags.includes(scent); });
+  var want = diagIsRepeater ? 3 : 2; /* 新規は「まず試す1本＋次の1本」 */
+  var base = PRODUCTS.filter(function(p){ return p.inStock !== false && p.type === 'sample_and_fullbottle' && (diagIsRepeater || (p.salesCount || 0) > 0); });
+  var matched = base.filter(function(p){ return p.tags && p.tags.includes(scent); });
   matched.sort(function(a,b){ return (b.salesCount || 0) - (a.salesCount || 0); });
-  if(matched.length < 3) matched = PRODUCTS.filter(function(p){ return p.inStock !== false && p.type === 'sample_and_fullbottle'; }).sort(function(a,b){ return (b.salesCount || 0) - (a.salesCount || 0); });
-  var top3 = matched.slice(0, 3);
+  if(matched.length < want) matched = base.slice().sort(function(a,b){ return (b.salesCount || 0) - (a.salesCount || 0); });
+  var top3 = matched.slice(0, want);
   var data = {
     recommendations: top3.map(function(p, i){
       return { rank: i+1, productId: p.id, name: p.name, brand: p.brand, reason: p.notes ? 'Notes: ' + p.notes : '', matchScore: 90 - i*5 };

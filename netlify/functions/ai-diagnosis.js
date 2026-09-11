@@ -14,6 +14,9 @@ let SAMPLE_IDS = new Set(); // 小分けあり（Amazon送客対象）IDセッ�
 let SAMPLE_PRODUCTS_BY_POPULARITY = []; // 売上順の小分け商品（フォールバック用）
 let ALL_PRODUCTS_BY_POPULARITY = []; // 売上順の全カタログ商品（不足時の補完用）
 let CATALOG_BY_ID = new Map(); // ID → 商品オブジェクト（高速参照用）
+let NEW_USER_PRODUCTS = []; // 新規向け候補（小分けあり×販売実績あり・売上順）
+let NEW_USER_IDS = new Set();
+let NEW_USER_CATALOG = "";
 try {
   // Netlifyでは included_files で catalog_full.json をバンドル
   // __dirname相対 or process.cwd()相対で読み込む
@@ -45,6 +48,14 @@ try {
   ALL_PRODUCTS_BY_POPULARITY = filtered
     .slice()
     .sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
+
+  // 2026-09-11: 新規のお客様向けカタログ = 小分けあり × 販売実績あり（初めての1本は実績のある香りから選ぶ）
+  NEW_USER_PRODUCTS = SAMPLE_PRODUCTS_BY_POPULARITY.filter((p) => (p.salesCount || 0) > 0);
+  NEW_USER_PRODUCTS.forEach((p) => NEW_USER_IDS.add(String(p.productsJsonId || p.code)));
+  NEW_USER_CATALOG = NEW_USER_PRODUCTS.map((p, idx) => {
+    const id = p.productsJsonId || p.code;
+    return `[${idx + 1}] id=${id} ${p.brandEn || p.brand} - ${p.nameEn || p.name} (${p.spec || ""} 小分け¥${p.samplePrice} / フルボトル¥${p.sellPrice.toLocaleString()} | 小分け販売${p.salesCount}個)\n      Notes: ${p.notes} | ${p.description}`;
+  }).join("\n\n");
 
   // プロンプト内のプレースホルダーにIDリストを埋め込む
   VALID_ID_LIST = [...VALID_IDS].join(", ");
@@ -191,23 +202,39 @@ ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
 
 前回の体験を踏まえて、次に試すべき香水を3本推薦してください。必ずカタログに掲載されている商品のみから選び、productIdにはカタログのid値を正確に記入してください。`;
     } else {
-      userMessage = `【初めてのお客様】
-- 使用シーン: ${answers.scene || "未回答"}
-- 好みの香りの系統: ${answers.scentType || "未回答"}
-- 求める印象: ${answers.impression || "未回答"}
-- 購入希望: ${answers.purchaseType || "未回答"}
-- 香りの強さ: ${answers.strength || "未回答"}
-- 季節: ${answers.season || "未回答"}
-- 性別: ${answers.gender || "未回答"}
+      const newIdList = [...NEW_USER_IDS].join(", ");
+      userMessage = `【初めてのお客様（香水初心者）】
+- ふだん「いい匂い」と感じる身近な匂い: ${answers.smell || "未回答"}（系統でいうと: ${answers.scentType || "おまかせ"}）
+- 香りでどう見られたいか: ${answers.impression || "未回答"}
+- 香水との距離感: ${answers.distance || "未回答"}
+- 香りの強さ（距離感から推定）: ${answers.strength || "ほどよく"}
+- 性別: ${answers.gender || "未回答（不明なら性別を問わない香りを優先）"}
 - 年代: ${answers.age || "未回答"}
 ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
 
-お客様の好みに最適な香水を3本推薦してください。必ずカタログに掲載されている商品のみから選び、productIdにはカタログのid値を正確に記入してください。`;
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔰 初めてのお客様向けの特別ルール（上記の一般ルールより優先）
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. 推薦は「2本だけ」。rank1 = 「まず試す1本」（失敗しにくく、身近な匂いの答えに最も近い定番）、rank2 = 「気に入ったら次の1本」（rank1 と同じ方向で少しだけ違う／少し個性を足した香り）
+2. 候補は下記【初心者向け候補】の ${NEW_USER_PRODUCTS.length} 商品のみ。使用できる productId: [${newIdList}]。この外の商品は絶対に推薦しない
+3. 「強い香りが苦手」「周りにどう思われるか不安」の方には、香りが穏やかで清潔感のある商品を rank1 にする
+4. 「わからない・特にない」の方には、小分け販売数が最も多い定番を rank1 にする
+5. reason は香水用語を使わず、身近な匂いの答えと「どう見られたいか」に必ず触れて、3〜4文で。personalMessage は「初めてでも大丈夫」という安心感を1文入れる
+6. 出力は指定のJSON形式のまま（recommendations は2要素）
+7. 「販売◯個」などの販売数や順位は文章に書かない（候補リストの数字は選定の参考にとどめる）
+
+【初心者向け候補（小分け1.5mlあり・販売実績あり・売上順）】
+${NEW_USER_CATALOG}
+
+以上の2本を推薦してください。`;
     }
 
     // バリデーション付きでAI呼び出し（最大2回リトライ）
     let result = null;
     const MAX_ATTEMPTS = 2;
+    const isNewUser = !answers.isRepeater;
+    const ALLOWED = isNewUser && NEW_USER_IDS.size > 0 ? NEW_USER_IDS : VALID_IDS; // 新規は初心者向け候補のみ
+    const TARGET_COUNT = isNewUser ? 2 : 3; // 新規は「まず試す1本＋次の1本」
 
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       const messages = [{ role: "user", content: userMessage }];
@@ -216,7 +243,7 @@ ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
       if (attempt > 1) {
         messages.push(
           { role: "assistant", content: JSON.stringify(result) },
-          { role: "user", content: `エラー: 推薦した商品のproductIdがカタログに存在しません。以下のIDのみ使用可能です: ${[...VALID_IDS].join(', ')}\n\n必ずカタログ内のIDのみを使って、もう一度推薦してください。` }
+          { role: "user", content: `エラー: 推薦した商品のproductIdが候補に存在しません。以下のIDのみ使用可能です: ${[...ALLOWED].join(', ')}\n\n必ず候補内のIDのみを使って、もう一度推薦してください。` }
         );
       }
 
@@ -255,7 +282,7 @@ ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
       if (result.recommendations && Array.isArray(result.recommendations)) {
         const invalidRecs = result.recommendations.filter((rec) => {
           const id = String(rec.productId || "").replace(/^id=/, "");
-          return !VALID_IDS.has(id);
+          return !ALLOWED.has(id);
         });
 
         if (invalidRecs.length === 0) {
@@ -275,7 +302,7 @@ ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
           const removedCount = invalidRecs.length;
           result.recommendations = result.recommendations.filter((rec) => {
             const id = String(rec.productId || "").replace(/^id=/, "");
-            return VALID_IDS.has(id);
+            return ALLOWED.has(id);
           });
           // ランクを振り直す
           result.recommendations.forEach((rec, i) => { rec.rank = i + 1; });
@@ -294,7 +321,7 @@ ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
       const beforeFilter = result.recommendations.length;
       result.recommendations = result.recommendations.filter((rec) => {
         const id = String(rec.productId || "").replace(/^id=/, "");
-        return VALID_IDS.has(id);
+        return ALLOWED.has(id);
       });
       if (beforeFilter !== result.recommendations.length) {
         console.warn(`[FINAL_GUARD] Filter removed ${beforeFilter - result.recommendations.length} non-catalog items in final guard`);
@@ -304,11 +331,13 @@ ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
       const recIdSet = new Set(
         result.recommendations.map((r) => String(r.productId || "").replace(/^id=/, ""))
       );
-      const TARGET_COUNT = 3;
+      // 新規は2本を超えた分を切り捨てる（AIが3本返した場合）
+      if (result.recommendations.length > TARGET_COUNT) result.recommendations = result.recommendations.slice(0, TARGET_COUNT);
       let filledCount = 0;
+      const FILLER_POOL = isNewUser ? NEW_USER_PRODUCTS : ALL_PRODUCTS_BY_POPULARITY;
       while (result.recommendations.length < TARGET_COUNT) {
         // 重複しない人気商品を取得
-        const filler = ALL_PRODUCTS_BY_POPULARITY.find((p) => {
+        const filler = FILLER_POOL.find((p) => {
           const fId = String(p.productsJsonId || p.code);
           return !recIdSet.has(fId);
         });
@@ -337,7 +366,7 @@ ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
       );
       const hasSample = finalRecIds.some((id) => SAMPLE_IDS.has(id));
 
-      if (!hasSample && SAMPLE_PRODUCTS_BY_POPULARITY.length > 0) {
+      if (!isNewUser && !hasSample && SAMPLE_PRODUCTS_BY_POPULARITY.length > 0) {
         const finalRecIdSet = new Set(finalRecIds);
         const sampleFallback = SAMPLE_PRODUCTS_BY_POPULARITY.find((p) => {
           const fbId = String(p.productsJsonId || p.code);
@@ -375,7 +404,7 @@ ${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
       const sampleInRecs = finalIds.filter((id) => SAMPLE_IDS.has(id)).length;
       console.log(`[FINAL_GUARD] Result: ${result.recommendations.length}件, カタログ内: ${allInCatalog ? "✅" : "❌"}, 小分けあり: ${sampleInRecs}件`);
 
-      if (!allInCatalog || result.recommendations.length < 3 || sampleInRecs === 0) {
+      if (!allInCatalog || result.recommendations.length < TARGET_COUNT || sampleInRecs === 0) {
         console.error(`[FINAL_GUARD_FAIL] ⚠️ 保証条件を満たせなかった！`, {
           recommendations: result.recommendations,
           allInCatalog,

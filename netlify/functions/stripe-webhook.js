@@ -1,6 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-const SLACK_CHANNEL = 'C091LDC8MKN';
+// 2026-09-12 チャンネル再編: 新規注文＝発送業務 → #collegrance-発送 (C08DDT1929E)。Netlify env SLACK_CHANNEL_ID で上書き可
+const SLACK_CHANNEL = process.env.SLACK_CHANNEL_ID || 'C08DDT1929E';
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL; // 優先: Incoming Webhook URL（推奨）
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;     // フォールバック: Bot Token
 
@@ -37,7 +38,7 @@ async function sendSlackMessage(text) {
           'Content-Type': 'application/json; charset=utf-8',
           Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
         },
-        body: JSON.stringify({ channel: SLACK_CHANNEL, text }),
+        body: JSON.stringify({ channel: SLACK_CHANNEL, text, mrkdwn: true, username: '発送係', icon_emoji: ':package:' }),
       });
       const data = await res.json();
       if (data.ok) {
@@ -147,7 +148,7 @@ exports.handler = async (event) => {
 
       // Build Slack message
       const slackMsg = [
-        ':shopping_cart: *新規注文*',
+        '🔴【要対応・発送】 :shopping_cart: *新規注文*',
         '',
         `*注文者:* ${customerName}`,
         `*メール:* ${customerEmail}`,
@@ -170,6 +171,8 @@ exports.handler = async (event) => {
         '_↑ クリックでCSV取得 → B2クラウドの「ファイル取り込み」にアップロードで伝票発行_',
         '',
         `<${stripeUrl}|:credit_card: Stripeダッシュボードで詳細確認>`,
+        '',
+        '対応したら ✅ を付けてください',
       ].join('\n');
 
       await sendSlackMessage(slackMsg);

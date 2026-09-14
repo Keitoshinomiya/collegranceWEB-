@@ -1,7 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-// 2026-09-12 チャンネル再編: 新規注文＝発送業務 → #collegrance-発送 (C08DDT1929E)。Netlify env SLACK_CHANNEL_ID で上書き可
-const SLACK_CHANNEL = process.env.SLACK_CHANNEL_ID || 'C08DDT1929E';
+// 2026-09-14 発送専用チャンネル #collegrance-発送 (C0C1NLCNYRJ) に分離（旧 #line-連絡 と混ざってややこしいため）。Netlify env SLACK_CHANNEL_ID で上書き可
+const SLACK_CHANNEL = process.env.SLACK_CHANNEL_ID || 'C0C1NLCNYRJ';
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL; // 優先: Incoming Webhook URL（推奨）
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;     // フォールバック: Bot Token
 

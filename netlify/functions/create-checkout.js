@@ -8,10 +8,10 @@ const SITE_URL = 'https://collegrance.com';
 const ALLOWED_ORIGINS = ['https://collegrance.com', 'https://www.collegrance.com'];
 
 // 簡易インメモリレート制限（Netlify Functionsは関数インスタンスごとに保持される）
-// 同一IPから60秒以内に3回まで
+// 同一IP+UAから60秒以内に30回まで（キャリア回線は多数の端末が同一IPを共有するため、IP単独・3回では正規ユーザーを弾く）
 const rateLimitStore = new Map();
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
-const RATE_LIMIT_MAX = 3;
+const RATE_LIMIT_MAX = 30;
 
 function getClientIp(event) {
   const xff = event.headers['x-forwarded-for'] || event.headers['X-Forwarded-For'];
@@ -67,9 +67,10 @@ exports.handler = async (event) => {
 
   // === Bot対策3: レート制限 ===
   const ip = getClientIp(event);
-  if (!checkRateLimit(ip)) {
+  const rateKey = ip + '|' + String(event.headers['user-agent'] || '').slice(0, 80);
+  if (!checkRateLimit(rateKey)) {
     console.warn('[BLOCKED] Rate limit exceeded:', { ip });
-    return { statusCode: 429, body: JSON.stringify({ error: 'Too many requests. Please wait a moment.' }) };
+    return { statusCode: 429, body: JSON.stringify({ error: '短時間にアクセスが集中しています。1分ほど待ってからもう一度お試しください。' }) };
   }
 
   try {

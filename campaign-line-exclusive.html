@@ -1774,7 +1774,7 @@
             return;
         }
         setTimeout(() => {
-            localStorage.setItem('notif_registered', '1');
+            try { localStorage.setItem('notif_registered', '1'); } catch (e) {}
             const btn = document.getElementById('notify-btn');
             btn.classList.add('done');
             btn.textContent = '登録できました！開始時にお知らせしますね';
@@ -1911,13 +1911,16 @@
     // ── COPY COUPON ──
     function copyCoupon() {
         const code = 'COLLELINE';
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(code).then(done);
-        } else {
+        const legacyCopy = () => {
             const t = document.createElement('textarea');
             t.value = code; document.body.appendChild(t);
-            t.select(); document.execCommand('copy');
+            t.select(); try { document.execCommand('copy'); } catch (e) {}
             document.body.removeChild(t); done();
+        };
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(code).then(done).catch(legacyCopy);
+        } else {
+            legacyCopy();
         }
         gtag('event','copy_coupon',{'event_category':'campaign_lp','event_label':'COLLELINE'});
     }

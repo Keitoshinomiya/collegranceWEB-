@@ -489,3 +489,8 @@
     padding: 25px 20px;
   }
 }
+
+/* FAB帯との衝突回避: スマホでは送信ボタンをFABより上までスクロールできる余白を確保 */
+@media (max-width: 768px) {
+  .contact-form { padding-bottom: 140px; }
+}

@@ -113,7 +113,7 @@
     @media(max-width:767px){.cart-toast.show{bottom:80px}}
 
     /* SAMPLE→FULLBOTTLE 専用LP */
-    .sample-lp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:none;overflow-y:auto;-webkit-overflow-scrolling:touch}
+    .sample-lp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
     .sample-lp-overlay.active{display:flex;justify-content:center;align-items:flex-start;padding:24px}
     .sample-lp{background:#fff;max-width:480px;width:100%;border-radius:8px;overflow:hidden;margin:auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3)}
     .sample-lp-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.06);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;color:#666;font-size:1.2rem}
@@ -141,7 +141,7 @@
     .sample-lp-notes-grid{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.54rem}
     .sample-lp-notes-label{color:#bbb;font-weight:500}
     .sample-lp-notes-value{color:#666}
-    @media(max-width:767px){.sample-lp{border-radius:0;min-height:100vh}.sample-lp-overlay.active{padding:0}}
+    @media(max-width:767px){.sample-lp{border-radius:0;min-height:100vh;min-height:100dvh}.sample-lp-overlay.active{padding:0}}
 
     /* SUB NAV */
     .sub-nav{display:none} /* Replaced by mega dropdowns */
@@ -410,7 +410,7 @@
     .cart-head-title{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
     .cart-close{background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--sub);transition:color .2s;padding:4px;line-height:1}
     .cart-close:hover{color:var(--text)}
-    .cart-list{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 24px}
+    .cart-list{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 24px}
     .cart-empty{text-align:center;padding:64px 0;font-size:.72rem;color:var(--light);letter-spacing:.08em}
     .cart-row{display:grid;grid-template-columns:56px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--border);align-items:start;animation:fadeIn .3s var(--ease)}
     .cart-thumb{width:56px;height:70px;object-fit:cover;background:var(--bg2);border-radius:3px}
@@ -592,7 +592,7 @@
     .footer-copy{text-align:center;font-size:.54rem;letter-spacing:.12em;color:var(--light);text-transform:uppercase}
 
     /* STICKY CART BAR (mobile) */
-    .sticky-cart{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:12px 20px;z-index:99;justify-content:space-between;align-items:center;box-shadow:0 -4px 20px rgba(0,0,0,.08);transition:transform .3s var(--ease)}
+    .sticky-cart{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:12px 20px;padding-bottom:calc(12px + env(safe-area-inset-bottom));z-index:99;justify-content:space-between;align-items:center;box-shadow:0 -4px 20px rgba(0,0,0,.08);transition:transform .3s var(--ease)}
     .sticky-cart.show{display:flex}
     .sticky-cart-info{font-size:.72rem;font-weight:600;letter-spacing:.02em}
     .sticky-cart-btn{padding:11px 28px;background:var(--accent);color:#fff;border:none;font-family:var(--font);font-size:.66rem;letter-spacing:.14em;cursor:pointer;border-radius:2px;transition:background .2s}
@@ -646,6 +646,8 @@
       .add-btn{padding:11px 10px;font-size:.6rem;min-height:44px}
       .sample-btn{padding:11px 10px;font-size:.6rem;min-height:44px}
       #cart-sidebar{width:100vw;overflow-y:auto}
+      input,select,textarea{font-size:16px!important}
+      .sample-lp-close,.review-modal-close{position:fixed;top:calc(12px + env(safe-area-inset-top));z-index:10002}
       .sticky-cart.show{display:flex}
       .floating-ai{bottom:72px;right:16px;padding:12px 18px;font-size:.6rem}
       .line-cta{padding:48px 20px}
@@ -1304,7 +1306,7 @@
 
   <!-- AI DIAGNOSIS MODAL -->
   <div id="diagnosis-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" onclick="closeDiagnosis()"></div>
-  <div id="diagnosis-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90vw;max-width:520px;max-height:85vh;background:#fff;z-index:301;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow-y:auto">
+  <div id="diagnosis-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90vw;max-width:520px;max-height:85vh;max-height:85dvh;background:#fff;z-index:301;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow-y:auto">
     <div style="padding:28px 28px 24px;position:relative">
       <!-- Close -->
       <button onclick="closeDiagnosis()" style="position:absolute;top:16px;right:18px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:#999;padding:4px;z-index:1">&times;</button>
@@ -2128,10 +2130,19 @@ function addCart(id){
 /* ===== PRODUCT PERMALINK COPY ===== */
 function copyProductLink(id, name){
   var url = 'https://collegrance.com/?product=' + id;
+  var legacyCopy = function(){
+    var t = document.createElement('textarea');
+    t.value = url;
+    document.body.appendChild(t);
+    t.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(t);
+    showShareToast('リンクをコピーしました');
+  };
   if(navigator.clipboard){
     navigator.clipboard.writeText(url).then(function(){
       showShareToast('リンクをコピーしました');
-    });
+    }).catch(legacyCopy);
   } else {
     var t = document.createElement('textarea');
     t.value = url;
@@ -2225,9 +2236,11 @@ function refreshCart(){
   var sticky = document.getElementById('sticky-cart');
   if(count > 0){
     sticky.classList.add('show');
+    document.body.style.paddingBottom = '72px';
     document.getElementById('sticky-info').textContent = count + '点 \u00a5' + total.toLocaleString();
   } else {
     sticky.classList.remove('show');
+    document.body.style.paddingBottom = '';
   }
 
   /* Cart list */
@@ -2318,7 +2331,7 @@ async function doCheckout(){
     if(data.url){
       window.location.href = data.url;
     } else {
-      alert(data.error || 'チェックアウトの作成に失敗しました。');
+      alert(res.status === 429 ? '短時間にアクセスが集中しています。1分ほど待ってからもう一度お試しください。' : (data.error || 'チェックアウトの作成に失敗しました。'));
       if(btn){ btn.disabled = false; btn.textContent = 'お支払いに進む →'; }
     }
   } catch(err){

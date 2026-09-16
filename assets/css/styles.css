@@ -1651,7 +1651,7 @@ h1, h2, h3, h4 {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    z-index: 9999;
+    z-index: 90; /* ナビ(99)・カート(201)・モーダル類より下。以前は9999でドロワー内リンクや送信ボタンに被っていた */
     display: flex;
     flex-direction: column;
     gap: 15px;

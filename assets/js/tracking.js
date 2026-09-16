@@ -236,7 +236,10 @@
         const taggedUrl = this.addAttributionTag(href, channel);
         if (taggedUrl !== href) {
           e.preventDefault();
-          window.open(taggedUrl, link.target || '_blank');
+          // LINE内ブラウザ等で window.open がブロックされると無反応になるため、同一タブ遷移にフォールバック
+          var w = null;
+          try { w = window.open(taggedUrl, link.target || '_blank'); } catch (err) { w = null; }
+          if (!w) { window.location.href = taggedUrl; }
         }
       });
     },

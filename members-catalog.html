@@ -802,7 +802,7 @@ function renderCard(p, variants, hasVariants){
         <div class="p-name">${p.name}</div>
         <div class="p-size">${p.nameJa||''} ・ ${p.size}</div>
         ${hasVariants?tabsHtml:''}
-        ${p.tester?'<div class="p-tester-note">テスター品のため、外装箱が無地の白箱となります。<br>商品本体は正規品と同一です。</div>':''}
+        ${p.tester?'<div class="p-tester-note">'+(p.testerNote||'テスター品のため、外装箱が無地の白箱となります。<br>商品本体は正規品と同一です。')+'</div>':''}
         <div class="p-tags">${tagsHtml}</div>
         ${p.notes?`<div class="p-note-label">Notes</div><div class="p-notes">${p.notes}</div>`:''}
         <div class="p-auth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>正規品保証</div>
@@ -980,7 +980,7 @@ function refreshCart(){
           ${c.img?`<img src="${c.img}" alt="" class="cart-thumb" onerror="this.style.display='none'">`:'<div class="cart-thumb" style="display:flex;align-items:center;justify-content:center;font-size:1.2rem">&#129524;</div>'}
           <div>
             <div class="cart-brand">${c.brand}</div>
-            <div class="cart-name">${c.name}</div>
+            <div class="cart-name">${c.name}${c.tester ? ' <span class="tag tester" style="font-size:.5rem;padding:1px 5px">テスター品</span>' : ''}</div>
             <div class="cart-size-label">${c.size} ${shipLabel}</div>
             <div class="cart-bottom">
               <div class="cart-qty">

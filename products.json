@@ -46,7 +46,7 @@
     "shipping": "standard",
     "stripePriceId": "price_existing_2",
     "source": "purchase_history",
-    "tester": false,
+    "tester": true,
     "inStock": true,
     "type": "sample_and_fullbottle",
     "amazonAsin": "B0FSKQGK6Z",
@@ -56,7 +56,8 @@
     "concentration": "EDT",
     "salesCount": 655,
     "slug": "hermes-un-jardin-sur-le-nil",
-    "variantGroup": "herm-s-un-jardin-sur-le-nil"
+    "variantGroup": "herm-s-un-jardin-sur-le-nil",
+    "testerNote": "テスター品のため外装箱にテスターシールが貼られていますが、中身は正規品と全く同じ未開封品です。その分お求めやすい価格でご提供しております。"
   },
   {
     "brand": "Maison Margiela",

@@ -146,6 +146,24 @@ exports.handler = async (event) => {
       const shippingCsvUrl = `https://collegrance.com/.netlify/functions/shipping-csv?session=${session.id}`;
       const stripeUrl = `https://dashboard.stripe.com/payments/${paymentIntent}`;
 
+      // ギフトのお渡し方法（2026-09-18 追加）。発送担当が「カードに書くのか・未記入で入れるのか」を迷わないよう明示する
+      const giftLines = [];
+      if (hasGiftWrap) {
+        const giftMode = metadata.gift_mode || '';
+        if (giftMode === 'direct') {
+          giftLines.push(':gift: *ギフト：相手に直送* → *メッセージカードに記入して同梱*＋巾着');
+          giftLines.push(`　　カードの文面: ${metadata.gift_message ? `「${metadata.gift_message}」` : '（記入なし → 未記入カードを同梱）'}`);
+          giftLines.push(`　　贈り主: ${metadata.gift_sender || '（記入なし）'}`);
+          giftLines.push('　　:warning: 金額の分かる書類は入れない（配送先は贈り先）');
+        } else if (giftMode === 'self') {
+          giftLines.push(':gift: *ギフト：ご本人が受け取って手渡し* → *メッセージカードは未記入のまま同梱*＋巾着');
+          giftLines.push('　　:warning: 金額の分かる書類は入れない');
+        } else {
+          // 旧ページからの注文（お渡し方法の選択UIが出る前のキャッシュ）
+          giftLines.push(':gift: *ギフト：お渡し方法は未選択* → 注文者と配送先が同じなら未記入カード＋巾着');
+        }
+      }
+
       // Build Slack message
       const slackMsg = [
         '🔴【要対応・発送】 :shopping_cart: *新規注文*',
@@ -160,6 +178,7 @@ exports.handler = async (event) => {
         `小計: ¥${subtotal.toLocaleString()}`,
         `送料: ¥${shippingAmount.toLocaleString()}`,
         `ギフトラッピング: ${hasGiftWrap ? 'あり' : 'なし'}`,
+        ...giftLines,
         `*合計: ¥${total.toLocaleString()}*`,
         '',
         '*配送先:*',

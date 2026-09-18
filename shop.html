@@ -425,6 +425,10 @@
     .cart-remove{background:none;border:none;font-size:.52rem;letter-spacing:.08em;color:var(--light);cursor:pointer;text-transform:uppercase;margin-top:6px;transition:color .2s}
     .cart-remove:hover{color:#c44}
     .cart-foot{flex:0 0 auto;max-height:70vh;max-height:70dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:22px 24px;padding-bottom:calc(22px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--bg2)}
+    /* 決済ボタンはフッターのスクロール領域の下端に常時固定（2026-09-18）。ギフトのお渡し方法やクーポン欄を開いてフッターが伸びても「お支払いに進む」が画面外に沈まないようにする。関連: 2026-09-16 の100vh事故 */
+    .cart-foot #checkout-btn{position:sticky;bottom:-14px;z-index:3;box-shadow:0 -12px 16px -4px var(--bg2),0 44px 0 24px var(--bg2)}
+    /* ↑2つ目の影はボタン下の余白を背景色で覆い、スクロール中の文字が透けないようにする。safe-area は .cart-foot の padding-bottom 側で確保済み */
+    .cart-foot .stripe-safe{position:relative;z-index:4}
     .cart-row-sm{display:flex;justify-content:space-between;font-size:.68rem;color:var(--sub);letter-spacing:.05em;margin-bottom:6px}
     .cart-divider{height:1px;background:var(--border);margin:12px 0}
     .cart-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -1554,6 +1558,24 @@
         </label>
         <span id="c-gift">&yen;0</span>
       </div>
+      <!-- ギフトのお渡し方法（ラッピング選択時のみ表示。すべて任意入力で、未入力でも決済は止めない） -->
+      <div id="gift-options" style="display:none;margin:6px 0 2px;padding:10px 12px;border:1px solid var(--border);border-radius:2px;background:var(--bg);font-size:.6rem;color:var(--sub);line-height:1.7">
+        <div style="margin-bottom:6px;letter-spacing:.04em">巾着・メッセージカード付き。お渡し方法をお選びください</div>
+        <label style="display:flex;align-items:flex-start;gap:6px;cursor:pointer;margin-bottom:4px">
+          <input type="radio" name="gift-mode" value="self" checked onchange="updateGiftPanel()" style="accent-color:var(--accent);margin-top:3px">
+          <span>自分で受け取って手渡しする<br><span style="opacity:.75">メッセージカードは未記入でお入れします</span></span>
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:6px;cursor:pointer">
+          <input type="radio" name="gift-mode" value="direct" onchange="updateGiftPanel()" style="accent-color:var(--accent);margin-top:3px">
+          <span>相手に直接届ける<br><span style="opacity:.75">カードにメッセージを書いてお入れします</span></span>
+        </label>
+        <div id="gift-direct-fields" style="display:none;margin-top:8px">
+          <!-- font-size:16px はiOSのフォーカス時ズーム防止（ズームでカートの決済ボタンが画面外に出るのを避ける） -->
+          <textarea id="gift-message" rows="2" maxlength="100" placeholder="カードに書くメッセージ（100文字まで・空欄でも可）" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid var(--border);border-radius:2px;font-family:var(--font);font-size:16px;line-height:1.5;resize:none;outline:none;background:#fff;color:inherit"></textarea>
+          <input type="text" id="gift-sender" maxlength="30" placeholder="贈り主のお名前（カードに記載）" style="width:100%;box-sizing:border-box;margin-top:6px;padding:8px 10px;border:1px solid var(--border);border-radius:2px;font-family:var(--font);font-size:16px;outline:none;background:#fff;color:inherit">
+          <div style="margin-top:6px;opacity:.75">※次の画面のお届け先には、贈り先のご住所をご入力ください。金額の分かる書類は同梱しません</div>
+        </div>
+      </div>
       <div class="cart-divider"></div>
       <div class="cart-total-row">
         <span class="cart-total-label">合計（税込）</span>
@@ -2200,6 +2222,32 @@ function removeCart(id){
   refreshCart();
 }
 
+/* ===== ギフトのお渡し方法（手渡し / 直送） =====
+   2026-09-18: ギフト注文が「本人が受け取って手渡し」か「相手へ直送」か分からず、発送時に人が住所から推測していたため追加。
+   ここは表示の切り替えと値の読み出しだけ。決済の可否には一切関与しない。 */
+function updateGiftPanel(){
+  var gw = document.getElementById('gift-wrap');
+  var box = document.getElementById('gift-options');
+  if(!gw || !box) return;
+  var on = gw.checked && cart.length > 0;
+  box.style.display = on ? 'block' : 'none';
+  var direct = document.querySelector('input[name="gift-mode"][value="direct"]');
+  var df = document.getElementById('gift-direct-fields');
+  if(df) df.style.display = (on && direct && direct.checked) ? 'block' : 'none';
+}
+function getGiftMeta(giftWrap){
+  if(!giftWrap) return { mode:'', message:'', sender:'' };
+  var direct = document.querySelector('input[name="gift-mode"][value="direct"]');
+  var isDirect = !!(direct && direct.checked);
+  var m = document.getElementById('gift-message');
+  var s = document.getElementById('gift-sender');
+  return {
+    mode: isDirect ? 'direct' : 'self',
+    message: (isDirect && m) ? String(m.value || '').slice(0, 100) : '',
+    sender:  (isDirect && s) ? String(s.value || '').slice(0, 30) : ''
+  };
+}
+
 function refreshCart(){
   var count = cart.reduce(function(s,c){ return s + c.qty; }, 0);
   var sub   = cart.reduce(function(s,c){ return s + c.sellPrice * c.qty; }, 0);
@@ -2207,6 +2255,7 @@ function refreshCart(){
   var ship  = cart.length === 0 ? 0 : (free ? 0 : SHIPPING);
   var giftWrap = document.getElementById('gift-wrap');
   var giftFee = (giftWrap && giftWrap.checked && cart.length > 0) ? 300 : 0;
+  try { updateGiftPanel(); } catch(e){}
   var total = sub + ship + giftFee;
 
   document.getElementById('cart-count').textContent = count;
@@ -2317,6 +2366,11 @@ async function doCheckout(){
     gift_wrap: giftWrap ? 'yes' : 'no',
     diagnosis_session_id: diagSession
   };
+  /* ギフトのお渡し方法（任意入力。ここで例外が出ても決済は止めない） */
+  try {
+    var _gm = getGiftMeta(giftWrap);
+    if(_gm.mode){ metadata.gift_mode = _gm.mode; metadata.gift_message = _gm.message; metadata.gift_sender = _gm.sender; }
+  } catch(e){}
 
   try {
     var btn = document.getElementById('checkout-btn');

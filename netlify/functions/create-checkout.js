@@ -205,9 +205,25 @@ exports.handler = async (event) => {
       ? rawLineFriendId
       : '';
 
+    // ギフトのお渡し方法（2026-09-18 追加）
+    //   self   = 購入者が受け取って手渡し → カードは未記入で同梱
+    //   direct = 相手に直送 → カードに gift_message を記入、gift_sender を贈り主として記載
+    // すべて任意入力。旧フロント（キャッシュされたページ）からは来ないので、未指定は 'self' 扱いにして決済は止めない。
+    // Stripe metadata は1値500文字までなので、念のためここでも長さと制御文字を落とす。
+    const cleanGiftText = (v, max) => String(v == null ? '' : v)
+      .replace(/\r?\n/g, ' / ')
+      .replace(/[ -]/g, ' ')
+      .trim()
+      .slice(0, max);
+    const giftMode = giftWrap ? ((metadata && metadata.gift_mode) === 'direct' ? 'direct' : 'self') : '';
+
     const sessionMetadata = {
       channel: (metadata && metadata.channel) || 'direct',
       gift_wrap: giftWrap ? 'yes' : 'no',
+      ...(giftMode ? { gift_mode: giftMode } : {}),
+      ...(giftMode === 'direct'
+        ? { gift_message: cleanGiftText(metadata.gift_message, 200), gift_sender: cleanGiftText(metadata.gift_sender, 40) }
+        : {}),
       diagnosis_session_id: (metadata && metadata.diagnosis_session_id) || '',
       ...(lineFriendId ? { line_friend_id: lineFriendId } : {}),
       ...(appliedCouponInfo ? { applied_coupon_code: appliedCouponInfo.code } : {}),

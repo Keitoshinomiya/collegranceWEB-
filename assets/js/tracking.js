@@ -340,6 +340,54 @@
   };
 
   // ============================================================
+  // ページ上のAmazonリンク自体をアソシエイトリンクに書き換える
+  // ============================================================
+  // クリック時の付与だけだと、長押し/右クリックの「新しいタブで開く」・中クリック・
+  // リンクのコピーでは tag= が付かずに抜ける。href そのものを書き換えておくことで
+  // どの開き方でも計測され、ページ上でもアソシエイトリンクとして見える状態にする。
+  // 商品カードや診断結果など後から描画されるリンクは MutationObserver で拾う。
+  const LinkRewriter = {
+    SELECTOR: 'a[href*="amazon.co.jp"], a[href*="amazon.com"]',
+
+    init(channelData) {
+      const channel = channelData.channel;
+      const self = this;
+      const scan = function(root) {
+        try {
+          if (root.matches && root.matches(self.SELECTOR)) self.apply(root, channel);
+          if (root.querySelectorAll) {
+            const list = root.querySelectorAll(self.SELECTOR);
+            for (let i = 0; i < list.length; i++) self.apply(list[i], channel);
+          }
+        } catch(e) { /* noop */ }
+      };
+
+      scan(document);
+
+      if (typeof MutationObserver === 'function' && document.body) {
+        new MutationObserver(function(muts) {
+          for (let i = 0; i < muts.length; i++) {
+            const m = muts[i];
+            if (m.type === 'attributes') { scan(m.target); continue; }
+            for (let j = 0; j < m.addedNodes.length; j++) {
+              if (m.addedNodes[j].nodeType === 1) scan(m.addedNodes[j]);
+            }
+          }
+        }).observe(document.body, {
+          childList: true, subtree: true, attributes: true, attributeFilter: ['href']
+        });
+      }
+    },
+
+    apply(a, channel) {
+      const current = a.href;
+      const next = AmazonTracker.addTrackingParams(current, channel);
+      // 変化が無ければ触らない（attributes 監視の再発火で無限ループしないための条件でもある）
+      if (next && next !== current) a.setAttribute('href', next);
+    }
+  };
+
+  // ============================================================
   // Amazonアソシエイト 開示表記（運営規約 第5項により必須）
   // ============================================================
   const Disclosure = {
@@ -460,6 +508,8 @@
     }
 
     // 4. Amazonリンクトラッキング
+    //    href の書き換えが主、クリック時の付与は書き換えが間に合わなかった場合の保険
+    LinkRewriter.init(channelData);
     AmazonTracker.init(channelData);
 
     // 5. 購入トラッキング

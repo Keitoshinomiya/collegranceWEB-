@@ -25,9 +25,11 @@
 
     // ブランドストア参照元タグ（ストアインサイトで流入元別の売上・注文が見える）
     // ※ amazon.co.jp/collegrance など Stores 配下のURLにのみ付与可能
-    //   セラーセントラルでタグ作成後に storeChannelEnabled を true にする
+    //   タグの事前登録は不要（URLに ?channel= を付ければストアインサイトの
+    //   「Top tags」に自動で集計される。訪問数が少ないタグは「その他のタグ」に集約）
     //   制約: 小文字 channel / 20文字以内 / 英数字・ダッシュ・アンダースコア・スペース
-    storeChannelEnabled: false,
+    //   正規URL: https://www.amazon.co.jp/stores/page/F9EFF672-A578-4332-A93B-CDE6DB8F22D0
+    storeChannelEnabled: true,
     storeChannelTags: {
       website:   'site',
       threads:   'threads',
@@ -311,6 +313,8 @@
 
         if (this.isStoreUrl(u)) {
           // ブランドストア: ストアインサイトの参照元タグ
+          // http のままだと https へのリダイレクトを1回挟むため、クエリ欠落を避けて正規化する
+          u.protocol = 'https:';
           if (CONFIG.storeChannelEnabled) {
             const ch = CONFIG.storeChannelTags[channel] || CONFIG.storeChannelTags.other;
             if (ch) u.searchParams.set('channel', ch);

@@ -16,18 +16,31 @@
   // 設定
   // ============================================================
   const CONFIG = {
-    // Amazon Attribution タグ（チャネル別）
-    // ※ Amazon Ads コンソールでタグ発行後にここに設定
-    // タグ未設定の場合はUTMパラメータで代替トラッキング
-    attributionTags: {
-      website:   '', // 自社サイト内リンク（デフォルト）
-      line:      '', // LINE配信からの流入
-      tiktok:    '', // TikTok投稿からの流入
-      instagram: '', // Instagram投稿からの流入
-      blog:      '', // ブログ記事内リンク
-      direct:    '', // 直接流入
-      other:     ''  // その他
+    // Amazonアソシエイト トラッキングID
+    // ※ Amazon Attribution は日本(amazon.co.jp)では提供されていないため、
+    //    「購入」の計測はアソシエイトのトラッキングIDで行う。
+    //    「クリック」の計測はGA4側(linkUrl × sessionSource)で完結済み。
+    // ⚠ 本人・家族・従業員・取引先がこのリンク経由で購入することは規約違反（参加要件6(u)）
+    associateTag: 'collegrance-22',
+
+    // ブランドストア参照元タグ（ストアインサイトで流入元別の売上・注文が見える）
+    // ※ amazon.co.jp/collegrance など Stores 配下のURLにのみ付与可能
+    //   セラーセントラルでタグ作成後に storeChannelEnabled を true にする
+    //   制約: 小文字 channel / 20文字以内 / 英数字・ダッシュ・アンダースコア・スペース
+    storeChannelEnabled: false,
+    storeChannelTags: {
+      website:   'site',
+      threads:   'threads',
+      line:      'line',
+      instagram: 'instagram',
+      tiktok:    'tiktok',
+      blog:      'blog',
+      direct:    'direct',
+      other:     'other'
     },
+
+    // アソシエイト開示表記（運営規約 第5項により必須）
+    disclosureText: 'Amazonのアソシエイトとして、COLLEGRANCEは適格販売により収入を得ています。',
 
     // セッションストレージキー
     storageKey: 'clg_channel',
@@ -219,12 +232,15 @@
         const asin = this.extractASIN(href);
         const channel = channelData.channel;
         const page = window.location.pathname;
+        const placement = this.detectPlacement(link);
 
-        // GA4イベント送信
-        Analytics.send(CONFIG.events.amazonClick, {
+        // GA4イベント送信（traffic_source も自動付与する sendWithSource を使用）
+        Analytics.sendWithSource(CONFIG.events.amazonClick, {
           event_category: 'outbound',
           event_label:    asin || href,
           channel:        channel,
+          placement:      placement,
+          asin:           asin || '',
           utm_source:     channelData.utm_source || '',
           utm_campaign:   channelData.utm_campaign || '',
           page_path:      page,
@@ -232,8 +248,8 @@
           link_text:      link.textContent.trim().substring(0, 50)
         });
 
-        // Attribution タグ付与
-        const taggedUrl = this.addAttributionTag(href, channel);
+        // トラッキングパラメータ付与（商品=アソシエイトtag / ストア=参照元channel）
+        const taggedUrl = this.addTrackingParams(href, channel);
         if (taggedUrl !== href) {
           e.preventDefault();
           // LINE内ブラウザ等で window.open がブロックされると無反応になるため、同一タブ遷移にフォールバック
@@ -244,33 +260,108 @@
       });
     },
 
+    /**
+     * クリックされたリンクの「設置場所」を推定して返す
+     * 優先順位: data-placement 属性 > 既知の意味的コンテナ > 最も近い祖先のid > セクションのclass
+     * 148ページすべてで自動的に意味のある値が入るよう、id へのフォールバックを持たせている
+     */
+    detectPlacement(el) {
+      try {
+        const explicit = el.closest('[data-placement]');
+        if (explicit) return (explicit.getAttribute('data-placement') || '').substring(0, 40);
+
+        const known = [
+          ['[data-diagnosis-result], #diagnosis-result, #diag-result, .diagnosis-result, #aiResult', 'diagnosis_result'],
+          ['.modal, [role="dialog"], dialog', 'modal'],
+          ['header, .site-header', 'header'],
+          ['footer', 'footer']
+        ];
+        for (let i = 0; i < known.length; i++) {
+          if (el.closest(known[i][0])) return known[i][1];
+        }
+
+        const withId = el.closest('[id]');
+        if (withId && withId.id) return withId.id.substring(0, 40);
+
+        const sec = el.closest('section, article, [class]');
+        if (sec && typeof sec.className === 'string' && sec.className.trim()) {
+          return sec.className.trim().split(/\s+/)[0].substring(0, 40);
+        }
+      } catch(e) { /* closest 非対応など */ }
+      return 'other';
+    },
+
     extractASIN(url) {
       const match = url.match(/\/dp\/([A-Z0-9]{10})/);
       return match ? match[1] : null;
     },
 
     /**
-     * AmazonリンクにAttributionタグを付与
-     * タグが設定されていない場合はUTMベースのref parameterを追加
+     * Amazonリンクにトラッキングパラメータを付与
+     *   商品ページ(/dp/, /gp/product/) → アソシエイトの tag=
+     *   ブランドストア(/collegrance, /stores/) → ストア参照元タグ channel=
+     * ※ 旧実装の ref=clg_xxx は廃止。
+     *    日本では Amazon Attribution が使えず ref= は一切計測されないうえ、
+     *    Amazon内部の ref パラメータと衝突しうるため。
      */
-    addAttributionTag(url, channel) {
+    addTrackingParams(url, channel) {
       try {
         const u = new URL(url);
+        if (!/(^|\.)amazon\.(co\.jp|com)$/.test(u.hostname)) return url;
 
-        // Attribution タグがある場合はそれを使用
-        const tag = CONFIG.attributionTags[channel] || CONFIG.attributionTags.website;
-        if (tag) {
-          u.searchParams.set('maas', tag);
+        if (this.isStoreUrl(u)) {
+          // ブランドストア: ストアインサイトの参照元タグ
+          if (CONFIG.storeChannelEnabled) {
+            const ch = CONFIG.storeChannelTags[channel] || CONFIG.storeChannelTags.other;
+            if (ch) u.searchParams.set('channel', ch);
+          }
           return u.toString();
         }
 
-        // タグ未設定の場合: refパラメータでチャネルを記録
-        // （Amazon Attribution API承認後に正式タグに置換）
-        u.searchParams.set('ref', `clg_${channel}`);
+        // 商品ページ: アソシエイトのトラッキングID
+        if (CONFIG.associateTag) {
+          u.searchParams.set('tag', CONFIG.associateTag);
+        }
         return u.toString();
       } catch(e) {
         return url;
       }
+    },
+
+    /** Stores 配下のURLか（参照元タグを付けられるのはストアページのみ） */
+    isStoreUrl(u) {
+      const p = (u.pathname || '').toLowerCase();
+      return p.indexOf('/stores/') === 0 || p === '/collegrance' || p.indexOf('/collegrance/') === 0;
+    }
+  };
+
+  // ============================================================
+  // Amazonアソシエイト 開示表記（運営規約 第5項により必須）
+  // ============================================================
+  const Disclosure = {
+    init() {
+      if (!CONFIG.associateTag || !CONFIG.disclosureText) return;
+      try {
+        // 二重表示防止（JS挿入済み / HTML側に既に記載あり）
+        if (document.querySelector('[data-clg-associate-disclosure]')) return;
+        const bodyText = document.body ? (document.body.textContent || '') : '';
+        if (bodyText.indexOf('適格販売により収入を得') !== -1) return;
+
+        const el = document.createElement('div');
+        el.setAttribute('data-clg-associate-disclosure', '1');
+        el.textContent = CONFIG.disclosureText;
+        // margin-bottom は下部固定バー（.sticky-cart 等）との緩衝。
+        // body 側に padding-bottom が用意されているページでも余裕が薄いため上乗せする。
+        el.style.cssText = 'padding:14px 16px;margin-bottom:16px;text-align:center;font-size:12px;'
+          + 'line-height:1.7;color:#555;background:#f7f7f5;border-top:1px solid #e5e5e0;';
+
+        const footer = document.querySelector('footer');
+        if (footer && footer.parentNode) {
+          footer.parentNode.insertBefore(el, footer.nextSibling);
+        } else {
+          document.body.appendChild(el);
+        }
+      } catch(e) { /* noop */ }
     }
   };
 
@@ -373,6 +464,9 @@
     // 6. LINE遷移トラッキング
     LineTracker.init(channelData);
 
+    // 7. アソシエイト開示表記の挿入（規約第5項）
+    Disclosure.init();
+
     if (CONFIG.debug) {
       console.log('[CLG Track] Initialized', channelData);
     }
@@ -390,6 +484,9 @@
     getChannel: () => ChannelDetector.getChannel(),
     getChannelData: () => ChannelDetector.getSaved(),
     trackPurchase: (data) => PurchaseTracker.savePurchase(data),
+    // 検証用: リンク書き換え結果と設置場所の判定を外から確認できるようにする
+    previewUrl: (url, channel) => AmazonTracker.addTrackingParams(url, channel || ChannelDetector.getChannel()),
+    detectPlacement: (el) => AmazonTracker.detectPlacement(el),
     config: CONFIG
   };
 

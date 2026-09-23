@@ -102,30 +102,35 @@
       else if (referrer) {
         if (referrer.includes('threads.net')) {
           channel = 'threads';
-        } else if (referrer.includes('line.me') || referrer.includes('liff.line.me') || referrer.includes('liff')) {
+        } else if (referrer.includes('line.me') || referrer.includes('liff.line.me') || referrer.includes('liff')
+                   || referrer.includes('lin.ee') || referrer.includes('line-crm-worker')) {
+          // line-crm-worker = LINE Harness のクーポンコピー画面・抽選結果・計測リンク等（2026-09-23）
           channel = 'line';
         } else if (referrer.includes('tiktok.com')) {
           channel = 'tiktok';
         } else if (referrer.includes('instagram.com')) {
           channel = 'instagram';
         } else if (referrer.includes('amazon.co.jp') || referrer.includes('amazon.com')) {
+          // サイト→Amazon→サイトの往復で最初の入口を上書きしない（2026-09-23）
+          const saved = this.getSaved() || this.getLastTouch();
+          if (saved) return this.adopt(saved);
           channel = 'amazon';
         } else if (referrer.includes('google.') || referrer.includes('bing.') || referrer.includes('yahoo.')) {
           channel = 'organic_search';
-        } else if (referrer.includes('collegrance.com')) {
-          // 同一サイト内遷移 → 既存セッションを維持
-          const saved = this.getSaved();
-          if (saved) return saved;
+        } else if (referrer.includes('collegrance.com') || referrer.includes('checkout.stripe.com')) {
+          // 同一サイト内遷移・決済画面からの戻り → 既存セッション → 直近の入口 の順で維持
+          const saved = this.getSaved() || this.getLastTouch();
+          if (saved) return this.adopt(saved);
           channel = 'website';
         } else {
           channel = 'referral';
         }
         detail = referrer;
       }
-      // 3. 保存済みセッションから復元
+      // 3. 保存済みセッション → 直近30日の入口（ブックマーク・再訪でも最初の入口を失わない・2026-09-23）
       else {
-        const saved = this.getSaved();
-        if (saved) return saved;
+        const saved = this.getSaved() || this.getLastTouch();
+        if (saved) return this.adopt(saved);
       }
 
       const result = {
@@ -150,14 +155,47 @@
         sessionStorage.setItem('clg_source', data.channel || '');
         sessionStorage.setItem('clg_medium', data.utm_medium || '');
         sessionStorage.setItem('clg_campaign', data.utm_campaign || '');
-        // チャネルはローカルストレージにも保存（Stripe決済後の復元用）
-        localStorage.setItem(CONFIG.storageKey, JSON.stringify({
-          channel: data.channel,
-          detail: data.detail,
-          utm_campaign: data.utm_campaign,
-          timestamp: data.timestamp
-        }));
+        // 入口（direct/website 以外）だけをローカルストレージに保存する。
+        // 以前は再訪時の direct で上書きしていたため、決済の55%が direct 扱いになっていた（2026-09-23）
+        if (data.channel && !this.NON_TOUCH.includes(data.channel)) {
+          localStorage.setItem(CONFIG.storageKey, JSON.stringify({
+            channel: data.channel,
+            detail: data.detail,
+            utm_source: data.utm_source,
+            utm_medium: data.utm_medium,
+            utm_campaign: data.utm_campaign,
+            landing_page: data.landing_page,
+            timestamp: data.timestamp
+          }));
+        }
       } catch(e) { /* private browsing */ }
+    },
+
+    NON_TOUCH: ['direct', 'website'],
+    LAST_TOUCH_DAYS: 30,
+
+    /** 直近 LAST_TOUCH_DAYS 日以内に記録された入口（ローカルストレージ）。無ければ null */
+    getLastTouch() {
+      try {
+        const raw = localStorage.getItem(CONFIG.storageKey);
+        if (!raw) return null;
+        const t = JSON.parse(raw);
+        if (!t || !t.channel || this.NON_TOUCH.includes(t.channel)) return null;
+        const age = Date.now() - new Date(t.timestamp).getTime();
+        if (!(age >= 0 && age <= this.LAST_TOUCH_DAYS * 86400000)) return null;
+        return Object.assign({ utm_source: '', utm_medium: '', utm_campaign: '', referrer: '', landing_page: '' }, t, { returning: true });
+      } catch (e) { return null; }
+    },
+
+    /** 復元した入口を今回のセッションにも採用する（GA4グローバルパラメータ・決済メタデータに効く） */
+    adopt(data) {
+      try {
+        sessionStorage.setItem(CONFIG.sessionKey, JSON.stringify(data));
+        sessionStorage.setItem('clg_source', data.channel || '');
+        sessionStorage.setItem('clg_medium', data.utm_medium || '');
+        sessionStorage.setItem('clg_campaign', data.utm_campaign || '');
+      } catch (e) { /* private browsing */ }
+      return data;
     },
 
     getSaved() {

@@ -40,6 +40,7 @@
   .btn .arr{ float:right; font-size:14px; opacity:.6; }
   .primary{ background:var(--charcoal); color:#fff; }
   .secondary{ background:#fff; color:var(--charcoal); border:1px solid #e6e2da; }
+  .line{ background:#06C755; color:#fff; }
   .foot{ margin-top:30px; font-size:11px; color:#aaa; letter-spacing:.04em; }
 </style>
 </head>
@@ -63,6 +64,20 @@
       <div class="sub">1.5mlのお試しから気軽に</div>
     </a>
 
+    <a class="btn secondary" href="https://collegrance.com/?diagnosis=1" target="_blank" rel="noopener"
+       onclick="hubClick('diagnosis')">
+      <span class="arr">→</span>
+      <div class="label">AI香り診断</div>
+      <div class="sub">いくつかの質問で、合う香りを提案します</div>
+    </a>
+
+    <a class="btn line" href="https://lin.ee/BTytLdX" target="_blank" rel="noopener"
+       onclick="hubClick('line')">
+      <span class="arr">→</span>
+      <div class="label">LINEで友だち追加</div>
+      <div class="sub">香りの相談・新しい香りのお知らせ</div>
+    </a>
+
     <div class="foot">© COLLEGRANCE</div>
   </main>
   <script>
@@ -84,5 +99,7 @@
       });
     })();
   </script>
+  <!-- 入口の記録と Amazon リンクへの入口別 tag= / channel= 付与（2026-09-24） -->
+  <script src="/assets/js/tracking.js"></script>
 </body>
 </html>

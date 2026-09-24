@@ -23,6 +23,18 @@
     // ⚠ 本人・家族・従業員・取引先がこのリンク経由で購入することは規約違反（参加要件6(u)）
     associateTag: 'collegrance-22',
 
+    // 入口別のトラッキングID（2026-09-24 作成）。アソシエイトの「トラッキングID別」レポートで
+    // 入口ごとの Amazon 売上が分かる。どれにも当たらない入口（direct・referral 等）は associateTag
+    associateTagsByChannel: {
+      line:           'clgline-22',
+      threads:        'clgthreads-22',
+      instagram:      'clgig-22',
+      organic_search: 'clgsearch-22',
+      google:         'clgsearch-22',
+      blog:           'clgsearch-22',
+      tiktok:         'clgtiktok-22'
+    },
+
     // ブランドストア参照元タグ（ストアインサイトで流入元別の売上・注文が見える）
     // ※ amazon.co.jp/collegrance など Stores 配下のURLにのみ付与可能
     //   タグの事前登録は不要（URLに ?channel= を付ければストアインサイトの
@@ -361,8 +373,9 @@
         }
 
         // 商品ページ: アソシエイトのトラッキングID
-        if (CONFIG.associateTag) {
-          u.searchParams.set('tag', CONFIG.associateTag);
+        const tag = (CONFIG.associateTagsByChannel && CONFIG.associateTagsByChannel[channel]) || CONFIG.associateTag;
+        if (tag) {
+          u.searchParams.set('tag', tag);
         }
         return u.toString();
       } catch(e) {

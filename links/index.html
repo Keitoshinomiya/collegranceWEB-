@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>COLLEGRANCE | リンク</title>
+<!-- SNSプロフィールのリンク先（2026-09-23）。?utm_source=instagram|threads|tiktok&utm_medium=profile で入口を計測し、
+     このページから Amazon / 自社ショップ / LINE / 読みもの へ送る。Amazonリンクの tag= / channel= は tracking.js が入口に応じて付与 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM95225F6"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-6DM95225F6');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--text:#1a1a1a;--sub:#666;--bg:#fff;--bg2:#faf9f7;--border:#e8e8e8;--accent:#111;--font:'Zen Kaku Gothic Antique',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);color:var(--text);background:var(--bg2);line-height:1.8;letter-spacing:.05em;font-size:14px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:440px;margin:0 auto;padding:40px 20px 56px}
+.logo{display:block;width:180px;margin:0 auto 10px}
+.lead{text-align:center;color:var(--sub);font-size:12.5px;margin-bottom:28px}
+.btn{display:block;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:12px;text-decoration:none;color:var(--text)}
+.btn:active{opacity:.8}
+.btn b{display:block;font-size:15px;font-weight:700}
+.btn span{display:block;font-size:12px;color:var(--sub);margin-top:2px}
+.btn.main{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.main span{color:#cfcfcf}
+.btn.line{background:#06C755;border-color:#06C755;color:#fff}
+.btn.line span{color:#e6f9ee}
+footer{text-align:center;font-size:11px;color:#999;margin-top:28px}
+footer a{color:#999}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img class="logo" src="/assets/images/logo.webp" alt="COLLEGRANCE">
+  <p class="lead">世界の香りを、1.5mlから。</p>
+
+  <a class="btn main" data-placement="links_amazon" href="https://www.amazon.co.jp/collegrance">
+    <b>お試し香水を買う（Amazon）</b>
+    <span>1.5mlの小分け香水。まずは気軽に</span>
+  </a>
+  <a class="btn" data-placement="links_diagnosis" href="/?diagnosis=1">
+    <b>AI香り診断</b>
+    <span>いくつかの質問で、あなたに合う香りを提案します</span>
+  </a>
+  <a class="btn" data-placement="links_fullbottle" href="/fullbottle/">
+    <b>フルボトルを買う</b>
+    <span>気に入った香りを、ボトルで</span>
+  </a>
+  <a class="btn line" data-placement="links_line" href="https://lin.ee/BTytLdX">
+    <b>LINEで友だち追加</b>
+    <span>香りの相談・新しい香りのお知らせ</span>
+  </a>
+  <a class="btn" data-placement="links_journal" href="/journal.html">
+    <b>香りの読みもの</b>
+    <span>選び方・つけ方・香りの話</span>
+  </a>
+
+  <footer><a href="/">collegrance.com</a></footer>
+</div>
+<script src="/assets/js/tracking.js"></script>
+<script>
+// 各ボタンのクリックを入口つきで記録（Amazonのクリックは tracking.js も amazon_link_click を送る）
+document.querySelectorAll('a[data-placement]').forEach(function(a){
+  a.addEventListener('click', function(){
+    if (window.ga4EventWithSource) window.ga4EventWithSource('links_click', { placement: a.dataset.placement, link_url: a.href });
+  });
+});
+</script>
+</body>
+</html>

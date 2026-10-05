@@ -217,8 +217,12 @@ exports.handler = async (event) => {
       .slice(0, max);
     const giftMode = giftWrap ? ((metadata && metadata.gift_mode) === 'direct' ? 'direct' : 'self') : '';
 
+    // LINE内ブラウザ → 外部ブラウザへ引き継いで来た決済か（2026-10-05）。効果測定用。既知の値だけ通す
+    const handoff = (metadata && metadata.handoff === 'line_external') ? 'line_external' : '';
+
     const sessionMetadata = {
       channel: (metadata && metadata.channel) || 'direct',
+      ...(handoff ? { handoff } : {}),
       gift_wrap: giftWrap ? 'yes' : 'no',
       ...(giftMode ? { gift_mode: giftMode } : {}),
       ...(giftMode === 'direct'
@@ -241,7 +245,10 @@ exports.handler = async (event) => {
       },
       shipping_options,
       success_url: SITE_URL + '/?ok=1&session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: SITE_URL + '/',
+      // 決済画面の「戻る」はカートを開いた状態で戻す（2026-10-05。従来はトップに戻りカートが見えなかった）
+      cancel_url: SITE_URL + '/?cart=1',
+      // ⚠️ consent_collection.promotions は日本のアカウントでは使えない（Stripe が "not available in your country" で
+      //    セッション作成ごと拒否する＝全決済が止まる。2026-10-05 実測）。Stripe のカゴ落ちメール回収は日本では不可
       metadata: sessionMetadata,
       payment_intent_data: {
         metadata: sessionMetadata,

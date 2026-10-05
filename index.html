@@ -7,7 +7,15 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-6DM95225F6');
+    /* LINE内ブラウザからの決済引き継ぎURL（?handoff=1…）のクーポンコードをGA4のページURLに残さない（2026-10-05） */
+    gtag('config', 'G-6DM95225F6', (function(){
+      try {
+        if(location.search.indexOf('handoff=1') < 0) return {};
+        var u = new URL(location.href);
+        ['cpn','gmsg','gsnd'].forEach(function(k){ u.searchParams.delete(k); });
+        return { page_location: u.toString() };
+      } catch(e){ return {}; }
+    })());
   </script>
   <script src="/assets/js/tracking.js" defer></script>
 
@@ -2388,9 +2396,15 @@ function persistCart(){
 function restoreCart(){
   try {
     if(location.search.includes('ok=1')){ localStorage.removeItem(CART_STORAGE_KEY); return; }
+    /* LINE内ブラウザから引き継いだカートがあればそれを優先（URLのカートで置き換える） */
+    if(applyHandoffFromUrl()) return;
     var saved = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || 'null');
     if(!saved || !saved.items || !saved.updated_at) return;
     if(Date.now() - saved.updated_at > CART_TTL_MS){ localStorage.removeItem(CART_STORAGE_KEY); return; }
+    /* 外部ブラウザへ引き継ぎ済みのLINE内カートは復元しない（あちらで購入済みの可能性が高く、
+       復元するとカゴ落ちLINEが「買った人」に届く）。押した直後の再読込（外部が開かなかった等）だけは残す */
+    var goAt = getHandoffGoAt();
+    if(goAt && saved.updated_at <= goAt && Date.now() - goAt > HANDOFF_KEEP_MS){ localStorage.removeItem(CART_STORAGE_KEY); return; }
     saved.items.forEach(function(it){
       var p = PRODUCTS.find(function(x){ return x.id === it.id; });
       if(!p || p.inStock === false) return;
@@ -2398,7 +2412,202 @@ function restoreCart(){
       cart.push(Object.assign({}, p, { qty: Math.min(Math.max(it.qty || 1, 1), 99) }));
     });
     if(cart.length) refreshCart();
+  } catch(e){
+  } finally {
+    /* 途中で return しても必ず通す */
+    openCartIfReturnedFromCheckout();
+  }
+}
+
+/* 決済画面の「戻る」（cancel_url = /?cart=1）からはカートを開いた状態で戻す（2026-10-05） */
+function openCartIfReturnedFromCheckout(){
+  try {
+    var params = new URLSearchParams(location.search);
+    if(params.get('cart') !== '1') return;
+    params.delete('cart');
+    var qs = params.toString();
+    history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+    if(cart.length) openCart();
   } catch(e){}
+}
+
+/* === LINE内ブラウザ → 外部ブラウザ（Safari/Chrome）への決済引き継ぎ（2026-10-05） ===
+   LINE内ブラウザでは Apple Pay が使えず、カードの自動入力も効かない。
+   同じLINE配布クーポン（CLG-）を持つ人でも、決済完了率は LINE内ブラウザ 21% / 外部ブラウザ 39%（Stripe 直近90日）。
+   「お支払いに進む」で案内を出し、カート・クーポン・LINE ID・ギフト指定をURLに載せて
+   openExternalBrowser=1（LINE公式の外部ブラウザ起動フラグ）で開き直す。
+   localStorage はブラウザ間で共有されないので URL で渡すしかない。
+   受け側（applyHandoffFromUrl）は値を全て検証し、壊れていれば何もしない＝通常表示。
+   ギフトのメッセージ・贈り主名はURLに載せない（GA4のページURLやアクセスログに個人の文章が残るため）。 */
+var HANDOFF_GO_KEY = 'clg_handoff_go_at';           /* LINE内側: 「ブラウザで開く」を押した時刻 */
+var HANDOFF_DECLINED_KEY = 'clg_handoff_declined';  /* このタブでは案内を出さない */
+var HANDOFF_KEEP_MS = 30 * 60 * 1000;               /* 押した直後30分はLINE内のカートを残す（外部が開かなかった時の保険） */
+var HANDOFF_SNAPSHOT_MUTE_MS = 24 * 60 * 60 * 1000; /* 押してから24時間はLINE内からカゴ落ちスナップショットを送らない */
+var _handoffDeclined = false;
+try { _handoffDeclined = sessionStorage.getItem(HANDOFF_DECLINED_KEY) === '1'; } catch(e){}
+
+function declineHandoff(){
+  _handoffDeclined = true;
+  try { sessionStorage.setItem(HANDOFF_DECLINED_KEY, '1'); } catch(e){}
+}
+
+function getHandoffGoAt(){
+  try { var v = parseInt(localStorage.getItem(HANDOFF_GO_KEY) || '', 10); return v > 0 ? v : 0; } catch(e){ return 0; }
+}
+
+function isLineInAppBrowser(){
+  try { return /\bLine\//i.test(navigator.userAgent || ''); } catch(e){ return false; }
+}
+
+function buildHandoffUrl(){
+  var p = new URLSearchParams();
+  p.set('handoff', '1');
+  p.set('hc', cart.map(function(c){ return c.id + '.' + c.qty; }).join('_'));
+  var cpn = getStoredCoupon();
+  if(cpn && isValidCouponCode(cpn)) p.set('cpn', cpn);
+  var fid = '';
+  try { fid = localStorage.getItem('clg_line_friend_id') || ''; } catch(e){}
+  if(fid) p.set('lfid', fid);
+  try {
+    var gw = document.getElementById('gift-wrap');
+    if(gw && gw.checked) p.set('gw', getGiftMeta(true).mode === 'direct' ? 'd' : 's');
+  } catch(e){}
+  try {
+    var ds = JSON.parse(localStorage.getItem('clg_diag_session') || '{}');
+    if(ds && ds.sessionId) p.set('ds', String(ds.sessionId).slice(0, 64));
+  } catch(e){}
+  p.set('utm_source', 'line');
+  p.set('utm_medium', 'inapp_handoff');
+  p.set('openExternalBrowser', '1');
+  return location.origin + '/?' + p.toString();
+}
+
+function closeHandoffSheet(){
+  var el = document.getElementById('clg-handoff');
+  if(el) el.remove();
+}
+
+function showHandoffSheet(){
+  closeHandoffSheet();
+  /* URLは案内を出す時点で作る（シート表示中はカートを触れない）。作れなければ従来どおり決済 */
+  var url = buildHandoffUrl();
+  ga4Event('handoff_offer', { browser: 'line_inapp', value: cart.reduce(function(s,c){ return s + c.sellPrice * c.qty; }, 0) });
+  var ov = document.createElement('div');
+  ov.id = 'clg-handoff';
+  ov.style.cssText = 'position:fixed;inset:0;background:rgba(20,20,20,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+  ov.innerHTML =
+    '<div style="position:relative;background:#faf9f7;border-radius:8px;max-width:400px;width:100%;max-height:88vh;max-height:88dvh;overflow-y:auto;padding:24px 20px;font-size:13px;line-height:1.8;color:#1a1a1a">'
+    + '<button type="button" id="clg-handoff-close" aria-label="閉じてカートに戻る" style="position:absolute;top:6px;right:8px;background:none;border:none;font-size:22px;line-height:1;color:#999;padding:8px;cursor:pointer">&times;</button>'
+    + '<div style="font-weight:700;font-size:15px;letter-spacing:.06em;text-align:center;margin-bottom:10px">ブラウザで開いてお支払い</div>'
+    + '<div style="font-size:12.5px;color:#555;margin-bottom:16px">LINEの中の画面では Apple Pay・カードの自動入力が使えません。いつものブラウザ（Safari・Chrome など）で開くと、<b style="color:#1a1a1a">カートの中身・クーポン</b>をそのまま引き継いでお支払いいただけます。</div>'
+    + '<a id="clg-handoff-go" style="display:block;width:100%;box-sizing:border-box;background:#1a1a1a;color:#fff;text-align:center;text-decoration:none;border-radius:5px;padding:14px;font-size:14px;font-weight:700;letter-spacing:.06em;margin-bottom:10px">ブラウザで開く</a>'
+    + '<div id="clg-handoff-note" style="display:none;font-size:11.5px;color:#3a7d44;text-align:center;margin-bottom:10px">ブラウザを開きました。開かない場合は下の「このまま支払う」をお使いください。</div>'
+    + '<button type="button" id="clg-handoff-stay" style="display:block;width:100%;background:none;border:1px solid #ddd;border-radius:5px;padding:11px;font-size:12px;color:#666;cursor:pointer">LINEの中でこのまま支払う</button>'
+    + '</div>';
+  document.body.appendChild(ov);
+  /* 「ブラウザで開く」は本物のリンク（LINEが外部ブラウザ起動を確実に拾うのはリンクのタップ） */
+  var go = document.getElementById('clg-handoff-go');
+  go.href = url;
+  var wentOnce = false;
+  go.addEventListener('click', function(){
+    /* ここで止めない（既定の遷移に任せる）。以降LINE内からのカゴ落ちスナップショットを止め、送信待ちも捨てる */
+    try { localStorage.setItem(HANDOFF_GO_KEY, String(Date.now())); } catch(e){}
+    try { if(_snapshotTimer){ clearTimeout(_snapshotTimer); _snapshotTimer = null; } } catch(e){}
+    if(!wentOnce){ wentOnce = true; ga4Event('handoff_go', { browser: 'line_inapp' }); }
+    var note = document.getElementById('clg-handoff-note');
+    if(note) note.style.display = 'block';
+  });
+  document.getElementById('clg-handoff-stay').onclick = function(){
+    ga4Event('handoff_stay', { browser: 'line_inapp' });
+    /* LINEの中で払う → カゴ落ちフォローも通常どおりに戻す */
+    try { localStorage.removeItem(HANDOFF_GO_KEY); } catch(e){}
+    declineHandoff();
+    closeHandoffSheet();
+    doCheckout();
+  };
+  /* ×・背景タップはカートに戻るだけ（次に「お支払いに進む」でまた案内する） */
+  document.getElementById('clg-handoff-close').onclick = closeHandoffSheet;
+  ov.addEventListener('click', function(e){ if(e.target === ov) closeHandoffSheet(); });
+}
+
+/* 受け側: ?handoff=1&hc=ID.数量_ID.数量… を読んでカートを置き換え、クーポン・ギフト指定も復元してカートを開く。
+   処理したら true（以降の通常のカート復元は行わない）。不正・空なら false。 */
+function applyHandoffFromUrl(){
+  var params;
+  try { params = new URLSearchParams(location.search); } catch(e){ return false; }
+  if(params.get('handoff') !== '1') return false;
+  var restored = [];
+  var requested = 0;
+  try {
+    String(params.get('hc') || '').split('_').slice(0, 20).forEach(function(tok){
+      if(tok) requested++;
+      var m = /^(\d{1,6})\.(\d{1,2})$/.exec(tok);
+      if(!m) return;
+      var id = parseInt(m[1], 10), qty = Math.min(Math.max(parseInt(m[2], 10) || 1, 1), 20);
+      var p = PRODUCTS.find(function(x){ return x.id === id; });
+      if(!p || p.inStock === false) return;
+      if(restored.find(function(x){ return x.id === id; })) return;
+      restored.push(Object.assign({}, p, { qty: qty }));
+    });
+  } catch(e){ restored = []; }
+
+  /* 先に値を読み出してから、URLの引き継ぎ用パラメータを消す
+     （再読み込みで二重に適用しない・クーポンを画面のURLに残さない） */
+  var cpn = String(params.get('cpn') || '').trim().toUpperCase();
+  var gw = params.get('gw');
+  var ds = String(params.get('ds') || '');
+  try {
+    ['handoff','hc','cpn','lfid','gw','gmsg','gsnd','ds','openExternalBrowser'].forEach(function(k){ params.delete(k); });
+    var qs = params.toString();
+    history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+  } catch(e){}
+
+  if(!restored.length) return false;
+
+  /* まだLINE内ブラウザ＝外部ブラウザが開かずにここへ来た → もう案内は出さない（無限ループ防止） */
+  /* 外部が開かなかった＝決済はこのLINE内で行うので、カゴ落ちフォローの一時停止（goAt）も解除する */
+  if(isLineInAppBrowser()){ declineHandoff(); try { localStorage.removeItem(HANDOFF_GO_KEY); } catch(e){} }
+  else { try { sessionStorage.setItem('clg_handoff', 'line_external'); } catch(e){} }
+
+  cart = restored;
+  /* クーポン（LINE ID は既存の ?lfid= 取り込みで保存済み） */
+  try {
+    if(isValidCouponCode(cpn)){
+      localStorage.setItem(COUPON_STORAGE_KEY, cpn);
+      /* 入力欄はページ表示時に「このブラウザに前から保存されていたコード」で埋まっているので、引き継いだコードに揃える */
+      var ci = document.getElementById('coupon-input'); if(ci) ci.value = cpn;
+      var cm = document.getElementById('coupon-input-msg');
+      if(cm){ cm.style.color = '#3a7d44'; cm.textContent = '✓ クーポン ' + cpn + ' がお会計時に自動適用されます'; }
+    }
+  } catch(e){}
+  /* AI診断のセッション（このタブの決済にだけ使う） */
+  try { if(/^[A-Za-z0-9_-]{1,64}$/.test(ds)) sessionStorage.setItem('clg_handoff_ds', ds); } catch(e){}
+  /* ギフト指定 */
+  try {
+    if(gw === 's' || gw === 'd'){
+      var gwEl = document.getElementById('gift-wrap');
+      if(gwEl) gwEl.checked = true;
+      var radio = document.querySelector('input[name="gift-mode"][value="' + (gw === 'd' ? 'direct' : 'self') + '"]');
+      if(radio) radio.checked = true;
+    }
+  } catch(e){}
+  refreshCart();
+  openCart();
+  if(!isLineInAppBrowser()){
+    try {
+      var toast = document.createElement('div');
+      toast.style.cssText = 'position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:10000;background:#1a1a1a;color:#fff;font-size:12.5px;line-height:1.6;padding:10px 16px;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.25);width:max-content;max-width:calc(100vw - 32px);box-sizing:border-box;text-align:center;pointer-events:none';
+      var msgs = ['カートの中身を引き継ぎました。'];
+      if(restored.length < requested) msgs.push('在庫切れなどで引き継げなかった商品があります。');
+      if(gw === 'd') msgs.push('ギフトのメッセージは、お手数ですがもう一度ご入力ください。');
+      msgs.push('ご確認のうえ「お支払いに進む」からどうぞ');
+      toast.textContent = msgs.join('');
+      document.body.appendChild(toast);
+      setTimeout(function(){ toast.remove(); }, msgs.length > 2 ? 8000 : 5000);
+    } catch(e){}
+  }
+  ga4Event('handoff_landed', { browser: isLineInAppBrowser() ? 'line_inapp' : 'external', items: restored.length });
+  return true;
 }
 
 /* Worker へのスナップショット送信（lfid が無い訪問者は何も送らない） */
@@ -2407,6 +2616,10 @@ function buildSnapshotPayload(){
   var fid = '';
   try { fid = localStorage.getItem('clg_line_friend_id') || ''; } catch(e){}
   if(!fid) return null;
+  /* 外部ブラウザへ引き継いだ直後のLINE内カートは送らない（購入は外部ブラウザ側で行われ、
+     ここから送ると購入済みの人に新しいカゴ落ちとして記録される）。外部ブラウザ側は goAt を持たないので通常どおり送る */
+  var goAt = getHandoffGoAt();
+  if(goAt && Date.now() - goAt < HANDOFF_SNAPSHOT_MUTE_MS) return null;
   return JSON.stringify({
     friend_id: fid,
     items: cart.map(function(c){ return { id: c.id, name: c.brand + ' ' + (c.nameJa || c.name), qty: c.qty, price: c.sellPrice }; }),
@@ -2723,6 +2936,10 @@ function closeCart(){
 /* ===== STRIPE CHECKOUT ===== */
 async function doCheckout(){
   if(!cart.length) return;
+  /* LINE内ブラウザなら、まず外部ブラウザでの支払いを案内（案内の表示で失敗しても決済は止めない） */
+  if(isLineInAppBrowser() && !_handoffDeclined){
+    try { showHandoffSheet(); return; } catch(e){ closeHandoffSheet(); declineHandoff(); }
+  }
   /* GA4: begin_checkout */
   var checkoutItems = cart.map(function(c){ return ga4Item(c, c.qty); });
   var checkoutTotal = cart.reduce(function(s,c){ return s + c.sellPrice * c.qty; }, 0);
@@ -2747,6 +2964,7 @@ async function doCheckout(){
   var ch = (window.CLGTracking && window.CLGTracking.getChannelData()) || {};
   var diagSession = '';
   try { var ds = JSON.parse(localStorage.getItem('clg_diag_session') || '{}'); diagSession = ds.sessionId || ''; } catch(e){}
+  if(!diagSession){ try { diagSession = sessionStorage.getItem('clg_handoff_ds') || ''; } catch(e){} }
 
   /* LINE Friend ID（LINE経由訪問時に ?lfid= で保存されたID） */
   var lineFriendId = '';
@@ -2758,6 +2976,8 @@ async function doCheckout(){
     diagnosis_session_id: diagSession,
     line_friend_id: lineFriendId
   };
+  /* LINE内ブラウザから引き継いだ決済（効果測定用） */
+  try { if(sessionStorage.getItem('clg_handoff') === 'line_external') metadata.handoff = 'line_external'; } catch(e){}
   /* ギフトのお渡し方法（任意入力。ここで例外が出ても決済は止めない） */
   try {
     var _gm = getGiftMeta(giftWrap);
@@ -2815,6 +3035,8 @@ if(location.search.includes('ok=1')){
       }
       localStorage.removeItem('clg_pending_purchase');
     } catch(e){ console.warn('GA4 purchase tracking failed:', e); }
+    /* 引き継ぎ決済の印はこの1回の購入で使い終わり（同じタブでの次の購入を引き継ぎ扱いにしない） */
+    try { sessionStorage.removeItem('clg_handoff'); sessionStorage.removeItem('clg_handoff_ds'); } catch(e){}
 
     if(window.CLGTracking){
       var ch = window.CLGTracking.getChannelData() || {};

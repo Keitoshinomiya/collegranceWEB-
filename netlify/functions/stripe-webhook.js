@@ -2,6 +2,9 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 // 選べる3本ギフトセットの内訳表示用（読めなくても通知自体は止めない）
 let giftSetLib = null;
 try { giftSetLib = require('../lib/gift-set'); } catch (e) { console.error('[giftset] lib load failed:', e.message); }
+// メッセージカード印刷ページのリンク（2026-10-08）
+let giftCardLib = null;
+try { giftCardLib = require('../lib/gift-card'); } catch (e) { console.error('[giftcard] lib load failed:', e.message); }
 
 // 2026-09-14 発送専用チャンネル #collegrance-発送 (C0C1NLCNYRJ) に分離（旧 #line-連絡 と混ざってややこしいため）。Netlify env SLACK_CHANNEL_ID で上書き可
 const SLACK_CHANNEL = process.env.SLACK_CHANNEL_ID || 'C0C1NLCNYRJ';
@@ -170,6 +173,10 @@ exports.handler = async (event) => {
           : '　　お届け: *ご本人が受け取って手渡し*');
         giftLines.push(`　　メッセージカード（印字）: ${metadata.gift_message ? `「${metadata.gift_message}」` : '（記入なし → 「For you」のカード）'}`);
         if (gm === 'direct') giftLines.push(`　　贈り主: ${metadata.gift_sender || '（記入なし）'}`);
+        const cardLink = giftCardLib ? giftCardLib.cardUrl(session.id) : '';
+        giftLines.push(cardLink
+          ? `　　<${cardLink}|:printer: メッセージカードを印刷>（A4マルチカード10面・倍率100%）`
+          : '　　:printer: メッセージカード印刷リンクを作れませんでした（文面は上記）');
         giftLines.push('　　:warning: 金額の分かる書類は入れない');
       }
       if (hasGiftWrap) {

@@ -72,7 +72,7 @@
   .lp .scene .st{margin:0 0 4px;} .lp .scene p.sd{font-size:12.5px;color:var(--ink-soft);margin:0;line-height:1.8;} .scene strong{color:var(--teal-deep);font-weight:700;white-space:nowrap;}
   .xsell{display:grid;gap:12px;grid-template-columns:repeat(3,minmax(0,1fr));} .xsell a{display:block;background:var(--card);border:1px solid var(--sand);border-radius:2px;padding:12px;text-decoration:none;color:var(--ink);} .xsell a.cur{border-color:var(--teal);background:var(--teal-wash);}
   .xsell img{display:block;width:100%;height:auto;border-radius:2px;} .lp .xsell .xt{font-family:var(--f-disp);font-weight:700;font-size:15px;line-height:1.4;margin:8px 0 2px;} .lp .xsell .xp{font-family:var(--f-util);font-weight:600;font-size:13px;color:var(--teal-deep);margin:0 0 4px;} .lp .xsell .xd{font-size:11.5px;color:var(--ink-soft);line-height:1.6;margin:0;} .xsell .xgo{display:inline-block;margin-top:6px;font-size:11.5px;font-weight:700;color:var(--teal-deep);}
-  .cases{display:grid;gap:9px;grid-template-columns:repeat(5,minmax(0,1fr));margin-bottom:16px;} .case{text-align:center;min-width:0;}
+  .cases{display:grid;gap:9px;grid-template-columns:repeat(6,minmax(0,1fr));margin-bottom:16px;} .case{text-align:center;min-width:0;}
   .case .cs{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:3px;box-shadow:inset 0 0 0 1px rgba(28,39,38,.1);} .case .cn{font-family:var(--f-util);font-size:10.5px;letter-spacing:.06em;color:var(--ink-faint);margin-top:6px;line-height:1.4;}
   .lic-grid{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;margin-top:22px;} .cert{background:var(--card);border:1px solid var(--ink);border-radius:2px;padding:20px 20px 18px;outline:1px solid var(--sand);outline-offset:-6px;}
   .cert .kind{font-family:var(--f-util);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:6px;} .lp .cert .st{font-size:17px;margin:0 0 10px;line-height:1.4;}
@@ -89,7 +89,7 @@
   .lp .close .small-note{color:#8FA6A3;font-size:12.5px;max-width:32em;}
   .lp .close .sig{font-family:var(--f-util);font-size:11.5px;letter-spacing:.34em;color:var(--teal);margin-top:30px;}
   @media (max-width:640px){.lp .ttl-hero{font-size:26px;} .ttl-hero .num{font-size:36px;} .ttl{font-size:22px;} .steps{grid-template-columns:1fr;} .cat{grid-template-columns:1fr;} .scenes{grid-template-columns:1fr;} .notegrid{grid-template-columns:1fr;}
-    .cases{grid-template-columns:repeat(2,minmax(0,1fr));} .hero-vials{justify-content:center;} .xsell{grid-template-columns:1fr;} .lic-grid{grid-template-columns:1fr;} .map{aspect-ratio:1/1.15;} .lbl{display:none;} .maplegend{grid-template-columns:1fr;} .price{font-size:29px;}
+    .cases{grid-template-columns:repeat(3,minmax(0,1fr));} .hero-vials{justify-content:center;} .xsell{grid-template-columns:1fr;} .lic-grid{grid-template-columns:1fr;} .map{aspect-ratio:1/1.15;} .lbl{display:none;} .maplegend{grid-template-columns:1fr;} .price{font-size:29px;}
     .vial{flex-basis:37px;min-width:37px;max-width:37px;} .vial.v2{flex-basis:33px;min-width:33px;max-width:33px;} .vial.v3{flex-basis:29px;min-width:29px;max-width:29px;} .fk{flex-basis:78px;min-width:78px;max-width:78px;} .fv .nw,.tiers th .nw{white-space:normal;} .tiers th,.tiers td{padding:10px 8px;}}
 
   .dot.d18{height:18px;min-width:18px;max-width:18px;flex-basis:18px;} .dot.d19{height:19px;min-width:19px;max-width:19px;flex-basis:19px;} .dot.d21{height:21px;min-width:21px;max-width:21px;flex-basis:21px;} .dot.d22{height:22px;min-width:22px;max-width:22px;flex-basis:22px;} .dot.d23{height:23px;min-width:23px;max-width:23px;flex-basis:23px;} .dot.d24{height:24px;min-width:24px;max-width:24px;flex-basis:24px;} .dot.d30{height:30px;min-width:30px;max-width:30px;flex-basis:30px;} .dot.d31{height:31px;min-width:31px;max-width:31px;flex-basis:31px;} .dot.d42{height:42px;min-width:42px;max-width:42px;flex-basis:42px;} .dot.d56{height:56px;min-width:56px;max-width:56px;flex-basis:56px;} .dot.f10{font-size:10px;} .dot.f11{font-size:11px;} .dot.f12{font-size:12px;} .dot.f14{font-size:14px;} .dot.f16{font-size:16px;}
@@ -120,7 +120,7 @@
       <span class="badge badge--hot">ご注文から2営業日以内に発送</span>
       <span class="badge badge--award">Amazon 売れ筋ランキング1位</span>
       <span class="badge badge--lic">化粧品製造業・製造販売業 許可取得</span>
-      <span class="badge">香水ケース10色（+300円）</span>
+      <span class="badge">香水ケース12色（+300円）</span>
     </div>
     
     <div class="award">
@@ -252,20 +252,22 @@
 <section class="sec">
   <div class="wrap">
     <p class="eyebrow">Option — +300円</p>
-    <p class="ttl">持ち歩き用のケース、10色</p>
+    <p class="ttl">持ち歩き用のケース、12色</p>
     <p class="lede">アトマイザーがすっぽり収まる、COLLEGRANCEオリジナルのレザー調ケースです。バッグやキーホルダーに付けて持ち歩けます。カートの「追加購入」から色を選べます。不要な場合は「追加購入なし」のままで大丈夫です。</p>
     <div class="imgb"><img class="full" src="https://collegrance.com/assets/images/qoo10/pt/pt08.jpg?v=2" alt="レザー調オリジナル香水ケース"></div>
     <div class="cases">
-      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_01.jpg?v=2" alt="香水ケース ブラック"><div class="cn">ブラック</div></div>
-      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_02.jpg?v=2" alt="香水ケース エクリュ"><div class="cn">エクリュ</div></div>
-      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_03.jpg?v=2" alt="香水ケース ブラウン"><div class="cn">ブラウン</div></div>
-      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_04.jpg?v=2" alt="香水ケース ネイビー"><div class="cn">ネイビー</div></div>
-      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_05.jpg?v=2" alt="香水ケース レッド"><div class="cn">レッド</div></div>
-      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_06.jpg?v=2" alt="香水ケース ピンク"><div class="cn">ピンク</div></div>
-      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_07.jpg?v=2" alt="香水ケース ライトブルー"><div class="cn">ライトブルー</div></div>
-      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_08.jpg?v=2" alt="香水ケース イエロー"><div class="cn">イエロー</div></div>
-      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_09.jpg?v=2" alt="香水ケース シルバー"><div class="cn">シルバー</div></div>
-      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_10.jpg?v=2" alt="香水ケース ゴールド"><div class="cn">ゴールド</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_01.jpg?v=3" alt="香水ケース ブラック"><div class="cn">ブラック</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_02.jpg?v=3" alt="香水ケース エクリュ"><div class="cn">エクリュ</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_03.jpg?v=3" alt="香水ケース ブラウン"><div class="cn">ブラウン</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_04.jpg?v=3" alt="香水ケース ネイビー"><div class="cn">ネイビー</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_05.jpg?v=3" alt="香水ケース レッド"><div class="cn">レッド</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_06.jpg?v=3" alt="香水ケース ピンク"><div class="cn">ピンク</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_07.jpg?v=3" alt="香水ケース ライトブルー"><div class="cn">ライトブルー</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_08.jpg?v=3" alt="香水ケース イエロー"><div class="cn">イエロー</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_09.jpg?v=3" alt="香水ケース シルバー"><div class="cn">シルバー</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_10.jpg?v=3" alt="香水ケース ゴールド"><div class="cn">ゴールド</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_11.jpg?v=3" alt="香水ケース カーキ"><div class="cn">カーキ</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_12.jpg?v=3" alt="香水ケース グレー"><div class="cn">グレー</div></div>
     </div>
     <p class="map-caption">※ケースは1点あたり+300円です。</p>
   </div>

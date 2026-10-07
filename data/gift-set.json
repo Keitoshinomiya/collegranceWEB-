@@ -1,5 +1,5 @@
 {
-  "_comment": "選べる3本ギフトセットの定義（2026-10-07）。gift-set.html・index.htmlのカート・create-checkout.js（価格の再計算）・shipping-csv.js（伝票の品名）が全部このファイルを読む。売り止めは soldOut:true。価格は税込・送料込み。変更したら必ずデプロイ（サーバー側の価格もこのファイルで決まる）",
+  "_comment": "選べる3本ギフトセットの定義（2026-10-07）。gift-set.html・index.htmlのカート・create-checkout.js（価格の再計算）・shipping-csv.js（伝票の品名）が全部このファイルを読む。売り止めは soldOut:true。ケースの id（BLK等）はmetadata・伝票・サーバー検証に使うので変えない。swatch/photo は拡張子なし（.jpg と .webp の両方を置く）。価格は税込・送料込み。変更したら必ずデプロイ（サーバー側の価格もこのファイルで決まる）",
   "productId": 9001,
   "name": "選べる3本ギフトセット",
   "size": "1.5ml×3本",
@@ -21,15 +21,17 @@
     { "no": "025", "name": "マッチャ",                   "short": "マッチャ",   "family": "グリーン",         "notes": "抹茶・フィグ・シダー",               "surcharge": 700, "soldOut": false }
   ],
   "cases": [
-    { "id": "BLK", "name": "ブラック",     "hex": "#1d1d1d", "soldOut": false },
-    { "id": "ECR", "name": "エクリュ",     "hex": "#e9e2d0", "soldOut": false },
-    { "id": "BRN", "name": "ブラウン",     "hex": "#7a5538", "soldOut": false },
-    { "id": "NVY", "name": "ネイビー",     "hex": "#23324f", "soldOut": false },
-    { "id": "RED", "name": "レッド",       "hex": "#b3302f", "soldOut": false },
-    { "id": "PNK", "name": "ピンク",       "hex": "#e7a9b8", "soldOut": false },
-    { "id": "LBL", "name": "ライトブルー", "hex": "#a9cbe3", "soldOut": false },
-    { "id": "YEL", "name": "イエロー",     "hex": "#e8cb5a", "soldOut": false },
-    { "id": "SLV", "name": "シルバー",     "hex": "#c4c6c8", "soldOut": false },
-    { "id": "GLD", "name": "ゴールド",     "hex": "#c9a85a", "soldOut": false }
+    { "id": "BLK", "name": "ブラック",     "hex": "#1d1d1d", "swatch": "assets/images/gift/cases/sw_black", "photo": "assets/images/gift/cases/case_black", "soldOut": false },
+    { "id": "ECR", "name": "エクリュ",     "hex": "#e9e2d0", "swatch": "assets/images/gift/cases/sw_ecru", "photo": "assets/images/gift/cases/case_ecru", "soldOut": false },
+    { "id": "BRN", "name": "ブラウン",     "hex": "#7a5538", "swatch": "assets/images/gift/cases/sw_brown", "photo": "assets/images/gift/cases/case_brown", "soldOut": false },
+    { "id": "NVY", "name": "ネイビー",     "hex": "#23324f", "swatch": "assets/images/gift/cases/sw_navy", "photo": "assets/images/gift/cases/case_navy", "soldOut": false },
+    { "id": "RED", "name": "レッド",       "hex": "#b3302f", "swatch": "assets/images/gift/cases/sw_red", "photo": "assets/images/gift/cases/case_red", "soldOut": false },
+    { "id": "PNK", "name": "ピンク",       "hex": "#e7a9b8", "swatch": "assets/images/gift/cases/sw_pink", "photo": "assets/images/gift/cases/case_pink", "soldOut": false },
+    { "id": "LBL", "name": "ライトブルー", "hex": "#a9cbe3", "swatch": "assets/images/gift/cases/sw_lightblue", "photo": "assets/images/gift/cases/case_lightblue", "soldOut": false },
+    { "id": "YEL", "name": "イエロー",     "hex": "#e8cb5a", "swatch": "assets/images/gift/cases/sw_yellow", "photo": "assets/images/gift/cases/case_yellow", "soldOut": false },
+    { "id": "SLV", "name": "シルバー",     "hex": "#c4c6c8", "swatch": "assets/images/gift/cases/sw_silver", "photo": "assets/images/gift/cases/case_silver", "soldOut": false },
+    { "id": "GLD", "name": "ゴールド",     "hex": "#c9a85a", "swatch": "assets/images/gift/cases/sw_gold", "photo": "assets/images/gift/cases/case_gold", "soldOut": false },
+    { "id": "KHK", "name": "カーキ",       "hex": "#34503f", "swatch": "assets/images/gift/cases/sw_khaki", "photo": "assets/images/gift/cases/case_khaki", "soldOut": false },
+    { "id": "GRY", "name": "グレー",       "hex": "#8c8d8f", "swatch": "assets/images/gift/cases/sw_gray", "photo": "assets/images/gift/cases/case_gray", "soldOut": false }
   ]
 }

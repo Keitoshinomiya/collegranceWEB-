@@ -61,8 +61,10 @@
   .grid{display:grid;grid-template-columns:1fr;gap:28px}
   @media (min-width:860px){.grid{grid-template-columns:1fr 1fr;gap:48px}.media{position:sticky;top:88px;align-self:start}}
   .media-main{width:100%;height:auto;border-radius:4px;display:block;aspect-ratio:1200/897;object-fit:cover;background:var(--kinari)}
+  /* ケース写真（正方形・下に色名入り）は切らずに全体を見せる */
+  .media-main.sq{object-fit:contain}
   .media picture{display:block}
-  .thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+  .thumbs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:8px}
   .thumbs button{border:1px solid var(--line);padding:0;border-radius:3px;overflow:hidden;background:var(--kinari);cursor:pointer;aspect-ratio:1/1}
   .thumbs button[aria-pressed="true"]{border-color:var(--ink)}
   .thumbs img{width:100%;height:100%;object-fit:cover;display:block}
@@ -105,10 +107,17 @@
   .fr[disabled]{opacity:.45;cursor:not-allowed}
   .fr .so{font-size:11px;color:var(--sub)}
 
-  .cases{display:flex;flex-wrap:wrap;gap:10px}
-  .cc{width:36px;height:36px;border-radius:50%;border:2px solid var(--bg);box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0;position:relative}
-  .cc[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink)}
-  .cc[disabled]{opacity:.3;cursor:not-allowed}
+  /* ケースの色：写真サムネイル＋色名。SPは4列×3段、PCは6列×2段 */
+  .cases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  @media (min-width:520px){.cases{grid-template-columns:repeat(6,minmax(0,1fr))}}
+  .cc{display:flex;flex-direction:column;align-items:center;gap:4px;border:0;background:none;padding:0;cursor:pointer;font:inherit;color:var(--sub);min-width:0}
+  .cc picture{display:block;width:100%;aspect-ratio:1/1;border-radius:6px;overflow:hidden;box-shadow:0 0 0 1px var(--line);background:var(--kinari)}
+  .cc img{width:100%;height:100%;object-fit:cover;display:block}
+  .cc .cn{font-size:11px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .cc[aria-pressed="true"] picture{box-shadow:0 0 0 2px var(--ink)}
+  .cc[aria-pressed="true"] .cn{color:var(--ink);font-weight:700}
+  .cc[disabled]{cursor:not-allowed}
+  .cc[disabled] picture{opacity:.35}
   .casename{font-size:12px;color:var(--sub);margin-top:6px}
 
   .seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:6px;overflow:hidden}
@@ -210,10 +219,11 @@
     <div class="crumb"><a href="/">ホーム</a> ／ <a href="/#gift">ギフト</a> ／ 選べる3本ギフトセット</div>
     <div class="grid">
       <div class="media">
-        <!-- 写真は assets/images/gift/ の4枚（gift_main / gift_contents / gift_hand / gift_unbox の .jpg と .webp）。撮影後に同名で差し替える -->
+        <!-- 写真は assets/images/gift/ の5枚（gift_main / gift_hand / gift_contents / gift_card / gift_case の .jpg と .webp・1200x897）。撮影後に同名で差し替える。
+             ケースの色を選ぶと assets/images/gift/cases/case_{色}.jpg に切り替わる（サムネイルを押せば戻る） -->
         <picture id="main-pic">
           <source id="main-src" srcset="assets/images/gift/gift_main.webp" type="image/webp">
-          <img class="media-main" id="main-img" src="assets/images/gift/gift_main.jpg" alt="COLLEGRANCEの巾着ギフトを開封したところ（イメージ）" width="1200" height="897" fetchpriority="high">
+          <img class="media-main" id="main-img" src="assets/images/gift/gift_main.jpg" alt="巾着ギフトを開封したところ（イメージ）" width="1200" height="897" fetchpriority="high">
         </picture>
         <div class="thumbs" id="thumbs"></div>
         <div class="cap">非売品のCOLLEGRANCE巾着（コットン・生成り）に入れてお届けします。<br>※写真はイメージです。セット内容は下記のとおりです（リボンは付きません）。</div>
@@ -355,10 +365,11 @@ function toggleMobileNav(){
      ここでは行を追加して /?cart=1 に移動するだけ。価格は表示用で、決済金額はサーバーが data/gift-set.json から再計算する */
   var CART_KEY = 'clg_cart_v1';
   var PHOTOS = [
-    ['gift_main', 'COLLEGRANCEの巾着ギフトを開封したところ（イメージ）'],
-    ['gift_contents', 'セットの中身（お試し香水3本・香水ケース・香りカード・メッセージカード）'],
-    ['gift_hand', '巾着を手に持ったところ'],
-    ['gift_unbox', '開封したところ']
+    ['gift_main', '巾着ギフトを開封したところ（イメージ）'],
+    ['gift_hand', '巾着を手渡すところ（イメージ）'],
+    ['gift_contents', '香水のパッケージ（お試し3本はこの箱に入ってお届け）'],
+    ['gift_card', 'メッセージカード'],
+    ['gift_case', '香水ケース（ネイビー）']
   ];
   var CFG = null, picks = [], caseId = '', direct = false;
   var $ = function(id){ return document.getElementById(id); };
@@ -375,7 +386,16 @@ function toggleMobileNav(){
     $('cart-count').textContent = n;
   }
 
-  /* 写真の切り替え */
+  /* 写真の切り替え（base は拡張子なし。.webp と .jpg の両方を置いてある） */
+  function showMain(base, alt, square){
+    $('main-src').srcset = base + '.webp';
+    $('main-img').src = base + '.jpg';
+    $('main-img').alt = alt;
+    $('main-img').classList.toggle('sq', !!square);
+  }
+  function setThumb(i){
+    Array.prototype.forEach.call($('thumbs').children, function(x, j){ x.setAttribute('aria-pressed', j === i); });
+  }
   PHOTOS.forEach(function(ph, i){
     var b = document.createElement('button');
     b.type = 'button';
@@ -383,10 +403,8 @@ function toggleMobileNav(){
     b.setAttribute('aria-pressed', i === 0);
     b.innerHTML = '<picture><source srcset="assets/images/gift/' + ph[0] + '.webp" type="image/webp"><img src="assets/images/gift/' + ph[0] + '.jpg" alt="" loading="lazy"></picture>';
     b.onclick = function(){
-      $('main-src').srcset = 'assets/images/gift/' + ph[0] + '.webp';
-      $('main-img').src = 'assets/images/gift/' + ph[0] + '.jpg';
-      $('main-img').alt = ph[1];
-      Array.prototype.forEach.call($('thumbs').children, function(x, j){ x.setAttribute('aria-pressed', j === i); });
+      showMain('assets/images/gift/' + ph[0], ph[1], false);
+      setThumb(i);
     };
     $('thumbs').appendChild(b);
   });
@@ -417,9 +435,17 @@ function toggleMobileNav(){
     /* ケース */
     CFG.cases.forEach(function(c){
       var b = document.createElement('button'); b.type = 'button'; b.className = 'cc'; b.id = 'case-' + c.id;
-      b.style.background = c.hex; b.setAttribute('aria-label', c.name + (c.soldOut ? '（品切れ中）' : ''));
+      b.setAttribute('aria-label', c.name + (c.soldOut ? '（品切れ中）' : ''));
+      b.innerHTML = (c.swatch
+        ? '<picture><source srcset="' + c.swatch + '.webp" type="image/webp"><img src="' + c.swatch + '.jpg" alt="" width="240" height="240" loading="lazy"></picture>'
+        : '<picture style="background:' + esc(c.hex || '#ccc') + '"></picture>')
+        + '<span class="cn">' + esc(c.name) + (c.soldOut ? '<br>品切れ' : '') + '</span>';
       b.disabled = !!c.soldOut;
-      b.addEventListener('click', function(){ caseId = c.id; render(); });
+      b.addEventListener('click', function(){
+        caseId = c.id; render();
+        /* 選んだ色のケース写真をメインに出す（ギャラリーのサムネイルは選択解除＝押せば戻れる） */
+        if(c.photo){ showMain(c.photo, '香水ケース（' + c.name + '）', true); setThumb(-1); }
+      });
       $('cases').appendChild(b);
     });
     var firstCase = CFG.cases.find(function(c){ return !c.soldOut; });
@@ -516,7 +542,7 @@ function toggleMobileNav(){
   $('cta').onclick = addToCart; $('cta2').onclick = addToCart;
 
   updateBadge();
-  fetch('data/gift-set.json?v=20261007').then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function(cfg){
+  fetch('data/gift-set.json?v=20261007b').then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function(cfg){
     CFG = cfg; build();
   }).catch(function(){
     $('sumline').textContent = '読み込みに失敗しました。ページを再読み込みしてください。';

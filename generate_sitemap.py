@@ -23,6 +23,7 @@ EXCLUDE_FILES = {
 PRIORITY_MAP = {
     "index.html": "1.0",
     "product-list.html": "0.9",
+    "gift-set.html": "0.9",
     "brand-story.html": "0.8",
     "journal.html": "0.8",
     "contact.html": "0.7",

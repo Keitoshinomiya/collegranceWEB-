@@ -16,6 +16,9 @@
  */
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const iconv = require('iconv-lite');
+// 選べる3本ギフトセットの品名短縮表（data/gift-set.json の short）。読めなくてもCSVは出す
+let giftSetLib = null;
+try { giftSetLib = require('../lib/gift-set'); } catch (e) { console.error('[giftset] lib load failed:', e.message); }
 
 // 発送元情報（ご依頼主）
 const SENDER = {
@@ -40,12 +43,13 @@ function buildRow(ctx) {
   const {
     orderNumber, shipDate, arriveDate,
     recipient, products, sender, articleMemo,
+    shipType,
   } = ctx;
 
   // 95列を順番に埋める
   return [
     /*  1 */ orderNumber,                                                     // お客様管理番号
-    /*  2 */ '0',                                                             // 送り状種類: 0=発払い
+    /*  2 */ shipType || '0',                                                 // 送り状種類: 0=発払い / A=ネコポス（ギフトセットのみの注文）
     /*  3 */ '0',                                                             // クール区分: 0=通常
     /*  4 */ '',                                                              // 伝票番号（B2クラウドにて付与）
     /*  5 */ shipDate,                                                        // 出荷予定日 YYYY/MM/DD
@@ -323,13 +327,25 @@ exports.handler = async (event) => {
 
     // 商品名（送料・ギフトラッピング除外、長すぎる名前は短縮 = 全角25文字 / 半角50文字）
     const lineItems = session.line_items?.data || [];
-    const productNames = lineItems
-      .filter((item) => !/送料|ギフトラッピング/.test(item.description || ''))
-      .map((item) => {
+    // 選べる3本ギフトセットは「実際の商品名」ルールに沿って、香り3つの短縮名とケース色を品名にする
+    // （商品名のまま切ると「選べる3本ギフトセット（レイジーサンデー…」で中身が分からない）
+    const giftSetOf = (item) => {
+      const pm = item.price?.product?.metadata || {};
+      return (giftSetLib && pm.gift_scents && String(pm.collegrance_product_id) === String(giftSetLib.PRODUCT_ID)) ? pm : null;
+    };
+    const productLines = lineItems.filter((item) => !/送料|ギフトラッピング/.test(item.description || ''));
+    const productNames = productLines.flatMap((item) => {
+        const gs = giftSetOf(item);
+        if (gs) {
+          return giftSetLib.shippingNames(String(gs.gift_scents).split(','), gs.gift_case, item.quantity || 1)
+            .map((n) => truncateProductName(n, 50));
+        }
         const baseName = simplifyProductName(item.description);
         const qtySuffix = item.quantity > 1 ? ` x${item.quantity}` : '';
-        return truncateProductName(baseName + qtySuffix, 50);
+        return [truncateProductName(baseName + qtySuffix, 50)];
       });
+    // ギフトセットだけの注文はネコポス（差し込み式段ボール）。フルボトルが混ざる注文は従来どおり宅急便
+    const allGiftSet = productLines.length > 0 && productLines.every((item) => giftSetOf(item));
 
     // 電話番号: URLパラメータ最優先 → Stripeの値 → 弊社代表番号フォールバック
     // 1. URLパラメータ（手動指定があれば最優先）
@@ -369,6 +385,7 @@ exports.handler = async (event) => {
       products: productNames,
       sender: SENDER,
       articleMemo,
+      shipType: allGiftSet ? 'A' : '0',
     });
 
     // CSVテキスト生成（ヘッダなし、CRLF改行）

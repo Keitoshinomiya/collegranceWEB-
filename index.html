@@ -1252,7 +1252,8 @@
             2〜4営業日でお届け
           </div>
         </div>
-        <button class="gift-btn" onclick="currentMode='all';applyFilters();document.getElementById('grid').scrollIntoView({behavior:'smooth'})">ギフトにぴったりの香水を探す &rarr;</button>
+        <a class="gift-btn" href="/gift-set.html" style="text-decoration:none;margin:0 8px 8px 0">選べる3本ギフトセットを見る &rarr;</a>
+        <button class="gift-btn" onclick="currentMode='all';applyFilters();document.getElementById('grid').scrollIntoView({behavior:'smooth'})" style="background:transparent;color:var(--accent);border:1px solid var(--accent)">ギフトにぴったりの香水を探す &rarr;</button>
       </div>
       <div class="gift-visual"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 11.2h15v8.2a1.6 1.6 0 01-1.6 1.6H6.1a1.6 1.6 0 01-1.6-1.6v-8.2zM3.2 8.6a1 1 0 011-1h15.6a1 1 0 011 1v1.6a1 1 0 01-1 1H4.2a1 1 0 01-1-1V8.6zM12 7.6V21M12 7.4c-1.1-2.7-3-3.9-4.7-3-1.3.7-1.3 2.5.2 3h4.5zM12 7.4c1.1-2.7 3-3.9 4.7-3 1.3.7 1.3 2.5-.2 3H12z"/></svg></div>
     </div>
@@ -1670,7 +1671,7 @@
     <div class="cart-foot">
       <div class="cart-row-sm"><span>小計</span><span id="c-sub">&yen;0</span></div>
       <div class="cart-row-sm"><span>送料</span><span id="c-ship">&yen;0</span></div>
-      <div class="cart-row-sm" style="margin-top:8px">
+      <div class="cart-row-sm" id="gift-wrap-row" style="margin-top:8px">
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.62rem;color:var(--sub)">
           <input type="checkbox" id="gift-wrap" onchange="refreshCart()" style="accent-color:var(--accent)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 11.2h15v8.2a1.6 1.6 0 01-1.6 1.6H6.1a1.6 1.6 0 01-1.6-1.6v-8.2zM3.2 8.6a1 1 0 011-1h15.6a1 1 0 011 1v1.6a1 1 0 01-1 1H4.2a1 1 0 01-1-1V8.6zM12 7.6V21M12 7.4c-1.1-2.7-3-3.9-4.7-3-1.3.7-1.3 2.5.2 3h4.5zM12 7.4c1.1-2.7 3-3.9 4.7-3 1.3.7 1.3 2.5-.2 3H12z"/></svg> ギフトラッピング (+&yen;300)
@@ -1679,20 +1680,22 @@
       </div>
       <!-- ギフトのお渡し方法（ラッピング選択時のみ表示。すべて任意入力で、未入力でも決済は止めない） -->
       <div id="gift-options" style="display:none;margin:6px 0 2px;padding:10px 12px;border:1px solid var(--border);border-radius:2px;background:var(--bg);font-size:.6rem;color:var(--sub);line-height:1.7">
-        <div style="margin-bottom:6px;letter-spacing:.04em">巾着・メッセージカード付き。お渡し方法をお選びください</div>
+        <div id="gift-options-title" style="margin-bottom:6px;letter-spacing:.04em">巾着・メッセージカード付き。お渡し方法をお選びください</div>
         <label style="display:flex;align-items:flex-start;gap:6px;cursor:pointer;margin-bottom:4px">
           <input type="radio" name="gift-mode" value="self" checked onchange="updateGiftPanel()" style="accent-color:var(--accent);margin-top:3px">
-          <span>自分で受け取って手渡しする<br><span style="opacity:.75">メッセージカードは未記入でお入れします</span></span>
+          <span>自分で受け取って手渡しする<br><span style="opacity:.75" id="gift-self-note">メッセージカードは未記入でお入れします</span></span>
         </label>
         <label style="display:flex;align-items:flex-start;gap:6px;cursor:pointer">
           <input type="radio" name="gift-mode" value="direct" onchange="updateGiftPanel()" style="accent-color:var(--accent);margin-top:3px">
-          <span>相手に直接届ける<br><span style="opacity:.75">カードにメッセージを書いてお入れします</span></span>
+          <span>相手に直接届ける<br><span style="opacity:.75" id="gift-direct-note">カードにメッセージを書いてお入れします</span></span>
         </label>
         <div id="gift-direct-fields" style="display:none;margin-top:8px">
           <!-- font-size:16px はiOSのフォーカス時ズーム防止（ズームでカートの決済ボタンが画面外に出るのを避ける） -->
           <textarea id="gift-message" rows="2" maxlength="100" placeholder="カードに書くメッセージ（100文字まで・空欄でも可）" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid var(--border);border-radius:2px;font-family:var(--font);font-size:16px;line-height:1.5;resize:none;outline:none;background:#fff;color:inherit"></textarea>
+          <div id="gift-sender-wrap">
           <input type="text" id="gift-sender" maxlength="30" placeholder="贈り主のお名前（カードに記載）" style="width:100%;box-sizing:border-box;margin-top:6px;padding:8px 10px;border:1px solid var(--border);border-radius:2px;font-family:var(--font);font-size:16px;outline:none;background:#fff;color:inherit">
           <div style="margin-top:6px;opacity:.75">※次の画面のお届け先には、贈り先のご住所をご入力ください。金額の分かる書類は同梱しません</div>
+          </div>
         </div>
       </div>
       <div class="cart-divider"></div>
@@ -1798,6 +1801,11 @@ async function loadProducts(){
     populateBrandTiles();
     populateJournalPicks();
     buildGrid();
+    /* 選べる3本ギフトセットの定義（失敗してもショップは続行。カート内のギフトセットだけ復元されない） */
+    try {
+      const gr = await fetch('data/gift-set.json?v=20261007b');
+      if(gr.ok) GIFT_SET = await gr.json();
+    } catch(e){ console.warn('Failed to load gift-set.json', e); }
     restoreCart(); /* 保存済みカートの復元（7日以内・在庫あり商品のみ） */
     /* Update tab counts */
     var allCount = PRODUCTS.filter(function(p){ return p.inStock !== false; }).length;
@@ -2374,6 +2382,63 @@ document.addEventListener('keydown', function(e){
 /* ===== CART ===== */
 var cart = [];
 
+/* === 選べる3本ギフトセット（2026-10-07） ===
+   定義は data/gift-set.json（gift-set.html・create-checkout.js と共通）。
+   通常商品は id で1行、ギフトセットは「香り3つ＋ケース色」の組み合わせごとに1行（key で区別）。
+   価格はここでも計算するが表示用。決済金額はサーバー（create-checkout.js）が同じ定義から再計算する。 */
+var GIFT_SET = null;
+function cartKey(c){ return c.key || String(c.id); }
+function cartHasGiftSet(){ return cart.some(function(c){ return !!c.giftSet; }); }
+function makeGiftSetItem(scents, caseId, qty){
+  if(!GIFT_SET || GIFT_SET.soldOut || !Array.isArray(scents) || scents.length !== GIFT_SET.picks) return null;
+  var picked = [];
+  for(var i = 0; i < scents.length; i++){
+    var s = GIFT_SET.scents.find(function(x){ return x.no === String(scents[i]); });
+    if(!s || s.soldOut) return null;
+    picked.push(s);
+  }
+  var k = GIFT_SET.cases.find(function(x){ return x.id === caseId; });
+  if(!k || k.soldOut) return null;
+  picked.sort(function(a, b){ return a.no < b.no ? -1 : a.no > b.no ? 1 : 0; });
+  var nos = picked.map(function(s){ return s.no; });
+  var price = GIFT_SET.basePrice + picked.reduce(function(sum, s){ return sum + s.surcharge; }, 0);
+  var detail = picked.map(function(s){ return s.short; }).join('／') + '・ケース:' + k.name;
+  return {
+    id: GIFT_SET.productId,
+    key: 'gs:' + nos.join('-') + ':' + k.id,
+    giftSet: { scents: nos, case: k.id },
+    brand: 'COLLEGRANCE',
+    name: GIFT_SET.name,
+    nameJa: GIFT_SET.name + '（' + detail + '）',
+    giftDetail: detail,
+    size: GIFT_SET.size + '＋香水ケース＋巾着',
+    img: GIFT_SET.image || 'assets/images/gift/gift_main.jpg',
+    tags: ['gift'],
+    sellPrice: price,
+    qty: Math.min(Math.max(qty || 1, 1), 20)
+  };
+}
+function giftSetToken(c){ return 'g' + c.giftSet.scents.join('') + c.giftSet.case; }
+function parseGiftSetToken(tok){
+  var m = /^g(\d{3})(\d{3})(\d{3})([A-Z]{3})\.(\d{1,2})$/.exec(tok);
+  if(!m) return null;
+  return makeGiftSetItem([m[1], m[2], m[3]], m[4], parseInt(m[5], 10) || 1);
+}
+/* gift-set.html で入力したお渡し方法・メッセージを、カートの既存のギフト入力欄に反映する（1回きり） */
+function applyGiftPrefill(){
+  try {
+    var raw = localStorage.getItem('clg_gift_prefill');
+    if(!raw) return;
+    localStorage.removeItem('clg_gift_prefill');
+    var g = JSON.parse(raw);
+    if(!g || !g.at || Date.now() - g.at > 24 * 60 * 60 * 1000) return;
+    var radio = document.querySelector('input[name="gift-mode"][value="' + (g.mode === 'direct' ? 'direct' : 'self') + '"]');
+    if(radio) radio.checked = true;
+    var m = document.getElementById('gift-message'); if(m && typeof g.message === 'string') m.value = g.message.slice(0, 60);
+    var s = document.getElementById('gift-sender'); if(s && typeof g.sender === 'string') s.value = g.sender.slice(0, 30);
+  } catch(e){}
+}
+
 /* === カート永続化 & カゴ落ちスナップショット (2026-08-05 カゴ落ちLINEフォロー) ===
    - カートは clg_cart_v1 に7日間保存（従来はメモリのみ＝リロードで消えていた）
    - lfid保有者（LINE経由訪問者）のみ、カート内容を line-harness Worker へ送信
@@ -2386,7 +2451,9 @@ function persistCart(){
   try {
     if(cart.length === 0){ localStorage.removeItem(CART_STORAGE_KEY); return; }
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify({
-      items: cart.map(function(c){ return { id: c.id, qty: c.qty }; }),
+      items: cart.map(function(c){
+        return c.giftSet ? { id: c.id, qty: c.qty, gs: { s: c.giftSet.scents, c: c.giftSet.case } } : { id: c.id, qty: c.qty };
+      }),
       updated_at: Date.now()
     }));
   } catch(e){}
@@ -2406,11 +2473,19 @@ function restoreCart(){
     var goAt = getHandoffGoAt();
     if(goAt && saved.updated_at <= goAt && Date.now() - goAt > HANDOFF_KEEP_MS){ localStorage.removeItem(CART_STORAGE_KEY); return; }
     saved.items.forEach(function(it){
+      if(it && it.gs){
+        var g = makeGiftSetItem(it.gs.s, it.gs.c, Math.min(Math.max(it.qty || 1, 1), 20));
+        if(!g) return;
+        var same = cart.find(function(x){ return cartKey(x) === g.key; });
+        if(same){ same.qty = Math.min(same.qty + g.qty, 20); } else { cart.push(g); }
+        return;
+      }
       var p = PRODUCTS.find(function(x){ return x.id === it.id; });
       if(!p || p.inStock === false) return;
-      if(cart.find(function(x){ return x.id === it.id; })) return;
+      if(cart.find(function(x){ return cartKey(x) === String(it.id); })) return;
       cart.push(Object.assign({}, p, { qty: Math.min(Math.max(it.qty || 1, 1), 99) }));
     });
+    applyGiftPrefill();
     if(cart.length) refreshCart();
   } catch(e){
   } finally {
@@ -2462,7 +2537,7 @@ function isLineInAppBrowser(){
 function buildHandoffUrl(){
   var p = new URLSearchParams();
   p.set('handoff', '1');
-  p.set('hc', cart.map(function(c){ return c.id + '.' + c.qty; }).join('_'));
+  p.set('hc', cart.map(function(c){ return (c.giftSet ? giftSetToken(c) : c.id) + '.' + c.qty; }).join('_'));
   var cpn = getStoredCoupon();
   if(cpn && isValidCouponCode(cpn)) p.set('cpn', cpn);
   var fid = '';
@@ -2470,7 +2545,7 @@ function buildHandoffUrl(){
   if(fid) p.set('lfid', fid);
   try {
     var gw = document.getElementById('gift-wrap');
-    if(gw && gw.checked) p.set('gw', getGiftMeta(true).mode === 'direct' ? 'd' : 's');
+    if((gw && gw.checked) || cartHasGiftSet()) p.set('gw', getGiftMeta(true).mode === 'direct' ? 'd' : 's');
   } catch(e){}
   try {
     var ds = JSON.parse(localStorage.getItem('clg_diag_session') || '{}');
@@ -2541,12 +2616,17 @@ function applyHandoffFromUrl(){
   try {
     String(params.get('hc') || '').split('_').slice(0, 20).forEach(function(tok){
       if(tok) requested++;
+      if(tok.charAt(0) === 'g'){
+        var g = parseGiftSetToken(tok);
+        if(g && !restored.find(function(x){ return cartKey(x) === g.key; })) restored.push(g);
+        return;
+      }
       var m = /^(\d{1,6})\.(\d{1,2})$/.exec(tok);
       if(!m) return;
       var id = parseInt(m[1], 10), qty = Math.min(Math.max(parseInt(m[2], 10) || 1, 1), 20);
       var p = PRODUCTS.find(function(x){ return x.id === id; });
       if(!p || p.inStock === false) return;
-      if(restored.find(function(x){ return x.id === id; })) return;
+      if(restored.find(function(x){ return cartKey(x) === String(id); })) return;
       restored.push(Object.assign({}, p, { qty: qty }));
     });
   } catch(e){ restored = []; }
@@ -2586,7 +2666,7 @@ function applyHandoffFromUrl(){
   try {
     if(gw === 's' || gw === 'd'){
       var gwEl = document.getElementById('gift-wrap');
-      if(gwEl) gwEl.checked = true;
+      if(gwEl && !restored.some(function(x){ return !!x.giftSet; })) gwEl.checked = true;
       var radio = document.querySelector('input[name="gift-mode"][value="' + (gw === 'd' ? 'direct' : 'self') + '"]');
       if(radio) radio.checked = true;
     }
@@ -2711,7 +2791,7 @@ function ga4Event(name, params){
 function addCart(id){
   var p = PRODUCTS.find(function(x){ return x.id === id; });
   if(!p) return;
-  var ex = cart.find(function(x){ return x.id === id; });
+  var ex = cart.find(function(x){ return cartKey(x) === String(id); });
   if(ex){ ex.qty++; } else { cart.push(Object.assign({}, p, {qty:1})); }
   /* GA4: add_to_cart + diagnosis attribution */
   var cartParams = { currency: 'JPY', value: p.sellPrice, items: [ga4Item(p)], from_diagnosis: 'no' };
@@ -2801,15 +2881,19 @@ function showCartToast(productName){
   cartToastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 2500);
 }
 
+/* id は通常商品なら商品ID、ギフトセットなら組み合わせのキー（cartKey）。どちらも文字列で比較する */
 function changeQty(id, d){
-  var item = cart.find(function(x){ return x.id === id; });
+  var key = String(id);
+  var item = cart.find(function(x){ return cartKey(x) === key; });
   if(!item) return;
   item.qty += d;
-  if(item.qty <= 0) cart = cart.filter(function(x){ return x.id !== id; });
+  if(item.giftSet && item.qty > 20) item.qty = 20;
+  if(item.qty <= 0) cart = cart.filter(function(x){ return cartKey(x) !== key; });
   refreshCart();
 }
 function removeCart(id){
-  cart = cart.filter(function(x){ return x.id !== id; });
+  var key = String(id);
+  cart = cart.filter(function(x){ return cartKey(x) !== key; });
   refreshCart();
 }
 
@@ -2820,21 +2904,43 @@ function updateGiftPanel(){
   var gw = document.getElementById('gift-wrap');
   var box = document.getElementById('gift-options');
   if(!gw || !box) return;
-  var on = gw.checked && cart.length > 0;
+  var hasGS = cartHasGiftSet();
+  /* ギフトセットは巾着・メッセージカード込み → ラッピング(+300円)の行は隠して外す */
+  var row = document.getElementById('gift-wrap-row');
+  if(row) row.style.display = hasGS ? 'none' : '';
+  if(hasGS && gw.checked) gw.checked = false;
+  var on = (gw.checked || hasGS) && cart.length > 0;
   box.style.display = on ? 'block' : 'none';
   var direct = document.querySelector('input[name="gift-mode"][value="direct"]');
+  var isDirect = !!(direct && direct.checked);
   var df = document.getElementById('gift-direct-fields');
-  if(df) df.style.display = (on && direct && direct.checked) ? 'block' : 'none';
+  /* ギフトセットは手渡しでもメッセージをカードに印字する（空欄なら「For you」） */
+  if(df) df.style.display = (on && (isDirect || hasGS)) ? 'block' : 'none';
+  var sw = document.getElementById('gift-sender-wrap');
+  if(sw) sw.style.display = isDirect ? 'block' : 'none';
+  var t = document.getElementById('gift-options-title');
+  if(t) t.textContent = hasGS ? 'ギフトセットのお渡し方法とメッセージカード（任意）' : '巾着・メッセージカード付き。お渡し方法をお選びください';
+  var sn = document.getElementById('gift-self-note');
+  if(sn) sn.textContent = hasGS ? 'メッセージをカードに印字してお入れします' : 'メッセージカードは未記入でお入れします';
+  var dn = document.getElementById('gift-direct-note');
+  if(dn) dn.textContent = hasGS ? 'メッセージをカードに印字してお入れします' : 'カードにメッセージを書いてお入れします';
+  var m = document.getElementById('gift-message');
+  if(m){
+    var max = hasGS ? 60 : 100;
+    if(m.maxLength !== max){ m.maxLength = max; if(m.value.length > max) m.value = m.value.slice(0, max); }
+    m.placeholder = hasGS ? 'カードに印字するメッセージ（60文字まで・空欄なら「For you」）' : 'カードに書くメッセージ（100文字まで・空欄でも可）';
+  }
 }
 function getGiftMeta(giftWrap){
-  if(!giftWrap) return { mode:'', message:'', sender:'' };
+  var hasGS = cartHasGiftSet();
+  if(!giftWrap && !hasGS) return { mode:'', message:'', sender:'' };
   var direct = document.querySelector('input[name="gift-mode"][value="direct"]');
   var isDirect = !!(direct && direct.checked);
   var m = document.getElementById('gift-message');
   var s = document.getElementById('gift-sender');
   return {
     mode: isDirect ? 'direct' : 'self',
-    message: (isDirect && m) ? String(m.value || '').slice(0, 100) : '',
+    message: ((isDirect || hasGS) && m) ? String(m.value || '').slice(0, hasGS ? 60 : 100) : '',
     sender:  (isDirect && s) ? String(s.value || '').slice(0, 30) : ''
   };
 }
@@ -2845,8 +2951,8 @@ function refreshCart(){
   var free  = sub >= FREE_SHIP;
   var ship  = cart.length === 0 ? 0 : (free ? 0 : SHIPPING);
   var giftWrap = document.getElementById('gift-wrap');
-  var giftFee = (giftWrap && giftWrap.checked && cart.length > 0) ? 300 : 0;
   try { updateGiftPanel(); } catch(e){}
+  var giftFee = (giftWrap && giftWrap.checked && cart.length > 0 && !cartHasGiftSet()) ? 300 : 0;
 
   var total = sub + ship + giftFee;
 
@@ -2893,16 +2999,17 @@ function refreshCart(){
         '<div>' +
           '<div class="cart-brand">' + c.brand + '</div>' +
           '<div class="cart-name">' + c.name + (c.tester ? '<span class="tag tester" style="margin-left:6px;font-size:.5rem;padding:1px 5px">テスター品</span>' : '') + '</div>' +
+          (c.giftSet ? '<div class="cart-size-label" style="color:var(--sub)">（' + c.giftDetail + '）</div>' : '') +
           '<div class="cart-size-label">' + c.size + '</div>' +
           '<div class="cart-bottom">' +
             '<div class="cart-qty">' +
-              '<button class="qty-btn" onclick="changeQty(' + c.id + ',-1)">&minus;</button>' +
+              '<button class="qty-btn" onclick="changeQty(\'' + cartKey(c) + '\',-1)">&minus;</button>' +
               '<span>' + c.qty + '</span>' +
-              '<button class="qty-btn" onclick="changeQty(' + c.id + ',+1)">+</button>' +
+              '<button class="qty-btn" onclick="changeQty(\'' + cartKey(c) + '\',+1)">+</button>' +
             '</div>' +
             '<span class="cart-price">\u00a5' + (sp * c.qty).toLocaleString() + '</span>' +
           '</div>' +
-          '<button class="cart-remove" onclick="removeCart(' + c.id + ')">Remove</button>' +
+          '<button class="cart-remove" onclick="removeCart(\'' + cartKey(c) + '\')">Remove</button>' +
         '</div>' +
       '</div>';
     }).join('');
@@ -2947,6 +3054,18 @@ async function doCheckout(){
 
   /* Build items payload for Netlify Function */
   var items = cart.map(function(c){
+    if(c.giftSet){
+      /* 価格はサーバーが giftSet から再計算する（price は参考値） */
+      return {
+        productId: c.id,
+        name: c.nameJa,
+        brand: c.brand,
+        price: c.sellPrice,
+        quantity: c.qty,
+        image: c.img || '',
+        giftSet: { scents: c.giftSet.scents.slice(), case: c.giftSet.case }
+      };
+    }
     return {
       productId: c.id,
       name: (c.brand ? c.brand + ' - ' : '') + c.name + (c.nameJa ? ' (' + c.nameJa + ')' : '') + (c.tester ? '【テスター品】' : ''),
@@ -2958,7 +3077,7 @@ async function doCheckout(){
   });
 
   var giftWrapEl = document.getElementById('gift-wrap');
-  var giftWrap = !!(giftWrapEl && giftWrapEl.checked && cart.length > 0);
+  var giftWrap = !!(giftWrapEl && giftWrapEl.checked && cart.length > 0 && !cartHasGiftSet());
 
   /* Channel & diagnosis metadata */
   var ch = (window.CLGTracking && window.CLGTracking.getChannelData()) || {};
@@ -2980,7 +3099,7 @@ async function doCheckout(){
   try { if(sessionStorage.getItem('clg_handoff') === 'line_external') metadata.handoff = 'line_external'; } catch(e){}
   /* ギフトのお渡し方法（任意入力。ここで例外が出ても決済は止めない） */
   try {
-    var _gm = getGiftMeta(giftWrap);
+    var _gm = getGiftMeta(giftWrap || cartHasGiftSet());
     if(_gm.mode){ metadata.gift_mode = _gm.mode; metadata.gift_message = _gm.message; metadata.gift_sender = _gm.sender; }
   } catch(e){}
 

@@ -4,6 +4,19 @@ let giftSetLib = null;
 try { giftSetLib = require('../lib/gift-set'); } catch (e) { console.error('[giftset] lib load failed:', e.message); }
 const isGiftSetItem = (item) => !!item && (String(item.productId) === '9001' || (item.giftSet && typeof item.giftSet === 'object'));
 
+// === メッセージカードの印字できない文字を除く（2026-10-07） ===
+// gift-set.html の cleanCardText と同じ規則。絵文字（Extended_Pictographic）・異体字セレクタ・ZWJ・肌色修飾子・国旗・タグ・
+// 制御文字・外字（私用領域）を消す。日本語・英数・全角記号と改行は残す。JIS の文字表にもある ©®™♥☀☎ などは文字として残す。
+const KEEP_PICT = new Set('\u00A9\u00AE\u2122\u203C\u2049\u2194\u2196\u2197\u2198\u2199\u25B6\u25C0\u2600\u2601\u2602\u2603\u260E\u2640\u2642\u2660\u2663\u2665\u2666\u2668\u2934\u2935\u303D');
+function stripUnprintable(s) {
+  return String(s == null ? '' : s)
+    .replace(/\r\n?/g, '\n')
+    .replace(/\p{Extended_Pictographic}/gu, (c) => (KEEP_PICT.has(c) ? c : ''))
+    .replace(/[\u{1F1E6}-\u{1F1FF}\u{1F3FB}-\u{1F3FF}\u{E0000}-\u{E007F}\u{E0100}-\u{E01EF}\u{F0000}-\u{10FFFF}]/gu, '')
+    .replace(/[\uD800-\uDFFF]/gu, '')
+    .replace(/[\u0000-\u0009\u000B-\u001F\u007F-\u009F\u00AD\u200B-\u200F\u2028-\u202E\u2060-\u206F\u20E3\uE000-\uF8FF\uFE00-\uFE0F\uFEFF\uFFF0-\uFFFF]/g, '');
+}
+
 // === 価格はサーバー側で決める（2026-10-07） ===
 // 従来は price_data.unit_amount にクライアントの price をそのまま使っていた（改ざんで1円決済が作れた）。
 // ・ギフトセット … data/gift-set.json の価格表で再計算（香りNo・ケース色はホワイトリスト検証）
@@ -302,7 +315,8 @@ exports.handler = async (event) => {
     //   direct = 相手に直送 → カードに gift_message を記入、gift_sender を贈り主として記載
     // すべて任意入力。旧フロント（キャッシュされたページ）からは来ないので、未指定は 'self' 扱いにして決済は止めない。
     // Stripe metadata は1値500文字までなので、念のためここでも長さと制御文字を落とす。
-    const cleanGiftText = (v, max) => String(v == null ? '' : v)
+    // 絵文字・異体字セレクタ・ZWJ・肌色・国旗・外字は印字できないので落とす（gift-set.html の cleanCardText と同じ規則・防御的に）
+    const cleanGiftText = (v, max) => stripUnprintable(String(v == null ? '' : v))
       .replace(/\r?\n/g, ' / ')
       .replace(/[ -]/g, ' ')
       .trim()

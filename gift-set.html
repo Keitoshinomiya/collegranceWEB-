@@ -189,6 +189,7 @@
   .presets button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
   .presets button[disabled]{opacity:.4;cursor:not-allowed}
   .eta{font-size:13px;color:var(--sub);margin:-14px 0 0}
+  .eta-sub{font-size:11.5px;color:var(--sub);margin:2px 0 0;line-height:1.6}
   #step1{scroll-margin-top:80px}
   .ctanote{font-size:12px;color:var(--sub);text-align:center;margin:0 0 -12px}
   .faq details{border-bottom:1px solid var(--line);padding:12px 0}
@@ -278,7 +279,8 @@
           <span class="price" id="price">¥2,980<small>税込</small></span>
           <span class="ship">送料込み</span>
         </div>
-        <p class="eta">ご注文から2〜4営業日で発送・ポストにお届け</p>
+        <p class="eta" id="eta">ご注文から2〜4営業日で発送・ポストにお届け</p>
+        <p class="eta-sub" id="eta-sub" hidden>ご注文から2〜4営業日で発送、ネコポスで発送後1〜2日でお届けします（土日祝は発送休み）</p>
 
         <div class="contents" aria-label="セット内容">
           <div><b>3</b>お試し香水<br>1.5ml</div>
@@ -364,7 +366,7 @@
         <details><summary>1.5mlでどのくらい使えますか？</summary><p>つける量や回数によって変わりますが、それぞれの香りを毎日少しずつ、数日から1週間ほどお試しいただける量です。</p></details>
         <details><summary>ラッピングは選べますか？</summary><p>巾着と薄紙でのギフト包装が標準です。追加料金はかかりません。</p></details>
         <details><summary>相手の住所に直接送れますか？</summary><p>「相手に直接送る」を選び、決済画面でお届け先を入力してください。明細や金額の分かるものは入れずにお送りします。</p></details>
-        <details><summary>いつ届きますか？</summary><p>ご注文確認後、2〜4営業日以内（土日祝を除く）に発送し、ネコポスでポストへお届けします。発送後に追跡番号をメールでお知らせします。</p></details>
+        <details><summary>いつ届きますか？</summary><p>ご注文確認後、2〜4営業日以内（土日祝は発送休み）に発送し、ネコポスで発送後1〜2日でポストへお届けします<span id="faq-eta"></span>。発送後に追跡番号をメールでお知らせします。</p></details>
       </div>
     </section>
   </main>
@@ -534,15 +536,54 @@ function toggleMobileNav(){
     try { gtag('event', 'view_item', { currency: 'JPY', value: CFG.basePrice, items: [{ item_id: String(CFG.productId), item_name: CFG.name, item_brand: 'COLLEGRANCE', item_category: 'gift', price: CFG.basePrice, quantity: 1 }] }); } catch(e){}
   }
 
+  /* 届く日の目安：発送＝今日から2〜4営業日後（土日を除く・祝日は見ない→「頃」）、ネコポスは発送の翌日〜翌々日着。
+     JSが動かない時は初期HTMLの従来文言のまま */
+  (function(){
+    try {
+      var W = '日月火水木金土';
+      function addBiz(d, n){ var x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); while(n > 0){ x.setDate(x.getDate() + 1); if(x.getDay() !== 0 && x.getDay() !== 6) n--; } return x; }
+      function addDays(d, n){ var x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; }
+      function fmt(d){ return (d.getMonth() + 1) + '月' + d.getDate() + '日（' + W.charAt(d.getDay()) + '）'; }
+      var now = new Date();
+      var from = addDays(addBiz(now, 2), 1), to = addDays(addBiz(now, 4), 2);
+      var range = fmt(from) + '〜' + fmt(to);
+      $('eta').textContent = range + '頃ポストにお届け';
+      $('eta-sub').hidden = false;
+      $('faq-eta').textContent = '（今日のご注文なら ' + range + '頃）';
+    } catch(e){}
+  })();
+
   $('d-self').onclick = function(){ direct = false; render(); };
   $('d-direct').onclick = function(){ direct = true; render(); };
+  /* 印字できない文字を除く（プレビューとカート保存で同じものを使う）。
+     絵文字（Extended_Pictographic・異体字セレクタ・ZWJ・肌色・国旗・タグ）、制御文字、外字（私用領域）を消す。
+     日本語・英数・全角記号（！？。、・ー〜♪★♡※→ など）と改行は残す。
+     ©®™♥☀☎ のように JIS の文字表にもある記号は、絵文字の異体字セレクタだけ外して文字として残す。
+     サーバー（netlify/functions/create-checkout.js の cleanGiftText）にも同じ除去を入れている */
+  var KEEP_PICT = '\u00A9\u00AE\u2122\u203C\u2049\u2194\u2196\u2197\u2198\u2199\u25B6\u25C0\u2600\u2601\u2602\u2603\u260E\u2640\u2642\u2660\u2663\u2665\u2666\u2668\u2934\u2935\u303D';
+  var RE_PICT = null, RE_ASTRAL = null, RE_LONE = null;
+  try {
+    RE_PICT = new RegExp('\\p{Extended_Pictographic}', 'gu');
+    RE_ASTRAL = new RegExp('[\\u{1F1E6}-\\u{1F1FF}\\u{1F3FB}-\\u{1F3FF}\\u{E0000}-\\u{E007F}\\u{E0100}-\\u{E01EF}\\u{F0000}-\\u{10FFFF}]', 'gu');
+    RE_LONE = new RegExp('[\\uD800-\\uDFFF]', 'gu');
+  } catch(e){}
+  function cleanCardText(s){
+    s = String(s == null ? '' : s).replace(/\r\n?/g, '\n');
+    if(RE_PICT){
+      s = s.replace(RE_PICT, function(c){ return KEEP_PICT.indexOf(c) >= 0 ? c : ''; }).replace(RE_ASTRAL, '').replace(RE_LONE, '');
+    } else {
+      s = s.replace(/[\uD800-\uDFFF]/g, ''); /* \p{} 非対応の古いブラウザは補助面の文字をまとめて落とす */
+    }
+    return s.replace(/[\u0000-\u0009\u000B-\u001F\u007F-\u009F\u00AD\u200B-\u200F\u2028-\u202E\u2060-\u206F\u20E3\uE000-\uF8FF\uFE00-\uFE0F\uFEFF\uFFF0-\uFFFF]/g, '');
+  }
+
   /* メッセージカードの印字プレビュー（入力どおりの改行。はみ出す時だけ文字を小さく） */
   function renderCard(){
-    var v = $('msg').value, el = $('mprev');
-    $('mc').textContent = v.length;
+    var raw = $('msg').value, v = cleanCardText(raw), el = $('mprev');
+    $('mc').textContent = raw.length;
     el.classList.toggle('empty', !v.trim());
     el.textContent = v.trim() ? v : 'For you';
-    var sn = direct ? $('sender').value.trim() : '';
+    var sn = direct ? cleanCardText($('sender').value).replace(/\n/g, ' ').trim() : '';
     $('mprev-s').textContent = sn ? sn + ' より' : '';
     el.style.fontSize = '';
     if(v.trim()){
@@ -649,7 +690,7 @@ function toggleMobileNav(){
     try {
       localStorage.setItem(CART_KEY, JSON.stringify({ items: items, updated_at: Date.now() }));
       /* お渡し方法・メッセージはカートの既存のギフト入力欄に引き継ぐ（index.html の applyGiftPrefill） */
-      localStorage.setItem('clg_gift_prefill', JSON.stringify({ mode: direct ? 'direct' : 'self', message: $('msg').value.slice(0, 60), sender: $('sender').value.slice(0, 30), at: Date.now() }));
+      localStorage.setItem('clg_gift_prefill', JSON.stringify({ mode: direct ? 'direct' : 'self', message: cleanCardText($('msg').value).slice(0, 60), sender: cleanCardText($('sender').value).replace(/\n/g, ' ').slice(0, 30), at: Date.now() }));
     } catch(e){
       $('toast').textContent = 'カートに保存できませんでした。ブラウザの設定（プライベートモード等）をご確認ください。';
       return;

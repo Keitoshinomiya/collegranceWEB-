@@ -87,7 +87,7 @@
   .slot{border:1px dashed var(--line);border-radius:6px;min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;text-align:center;font-size:11px;color:var(--mute);position:relative;background:var(--bg)}
   .slot.filled{border-style:solid;border-color:var(--ink);color:var(--ink)}
   .slot img{width:52px;height:52px;object-fit:contain}
-  .slot .nm{font-size:11px;line-height:1.4;margin-top:4px}
+  .slot .nm{font-size:11px;line-height:1.4;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:keep-all;overflow-wrap:anywhere}
   .slot .x{position:absolute;top:0;right:0;border:0;background:none;color:var(--mute);font-size:18px;cursor:pointer;padding:6px 10px;line-height:1;min-width:36px;min-height:36px}
   .slot .x:focus-visible,.fr:focus-visible,.cc:focus-visible,button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 
@@ -98,7 +98,7 @@
   .fr:hover{border-color:var(--sub)}
   .fr img{width:40px;height:40px;object-fit:contain;flex:none}
   .fr .t{min-width:0;display:flex;flex-direction:column;line-height:1.35}
-  .fr .t b{font-size:12.5px;font-weight:500}
+  .fr .t b{font-size:12.5px;font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
   .fr .t span{font-size:11px;color:var(--mute)}
   .fr .add{font-size:11px;color:var(--teal);font-variant-numeric:tabular-nums}
   .fr .cnt{margin-left:auto;flex:none;font-size:11px;background:var(--ink);color:var(--bg);border-radius:10px;padding:0 7px}
@@ -134,6 +134,16 @@
   .pricetable table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
   .pricetable th,.pricetable td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
   .pricetable td.r,.pricetable th.r{text-align:right}
+  .pricetable td:first-child{white-space:normal}
+  /* スマホは「3本とも同じ香りなら」列を隠して3列に */
+  @media (max-width:519px){.pricetable .c4{display:none}}
+  .subt{font-size:13px;color:var(--sub);margin:6px 0 0;letter-spacing:.06em}
+  .presets{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 12px}
+  .presets .pl{font-size:12px;color:var(--sub);margin-right:2px}
+  .presets button{border:1px solid var(--line);border-radius:16px;background:var(--bg);color:var(--ink);font:inherit;font-size:12px;padding:6px 12px;min-height:36px;cursor:pointer}
+  .presets button:hover{border-color:var(--sub)}
+  .presets button[disabled]{opacity:.4;cursor:not-allowed}
+  .ctanote{font-size:12px;color:var(--sub);text-align:center;margin:0 0 -12px}
   .faq details{border-bottom:1px solid var(--line);padding:12px 0}
   .faq summary{cursor:pointer;font-size:14px}
   .faq p{font-size:13px;color:var(--sub);margin:8px 0 0}
@@ -206,15 +216,16 @@
           <img class="media-main" id="main-img" src="assets/images/gift/gift_main.jpg" alt="COLLEGRANCEの巾着ギフトを開封したところ（イメージ）" width="1200" height="897" fetchpriority="high">
         </picture>
         <div class="thumbs" id="thumbs"></div>
-        <div class="cap">非売品のCOLLEGRANCE巾着（コットン・生成り）に入れてお届けします。<br>※写真はイメージです。</div>
+        <div class="cap">非売品のCOLLEGRANCE巾着（コットン・生成り）に入れてお届けします。<br>※写真はイメージです。セット内容は下記のとおりです（リボンは付きません）。</div>
       </div>
 
       <div class="buy">
         <div>
           <div class="eyebrow">GIFT SET</div>
-          <h1>選べる3本ギフトセット<br>お試し香水3本＋香水ケース＋巾着</h1>
+          <h1>選べる3本ギフトセット</h1>
+          <p class="subt">お試し香水3本＋香水ケース＋巾着</p>
         </div>
-        <p class="lead">香水をまだ持っていない人にも贈りやすい、1.5mlのお試しサイズ。好きな香りを3本選ぶと、非売品の巾着とケースを付けてギフト仕様でお届けします。</p>
+        <p class="lead">香水は、好みが外れると使われません。だから1.5mlを3本。試して、手元に残したい1本が見つかるように作りました。非売品の巾着とケースを付けて、ギフト仕様でお届けします。</p>
         <div class="price-row">
           <span class="price" id="price">¥2,980<small>税込</small></span>
           <span class="ship">送料込み</span>
@@ -229,6 +240,7 @@
 
         <div class="step">
           <h2><span class="n">1</span>香りを3本選ぶ <span class="hint">同じ香りを2本以上でもOK</span></h2>
+          <div class="presets" id="presets" role="group" aria-label="迷ったらこの組み合わせ"><span class="pl">迷ったらこの組み合わせ</span></div>
           <div class="slots" id="slots"></div>
           <div id="tiers"></div>
         </div>
@@ -250,7 +262,7 @@
 
         <div class="step">
           <h2><span class="n">4</span>メッセージカード <span class="hint">任意・60文字まで</span></h2>
-          <label for="msg" class="sumline" style="display:block;margin-bottom:6px">カードに印字してお入れします。空欄の場合は「For you」のカードになります。</label>
+          <label for="msg" class="sumline" style="display:block;margin-bottom:6px">カードに印字してお入れします。空欄の場合は「For you」のカードになります。絵文字など印字できない文字は省いてお入れします。</label>
           <textarea id="msg" maxlength="60" placeholder="例）いつもありがとう。好きな香りが見つかりますように。"></textarea>
           <div class="count"><span id="mc">0</span>/60</div>
           <div id="sender-wrap" hidden style="margin-top:8px">
@@ -261,6 +273,7 @@
         </div>
 
         <div class="sumline" id="sumline"></div>
+        <p class="ctanote">金額の分かる明細は入りません／ポストに届くネコポス／送料込み</p>
         <button class="cta" id="cta" type="button" disabled>カートに入れる</button>
         <div class="toast" id="toast" role="status"></div>
       </div>
@@ -283,7 +296,7 @@
         <h2>香りと価格</h2>
         <div class="pricetable">
           <table>
-            <thead><tr><th>香り</th><th>系統</th><th class="r">追加</th><th class="r">3本とも同じ香りなら</th></tr></thead>
+            <thead><tr><th>香り</th><th>系統</th><th class="r">追加</th><th class="r c4">3本とも同じ香りなら</th></tr></thead>
             <tbody id="ptable"></tbody>
           </table>
         </div>
@@ -392,8 +405,8 @@ function toggleMobileNav(){
       head.innerHTML = '<span>' + t[0] + '</span><span>' + t[3] + '</span>';
       var box = document.createElement('div'); box.className = 'frs';
       items.forEach(function(s){
-        var b = document.createElement('button'); b.type = 'button'; b.className = 'fr'; b.id = 'fr-' + s.no;
-        b.innerHTML = bottle(s.no) + '<span class="t"><b>' + esc(s.name) + '</b><span>' + esc(s.family) + '</span>'
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'fr'; b.id = 'fr-' + s.no; b.title = s.name;
+        b.innerHTML = bottle(s.no) + '<span class="t"><b>' + esc(s.short || s.name) + '</b><span>' + esc(s.family) + '</span>'
           + (s.soldOut ? '<span class="so">品切れ中</span>' : '<span class="add">' + (s.surcharge ? '+' + s.surcharge + '円' : '追加なし') + '</span>')
           + '</span><span class="cnt" hidden></span>';
         b.addEventListener('click', function(){ if(!s.soldOut && picks.length < CFG.picks){ picks.push(s.no); render(true); } });
@@ -413,10 +426,22 @@ function toggleMobileNav(){
     caseId = firstCase ? firstCase.id : '';
     /* 価格表 */
     $('ptable').innerHTML = CFG.scents.map(function(s){
-      return '<tr><td>' + esc(s.name) + (s.soldOut ? '（品切れ中）' : '') + '</td><td>' + esc(s.family) + '</td><td class="r">' + (s.surcharge ? '+' + s.surcharge + '円' : '—') + '</td><td class="r">' + yen(CFG.basePrice + s.surcharge * 3) + '</td></tr>';
+      return '<tr><td>' + esc(s.name) + (s.soldOut ? '（品切れ中）' : '') + '</td><td>' + esc(s.family) + '</td><td class="r">' + (s.surcharge ? '+' + s.surcharge + '円' : '—') + '</td><td class="r c4">' + yen(CFG.basePrice + s.surcharge * 3) + '</td></tr>';
     }).join('');
     /* 初期状態：見本として人気の3本を選択済み（品切れの香りは除く） */
-    picks = ['030', '018', '039'].filter(function(no){ return byNo[no] && !byNo[no].soldOut; });
+    /* 迷ったらこの組み合わせ（売り止めの香りを含むものは押せない） */
+    var PRESETS = [['定番', ['030', '018', '039']], ['さわやか', ['018', '021', '025']], ['甘め', ['039', '013', '040']]];
+    PRESETS.forEach(function(pr){
+      var b = document.createElement('button'); b.type = 'button';
+      b.textContent = pr[0];
+      var ok = pr[1].every(function(no){ return byNo[no] && !byNo[no].soldOut; });
+      b.disabled = !ok;
+      b.setAttribute('aria-label', pr[0] + '：' + pr[1].map(function(no){ return byNo[no] ? byNo[no].name : no; }).join('、') + (ok ? '' : '（品切れの香りを含みます）'));
+      b.addEventListener('click', function(){ if(ok){ picks = pr[1].slice(); render(true); } });
+      $('presets').appendChild(b);
+    });
+    /* 初期状態：見本として追加料金なしの3本を選択済み（品切れの香りは除く） */
+    picks = ['030', '018', '014'].filter(function(no){ return byNo[no] && !byNo[no].soldOut; });
     render();
     try { gtag('event', 'view_item', { currency: 'JPY', value: CFG.basePrice, items: [{ item_id: String(CFG.productId), item_name: CFG.name, item_brand: 'COLLEGRANCE', item_category: 'gift', price: CFG.basePrice, quantity: 1 }] }); } catch(e){}
   }
@@ -433,7 +458,7 @@ function toggleMobileNav(){
         if(no){
           var s = byNo[no];
           d.className = 'slot filled';
-          d.innerHTML = '<button class="x" type="button" aria-label="' + esc(s.name) + 'を外す">×</button>' + bottle(no) + '<span class="nm">' + esc(s.name) + '</span><span class="add" style="color:var(--teal);font-size:11px">' + (s.surcharge ? '+' + s.surcharge + '円' : '') + '</span>';
+          d.innerHTML = '<button class="x" type="button" aria-label="' + esc(s.name) + 'を外す">×</button>' + bottle(no) + '<span class="nm" title="' + esc(s.name) + '">' + esc(s.short || s.name) + '</span><span class="add" style="color:var(--teal);font-size:11px">' + (s.surcharge ? '+' + s.surcharge + '円' : '') + '</span>';
           d.querySelector('.x').onclick = function(){ picks.splice(i, 1); render(true); };
         } else { d.className = 'slot'; d.textContent = (i + 1) + '本目を選択'; }
         slots.appendChild(d);
@@ -449,7 +474,7 @@ function toggleMobileNav(){
     var kase = CFG.cases.find(function(c){ return c.id === caseId; });
     $('casename').textContent = kase ? '選択中：' + kase.name : 'ケースは現在品切れ中です';
     $('d-self').setAttribute('aria-pressed', !direct); $('d-direct').setAttribute('aria-pressed', direct);
-    $('dnote').textContent = direct ? 'お届け先は決済画面で入力します。金額の分かる明細は同梱しません。' : 'ご自宅へお届けします。金額の分かる明細は同梱しません。';
+    $('dnote').textContent = direct ? 'お届け先は決済画面で入力します。伝票の差出人はCOLLEGRANCEになります。贈り主のお名前はメッセージカードに入れてください。' : 'ご自宅へお届けします。金額の分かる明細は同梱しません。';
     $('sender-wrap').hidden = !direct;
 
     var full = picks.length === CFG.picks;

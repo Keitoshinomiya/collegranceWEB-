@@ -1,4 +1,26 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+// ギフトセット定義（data/gift-set.json）。読めなくても通常商品の決済は止めない（ギフトセット行だけ400）
+let giftSetLib = null;
+try { giftSetLib = require('../lib/gift-set'); } catch (e) { console.error('[giftset] lib load failed:', e.message); }
+const isGiftSetItem = (item) => !!item && (String(item.productId) === '9001' || (item.giftSet && typeof item.giftSet === 'object'));
+
+// === 価格はサーバー側で決める（2026-10-07） ===
+// 従来は price_data.unit_amount にクライアントの price をそのまま使っていた（改ざんで1円決済が作れた）。
+// ・ギフトセット … data/gift-set.json の価格表で再計算（香りNo・ケース色はホワイトリスト検証）
+// ・通常商品   … products.json の sellPrice を使う（関数と同じデプロイで同梱される＝ページと同じ版）
+// products.json が読めない時だけは、全決済を止めないためにクライアント値で通す（ログに残す）。
+let PRODUCT_BY_ID = null;
+try {
+  const list = require('../../products.json');
+  PRODUCT_BY_ID = new Map(list.map((p) => [String(p.id), p]));
+} catch (e) {
+  console.error('[price] products.json load failed — falling back to client prices:', e.message);
+}
+
+/** index.html の doCheckout() と同じ組み立てで商品名を作る（伝票の品名もここから作られる） */
+function productDisplayName(p) {
+  return (p.brand ? p.brand + ' - ' : '') + p.name + (p.nameJa ? ' (' + p.nameJa + ')' : '') + (p.tester ? '【テスター品】' : '');
+}
 
 // 2026-05-13: 送料を全商品価格に内包したため、Stripe側送料は常に¥0
 const FREE_SHIP_THRESHOLD = 0;
@@ -101,14 +123,79 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ error: 'Too many items' }) };
     }
 
+    // === 価格・商品名をサーバー側で確定 ===
+    const giftSetRows = []; // session metadata の gs1, gs2… 用
+    const resolved = [];
+    for (const item of items) {
+      if (isGiftSetItem(item)) {
+        const gs = giftSetLib ? giftSetLib.resolveGiftSet(item.giftSet) : { ok: false, error: 'ギフトセットは現在お取り扱いできません。時間をおいてお試しください' };
+        if (!gs.ok) {
+          console.warn('[giftset] rejected:', { giftSet: item.giftSet, error: gs.error, ip });
+          return { statusCode: 400, body: JSON.stringify({ error: gs.error }) };
+        }
+        if (item.price !== gs.unitAmount) {
+          console.warn('[price] giftset client price mismatch:', { client: item.price, server: gs.unitAmount, key: gs.key });
+        }
+        // 同じ組み合わせが別行で来たらまとめる
+        const same = resolved.find((r) => r.key === gs.key);
+        if (same) { same.quantity += item.quantity; continue; }
+        resolved.push({
+          key: gs.key,
+          name: gs.name,
+          unitAmount: gs.unitAmount,
+          quantity: item.quantity,
+          image: giftSetLib.CONFIG.image,
+          productMeta: {
+            collegrance_product_id: String(giftSetLib.PRODUCT_ID),
+            gift_scents: gs.scents.map((s) => s.no).join(','),
+            gift_case: gs.kase.id,
+          },
+          giftSet: gs,
+        });
+        continue;
+      }
+
+      let name = item.name;
+      let unitAmount = item.price;
+      let image = item.image || '';
+      if (PRODUCT_BY_ID) {
+        const p = PRODUCT_BY_ID.get(String(item.productId));
+        if (!p || typeof p.sellPrice !== 'number' || p.sellPrice <= 0) {
+          console.warn('[price] unknown product:', { productId: item.productId, ip });
+          return { statusCode: 400, body: JSON.stringify({ error: 'お取り扱いのない商品が含まれています。ページを再読み込みしてカートをご確認ください' }) };
+        }
+        if (p.inStock === false) {
+          return { statusCode: 400, body: JSON.stringify({ error: `「${p.nameJa || p.name}」は在庫切れになりました。カートから外してお進みください` }) };
+        }
+        if (item.price !== p.sellPrice) {
+          console.warn('[price] client price mismatch:', { productId: item.productId, client: item.price, server: p.sellPrice });
+        }
+        unitAmount = p.sellPrice;
+        name = productDisplayName(p);
+        image = p.img || image;
+      }
+      resolved.push({
+        name,
+        unitAmount,
+        quantity: item.quantity,
+        image,
+        productMeta: { collegrance_product_id: String(item.productId) },
+      });
+    }
+
+    for (const r of resolved) {
+      if (r.giftSet) giftSetRows.push(r.giftSet.metaValue + (r.quantity > 1 ? `|x${r.quantity}` : ''));
+    }
+    const hasGiftSet = giftSetRows.length > 0;
+
     // Build line_items from cart
-    const line_items = items.map((item) => {
+    const line_items = resolved.map((item) => {
       const images = [];
       if (item.image) {
         if (item.image.startsWith('http')) {
           images.push(item.image);
         } else {
-          images.push(SITE_URL + '/' + item.image);
+          images.push(SITE_URL + '/' + item.image.replace(/^\//, ''));
         }
       }
 
@@ -117,17 +204,22 @@ exports.handler = async (event) => {
           currency: 'jpy',
           product_data: {
             name: item.name,
-            metadata: { collegrance_product_id: String(item.productId) },
+            metadata: item.productMeta,
             ...(images.length ? { images } : {}),
           },
-          unit_amount: item.price, // JPY is zero-decimal
+          unit_amount: item.unitAmount, // JPY is zero-decimal（サーバー側で確定した価格）
         },
         quantity: item.quantity,
       };
     });
 
+    // ギフトセットは巾着・メッセージカード込みなので、ラッピング（+300円）は付けない
+    if (giftWrap && hasGiftSet) {
+      console.log('[giftset] giftWrap ignored (included in gift set)');
+    }
+
     // Gift wrapping line item
-    if (giftWrap) {
+    if (giftWrap && !hasGiftSet) {
       line_items.push({
         price_data: {
           currency: 'jpy',
@@ -141,7 +233,7 @@ exports.handler = async (event) => {
     }
 
     // Calculate subtotal for shipping logic
-    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const subtotal = resolved.reduce((sum, item) => sum + item.unitAmount * item.quantity, 0);
     const isFreeShipping = subtotal >= FREE_SHIP_THRESHOLD;
 
     // Shipping options
@@ -215,7 +307,10 @@ exports.handler = async (event) => {
       .replace(/[ -]/g, ' ')
       .trim()
       .slice(0, max);
-    const giftMode = giftWrap ? ((metadata && metadata.gift_mode) === 'direct' ? 'direct' : 'self') : '';
+    // ギフトセットはラッピングの有無に関係なくお渡し方法を持つ（メッセージは手渡しでもカードに印字する）
+    const giftWrapCharged = !!giftWrap && !hasGiftSet;
+    const giftMode = (giftWrapCharged || hasGiftSet) ? ((metadata && metadata.gift_mode) === 'direct' ? 'direct' : 'self') : '';
+    const withMessage = giftMode === 'direct' || (hasGiftSet && giftMode === 'self');
 
     // LINE内ブラウザ → 外部ブラウザへ引き継いで来た決済か（2026-10-05）。効果測定用。既知の値だけ通す
     const handoff = (metadata && metadata.handoff === 'line_external') ? 'line_external' : '';
@@ -223,11 +318,13 @@ exports.handler = async (event) => {
     const sessionMetadata = {
       channel: (metadata && metadata.channel) || 'direct',
       ...(handoff ? { handoff } : {}),
-      gift_wrap: giftWrap ? 'yes' : 'no',
+      gift_wrap: giftWrapCharged ? 'yes' : 'no',
       ...(giftMode ? { gift_mode: giftMode } : {}),
-      ...(giftMode === 'direct'
-        ? { gift_message: cleanGiftText(metadata.gift_message, 200), gift_sender: cleanGiftText(metadata.gift_sender, 40) }
-        : {}),
+      ...(withMessage ? { gift_message: cleanGiftText(metadata.gift_message, 200) } : {}),
+      ...(giftMode === 'direct' ? { gift_sender: cleanGiftText(metadata.gift_sender, 40) } : {}),
+      // ギフトセットの内訳（gs1=030,018,039|エクリュ[|x2]）。Stripe metadata は50キー・1値500文字まで（行は最大20）
+      ...(hasGiftSet ? { gift_set_count: String(giftSetRows.length) } : {}),
+      ...Object.fromEntries(giftSetRows.map((v, i) => [`gs${i + 1}`, v.slice(0, 500)])),
       diagnosis_session_id: (metadata && metadata.diagnosis_session_id) || '',
       ...(lineFriendId ? { line_friend_id: lineFriendId } : {}),
       ...(appliedCouponInfo ? { applied_coupon_code: appliedCouponInfo.code } : {}),

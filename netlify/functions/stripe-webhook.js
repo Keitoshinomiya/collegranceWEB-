@@ -1,4 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+// 選べる3本ギフトセットの内訳表示用（読めなくても通知自体は止めない）
+let giftSetLib = null;
+try { giftSetLib = require('../lib/gift-set'); } catch (e) { console.error('[giftset] lib load failed:', e.message); }
 
 // 2026-09-14 発送専用チャンネル #collegrance-発送 (C0C1NLCNYRJ) に分離（旧 #line-連絡 と混ざってややこしいため）。Netlify env SLACK_CHANNEL_ID で上書き可
 const SLACK_CHANNEL = process.env.SLACK_CHANNEL_ID || 'C0C1NLCNYRJ';
@@ -148,6 +151,27 @@ exports.handler = async (event) => {
 
       // ギフトのお渡し方法（2026-09-18 追加）。発送担当が「カードに書くのか・未記入で入れるのか」を迷わないよう明示する
       const giftLines = [];
+      // 選べる3本ギフトセット（2026-10-07）。gs1, gs2… = "030,018,039|エクリュ[|x2]"
+      const giftSetKeys = Object.keys(metadata).filter((k) => /^gs\d+$/.test(k)).sort((a, b) => parseInt(a.slice(2), 10) - parseInt(b.slice(2), 10));
+      if (giftSetKeys.length) {
+        giftLines.push(':gift: *選べる3本ギフトセット* → お試し1.5ml×3＋香水ケース＋巾着＋香りカード3枚＋メッセージカード（*ネコポス*）');
+        for (const k of giftSetKeys) {
+          const v = metadata[k];
+          if (giftSetLib) {
+            const g = giftSetLib.parseMetaValue(v);
+            giftLines.push(`　　${k}: ${g.scents.map((s) => `${s.no} ${s.name}`).join('／')} ｜ ケース: *${g.caseName}*${g.qty > 1 ? ` ×${g.qty}セット` : ''}`);
+          } else {
+            giftLines.push(`　　${k}: ${v}`);
+          }
+        }
+        const gm = metadata.gift_mode === 'direct' ? 'direct' : 'self';
+        giftLines.push(gm === 'direct'
+          ? '　　お届け: *相手に直送*（配送先は贈り先）'
+          : '　　お届け: *ご本人が受け取って手渡し*');
+        giftLines.push(`　　メッセージカード（印字）: ${metadata.gift_message ? `「${metadata.gift_message}」` : '（記入なし → 「For you」のカード）'}`);
+        if (gm === 'direct') giftLines.push(`　　贈り主: ${metadata.gift_sender || '（記入なし）'}`);
+        giftLines.push('　　:warning: 金額の分かる書類は入れない');
+      }
       if (hasGiftWrap) {
         const giftMode = metadata.gift_mode || '';
         if (giftMode === 'direct') {

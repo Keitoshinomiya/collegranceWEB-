@@ -60,7 +60,7 @@
   .crumb a{text-decoration:none}
   .grid{display:grid;grid-template-columns:1fr;gap:28px}
   @media (min-width:860px){.grid{grid-template-columns:1fr 1fr;gap:48px}.media{position:sticky;top:88px;align-self:start}}
-  .media-main{width:100%;height:auto;border-radius:4px;display:block;aspect-ratio:900/1226;object-fit:cover;background:var(--kinari)}
+  .media-main{width:100%;height:auto;border-radius:4px;display:block;aspect-ratio:1200/897;object-fit:cover;background:var(--kinari)}
   .media picture{display:block}
   .thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
   .thumbs button{border:1px solid var(--line);padding:0;border-radius:3px;overflow:hidden;background:var(--kinari);cursor:pointer;aspect-ratio:1/1}
@@ -203,10 +203,10 @@
         <!-- 写真は assets/images/gift/ の4枚（gift_main / gift_contents / gift_hand / gift_unbox の .jpg と .webp）。撮影後に同名で差し替える -->
         <picture id="main-pic">
           <source id="main-src" srcset="assets/images/gift/gift_main.webp" type="image/webp">
-          <img class="media-main" id="main-img" src="assets/images/gift/gift_main.jpg" alt="COLLEGRANCEロゴ入りの生成りの巾着" width="900" height="1226" fetchpriority="high">
+          <img class="media-main" id="main-img" src="assets/images/gift/gift_main.jpg" alt="COLLEGRANCEの巾着ギフトを開封したところ（イメージ）" width="1200" height="897" fetchpriority="high">
         </picture>
         <div class="thumbs" id="thumbs"></div>
-        <div class="cap">非売品のCOLLEGRANCE巾着（コットン・生成り）に入れてお届けします。</div>
+        <div class="cap">非売品のCOLLEGRANCE巾着（コットン・生成り）に入れてお届けします。<br>※写真はイメージです。</div>
       </div>
 
       <div class="buy">
@@ -342,7 +342,7 @@ function toggleMobileNav(){
      ここでは行を追加して /?cart=1 に移動するだけ。価格は表示用で、決済金額はサーバーが data/gift-set.json から再計算する */
   var CART_KEY = 'clg_cart_v1';
   var PHOTOS = [
-    ['gift_main', 'COLLEGRANCEロゴ入りの生成りの巾着'],
+    ['gift_main', 'COLLEGRANCEの巾着ギフトを開封したところ（イメージ）'],
     ['gift_contents', 'セットの中身（お試し香水3本・香水ケース・香りカード・メッセージカード）'],
     ['gift_hand', '巾着を手に持ったところ'],
     ['gift_unbox', '開封したところ']

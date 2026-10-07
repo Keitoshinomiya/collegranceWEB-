@@ -227,7 +227,7 @@ HUBS = [
      "レディース向け香水の記事まとめ。人気ブランドのレビュー、年代別ランキング、シーン別の選び方を集めました。"),
     ("gift", "scenes", "gift", "ギフト向けの香水",
      "香水ギフトの記事一覧｜彼氏・彼女・プレゼント選び",
-     "香水をプレゼントに選ぶための記事まとめ。彼氏向け・彼女向け・30代女性向けなど、相手別のギフドガイドを集めました。"),
+     "香水をプレゼントに選ぶための記事まとめ。彼氏向け・彼女向け・30代女性向けなど、相手別のギフトガイドを集めました。選べる3本ギフトセット2,980円〜も。"),
     ("date", "scenes", "date", "デート・特別な日の香水",
      "デート・ペア香水の記事一覧｜ふたりで楽しむ香り",
      "デートや記念日、結婚式など特別な日の香水記事まとめ。カップルでシェアできるペアフレグランスの楽しみ方も紹介しています。"),
@@ -454,6 +454,32 @@ def pick_related(article, articles, tags, n=4):
 # 7. ハブページ生成
 # ============================================================
 
+def hub_giftset_card(slug):
+    """ギフトハブ専用: 選べる3本ギフトセットへの案内カード（記事内カードと同じ見た目）"""
+    if slug != "gift":
+        return ""
+    s = "guide-gift"
+    return f"""
+      <style>
+      .cg-giftset-card{{display:flex;gap:14px;align-items:center;background:#faf9f7;border:1px solid #eee;border-radius:6px;padding:14px 16px;margin:0 auto 28px;max-width:680px}}
+      .cg-giftset-card img{{width:56px;height:70px;object-fit:cover;border-radius:3px;flex-shrink:0}}
+      .cg-giftset-card .pci-info{{flex:1;min-width:0}}
+      .cg-giftset-card .pci-brand{{font-size:.5rem;color:#999;letter-spacing:.08em}}
+      .cg-giftset-card .pci-name{{font-size:.7rem;font-weight:500;color:#1a1a1a;margin:2px 0 4px}}
+      .cg-giftset-card .pci-price{{font-size:.58rem;color:#555;margin-bottom:6px}}
+      .cg-giftset-card .pci-btns a{{display:inline-block;font-size:.52rem;padding:5px 12px;border-radius:3px;text-decoration:none;letter-spacing:.04em;background:#1a1a1a;color:#fff}}
+      </style>
+      <div class="cg-giftset-card">
+        <img src="/assets/images/gift/gift_main.webp" alt="COLLEGRANCE 選べる3本ギフトセット" loading="lazy">
+        <div class="pci-info">
+          <div class="pci-brand">COLLEGRANCE GIFT SET</div>
+          <div class="pci-name">選べる3本ギフトセット</div>
+          <div class="pci-price">&yen;2,980〜・送料込み／香りとケースの色を選べます</div>
+          <div class="pci-btns"><a href="/gift-set.html?utm_source=blog&amp;utm_medium=article&amp;utm_campaign=giftset&amp;utm_content={s}" onclick="if(window.gtag)gtag('event','giftset_click',{{article:'{s}'}})">香りを選ぶ →</a></div>
+        </div>
+      </div>"""
+
+
 def hub_page_html(hub, items, all_hubs_with_items):
     slug, kind, tag, h1, page_title, desc = hub
     url = f"{BASE_URL}/guide-{slug}.html"
@@ -536,7 +562,7 @@ def hub_page_html(hub, items, all_hubs_with_items):
         <h1>{esc(h1)}の記事一覧</h1>
         <div class="gh-count">{len(items)} ARTICLES</div>
       </div>
-      <p class="gh-desc">{esc(desc)}</p>
+      <p class="gh-desc">{esc(desc)}</p>{hub_giftset_card(slug)}
       <div class="gh-grid">{cards}
       </div>
       <div class="cg-circ" style="margin-top:0">

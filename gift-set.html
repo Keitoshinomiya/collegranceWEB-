@@ -428,6 +428,25 @@ function toggleMobileNav(){
     ['甘い香りが好きな人へ', ['013', '039', '021']],
     ['大人っぽく', ['040', '006', '024']]
   ];
+  /* LINEのシナリオから来たとき（?to=family|partner|friend|work&lfid=<friend_id>）。
+     lfid は index.html と同じキー（clg_line_friend_id）に保存＝カート（index.html）の決済で metadata.line_friend_id に載る */
+  var PRESET_BY_TO = { family: '定番', partner: '大人っぽく', friend: 'はじめての人へ', work: '定番' };
+  var toPreset = '';
+  try {
+    var qs = new URLSearchParams(location.search);
+    var _lfid = qs.get('lfid');
+    if(_lfid && /^[a-zA-Z0-9-]{6,64}$/.test(_lfid)){
+      localStorage.setItem('clg_line_friend_id', _lfid);
+    }
+    if(qs.has('lfid') && history.replaceState){
+      /* 共有・ブックマークでIDが他人に渡らないようURLから外す（to・utm は残す） */
+      qs.delete('lfid');
+      var q = qs.toString();
+      history.replaceState(null, '', location.pathname + (q ? '?' + q : '') + location.hash);
+    }
+    var _to = qs.get('to');
+    if(_to && Object.prototype.hasOwnProperty.call(PRESET_BY_TO, _to)) toPreset = PRESET_BY_TO[_to];
+  } catch(e){}
   var $ = function(id){ return document.getElementById(id); };
   var yen = function(n){ return '¥' + n.toLocaleString('ja-JP'); };
   var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
@@ -532,6 +551,11 @@ function toggleMobileNav(){
     });
     /* 初期状態：見本として追加料金なしの3本を選択済み（品切れの香りは除く） */
     picks = ['030', '018', '014'].filter(function(no){ return byNo[no] && !byNo[no].soldOut; });
+    /* LINEから ?to= で来たら、対応する「贈る相手で選ぶ」の組み合わせを選択（品切れを含む案なら既定のまま） */
+    if(toPreset){
+      var tp = PRESETS.find(function(pr){ return pr[0] === toPreset; });
+      if(tp && tp[1].every(function(no){ return byNo[no] && !byNo[no].soldOut; })) picks = tp[1].slice();
+    }
     render();
     try { gtag('event', 'view_item', { currency: 'JPY', value: CFG.basePrice, items: [{ item_id: String(CFG.productId), item_name: CFG.name, item_brand: 'COLLEGRANCE', item_category: 'gift', price: CFG.basePrice, quantity: 1 }] }); } catch(e){}
   }

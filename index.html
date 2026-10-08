@@ -218,7 +218,7 @@
 
     /* Floating AI button */
     /* Floating CTA buttons (2 buttons stacked) */
-    .floating-ctas{position:fixed;bottom:24px;right:24px;z-index:90;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(20px);pointer-events:none;transition:all .3s var(--ease)}
+    .floating-ctas{position:fixed;bottom:24px;bottom:calc(24px + env(safe-area-inset-bottom));right:24px;z-index:90;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(20px);pointer-events:none;transition:all .3s var(--ease)}
     .floating-ctas.show{opacity:1;transform:translateY(0);pointer-events:auto}
     .floating-cta{display:flex;align-items:center;gap:0;padding:0;border:none;cursor:pointer;border-radius:40px;box-shadow:0 4px 20px rgba(0,0,0,.15);transition:all .3s var(--ease);overflow:hidden;text-decoration:none}
     .floating-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
@@ -232,14 +232,13 @@
     .floating-cta-line{background:#06C755;color:#fff}
     .floating-cta-line .floating-cta-icon svg{fill:#fff}
     @media(max-width:768px){
-      .floating-ctas{bottom:72px;right:16px;gap:8px}
+      .floating-ctas{bottom:72px;bottom:calc(72px + env(safe-area-inset-bottom));right:16px;gap:8px}
       .floating-cta-icon{width:44px;height:44px}
     }
 
     /* Floating GIFT button（選べる3本ギフトへ誘導・左下固定） */
     .gift-float{position:fixed;left:24px;bottom:24px;bottom:calc(24px + env(safe-area-inset-bottom));z-index:90;opacity:0;transform:translateY(16px);pointer-events:none;visibility:hidden;transition:opacity .3s var(--ease),transform .3s var(--ease),visibility 0s linear .3s}
     .gift-float.show{opacity:1;transform:translateY(0);pointer-events:auto;visibility:visible;transition:opacity .3s var(--ease),transform .3s var(--ease),visibility 0s}
-    .sticky-cart.show ~ .gift-float{bottom:84px;bottom:calc(84px + env(safe-area-inset-bottom))} /* PCでもカート下部バーと重ねない */
     .gift-float-link{display:flex;align-items:center;gap:10px;padding:8px 18px 8px 8px;background:#fff;color:#1a1a1a;border:1px solid #1a1a1a;border-radius:40px;text-decoration:none;font-family:var(--font);box-shadow:0 4px 20px rgba(0,0,0,.15);transition:box-shadow .3s var(--ease),transform .3s var(--ease)}
     .gift-float-link:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.22)}
     .gift-float-link:focus-visible,.gift-float-x:focus-visible{outline:2px solid #1a9fae;outline-offset:3px}
@@ -257,7 +256,7 @@
     }
     @media(prefers-reduced-motion:reduce){.gift-float,.gift-float.show,.gift-float-link{transition:none}}
     @media(max-width:768px){
-      .gift-float,.sticky-cart.show ~ .gift-float{left:16px;bottom:72px;bottom:calc(72px + env(safe-area-inset-bottom))}
+      .gift-float{left:16px;bottom:72px;bottom:calc(72px + env(safe-area-inset-bottom))}
       .gift-float-link{flex-direction:column;gap:1px;width:56px;height:56px;padding:0;border-radius:50%;justify-content:center}
       .gift-float-icon{width:auto;height:auto;background:none}
       .gift-float-icon svg{width:24px;height:24px}
@@ -265,6 +264,9 @@
       .gift-float-sm{display:block;font-size:9px;letter-spacing:.06em;line-height:1;color:#1a1a1a}
       .gift-float-x{top:-6px;right:-6px}
     }
+    /* 下部カートバー表示中は右下(LINE・AI診断)/左下(ギフト)の追従ボタンをバーの実測高さ＋12pxだけ上げる。
+       --cart-bar-h は refreshCart() 内で #sticky-cart の実測値（safe-area込み）をセットする */
+    body.has-cart-bar .floating-ctas,body.has-cart-bar .gift-float{bottom:84px;bottom:calc(var(--cart-bar-h,72px) + 12px)}
 
     /* A. POPULAR PICKS — horizontal scroll */
     .popular-section{padding:40px 0 32px;background:var(--bg);border-bottom:1px solid var(--border)}
@@ -3021,10 +3023,12 @@ function refreshCart(){
   if(count > 0){
     sticky.classList.add('show');
     document.body.style.paddingBottom = '72px';
+    if(window.syncCartBarOffset) window.syncCartBarOffset();
     document.getElementById('sticky-info').textContent = count + '点 \u00a5' + total.toLocaleString();
   } else {
     sticky.classList.remove('show');
     document.body.style.paddingBottom = '';
+    if(window.syncCartBarOffset) window.syncCartBarOffset();
   }
 
   /* Cart list */
@@ -4268,6 +4272,23 @@ function showDiagFallback(){
   setInterval(function(){
     goTo((current + 1) % slides.length);
   }, interval);
+})();
+
+/* ===== 下部カートバーの高さを追従ボタンへ共有（body.has-cart-bar ＋ --cart-bar-h） ===== */
+window.syncCartBarOffset = function(){
+  try{
+    var bar = document.getElementById('sticky-cart');
+    var on = !!(bar && bar.classList.contains('show') && bar.offsetHeight > 0);
+    document.body.classList.toggle('has-cart-bar', on);
+    if(on) document.documentElement.style.setProperty('--cart-bar-h', bar.offsetHeight + 'px');
+  }catch(e){}
+};
+(function(){
+  var bar = document.getElementById('sticky-cart');
+  if(!bar) return;
+  if(window.ResizeObserver){ try{ new ResizeObserver(function(){ window.syncCartBarOffset(); }).observe(bar); }catch(e){} }
+  window.addEventListener('resize', window.syncCartBarOffset, { passive: true });
+  window.syncCartBarOffset();
 })();
 
 /* ===== FLOATING CTA BUTTONS ===== */

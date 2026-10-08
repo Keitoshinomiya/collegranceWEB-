@@ -149,7 +149,9 @@ exports.handler = async (event) => {
       const customerPhone = fullSession.customer_details?.phone || '未入力';
 
       // 配送ラベル発行用の追加情報
+      // 2026-10-06〜 宅配便は佐川 e飛伝Ⅲ（このURLの既定）。ヤマトB2は &carrier=yamato の予備
       const shippingCsvUrl = `https://collegrance.com/.netlify/functions/shipping-csv?session=${session.id}`;
+      const isOkinawa = /沖縄/.test(fullSession.shipping_details?.address?.state || '');
       const stripeUrl = `https://dashboard.stripe.com/payments/${paymentIntent}`;
 
       // ギフトのお渡し方法（2026-09-18 追加）。発送担当が「カードに書くのか・未記入で入れるのか」を迷わないよう明示する
@@ -195,6 +197,22 @@ exports.handler = async (event) => {
         }
       }
 
+      // 発送・伝票のリンク（2026-10-08〜 宅配便は佐川。選べる3本ギフトセットだけの注文はネコポス＝ヤマトB2のまま）
+      const shipItems = lineItems.filter((item) => !/送料|ギフトラッピング/.test(item.description || ''));
+      const giftOnly = giftSetKeys.length > 0 && shipItems.length > 0
+        && shipItems.every((item) => /選べる3本ギフトセット/.test(item.description || item.price?.product?.name || ''));
+      const shipLines = giftOnly
+        ? [
+          `<${shippingCsvUrl}|:arrow_down: ヤマトB2クラウド用CSV（ネコポス）をダウンロード>`,
+          '_↑ ギフトセットだけの注文はネコポス＝ヤマトのまま。B2クラウドの「ファイル取り込み」にアップロード_',
+        ]
+        : [
+          `<${shippingCsvUrl}|:arrow_down: 佐川（e飛伝Ⅲ）用CSVをダウンロード>`,
+          '_↑ e飛伝Ⅲ「送り状データ取込」→ 共通テンプレート「標準_飛脚宅配便_CSV_ヘッダ有」→ 直接取込 → 印刷 → 荷物受渡書も当日中に印刷_',
+          ...(isOkinawa ? [':warning: *沖縄宛て* → 佐川の見積もり外（別料金）。出す前に四宮さんに確認'] : []),
+          `<${shippingCsvUrl}&carrier=yamato|（予備）ヤマトB2クラウド用CSV>`,
+        ];
+
       // Build Slack message
       const slackMsg = [
         '🔴【要対応・発送】 :shopping_cart: *新規注文*',
@@ -217,8 +235,7 @@ exports.handler = async (event) => {
         '',
         '━━━━━━━━━━━━━━━━━━━━━━',
         ':package: *発送・伝票発行*',
-        `<${shippingCsvUrl}|:arrow_down: ヤマトB2クラウド用CSVをダウンロード>`,
-        '_↑ クリックでCSV取得 → B2クラウドの「ファイル取り込み」にアップロードで伝票発行_',
+        ...shipLines,
         '',
         `<${stripeUrl}|:credit_card: Stripeダッシュボードで詳細確認>`,
         '',

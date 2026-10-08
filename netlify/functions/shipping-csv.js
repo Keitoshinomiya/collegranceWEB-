@@ -1,11 +1,21 @@
 /**
- * ヤマトB2クラウド 外部データ取り込み用 CSV生成
+ * 発送伝票 取り込み用 CSV生成（自社サイト注文 = 宅配便）
  *
- * テンプレート: newb2web_template1.xls 「外部データ取り込み基本レイアウト」95列に準拠
- * 取り込み時は「ヘッダなし」を選択してください（このCSVはヘッダ行を出力しません）
+ * 2026-10-06〜 既定は 佐川急便 e飛伝Ⅲ（飛脚宅配便）。ヤマトB2クラウドは carrier=yamato の予備。
+ *
+ * ■ 佐川 e飛伝Ⅲ（既定）
+ *   e飛伝Ⅲ操作マニュアル a-1「送り状データ取込レイアウト」74列・ヘッダ有・BOM付きUTF-8
+ *   （e飛伝Ⅲの「テンプレート出力」で落とした公式見本と見出しが完全一致することを確認済み 2026-10-05）
+ *   取込: 宅配便送り状 > 送り状データ取込 > 共通テンプレート「標準_飛脚宅配便_CSV_ヘッダ有」> 直接取込
+ *   出荷日は空欄にして、取込画面の「本日の日付を設定」に任せる（古いリンクを後日押しても過去日エラーにならない）
+ *
+ * ■ ヤマトB2クラウド（carrier=yamato）
+ *   テンプレート: newb2web_template1.xls 「外部データ取り込み基本レイアウト」95列に準拠
+ *   取り込み時は「ヘッダなし」を選択してください（このCSVはヘッダ行を出力しません）
  *
  * 使い方:
- *   GET /.netlify/functions/shipping-csv?session=cs_live_xxx
+ *   GET /.netlify/functions/shipping-csv?session=cs_live_xxx                 → 佐川
+ *   GET /.netlify/functions/shipping-csv?session=cs_live_xxx&carrier=yamato  → ヤマトB2
  *   GET /.netlify/functions/shipping-csv?session=cs_live_xxx&phone=09012345678
  *      → 電話番号がStripe側で空の場合、URLパラメータで補完可能
  *
@@ -285,8 +295,121 @@ function escapeCsv(value) {
   return str;
 }
 
+// ===================== 佐川急便 e飛伝Ⅲ（飛脚宅配便） =====================
+// 佐川お客様コード12桁（e飛伝Ⅲに荷送人登録済みのもの）。Netlify環境変数 SAGAWA_CUSTOMER_CODE で上書き可能。
+// 160611990008 = 16061199-000（自己登録・一般運賃の可能性）。見積もり運賃の契約コード 20889940-801 は登録待ち（2026-10-06）
+const SAGAWA_CUSTOMER_CODE = process.env.SAGAWA_CUSTOMER_CODE || '160611990008';
+const SAGAWA_FALLBACK_PHONE = '05055272641'; // お届け先電話が空のときの補完（会社代表番号）
+const SAGAWA_SENDER = {
+  phone: '050-5527-2641',
+  postal: '563-0032',
+  addr1: '大阪府池田市石橋１－１５－３３',
+  addr2: '平尾ビル２Ｆ',
+  name1: 'ＣＯＬＬＥＧＲＡＮＣＥ',
+};
+const ZEN_DIGITS = (s) => s.replace(/[0-9]/g, (d) => String.fromCharCode(d.charCodeAt(0) + 0xfee0));
+const SAGAWA_HEADER = [
+  'お届け先コード取得区分', 'お届け先コード', 'お届け先電話番号', 'お届け先郵便番号',
+  'お届け先住所１', 'お届け先住所２', 'お届け先住所３', 'お届け先名称１', 'お届け先名称２',
+  'お客様管理番号', 'お客様コード', '部署ご担当者コード取得区分', '部署ご担当者コード',
+  '部署ご担当者名称', '荷送人電話番号', 'ご依頼主コード取得区分', 'ご依頼主コード',
+  'ご依頼主電話番号', 'ご依頼主郵便番号', 'ご依頼主住所１', 'ご依頼主住所２',
+  'ご依頼主名称１', 'ご依頼主名称２', '荷姿',
+  ...[1, 2, 3, 4, 5].map((n) => `品名${ZEN_DIGITS(String(n))}`),
+  '荷札荷姿',
+  ...Array.from({ length: 11 }, (_, i) => `荷札品名${ZEN_DIGITS(String(i + 1))}`),
+  '出荷個数', 'スピード指定', 'クール便指定', '配達日', '配達指定時間帯',
+  '配達指定時間（時分）', '代引金額', '消費税', '決済種別', '保険金額',
+  '指定シール１', '指定シール２', '指定シール３', '営業所受取', 'SRC区分',
+  '営業所受取営業所コード', '元着区分', 'メールアドレス', 'ご不在時連絡先', '出荷日',
+  'お問い合せ送り状No.', '出荷場印字区分', '集約解除指定',
+  ...Array.from({ length: 10 }, (_, i) => `編集${ZEN_DIGITS(String(i + 1).padStart(2, '0'))}`),
+];
+const SAGAWA_COL = Object.fromEntries(SAGAWA_HEADER.map((h, i) => [h, i]));
+
+/** 半角英数記号・スペースを全角に（e飛伝Ⅲの1行16文字は全角で数えるため） */
+function toFullwidth(s) {
+  return Array.from(String(s || ''), (ch) => {
+    const c = ch.charCodeAt(0);
+    if (ch === ' ') return '　';
+    if (c >= 0x21 && c <= 0x7e) return String.fromCharCode(c + 0xfee0);
+    return ch;
+  }).join('');
+}
+
+const BREAK_AFTER = new Set(Array.from('都道府県市区町村郡　'));
+const isDigit = (ch) => /[0-9０-９]/.test(ch);
+
+/** 全角16文字ごとに、区切りの良い所（都道府県市区町村の直後・空白・数字の手前）で折り返す */
+function wrapJp(text, width = 16) {
+  let t = Array.from(String(text || '').replace(/^　+|　+$/g, ''));
+  const lines = [];
+  while (t.length > width) {
+    let cut = 0;
+    for (let i = width; i > 3; i--) {
+      const prev = t[i - 1];
+      const next = t[i];
+      if (BREAK_AFTER.has(prev) || (isDigit(next) && !isDigit(prev) && prev !== '－')) { cut = i; break; }
+    }
+    cut = cut || width;
+    lines.push(t.slice(0, cut).join('').replace(/　+$/, ''));
+    t = Array.from(t.slice(cut).join('').replace(/^　+/, ''));
+  }
+  if (t.length) lines.push(t.join(''));
+  return lines;
+}
+
+/** 住所＋建物を最大3行(各16字)に。建物はなるべく独立行。入りきらない分は3行目に詰めて切る */
+function splitSagawaAddress(address, building) {
+  const a = toFullwidth(address);
+  const b = toFullwidth(building);
+  let lines = [...wrapJp(a), ...(b ? wrapJp(b) : [])];
+  if (lines.length > 3) lines = wrapJp(a + (b ? '　' + b : ''));
+  const overflow = lines.length > 3;
+  lines = lines.slice(0, 3);
+  while (lines.length < 3) lines.push('');
+  return { lines, overflow };
+}
+
+function buildSagawaRow({ orderNumber, recipient, products }) {
+  const r = new Array(SAGAWA_HEADER.length).fill('');
+  const set = (k, v) => { r[SAGAWA_COL[k]] = v; };
+  const { lines } = splitSagawaAddress(recipient.address, recipient.building);
+  const names = wrapJp(toFullwidth(recipient.name)).slice(0, 2);
+  const postal = (recipient.postal || '').replace(/[^0-9]/g, '');
+  set('お届け先電話番号', recipient.phone);
+  set('お届け先郵便番号', postal.length === 7 ? `${postal.slice(0, 3)}-${postal.slice(3)}` : postal);
+  set('お届け先住所１', lines[0]); set('お届け先住所２', lines[1]); set('お届け先住所３', lines[2]);
+  set('お届け先名称１', names[0] || ''); set('お届け先名称２', names[1] || '');
+  set('お客様管理番号', orderNumber.slice(0, 16)); // e飛伝Ⅲは半角16桁まで
+  set('お客様コード', SAGAWA_CUSTOMER_CODE);
+  set('ご依頼主電話番号', SAGAWA_SENDER.phone);
+  set('ご依頼主郵便番号', SAGAWA_SENDER.postal);
+  set('ご依頼主住所１', SAGAWA_SENDER.addr1);
+  set('ご依頼主住所２', SAGAWA_SENDER.addr2);
+  set('ご依頼主名称１', SAGAWA_SENDER.name1);
+  set('荷姿', '001'); // 箱類
+  const items = (products.length ? products : ['香水']).slice(0, 5);
+  items.forEach((p, i) => set(`品名${ZEN_DIGITS(String(i + 1))}`, Array.from(toFullwidth(p)).slice(0, 16).join('')));
+  set('出荷個数', '1');
+  set('スピード指定', '000'); // 飛脚宅配便
+  set('クール便指定', '001'); // 指定なし
+  set('指定シール１', '011'); // 取扱注意
+  set('指定シール２', '013'); // 天地無用
+  set('営業所受取', '0');
+  set('SRC区分', '0');
+  set('元着区分', '1'); // 元払
+  // 出荷日は空欄 → 取込画面の「本日の日付を設定」が入る
+  return r;
+}
+
+function quoteAll(v) {
+  return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+}
+
 exports.handler = async (event) => {
   const sessionId = event.queryStringParameters?.session;
+  const carrier = (event.queryStringParameters?.carrier || 'sagawa').toLowerCase();
   // 電話番号の手動補完（Stripeで未入力の場合用）
   const phoneOverride = event.queryStringParameters?.phone;
   // 出荷予定日・お届け予定日のオーバーライド（YYYY-MM-DD or YYYY/MM/DD）
@@ -370,6 +493,48 @@ exports.handler = async (event) => {
     const recipientName = truncateZenkaku(customerDetails.name || '', 16); // お届け先名: 全角16
     const articleMemo = truncateZenkaku(`Order ${orderNumber}`, 22); // 記事: 全角22
 
+    // 佐川は宅配便（箱）だけ。選べる3本ギフトセットだけの注文はネコポスなのでヤマトB2のまま（carrier指定より優先）
+    if (carrier !== 'yamato' && !allGiftSet) {
+      // 佐川 e飛伝Ⅲ：品名は全角16字×最大5行・住所は16字×3行に自動折り返し
+      // 香水は商品名の（）内の日本語名（例: レイジーサンデーモーニング）を優先。ギフトセットは香り短縮名とケース色
+      const sagawaProducts = productLines.flatMap((item) => {
+        const gs = giftSetOf(item);
+        if (gs) {
+          return giftSetLib.shippingNames(String(gs.gift_scents).split(','), gs.gift_case, item.quantity || 1)
+            .flatMap((n) => wrapJp(toFullwidth(n)));
+        }
+        const desc = item.description || '';
+        const jp = (desc.match(/[（(]([^）)]*[ぁ-んァ-ヶ一-龠][^）)]*)[）)]/) || [])[1];
+        const qty = item.quantity > 1 ? `×${item.quantity}` : '';
+        const base = Array.from(toFullwidth(jp ? jp.trim() : simplifyProductName(desc)));
+        return [base.slice(0, 16 - qty.length).join('') + qty];
+      });
+      const sagawaPhone = normalizeJapanesePhone(phoneOverride || customerDetails.phone || '') || SAGAWA_FALLBACK_PHONE;
+      const sagawaRow = buildSagawaRow({
+        orderNumber,
+        recipient: {
+          phone: sagawaPhone,
+          postal: addr.postal_code || '',
+          address: `${state}${addr.city || ''}${addr.line1 || ''}`,
+          building: addr.line2 || '',
+          name: customerDetails.name || shippingDetails.name || '',
+        },
+        products: sagawaProducts,
+      });
+      const sagawaText = '﻿' + [SAGAWA_HEADER, sagawaRow].map((r) => r.map(quoteAll).join(',')).join('\r\n') + '\r\n';
+      return {
+        statusCode: 200,
+        headers: {
+          'Content-Type': 'text/csv; charset=utf-8',
+          'Content-Disposition': `attachment; filename="sagawa_${orderNumber}.csv"`,
+          'Cache-Control': 'no-store',
+        },
+        body: Buffer.from(sagawaText, 'utf8').toString('base64'),
+        isBase64Encoded: true,
+      };
+    }
+
+    // ===== ヤマトB2クラウド（carrier=yamato の予備） =====
     // 1行のCSVデータを構築
     const row = buildRow({
       orderNumber,

@@ -43,6 +43,12 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://collegrance.com/survey-terms.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://collegrance.com/llms.txt</loc>
     <lastmod>2026-04-20</lastmod>
     <changefreq>weekly</changefreq>

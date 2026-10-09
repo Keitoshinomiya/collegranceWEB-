@@ -470,7 +470,7 @@ def hub_giftset_card(slug):
       .cg-giftset-card .pci-btns a{{display:inline-block;font-size:.52rem;padding:5px 12px;border-radius:3px;text-decoration:none;letter-spacing:.04em;background:#1a1a1a;color:#fff}}
       </style>
       <div class="cg-giftset-card">
-        <img src="/assets/images/gift/gift_main.webp" alt="COLLEGRANCE 選べる3本ギフトセット" loading="lazy">
+        <img src="/assets/images/gift/gift_main.webp?v=2" alt="COLLEGRANCE 選べる3本ギフトセット" loading="lazy">
         <div class="pci-info">
           <div class="pci-brand">COLLEGRANCE GIFT SET</div>
           <div class="pci-name">選べる3本ギフトセット</div>

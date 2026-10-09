@@ -1729,7 +1729,7 @@
       </div>
       <!-- ギフトのお渡し方法（ラッピング選択時のみ表示。すべて任意入力で、未入力でも決済は止めない） -->
       <div id="gift-options" style="display:none;margin:6px 0 2px;padding:10px 12px;border:1px solid var(--border);border-radius:2px;background:var(--bg);font-size:.6rem;color:var(--sub);line-height:1.7">
-        <div id="gift-options-title" style="margin-bottom:6px;letter-spacing:.04em">巾着・メッセージカード付き。お渡し方法をお選びください</div>
+        <div id="gift-options-title" style="margin-bottom:6px;letter-spacing:.04em">コットンポーチ・メッセージカード付き。お渡し方法をお選びください</div>
         <label style="display:flex;align-items:flex-start;gap:6px;cursor:pointer;margin-bottom:4px">
           <input type="radio" name="gift-mode" value="self" checked onchange="updateGiftPanel()" style="accent-color:var(--accent);margin-top:3px">
           <span>自分で受け取って手渡しする<br><span style="opacity:.75" id="gift-self-note">メッセージカードは未記入でお入れします</span></span>
@@ -2460,7 +2460,7 @@ function makeGiftSetItem(scents, caseId, qty){
     name: GIFT_SET.name,
     nameJa: GIFT_SET.name + '（' + detail + '）',
     giftDetail: detail,
-    size: GIFT_SET.size + '＋香水ケース＋巾着',
+    size: GIFT_SET.size + '＋香水ケース＋コットンポーチ',
     img: GIFT_SET.image || 'assets/images/gift/gift_main.jpg',
     tags: ['gift'],
     sellPrice: price,
@@ -2954,7 +2954,7 @@ function updateGiftPanel(){
   var box = document.getElementById('gift-options');
   if(!gw || !box) return;
   var hasGS = cartHasGiftSet();
-  /* ギフトセットは巾着・メッセージカード込み → ラッピング(+300円)の行は隠して外す */
+  /* ギフトセットはコットンポーチ・メッセージカード込み → ラッピング(+300円)の行は隠して外す */
   var row = document.getElementById('gift-wrap-row');
   if(row) row.style.display = hasGS ? 'none' : '';
   if(hasGS && gw.checked) gw.checked = false;
@@ -2968,7 +2968,7 @@ function updateGiftPanel(){
   var sw = document.getElementById('gift-sender-wrap');
   if(sw) sw.style.display = isDirect ? 'block' : 'none';
   var t = document.getElementById('gift-options-title');
-  if(t) t.textContent = hasGS ? 'ギフトセットのお渡し方法とメッセージカード（任意）' : '巾着・メッセージカード付き。お渡し方法をお選びください';
+  if(t) t.textContent = hasGS ? 'ギフトセットのお渡し方法とメッセージカード（任意）' : 'コットンポーチ・メッセージカード付き。お渡し方法をお選びください';
   var sn = document.getElementById('gift-self-note');
   if(sn) sn.textContent = hasGS ? 'メッセージをカードに印字してお入れします' : 'メッセージカードは未記入でお入れします';
   var dn = document.getElementById('gift-direct-note');

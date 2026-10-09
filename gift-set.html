@@ -19,7 +19,7 @@
   <meta property="og:title" content="選べる3本ギフトセット | COLLEGRANCE">
   <meta property="og:description" content="1.5mlのお試し香水を3本選んで、香水ケースと巾着を付けてギフト仕様でお届けします。送料込み。">
   <meta property="og:url" content="https://collegrance.com/gift-set.html">
-  <meta property="og:image" content="https://collegrance.com/assets/images/gift/gift_main.jpg">
+  <meta property="og:image" content="https://collegrance.com/assets/images/gift/gift_main.jpg?v=2">
   <meta property="og:site_name" content="COLLEGRANCE">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/images/logo.png" type="image/png">
@@ -30,7 +30,7 @@
   <link rel="stylesheet" href="assets/css/header.css">
   <link rel="stylesheet" href="assets/css/footer.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://collegrance.com/"},{"@type":"ListItem","position":2,"name":"選べる3本ギフトセット","item":"https://collegrance.com/gift-set.html"}]}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"選べる3本ギフトセット","description":"1.5mlのお試し香水を3本選べるギフトセット。香水ケース・COLLEGRANCE巾着・香りカード3枚・メッセージカード付き。","image":"https://collegrance.com/assets/images/gift/gift_main.jpg","brand":{"@type":"Brand","name":"COLLEGRANCE"},"offers":{"@type":"AggregateOffer","priceCurrency":"JPY","lowPrice":"2980","highPrice":"5080","availability":"https://schema.org/InStock","url":"https://collegrance.com/gift-set.html"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"選べる3本ギフトセット","description":"1.5mlのお試し香水を3本選べるギフトセット。香水ケース・COLLEGRANCE巾着・香りカード3枚・メッセージカード付き。","image":"https://collegrance.com/assets/images/gift/gift_main.jpg?v=2","brand":{"@type":"Brand","name":"COLLEGRANCE"},"offers":{"@type":"AggregateOffer","priceCurrency":"JPY","lowPrice":"2980","highPrice":"5080","availability":"https://schema.org/InStock","url":"https://collegrance.com/gift-set.html"}}</script>
   <style>
   /* 選べる3本ギフトセット（2026-10-07）。デザインは 2026-10-06 確定プレビューを正とする。
      サイト共通のヘッダー(header.css)・フッター(footer.css)を使い、白黒基調＋巾着ロゴのターコイズをアクセントに。 */
@@ -60,11 +60,11 @@
   .crumb a{text-decoration:none}
   .grid{display:grid;grid-template-columns:1fr;gap:28px}
   @media (min-width:860px){.grid{grid-template-columns:1fr 1fr;gap:48px}.media{position:sticky;top:88px;align-self:start}}
-  .media-main{width:100%;height:auto;border-radius:4px;display:block;aspect-ratio:1200/897;object-fit:cover;background:var(--kinari)}
-  /* ケース写真（正方形・下に色名入り）は切らずに全体を見せる */
+  .media-main{width:100%;height:auto;border-radius:4px;display:block;aspect-ratio:1/1;object-fit:cover;background:var(--kinari)}
+  /* 枠は正方形（2026-10-09 実写に合わせて 4:3→1:1）。ケース写真（正方形・下に色名入り）は切らずに全体を見せる */
   .media-main.sq{object-fit:contain}
   .media picture{display:block}
-  .thumbs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:8px}
+  .thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:8px}
   .thumbs button{border:1px solid var(--line);padding:0;border-radius:3px;overflow:hidden;background:var(--kinari);cursor:pointer;aspect-ratio:1/1}
   .thumbs button[aria-pressed="true"]{border-color:var(--ink)}
   .thumbs img{width:100%;height:100%;object-fit:cover;display:block}
@@ -165,8 +165,8 @@
   section.more{max-width:720px;margin:56px auto 0;display:flex;flex-direction:column;gap:40px}
   section.more h2{font-size:17px;margin:0 0 14px;text-align:center;letter-spacing:.12em}
   /* 届いたときに：アイコン＋見出し（SP 3列×2段） */
-  .unbox-photo{display:block;margin:0 0 16px}
-  .unbox-photo img{width:100%;height:auto;display:block;border-radius:4px;aspect-ratio:1200/897;object-fit:cover;background:var(--kinari)}
+  .unbox-photo{display:block;margin:0 auto 16px;max-width:520px}
+  .unbox-photo img{width:100%;height:auto;display:block;border-radius:4px;aspect-ratio:1/1;object-fit:cover;background:var(--kinari)}
   .unbox{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 8px;text-align:center}
   .unbox div{font-size:13px;color:var(--ink);line-height:1.5;font-weight:500;min-width:0}
   .unbox svg{width:30px;height:30px;display:block;margin:0 auto 6px;color:var(--teal)}
@@ -258,14 +258,15 @@
     <div class="crumb"><a href="/">ホーム</a> ／ <a href="/#gift">ギフト</a> ／ 選べる3本ギフトセット</div>
     <div class="grid">
       <div class="media">
-        <!-- 写真は assets/images/gift/ の5枚（gift_main / gift_hand / gift_contents / gift_card / gift_case の .jpg と .webp・1200x897）。撮影後に同名で差し替える。
+        <!-- 写真は assets/images/gift/ の4枚（gift_main=開封 / gift_contents=俯瞰 / gift_card=カード の実写 1200x1200・2026-10-09 美延さん撮影、gift_case=ネイビーのケース 1200x897 は中央で正方形に切って表示）。.jpg と .webp。
+             差し替えたら ?v= を上げる（画像は immutable で1年キャッシュ）。gift_hand（旧AI画像）はLINE側が ?v=1 で参照しているので消さない。
              ケースの色を選ぶと assets/images/gift/cases/case_{色}.jpg に切り替わる（サムネイルを押せば戻る） -->
         <picture id="main-pic">
-          <source id="main-src" srcset="assets/images/gift/gift_main.webp" type="image/webp">
-          <img class="media-main" id="main-img" src="assets/images/gift/gift_main.jpg" alt="巾着ギフトを開封したところ（イメージ）" width="1200" height="897" fetchpriority="high">
+          <source id="main-src" srcset="assets/images/gift/gift_main.webp?v=2" type="image/webp">
+          <img class="media-main" id="main-img" src="assets/images/gift/gift_main.jpg?v=2" alt="段ボール箱を開けて、COLLEGRANCE巾着を両手で取り出すところ。箱の中に香水の小箱・黒の香水ケース・thank youカード" width="1200" height="1200" fetchpriority="high">
         </picture>
         <div class="thumbs" id="thumbs"></div>
-        <div class="cap">非売品のCOLLEGRANCE巾着（コットン・生成り）に入れてお届けします。<br>※写真はイメージです。セット内容は下記のとおりです（リボンは付きません）。</div>
+        <div class="cap">非売品のCOLLEGRANCE巾着（コットン・生成り）に入れてお届けします。<br>※画像はイメージです。セット内容は下記のとおりです。</div>
       </div>
 
       <div class="buy">
@@ -279,8 +280,8 @@
           <span class="price" id="price">¥2,980<small>税込</small></span>
           <span class="ship">送料込み</span>
         </div>
-        <p class="eta" id="eta">ご注文から2〜4営業日で発送・ポストにお届け</p>
-        <p class="eta-sub" id="eta-sub" hidden>ご注文から2〜4営業日で発送、ネコポスで発送後1〜2日でお届けします（土日祝は発送休み）</p>
+        <p class="eta" id="eta">ご注文から2営業日以内に発送・ポストにお届け</p>
+        <p class="eta-sub" id="eta-sub" hidden>ご注文から2営業日以内に発送、ネコポスで発送後1〜2日でお届けします（土日祝は発送休み）</p>
 
         <div class="contents" aria-label="セット内容">
           <div><b>3</b>お試し香水<br>1.5ml</div>
@@ -336,10 +337,10 @@
     <section class="more">
       <div>
         <h2>届いたときに</h2>
-        <!-- 写真スロット：今は gift_contents を流用。実写（開封時の全体）が撮れたら同じ枠で差し替える -->
+        <!-- 写真スロット：gift_contents（巾着の上にセット一式を並べた俯瞰の実写） -->
         <picture class="unbox-photo">
-          <source srcset="assets/images/gift/gift_contents.webp" type="image/webp">
-          <img src="assets/images/gift/gift_contents.jpg" alt="届いたときのセット内容（イメージ）" width="1200" height="897" loading="lazy">
+          <source srcset="assets/images/gift/gift_contents.webp?v=2" type="image/webp">
+          <img src="assets/images/gift/gift_contents.jpg?v=2" alt="巾着の上に、香水の小箱3つ・お試し香水3本・黒の香水ケース・thank youカードを並べたところ" width="1200" height="1200" loading="lazy">
         </picture>
         <div class="unbox">
           <div><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="24" height="16" rx="1.5"/><path d="M4 13h24"/><circle cx="16" cy="13" r="4.2" fill="var(--bg)"/><path d="M14.4 13h3.2"/></svg>段ボールは<br>ロゴシールで封</div>
@@ -366,7 +367,7 @@
         <details><summary>1.5mlでどのくらい使えますか？</summary><p>つける量や回数によって変わりますが、それぞれの香りを毎日少しずつ、数日から1週間ほどお試しいただける量です。</p></details>
         <details><summary>ラッピングは選べますか？</summary><p>巾着と薄紙でのギフト包装が標準です。追加料金はかかりません。</p></details>
         <details><summary>相手の住所に直接送れますか？</summary><p>「相手に直接送る」を選び、決済画面でお届け先を入力してください。明細や金額の分かるものは入れずにお送りします。</p></details>
-        <details><summary>いつ届きますか？</summary><p>ご注文確認後、2〜4営業日以内（土日祝は発送休み）に発送し、ネコポスで発送後1〜2日でポストへお届けします<span id="faq-eta"></span>。発送後に追跡番号をメールでお知らせします。</p></details>
+        <details><summary>いつ届きますか？</summary><p>ご注文から2営業日以内（土日祝は発送休み）に発送し、ネコポスで発送後1〜2日でポストへお届けします<span id="faq-eta"></span>。発送後に追跡番号をメールでお知らせします。</p></details>
       </div>
     </section>
   </main>
@@ -413,11 +414,11 @@ function toggleMobileNav(){
   /* カートは index.html のカート（localStorage clg_cart_v1）をそのまま使う。
      ここでは行を追加して /?cart=1 に移動するだけ。価格は表示用で、決済金額はサーバーが data/gift-set.json から再計算する */
   var CART_KEY = 'clg_cart_v1';
+  var IMG_V = '?v=2'; /* 写真を差し替えたら上げる（immutableキャッシュ対策） */
   var PHOTOS = [
-    ['gift_main', '巾着ギフトを開封したところ（イメージ）'],
-    ['gift_hand', '巾着を手渡すところ（イメージ）'],
-    ['gift_contents', '香水のパッケージ（お試し3本はこの箱に入ってお届け）'],
-    ['gift_card', 'メッセージカード'],
+    ['gift_main', '段ボール箱を開けて、COLLEGRANCE巾着を両手で取り出すところ。箱の中に香水の小箱・黒の香水ケース・thank youカード'],
+    ['gift_contents', 'セットの中身：巾着・香水の小箱3つ・お試し香水3本・黒の香水ケース・thank youカード'],
+    ['gift_card', 'メッセージカードとお試し香水3本・香水ケース'],
     ['gift_case', '香水ケース（ネイビー）']
   ];
   var CFG = null, picks = [], caseId = '', direct = false;
@@ -462,9 +463,10 @@ function toggleMobileNav(){
   }
 
   /* 写真の切り替え（base は拡張子なし。.webp と .jpg の両方を置いてある） */
-  function showMain(base, alt, square){
-    $('main-src').srcset = base + '.webp';
-    $('main-img').src = base + '.jpg';
+  function showMain(base, alt, square, v){
+    v = v || '';
+    $('main-src').srcset = base + '.webp' + v;
+    $('main-img').src = base + '.jpg' + v;
     $('main-img').alt = alt;
     $('main-img').classList.toggle('sq', !!square);
   }
@@ -476,9 +478,9 @@ function toggleMobileNav(){
     b.type = 'button';
     b.setAttribute('aria-label', ph[1]);
     b.setAttribute('aria-pressed', i === 0);
-    b.innerHTML = '<picture><source srcset="assets/images/gift/' + ph[0] + '.webp" type="image/webp"><img src="assets/images/gift/' + ph[0] + '.jpg" alt="" loading="lazy"></picture>';
+    b.innerHTML = '<picture><source srcset="assets/images/gift/' + ph[0] + '.webp' + IMG_V + '" type="image/webp"><img src="assets/images/gift/' + ph[0] + '.jpg' + IMG_V + '" alt="" loading="lazy"></picture>';
     b.onclick = function(){
-      showMain('assets/images/gift/' + ph[0], ph[1], false);
+      showMain('assets/images/gift/' + ph[0], ph[1], false, IMG_V);
       setThumb(i);
     };
     $('thumbs').appendChild(b);
@@ -560,7 +562,7 @@ function toggleMobileNav(){
     try { gtag('event', 'view_item', { currency: 'JPY', value: CFG.basePrice, items: [{ item_id: String(CFG.productId), item_name: CFG.name, item_brand: 'COLLEGRANCE', item_category: 'gift', price: CFG.basePrice, quantity: 1 }] }); } catch(e){}
   }
 
-  /* 届く日の目安：発送＝今日から2〜4営業日後（土日を除く・祝日は見ない→「頃」）、ネコポスは発送の翌日〜翌々日着。
+  /* 届く日の目安：発送＝ご注文から2営業日以内（最早＝1営業日後・最遅＝2営業日後。土日を除く・祝日は見ない→「頃」）、ネコポスは発送の翌日〜翌々日着。
      JSが動かない時は初期HTMLの従来文言のまま */
   (function(){
     try {
@@ -569,7 +571,7 @@ function toggleMobileNav(){
       function addDays(d, n){ var x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; }
       function fmt(d){ return (d.getMonth() + 1) + '月' + d.getDate() + '日（' + W.charAt(d.getDay()) + '）'; }
       var now = new Date();
-      var from = addDays(addBiz(now, 2), 1), to = addDays(addBiz(now, 4), 2);
+      var from = addDays(addBiz(now, 1), 1), to = addDays(addBiz(now, 2), 2);
       var range = fmt(from) + '〜' + fmt(to);
       $('eta').textContent = range + '頃ポストにお届け';
       $('eta-sub').hidden = false;

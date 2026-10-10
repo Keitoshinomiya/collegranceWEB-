@@ -13,12 +13,16 @@
     { "no": "014", "name": "ソヴァージュ",               "short": "ソヴァージュ", "family": "スパイシー",       "scene": "シャツの襟を正した、きりっとした空気", "notes": "ベルガモット・ペッパー・アンブロキサン", "surcharge": 0,   "soldOut": false },
     { "no": "039", "name": "ジャズクラブ",               "short": "ジャズ",     "family": "バニラ・アンバー", "scene": "夜の店の革のソファ、ラムとたばこの余韻", "notes": "ピンクペッパー・ラム・タバコ", "surcharge": 100, "soldOut": false },
     { "no": "013", "name": "ヒプノティック プワゾン",     "short": "プワゾン",   "family": "バニラ・アンバー", "scene": "杏とバニラの、とろりと甘い夜", "notes": "アプリコット・ジャスミン・バニラ", "surcharge": 100, "soldOut": false },
+    { "no": "038", "name": "リブレ",                     "short": "リブレ",     "family": "フローラル",       "scene": "黒いジャケットとラベンダーの夜", "notes": "ラベンダー・オレンジブロッサム・バニラ", "surcharge": 100, "soldOut": false },
+    { "no": "029", "name": "バブルバス",                 "short": "バブルバス", "family": "石けん・ムスク",   "scene": "泡を立てたバスタブに、肩までつかる夜", "notes": "ソープ・ラベンダー・ココナッツミルク", "surcharge": 100, "soldOut": false },
     { "no": "021", "name": "イングリッシュペアー",       "short": "ペアー",     "family": "フルーティ",       "scene": "もいだばかりの洋梨と庭の白い花", "notes": "ペアー・フリージア・パチュリ", "surcharge": 300, "soldOut": false },
     { "no": "040", "name": "フルールドゥポー",           "short": "フルール",   "family": "パウダリー",       "scene": "肌そのものがやわらかく香るような", "notes": "ピンクペッパー・アイリス・ムスク", "surcharge": 450, "soldOut": false },
     { "no": "015", "name": "オルフェオン",               "short": "オルフェオン", "family": "ウッディ",       "scene": "静かなバーの木のカウンター", "notes": "ジュニパーベリー・ジャスミン・パウダー", "surcharge": 500, "soldOut": false },
     { "no": "006", "name": "ブランシュ",                 "short": "ブランシュ", "family": "石けん・ムスク",   "scene": "干したての白いシャツの清潔さ", "notes": "ホワイトローズ・ネロリ・ムスク", "surcharge": 600, "soldOut": false },
     { "no": "024", "name": "アナザー",                   "short": "アナザー",   "family": "石けん・ムスク",   "scene": "誰かの肌にふっと残る、名前のない香り", "notes": "アンブロキサン・ジャスミン・モス", "surcharge": 600, "soldOut": false },
-    { "no": "025", "name": "マッチャ",                   "short": "マッチャ",   "family": "グリーン",         "scene": "点てたての抹茶といちじくの木陰", "notes": "抹茶・フィグ・シダー", "surcharge": 700, "soldOut": false }
+    { "no": "025", "name": "マッチャ",                   "short": "マッチャ",   "family": "グリーン",         "scene": "点てたての抹茶といちじくの木陰", "notes": "抹茶・フィグ・シダー", "surcharge": 700, "soldOut": false },
+    { "no": "034", "name": "ザタイム 現在",              "short": "ザタイム",   "family": "シトラス・ティー", "scene": "窓を開けた朝の、淹れたてのお茶", "notes": "ベルガモット・ブルーティー・ムスク", "surcharge": 750, "soldOut": false },
+    { "no": "037", "name": "タバコバニラ",               "short": "タバコバニラ", "family": "バニラ・アンバー", "scene": "冬の書斎に残る、葉巻と干した果実", "notes": "タバコリーフ・バニラ・カカオ", "surcharge": 1100, "soldOut": false }
   ],
   "cases": [
     { "id": "BLK", "name": "ブラック",     "hex": "#1d1d1d", "swatch": "assets/images/gift/cases/sw_black", "photo": "assets/images/gift/cases/case_black", "soldOut": false },

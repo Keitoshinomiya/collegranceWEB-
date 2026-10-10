@@ -506,7 +506,7 @@ function toggleMobileNav(){
           + (s.scene ? '<span class="sc">' + esc(s.scene) + '</span>' : '')
           + (s.notes ? '<span class="nt">' + esc(s.notes) + '</span>' : '')
           + '<span class="mt">' + esc(s.family) + '・'
-          + (s.soldOut ? '<span class="so">品切れ中</span>' : '<span class="add">' + (s.surcharge ? '+' + s.surcharge + '円' : '追加なし') + '</span>')
+          + (s.soldOut ? '<span class="so">品切れ中</span>' : '<span class="add">' + (s.surcharge ? '+' + s.surcharge.toLocaleString('ja-JP') + '円' : '追加なし') + '</span>')
           + '</span></span><span class="cnt" hidden></span>';
         b.disabled = !!s.soldOut;
         b.addEventListener('click', function(){
@@ -538,7 +538,7 @@ function toggleMobileNav(){
     caseId = firstCase ? firstCase.id : '';
     /* 価格表 */
     $('ptable').innerHTML = CFG.scents.map(function(s){
-      return '<tr><td>' + esc(s.name) + (s.soldOut ? '（品切れ中）' : '') + '</td><td>' + esc(s.family) + '</td><td class="r">' + (s.surcharge ? '+' + s.surcharge + '円' : '—') + '</td><td class="r c4">' + yen(CFG.basePrice + s.surcharge * 3) + '</td></tr>';
+      return '<tr><td>' + esc(s.name) + (s.soldOut ? '（品切れ中）' : '') + '</td><td>' + esc(s.family) + '</td><td class="r">' + (s.surcharge ? '+' + s.surcharge.toLocaleString('ja-JP') + '円' : '—') + '</td><td class="r c4">' + yen(CFG.basePrice + s.surcharge * 3) + '</td></tr>';
     }).join('');
     /* 贈る相手で選ぶ（押すと3本が置き換わる。売り止めの香りを含む案は押せない） */
     PRESETS.forEach(function(pr){
@@ -640,7 +640,7 @@ function toggleMobileNav(){
     picks.forEach(function(pn, i){
       var o = byNo[pn];
       var ob = document.createElement('button'); ob.type = 'button';
-      ob.innerHTML = bottle(pn) + '<span>' + esc(o.name) + '<small>' + (i + 1) + '本目' + (o.surcharge ? '・+' + o.surcharge + '円' : '') + '</small></span>';
+      ob.innerHTML = bottle(pn) + '<span>' + esc(o.name) + '<small>' + (i + 1) + '本目' + (o.surcharge ? '・+' + o.surcharge.toLocaleString('ja-JP') + '円' : '') + '</small></span>';
       ob.disabled = pn === no;
       ob.onclick = function(){ picks[i] = no; swapReturn = null; closeSwap(); render(true); };
       sh.querySelector('.opts').appendChild(ob);
@@ -660,7 +660,7 @@ function toggleMobileNav(){
         if(no){
           var s = byNo[no];
           d.className = 'slot filled';
-          d.innerHTML = '<button class="x" type="button" aria-label="' + esc(s.name) + 'を外す">×</button>' + bottle(no) + '<span class="nm' + (s.name.length > 11 ? ' long' : '') + '">' + esc(s.name) + '</span><span class="add" style="color:var(--teal);font-size:11px">' + (s.surcharge ? '+' + s.surcharge + '円' : '') + '</span>';
+          d.innerHTML = '<button class="x" type="button" aria-label="' + esc(s.name) + 'を外す">×</button>' + bottle(no) + '<span class="nm' + (s.name.length > 11 ? ' long' : '') + '">' + esc(s.name) + '</span><span class="add" style="color:var(--teal);font-size:11px">' + (s.surcharge ? '+' + s.surcharge.toLocaleString('ja-JP') + '円' : '') + '</span>';
           d.querySelector('.x').onclick = function(){ picks.splice(i, 1); render(true); };
         } else { d.className = 'slot'; d.textContent = (i + 1) + '本目を選択'; }
         slots.appendChild(d);

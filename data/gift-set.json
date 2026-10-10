@@ -5,7 +5,7 @@
   "size": "1.5ml×3本",
   "basePrice": 2980,
   "picks": 3,
-  "image": "assets/images/gift/gift_main.jpg",
+  "image": "assets/images/gift/gift_main.jpg?v=2",
   "soldOut": false,
   "scents": [
     { "no": "030", "name": "レイジーサンデーモーニング", "short": "レイジー",   "family": "石けん・ムスク",   "scene": "洗いたてのシーツに顔をうずめる日曜の朝", "notes": "ペアー・アイリス・ホワイトムスク", "surcharge": 0,   "soldOut": false },

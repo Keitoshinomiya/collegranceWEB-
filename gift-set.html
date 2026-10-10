@@ -13,7 +13,7 @@
   </script>
   <script src="/assets/js/tracking.js" defer></script>
   <title>選べる3本ギフトセット｜お試し香水3本＋香水ケース＋コットンポーチ | COLLEGRANCE</title>
-  <meta name="description" content="好きな香りを3本選べる、1.5mlお試し香水のギフトセット。色を選べる香水ケースと非売品のCOLLEGRANCEコットンポーチ、香りカード3枚、メッセージカードを付けてネコポスでお届けします。送料込み。">
+  <meta name="description" content="好きな香りを3本選べる、1.5mlお試し香水のギフトセット。色を選べる香水ケースとCOLLEGRANCEのコットンポーチ、香りカード3枚、メッセージカードを付けてネコポスでお届けします。送料込み。">
   <link rel="canonical" href="https://collegrance.com/gift-set.html">
   <meta property="og:type" content="product">
   <meta property="og:title" content="選べる3本ギフトセット | COLLEGRANCE">
@@ -266,7 +266,7 @@
           <img class="media-main" id="main-img" src="assets/images/gift/gift_main.jpg?v=2" alt="段ボール箱を開けて、COLLEGRANCEのコットンポーチを両手で取り出すところ。箱の中に香水の小箱・黒の香水ケース・thank youカード" width="1200" height="1200" fetchpriority="high">
         </picture>
         <div class="thumbs" id="thumbs"></div>
-        <div class="cap">非売品のCOLLEGRANCEコットンポーチ（生成り）に入れてお届けします。<br>※画像はイメージです。セット内容は下記のとおりです。</div>
+        <div class="cap">COLLEGRANCEのロゴ入りコットンポーチ（生成り）に入れてお届けします。<br>※画像はイメージです。セット内容は下記のとおりです。</div>
       </div>
 
       <div class="buy">
@@ -275,7 +275,7 @@
           <h1>選べる3本ギフトセット</h1>
           <p class="subt">お試し香水3本＋香水ケース＋コットンポーチ</p>
         </div>
-        <p class="lead">香りの好みは、本人にしか分かりません。だから1.5mlを3本。試しながら『これ好き』が見つかるように作りました。非売品のコットンポーチとケースを付けて、ギフト仕様でお届けします。</p>
+        <p class="lead">香りの好みは、本人にしか分かりません。だから1.5mlを3本。試しながら『これ好き』が見つかるように作りました。ロゴ入りのコットンポーチとケースを付けて、ギフト仕様でお届けします。</p>
         <div class="price-row">
           <span class="price" id="price">¥2,980<small>税込</small></span>
           <span class="ship">送料込み</span>
@@ -286,7 +286,7 @@
         <div class="contents" aria-label="セット内容">
           <div><b>3</b>お試し香水<br>1.5ml</div>
           <div><b>1</b>香水ケース<br>色を選べる</div>
-          <div><b>1</b>ロゴ入り<br>コットンポーチ<br>（非売品）</div>
+          <div><b>1</b>ロゴ入り<br>コットンポーチ</div>
           <div><b>3</b>香りカード<br>＋メッセージ</div>
         </div>
 
@@ -736,7 +736,7 @@ function toggleMobileNav(){
   };
 
   updateBadge();
-  fetch('data/gift-set.json?v=20261007c').then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function(cfg){
+  fetch('data/gift-set.json?v=20261010a').then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function(cfg){
     CFG = cfg; build();
   }).catch(function(){
     $('sumline').textContent = '読み込みに失敗しました。ページを再読み込みしてください。';

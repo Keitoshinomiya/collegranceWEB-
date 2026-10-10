@@ -1852,7 +1852,7 @@ async function loadProducts(){
     buildGrid();
     /* 選べる3本ギフトセットの定義（失敗してもショップは続行。カート内のギフトセットだけ復元されない） */
     try {
-      const gr = await fetch('data/gift-set.json?v=20261007b');
+      const gr = await fetch('data/gift-set.json?v=20261010a');
       if(gr.ok) GIFT_SET = await gr.json();
     } catch(e){ console.warn('Failed to load gift-set.json', e); }
     restoreCart(); /* 保存済みカートの復元（7日以内・在庫あり商品のみ） */

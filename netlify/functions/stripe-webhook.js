@@ -173,7 +173,7 @@ exports.handler = async (event) => {
         giftLines.push(gm === 'direct'
           ? '　　お届け: *相手に直送*（配送先は贈り先）'
           : '　　お届け: *ご本人が受け取って手渡し*');
-        giftLines.push(`　　メッセージカード（印字）: ${metadata.gift_message ? `「${metadata.gift_message}」` : '（記入なし → 「For you」のカード）'}`);
+        giftLines.push(`　　メッセージカード（印字）: ${metadata.gift_message ? `「${metadata.gift_message}」` : '（記入なし → 「あなたに似合う香りが、見つかりますように。」のカード）'}`);
         if (gm === 'direct') giftLines.push(`　　贈り主: ${metadata.gift_sender || '（記入なし）'}`);
         const cardLink = giftCardLib ? giftCardLib.cardUrl(session.id) : '';
         giftLines.push(cardLink

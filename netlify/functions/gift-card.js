@@ -11,10 +11,12 @@
  *   mx/my 用紙の左/上の余白（mm）。既定はエーワン等の名刺10面の標準 14 / 11
  *
  * 用紙: A4 縦・名刺サイズ 91×55mm を 2列×5段（ミシン目・隙間なし）
+ * デザイン: サンキューカードB案（2026-10-12 代表承認）＝上部に金色の筆記体「thank you」＋メッセージ＋ロゴ。
+ *   メッセージ空欄のときは lib/gift-card.js の BLANK_MESSAGE（「あなたに似合う香りが、見つかりますように。」）
  * 文面は Stripe の metadata から作る（URL に本文・氏名は載せない）。
  */
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const { SESSION_RE, verifyToken, buildCards } = require('../lib/gift-card');
+const { SESSION_RE, verifyToken, buildCards, BLANK_MESSAGE } = require('../lib/gift-card');
 
 const CARD_W = 91;
 const CARD_H = 55;
@@ -53,21 +55,26 @@ function slotPos(slot) {
   return { col: i % COLS, row: Math.floor(i / COLS) };
 }
 
+// サンキューカードB案（2026-10-12 代表承認）。旧デザイン（メッセージのみ／空欄は「For you」）とA・C案は廃止
+const SCRIPT_FONT = 'Sacramento'; // 「thank you」の筆記体（Google Fonts）
+// 空欄時の一文はカード上では読点で改行（自動折り返しだと「あなたに似合う／香りが、…」と切れて読みにくい）
+const BLANK_CARD_TEXT = BLANK_MESSAGE.replace('、', '、\n');
+
 /** 文字数からの初期フォントサイズ（pt）。画面・印刷とも、読み込み後にJSで枠に収まるまで縮める */
-function initialFontPt(text, isDefault) {
-  if (isDefault) return 22;
-  const lines = text.split('\n');
+function msgFontPt(text) {
   const n = Array.from(text.replace(/\n/g, '')).length;
+  const lines = text.split('\n');
   const longest = Math.max(...lines.map((l) => Array.from(l).length));
-  let pt = n <= 8 ? 15 : n <= 16 ? 13.5 : n <= 30 ? 12 : n <= 45 ? 10.5 : 9.5;
-  if (longest > 0) pt = Math.min(pt, (CARD_W - 18) / longest * 2.83 * 1.02); // 1行が横幅に収まる目安（1mm≒2.83pt）
-  return Math.max(Math.round(pt * 2) / 2, 8);
+  const base = n <= 16 ? 10.5 : n <= 30 ? 9.5 : 8.5;
+  const w = CARD_W - 18;
+  return Math.max(Math.round(Math.min(base, w / Math.max(longest, 1) * 2.83 * 0.98) * 2) / 2, 7);
 }
 
 function cardHtml(card, pos) {
-  const msgCls = card.isDefault ? 'msg default' : 'msg';
-  return `<div class="slot card" style="--c:${pos.col};--r:${pos.row}">
-  <div class="${msgCls}"><div class="fit" style="font-size:${initialFontPt(card.message, card.isDefault)}pt">${esc(card.message)}</div></div>
+  const text = card.isDefault ? BLANK_CARD_TEXT : card.message;
+  return `<div class="slot card${card.isDefault ? ' blank' : ''}" style="--c:${pos.col};--r:${pos.row}">
+  <div class="script">thank you</div>
+  <div class="msg"><div class="fit" style="font-size:${msgFontPt(text)}pt">${esc(text)}</div></div>
   ${card.sender ? `<div class="sender">${esc(card.sender)} より</div>` : ''}
   <div class="logo"><img src="/assets/images/logo.png" alt="COLLEGRANCE"></div>
 </div>`;
@@ -118,9 +125,10 @@ function renderPage({ sessionId, token, cards, slot, test, ox, oy, mx, my, warn,
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>${test ? '位置合わせテスト' : 'メッセージカード印刷'} | COLLEGRANCE</title>
+${test ? '' : `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=${SCRIPT_FONT}&display=block" rel="stylesheet">`}
 <style>
 @page { size: A4 portrait; margin: 0; }
-:root { --mx:${mx}mm; --my:${my}mm; --ox:${ox}mm; --oy:${oy}mm; --cw:${CARD_W}mm; --ch:${CARD_H}mm; --teal:#5AB9BE; }
+:root { --mx:${mx}mm; --my:${my}mm; --ox:${ox}mm; --oy:${oy}mm; --cw:${CARD_W}mm; --ch:${CARD_H}mm; --teal:#5AB9BE; --gold:#A0803A; --script:'${SCRIPT_FONT}'; }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body { background: #e6eaea; color: #2b2b2b; font-family: -apple-system, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -147,15 +155,16 @@ body { background: #e6eaea; color: #2b2b2b; font-family: -apple-system, "Hiragin
 .guide { outline: 1px dashed #cfd6d6; outline-offset: -0.5px; z-index: 0; }
 .guide span { position: absolute; left: 2mm; top: 1.5mm; font-size: 9px; color: #b7c0c0; }
 .card { z-index: 1; background: #fff; }
-.card .msg { position: absolute; left: 8mm; right: 8mm; top: 6.5mm; bottom: 15mm; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.card .fit { max-width: 100%; max-height: 100%; text-align: center; white-space: pre-wrap; line-break: strict; overflow-wrap: anywhere; line-height: 1.75; letter-spacing: .06em; color: #2b2b2b;
+.card .script { position: absolute; left: 0; right: 0; top: 6mm; text-align: center; color: var(--gold); font-family: var(--script), cursive; font-size: 26pt; font-weight: 400; line-height: 1; white-space: nowrap; letter-spacing: .01em; }
+.card .msg { position: absolute; left: 9mm; right: 9mm; top: 18mm; bottom: 14.5mm; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.card .fit { max-width: 100%; max-height: 100%; text-align: center; white-space: pre-wrap; line-break: strict; overflow-wrap: anywhere; line-height: 1.8; letter-spacing: .08em; color: #3a3a3a; text-wrap: balance; word-break: auto-phrase;
   font-family: "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Yu Mincho", "YuMincho", "BIZ UDPMincho", "MS PMincho", "Noto Serif JP", serif; font-feature-settings: "palt" 0; }
-.card .msg.default .fit { font-family: "Didot", "Bodoni 72", "Times New Roman", "Hiragino Mincho ProN", serif; font-style: italic; letter-spacing: .04em; line-height: 1.2; }
-.card .sender { position: absolute; right: 9mm; bottom: 10.5mm; font-size: 8.5pt; letter-spacing: .08em; color: #444;
+.card.blank .fit { color: #6b6257; letter-spacing: .1em; }
+.card .sender { position: absolute; right: 9mm; bottom: 9.5mm; font-size: 8.5pt; letter-spacing: .08em; color: #444;
   font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "MS PMincho", serif; white-space: nowrap; max-width: 60mm; overflow: hidden; text-overflow: ellipsis; }
-/* ロゴ: assets/images/logo.png（640×640・文字は x60〜576 / y297〜341）を切り抜いて 24mm 幅で表示 */
-.card .logo { position: absolute; left: 50%; bottom: 5mm; width: 24mm; height: 2.2mm; margin-left: -12mm; overflow: hidden; }
-.card .logo img { position: absolute; width: 29.71mm; height: 29.71mm; left: -2.79mm; top: -13.75mm; max-width: none; }
+/* ロゴ: assets/images/logo.png（640×640・文字は x60〜576 / y297〜341）を切り抜いて 20mm 幅で表示 */
+.card .logo { position: absolute; left: 50%; bottom: 4.5mm; width: 20mm; height: 1.85mm; margin-left: -10mm; overflow: hidden; }
+.card .logo img { position: absolute; width: 24.76mm; height: 24.76mm; left: -2.32mm; top: -11.46mm; max-width: none; }
 .frame { border: 0.2mm solid #000; display: flex; align-items: center; justify-content: center; }
 .frame span { font: 700 22pt/1 sans-serif; color: #999; }
 .frame i.h, .frame i.v { position: absolute; background: #000; }
@@ -179,7 +188,7 @@ body { background: #e6eaea; color: #2b2b2b; font-family: -apple-system, "Hiragin
   ${test ? '' : `<div class="box"><dl class="how">
     <dt>セット数</dt><dd>${summary.totalSets}枚</dd>
     <dt>お届け</dt><dd>${summary.mode === 'direct' ? '相手に直送' : 'ご本人が受け取って手渡し'}</dd>
-    <dt>文面</dt><dd>${summary.isDefault ? '（記入なし → 「For you」）' : esc(summary.message).replace(/\n/g, '<br>')}</dd>
+    <dt>文面</dt><dd>${summary.isDefault ? `（記入なし → 「${esc(BLANK_MESSAGE)}」）` : esc(summary.message).replace(/\n/g, '<br>')}</dd>
     ${summary.sender ? `<dt>贈り主</dt><dd>${esc(summary.sender)} より</dd>` : ''}
   </dl></div>`}
   <div class="box"><dl class="how">
@@ -211,11 +220,11 @@ ${sheets.map((inner) => `<div class="sheet">${guides}${inner}${test ? '<div clas
     if(!q.has(k) && saved !== null){ el.value = saved; setOff(k, saved); }
     el.addEventListener('input', function(){ setOff(k, el.value); try { localStorage.setItem('clg_giftcard_' + k, String(parseFloat(el.value) || 0)); } catch(e){} });
   });
-  // 文面が枠からはみ出さないよう縮める（8ptまで）
+  // 文面が枠からはみ出さないよう縮める（7ptまで）
   function fit(){
     document.querySelectorAll('.card .fit').forEach(function(el){
       var box = el.parentNode, pt = parseFloat(el.style.fontSize) || 12;
-      while(pt > 8 && (el.scrollHeight > box.clientHeight + 0.5 || el.scrollWidth > box.clientWidth + 0.5)){ pt -= 0.5; el.style.fontSize = pt + 'pt'; }
+      while(pt > 7 && (el.scrollHeight > box.clientHeight + 0.5 || el.scrollWidth > box.clientWidth + 0.5)){ pt -= 0.5; el.style.fontSize = pt + 'pt'; }
     });
   }
   fit();
@@ -276,3 +285,6 @@ exports.handler = async (event) => {
     }),
   };
 };
+
+// プレビュー生成用（Stripeを呼ばずに描画する）
+exports._renderPage = renderPage;

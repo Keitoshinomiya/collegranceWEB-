@@ -2963,7 +2963,7 @@ function updateGiftPanel(){
   var direct = document.querySelector('input[name="gift-mode"][value="direct"]');
   var isDirect = !!(direct && direct.checked);
   var df = document.getElementById('gift-direct-fields');
-  /* ギフトセットは手渡しでもメッセージをカードに印字する（空欄なら「For you」） */
+  /* ギフトセットは手渡しでもメッセージをカードに印字する（空欄なら定型の一文） */
   if(df) df.style.display = (on && (isDirect || hasGS)) ? 'block' : 'none';
   var sw = document.getElementById('gift-sender-wrap');
   if(sw) sw.style.display = isDirect ? 'block' : 'none';
@@ -2977,7 +2977,7 @@ function updateGiftPanel(){
   if(m){
     var max = hasGS ? 60 : 100;
     if(m.maxLength !== max){ m.maxLength = max; if(m.value.length > max) m.value = m.value.slice(0, max); }
-    m.placeholder = hasGS ? 'カードに印字するメッセージ（60文字まで・空欄なら「For you」）' : 'カードに書くメッセージ（100文字まで・空欄でも可）';
+    m.placeholder = hasGS ? 'カードに印字するメッセージ（60文字まで・空欄でも可）' : 'カードに書くメッセージ（100文字まで・空欄でも可）';
   }
 }
 function getGiftMeta(giftWrap){

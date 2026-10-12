@@ -13,6 +13,8 @@ try { giftSetLib = require('./gift-set'); } catch (e) { console.error('[giftcard
 
 const SITE_URL = 'https://collegrance.com';
 const SESSION_RE = /^cs_(live|test)_[A-Za-z0-9]{10,200}$/;
+// メッセージ空欄のときにカードへ印字する一文（2026-10-12 代表承認。サンキューカードB案）
+const BLANK_MESSAGE = 'あなたに似合う香りが、見つかりますように。';
 
 function secret() {
   return process.env.GIFT_CARD_SECRET || process.env.STRIPE_WEBHOOK_SECRET || '';
@@ -69,10 +71,10 @@ function buildCards(metadata) {
     }
     qty = Math.min(Math.max(qty, 1), 50);
     for (let i = 0; i < qty; i++) {
-      cards.push({ key: k, label: qty > 1 ? `${label}（${i + 1}/${qty}）` : label, message: message || 'For you', isDefault: !message, sender });
+      cards.push({ key: k, label: qty > 1 ? `${label}（${i + 1}/${qty}）` : label, message: message || BLANK_MESSAGE, isDefault: !message, sender });
     }
   }
   return { cards, mode, totalSets: cards.length };
 }
 
-module.exports = { SESSION_RE, cardToken, verifyToken, cardUrl, giftSetKeys, buildCards };
+module.exports = { SESSION_RE, BLANK_MESSAGE, cardToken, verifyToken, cardUrl, giftSetKeys, buildCards };

@@ -276,14 +276,14 @@
     <div class="cases cases--5">
       <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_01.jpg?v=3" alt="香水ケース ブラック"><div class="cn">ブラック</div></div>
       <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_02.jpg?v=3" alt="香水ケース エクリュ"><div class="cn">エクリュ</div></div>
-      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_03.jpg?v=3" alt="香水ケース ブラウン"><div class="cn">ブラウン</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_03_v2.jpg?v=3" alt="香水ケース ブラウン"><div class="cn">ブラウン</div></div>
       <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_04.jpg?v=3" alt="香水ケース ネイビー"><div class="cn">ネイビー</div></div>
       <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_05.jpg?v=3" alt="香水ケース レッド"><div class="cn">レッド</div></div>
       <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_06.jpg?v=3" alt="香水ケース ピンク"><div class="cn">ピンク</div></div>
       <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_07.jpg?v=3" alt="香水ケース ライトブルー"><div class="cn">ライトブルー</div></div>
       <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_08.jpg?v=3" alt="香水ケース イエロー"><div class="cn">イエロー</div></div>
       <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_09.jpg?v=3" alt="香水ケース シルバー"><div class="cn">シルバー</div></div>
-      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_10.jpg?v=3" alt="香水ケース ゴールド"><div class="cn">ゴールド</div></div>
+      <div class="case"><img class="cs" src="https://collegrance.com/assets/images/qoo10/cases/case_10_v2.jpg?v=3" alt="香水ケース ゴールド"><div class="cn">ゴールド</div></div>
     </div>
     <p class="map-caption">※ケースは1点あたり+300円です。2本に付けたい場合は数量を2にしてください。</p>
   </div>

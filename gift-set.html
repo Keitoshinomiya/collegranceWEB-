@@ -147,15 +147,15 @@
   /* font-size:16px は iOS のフォーカス時ズーム防止 */
   textarea,.txt{width:100%;border:1px solid var(--line);border-radius:6px;padding:10px;font:inherit;font-size:16px;background:var(--bg);color:var(--ink)}
   textarea{resize:vertical;min-height:72px}
-  /* メッセージカードの印字プレビュー（名刺サイズ 91:55・生成り地） */
-  .mcard{aspect-ratio:91/55;width:100%;max-width:360px;margin:0 auto 10px;background:#f7f3e8;border:1px solid #d9d2bf;border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 20px;overflow:hidden;position:relative}
-  .mcard::before{content:"";position:absolute;inset:6px;border:1px solid #e6dfcc;border-radius:2px;pointer-events:none}
+  /* メッセージカードの印字プレビュー（名刺サイズ 91:55）。デザインはラクスル入稿データ（2026-10-13）から：
+     うら面＝白地に上下の緑ライン（card_back.svg）の間にメッセージ、おもて面＝THANK YOU＋花（card_front.svg） */
+  .mcard{aspect-ratio:91/55;width:100%;max-width:360px;margin:0 auto 10px;background:#fff url(assets/images/gift/card_back.svg) center/100% 100% no-repeat;border:1px solid #e3e1da;border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9% 8%;overflow:hidden}
   .mcard .mt{font-family:'Hiragino Mincho ProN','Yu Mincho','YuMincho','Noto Serif JP',serif;font-size:15px;line-height:1.75;color:#2b2a26;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;letter-spacing:.06em;max-width:100%}
-  .mcard .mty{font-family:var(--latin);font-style:italic;font-size:22px;line-height:1;color:#A0803A;letter-spacing:.02em;margin-bottom:8px}
   .mcard .mt.empty{font-size:13px;color:#6b6257;letter-spacing:.1em}
   .mcard .ms{font-family:'Hiragino Mincho ProN','Yu Mincho','YuMincho',serif;font-size:12px;color:#5c5a52;margin-top:6px;align-self:flex-end}
   .mcard .ms:empty{display:none}
-  .mcard-cap{font-size:11px;color:var(--mute);text-align:center;margin:-4px 0 10px}
+  .mcard-cap{display:flex;align-items:center;justify-content:center;gap:10px;font-size:11px;color:var(--mute);margin:0 0 12px;line-height:1.6}
+  .mcard-cap img{width:92px;aspect-ratio:91/55;background:#fff;border:1px solid #e3e1da;border-radius:2px;box-shadow:0 1px 2px rgba(0,0,0,.06);flex:none}
   .count{font-size:11px;color:var(--mute);text-align:right}
 
   .sumline{font-size:13px;color:var(--sub);font-variant-numeric:tabular-nums}
@@ -316,8 +316,8 @@
 
         <div class="step">
           <h2><span class="n">4</span>メッセージカード <span class="hint">任意・60文字まで</span></h2>
-          <div class="mcard" aria-hidden="true"><div class="mty">thank you</div><div class="mt empty" id="mprev">あなたに似合う香りが、見つかりますように。</div><div class="ms" id="mprev-s"></div></div>
-          <p class="mcard-cap">印字イメージ（名刺サイズのカード）</p>
+          <div class="mcard" aria-hidden="true"><div class="mt empty" id="mprev">あなたに似合う香りが、見つかりますように。</div><div class="ms" id="mprev-s"></div></div>
+          <p class="mcard-cap"><img src="assets/images/gift/card_front.svg" alt="カードのおもて面。緑の手書き風の文字でTHANK YOU、両側に小さな花" width="92" height="56" loading="lazy"><span>うら面の印字イメージ（名刺サイズ）<br>おもて面は「THANK YOU」のデザインです</span></p>
           <label for="msg" class="sumline" style="display:block;margin-bottom:6px">カードに印字してお入れします。空欄の場合は「あなたに似合う香りが、見つかりますように。」の一文でお入れします。絵文字など印字できない文字は省いてお入れします。</label>
           <textarea id="msg" maxlength="60" placeholder="例）いつもありがとう。好きな香りが見つかりますように。"></textarea>
           <div class="count"><span id="mc">0</span>/60</div>

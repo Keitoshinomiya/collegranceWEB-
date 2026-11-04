@@ -79,11 +79,12 @@
   .ship{font-size:12px;color:var(--teal);border:1px solid var(--teal);padding:1px 8px;border-radius:2px}
 
   .contents{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;text-align:center}
-  .contents div{background:var(--bg2);border-radius:4px;padding:10px 4px;font-size:12px;line-height:1.5}
-  .contents b{display:block;font-size:18px;font-family:var(--latin);font-weight:500}
+  .contents a{background:var(--bg2);border-radius:4px;padding:10px 4px;font-size:12px;line-height:1.5;color:inherit;text-decoration:none}
+  .contents b{display:block;font-size:18px;font-family:var(--latin);font-weight:500;font-variant-numeric:lining-nums;color:var(--teal)}
+  .contents b small{display:block;font-size:10px;letter-spacing:.12em;line-height:1.2}
 
   .step h2{font-size:15px;margin:0 0 10px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-  .step h2 .n{font-family:var(--latin);font-size:20px;color:var(--teal)}
+  .step h2 .n{font-family:var(--latin);font-size:20px;color:var(--teal);font-variant-numeric:lining-nums}
   .step h2 .hint{font-size:12px;color:var(--mute);font-weight:400}
   .slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
   .slot{border:1px dashed var(--line);border-radius:6px;min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;text-align:center;font-size:11px;color:var(--mute);position:relative;background:var(--bg)}
@@ -191,7 +192,7 @@
   .presets button[disabled]{opacity:.4;cursor:not-allowed}
   .eta{font-size:13px;color:var(--sub);margin:-14px 0 0}
   .eta-sub{font-size:11.5px;color:var(--sub);margin:2px 0 0;line-height:1.6}
-  #step1{scroll-margin-top:80px}
+  #step1,#step2,#step3,#step4{scroll-margin-top:80px}
   .ctanote{font-size:12px;color:var(--sub);text-align:center;margin:0 0 -12px}
   .faq details{border-bottom:1px solid var(--line);padding:12px 0}
   .faq summary{cursor:pointer;font-size:14px}
@@ -284,12 +285,12 @@
         <p class="eta" id="eta">ご注文から2営業日以内に発送・ポストにお届け</p>
         <p class="eta-sub" id="eta-sub" hidden>ご注文から2営業日以内に発送、ネコポスで発送後1〜2日でお届けします（土日祝は発送休み）</p>
 
-        <div class="contents" aria-label="セット内容">
-          <div><b>3</b>お試し香水<br>1.5ml</div>
-          <div><b>1</b>香水ケース<br>色を選べる</div>
-          <div><b>1</b>ロゴ入り<br>コットンポーチ</div>
-          <div><b>3</b>香りカード<br>＋メッセージ</div>
-        </div>
+        <nav class="contents" aria-label="選ぶ順序">
+          <a href="#step1"><b><small>STEP</small>1</b>香りを<br>3本選ぶ</a>
+          <a href="#step2"><b><small>STEP</small>2</b>ケースの<br>色を選ぶ</a>
+          <a href="#step3"><b><small>STEP</small>3</b>お届け<br>方法</a>
+          <a href="#step4"><b><small>STEP</small>4</b>メッセージ<br>カード</a>
+        </nav>
 
         <div class="step" id="step1">
           <h2><span class="n">1</span>香りを3本選ぶ <span class="hint">同じ香りを2本以上でもOK</span></h2>
@@ -299,13 +300,13 @@
           <div id="tiers"></div>
         </div>
 
-        <div class="step">
+        <div class="step" id="step2">
           <h2><span class="n">2</span>ケースの色 <span class="hint">1個付き</span></h2>
           <div class="cases" id="cases" role="group" aria-label="ケースの色"></div>
           <div class="casename" id="casename"></div>
         </div>
 
-        <div class="step">
+        <div class="step" id="step3">
           <h2><span class="n">3</span>お届け方法</h2>
           <div class="seg" role="group" aria-label="お届け方法">
             <button type="button" id="d-self" aria-pressed="true">自分に届ける（手渡し）</button>
@@ -314,7 +315,7 @@
           <p class="sumline" id="dnote" style="margin:8px 0 0">金額の分かる明細は同梱しません。</p>
         </div>
 
-        <div class="step">
+        <div class="step" id="step4">
           <h2><span class="n">4</span>メッセージカード <span class="hint">任意・60文字まで</span></h2>
           <div class="mcard" aria-hidden="true"><div class="mt empty" id="mprev">あなたに似合う香りが、見つかりますように。</div><div class="ms" id="mprev-s"></div></div>
           <p class="mcard-cap"><img src="assets/images/gift/card_front.svg" alt="カードのおもて面。緑の手書き風の文字でTHANK YOU、両側に小さな花" width="92" height="56" loading="lazy"><span>うら面の印字イメージ（名刺サイズ）<br>おもて面は「THANK YOU」のデザインです</span></p>

@@ -159,7 +159,7 @@ exports.handler = async (event) => {
       // 選べる3本ギフトセット（2026-10-07）。gs1, gs2… = "030,018,039|エクリュ[|x2]"
       const giftSetKeys = Object.keys(metadata).filter((k) => /^gs\d+$/.test(k)).sort((a, b) => parseInt(a.slice(2), 10) - parseInt(b.slice(2), 10));
       if (giftSetKeys.length) {
-        giftLines.push(':gift: *選べる3本ギフトセット* → お試し1.5ml×3＋香水ケース＋巾着＋香りカード3枚＋メッセージカード（*ネコポス*）');
+        giftLines.push(':gift: *選べる3本ギフトセット* → お試し1.5ml×3＋香水ケース＋巾着＋メッセージカード（*ネコポス*）');
         for (const k of giftSetKeys) {
           const v = metadata[k];
           if (giftSetLib) {

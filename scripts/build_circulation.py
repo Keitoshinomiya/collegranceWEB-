@@ -534,7 +534,7 @@ def hub_page_html(hub, items, all_hubs_with_items):
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/brand-tokens.css">
+    <link rel="stylesheet" href="/assets/css/brand-tokens.css?v=2">
     <script src="/assets/js/brand-fonts.js" defer></script>
     <script type="application/ld+json">{json.dumps(bc, ensure_ascii=False)}</script>
     <script type="application/ld+json">{json.dumps(coll, ensure_ascii=False)}</script>

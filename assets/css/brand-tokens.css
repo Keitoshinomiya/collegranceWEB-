@@ -14,3 +14,8 @@
 }
 /* 数字は全ページ同じゴシックの等幅数字（桁がそろい、1 が I に見えない） */
 body{font-variant-numeric:lining-nums}
+
+/* 見出しは Amazon 商品画像と同じ「日本語の極太見出し＋その上に小さなグレーの英字」
+   <h2><span class="sec-en">Popular Picks</span>人気の香り</h2> のように使う */
+:root{--brand-heading-weight:800}
+.sec-en{display:block;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--brand-mute);line-height:1.6;margin-bottom:4px}

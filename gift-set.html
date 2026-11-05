@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/brand-tokens.css">
+  <link rel="stylesheet" href="/assets/css/brand-tokens.css?v=2">
   <script src="/assets/js/brand-fonts.js" defer></script>
   <link rel="stylesheet" href="assets/css/header.css">
   <link rel="stylesheet" href="assets/css/footer.css">
@@ -73,7 +73,7 @@
   .media .cap{font-size:12px;color:var(--mute);margin-top:8px}
   .buy{min-width:0;display:flex;flex-direction:column;gap:22px}
   .eyebrow{font-size:12px;letter-spacing:.18em;color:var(--teal)}
-  h1{font-size:22px;line-height:1.5;margin:4px 0 0;font-weight:700;text-wrap:balance}
+  h1{font-size:26px;line-height:1.45;margin:4px 0 0;font-weight:var(--brand-heading-weight,800);letter-spacing:.04em;text-wrap:balance}
   .lead{color:var(--sub);font-size:14px;margin:0}
   .price-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   .price{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.02em}
@@ -85,7 +85,7 @@
   .contents a{background:var(--bg2);padding:0 4px 10px;font-size:12px;font-weight:500;line-height:1.5;color:inherit;text-decoration:none}
   .contents b{display:block;margin:0 -4px 8px;padding:4px 0;background:var(--brand-label,#808080);color:#fff;font-size:12px;font-weight:700;letter-spacing:.08em}
 
-  .step h2{font-size:15px;margin:0 0 10px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .step h2{font-size:16px;font-weight:var(--brand-heading-weight,800);margin:0 0 10px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
   .step h2 .n{align-self:center;background:var(--brand-label,#808080);color:#fff;font-size:12px;font-weight:700;letter-spacing:.08em;line-height:1;padding:5px 8px}
   .step h2 .n::before{content:'STEP '}
   .step h2 .hint{font-size:12px;color:var(--mute);font-weight:400}
@@ -168,7 +168,7 @@
   .toast{font-size:12px;color:var(--teal);min-height:1.5em;text-align:center}
 
   section.more{max-width:720px;margin:56px auto 0;display:flex;flex-direction:column;gap:40px}
-  section.more h2{font-size:17px;margin:0 0 14px;text-align:center;letter-spacing:.12em}
+  section.more h2{font-size:21px;font-weight:var(--brand-heading-weight,800);margin:0 0 16px;text-align:center;letter-spacing:.04em;line-height:1.45}
   /* 届いたときに：アイコン＋見出し（SP 3列×2段） */
   .unbox-photo{display:block;margin:0 auto 16px;max-width:520px}
   .unbox-photo img{width:100%;height:auto;display:block;border-radius:4px;aspect-ratio:1/1;object-fit:cover;background:var(--kinari)}
@@ -280,13 +280,13 @@
           <h1>選べる3本ギフトセット</h1>
           <p class="subt">お試し香水3本＋香水ケース＋コットンポーチ</p>
         </div>
-        <p class="lead">香りの好みは、本人にしか分かりません。だから1.5mlを3本。試しながら『これ好き』が見つかるように作りました。ロゴ入りのコットンポーチとケースを付けて、ギフト仕様でお届けします。</p>
+        <p class="lead">香りの好みは、本人にしか分かりません。だから、試せる1.5mlを3本。ポーチとケースを付けて、ギフト仕様でお届けします。</p>
         <div class="price-row">
           <span class="price" id="price">¥2,980<small>税込</small></span>
           <span class="ship">送料込み</span>
         </div>
         <p class="eta" id="eta">ご注文から2営業日以内に発送・ポストにお届け</p>
-        <p class="eta-sub" id="eta-sub" hidden>ご注文から2営業日以内に発送、ネコポスで発送後1〜2日でお届けします（土日祝は発送休み）</p>
+        <p class="eta-sub" id="eta-sub" hidden>2営業日以内に発送（土日祝は休み）・ネコポスでポストへ</p>
 
         <nav class="contents" aria-label="選ぶ順序">
           <a href="#step1"><b>STEP 1</b>香りを<br>3本選ぶ</a>
@@ -322,7 +322,7 @@
           <h2><span class="n">4</span>メッセージカード <span class="hint">任意・60文字まで</span></h2>
           <div class="mcard" aria-hidden="true"><div class="mt empty" id="mprev">あなたに似合う香りが、見つかりますように。</div><div class="ms" id="mprev-s"></div></div>
           <p class="mcard-cap"><img src="assets/images/gift/card_front.svg" alt="カードのおもて面。緑の手書き風の文字でTHANK YOU、両側に小さな花" width="92" height="56" loading="lazy"><span>うら面の印字イメージ（名刺サイズ）<br>おもて面は「THANK YOU」のデザインです</span></p>
-          <label for="msg" class="sumline" style="display:block;margin-bottom:6px">カードに印字してお入れします。空欄の場合は「あなたに似合う香りが、見つかりますように。」の一文でお入れします。絵文字など印字できない文字は省いてお入れします。</label>
+          <label for="msg" class="sumline" style="display:block;margin-bottom:6px">カードに印字してお入れします。空欄なら「あなたに似合う香りが、見つかりますように。」を入れます。絵文字は省きます。</label>
           <textarea id="msg" maxlength="60" placeholder="例）いつもありがとう。好きな香りが見つかりますように。"></textarea>
           <div class="count"><span id="mc">0</span>/60</div>
           <div id="sender-wrap" hidden style="margin-top:8px">
@@ -341,7 +341,7 @@
 
     <section class="more">
       <div>
-        <h2>届いたときに</h2>
+        <h2><span class="sec-en">Unboxing</span>届いたときに</h2>
         <!-- 写真スロット：gift_contents（コットンポーチの上にセット一式を並べた俯瞰の実写） -->
         <picture class="unbox-photo">
           <source srcset="assets/images/gift/gift_contents.webp?v=2" type="image/webp">
@@ -357,7 +357,7 @@
       </div>
 
       <div>
-        <h2>香りと価格</h2>
+        <h2><span class="sec-en">Fragrances</span>香りと価格</h2>
         <div class="pricetable">
           <table>
             <thead><tr><th>香り</th><th>系統</th><th class="r">追加</th><th class="r c4">3本とも同じ香りなら</th></tr></thead>
@@ -367,7 +367,7 @@
       </div>
 
       <div class="faq">
-        <h2>よくある質問</h2>
+        <h2><span class="sec-en">FAQ</span>よくある質問</h2>
         <details><summary>1.5mlでどのくらい使えますか？</summary><p>つける量や回数によって変わりますが、それぞれの香りを毎日少しずつ、数日から1週間ほどお試しいただける量です。</p></details>
         <details><summary>ラッピングは選べますか？</summary><p>コットンポーチと薄紙でのギフト包装が標準です。追加料金はかかりません。</p></details>
         <details><summary>相手の住所に直接送れますか？</summary><p>「相手に直接送る」を選び、決済画面でお届け先を入力してください。明細や金額の分かるものは入れずにお送りします。</p></details>

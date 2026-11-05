@@ -192,6 +192,8 @@ Q1: 試したことある？ → 分岐
 - **りょうゴシックPlusN（Adobe Fonts）→ Noto Sans JP** のゴシック1系統（2026-11-05 四宮さん決定：Amazon商品画像と同じ書体に統一）
   - 定義は `assets/css/brand-tokens.css` の `--brand-font` 1か所だけ。各ページは `font-family:var(--brand-font,'Noto Sans JP'),sans-serif` で参照する
   - 全ページの `<head>` に Noto Sans JP の Google Fonts リンク＋`brand-tokens.css`＋`assets/js/brand-fonts.js`（Adobe Fontsのキット読込）を入れる。新ページ・生成スクリプトも同じ
+  - ⚠️ `/assets/css/*` は netlify.toml で1年キャッシュ（immutable）。**brand-tokens.css を書き換えたら全HTMLと生成スクリプトの `brand-tokens.css?v=N` の番号を上げる**（上げないと既訪問者に新しいCSSが届かない）
+  - 見出しは「日本語の極太（`--brand-heading-weight`=800）＋上に小さなグレーの英字 `<span class="sec-en">`」。Amazon商品画像の組み方に合わせる
   - セリフ体（Cormorant・Georgia・明朝）は使わない。数字も同じゴシック。例外はメッセージカードの印字プレビュー（明朝）とクーポンコード（等幅）だけ
 
 ### 画像フィルター (Le Labo スタイル)

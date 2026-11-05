@@ -26,7 +26,9 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&family=Cormorant+Garamond:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/brand-tokens.css">
+  <script src="/assets/js/brand-fonts.js" defer></script>
   <link rel="stylesheet" href="assets/css/header.css">
   <link rel="stylesheet" href="assets/css/footer.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://collegrance.com/"},{"@type":"ListItem","position":2,"name":"選べる3本ギフトセット","item":"https://collegrance.com/gift-set.html"}]}</script>
@@ -38,8 +40,8 @@
     --bg:#ffffff; --bg2:#f6f6f4; --ink:#1a1a1a; --sub:#5f5f5c; --mute:#9a9a96; --line:#e6e5e1;
     --teal:#1a9fae; --teal-soft:#e6f4f5; --kinari:#f3efe4;
     --text:#1a1a1a; --light:#999; --border:#e8e8e8; --header-h:64px; --accent:#1a1a1a;
-    --font:'Zen Kaku Gothic Antique','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
-    --latin:'Cormorant Garamond','Times New Roman',serif;
+    --font:var(--brand-font,'Noto Sans JP'),sans-serif;
+    --latin:var(--brand-font,'Noto Sans JP'),sans-serif;
     color-scheme:light;
   }
   *{box-sizing:border-box}
@@ -79,12 +81,13 @@
   .ship{font-size:12px;color:var(--teal);border:1px solid var(--teal);padding:1px 8px;border-radius:2px}
 
   .contents{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;text-align:center}
-  .contents a{background:var(--bg2);border-radius:4px;padding:10px 4px;font-size:12px;line-height:1.5;color:inherit;text-decoration:none}
-  .contents b{display:block;font-size:18px;font-family:var(--latin);font-weight:500;font-variant-numeric:lining-nums;color:var(--teal)}
-  .contents b small{display:block;font-size:10px;letter-spacing:.12em;line-height:1.2}
+  /* Amazon商品画像と同じ「グレー帯に白文字」のラベル */
+  .contents a{background:var(--bg2);padding:0 4px 10px;font-size:12px;font-weight:500;line-height:1.5;color:inherit;text-decoration:none}
+  .contents b{display:block;margin:0 -4px 8px;padding:4px 0;background:var(--brand-label,#808080);color:#fff;font-size:12px;font-weight:700;letter-spacing:.08em}
 
   .step h2{font-size:15px;margin:0 0 10px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-  .step h2 .n{font-family:var(--latin);font-size:20px;color:var(--teal);font-variant-numeric:lining-nums}
+  .step h2 .n{align-self:center;background:var(--brand-label,#808080);color:#fff;font-size:12px;font-weight:700;letter-spacing:.08em;line-height:1;padding:5px 8px}
+  .step h2 .n::before{content:'STEP '}
   .step h2 .hint{font-size:12px;color:var(--mute);font-weight:400}
   .slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
   .slot{border:1px dashed var(--line);border-radius:6px;min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;text-align:center;font-size:11px;color:var(--mute);position:relative;background:var(--bg)}
@@ -286,10 +289,10 @@
         <p class="eta-sub" id="eta-sub" hidden>ご注文から2営業日以内に発送、ネコポスで発送後1〜2日でお届けします（土日祝は発送休み）</p>
 
         <nav class="contents" aria-label="選ぶ順序">
-          <a href="#step1"><b><small>STEP</small>1</b>香りを<br>3本選ぶ</a>
-          <a href="#step2"><b><small>STEP</small>2</b>ケースの<br>色を選ぶ</a>
-          <a href="#step3"><b><small>STEP</small>3</b>お届け<br>方法</a>
-          <a href="#step4"><b><small>STEP</small>4</b>メッセージ<br>カード</a>
+          <a href="#step1"><b>STEP 1</b>香りを<br>3本選ぶ</a>
+          <a href="#step2"><b>STEP 2</b>ケースの<br>色を選ぶ</a>
+          <a href="#step3"><b>STEP 3</b>お届け<br>方法</a>
+          <a href="#step4"><b>STEP 4</b>メッセージ<br>カード</a>
         </nav>
 
         <div class="step" id="step1">

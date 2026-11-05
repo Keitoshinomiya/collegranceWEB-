@@ -28,7 +28,9 @@
     <!-- Fonts (same as main site) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/brand-tokens.css">
+    <script src="/assets/js/brand-fonts.js" defer></script>
 <link rel="icon" href="assets/images/logo.png" type="image/png">
 
     <style>
@@ -48,8 +50,8 @@
             --amazon:     #FF9900;
             --amazon-dk:  #e07800;
             --red:        #c0392b;
-            --font:       'Zen Kaku Gothic Antique', sans-serif;
-            --serif: 'Zen Kaku Gothic Antique', sans-serif;
+            --font:       var(--brand-font,'Noto Sans JP'),sans-serif;
+            --serif: var(--brand-font,'Noto Sans JP'),sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }

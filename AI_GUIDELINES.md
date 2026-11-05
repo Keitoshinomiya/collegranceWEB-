@@ -7,8 +7,8 @@ The user has strictly approved the current state of the website. Any future AI-d
 ### 1. Visual Styling Rules (CSS)
 
 #### A. Typography
-*   **Primary Font**: `Zen Kaku Gothic Antique` (sans-serif).
-*   **Usage**: Used for Main text, Headings, and English text. Do not revert to `Courier` or `Times`.
+*   **Primary Font**: りょうゴシックPlusN（Adobe Fonts）→ fallback `Noto Sans JP`. Defined once as `--brand-font` in `assets/css/brand-tokens.css` (2026-11-05, matches the Amazon product images).
+*   **Usage**: Main text, headings, English text and numerals. No serif fonts (Cormorant / Georgia / Mincho), except the message-card print preview.
 
 #### B. Image Filters (Le Labo Style)
 *   **Global Default**: `sepia(10%) grayscale(10%) contrast(95%) brightness(102%)`.

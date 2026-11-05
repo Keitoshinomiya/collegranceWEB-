@@ -267,7 +267,7 @@ MARK_HUBNAV_S = "<!-- CG-AUTO-HUBNAV START -->"
 MARK_HUBNAV_E = "<!-- CG-AUTO-HUBNAV END -->"
 
 CIRCULATION_CSS = """<style>
-.cg-circ{max-width:820px;margin:48px auto 56px;padding:0 20px;font-family:'Zen Kaku Gothic New','Noto Sans JP',sans-serif}
+.cg-circ{max-width:820px;margin:48px auto 56px;padding:0 20px;font-family:var(--brand-font,'Noto Sans JP'),sans-serif}
 .cg-cta{border:1px solid #e5e0d8;background:#faf9f7;border-radius:6px;padding:28px 22px;text-align:center;margin-bottom:44px}
 .cg-cta-lead{font-size:.82rem;letter-spacing:.1em;color:#1a1a1a;font-weight:600;margin-bottom:6px}
 .cg-cta-sub{font-size:.68rem;color:#888;line-height:1.7;margin-bottom:18px}
@@ -288,7 +288,7 @@ CIRCULATION_CSS = """<style>
 .cg-hub-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .cg-hub-chips a{font-size:.64rem;letter-spacing:.06em;color:#555;text-decoration:none;border:1px solid #ddd;border-radius:99px;padding:7px 15px;background:#fff}
 .cg-hub-chips a:hover{border-color:#1a1a1a;color:#1a1a1a}
-.cg-bc{max-width:820px;margin:0 auto;padding:14px 20px 0;font-size:.6rem;letter-spacing:.06em;color:#999;font-family:'Zen Kaku Gothic New','Noto Sans JP',sans-serif}
+.cg-bc{max-width:820px;margin:0 auto;padding:14px 20px 0;font-size:.6rem;letter-spacing:.06em;color:#999;font-family:var(--brand-font,'Noto Sans JP'),sans-serif}
 .cg-bc a{color:#999;text-decoration:none}
 .cg-bc a:hover{color:#1a1a1a}
 .cg-bc span{margin:0 6px;color:#ccc}
@@ -533,14 +533,16 @@ def hub_page_html(hub, items, all_hubs_with_items):
     <meta property="og:url" content="{url}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/brand-tokens.css">
+    <script src="/assets/js/brand-fonts.js" defer></script>
     <script type="application/ld+json">{json.dumps(bc, ensure_ascii=False)}</script>
     <script type="application/ld+json">{json.dumps(coll, ensure_ascii=False)}</script>
     <style>
       *{{margin:0;padding:0;box-sizing:border-box}}
-      body{{font-family:'Zen Kaku Gothic New','Noto Sans JP',sans-serif;color:#1a1a1a;background:#fff}}
+      body{{font-family:var(--brand-font,'Noto Sans JP'),sans-serif;color:#1a1a1a;background:#fff}}
       .gh-bar{{border-bottom:1px solid #eee;padding:18px 20px;text-align:center}}
-      .gh-bar a{{font-family:'Cormorant Garamond',serif;font-size:1.15rem;letter-spacing:.35em;color:#1a1a1a;text-decoration:none}}
+      .gh-bar a{{font-family:var(--brand-font,'Noto Sans JP'),sans-serif;font-size:1.15rem;letter-spacing:.35em;color:#1a1a1a;text-decoration:none}}
       .gh-wrap{{max-width:1000px;margin:0 auto;padding:0 20px 60px}}
       .gh-head{{text-align:center;padding:36px 0 8px}}
       .gh-head h1{{font-size:1.15rem;letter-spacing:.2em;font-weight:600}}
@@ -572,7 +574,7 @@ def hub_page_html(hub, items, all_hubs_with_items):
       </div>
     </div>
     <footer>
-      <div style="margin-bottom:10px;font-family:'Cormorant Garamond',serif;font-size:.9rem;letter-spacing:.3em;color:#1a1a1a">COLLEGRANCE</div>
+      <div style="margin-bottom:10px;font-family:var(--brand-font,'Noto Sans JP'),sans-serif;font-size:.9rem;letter-spacing:.3em;color:#1a1a1a">COLLEGRANCE</div>
       <a href="/index.html">トップページ</a><a href="/shop.html">ショップ</a><a href="/journal.html">Journal</a><a href="/tokushoho.html">特定商取引法に基づく表記</a><a href="/privacy.html">プライバシーポリシー</a>
       <div style="margin-top:14px">&copy; 2024 COLLEGRANCE. All rights reserved.</div>
     </footer>

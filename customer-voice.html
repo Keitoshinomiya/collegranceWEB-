@@ -21,7 +21,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://line-crm-worker.shinomiya-keito.workers.dev">
 
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/brand-tokens.css">
+  <script src="/assets/js/brand-fonts.js" defer></script>
 
   <link rel="icon" href="assets/images/logo.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/logo.png">
@@ -38,7 +40,7 @@
     /* ===== index.html と同一のデザイントークン ===== */
     :root {
       --text:#1a1a1a;--sub:#666;--light:#999;--bg:#fff;--bg2:#f7f7f7;--border:#e8e8e8;
-      --accent:#111;--font:'Zen Kaku Gothic Antique',sans-serif;--header-h:64px;
+      --accent:#111;--font:var(--brand-font,'Noto Sans JP'),sans-serif;--header-h:64px;
       --ease:cubic-bezier(.4,0,.2,1);--shadow-sm:0 2px 8px rgba(0,0,0,.06);
       --shadow-md:0 8px 30px rgba(0,0,0,.1);--shadow-lg:0 16px 48px rgba(0,0,0,.14);
       --gold:#c9a84c;
@@ -128,7 +130,7 @@
     @media(max-width:600px){.voice-feed{columns:1}}
     .voice-card{break-inside:avoid;background:#fff;border:1px solid var(--border);padding:28px 26px 22px;margin-bottom:24px;position:relative;transition:all .3s var(--ease)}
     .voice-card:hover{box-shadow:var(--shadow-md);border-color:transparent}
-    .voice-card::before{content:'\201C';position:absolute;top:6px;left:18px;font-size:3.2rem;color:var(--border);font-family:Georgia,serif;line-height:1}
+    .voice-card::before{content:'\201C';position:absolute;top:6px;left:18px;font-size:3.2rem;color:var(--border);font-family:var(--brand-font,'Noto Sans JP'),sans-serif;line-height:1}
     .voice-rating{color:var(--gold);font-size:.74rem;letter-spacing:1.5px;margin-bottom:14px;position:relative;z-index:1}
     .voice-text{font-size:.78rem;line-height:1.95;color:var(--text);margin-bottom:18px;white-space:pre-wrap;position:relative;z-index:1}
     .voice-meta{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:14px;gap:8px}
@@ -225,7 +227,7 @@
     .how-steps{display:flex;justify-content:center;gap:0;flex-wrap:wrap}
     .how-step{flex:1;min-width:200px;max-width:280px;padding:22px 18px;border:1px solid var(--border);background:#fff;position:relative}
     .how-step + .how-step{margin-left:-1px}
-    .how-step-num{font-family:Georgia,serif;font-size:1.3rem;color:var(--light);margin-bottom:8px}
+    .how-step-num{font-family:var(--brand-font,'Noto Sans JP'),sans-serif;font-size:1.3rem;color:var(--light);margin-bottom:8px}
     .how-step-t{font-size:.84rem;font-weight:500;margin-bottom:6px}
     .how-step-d{font-size:.76rem;color:var(--sub);line-height:1.9}
     @media(max-width:680px){.how-step{max-width:100%;flex:none;width:100%}.how-step + .how-step{margin-left:0;margin-top:-1px}}

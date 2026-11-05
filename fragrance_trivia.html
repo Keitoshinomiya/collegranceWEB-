@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scent Etiquette - COLEGLANCE JOURNAL</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap');
 
         body {
-            font-family: 'Noto Sans JP', sans-serif;
+            font-family: var(--brand-font,'Noto Sans JP'),sans-serif;
             line-height: 2.0;
             color: #333;
             margin: 0;
@@ -18,7 +17,7 @@
 
         /* Typography */
         h1, h2, h3, h4, .serif {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: var(--brand-font,'Noto Sans JP'),sans-serif;
         }
         
         .jp-serif {
@@ -82,7 +81,7 @@
             font-size: 0.8rem;
             color: #999;
             letter-spacing: 0.1em;
-            font-family: 'Cormorant Garamond', serif;
+            font-family: var(--brand-font,'Noto Sans JP'),sans-serif;
         }
 
         /* Main Visual */
@@ -103,7 +102,7 @@
         }
 
         h3 {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: var(--brand-font,'Noto Sans JP'),sans-serif;
             font-size: 1.5rem;
             margin-top: 4rem;
             margin-bottom: 1.5rem;
@@ -170,7 +169,7 @@
             margin-top: 10px;
             font-size: 0.8rem;
             color: #888;
-            font-family: 'Cormorant Garamond', serif;
+            font-family: var(--brand-font,'Noto Sans JP'),sans-serif;
             font-style: italic;
         }
 
@@ -190,7 +189,7 @@
             transform: translateX(-50%);
             background: #fff;
             padding: 0 15px;
-            font-family: 'Cormorant Garamond', serif;
+            font-family: var(--brand-font,'Noto Sans JP'),sans-serif;
             font-size: 1.1rem;
             letter-spacing: 0.1em;
             color: #bfa078;
@@ -227,7 +226,7 @@
             display: block;
             text-align: center;
             margin-top: 2rem;
-            font-family: 'Cormorant Garamond', serif;
+            font-family: var(--brand-font,'Noto Sans JP'),sans-serif;
             text-decoration: none;
             color: #333;
             letter-spacing: 0.1em;
@@ -244,6 +243,11 @@
             .impression { padding: 2rem 1.5rem; }
         }
     </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/brand-tokens.css">
+  <script src="/assets/js/brand-fonts.js" defer></script>
 </head>
 <body>
 

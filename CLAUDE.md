@@ -189,7 +189,10 @@ Q1: 試したことある？ → 分岐
 ## 5. ビジュアル・ロジック保全ルール
 
 ### フォント
-- `Zen Kaku Gothic Antique` (sans-serif) — 変更禁止
+- **りょうゴシックPlusN（Adobe Fonts）→ Noto Sans JP** のゴシック1系統（2026-11-05 四宮さん決定：Amazon商品画像と同じ書体に統一）
+  - 定義は `assets/css/brand-tokens.css` の `--brand-font` 1か所だけ。各ページは `font-family:var(--brand-font,'Noto Sans JP'),sans-serif` で参照する
+  - 全ページの `<head>` に Noto Sans JP の Google Fonts リンク＋`brand-tokens.css`＋`assets/js/brand-fonts.js`（Adobe Fontsのキット読込）を入れる。新ページ・生成スクリプトも同じ
+  - セリフ体（Cormorant・Georgia・明朝）は使わない。数字も同じゴシック。例外はメッセージカードの印字プレビュー（明朝）とクーポンコード（等幅）だけ
 
 ### 画像フィルター (Le Labo スタイル)
 - グローバル: `sepia(10%) grayscale(10%) contrast(95%) brightness(102%)`

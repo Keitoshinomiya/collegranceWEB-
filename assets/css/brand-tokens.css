@@ -1,0 +1,16 @@
+/* COLLEGRANCE ブランド共通トークン（書体・色）
+   書体は Amazon 商品画像と同じ りょうゴシックPlusN（Adobe Fonts・assets/js/brand-fonts.js が読込）。
+   読めない環境では同じ設計者の兄弟書体 Noto Sans JP（Google Fonts）で表示する。
+   セリフ体・明朝体は使わない（メッセージカードの印字プレビューだけは例外）。
+   書体を変えるときはこのファイルの --brand-font だけを書き換える。 */
+:root{
+  --brand-font:'ryo-gothic-plusn','Noto Sans JP','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
+  --brand-ink:#1a1a1a;
+  --brand-sub:#5f5f5c;
+  --brand-mute:#9a9a96;
+  --brand-line:#e6e5e1;
+  --brand-label:#808080;  /* Amazon画像の「オードトワレ」帯の灰色 */
+  --brand-teal:#1a9fae;   /* コットンポーチ・ラベルのロゴ色 */
+}
+/* 数字は全ページ同じゴシックの等幅数字（桁がそろい、1 が I に見えない） */
+body{font-variant-numeric:lining-nums}

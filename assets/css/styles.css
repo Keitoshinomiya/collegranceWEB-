@@ -10,10 +10,10 @@
   --color-border: #e0e0e0;         /* Lighter border for subtle divisions */
   
   /* Typography */
-  --font-serif: 'Zen Kaku Gothic Antique', sans-serif; /* Unified Brand Font */
-  --font-sans: 'Zen Kaku Gothic Antique', sans-serif;  /* Unified Brand Font */
-  --font-eng: 'Zen Kaku Gothic Antique', sans-serif;   /* Unified Brand Font (Replacing Courier for consistency) */
-  --font-mono: 'Zen Kaku Gothic Antique', sans-serif;  /* Unified Brand Font */
+  --font-serif: var(--brand-font,'Noto Sans JP'),sans-serif; /* Unified Brand Font */
+  --font-sans: var(--brand-font,'Noto Sans JP'),sans-serif;  /* Unified Brand Font */
+  --font-eng: var(--brand-font,'Noto Sans JP'),sans-serif;   /* Unified Brand Font (Replacing Courier for consistency) */
+  --font-mono: var(--brand-font,'Noto Sans JP'),sans-serif;  /* Unified Brand Font */
   
   /* Spacing */
   --spacing-section: 140px;

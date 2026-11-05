@@ -4300,3 +4300,9 @@ article {
 .hero:hover .hero-sound-indicator {
   opacity: 1;
 }
+
+/* ===== 記事の見出しを Amazon 商品画像のトンマナに（2026-11-05）=====
+   見出しは極太・字間を詰める（全体の h1〜h4 は letter-spacing .1em / 400 のため記事だけ上書き） */
+.article-title{font-weight:var(--brand-heading-weight,800);letter-spacing:.04em;line-height:1.45}
+.article-body h2{font-weight:var(--brand-heading-weight,800);letter-spacing:.04em;line-height:1.5}
+.article-body h3{font-weight:700;letter-spacing:.04em;line-height:1.5}

@@ -283,7 +283,7 @@ def build_article_html(article: Dict[str, Any], image_path: str, category: str) 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/brand-tokens.css?v=2">
     <script src="/assets/js/brand-fonts.js" defer></script>
-<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/styles.css?v=2">
     <link rel="icon" href="assets/images/logo.png" type="image/png">
       <link rel="stylesheet" href="assets/css/header.css">
   <style>

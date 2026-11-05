@@ -1,7 +1,7 @@
 // ブランド書体 りょうゴシックPlusN を Adobe Fonts（Webプロジェクト）から読み込む。
 // kitId が空のあいだは何もしない＝ brand-tokens.css の Noto Sans JP で表示される。
 (function (d) {
-  var kitId = '';
+  var kitId = 'vyd4zxl'; // Adobe Fonts Webプロジェクト「collegrance」（美延さんのAdobeアカウント・2026-11-05作成）
   if (!kitId) return;
   var config = { kitId: kitId, scriptTimeout: 3000, async: true },
     h = d.documentElement,

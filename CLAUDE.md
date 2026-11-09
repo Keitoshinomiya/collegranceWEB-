@@ -257,7 +257,7 @@ Phase 1: GA4イベント ✅ → Phase 2: Meta Pixel → Phase 3: LINE LIFF連�
 ### 重要ルール
 - **本番デプロイ前にStripeキーをliveに戻す**（shop.htmlの`STRIPE_PK`とNetlify環境変数の`STRIPE_SECRET_KEY`）
 - **Stripe Webhookは本番用とテスト用で別**（本番URL: `https://collegrance.com/.netlify/functions/stripe-webhook`）
-- **並行輸入品の表記**: 「海外正規代理店から直接仕入れ。国内定価よりもお求めやすい価格でお届けします。」（ポジティブに表現）
+- **並行輸入品の表記（2026-11-09 四宮さん決定）**: 「並行輸入品」とはっきり書き、「ブランドとは関係のない、当社（合同会社ヤシノミ）が独自に詰め替えた商品」と書く。**「正規品」「正規ルート」「海外正規代理店」で品質を保証する書き方は禁止**（国内正規品と受け取られるため）。バッジは「本物のみ・真贋確認済み」。全チャネルの文面: `~/Desktop/01_claude-outputs/1_Collegrance/並行輸入品表記_統一案_2026-11-09.md`
 
 ### 配送・返品ポリシー
 - 送料: ¥700（¥30,000以上で無料）、小分けはAmazon経由で送料無料

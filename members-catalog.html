@@ -368,7 +368,7 @@
                 <a href="/">すべての商品<span class="mega-sub">130種類以上のブランド香水</span></a>
                 <a href="/#popular">人気ランキング<span class="mega-sub">売れ筋TOP商品</span></a>
                 <a href="/#sample">小分けで試す<span class="mega-sub">1.5ml お試しサイズ</span></a>
-                <a href="/#fullbottle">フルボトル<span class="mega-sub">正規フルサイズ</span></a>
+                <a href="/#fullbottle">フルボトル<span class="mega-sub">フルサイズ</span></a>
               </div>
               <div class="mega-drop-col">
                 <h4>香り系統から探す</h4>
@@ -485,13 +485,13 @@
     <h2 class="fade-up">お試しから、本命へ。</h2>
     <p class="lead fade-up delay-1">
       小分けで香りを体験されたお客様だけの、フルボトル特別カタログ。<br>
-      市場価格よりお得な会員価格で、正規品をお届けします。
+      市場価格よりお得な会員価格でお届けします（並行輸入品）。
     </p>
     <div class="value-grid">
       <div class="value-item fade-up delay-1">
         <div class="value-icon">&#128142;</div>
-        <div class="value-title">正規品のみ取扱い</div>
-        <div class="value-desc">全品正規ルートで仕入れ。<br>偽物・並行輸入品は一切ありません。</div>
+        <div class="value-title">本物のみ・真贋確認済み</div>
+        <div class="value-desc">ブランド香水の並行輸入品を、海外の仕入先から直接仕入れています。<br>偽物・コピー品は一切扱いません。</div>
       </div>
       <div class="value-item fade-up delay-2">
         <div class="value-icon">&#127991;</div>
@@ -539,7 +539,7 @@
   <div class="trust-bar">
     <div class="trust-bar-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-      全品正規品保証
+      本物のみ・真贋確認済み
     </div>
     <div class="trust-bar-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
@@ -804,10 +804,10 @@ function renderCard(p, variants, hasVariants){
         <div class="p-name">${p.name}</div>
         <div class="p-size">${p.nameJa||''} ・ ${p.size}</div>
         ${hasVariants?tabsHtml:''}
-        ${p.tester?'<div class="p-tester-note">'+(p.testerNote||'テスター品のため、外装箱が無地の白箱となります。<br>商品本体は正規品と同一です。')+'</div>':''}
+        ${p.tester?'<div class="p-tester-note">'+(p.testerNote||'テスター品（並行輸入品）のため、外装箱が無地の白箱となります。<br>販売品と同じ中身として流通しているテスター品です。')+'</div>':''}
         <div class="p-tags">${tagsHtml}</div>
         ${p.notes?`<div class="p-note-label">Notes</div><div class="p-notes">${p.notes}</div>`:''}
-        <div class="p-auth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>正規品保証</div>
+        <div class="p-auth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>本物のみ・真贋確認済み</div>
         <div class="p-price-row">
           <div><span class="price-main">&yen;${price.toLocaleString()}</span><span class="price-tax">税込</span></div>
         </div>

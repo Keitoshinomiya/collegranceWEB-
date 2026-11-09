@@ -315,7 +315,7 @@ def cta_block(ctx=""):
     g = "typeof gtag!=='undefined'&&gtag"
     return f"""<div class="cg-cta">
   <div class="cg-cta-lead">気になった香りは、1.5mlから試せます</div>
-  <div class="cg-cta-sub">フルボトルを買う前に、少量でじっくり。COLLEGRANCEは正規品を量り売りでお届けする香水のお試し専門店です。</div>
+  <div class="cg-cta-sub">フルボトルを買う前に、少量でじっくり。COLLEGRANCEは、ブランド香水の並行輸入品を当社が独自に詰め替え、量り売りでお届けする香水のお試し専門店です。</div>
   <div class="cg-cta-btns">
     <a class="cg-cta-shop" href="/shop.html" onclick="{g}('event','click_shop_cta',{{'event_category':'circulation','event_label':location.pathname}});">お試しサイズを探す</a>
     <a class="cg-cta-diag" href="{diag}" onclick="{g}('event','click_diagnosis_cta',{{'event_category':'circulation','event_label':location.pathname}});">AI香水診断（無料・1分）</a>

@@ -324,7 +324,7 @@ def build_article_html(article: Dict[str, Any], image_path: str, category: str) 
                 <a href="shop.html">すべての商品<span class="mega-sub">130種類以上のブランド香水</span></a>
                 <a href="shop.html#popular">人気ランキング<span class="mega-sub">売れ筋TOP商品</span></a>
                 <a href="shop.html#sample">小分けで試す<span class="mega-sub">1.5ml お試しサイズ</span></a>
-                <a href="shop.html#fullbottle">フルボトル<span class="mega-sub">正規フルサイズ</span></a>
+                <a href="shop.html#fullbottle">フルボトル<span class="mega-sub">フルサイズ</span></a>
               </div>
               <div class="mega-drop-col">
                 <h4>香り系統から探す</h4>

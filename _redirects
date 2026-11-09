@@ -1,6 +1,14 @@
 # Netlify Redirects Configuration
 # COLLEGRANCE Website
 
+# 画像は Cloudflare Pages（images.collegrance.com＝転送量無料）から配信する（2026-11-09 Netlify帯域超過対策）
+# Netlify は帯域が全サイト合計100GB/月・超過100GBごと$55。ここで転送すれば Netlify 側は数百バイトの応答だけになる。
+# ⚠️ 画像を足したら Cloudflare にも載せる: main への push 前に scripts/git-hooks/pre-push が自動で
+#    scripts/sync-assets-cdn.sh を実行する（フック未導入の環境では手動で実行）。
+# 動画（/assets/videos/）は転送しない: Cloudflare Pages は Range（部分取得）に応答せず iPhone の Safari で再生できなくなるため。
+# 安定したら 302 → 301 に変える予定（301 はブラウザに永久保存され戻せないため、まず 302 で様子見）。
+/assets/images/*    https://images.collegrance.com/assets/images/:splat    302!
+
 # 特定商取引法ページへのクリーンURL対応
 /tokushoho    /tokushoho.html    200
 

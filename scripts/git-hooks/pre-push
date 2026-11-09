@@ -1,0 +1,29 @@
+#!/bin/bash
+# main へ push する前に、画像の変更を Cloudflare Pages（images.collegrance.com）へ同期する。
+# 2026-11-09〜 /assets/images/* は images.collegrance.com へ転送しているため、
+# 同期しないまま push すると新しい画像がサイトで表示されない。
+# 導入: ln -sf ../../scripts/git-hooks/pre-push .git/hooks/pre-push
+# 緊急時だけ同期を飛ばす: SKIP_CDN_SYNC=1 git push ...
+[ "${SKIP_CDN_SYNC:-}" = "1" ] && { echo "[CDN同期] SKIP_CDN_SYNC=1 のため省略"; exit 0; }
+
+# worktree から push しても本体の同期スクリプトを使う（.git/hooks は全 worktree 共通）
+HOOK="$(python3 -c 'import os,sys;print(os.path.realpath(sys.argv[1]))' "$0")"
+REPO="$(cd "$(dirname "$HOOK")/../.." && pwd)"
+ZERO=0000000000000000000000000000000000000000
+NEED=""
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ "$remote_ref" = "refs/heads/main" ] || continue
+  [ "$local_sha" = "$ZERO" ] && continue
+  if [ "$remote_sha" = "$ZERO" ] || ! git cat-file -e "$remote_sha" 2>/dev/null; then
+    NEED="$local_sha"
+  elif [ -n "$(git diff --name-only "$remote_sha" "$local_sha" -- assets/images)" ]; then
+    NEED="$local_sha"
+  fi
+done
+
+[ -z "$NEED" ] && exit 0
+echo "[CDN同期] 画像の変更あり → Cloudflare へ同期してから push します"
+if ! bash "$REPO/scripts/sync-assets-cdn.sh" "$NEED"; then
+  echo "[CDN同期] 失敗したため push を止めました。原因を直して再実行してください（画像なしで急ぐ時だけ SKIP_CDN_SYNC=1）" >&2
+  exit 1
+fi

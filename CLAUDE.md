@@ -157,6 +157,12 @@ Q1: 試したことある？ → 分岐
 
 ## 4. 商品画像ルール
 
+### ⚠️ 配信先は Cloudflare（2026-11-09〜）
+- `/assets/images/*` は `_redirects` で **https://images.collegrance.com/**（Cloudflare Pages `collegrance-assets`・転送量無料）へ302転送している。Netlify帯域（全サイト合計100GB/月・超過100GBごと$55）対策
+- **画像を足したら Cloudflare にも載せる**: main への push 前に `.git/hooks/pre-push`（実体 `scripts/git-hooks/pre-push`）が `scripts/sync-assets-cdn.sh` を自動実行する。新しいクローンでは `ln -sf ../../scripts/git-hooks/pre-push .git/hooks/pre-push` で導入。同期が失敗すると push は止まる
+- 動画（`assets/videos/`）は Netlify のまま（Cloudflare Pages が Range 非対応で iPhone の Safari で再生できないため）
+- 外部（Amazon SP-API・モール・LINE・メール等）に画像URLを渡す時は **`https://images.collegrance.com/assets/images/...` を直接使う**（転送をたどらない取得側がある）。モールの説明文画像は Netlify に置かない
+
 ### 生成
 - **スクリプト**: `fetch-product-images.py`（DuckDuckGo検索 → rembg背景除去 → 合成）
 - **サイズ**: 800x1000px、JPEG quality 92

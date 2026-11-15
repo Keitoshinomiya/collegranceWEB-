@@ -30,6 +30,11 @@ try {
   console.error('[price] products.json load failed — falling back to client prices:', e.message);
 }
 
+// 小分け1.5mL（2026-11-15）。data/samples.json に載っている香りだけ。価格は products.json の samplePrice
+let SAMPLES = null;
+try { SAMPLES = require('../../data/samples.json'); } catch (e) { console.error('[sample] samples.json load failed:', e.message); }
+const isSampleItem = (item) => !!item && item.variant === 'sample';
+
 /** index.html の doCheckout() と同じ組み立てで商品名を作る（伝票の品名もここから作られる） */
 function productDisplayName(p) {
   return (p.brand ? p.brand + ' - ' : '') + p.name + (p.nameJa ? ' (' + p.nameJa + ')' : '') + (p.tester ? '【テスター品】' : '');
@@ -177,6 +182,44 @@ exports.handler = async (event) => {
         continue;
       }
 
+      if (isSampleItem(item)) {
+        const p = PRODUCT_BY_ID ? PRODUCT_BY_ID.get(String(item.productId)) : null;
+        const cfg = SAMPLES && SAMPLES.items ? SAMPLES.items[String(item.productId)] : null;
+        if (!p || !cfg || typeof p.samplePrice !== 'number' || p.samplePrice <= 0) {
+          console.warn('[sample] unknown sample:', { productId: item.productId, ip });
+          return { statusCode: 400, body: JSON.stringify({ error: 'お取り扱いのない商品が含まれています。ページを再読み込みしてカートをご確認ください' }) };
+        }
+        if (cfg.soldOut) {
+          return { statusCode: 400, body: JSON.stringify({ error: `「${p.nameJa || p.name}」のお試しは品切れになりました。カートから外してお進みください` }) };
+        }
+        // ケース付き（色はギフトセットと同じ12色・品切れも同じ設定を見る）
+        let kase = null;
+        if (item.case != null && item.case !== '') {
+          kase = giftSetLib ? giftSetLib.CASE_BY_ID[String(item.case)] : null;
+          if (!kase) return { statusCode: 400, body: JSON.stringify({ error: 'ケースの色が不正です。選び直してください' }) };
+          if (kase.soldOut) return { statusCode: 400, body: JSON.stringify({ error: `ケース（${kase.name}）は品切れ中です。別の色をお選びください` }) };
+        }
+        const unit = p.samplePrice + (kase ? (SAMPLES.casePrice || 300) : 0);
+        if (item.price !== unit) {
+          console.warn('[price] sample client price mismatch:', { productId: item.productId, client: item.price, server: unit });
+        }
+        const key = `smp:${p.id}${kase ? ':' + kase.id : ''}`;
+        const same = resolved.find((r) => r.key === key);
+        if (same) { same.quantity += item.quantity; continue; }
+        resolved.push({
+          key,
+          // フルボトルの「テスター品」表記は小分けには付けない
+          name: `${(p.brand ? p.brand + ' - ' : '') + p.name + (p.nameJa ? ' (' + p.nameJa + ')' : '')}【お試し${SAMPLES.size || '1.5ml'}${kase ? '・ケース:' + kase.name : ''}】`,
+          unitAmount: unit,
+          quantity: item.quantity,
+          image: cfg.img ? cfg.img + '.jpg' : (p.img || ''),
+          productMeta: { collegrance_product_id: String(p.id), variant: 'sample', clg_no: String(cfg.no || ''), ...(kase ? { case: kase.id } : {}) },
+          kind: 'sample',
+          sampleNo: String(cfg.no || '') + (kase ? '-' + kase.id : ''),
+        });
+        continue;
+      }
+
       let name = item.name;
       let unitAmount = item.price;
       let image = item.image || '';
@@ -210,6 +253,22 @@ exports.handler = async (event) => {
       if (r.giftSet) giftSetRows.push(r.giftSet.metaValue + (r.quantity > 1 ? `|x${r.quantity}` : ''));
     }
     const hasGiftSet = giftSetRows.length > 0;
+    // 小分けの内訳（smp=030x2,018x1）。発送の分け方・LINEの購入タグ・集計に使う
+    const sampleRows = resolved.filter((r) => r.kind === 'sample');
+    const sampleCount = sampleRows.reduce((n, r) => n + r.quantity, 0);
+    // まとめ買い割引（お試しの合計本数で率が決まる。お試しの行だけ・1本ずつ四捨五入＝カートの表示と同じ計算）
+    const bundleRate = ((SAMPLES && SAMPLES.bundle) || [])
+      .filter((t) => sampleCount >= t.min).reduce((r, t) => Math.max(r, t.rate), 0);
+    let bundleDiscount = 0;
+    if (bundleRate > 0) {
+      const pct = Math.round(bundleRate * 100);
+      for (const r of sampleRows) {
+        const discounted = Math.round(r.unitAmount * (1 - bundleRate));
+        bundleDiscount += (r.unitAmount - discounted) * r.quantity;
+        r.unitAmount = discounted;
+        r.name += `（まとめ買い${pct}%引き）`;
+      }
+    }
     // クーポンを使えるカートか（フルボトルだけ）。ギフトラッピングは line_items 側で足すので resolved には入らない
     const couponEligibleCart = resolved.length > 0 && resolved.every((r) => r.kind === 'fullbottle');
 
@@ -356,6 +415,8 @@ exports.handler = async (event) => {
       ...(giftMode === 'direct' ? { gift_sender: cleanGiftText(metadata.gift_sender, 40) } : {}),
       // ギフトセットの内訳（gs1=030,018,039|エクリュ[|x2]）。Stripe metadata は50キー・1値500文字まで（行は最大20）
       ...(hasGiftSet ? { gift_set_count: String(giftSetRows.length) } : {}),
+      ...(sampleCount ? { sample_count: String(sampleCount), smp: sampleRows.map((r) => `${r.sampleNo}x${r.quantity}`).join(',').slice(0, 500) } : {}),
+      ...(bundleDiscount ? { sample_bundle_rate: String(bundleRate), sample_bundle_discount: String(bundleDiscount) } : {}),
       ...Object.fromEntries(giftSetRows.map((v, i) => [`gs${i + 1}`, v.slice(0, 500)])),
       diagnosis_session_id: (metadata && metadata.diagnosis_session_id) || '',
       ...(lineFriendId ? { line_friend_id: lineFriendId } : {}),

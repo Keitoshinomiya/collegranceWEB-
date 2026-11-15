@@ -201,10 +201,24 @@ exports.handler = async (event) => {
       const shipItems = lineItems.filter((item) => !/送料|ギフトラッピング/.test(item.description || ''));
       const giftOnly = giftSetKeys.length > 0 && shipItems.length > 0
         && shipItems.every((item) => /選べる3本ギフトセット/.test(item.description || item.price?.product?.name || ''));
-      const shipLines = giftOnly
+      // 小分け1.5mL（2026-11-15）。shipping-csv.js と同じ規則で、小分けだけ・上限本数以内ならネコポス
+      const isSample = (item) => (item.price?.product?.metadata || {}).variant === 'sample';
+      const sampleBottles = shipItems.filter(isSample).reduce((n, item) => n + (item.quantity || 1), 0);
+      const sampleOnly = shipItems.length > 0 && shipItems.every(isSample);
+      let nekoposMax = 10;
+      try { nekoposMax = require('../../data/samples.json').nekoposMax || 10; } catch (e) {}
+      const sampleNekopos = sampleOnly && sampleBottles <= nekoposMax;
+      const caseNames = { BLK: 'ブラック', ECR: 'エクリュ', BRN: 'ブラウン', NVY: 'ネイビー', RED: 'レッド', PNK: 'ピンク', LBL: 'ライトブルー', YEL: 'イエロー', SLV: 'シルバー', GLD: 'ゴールド', KHK: 'カーキ', GRY: 'グレー' };
+      const sampleCases = shipItems.filter((item) => isSample(item) && (item.price?.product?.metadata || {}).case)
+        .map((item) => `${caseNames[item.price.product.metadata.case] || item.price.product.metadata.case}×${item.quantity || 1}`);
+      const sampleLines = sampleBottles > 0
+        ? [`:test_tube: *小分け1.5mL* 計${sampleBottles}本 → ${sampleNekopos ? '*ネコポス*' : `*宅配便*（${nekoposMax}本を超える・または他の商品と一緒）`}`,
+          ...(sampleCases.length ? [`　　:large_green_circle: *ケース付き* ${sampleCases.join('、')}（瓶をケースに入れて同梱）`] : [])]
+        : [];
+      const shipLines = (giftOnly || sampleNekopos)
         ? [
           `<${shippingCsvUrl}|:arrow_down: ヤマトB2クラウド用CSV（ネコポス）をダウンロード>`,
-          '_↑ ギフトセットだけの注文はネコポス＝ヤマトのまま。B2クラウドの「ファイル取り込み」にアップロード_',
+          '_↑ ギフトセットだけ・小分けだけの注文はネコポス＝ヤマトのまま。B2クラウドの「ファイル取り込み」にアップロード_',
         ]
         : [
           `<${shippingCsvUrl}|:arrow_down: 佐川（e飛伝Ⅲ）用CSVをダウンロード>`,
@@ -228,6 +242,7 @@ exports.handler = async (event) => {
         `送料: ¥${shippingAmount.toLocaleString()}`,
         `ギフトラッピング: ${hasGiftWrap ? 'あり' : 'なし'}`,
         ...giftLines,
+        ...sampleLines,
         `*合計: ¥${total.toLocaleString()}*`,
         '',
         '*配送先:*',

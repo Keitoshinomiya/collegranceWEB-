@@ -22,6 +22,9 @@
     //    「クリック」の計測はGA4側(linkUrl × sessionSource)で完結済み。
     // ⚠ 本人・家族・従業員・取引先がこのリンク経由で購入することは規約違反（参加要件6(u)）
     associateTag: 'collegrance-22',
+    // Amazonで買えなくなった小分け（2026-11-14〜）は、記事などのAmazonリンクをサイトのお試し購入へ向け直す（2026-11-15）
+    // ASIN → products.json の id。data/samples.json の amazon:false と揃える
+    siteSampleByAsin: { 'B0FSKSJVDC': 1, 'B0FSKQBBXN': 3 },
 
     // 入口別のトラッキングID（2026-09-24 作成）。アソシエイトの「トラッキングID別」レポートで
     // 入口ごとの Amazon 売上が分かる。どれにも当たらない入口（direct・referral 等）は associateTag
@@ -432,6 +435,16 @@
 
     apply(a, channel) {
       const current = a.href;
+      try {
+        const asin = AmazonTracker.extractASIN(current);
+        const sid = asin && CONFIG.siteSampleByAsin ? CONFIG.siteSampleByAsin[asin] : null;
+        if (sid) {
+          a.setAttribute('href', 'https://collegrance.com/?from=recommend&product=' + sid + '&utm_source=site&utm_medium=article&utm_campaign=sample_site');
+          a.removeAttribute('target');
+          a.setAttribute('data-site-sample', String(sid));
+          return;
+        }
+      } catch(e) { /* noop */ }
       const next = AmazonTracker.addTrackingParams(current, channel);
       // 変化が無ければ触らない（attributes 監視の再発火で無限ループしないための条件でもある）
       if (next && next !== current) a.setAttribute('href', next);

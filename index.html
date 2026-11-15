@@ -435,6 +435,37 @@
     .sample-btn{width:100%;padding:12px 12px;background:#fff;color:var(--text);border:1px solid var(--accent);font-family:var(--font);font-size:.64rem;letter-spacing:.1em;cursor:pointer;transition:all .3s var(--ease);display:flex;align-items:center;justify-content:center;gap:6px;border-radius:2px}
     .sample-btn:hover{background:var(--bg2)}
     .sample-btn .btn-price{font-weight:600}
+    button.sample-btn{cursor:pointer;display:block;text-align:center}
+    .sample-amz{display:block;text-align:center;font-size:.52rem;color:var(--sub);text-decoration:underline;padding:6px 0 2px;letter-spacing:.04em}
+    .sample-intro{display:flex;align-items:center;gap:8px;margin:2px 0 8px;font-size:.54rem;line-height:1.5;color:var(--text)}
+    .sample-intro span{color:#a0522d;font-size:.5rem}
+    .sample-thumb{width:36px;height:48px;object-fit:contain;flex-shrink:0}
+    .sample-lp-bundle{font-size:.58rem;color:#a0522d;text-align:center;margin:-6px 0 14px}
+    .case-bottle{float:right;width:30px;height:40px;object-fit:contain;margin:0 22px 0 8px}
+    .csx-next{font-size:.54rem;color:#a0522d;margin:2px 0 4px}
+    .sample-case-btn{width:100%;margin-top:6px;padding:10px 12px;background:var(--bg2);color:var(--text);border:1px dashed var(--accent);font-family:var(--font);font-size:.6rem;letter-spacing:.06em;cursor:pointer;min-height:44px}
+    .sample-case-btn .btn-price{font-weight:600}
+    .sample-case-note{display:block;font-size:.5rem;color:var(--sub);margin-top:2px;letter-spacing:.04em}
+    .case-picker{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:3000;display:none;align-items:flex-end;justify-content:center}
+    .case-picker.show{display:flex}
+    .case-sheet{position:relative;background:#fff;width:100%;max-width:480px;max-height:85vh;max-height:85dvh;overflow:auto;padding:22px 18px 20px;border-radius:10px 10px 0 0}
+    .case-close{position:absolute;top:8px;right:10px;background:none;border:none;font-size:1.4rem;line-height:1;cursor:pointer;color:var(--sub);padding:6px}
+    .case-title{font-size:.8rem;letter-spacing:.08em;margin-bottom:6px}
+    .case-sub{font-size:.58rem;color:var(--sub);line-height:1.7;margin-bottom:14px}
+    .case-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .case-sw{background:none;border:1px solid var(--border);border-radius:6px;padding:6px 4px;cursor:pointer;font-family:var(--font);font-size:.5rem;color:var(--text);display:flex;flex-direction:column;align-items:center;gap:4px;min-height:44px}
+    .case-sw img{width:44px;height:44px;object-fit:cover;border-radius:50%}
+    .case-sw.is-out{opacity:.4;cursor:default}
+    .case-total{margin-top:14px;font-size:.6rem;text-align:center;color:var(--text)}
+    .cart-add-case{display:block;margin:4px 0 2px;padding:4px 0;background:none;border:none;color:var(--accent);font-family:var(--font);font-size:.55rem;text-decoration:underline;cursor:pointer;text-align:left}
+    .cart-sample-xsell{margin:4px 0 10px;padding:10px 12px;border:1px solid var(--border);border-radius:6px;background:#fff}
+    .csx-title{font-size:.6rem;letter-spacing:.06em;margin-bottom:2px}
+    .csx-title span{font-size:.5rem;color:var(--sub);margin-left:6px;letter-spacing:.02em}
+    .csx-sub{font-size:.5rem;color:var(--sub);line-height:1.6;margin-bottom:8px}
+    .csx-chips{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+    .csx-chip{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:8px 10px;min-height:44px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;font-family:var(--font);cursor:pointer;text-align:left}
+    .csx-n{font-size:.54rem;color:var(--text);white-space:nowrap}
+    .csx-p{font-size:.52rem;color:var(--accent);font-weight:600}
     .add-btn{width:100%;padding:12px 12px;background:var(--accent);color:#fff;border:1px solid var(--accent);font-family:var(--font);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:all .3s var(--ease);display:flex;align-items:center;justify-content:center;gap:4px;border-radius:2px}
     .add-btn:hover{background:transparent;color:var(--text)}
     .add-btn.added{background:transparent;color:var(--text)}
@@ -1728,6 +1759,7 @@
     </div>
     <div class="cart-foot">
       <div class="cart-row-sm"><span>小計</span><span id="c-sub">&yen;0</span></div>
+      <div class="cart-row-sm" id="c-bundle-row" style="display:none;color:#a0522d"><span id="c-bundle-label">まとめ買い割引</span><span id="c-bundle">-&yen;0</span></div>
       <div class="cart-row-sm"><span>送料</span><span id="c-ship">&yen;0</span></div>
       <div class="cart-row-sm" id="gift-wrap-row" style="margin-top:8px">
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.62rem;color:var(--sub)">
@@ -1756,6 +1788,7 @@
           </div>
         </div>
       </div>
+      <div id="cart-sample-xsell" class="cart-sample-xsell" style="display:none"></div>
       <div class="cart-divider"></div>
       <div class="cart-total-row">
         <span class="cart-total-label">合計（税込）</span>
@@ -1771,7 +1804,7 @@
           <button type="button" onclick="applyCouponManual()" style="padding:8px 12px;background:var(--accent);color:#fff;border:none;font-family:var(--font);font-size:.6rem;letter-spacing:.08em;cursor:pointer;border-radius:2px">適用</button>
         </div>
         <div id="coupon-input-msg" style="margin-top:4px;font-size:.55rem"></div>
-        <div id="coupon-scope-note" style="margin-top:2px;font-size:.55rem;color:var(--sub);text-align:center">クーポンはフルボトルのご注文にお使いいただけます（ギフトセットは対象外）</div>
+        <div id="coupon-scope-note" style="margin-top:2px;font-size:.55rem;color:var(--sub);text-align:center">クーポンはフルボトルのご注文にお使いいただけます（ギフトセット・お試しは対象外）</div>
       </div>
       <div id="ship-msg"></div>
       <div class="cart-assure">
@@ -1860,6 +1893,11 @@ async function loadProducts(){
     injectProductSchema();
     populateBrandTiles();
     populateJournalPicks();
+    /* 小分け1.5mLのサイト販売の設定（2026-11-15）。読めなければ従来どおりAmazonへのボタンを出す */
+    try {
+      const sr = await fetch('data/samples.json?v=20261115a');
+      if(sr.ok) SAMPLE_CFG = await sr.json();
+    } catch(e){ console.warn('Failed to load samples.json', e); }
     buildGrid();
     /* 選べる3本ギフトセットの定義（失敗してもショップは続行。カート内のギフトセットだけ復元されない） */
     try {
@@ -2251,8 +2289,20 @@ function renderCard(p){
   if(isSample){
     var sPrice = p.samplePrice || SAMPLE_PRICE_DEFAULT;
     var sampleHref = amazonAsin ? 'https://www.amazon.co.jp/dp/' + amazonAsin + '?th=1&psc=1' : '#';
-    sampleBtnHtml = '<a href="' + sampleHref + '" ' + (amazonAsin ? 'data-amazon-asin="' + amazonAsin + '"' : '') + ' class="sample-btn" target="_blank" rel="noopener">' +
-      '小分けで試す <span class="btn-price">&yen;' + sPrice.toLocaleString() + '</span></a>';
+    if(sampleSellable(p)){
+      /* サイトのカートへ（主）＋ Amazonで買える香りだけ小さく「Amazonで見る」 */
+      var sImg = sampleImg(p);
+      sampleBtnHtml = '<div class="sample-intro">' +
+        (sImg ? '<img src="' + sImg + '" alt="お試し1.5mLの瓶" class="sample-thumb" loading="lazy" width="36" height="48">' : '') +
+        '<div><b>お試し1.5mL</b>（約20プッシュ・約1週間）<br><span>' + sampleBundleNote() + '・送料無料</span></div></div>' +
+        '<button type="button" class="sample-btn" onclick="event.stopPropagation();addSampleCart(' + p.id + ',\'card\')">' +
+        'お試し1.5mLをカートへ <span class="btn-price">&yen;' + sPrice.toLocaleString() + '</span></button>' +
+        '<button type="button" class="sample-case-btn" onclick="event.stopPropagation();openCasePicker(' + p.id + ',\'card\')">ケース付きで <span class="btn-price">&yen;' + (sPrice + sampleCasePrice()).toLocaleString() + '</span><span class="sample-case-note">12色から選べる</span></button>' +
+        (sampleOnAmazon(p) ? '<a href="' + sampleHref + '" data-amazon-asin="' + amazonAsin + '" class="sample-amz" target="_blank" rel="noopener" onclick="event.stopPropagation()">Amazonで見る</a>' : '');
+    } else {
+      sampleBtnHtml = '<a href="' + sampleHref + '" ' + (amazonAsin ? 'data-amazon-asin="' + amazonAsin + '"' : '') + ' class="sample-btn" target="_blank" rel="noopener">' +
+        '小分けで試す <span class="btn-price">&yen;' + sPrice.toLocaleString() + '</span></a>';
+    }
   }
 
   /* Fullbottle button */
@@ -2447,6 +2497,124 @@ var cart = [];
    通常商品は id で1行、ギフトセットは「香り3つ＋ケース色」の組み合わせごとに1行（key で区別）。
    価格はここでも計算するが表示用。決済金額はサーバー（create-checkout.js）が同じ定義から再計算する。 */
 var GIFT_SET = null;
+/* === 小分け1.5mL（2026-11-15） ===
+   定義は data/samples.json（create-checkout.js・shipping-csv.js と共通）。価格は products.json の samplePrice。
+   決済金額はサーバーが samplePrice から決め直す。Amazonで買えない香り（amazon:false）はサイトのボタンだけ出す */
+var SAMPLE_CFG = null;
+function sampleCfg(p){ return (SAMPLE_CFG && SAMPLE_CFG.items && p) ? SAMPLE_CFG.items[String(p.id)] || null : null; }
+function sampleSellable(p){ var c = sampleCfg(p); return !!(c && !c.soldOut && p.samplePrice > 0); }
+function sampleOnAmazon(p){ var c = sampleCfg(p); return !!(p && p.amazonAsin && (!c || c.amazon !== false)); }
+function sampleCasePrice(){ return (SAMPLE_CFG && SAMPLE_CFG.casePrice) || 300; }
+/* まとめ買い割引（create-checkout.js と同じ表・同じ計算） */
+function sampleBundleTiers(){ return (SAMPLE_CFG && SAMPLE_CFG.bundle) || []; }
+function sampleBundleRate(count){ return sampleBundleTiers().filter(function(t){ return count >= t.min; }).reduce(function(r, t){ return Math.max(r, t.rate); }, 0); }
+function sampleBottleCount(){ return cart.filter(function(c){ return c.sample; }).reduce(function(n, c){ return n + c.qty; }, 0); }
+function sampleBundleDiscount(){
+  var rate = sampleBundleRate(sampleBottleCount());
+  if(!rate) return { rate: 0, amount: 0 };
+  var amt = cart.filter(function(c){ return c.sample; }).reduce(function(sum, c){ return sum + (c.sellPrice - Math.round(c.sellPrice * (1 - rate))) * c.qty; }, 0);
+  return { rate: rate, amount: amt };
+}
+function sampleBundleNote(){
+  var t = sampleBundleTiers(); if(!t.length) return '';
+  return t.map(function(x, i){ return x.min + '本' + (i === t.length - 1 ? '以上' : '') + 'で' + Math.round(x.rate * 100) + '%'; }).join('・') + '引き';
+}
+function sampleImg(p){ var c = sampleCfg(p); return c && c.img ? c.img + '.webp' : ''; }
+function caseById(caseId){
+  if(!caseId || !GIFT_SET || !GIFT_SET.cases) return null;
+  return GIFT_SET.cases.find(function(k){ return k.id === caseId; }) || null;
+}
+function makeSampleItem(id, qty, caseId){
+  var p = PRODUCTS.find(function(x){ return x.id === id; });
+  if(!p || !sampleSellable(p)) return null;
+  var k = caseId ? caseById(caseId) : null;
+  if(caseId && (!k || k.soldOut)) return null;
+  return Object.assign({}, p, {
+    key: 'smp:' + p.id + (k ? ':' + k.id : ''),
+    sample: true,
+    caseId: k ? k.id : '',
+    caseName: k ? k.name : '',
+    img: sampleImg(p) || p.img,
+    tester: false,
+    sellPrice: p.samplePrice + (k ? sampleCasePrice() : 0),
+    size: ((SAMPLE_CFG && SAMPLE_CFG.size) || '1.5ml') + '（お試し）' + (k ? '＋ケース:' + k.name : ''),
+    qty: Math.min(Math.max(qty || 1, 1), 20)
+  });
+}
+function addSampleCart(id, from, caseId){
+  var g = makeSampleItem(id, 1, caseId);
+  if(!g) return;
+  var ex = cart.find(function(x){ return cartKey(x) === g.key; });
+  if(ex){ ex.qty = Math.min(ex.qty + 1, 20); } else { cart.push(g); }
+  ga4Event('add_to_cart', { currency: 'JPY', value: g.sellPrice, items: [ga4Item(g)], item_variant: g.caseId ? 'sample_case' : 'sample', placement: from || '' });
+  refreshCart();
+  showCartToast(g.brand + ' ' + (g.nameJa || g.name) + '（お試し' + (g.caseName ? '・ケース:' + g.caseName : '') + '）');
+}
+/* カートの小分けの行にケースを付ける（同じ香り・同じ色の行があればまとめる） */
+function attachCaseToCart(key, caseId){
+  var item = cart.find(function(x){ return cartKey(x) === key; });
+  if(!item || !item.sample) return;
+  var g = makeSampleItem(item.id, item.qty, caseId);
+  if(!g) return;
+  cart = cart.filter(function(x){ return cartKey(x) !== key; });
+  var ex = cart.find(function(x){ return cartKey(x) === g.key; });
+  if(ex){ ex.qty = Math.min(ex.qty + g.qty, 20); } else { cart.push(g); }
+  ga4Event('add_to_cart', { currency: 'JPY', value: sampleCasePrice() * g.qty, items: [ga4Item(g, g.qty)], item_variant: 'sample_case', placement: 'cart_attach_case' });
+  refreshCart();
+}
+/* ケースの色選び（商品カード・おすすめ画面・カートから開く） */
+var _casePick = null;
+function openCasePicker(id, from, cartItemKey){
+  if(!GIFT_SET || !GIFT_SET.cases) return;
+  var p = PRODUCTS.find(function(x){ return x.id === id; });
+  if(!p) return;
+  _casePick = { id: id, from: from || '', key: cartItemKey || '' };
+  var ov = document.getElementById('case-picker');
+  if(!ov){
+    ov = document.createElement('div');
+    ov.id = 'case-picker';
+    ov.className = 'case-picker';
+    ov.setAttribute('role', 'dialog');
+    ov.setAttribute('aria-modal', 'true');
+    ov.addEventListener('click', function(e){ if(e.target === ov) closeCasePicker(); });
+    document.body.appendChild(ov);
+  }
+  var addPrice = sampleCasePrice();
+  ov.innerHTML = '<div class="case-sheet">' +
+    '<button type="button" class="case-close" onclick="closeCasePicker()" aria-label="閉じる">&times;</button>' +
+    (sampleImg(p) ? '<img src="' + sampleImg(p) + '" alt="" class="case-bottle" width="30" height="40">' : '') +
+    '<div class="case-title">ケースの色を選ぶ</div>' +
+    '<div class="case-sub">' + (p.nameJa || p.name) + ' のお試し1.5mLを、ケースに入れてお届けします（+&yen;' + addPrice.toLocaleString() + '）。バッグや鍵に付けて持ち歩けます</div>' +
+    '<div class="case-grid">' + GIFT_SET.cases.map(function(k){
+      return '<button type="button" class="case-sw' + (k.soldOut ? ' is-out' : '') + '"' + (k.soldOut ? ' disabled' : '') + ' onclick="chooseCase(\'' + k.id + '\')">' +
+        '<img src="' + k.swatch + '.jpg" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'" style="background:' + (k.hex || '#ccc') + '">' +
+        '<span>' + k.name + (k.soldOut ? '（品切れ）' : '') + '</span></button>';
+    }).join('') + '</div>' +
+    '<div class="case-total">お試し &yen;' + p.samplePrice.toLocaleString() + ' ＋ ケース &yen;' + addPrice.toLocaleString() + ' ＝ <b>&yen;' + (p.samplePrice + addPrice).toLocaleString() + '</b>（税込・送料無料）</div>' +
+  '</div>';
+  ov.classList.add('show');
+  ga4Event('select_content', { content_type: 'case_picker_open', item_id: String(id), placement: from || '' });
+}
+function closeCasePicker(){ var ov = document.getElementById('case-picker'); if(ov) ov.classList.remove('show'); _casePick = null; }
+function chooseCase(caseId){
+  var c = _casePick; closeCasePicker();
+  if(!c) return;
+  if(c.key) attachCaseToCart(c.key, caseId); else addSampleCart(c.id, c.from, caseId);
+}
+/* カートに小分けが1〜2本の時に出す「一緒に比べる香り」（同じ系統→人気の順に3つ） */
+function sampleXsellPicks(){
+  var inCart = cart.filter(function(c){ return c.sample; });
+  var bottles = inCart.reduce(function(n, c){ return n + c.qty; }, 0);
+  var tiers = sampleBundleTiers();
+  var maxMin = tiers.length ? tiers[tiers.length - 1].min : 3;
+  if(bottles < 1 || bottles >= maxMin) return [];
+  var ids = {}; var tags = {};
+  inCart.forEach(function(c){ ids[c.id] = 1; (c.tags || []).forEach(function(t){ tags[t] = 1; }); });
+  return PRODUCTS.filter(function(p){ return sampleSellable(p) && !ids[p.id]; })
+    .map(function(p){ var sc = (p.tags || []).some(function(t){ return tags[t]; }) ? 2 : 0; sc += p.popular ? 1 : 0; return { p: p, sc: sc }; })
+    .sort(function(a, b){ return (b.sc - a.sc) || ((b.p.salesCount || 0) - (a.p.salesCount || 0)); })
+    .slice(0, 3).map(function(x){ return x.p; });
+}
 function cartKey(c){ return c.key || String(c.id); }
 function cartHasGiftSet(){ return cart.some(function(c){ return !!c.giftSet; }); }
 function makeGiftSetItem(scents, caseId, qty){
@@ -2512,6 +2680,7 @@ function persistCart(){
     if(cart.length === 0){ localStorage.removeItem(CART_STORAGE_KEY); return; }
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify({
       items: cart.map(function(c){
+        if(c.sample) return c.caseId ? { id: c.id, qty: c.qty, s: 1, c: c.caseId } : { id: c.id, qty: c.qty, s: 1 };
         return c.giftSet ? { id: c.id, qty: c.qty, gs: { s: c.giftSet.scents, c: c.giftSet.case } } : { id: c.id, qty: c.qty };
       }),
       updated_at: Date.now()
@@ -2538,6 +2707,11 @@ function restoreCart(){
         if(!g) return;
         var same = cart.find(function(x){ return cartKey(x) === g.key; });
         if(same){ same.qty = Math.min(same.qty + g.qty, 20); } else { cart.push(g); }
+        return;
+      }
+      if(it && it.s){
+        var sm = makeSampleItem(it.id, it.qty, it.c || '');
+        if(sm && !cart.find(function(x){ return cartKey(x) === sm.key; })) cart.push(sm);
         return;
       }
       var p = PRODUCTS.find(function(x){ return x.id === it.id; });
@@ -2602,7 +2776,7 @@ function isLineInAppBrowser(){
 function buildHandoffUrl(){
   var p = new URLSearchParams();
   p.set('handoff', '1');
-  p.set('hc', cart.map(function(c){ return (c.giftSet ? giftSetToken(c) : c.id) + '.' + c.qty; }).join('_'));
+  p.set('hc', cart.map(function(c){ return (c.giftSet ? giftSetToken(c) : (c.sample ? 's' + c.id + (c.caseId || '') : c.id)) + '.' + c.qty; }).join('_'));
   var cpn = getStoredCoupon();
   if(cpn && isValidCouponCode(cpn)) p.set('cpn', cpn);
   var fid = '';
@@ -2703,6 +2877,12 @@ function applyHandoffFromUrl(){
         if(g && !restored.find(function(x){ return cartKey(x) === g.key; })) restored.push(g);
         return;
       }
+      var sm = /^s(\d{1,6})([A-Z]{3})?\.(\d{1,2})$/.exec(tok);
+      if(sm){
+        var si = makeSampleItem(parseInt(sm[1], 10), parseInt(sm[3], 10), sm[2] || '');
+        if(si && !restored.find(function(x){ return cartKey(x) === si.key; })) restored.push(si);
+        return;
+      }
       var m = /^(\d{1,6})\.(\d{1,2})$/.exec(tok);
       if(!m) return;
       var id = parseInt(m[1], 10), qty = Math.min(Math.max(parseInt(m[2], 10) || 1, 1), 20);
@@ -2784,7 +2964,7 @@ function buildSnapshotPayload(){
   if(goAt && Date.now() - goAt < HANDOFF_SNAPSHOT_MUTE_MS) return null;
   return JSON.stringify({
     friend_id: fid,
-    items: cart.map(function(c){ return { id: c.id, name: c.brand + ' ' + (c.nameJa || c.name), qty: c.qty, price: c.sellPrice }; }),
+    items: cart.map(function(c){ return { id: c.id, name: c.brand + ' ' + (c.nameJa || c.name) + (c.sample ? '（お試し1.5ml）' : ''), qty: c.qty, price: c.sellPrice }; }),
     total_jpy: cart.reduce(function(s,c){ return s + c.sellPrice * c.qty; }, 0)
   });
 }
@@ -2858,13 +3038,13 @@ function updateCouponScopeMsg(){
   var cm = document.getElementById('coupon-input-msg');
   if(!cm) return;
   var code = getStoredCoupon();
-  var hasOther = cart.some(function(c){ return !!c.giftSet; });
-  var hasFull = cart.some(function(c){ return !c.giftSet; });
+  var hasOther = cart.some(function(c){ return !!(c.giftSet || c.sample); });
+  var hasFull = cart.some(function(c){ return !(c.giftSet || c.sample); });
   if(code && hasOther){
     cm.style.color = '#a0522d';
     cm.textContent = hasFull
-      ? 'ギフトセットが入っているため、このご注文ではクーポン（' + code + '）は使われません。クーポンを使う場合は、フルボトルだけでご注文ください。'
-      : 'クーポン（' + code + '）はフルボトルのご注文にお使いいただけます。ギフトセットのご注文では割引されません。';
+      ? 'ギフトセット・お試しが入っているため、このご注文ではクーポン（' + code + '）は使われません。クーポンを使う場合は、フルボトルだけでご注文ください。'
+      : 'クーポン（' + code + '）はフルボトルのご注文にお使いいただけます。ギフトセット・お試しのご注文では割引されません。';
     cm.setAttribute('data-scope', '1');
   } else if(cm.getAttribute('data-scope') === '1'){
     cm.removeAttribute('data-scope');
@@ -2886,6 +3066,7 @@ function ga4Item(p, qty){
     item_brand: p.brand,
     item_category: (p.tags && p.tags[0]) || '',
     price: p.sellPrice,
+    item_variant: p.sample ? (p.caseId ? 'sample_case' : 'sample') : (p.giftSet ? 'giftset' : 'fullbottle'),
     quantity: qty || 1
   };
 }
@@ -2992,7 +3173,7 @@ function changeQty(id, d){
   var item = cart.find(function(x){ return cartKey(x) === key; });
   if(!item) return;
   item.qty += d;
-  if(item.giftSet && item.qty > 20) item.qty = 20;
+  if((item.giftSet || item.sample) && item.qty > 20) item.qty = 20;
   if(item.qty <= 0) cart = cart.filter(function(x){ return cartKey(x) !== key; });
   refreshCart();
 }
@@ -3059,7 +3240,17 @@ function refreshCart(){
   try { updateGiftPanel(); } catch(e){}
   var giftFee = (giftWrap && giftWrap.checked && cart.length > 0 && !cartHasGiftSet()) ? 300 : 0;
 
-  var total = sub + ship + giftFee;
+  var bd = { rate: 0, amount: 0 };
+  try { bd = sampleBundleDiscount(); } catch(e){}
+  var total = sub - bd.amount + ship + giftFee;
+  try {
+    var bRow = document.getElementById('c-bundle-row');
+    if(bRow){
+      bRow.style.display = bd.amount > 0 ? '' : 'none';
+      document.getElementById('c-bundle-label').textContent = 'まとめ買い割引（お試し' + sampleBottleCount() + '本で' + Math.round(bd.rate * 100) + '%引き）';
+      document.getElementById('c-bundle').textContent = '-\u00a5' + bd.amount.toLocaleString();
+    }
+  } catch(e){}
 
   document.getElementById('cart-count').textContent = count;
   document.getElementById('c-sub').textContent  = '\u00a5' + sub.toLocaleString();
@@ -3109,6 +3300,7 @@ function refreshCart(){
           '<div class="cart-name">' + c.name + (c.tester ? '<span class="tag tester" style="margin-left:6px;font-size:.5rem;padding:1px 5px">テスター品</span>' : '') + '</div>' +
           (c.giftSet ? '<div class="cart-size-label" style="color:var(--sub)">（' + c.giftDetail + '）</div>' : '') +
           '<div class="cart-size-label">' + c.size + '</div>' +
+          (c.sample && !c.caseId ? '<button type="button" class="cart-add-case" onclick="openCasePicker(' + c.id + ',\'cart\',\'' + cartKey(c) + '\')">＋ ケースを付ける（+&yen;' + sampleCasePrice().toLocaleString() + '・12色）</button>' : '') +
           '<div class="cart-bottom">' +
             '<div class="cart-qty">' +
               '<button class="qty-btn" onclick="changeQty(\'' + cartKey(c) + '\',-1)">&minus;</button>' +
@@ -3130,6 +3322,26 @@ function refreshCart(){
   }
 
   try { updateCouponScopeMsg(); } catch(e){}
+  /* 一緒に比べる香り：小分けが1〜2本の時だけ。合計のすぐ上（必ず見える場所）に横並びで出す（2026-11-15） */
+  try {
+    var xs = document.getElementById('cart-sample-xsell');
+    var picks = xs ? sampleXsellPicks() : [];
+    if(xs && picks.length){
+      var bc = sampleBottleCount();
+      var nextT = sampleBundleTiers().filter(function(t){ return t.min > bc; })[0];
+      xs.innerHTML = '<div class="csx-title">一緒に比べる香り <span>同じ便・送料無料</span></div>' +
+        (nextT ? '<div class="csx-next">あと' + (nextT.min - bc) + '本で、お試しが' + Math.round(nextT.rate * 100) + '%引きになります</div>' : '') +
+        '<div class="csx-sub">香りは2〜3本を並べて比べると、自分に合う1本が見つかりやすくなります</div>' +
+        '<div class="csx-chips">' + picks.map(function(p){
+          return '<button type="button" class="csx-chip" onclick="addSampleCart(' + p.id + ',\'cart_xsell\')">' +
+            '<span class="csx-n">' + (p.nameJa || p.name) + '</span><span class="csx-p">＋&yen;' + p.samplePrice.toLocaleString() + '</span></button>';
+        }).join('') + '</div>';
+      xs.style.display = 'block';
+    } else if(xs){
+      xs.style.display = 'none';
+      xs.innerHTML = '';
+    }
+  } catch(e){}
 
   /* カート永続化＋カゴ落ちスナップショット（変更起点は全て refreshCart を通る） */
   persistCart();
@@ -3179,6 +3391,19 @@ async function doCheckout(){
         quantity: c.qty,
         image: c.img || '',
         giftSet: { scents: c.giftSet.scents.slice(), case: c.giftSet.case }
+      };
+    }
+    if(c.sample){
+      /* 価格はサーバーが samplePrice から決め直す（price は参考値） */
+      return {
+        productId: c.id,
+        variant: 'sample',
+        case: c.caseId || '',
+        name: (c.brand ? c.brand + ' - ' : '') + c.name + (c.nameJa ? ' (' + c.nameJa + ')' : '') + '【お試し1.5ml' + (c.caseName ? '・ケース:' + c.caseName : '') + '】',
+        brand: c.brand || '',
+        price: c.sellPrice,
+        quantity: c.qty,
+        image: c.img || ''
       };
     }
     return {
@@ -3593,13 +3818,16 @@ function showRecommendLP(productId){
     '<button class="sample-lp-close" onclick="closeSampleLP()">&times;</button>' +
     '<div class="sample-lp-hero">' +
       '<div class="sample-lp-badge">あなたが気になっていた香り</div>' +
-      (p.img ? '<img class="sample-lp-img" src="' + p.img + '" alt="' + p.brand + ' ' + p.name + '">' : '') +
+      (sampleSellable(p) && sampleImg(p)
+        ? '<img class="sample-lp-img" src="' + sampleImg(p) + '" alt="' + p.brand + ' ' + p.name + ' お試し1.5mL">'
+        : (p.img ? '<img class="sample-lp-img" src="' + p.img + '" alt="' + p.brand + ' ' + p.name + '">' : '')) +
       '<div class="sample-lp-brand">' + p.brand + '</div>' +
       '<div class="sample-lp-name">' + (p.nameJa || p.name) + '</div>' +
-      (p.concentration ? '<span class="sample-lp-conc">' + p.concentration + ' ' + p.size + '</span>' : '') +
+      (p.concentration ? '<span class="sample-lp-conc">' + p.concentration + ' ' + (sampleSellable(p) ? '・お試し1.5mL' : p.size) + '</span>' : '') +
     '</div>' +
     '<div class="sample-lp-body">' +
       '<p class="sample-lp-msg">気になる香りは、まず小分けでお試しください。<br>1.5mlで約1週間、じっくりお楽しみいただけます。</p>' +
+      (sampleSellable(p) && sampleBundleNote() ? '<p class="sample-lp-bundle">いくつか一緒に試すと ' + sampleBundleNote() + '</p>' : '') +
       '<div style="background:#faf9f7;border-radius:6px;padding:16px;margin-bottom:20px">' +
         '<div style="display:flex;justify-content:space-around;text-align:center">' +
           '<div><div style="font-size:.46rem;color:#999;letter-spacing:.08em;margin-bottom:4px">容量</div><div style="font-size:.8rem;font-weight:600;color:#1a1a1a">1.5ml</div></div>' +
@@ -3610,7 +3838,11 @@ function showRecommendLP(productId){
       '<div class="sample-lp-cospa">店頭では分からない「本当の相性」を、自分の肌で確かめる</div>' +
       '<div style="font-size:1rem;font-weight:600;text-align:center;color:#1a1a1a;margin-bottom:16px">&yen;' + samplePrice.toLocaleString() + ' <span style="font-size:.54rem;font-weight:400;color:#999">税込・送料無料</span></div>' +
       '<div class="sample-lp-btns">' +
-        '<a href="' + amazonUrl + '" target="_blank" rel="noopener" class="sample-lp-btn-main" onclick="ga4Event(\'click_amazon\',{product_id:' + p.id + ',from:\'recommend_lp\'})">小分けで試してみる</a>' +
+        (sampleSellable(p)
+          ? '<button type="button" class="sample-lp-btn-main" onclick="closeSampleLP();addSampleCart(' + p.id + ',\'recommend_lp\')">お試し1.5mLをカートに入れる</button>' +
+            '<button type="button" class="sample-lp-btn-sub" onclick="closeSampleLP();openCasePicker(' + p.id + ',\'recommend_lp\')">ケース付きで（+&yen;' + sampleCasePrice().toLocaleString() + '・12色）</button>' +
+            (sampleOnAmazon(p) ? '<a href="' + amazonUrl + '" target="_blank" rel="noopener" class="sample-amz" style="display:block;text-align:center;margin:6px 0" onclick="ga4Event(\'click_amazon\',{product_id:' + p.id + ',from:\'recommend_lp\'})">Amazonで見る</a>' : '')
+          : '<a href="' + amazonUrl + '" target="_blank" rel="noopener" class="sample-lp-btn-main" onclick="ga4Event(\'click_amazon\',{product_id:' + p.id + ',from:\'recommend_lp\'})">小分けで試してみる</a>') +
         '<button class="sample-lp-btn-sub" onclick="closeSampleLP();scrollToProduct(' + p.id + ')">ショップで見る</button>' +
       '</div>' +
       findRelatedArticles(p) +
@@ -3999,7 +4231,9 @@ function showDiagResult(data){
     var imgHtml = p && p.img ? '<img src="' + p.img + '" alt="" style="width:56px;height:70px;object-fit:cover;border-radius:3px;flex-shrink:0">' : '';
     /* Buttons: always show at least one action */
     var btnsHtml = '';
-    if(asin && sPrice){
+    if(p && sampleSellable(p)){
+      btnsHtml += '<button onclick="addSampleCart(' + numId + ',\'diagnosis\')" class="primary">お試し1.5mLをカートへ &yen;' + sPrice.toLocaleString() + '</button>';
+    } else if(asin && sPrice){
       btnsHtml += '<a href="https://www.amazon.co.jp/dp/' + asin + '?th=1&psc=1" target="_blank" rel="noopener" class="primary">小分けで試す &yen;' + sPrice.toLocaleString() + '</a>';
     }
     if(p && sellPrice > 0){

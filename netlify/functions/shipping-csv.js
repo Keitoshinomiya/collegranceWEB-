@@ -29,6 +29,9 @@ const iconv = require('iconv-lite');
 // 選べる3本ギフトセットの品名短縮表（data/gift-set.json の short）。読めなくてもCSVは出す
 let giftSetLib = null;
 try { giftSetLib = require('../lib/gift-set'); } catch (e) { console.error('[giftset] lib load failed:', e.message); }
+// 小分け1.5mL（2026-11-15）。伝票の品名に使う短い名前と、ネコポスに入れる上限本数
+let SAMPLES = null;
+try { SAMPLES = require('../../data/samples.json'); } catch (e) { console.error('[sample] samples.json load failed:', e.message); }
 
 // 発送元情報（ご依頼主）
 const SENDER = {
@@ -457,7 +460,27 @@ exports.handler = async (event) => {
       return (giftSetLib && pm.gift_scents && String(pm.collegrance_product_id) === String(giftSetLib.PRODUCT_ID)) ? pm : null;
     };
     const productLines = lineItems.filter((item) => !/送料|ギフトラッピング/.test(item.description || ''));
+    // 小分けの行（create-checkout.js が product metadata に variant=sample を付ける）
+    const sampleOf = (item) => {
+      const pm = item.price?.product?.metadata || {};
+      return pm.variant === 'sample' ? pm : null;
+    };
+    // 品名は「実際の香り名」ルール（例: お試し香水 レイジー 1.5ml x2）
+    const sampleName = (item) => {
+      const pm = sampleOf(item);
+      const cfg = SAMPLES && SAMPLES.items ? SAMPLES.items[String(pm.collegrance_product_id)] : null;
+      const nm = cfg ? cfg.short : ((item.description || '').match(/[（(]([^）)]+)[）)]/) || [])[1] || simplifyProductName(item.description);
+      return `お試し香水 ${nm} ${(SAMPLES && SAMPLES.size) || '1.5ml'}${item.quantity > 1 ? ` x${item.quantity}` : ''}`;
+    };
+    // ケース付きは2行目に色（ケース発送は色を品名に入れるルール）
+    const sampleCaseName = (item) => {
+      const pm = sampleOf(item) || {};
+      if (!pm.case) return null;
+      const k = giftSetLib && giftSetLib.CASE_BY_ID ? giftSetLib.CASE_BY_ID[pm.case] : null;
+      return `香水ケース ${k ? k.name : pm.case}${item.quantity > 1 ? ` x${item.quantity}` : ''}`;
+    };
     const productNames = productLines.flatMap((item) => {
+        if (sampleOf(item)) return [truncateProductName(sampleName(item), 50), sampleCaseName(item)].filter(Boolean).map((n) => truncateProductName(n, 50));
         const gs = giftSetOf(item);
         if (gs) {
           return giftSetLib.shippingNames(String(gs.gift_scents).split(','), gs.gift_case, item.quantity || 1)
@@ -468,7 +491,13 @@ exports.handler = async (event) => {
         return [truncateProductName(baseName + qtySuffix, 50)];
       });
     // ギフトセットだけの注文はネコポス（差し込み式段ボール）。フルボトルが混ざる注文は従来どおり宅急便
+    // ネコポス（ヤマトB2・送り状種類A）にするのは「ギフトセットだけ」か「小分けだけで上限本数以内」の注文。
+    // ギフトセットと小分けが混ざる・フルボトルが入る・小分けが上限を超える注文は宅配便
+    const sampleBottles = productLines.filter((item) => sampleOf(item)).reduce((n, item) => n + (item.quantity || 1), 0);
+    const allSample = productLines.length > 0 && productLines.every((item) => sampleOf(item));
     const allGiftSet = productLines.length > 0 && productLines.every((item) => giftSetOf(item));
+    const nekoposMax = (SAMPLES && SAMPLES.nekoposMax) || 10;
+    const isNekopos = allGiftSet || (allSample && sampleBottles <= nekoposMax);
 
     // 電話番号: URLパラメータ最優先 → Stripeの値 → 弊社代表番号フォールバック
     // 1. URLパラメータ（手動指定があれば最優先）
@@ -494,10 +523,16 @@ exports.handler = async (event) => {
     const articleMemo = truncateZenkaku(`Order ${orderNumber}`, 22); // 記事: 全角22
 
     // 佐川は宅配便（箱）だけ。選べる3本ギフトセットだけの注文はネコポスなのでヤマトB2のまま（carrier指定より優先）
-    if (carrier !== 'yamato' && !allGiftSet) {
+    if (carrier !== 'yamato' && !isNekopos) {
       // 佐川 e飛伝Ⅲ：品名は全角16字×最大5行・住所は16字×3行に自動折り返し
       // 香水は商品名の（）内の日本語名（例: レイジーサンデーモーニング）を優先。ギフトセットは香り短縮名とケース色
       const sagawaProducts = productLines.flatMap((item) => {
+        // 佐川は全角16字で折り返すので、容量を省いて1行に収める（例: お試し香水　レイジー　×１１）
+        if (sampleOf(item)) {
+          const lines = wrapJp(toFullwidth(sampleName(item).replace(/ \S*ml/, '').replace(/ x(\d+)$/, ' ×$1')));
+          const kc = sampleCaseName(item);
+          return kc ? lines.concat(wrapJp(toFullwidth(kc.replace(/ x(\d+)$/, ' ×$1')))) : lines;
+        }
         const gs = giftSetOf(item);
         if (gs) {
           return giftSetLib.shippingNames(String(gs.gift_scents).split(','), gs.gift_case, item.quantity || 1)
@@ -550,7 +585,7 @@ exports.handler = async (event) => {
       products: productNames,
       sender: SENDER,
       articleMemo,
-      shipType: allGiftSet ? 'A' : '0',
+      shipType: isNekopos ? 'A' : '0',
     });
 
     // CSVテキスト生成（ヘッダなし、CRLF改行）

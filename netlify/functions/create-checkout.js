@@ -39,6 +39,14 @@ function productDisplayName(p) {
 const FREE_SHIP_THRESHOLD = 0;
 const SHIPPING_AMOUNT = 0;
 const GIFT_WRAP_AMOUNT = 300;
+
+// === クーポンはフルボトルだけのご注文に使える（2026-11-16） ===
+// 抽選の2枚目（¥500/¥750 OFF・最低額なし）が、ギフトセット（2,980円）や今後の小分け（850円〜）にも効いて赤字になる穴があった。
+// 2等の当選通知は以前から「フルボトル購入時に使えるクーポン」と案内しているので、それに揃える。
+// ・カートがフルボトルだけ（ギフトラッピングは可）の時だけクーポンを適用する。決済画面のクーポン入力欄も、その時だけ出す
+// ・それ以外のカートでは、クーポンは適用せずに決済へ進める（売上は止めない。カート画面で先に案内する）
+// ・この日時より前に発行されたクーポンは、案内した時の条件（どのお買い物でも）のまま使える＝有効期限（最長7日）までの経過措置
+const COUPON_FULLBOTTLE_ONLY_SINCE = Math.floor(Date.parse('2026-11-16T00:00:00+09:00') / 1000);
 const SITE_URL = 'https://collegrance.com';
 const ALLOWED_ORIGINS = ['https://collegrance.com', 'https://www.collegrance.com'];
 
@@ -164,6 +172,7 @@ exports.handler = async (event) => {
             gift_case: gs.kase.id,
           },
           giftSet: gs,
+          kind: 'giftset',
         });
         continue;
       }
@@ -193,6 +202,7 @@ exports.handler = async (event) => {
         quantity: item.quantity,
         image,
         productMeta: { collegrance_product_id: String(item.productId) },
+        kind: 'fullbottle',
       });
     }
 
@@ -200,6 +210,8 @@ exports.handler = async (event) => {
       if (r.giftSet) giftSetRows.push(r.giftSet.metaValue + (r.quantity > 1 ? `|x${r.quantity}` : ''));
     }
     const hasGiftSet = giftSetRows.length > 0;
+    // クーポンを使えるカートか（フルボトルだけ）。ギフトラッピングは line_items 側で足すので resolved には入らない
+    const couponEligibleCart = resolved.length > 0 && resolved.every((r) => r.kind === 'fullbottle');
 
     // Build line_items from cart
     const line_items = resolved.map((item) => {
@@ -282,6 +294,12 @@ exports.handler = async (event) => {
           const list = await stripe.promotionCodes.list({ code: normalizedCode, active: true, limit: 1 });
           if (list.data.length > 0) {
             const promo = list.data[0];
+            const grandfathered = typeof promo.created === 'number' && promo.created < COUPON_FULLBOTTLE_ONLY_SINCE;
+            if (!couponEligibleCart && !grandfathered) {
+              // フルボトル以外が入ったカート → 適用しない（決済は止めない）
+              console.log('[coupon] not applied (cart has non-fullbottle items):', normalizedCode);
+              throw Object.assign(new Error('coupon_not_eligible'), { skip: true });
+            }
             discounts = [{ promotion_code: promo.id }];
             appliedCouponInfo = {
               code: promo.code,
@@ -295,7 +313,7 @@ exports.handler = async (event) => {
           }
         } catch (couponErr) {
           // クーポンエラーで決済自体は止めない（手入力可能）
-          console.error('[coupon] lookup failed:', couponErr.message);
+          if (!couponErr.skip) console.error('[coupon] lookup failed:', couponErr.message);
         }
       } else {
         console.warn('[coupon] rejected unknown prefix:', normalizedCode);
@@ -342,6 +360,7 @@ exports.handler = async (event) => {
       diagnosis_session_id: (metadata && metadata.diagnosis_session_id) || '',
       ...(lineFriendId ? { line_friend_id: lineFriendId } : {}),
       ...(appliedCouponInfo ? { applied_coupon_code: appliedCouponInfo.code } : {}),
+      ...(couponCode && !appliedCouponInfo && !couponEligibleCart ? { coupon_skipped: 'not_fullbottle_only' } : {}),
     };
 
     // Create Checkout Session
@@ -376,8 +395,8 @@ exports.handler = async (event) => {
     };
     if (discounts) {
       sessionParams.discounts = discounts;
-    } else {
-      // クーポン未指定時のみ手入力欄を表示（StripeのDBレベルで制約）
+    } else if (couponEligibleCart) {
+      // クーポン未指定かつフルボトルだけのカートの時だけ、決済画面にクーポン入力欄を出す
       sessionParams.allow_promotion_codes = true;
     }
     const session = await stripe.checkout.sessions.create(sessionParams);

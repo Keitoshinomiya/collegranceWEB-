@@ -1771,6 +1771,7 @@
           <button type="button" onclick="applyCouponManual()" style="padding:8px 12px;background:var(--accent);color:#fff;border:none;font-family:var(--font);font-size:.6rem;letter-spacing:.08em;cursor:pointer;border-radius:2px">適用</button>
         </div>
         <div id="coupon-input-msg" style="margin-top:4px;font-size:.55rem"></div>
+        <div id="coupon-scope-note" style="margin-top:2px;font-size:.55rem;color:var(--sub);text-align:center">クーポンはフルボトルのご注文にお使いいただけます（ギフトセットは対象外）</div>
       </div>
       <div id="ship-msg"></div>
       <div class="cart-assure">
@@ -2846,7 +2847,30 @@ function applyCouponManual(){
   try { localStorage.setItem(COUPON_STORAGE_KEY, code); } catch(e){}
   input.value = code;
   msg.style.color = '#3a7d44';
-  msg.textContent = '✓ ' + code + ' を登録しました。決済画面で割引が適用されます。';
+  msg.textContent = '✓ ' + code + ' を登録しました。フルボトルのご注文の決済画面で割引が適用されます。';
+  try { updateCouponScopeMsg(); } catch(e){}
+}
+
+/* クーポンはフルボトルだけのご注文に使える（2026-11-16・サーバー create-checkout.js と同じ規則）。
+   クーポンを登録していて、カートにフルボトル以外（ギフトセット）が入っている時だけ、先に知らせる */
+function updateCouponScopeMsg(){
+  /* 注意は、決済ボタンより上で必ず見える coupon-input-msg（「自動適用されます」の緑の行）に出す */
+  var cm = document.getElementById('coupon-input-msg');
+  if(!cm) return;
+  var code = getStoredCoupon();
+  var hasOther = cart.some(function(c){ return !!c.giftSet; });
+  var hasFull = cart.some(function(c){ return !c.giftSet; });
+  if(code && hasOther){
+    cm.style.color = '#a0522d';
+    cm.textContent = hasFull
+      ? 'ギフトセットが入っているため、このご注文ではクーポン（' + code + '）は使われません。クーポンを使う場合は、フルボトルだけでご注文ください。'
+      : 'クーポン（' + code + '）はフルボトルのご注文にお使いいただけます。ギフトセットのご注文では割引されません。';
+    cm.setAttribute('data-scope', '1');
+  } else if(cm.getAttribute('data-scope') === '1'){
+    cm.removeAttribute('data-scope');
+    cm.style.color = '#3a7d44';
+    cm.textContent = code ? '✓ クーポン ' + code + ' がお会計時に自動適用されます' : '';
+  }
 }
 
 function clearStoredCoupon(){
@@ -3104,6 +3128,8 @@ function refreshCart(){
         '<span>贈り物なら、ギフトセットも選べます &rarr;</span></a>';
     }
   }
+
+  try { updateCouponScopeMsg(); } catch(e){}
 
   /* カート永続化＋カゴ落ちスナップショット（変更起点は全て refreshCart を通る） */
   persistCart();

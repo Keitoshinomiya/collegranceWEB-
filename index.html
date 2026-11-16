@@ -456,7 +456,7 @@
     .pc-price-row{margin-top:auto;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
     .pc-label{font-size:.54rem;color:var(--sub);letter-spacing:.04em}
     .pc-price{font-size:1rem;font-weight:600}
-    .pc-sub{font-size:.54rem;color:var(--light);margin:2px 0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .pc-sub{font-size:.54rem;color:var(--light);margin:0 0 8px;min-height:32px;display:flex;align-items:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .pc-btn{width:100%;min-height:44px;padding:10px 8px;background:var(--accent);color:#fff;border:1px solid var(--accent);font-family:var(--font);font-size:.62rem;letter-spacing:.1em;border-radius:2px;cursor:pointer;transition:all .3s var(--ease)}
     .pc-btn:hover,.pc-btn.added{background:transparent;color:var(--text)}
     /* 詳細画面（お試しの専用画面の枠を流用） */
@@ -475,6 +475,36 @@
     .ps-opt-txt b{font-size:.68rem;font-weight:600}
     .ps-opt-txt small{font-size:.54rem;color:var(--sub)}
     .ps-opt-price{font-size:.8rem;font-weight:600;flex:none}
+    .pc .img-wrap{position:relative}
+    .pc-peek{position:absolute;right:8px;bottom:8px;background:rgba(255,255,255,.92);color:var(--text);font-size:.5rem;letter-spacing:.04em;padding:4px 9px;border-radius:12px;border:1px solid var(--border);white-space:nowrap;pointer-events:none}
+    .pc-peek em{font-style:normal;margin-left:4px;background:var(--accent);color:#fff;border-radius:8px;padding:0 5px;font-size:.46rem}
+    .pc-notes{font-size:.52rem;color:var(--sub);margin:-4px 0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .pc-notes span{color:var(--light);margin-right:6px}
+    .ps-links{display:flex;flex-wrap:wrap;gap:0 16px;margin-bottom:6px}
+    .ps-links .ps-rating{margin-bottom:4px}
+    .ps-sec-title{font-size:.6rem;font-weight:600;letter-spacing:.06em;margin-bottom:8px}
+    .ps-notes{background:var(--bg2);border-radius:4px;padding:12px 14px;margin:6px 0 12px}
+    .ps-note-row{display:flex;justify-content:space-between;gap:12px;font-size:.58rem;padding:3px 0}
+    .ps-note-row span{color:var(--sub)}
+    .ps-note-row b{font-weight:500;text-align:right}
+    .ps-arts{margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+    .ps-art{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit}
+    .ps-art img{width:52px;height:52px;object-fit:cover;border-radius:3px;flex:none}
+    .ps-art span{flex:1;font-size:.58rem;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .ps-art small{display:block;font-size:.46rem;color:var(--light);letter-spacing:.08em}
+    .ps-art i{font-style:normal;color:var(--light)}
+    .ps-arts-more{font-size:.54rem;color:var(--sub);text-align:center;padding-top:8px}
+    .ps-blocks{display:flex;flex-direction:column;gap:12px;margin:8px 0 4px}
+    .ps-blk{border:1px solid var(--border);border-radius:4px;padding:12px;background:#fff}
+    .ps-blk.on{border:2px solid var(--accent);padding:11px}
+    .ps-blk-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .ps-blk-head img{width:28px;height:38px;object-fit:contain;flex:none}
+    .ps-blk-sep{height:1px;background:var(--border);margin:12px 0}
+    .ps-full{margin-top:0}
+    .ps-hint{font-size:.54rem;color:var(--sub);text-align:center;margin:8px 0 0}
+    .pc-btn2{width:100%;min-height:40px;margin-top:6px;padding:8px;background:#fff;color:var(--text);border:1px solid var(--accent);font-family:var(--font);font-size:.6rem;letter-spacing:.06em;border-radius:2px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .pc-btn2:hover{background:var(--bg2)}
+    .pc-full{display:block;width:100%;background:none;border:none;padding:6px 0;margin:0;font-family:inherit;font-size:.56rem;color:var(--sub);text-align:left;text-decoration:underline;text-underline-offset:3px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .ps-note{font-size:.56rem;color:#a0522d;text-align:center;margin:0 0 8px}
     .ps-main{width:100%;min-height:48px;background:var(--accent);color:#fff;border:1px solid var(--accent);font-family:var(--font);font-size:.68rem;letter-spacing:.1em;border-radius:2px;cursor:pointer}
     .ps-sub{width:100%;min-height:44px;margin-top:8px;background:#fff;color:var(--text);border:1px solid var(--accent);font-family:var(--font);font-size:.62rem;letter-spacing:.06em;border-radius:2px;cursor:pointer}
@@ -485,7 +515,7 @@
     /* 重なっていた絞り込みを1つずつに（ブランドはプルダウン、香りは「どんな香りを？」に一本化。価格チップはフルボトル価格なので外す） */
     .brand-tiles-section{display:none}
     /* スマホの浮いているボタンは丸アイコンだけ。カートバーが出ている間はギフトの丸ボタンを隠す（11/16） */
-    @media(max-width:767px){.floating-cta-label{display:none}.floating-cta-icon{width:44px;height:44px}body.has-cart-bar .gift-float{display:none}}
+    @media(max-width:767px){.floating-cta-label{display:none}.floating-cta-icon{width:44px;height:44px}}
     #toolbar-filters .filter-btn[data-scent],#toolbar-filters .filter-sep,#toolbar-filters .price-chip{display:none}
     .sample-case-note{display:block;font-size:.5rem;color:var(--sub);margin-top:2px;letter-spacing:.04em}
     .case-picker{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:3000;display:none;align-items:flex-end;justify-content:center}
@@ -2340,13 +2370,18 @@ function renderCard(p){
   var priceMain, priceSub, btnHtml;
   if(sell){
     priceMain = '<span class="pc-label">お試し1.5mL</span><span class="pc-price">&yen;' + sPrice.toLocaleString() + '</span>';
-    priceSub = 'フルボトル &yen;' + price.toLocaleString();
-    btnHtml = '<button type="button" class="pc-btn" onclick="event.stopPropagation();addSampleCart(' + p.id + ',\'card\')">お試しをカートへ</button>';
+    priceSub = sampleBundleShort();
+    btnHtml = '<button type="button" class="pc-btn" onclick="event.stopPropagation();addSampleCart(' + p.id + ',\'card\')">お試しをカートへ</button>' +
+      '<button type="button" class="pc-btn2" onclick="event.stopPropagation();openProductSheet(' + p.id + ',\'card_full\',\'full\')">フルボトル &yen;' + price.toLocaleString() + ' &rsaquo;</button>';
   } else {
     priceMain = '<span class="pc-label">' + (p.size || 'フルボトル') + '</span><span class="pc-price">&yen;' + price.toLocaleString() + '</span>';
     priceSub = p.tester ? 'テスター品・送料無料' : '送料無料';
-    btnHtml = '<button type="button" class="pc-btn" id="btn-' + p.id + '" onclick="event.stopPropagation();addCart(' + p.id + ')"><span id="btn-txt-' + p.id + '">カートに入れる</span></button>';
+    btnHtml = '<button type="button" class="pc-btn" id="btn-' + p.id + '" onclick="event.stopPropagation();addCart(' + p.id + ')"><span id="btn-txt-' + p.id + '">カートに入れる</span></button>' +
+      '<button type="button" class="pc-btn2" onclick="event.stopPropagation();openProductSheet(' + p.id + ',\'card_detail\')">詳しく見る &rsaquo;</button>';
   }
+  var nArt = productArticles(p).length;
+  var notesLine = p.notes ? p.notes.split(',').map(function(n){ return n.trim(); }).filter(Boolean).join('・') : '';
+  var peekLabel = (p.notes && nArt) ? '香りの特徴・記事' + nArt + '本' : (p.notes ? '香りの特徴を見る' : (nArt ? '記事' + nArt + '本を読む' : '詳しく見る'));
   var ratingHtml = p.customerAvgRating
     ? '<span class="pc-stars">&#9733;</span> ' + p.customerAvgRating.toFixed(1) + ' <span class="pc-count">(' + p.customerReviewCount + ')</span>'
     : '&nbsp;';
@@ -2356,11 +2391,13 @@ function renderCard(p){
       (imgSrc ? imgPicture(imgSrc, p.brand + ' ' + p.name) : fallback) +
       (p.tester ? '<span class="tag tester">Tester</span>' : '') +
       (p.limitedStock ? '<span class="tag limited">お早めに</span>' : '') +
+      '<span class="pc-peek">' + peekLabel + ' &rsaquo;</span>' +
     '</div>' +
     '<div class="p-body">' +
       '<div class="p-brand">' + p.brand + '</div>' +
       '<div class="p-name">' + (p.nameJa || p.name) + '</div>' +
       '<div class="pc-rating">' + ratingHtml + '</div>' +
+      '<div class="pc-notes">' + (notesLine ? '<span>香り</span>' + notesLine : '&nbsp;') + '</div>' +
       '<div class="pc-price-row">' + priceMain + '</div>' +
       '<div class="pc-sub">' + priceSub + '</div>' +
       btnHtml +
@@ -2368,18 +2405,41 @@ function renderCard(p){
   '</div>';
 }
 
+function productArticles(p){
+  var list = (typeof window !== 'undefined' && window.journalArticles) || [];
+  var keys = [String(p.slug || ''), String(p.id)];
+  return list.filter(function(a){ return (a.relatedProducts || []).some(function(r){ return keys.indexOf(String(r)) >= 0; }); })
+    .sort(function(a, b){ return new Date(b.date) - new Date(a.date); });
+}
+function sheetScrollToArts(){
+  var ov = document.getElementById('sample-lp-overlay'), t = document.querySelector('#sample-lp .ps-arts');
+  if(!ov || !t) return;
+  var y = ov.scrollTop + t.getBoundingClientRect().top - 16;
+  try { ov.scrollTo({ top: y, behavior: 'smooth' }); } catch(e){ ov.scrollTop = y; }
+}
+function sheetArticlesHtml(p){
+  var arts = productArticles(p);
+  if(!arts.length) return findRelatedArticles(p);
+  return '<div class="ps-arts"><div class="ps-sec-title">この香りの読みもの（' + arts.length + '本）</div>' +
+    arts.slice(0, 4).map(function(a){
+      return '<a class="ps-art" href="' + a.link + '">' + (a.image ? '<img src="' + a.image + '" alt="" loading="lazy">' : '') +
+        '<span><small>' + (a.category || '') + '</small>' + a.title + '</span><i>&rsaquo;</i></a>';
+    }).join('') +
+    (arts.length > 4 ? '<div class="ps-arts-more">ほか ' + (arts.length - 4) + ' 本</div>' : '') + '</div>';
+}
+
 /* ===== 商品の詳細画面（カードをタップで開く。お試し／フルボトルを選んでカートへ） ===== */
 var _sheetPick = null;
-function openProductSheet(id, from){
+function openProductSheet(id, from, prefer){
   var p = PRODUCTS.find(function(x){ return x.id === id; });
   if(!p) return;
   var sell = p.type === 'sample_and_fullbottle' && sampleSellable(p);
-  _sheetPick = { id: id, size: sell ? 'sample' : String(p.id) }; /* 開くたびにお試しを選んだ状態から */
+  _sheetPick = { id: id, size: (sell && prefer !== 'full') ? 'sample' : String(p.id) }; /* 開くたびにお試しから（フルボトルの行から来たらフルボトルから） */
   renderProductSheet(p);
   document.getElementById('sample-lp-overlay').classList.add('active');
   document.body.style.overflow = 'hidden';
   var lp = document.getElementById('sample-lp'); if(lp && lp.parentNode) lp.parentNode.scrollTop = 0;
-  ga4Event('product_sheet_open', { product_id: id, placement: from || '' });
+  ga4Event('product_sheet_open', { product_id: id, placement: from || '', prefer: prefer || '' });
 }
 function pickSheetSize(id, size){
   _sheetPick = { id: id, size: String(size) };
@@ -2394,36 +2454,33 @@ function renderProductSheet(p){
   var pick = _sheetPick && _sheetPick.id === p.id ? _sheetPick.size : (sell ? 'sample' : String(p.id));
   var check = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2zM9.2 11.6l2 2 3.6-3.8"/></svg>';
 
-  var opts = '';
+  var sampleBlock = '', fullBlock = '';
   if(sell){
-    opts += '<button type="button" class="ps-opt' + (pick === 'sample' ? ' on' : '') + '" onclick="pickSheetSize(' + p.id + ',\'sample\')">' +
-      (sampleImg(p) ? '<img src="' + sampleImg(p) + '" alt="" width="28" height="38">' : '') +
-      '<span class="ps-opt-txt"><b>お試し 1.5mL</b><small>約20プッシュ・約1週間</small></span><span class="ps-opt-price">&yen;' + sPrice.toLocaleString() + '</span></button>';
-  }
-  fulls.forEach(function(v){
-    opts += '<button type="button" class="ps-opt' + (pick === String(v.id) ? ' on' : '') + '" onclick="pickSheetSize(' + p.id + ',' + v.id + ')">' +
-      '<span class="ps-opt-txt"><b>フルボトル ' + (v.size || '') + '</b><small>' + (v.tester ? 'テスター品・送料無料' : '送料無料') + '</small></span><span class="ps-opt-price">&yen;' + v.sellPrice.toLocaleString() + '</span></button>';
-  });
-
-  var actions;
-  if(pick === 'sample' && sell){
-    actions =
+    sampleBlock = '<div class="ps-blk' + (pick === 'sample' ? ' on' : '') + '">' +
+      '<div class="ps-blk-head">' + (sampleImg(p) ? '<img src="' + sampleImg(p) + '" alt="" width="28" height="38">' : '') +
+        '<span class="ps-opt-txt"><b>お試し 1.5mL</b><small>約20プッシュ・約1週間。まずは肌で確かめたい方に</small></span><span class="ps-opt-price">&yen;' + sPrice.toLocaleString() + '</span></div>' +
       (sampleBundleNote() ? '<p class="ps-note">いくつか一緒に試すと ' + sampleBundleNote() + '</p>' : '') +
-      '<button type="button" class="ps-main" onclick="closeSampleLP();addSampleCart(' + p.id + ',\'sheet\')">お試しをカートへ &yen;' + sPrice.toLocaleString() + '</button>' +
-      '<button type="button" class="ps-sub" onclick="closeSampleLP();openCasePicker(' + p.id + ',\'sheet\')">ケース付きで &yen;' + (sPrice + sampleCasePrice()).toLocaleString() + '（12色から選ぶ）</button>';
-  } else {
-    var fv = PRODUCTS.find(function(x){ return String(x.id) === pick; }) || p;
-    actions = '<button type="button" class="ps-main" onclick="closeSampleLP();addCart(' + fv.id + ')">フルボトルをカートへ &yen;' + fv.sellPrice.toLocaleString() + '</button>';
+      '<button type="button" class="' + (pick === 'sample' ? 'ps-main' : 'ps-sub') + '" onclick="closeSampleLP();addSampleCart(' + p.id + ',\'sheet\')">お試しをカートへ &yen;' + sPrice.toLocaleString() + '</button>' +
+      '<button type="button" class="ps-sub" onclick="closeSampleLP();openCasePicker(' + p.id + ',\'sheet\')">ケース付きで &yen;' + (sPrice + sampleCasePrice()).toLocaleString() + '（12色から選ぶ）</button>' +
+    '</div>';
   }
+  fullBlock = '<div class="ps-blk' + (pick !== 'sample' ? ' on' : '') + '">' +
+    fulls.map(function(v, i){
+      return (i ? '<div class="ps-blk-sep"></div>' : '') +
+        '<div class="ps-blk-head"><span class="ps-opt-txt"><b>フルボトル ' + (v.size || '') + '</b><small>' + (v.tester ? 'テスター品（外箱なし等）・送料無料' : '本物のボトルをそのまま・送料無料') + '</small></span><span class="ps-opt-price">&yen;' + v.sellPrice.toLocaleString() + '</span></div>' +
+        '<button type="button" class="' + ((sell && pick === 'sample') ? 'ps-sub ps-full' : 'ps-main ps-full') + '" onclick="closeSampleLP();addCart(' + v.id + ')">フルボトル ' + (v.size || '') + 'をカートへ</button>';
+    }).join('') +
+    (sell ? '<p class="ps-hint">気に入る香りが決まっている方は、フルボトルをそのままどうぞ</p>' : '') +
+  '</div>';
+  var blocks = (pick === 'sample') ? sampleBlock + fullBlock : fullBlock + sampleBlock;
 
   var notesHtml = '';
   if(p.notes){
     var parts = p.notes.split(',').map(function(n){ return n.trim(); });
-    notesHtml = '<div class="sample-lp-notes"><div class="sample-lp-notes-title">香りのノート</div><div class="sample-lp-notes-grid">' +
-      (parts[0] ? '<div class="sample-lp-notes-label">トップ</div><div class="sample-lp-notes-value">' + parts[0] + '</div>' : '') +
-      (parts[1] ? '<div class="sample-lp-notes-label">ミドル</div><div class="sample-lp-notes-value">' + parts[1] + '</div>' : '') +
-      (parts[2] ? '<div class="sample-lp-notes-label">ラスト</div><div class="sample-lp-notes-value">' + parts[2] + '</div>' : '') +
-      '</div></div>';
+    var lbl = ['はじめ（トップ）', 'なか（ミドル）', 'のこり香（ラスト）'];
+    notesHtml = '<div class="ps-notes"><div class="ps-sec-title">香りの特徴</div>' +
+      parts.slice(0, 3).map(function(n, i){ return n ? '<div class="ps-note-row"><span>' + lbl[i] + '</span><b>' + n + '</b></div>' : ''; }).join('') +
+      '</div>';
   }
   var amz = (sell && sampleOnAmazon(p) && p.amazonAsin)
     ? '<a class="ps-link" href="https://www.amazon.co.jp/dp/' + p.amazonAsin + '?th=1&psc=1" data-amazon-asin="' + p.amazonAsin + '" target="_blank" rel="noopener">お試しはAmazonでも購入できます</a>' : '';
@@ -2435,17 +2492,19 @@ function renderProductSheet(p){
       '<div class="ps-brand">' + p.brand + (p.concentration ? ' ・ ' + p.concentration : '') + '</div>' +
       '<div class="ps-name">' + (p.nameJa || p.name) + '</div>' +
       (p.nameJa ? '<div class="ps-name-en">' + p.name + '</div>' : '') +
+      '<div class="ps-links">' +
       (p.customerAvgRating ? '<button type="button" class="ps-rating" onclick="closeSampleLP();openReviewModal(' + p.id + ')"><span class="pc-stars">' + renderStars(p.customerAvgRating) + '</span> ' + p.customerAvgRating.toFixed(1) + '・' + p.customerReviewCount + '名の声を見る &rarr;</button>' : '') +
+      (productArticles(p).length ? '<button type="button" class="ps-rating" onclick="sheetScrollToArts()">この香りの読みもの ' + productArticles(p).length + '本 &darr;</button>' : '') +
+      '</div>' +
       (p.tester ? '<div class="p-tester-note">' + (p.testerNote || 'テスター品のため外装箱が無地の白箱となり、その分お安くご提供しております。販売品と同じ中身として流通しているテスター品（並行輸入品）です。') + '</div>' : '') +
-      '<div class="ps-opts" role="radiogroup" aria-label="サイズを選ぶ">' + opts + '</div>' +
-      actions +
       notesHtml +
+      '<div class="ps-blocks">' + blocks + '</div>' +
       '<div class="ps-trust">' +
         '<div>' + check + '本物のみ・真贋確認済み（並行輸入品）</div>' +
         (sell ? '<div>' + check + 'お試しは自社の製造所で丁寧に詰め替え</div>' : '') +
         '<div>' + check + '全品送料無料・2〜4日で発送</div>' +
       '</div>' +
-      findRelatedArticles(p) +
+      sheetArticlesHtml(p) +
       '<div class="ps-foot">' + amz +
         '<button type="button" class="ps-link" onclick="copyProductLink(' + p.id + ',\'' + (p.brand + ' ' + (p.nameJa || p.name)).replace(/'/g, "\\'") + '\')">この商品のリンクをコピー</button>' +
       '</div>' +
@@ -3716,7 +3775,6 @@ function showSampleLP(productId){
         '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2zM9.2 11.6l2 2 3.6-3.8"/></svg>小分けと同じ香りをフルサイズでお届け（並行輸入品）</div>' +
         '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2zM9.2 11.6l2 2 3.6-3.8"/></svg>化粧品製造販売業許可取得済み</div>' +
         '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2zM9.2 11.6l2 2 3.6-3.8"/></svg>2〜4営業日でお届け（全品送料無料）</div>' +
-        '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2zM9.2 11.6l2 2 3.6-3.8"/></svg>未開封なら7日以内返品OK</div>' +
       '</div>' +
       findRelatedArticles(p) +
       notesHtml +

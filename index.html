@@ -445,6 +445,33 @@
     .csx-next{font-size:.54rem;color:#a0522d;margin:2px 0 4px}
     .sample-case-btn{width:100%;margin-top:6px;padding:10px 12px;background:var(--bg2);color:var(--text);border:1px dashed var(--accent);font-family:var(--font);font-size:.6rem;letter-spacing:.06em;cursor:pointer;min-height:44px}
     .sample-case-btn .btn-price{font-weight:600}
+    .si-short,.sb-short,.sc-short{display:none}
+    .si-long,.si-short,.sb-long,.sb-short,.sc-long,.sc-short{font-style:normal}
+    .si-detail{font-size:inherit;color:inherit}
+    /* 2026-11-16 スマホの商品カードをスリムに（説明は短い版・ケースは文字リンク・星は1行・記事欄は小さく・浮いているボタンはアイコンだけ） */
+    @media(max-width:767px){
+      .si-detail,.si-long,.sb-long,.sc-long,.product-card .sample-case-note,.product-card .p-auth{display:none}
+      .si-short,.sb-short,.sc-short{display:inline}
+      .product-card .p-tags{margin-bottom:6px}
+      .product-card .p-review-btn{background:none;border:none;padding:0;margin-bottom:6px;gap:4px;width:auto}
+      .product-card .p-review-stars{font-size:.62rem;letter-spacing:0}
+      .product-card .p-review-score{font-size:.62rem}
+      .product-card .p-review-label{display:none}
+      .product-card .p-review-arrow{font-size:.6rem}
+      .product-card .p-tester-note{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding:0 8px;border-top:4px solid #faf6ed;border-bottom:4px solid #faf6ed;margin-bottom:8px;font-size:.48rem;line-height:1.6;cursor:pointer}
+      .product-card .p-tester-note.open{display:block}
+      .product-card .p-price-row{margin-bottom:8px}
+      .product-card .sample-intro{margin:0 0 6px}
+      .product-card .btn-group{gap:6px}
+      .product-card .sample-btn{letter-spacing:.04em;white-space:nowrap}
+      .product-card .sample-case-btn{background:none;border:none;margin-top:0;padding:4px;min-height:36px;text-decoration:underline;text-underline-offset:3px;font-size:.58rem}
+      .product-card .journal-stamp{margin-top:10px;padding-top:8px;border-top:1px solid var(--border)}
+      .product-card .journal-stamp .ja{display:none}
+      .product-card .journal-stamp .en{font-size:.54rem;letter-spacing:.16em}
+      .floating-cta-label{display:none}
+      .floating-cta-icon{width:44px;height:44px}
+      body.has-cart-bar .gift-float{display:none}
+    }
     .sample-case-note{display:block;font-size:.5rem;color:var(--sub);margin-top:2px;letter-spacing:.04em}
     .case-picker{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:3000;display:none;align-items:flex-end;justify-content:center}
     .case-picker.show{display:flex}
@@ -2301,10 +2328,10 @@ function renderCard(p){
       var sImg = sampleImg(p);
       sampleBtnHtml = '<div class="sample-intro">' +
         (sImg ? '<img src="' + sImg + '" alt="お試し1.5mLの瓶" class="sample-thumb" loading="lazy" width="36" height="48">' : '') +
-        '<div><b>お試し1.5mL</b>（約20プッシュ・約1週間）<br><span>' + sampleBundleNote() + '・送料無料</span></div></div>' +
+        '<div><b>お試し1.5mL</b><small class="si-detail">（約20プッシュ・約1週間）</small><br><span><i class="si-long">' + sampleBundleNote() + '・送料無料</i><i class="si-short">' + sampleBundleShort() + '</i></span></div></div>' +
         '<button type="button" class="sample-btn" onclick="event.stopPropagation();addSampleCart(' + p.id + ',\'card\')">' +
-        'お試し1.5mLをカートへ <span class="btn-price">&yen;' + sPrice.toLocaleString() + '</span></button>' +
-        '<button type="button" class="sample-case-btn" onclick="event.stopPropagation();openCasePicker(' + p.id + ',\'card\')">ケース付きで <span class="btn-price">&yen;' + (sPrice + sampleCasePrice()).toLocaleString() + '</span><span class="sample-case-note">12色から選べる</span></button>' +
+        '<i class="sb-long">お試し1.5mLをカートへ</i><i class="sb-short">お試しをカートへ</i> <span class="btn-price">&yen;' + sPrice.toLocaleString() + '</span></button>' +
+        '<button type="button" class="sample-case-btn" onclick="event.stopPropagation();openCasePicker(' + p.id + ',\'card\')"><i class="sc-long">ケース付きで</i><i class="sc-short">＋ケース付き</i> <span class="btn-price">&yen;' + (sPrice + sampleCasePrice()).toLocaleString() + '</span><span class="sample-case-note">12色から選べる</span></button>' +
         (sampleOnAmazon(p) ? '<a href="' + sampleHref + '" data-amazon-asin="' + amazonAsin + '" class="sample-amz" target="_blank" rel="noopener" onclick="event.stopPropagation()">Amazonで見る</a>' : '');
     } else {
       sampleBtnHtml = '<a href="' + sampleHref + '" ' + (amazonAsin ? 'data-amazon-asin="' + amazonAsin + '"' : '') + ' class="sample-btn" target="_blank" rel="noopener">' +
@@ -2366,7 +2393,7 @@ function renderCard(p){
       /* お試し体験者レビュー — クリックでその場でモーダル表示（Amazon表示は廃止） */
       (p.customerAvgRating ? '<button class="p-review-btn" onclick="event.stopPropagation();openReviewModal(' + p.id + ')" aria-label="お試し体験者の声を見る"><span class="p-review-stars">' + renderStars(p.customerAvgRating) + '</span><span class="p-review-score">' + p.customerAvgRating.toFixed(1) + '</span><span class="p-review-label">' + p.customerReviewCount + '名の声を見る</span><span class="p-review-arrow">&rarr;</span></button>' : '') +
       '<div class="p-auth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2zM9.2 11.6l2 2 3.6-3.8"/></svg>本物のみ・真贋確認済み</div>' +
-      (p.tester ? '<div class="p-tester-note">' + (p.testerNote || 'テスター品のため外装箱が無地の白箱となり、その分お安くご提供しております。販売品と同じ中身として流通しているテスター品（並行輸入品）です。') + '</div>' : '') +
+      (p.tester ? '<div class="p-tester-note" onclick="event.stopPropagation();this.classList.toggle(\'open\')">' + (p.testerNote || 'テスター品のため外装箱が無地の白箱となり、その分お安くご提供しております。販売品と同じ中身として流通しているテスター品（並行輸入品）です。') + '</div>' : '') +
       '<div class="p-price-row"><div><span class="price-main">&yen;' + price.toLocaleString() + '</span><span class="price-tax">税込</span></div></div>' +
       '<div class="btn-group">' +
         sampleBtnHtml +
@@ -2525,6 +2552,11 @@ function sampleBundleDiscount(){
 function sampleBundleNote(){
   var t = sampleBundleTiers(); if(!t.length) return '';
   return t.map(function(x, i){ return x.min + '本' + (i === t.length - 1 ? '以上' : '') + 'で' + Math.round(x.rate * 100) + '%'; }).join('・') + '引き';
+}
+function sampleBundleShort(){
+  var t = sampleBundleTiers(); if(!t.length) return '送料無料';
+  var mx = t.reduce(function(r, x){ return Math.max(r, x.rate); }, 0);
+  return t[0].min + '本から最大' + Math.round(mx * 100) + '%引き・送料無料';
 }
 function sampleImg(p){ var c = sampleCfg(p); return c && c.img ? c.img + '.webp' : ''; }
 function caseById(caseId){

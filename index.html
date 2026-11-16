@@ -463,6 +463,11 @@
       .product-card .p-price-row{margin-bottom:8px}
       .product-card .sample-intro{margin:0 0 6px}
       .product-card .btn-group{gap:6px}
+      /* 左右のカードで価格・ボタンの高さをそろえる（上の説明の長さが違っても、価格から下は下端にそろえる） */
+      .product-card{display:flex;flex-direction:column}
+      .product-card .p-body{flex:1;display:flex;flex-direction:column}
+      .product-card .p-price-row{margin-top:auto}
+      .product-card .sample-amz-empty{display:block;visibility:hidden}
       .product-card .sample-btn{letter-spacing:.04em;white-space:nowrap}
       .product-card .sample-case-btn{background:none;border:none;margin-top:0;padding:4px;min-height:36px;text-decoration:underline;text-underline-offset:3px;font-size:.58rem}
       .product-card .journal-stamp{margin-top:10px;padding-top:8px;border-top:1px solid var(--border)}
@@ -472,6 +477,7 @@
       .floating-cta-icon{width:44px;height:44px}
       body.has-cart-bar .gift-float{display:none}
     }
+    .sample-amz-empty{display:none}
     .sample-case-note{display:block;font-size:.5rem;color:var(--sub);margin-top:2px;letter-spacing:.04em}
     .case-picker{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:3000;display:none;align-items:flex-end;justify-content:center}
     .case-picker.show{display:flex}
@@ -2332,7 +2338,7 @@ function renderCard(p){
         '<button type="button" class="sample-btn" onclick="event.stopPropagation();addSampleCart(' + p.id + ',\'card\')">' +
         '<i class="sb-long">お試し1.5mLをカートへ</i><i class="sb-short">お試しをカートへ</i> <span class="btn-price">&yen;' + sPrice.toLocaleString() + '</span></button>' +
         '<button type="button" class="sample-case-btn" onclick="event.stopPropagation();openCasePicker(' + p.id + ',\'card\')"><i class="sc-long">ケース付きで</i><i class="sc-short">＋ケース付き</i> <span class="btn-price">&yen;' + (sPrice + sampleCasePrice()).toLocaleString() + '</span><span class="sample-case-note">12色から選べる</span></button>' +
-        (sampleOnAmazon(p) ? '<a href="' + sampleHref + '" data-amazon-asin="' + amazonAsin + '" class="sample-amz" target="_blank" rel="noopener" onclick="event.stopPropagation()">Amazonで見る</a>' : '');
+        (sampleOnAmazon(p) ? '<a href="' + sampleHref + '" data-amazon-asin="' + amazonAsin + '" class="sample-amz" target="_blank" rel="noopener" onclick="event.stopPropagation()">Amazonで見る</a>' : '<span class="sample-amz sample-amz-empty" aria-hidden="true">&nbsp;</span>');
     } else {
       sampleBtnHtml = '<a href="' + sampleHref + '" ' + (amazonAsin ? 'data-amazon-asin="' + amazonAsin + '"' : '') + ' class="sample-btn" target="_blank" rel="noopener">' +
         '小分けで試す <span class="btn-price">&yen;' + sPrice.toLocaleString() + '</span></a>';

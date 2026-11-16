@@ -445,39 +445,48 @@
     .csx-next{font-size:.54rem;color:#a0522d;margin:2px 0 4px}
     .sample-case-btn{width:100%;margin-top:6px;padding:10px 12px;background:var(--bg2);color:var(--text);border:1px dashed var(--accent);font-family:var(--font);font-size:.6rem;letter-spacing:.06em;cursor:pointer;min-height:44px}
     .sample-case-btn .btn-price{font-weight:600}
-    .si-short,.sb-short,.sc-short{display:none}
-    .si-long,.si-short,.sb-long,.sb-short,.sc-long,.sc-short{font-style:normal}
-    .si-detail{font-size:inherit;color:inherit}
-    /* 2026-11-16 スマホの商品カードをスリムに（説明は短い版・ケースは文字リンク・星は1行・記事欄は小さく・浮いているボタンはアイコンだけ） */
-    @media(max-width:767px){
-      .si-detail,.si-long,.sb-long,.sc-long,.product-card .sample-case-note,.product-card .p-auth{display:none}
-      .si-short,.sb-short,.sc-short{display:inline}
-      .product-card .p-tags{margin-bottom:6px}
-      .product-card .p-review-btn{background:none;border:none;padding:0;margin-bottom:6px;gap:4px;width:auto}
-      .product-card .p-review-stars{font-size:.62rem;letter-spacing:0}
-      .product-card .p-review-score{font-size:.62rem}
-      .product-card .p-review-label{display:none}
-      .product-card .p-review-arrow{font-size:.6rem}
-      .product-card .p-tester-note{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding:0 8px;border-top:4px solid #faf6ed;border-bottom:4px solid #faf6ed;margin-bottom:8px;font-size:.48rem;line-height:1.6;cursor:pointer}
-      .product-card .p-tester-note.open{display:block}
-      .product-card .p-price-row{margin-bottom:8px}
-      .product-card .sample-intro{margin:0 0 6px}
-      .product-card .btn-group{gap:6px}
-      /* 左右のカードで価格・ボタンの高さをそろえる（上の説明の長さが違っても、価格から下は下端にそろえる） */
-      .product-card{display:flex;flex-direction:column}
-      .product-card .p-body{flex:1;display:flex;flex-direction:column}
-      .product-card .p-price-row{margin-top:auto}
-      .product-card .sample-amz-empty{display:block;visibility:hidden}
-      .product-card .sample-btn{letter-spacing:.04em;white-space:nowrap}
-      .product-card .sample-case-btn{background:none;border:none;margin-top:0;padding:4px;min-height:36px;text-decoration:underline;text-underline-offset:3px;font-size:.58rem}
-      .product-card .journal-stamp{margin-top:10px;padding-top:8px;border-top:1px solid var(--border)}
-      .product-card .journal-stamp .ja{display:none}
-      .product-card .journal-stamp .en{font-size:.54rem;letter-spacing:.16em}
-      .floating-cta-label{display:none}
-      .floating-cta-icon{width:44px;height:44px}
-      body.has-cart-bar .gift-float{display:none}
-    }
-    .sample-amz-empty{display:none}
+    /* 2026-11-16 商品カード（選ぶためだけ）。お試し主役・価格は主役1つ＋参考1行・ボタン1つ。中身がそろうので左右の高さも自然にそろう */
+    .pc{cursor:pointer;display:flex;flex-direction:column}
+    .pc .p-body{flex:1;display:flex;flex-direction:column}
+    .pc .p-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+    .pc .journal-stamp,.pc .share-btn{display:none}
+    .pc-rating{font-size:.56rem;color:var(--sub);margin-bottom:8px;min-height:1.6em}
+    .pc-stars{color:var(--gold)}
+    .pc-count{color:var(--light)}
+    .pc-price-row{margin-top:auto;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+    .pc-label{font-size:.54rem;color:var(--sub);letter-spacing:.04em}
+    .pc-price{font-size:1rem;font-weight:600}
+    .pc-sub{font-size:.54rem;color:var(--light);margin:2px 0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .pc-btn{width:100%;min-height:44px;padding:10px 8px;background:var(--accent);color:#fff;border:1px solid var(--accent);font-family:var(--font);font-size:.62rem;letter-spacing:.1em;border-radius:2px;cursor:pointer;transition:all .3s var(--ease)}
+    .pc-btn:hover,.pc-btn.added{background:transparent;color:var(--text)}
+    /* 詳細画面（お試しの専用画面の枠を流用） */
+    .ps-hero{background:var(--bg2);display:flex;justify-content:center;padding:24px 0 8px}
+    .ps-hero img{height:220px;width:auto;max-width:80%;object-fit:contain}
+    .ps-body{padding-top:16px}
+    .ps-brand{font-size:.54rem;letter-spacing:.14em;color:var(--light);text-transform:uppercase}
+    .ps-name{font-size:1rem;font-weight:600;margin-top:2px}
+    .ps-name-en{font-size:.62rem;color:var(--sub);margin-bottom:6px}
+    .ps-rating{display:inline-block;background:none;border:none;padding:4px 0;margin-bottom:10px;font-family:inherit;font-size:.6rem;color:var(--sub);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+    .ps-opts{display:flex;flex-direction:column;gap:8px;margin:6px 0 12px}
+    .ps-opt{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;background:#fff;border:1px solid var(--border);border-radius:4px;font-family:inherit;text-align:left;cursor:pointer;color:var(--text)}
+    .ps-opt.on{border:2px solid var(--accent);padding:9px 11px}
+    .ps-opt img{width:28px;height:38px;object-fit:contain;flex:none}
+    .ps-opt-txt{flex:1;display:flex;flex-direction:column;line-height:1.5}
+    .ps-opt-txt b{font-size:.68rem;font-weight:600}
+    .ps-opt-txt small{font-size:.54rem;color:var(--sub)}
+    .ps-opt-price{font-size:.8rem;font-weight:600;flex:none}
+    .ps-note{font-size:.56rem;color:#a0522d;text-align:center;margin:0 0 8px}
+    .ps-main{width:100%;min-height:48px;background:var(--accent);color:#fff;border:1px solid var(--accent);font-family:var(--font);font-size:.68rem;letter-spacing:.1em;border-radius:2px;cursor:pointer}
+    .ps-sub{width:100%;min-height:44px;margin-top:8px;background:#fff;color:var(--text);border:1px solid var(--accent);font-family:var(--font);font-size:.62rem;letter-spacing:.06em;border-radius:2px;cursor:pointer}
+    .ps-trust{display:flex;flex-direction:column;gap:6px;margin-top:18px;padding-top:14px;border-top:1px solid var(--border);font-size:.56rem;color:var(--sub)}
+    .ps-trust div{display:flex;align-items:center;gap:8px}
+    .ps-foot{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:18px}
+    .ps-link{background:none;border:none;font-family:inherit;font-size:.56rem;color:var(--sub);text-decoration:underline;text-underline-offset:3px;padding:8px;cursor:pointer}
+    /* 重なっていた絞り込みを1つずつに（ブランドはプルダウン、香りは「どんな香りを？」に一本化。価格チップはフルボトル価格なので外す） */
+    .brand-tiles-section{display:none}
+    /* スマホの浮いているボタンは丸アイコンだけ。カートバーが出ている間はギフトの丸ボタンを隠す（11/16） */
+    @media(max-width:767px){.floating-cta-label{display:none}.floating-cta-icon{width:44px;height:44px}body.has-cart-bar .gift-float{display:none}}
+    #toolbar-filters .filter-btn[data-scent],#toolbar-filters .filter-sep,#toolbar-filters .price-chip{display:none}
     .sample-case-note{display:block;font-size:.5rem;color:var(--sub);margin-top:2px;letter-spacing:.04em}
     .case-picker{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:3000;display:none;align-items:flex-end;justify-content:center}
     .case-picker.show{display:flex}
@@ -1147,7 +1156,7 @@
     <div class="shop-hero-overlay"></div>
     <div class="shop-hero-content">
       <h1 class="fade-up">Your Fragrance Collection</h1>
-      <p class="fade-up delay-1">1.5mlの小分けで試して、気に入ったらフルボトルへ。</p>
+      <p class="fade-up delay-1">憧れのブランド香水を、1.5mL・¥750からお試し。全品送料無料</p>
       <p class="hero-sub fade-up delay-1">130種類以上のブランド香水（並行輸入品）を、当社が独自に詰め替えてお届け</p>
       <div class="hero-btn-row fade-up delay-2">
       <button class="hero-ai-btn" onclick="openDiagnosis()">
@@ -1238,7 +1247,7 @@
     <div class="view-tabs" id="main-toggle">
       <button class="active" data-mode="all">すべて <span class="tab-count" id="count-all"></span></button>
       <button data-mode="popular">人気</button>
-      <button data-mode="sample">小分け</button>
+      <button data-mode="sample">お試し</button>
       <button data-mode="fullbottle">フルボトル</button>
       <button data-mode="new">新着</button>
     </div>
@@ -1327,7 +1336,7 @@
           <div class="why-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect x="7.5" y="9.5" width="9" height="11.5" rx="2.8"/><path d="M10.5 9.5V7.2h3v2.3"/><rect x="10" y="3.8" width="4" height="2.6" rx="0.9"/><path d="M16.9 4.3h.01M18.7 5.5h.01M19 3.1h.01M17.6 6.6h.01"/><path d="M9.8 15.2h4.4"/></svg></div>
           <h3>試してから買える</h3>
           <p>気になる香りを1.5mlでお試し。気に入ったらフルボトルへ。</p>
-          <span class="why-badge">小分け ¥750〜</span>
+          <span class="why-badge">お試し ¥750〜</span>
         </div>
         <div class="why-card fade-up delay-1">
           <div class="why-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2z"/><path d="M9.2 11.8l2 2 3.6-3.8"/></svg></div>
@@ -2009,9 +2018,9 @@ function populatePopular(){
       ? imgPicture(p.img, p.brand + ' ' + p.name, { eager: i < 4 })
       : '<div style="width:100%;aspect-ratio:4/5;background:#f7f7f7;display:flex;align-items:center;justify-content:center;opacity:.15"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="9" width="8" height="12" rx="2.2"/><path d="M10.5 9V7h3v2"/><rect x="10.2" y="3.6" width="3.6" height="2.4" rx="0.8"/></svg></div>';
     var priceLabel = p.type === 'sample_and_fullbottle' && p.samplePrice
-      ? '小分け &yen;' + p.samplePrice.toLocaleString() + '〜'
+      ? 'お試し &yen;' + p.samplePrice.toLocaleString() + '〜'
       : '&yen;' + p.sellPrice.toLocaleString();
-    return '<div class="popular-item" onclick="scrollToProduct(' + p.id + ')">' +
+    return '<div class="popular-item" onclick="openProductSheet(' + p.id + ',\'popular\')">' +
       '<div class="popular-item-rank">' + (i + 1) + '</div>' +
       imgHtml +
       '<div class="popular-item-body">' +
@@ -2324,89 +2333,123 @@ function renderCard(p){
   const isSample = p.type === 'sample_and_fullbottle';
   const amazonAsin = p.amazonAsin || '';
 
-  /* Sample button */
-  var sampleBtnHtml = '';
-  if(isSample){
-    var sPrice = p.samplePrice || SAMPLE_PRICE_DEFAULT;
-    var sampleHref = amazonAsin ? 'https://www.amazon.co.jp/dp/' + amazonAsin + '?th=1&psc=1' : '#';
-    if(sampleSellable(p)){
-      /* サイトのカートへ（主）＋ Amazonで買える香りだけ小さく「Amazonで見る」 */
-      var sImg = sampleImg(p);
-      sampleBtnHtml = '<div class="sample-intro">' +
-        (sImg ? '<img src="' + sImg + '" alt="お試し1.5mLの瓶" class="sample-thumb" loading="lazy" width="36" height="48">' : '') +
-        '<div><b>お試し1.5mL</b><small class="si-detail">（約20プッシュ・約1週間）</small><br><span><i class="si-long">' + sampleBundleNote() + '・送料無料</i><i class="si-short">' + sampleBundleShort() + '</i></span></div></div>' +
-        '<button type="button" class="sample-btn" onclick="event.stopPropagation();addSampleCart(' + p.id + ',\'card\')">' +
-        '<i class="sb-long">お試し1.5mLをカートへ</i><i class="sb-short">お試しをカートへ</i> <span class="btn-price">&yen;' + sPrice.toLocaleString() + '</span></button>' +
-        '<button type="button" class="sample-case-btn" onclick="event.stopPropagation();openCasePicker(' + p.id + ',\'card\')"><i class="sc-long">ケース付きで</i><i class="sc-short">＋ケース付き</i> <span class="btn-price">&yen;' + (sPrice + sampleCasePrice()).toLocaleString() + '</span><span class="sample-case-note">12色から選べる</span></button>' +
-        (sampleOnAmazon(p) ? '<a href="' + sampleHref + '" data-amazon-asin="' + amazonAsin + '" class="sample-amz" target="_blank" rel="noopener" onclick="event.stopPropagation()">Amazonで見る</a>' : '<span class="sample-amz sample-amz-empty" aria-hidden="true">&nbsp;</span>');
-    } else {
-      sampleBtnHtml = '<a href="' + sampleHref + '" ' + (amazonAsin ? 'data-amazon-asin="' + amazonAsin + '"' : '') + ' class="sample-btn" target="_blank" rel="noopener">' +
-        '小分けで試す <span class="btn-price">&yen;' + sPrice.toLocaleString() + '</span></a>';
-    }
-  }
-
-  /* Fullbottle button */
-  var fullBtnHtml = '<button class="add-btn" id="btn-' + p.id + '" onclick="addCart(' + p.id + ')">' +
-    '<span id="btn-txt-' + p.id + '">' + (isSample ? 'フルボトル &yen;' + price.toLocaleString() : '+ Add to Cart') + '</span></button>';
-
-  /* Concentration badge */
-  var concHtml = p.concentration ? '<span class="p-conc">' + p.concentration + '</span>' : '';
-
-  /* サイズ切替ボタン（在庫のあるサイズ違いが2つ以上あるとき） */
-  var sibs = variantSiblings(p);
-  var sizeHtml;
-  if(sibs.length > 1){
-    sizeHtml = '<div class="p-variants">' + sibs.map(function(v){
-      return '<button class="variant-btn' + (v.id === p.id ? ' active' : '') + '" onclick="event.stopPropagation();switchVariant(' + p.id + ',' + v.id + ')" title="&yen;' + v.sellPrice.toLocaleString() + '">' + v.size + '</button>';
-    }).join('') + '</div>';
+  /* 2026-11-16 カードは「選ぶため」だけ：お試し主役・価格は主役1つ＋参考1行・ボタン1つ。
+     ケース・フルボトル・香りのノート・記事・Amazon は、カードをタップして開く詳細画面（openProductSheet）へ */
+  var sell = isSample && sampleSellable(p);
+  var sPrice = p.samplePrice || SAMPLE_PRICE_DEFAULT;
+  var priceMain, priceSub, btnHtml;
+  if(sell){
+    priceMain = '<span class="pc-label">お試し1.5mL</span><span class="pc-price">&yen;' + sPrice.toLocaleString() + '</span>';
+    priceSub = 'フルボトル &yen;' + price.toLocaleString();
+    btnHtml = '<button type="button" class="pc-btn" onclick="event.stopPropagation();addSampleCart(' + p.id + ',\'card\')">お試しをカートへ</button>';
   } else {
-    sizeHtml = '<div class="p-size">' + p.size + '</div>';
+    priceMain = '<span class="pc-label">' + (p.size || 'フルボトル') + '</span><span class="pc-price">&yen;' + price.toLocaleString() + '</span>';
+    priceSub = p.tester ? 'テスター品・送料無料' : '送料無料';
+    btnHtml = '<button type="button" class="pc-btn" id="btn-' + p.id + '" onclick="event.stopPropagation();addCart(' + p.id + ')"><span id="btn-txt-' + p.id + '">カートに入れる</span></button>';
   }
+  var ratingHtml = p.customerAvgRating
+    ? '<span class="pc-stars">&#9733;</span> ' + p.customerAvgRating.toFixed(1) + ' <span class="pc-count">(' + p.customerReviewCount + ')</span>'
+    : '&nbsp;';
 
-  /* Notes overlay content */
-  var notesOverlay = '';
-  if(p.notes){
-    var notesParts = p.notes.split(',').map(function(n){ return n.trim(); });
-    var top = notesParts[0] || '';
-    var mid = notesParts[1] || '';
-    var base = notesParts[2] || '';
-    notesOverlay = '<div class="note-overlay-content">' +
-      '<div class="note-overlay-title">Fragrance Notes</div>' +
-      '<div class="notes-grid">' +
-        (top ? '<div class="note-row"><div class="note-label">Top</div><div class="note-value">' + top + '</div></div>' : '') +
-        (mid ? '<div class="note-row"><div class="note-label">Heart</div><div class="note-value">' + mid + '</div></div>' : '') +
-        (base ? '<div class="note-row"><div class="note-label">Base</div><div class="note-value">' + base + '</div></div>' : '') +
-      '</div>' +
-    '</div>' +
-    '<span class="tap-hint">Tap to view notes</span>';
-  }
-
-  return '<div class="product-card" data-product-id="' + p.id + '"' + (p.slug ? ' data-product-slug="' + p.slug + '"' : '') + '>' +
-    '<button class="share-btn" onclick="event.stopPropagation();copyProductLink(' + p.id + ',\'' + p.brand.replace(/'/g,"\\'") + ' ' + (p.nameJa||p.name).replace(/'/g,"\\'") + '\')" title="商品リンクをコピー"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>' +
-    '<div class="img-wrap" onclick="handleImgClick(event,' + p.id + ')">' +
+  return '<div class="product-card pc" data-product-id="' + p.id + '"' + (p.slug ? ' data-product-slug="' + p.slug + '"' : '') + ' onclick="openProductSheet(' + p.id + ',\'card\')" role="button" tabindex="0" aria-label="' + p.brand + ' ' + (p.nameJa || p.name) + 'の詳細">' +
+    '<div class="img-wrap">' +
       (imgSrc ? imgPicture(imgSrc, p.brand + ' ' + p.name) : fallback) +
-      (imgSrc && p.notes ? '<div class="img-overlay" id="overlay-' + p.id + '">' + notesOverlay + '</div>' : '') +
-      (imgSrc && !p.notes ? '<div class="img-overlay"><span class="zoom-hint">View</span></div>' : '') +
       (p.tester ? '<span class="tag tester">Tester</span>' : '') +
       (p.limitedStock ? '<span class="tag limited">お早めに</span>' : '') +
     '</div>' +
     '<div class="p-body">' +
-      '<div class="p-brand">' + p.brand + concHtml + '</div>' +
-      '<div class="p-name">' + p.name + '</div>' +
-      (p.nameJa ? '<div class="p-name-ja">' + p.nameJa + '</div>' : '') +
-      sizeHtml +
-      '<div class="p-tags">' + tagsHtml + '</div>' +
-      /* お試し体験者レビュー — クリックでその場でモーダル表示（Amazon表示は廃止） */
-      (p.customerAvgRating ? '<button class="p-review-btn" onclick="event.stopPropagation();openReviewModal(' + p.id + ')" aria-label="お試し体験者の声を見る"><span class="p-review-stars">' + renderStars(p.customerAvgRating) + '</span><span class="p-review-score">' + p.customerAvgRating.toFixed(1) + '</span><span class="p-review-label">' + p.customerReviewCount + '名の声を見る</span><span class="p-review-arrow">&rarr;</span></button>' : '') +
-      '<div class="p-auth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2zM9.2 11.6l2 2 3.6-3.8"/></svg>本物のみ・真贋確認済み</div>' +
-      (p.tester ? '<div class="p-tester-note" onclick="event.stopPropagation();this.classList.toggle(\'open\')">' + (p.testerNote || 'テスター品のため外装箱が無地の白箱となり、その分お安くご提供しております。販売品と同じ中身として流通しているテスター品（並行輸入品）です。') + '</div>' : '') +
-      '<div class="p-price-row"><div><span class="price-main">&yen;' + price.toLocaleString() + '</span><span class="price-tax">税込</span></div></div>' +
-      '<div class="btn-group">' +
-        sampleBtnHtml +
-        fullBtnHtml +
-      '</div>' +
+      '<div class="p-brand">' + p.brand + '</div>' +
+      '<div class="p-name">' + (p.nameJa || p.name) + '</div>' +
+      '<div class="pc-rating">' + ratingHtml + '</div>' +
+      '<div class="pc-price-row">' + priceMain + '</div>' +
+      '<div class="pc-sub">' + priceSub + '</div>' +
+      btnHtml +
     '</div>' +
   '</div>';
+}
+
+/* ===== 商品の詳細画面（カードをタップで開く。お試し／フルボトルを選んでカートへ） ===== */
+var _sheetPick = null;
+function openProductSheet(id, from){
+  var p = PRODUCTS.find(function(x){ return x.id === id; });
+  if(!p) return;
+  var sell = p.type === 'sample_and_fullbottle' && sampleSellable(p);
+  _sheetPick = { id: id, size: sell ? 'sample' : String(p.id) }; /* 開くたびにお試しを選んだ状態から */
+  renderProductSheet(p);
+  document.getElementById('sample-lp-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  var lp = document.getElementById('sample-lp'); if(lp && lp.parentNode) lp.parentNode.scrollTop = 0;
+  ga4Event('product_sheet_open', { product_id: id, placement: from || '' });
+}
+function pickSheetSize(id, size){
+  _sheetPick = { id: id, size: String(size) };
+  var p = PRODUCTS.find(function(x){ return x.id === id; });
+  if(p) renderProductSheet(p);
+}
+function renderProductSheet(p){
+  var sell = p.type === 'sample_and_fullbottle' && sampleSellable(p);
+  var sPrice = p.samplePrice || SAMPLE_PRICE_DEFAULT;
+  var fulls = variantSiblings(p);
+  if(!fulls.length) fulls = [p];
+  var pick = _sheetPick && _sheetPick.id === p.id ? _sheetPick.size : (sell ? 'sample' : String(p.id));
+  var check = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2zM9.2 11.6l2 2 3.6-3.8"/></svg>';
+
+  var opts = '';
+  if(sell){
+    opts += '<button type="button" class="ps-opt' + (pick === 'sample' ? ' on' : '') + '" onclick="pickSheetSize(' + p.id + ',\'sample\')">' +
+      (sampleImg(p) ? '<img src="' + sampleImg(p) + '" alt="" width="28" height="38">' : '') +
+      '<span class="ps-opt-txt"><b>お試し 1.5mL</b><small>約20プッシュ・約1週間</small></span><span class="ps-opt-price">&yen;' + sPrice.toLocaleString() + '</span></button>';
+  }
+  fulls.forEach(function(v){
+    opts += '<button type="button" class="ps-opt' + (pick === String(v.id) ? ' on' : '') + '" onclick="pickSheetSize(' + p.id + ',' + v.id + ')">' +
+      '<span class="ps-opt-txt"><b>フルボトル ' + (v.size || '') + '</b><small>' + (v.tester ? 'テスター品・送料無料' : '送料無料') + '</small></span><span class="ps-opt-price">&yen;' + v.sellPrice.toLocaleString() + '</span></button>';
+  });
+
+  var actions;
+  if(pick === 'sample' && sell){
+    actions =
+      (sampleBundleNote() ? '<p class="ps-note">いくつか一緒に試すと ' + sampleBundleNote() + '</p>' : '') +
+      '<button type="button" class="ps-main" onclick="closeSampleLP();addSampleCart(' + p.id + ',\'sheet\')">お試しをカートへ &yen;' + sPrice.toLocaleString() + '</button>' +
+      '<button type="button" class="ps-sub" onclick="closeSampleLP();openCasePicker(' + p.id + ',\'sheet\')">ケース付きで &yen;' + (sPrice + sampleCasePrice()).toLocaleString() + '（12色から選ぶ）</button>';
+  } else {
+    var fv = PRODUCTS.find(function(x){ return String(x.id) === pick; }) || p;
+    actions = '<button type="button" class="ps-main" onclick="closeSampleLP();addCart(' + fv.id + ')">フルボトルをカートへ &yen;' + fv.sellPrice.toLocaleString() + '</button>';
+  }
+
+  var notesHtml = '';
+  if(p.notes){
+    var parts = p.notes.split(',').map(function(n){ return n.trim(); });
+    notesHtml = '<div class="sample-lp-notes"><div class="sample-lp-notes-title">香りのノート</div><div class="sample-lp-notes-grid">' +
+      (parts[0] ? '<div class="sample-lp-notes-label">トップ</div><div class="sample-lp-notes-value">' + parts[0] + '</div>' : '') +
+      (parts[1] ? '<div class="sample-lp-notes-label">ミドル</div><div class="sample-lp-notes-value">' + parts[1] + '</div>' : '') +
+      (parts[2] ? '<div class="sample-lp-notes-label">ラスト</div><div class="sample-lp-notes-value">' + parts[2] + '</div>' : '') +
+      '</div></div>';
+  }
+  var amz = (sell && sampleOnAmazon(p) && p.amazonAsin)
+    ? '<a class="ps-link" href="https://www.amazon.co.jp/dp/' + p.amazonAsin + '?th=1&psc=1" data-amazon-asin="' + p.amazonAsin + '" target="_blank" rel="noopener">お試しはAmazonでも購入できます</a>' : '';
+
+  document.getElementById('sample-lp').innerHTML =
+    '<button class="sample-lp-close" onclick="closeSampleLP()" aria-label="閉じる">&times;</button>' +
+    '<div class="ps-hero">' + (p.img ? '<img src="' + p.img + '" alt="' + p.brand + ' ' + p.name + '">' : '') + '</div>' +
+    '<div class="sample-lp-body ps-body">' +
+      '<div class="ps-brand">' + p.brand + (p.concentration ? ' ・ ' + p.concentration : '') + '</div>' +
+      '<div class="ps-name">' + (p.nameJa || p.name) + '</div>' +
+      (p.nameJa ? '<div class="ps-name-en">' + p.name + '</div>' : '') +
+      (p.customerAvgRating ? '<button type="button" class="ps-rating" onclick="closeSampleLP();openReviewModal(' + p.id + ')"><span class="pc-stars">' + renderStars(p.customerAvgRating) + '</span> ' + p.customerAvgRating.toFixed(1) + '・' + p.customerReviewCount + '名の声を見る &rarr;</button>' : '') +
+      (p.tester ? '<div class="p-tester-note">' + (p.testerNote || 'テスター品のため外装箱が無地の白箱となり、その分お安くご提供しております。販売品と同じ中身として流通しているテスター品（並行輸入品）です。') + '</div>' : '') +
+      '<div class="ps-opts" role="radiogroup" aria-label="サイズを選ぶ">' + opts + '</div>' +
+      actions +
+      notesHtml +
+      '<div class="ps-trust">' +
+        '<div>' + check + '本物のみ・真贋確認済み（並行輸入品）</div>' +
+        (sell ? '<div>' + check + 'お試しは自社の製造所で丁寧に詰め替え</div>' : '') +
+        '<div>' + check + '全品送料無料・2〜4日で発送</div>' +
+      '</div>' +
+      findRelatedArticles(p) +
+      '<div class="ps-foot">' + amz +
+        '<button type="button" class="ps-link" onclick="copyProductLink(' + p.id + ',\'' + (p.brand + ' ' + (p.nameJa || p.name)).replace(/'/g, "\\'") + '\')">この商品のリンクをコピー</button>' +
+      '</div>' +
+    '</div>';
 }
 
 /* ===== EVENT BINDINGS ===== */
@@ -3666,7 +3709,7 @@ function showSampleLP(productId){
       '<div style="font-size:1rem;font-weight:600;text-align:center;color:#1a1a1a;margin-bottom:16px">&yen;' + fullPrice.toLocaleString() + ' <span style="font-size:.54rem;font-weight:400;color:#999">税込</span></div>' +
       '<div class="sample-lp-btns">' +
         '<button class="sample-lp-btn-main" onclick="closeSampleLP();addCart(' + p.id + ')">フルボトルをカートに追加</button>' +
-        '<button class="sample-lp-btn-sub" onclick="closeSampleLP();scrollToProduct(' + p.id + ')">ショップで見る</button>' +
+        '<button class="sample-lp-btn-sub" onclick="openProductSheet(' + p.id + ',\'lp\')">ほかのサイズも見る</button>' +
       '</div>' +
       /* 安心ポイント */
       '<div style="margin-top:20px;padding-top:16px;border-top:1px solid #eee;display:flex;flex-direction:column;gap:8px">' +
@@ -3795,7 +3838,7 @@ function renderReviewModal(p, data){
     filterHead +
     '<div class="review-modal-voices">' + voicesHtml + '</div>' +
     '<div class="review-modal-foot">' +
-      '<button class="review-modal-cta" onclick="closeReviewModal();showSampleLP(' + p.id + ')">この香りを試す →</button>' +
+      '<button class="review-modal-cta" onclick="closeReviewModal();openProductSheet(' + p.id + ',\'review\')">この香りを試す →</button>' +
     '</div>';
 }
 function filterReviewsByRating(s){
@@ -3889,12 +3932,12 @@ function showRecommendLP(productId){
             '<button type="button" class="sample-lp-btn-sub" onclick="closeSampleLP();openCasePicker(' + p.id + ',\'recommend_lp\')">ケース付きで（+&yen;' + sampleCasePrice().toLocaleString() + '・12色）</button>' +
             (sampleOnAmazon(p) ? '<a href="' + amazonUrl + '" target="_blank" rel="noopener" class="sample-amz" style="display:block;text-align:center;margin:6px 0" onclick="ga4Event(\'click_amazon\',{product_id:' + p.id + ',from:\'recommend_lp\'})">Amazonで見る</a>' : '')
           : '<a href="' + amazonUrl + '" target="_blank" rel="noopener" class="sample-lp-btn-main" onclick="ga4Event(\'click_amazon\',{product_id:' + p.id + ',from:\'recommend_lp\'})">小分けで試してみる</a>') +
-        '<button class="sample-lp-btn-sub" onclick="closeSampleLP();scrollToProduct(' + p.id + ')">ショップで見る</button>' +
+        '<button class="sample-lp-btn-sub" onclick="openProductSheet(' + p.id + ',\'lp\')">ほかのサイズも見る</button>' +
       '</div>' +
       findRelatedArticles(p) +
       '<div style="margin-top:20px;padding-top:16px;border-top:1px solid #eee;display:flex;flex-direction:column;gap:8px">' +
         '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2zM9.2 11.6l2 2 3.6-3.8"/></svg>並行輸入品を自社の製造所で丁寧に詰め替え</div>' +
-        '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2zM9.2 11.6l2 2 3.6-3.8"/></svg>Amazon発送で最短翌日お届け</div>' +
+        '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2zM9.2 11.6l2 2 3.6-3.8"/></svg>' + (sampleSellable(p) ? '全品送料無料・2〜4日で発送' : 'Amazon発送で最短翌日お届け') + '</div>' +
         '<div style="display:flex;align-items:center;gap:8px;font-size:.52rem;color:#666"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a7d44" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.8 2.4v5.2c0 4.5-2.9 7.6-6.8 9-3.9-1.4-6.8-4.5-6.8-9V5.6L12 3.2zM9.2 11.6l2 2 3.6-3.8"/></svg>気に入ったらフルボトルもご用意しています</div>' +
       '</div>' +
       notesHtml +
@@ -3937,7 +3980,7 @@ document.addEventListener('DOMContentLoaded', function(){
     } else if(_pendingRecommendLP){
       setTimeout(function(){ showRecommendLP(pid); }, 300);
     } else if(_pendingProductScroll){
-      setTimeout(function(){ scrollToProduct(_pendingProductScroll); }, 300);
+      setTimeout(function(){ openProductSheet(_pendingProductScroll, 'url'); }, 300);
     } else if(qs.get('diagnosis') === '1'){
       /* 記事CTAなどから ?diagnosis=1 で来訪 → 診断を自動起動（&ctx=woody 等で文脈引き継ぎ） */
       diagEntryCtx = qs.get('ctx') || '';
@@ -4284,7 +4327,7 @@ function showDiagResult(data){
     }
     if(p && sellPrice > 0){
       btnsHtml += '<button onclick="closeDiagnosis();addCart(' + numId + ')" class="' + (asin ? '' : 'primary') + '">フルボトル &yen;' + sellPrice.toLocaleString() + '</button>';
-      btnsHtml += '<button onclick="closeDiagnosis();scrollToProduct(' + numId + ')" style="background:transparent;border:1px solid #999;color:#555">ショップで見る</button>';
+      btnsHtml += '<button onclick="closeDiagnosis();openProductSheet(' + numId + ',\'diagnosis\')" style="background:transparent;border:1px solid #999;color:#555">ショップで見る</button>';
     }
     if(!btnsHtml){
       btnsHtml = '<button onclick="closeDiagnosis();document.getElementById(\'search-input\').value=\'' + (rec.brand||'') + '\';applyFilters()" class="primary">ショップで探す</button>';

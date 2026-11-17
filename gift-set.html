@@ -186,7 +186,33 @@
   .subt{font-size:13px;color:var(--sub);margin:6px 0 0;letter-spacing:.06em}
   /* 贈る相手で選ぶ：SPは横スクロールのチップ列（列の中だけスクロール＝ページははみ出さない） */
   .pl{font-size:12px;color:var(--sub);margin:0 0 6px}
-  .presets{display:flex;gap:6px;margin:0 0 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+  .presets{display:flex;gap:8px;margin:0 0 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;scroll-snap-type:x mandatory}
+  .presets .pc{flex:0 0 200px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--bg);color:var(--ink);font:inherit;cursor:pointer;min-height:0;white-space:normal}
+  .presets .pc[aria-pressed="true"]{border:2px solid var(--ink);padding:9px 11px;background:var(--bg);color:var(--ink)}
+  .presets .pc[aria-pressed="true"] b::after{content:"　選択中";font-size:11px;font-weight:400;color:var(--teal)}
+  .presets .pc .pb{display:flex;gap:2px;margin-bottom:4px}
+  .presets .pc .pb img{width:34px;height:42px;object-fit:contain;display:block}
+  .presets .pc b{font-size:14px}
+  .presets .pc .pd{font-size:12px;color:var(--sub);line-height:1.5}
+  .presets .pc .pn{font-size:11px;color:var(--mute)}
+  .presets .pc .pp{font-size:13px;font-weight:700;margin-top:2px}
+  .pl-r{float:right;font-size:11px;color:var(--mute)}
+  .pick-more{border:1px solid var(--line);border-radius:6px;padding:0 12px;margin-top:4px}
+  .pick-more summary{cursor:pointer;font-size:13px;padding:12px 0;list-style:none}
+  .pick-more summary::after{content:"＋";float:right;color:var(--sub)}
+  .pick-more[open] summary::after{content:"－"}
+  .pick-more[open]{padding-bottom:12px}
+  .promise-h{font-size:16px;color:var(--ink);display:inline-block;margin-bottom:4px}
+  .promise{list-style:none;display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:4px 0 0}
+  .promise li{font-size:12px;border:1px solid var(--line);border-radius:12px;padding:2px 10px;color:var(--sub)}
+  .cf-picks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0 12px}
+  .cf-picks div{display:flex;flex-direction:column;align-items:center;text-align:center;font-size:12px;gap:4px}
+  .cf-picks img{width:44px;height:52px;object-fit:contain;display:block}
+  .cf-picks small{display:block;color:var(--teal);font-size:11px}
+  .cf-dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13px;margin:0 0 14px}
+  .cf-dl dt{color:var(--sub)}
+  .cf-dl dd{margin:0;overflow-wrap:anywhere}
+  .cf .cta{width:100%}
   .presets::-webkit-scrollbar{display:none}
   @media (min-width:520px){.presets{flex-wrap:wrap;overflow:visible}}
   .presets button{flex:none;white-space:nowrap;border:1px solid var(--line);border-radius:18px;background:var(--bg);color:var(--ink);font:inherit;font-size:12.5px;padding:6px 14px;min-height:38px;cursor:pointer}
@@ -267,11 +293,11 @@
              差し替えたら ?v= を上げる（画像は immutable で1年キャッシュ）。gift_hand（旧AI画像）はLINE側が ?v=1 で参照しているので消さない。
              ケースの色を選ぶと assets/images/gift/cases/case_{色}.jpg に切り替わる（サムネイルを押せば戻る） -->
         <picture id="main-pic">
-          <source id="main-src" srcset="assets/images/gift/gift_main.webp?v=2" type="image/webp">
-          <img class="media-main" id="main-img" src="assets/images/gift/gift_main.jpg?v=2" alt="段ボール箱を開けて、COLLEGRANCEのコットンポーチを両手で取り出すところ。箱の中に香水の小箱・黒の香水ケース・thank youカード" width="1200" height="1200" fetchpriority="high">
+          <source id="main-src" srcset="assets/images/gift/gift_contents.webp?v=2" type="image/webp">
+          <img class="media-main" id="main-img" src="assets/images/gift/gift_contents.jpg?v=2" alt="セットの中身：コットンポーチ・香水の小箱3つ・お試し香水3本・黒の香水ケース・thank youカード" width="1200" height="1200" fetchpriority="high">
         </picture>
         <div class="thumbs" id="thumbs"></div>
-        <div class="cap">COLLEGRANCEのロゴ入りコットンポーチ（生成り）に入れてお届けします。<br>※画像はイメージです。セット内容は下記のとおりです。</div>
+        <div class="cap">届くもの：お試し香水1.5mL×3本・香水ケース1個・ロゴ入りコットンポーチ・印字メッセージカード。<br>写真は一例です。香り3本とケースの色はお選びいただけます。</div>
       </div>
 
       <div class="buy">
@@ -280,13 +306,14 @@
           <h1>選べる3本ギフトセット</h1>
           <p class="subt">お試し香水3本＋香水ケース＋コットンポーチ</p>
         </div>
-        <p class="lead">香りの好みは、本人にしか分かりません。だから、試せる1.5mlを3本。ポーチとケースを付けて、ギフト仕様でお届けします。</p>
+        <p class="lead"><b class="promise-h">好みが分からない人に、3つ試せる香水ギフト。</b><br>香りの好みは、本人にしか分かりません。だから、試せる1.5mLを3本。ポーチとケースを付けて、ギフト仕様でお届けします。</p>
         <div class="price-row">
           <span class="price" id="price">¥2,980<small>税込</small></span>
           <span class="ship">送料込み</span>
         </div>
         <p class="eta" id="eta">ご注文から2営業日以内に発送・ポストにお届け</p>
         <p class="eta-sub" id="eta-sub" hidden>2営業日以内に発送（土日祝は休み）・ネコポスでポストへ</p>
+        <ul class="promise"><li>金額の分かる明細なし</li><li>ポストに届く</li><li>ポーチ・印字カード・ギフト包装込み</li></ul>
 
         <nav class="contents" aria-label="選ぶ順序">
           <a href="#step1"><b>STEP 1</b>香りを<br>3本選ぶ</a>
@@ -297,10 +324,11 @@
 
         <div class="step" id="step1">
           <h2><span class="n">1</span>香りを3本選ぶ <span class="hint">同じ香りを2本以上でもOK</span></h2>
-          <p class="pl" id="pl">贈る相手で選ぶ</p>
+          <p class="pl" id="pl">贈る相手から選ぶ（おすすめの3本）<span class="pl-r">横にスワイプ &rsaquo;</span></p>
           <div class="presets" id="presets" role="group" aria-labelledby="pl"></div>
+          <p class="pl" style="margin-top:4px">選んでいる3本</p>
           <div class="slots" id="slots"></div>
-          <div id="tiers"></div>
+          <details class="pick-more" id="pick-more"><summary>1本ずつ自分で選ぶ・入れ替える（全<span id="scent-n">11</span>種）</summary><div id="tiers"></div></details>
         </div>
 
         <div class="step" id="step2">
@@ -370,6 +398,8 @@
         <h2><span class="sec-en">FAQ</span>よくある質問</h2>
         <details><summary>1.5mlでどのくらい使えますか？</summary><p>つける量や回数によって変わりますが、それぞれの香りを毎日少しずつ、数日から1週間ほどお試しいただける量です。</p></details>
         <details><summary>ラッピングは選べますか？</summary><p>コットンポーチと薄紙でのギフト包装が標準です。追加料金はかかりません。</p></details>
+        <details><summary>相手の好みに合わなかったら？</summary><p>3本の中で気に入った香りがあれば、同じ香りをお試し1.5mLやフルボトルでお求めいただけます（トップページから選べます）。3本とも合わなかった場合の返品・交換はお受けしていません。</p></details>
+        <details><summary>相手に届く荷物に、私の名前は出ますか？</summary><p>伝票の差出人はCOLLEGRANCEになります。贈り主のお名前は、メッセージカードに印字できます（任意）。金額の分かる明細は入れません。</p></details>
         <details><summary>相手の住所に直接送れますか？</summary><p>「相手に直接送る」を選び、決済画面でお届け先を入力してください。明細や金額の分かるものは入れずにお送りします。</p></details>
         <details><summary>いつ届きますか？</summary><p>ご注文から2営業日以内（土日祝は発送休み）に発送し、ネコポスで発送後1〜2日でポストへお届けします<span id="faq-eta"></span>。発送後に追跡番号をメールでお知らせします。</p></details>
       </div>
@@ -420,19 +450,20 @@ function toggleMobileNav(){
   var CART_KEY = 'clg_cart_v1';
   var IMG_V = '?v=2'; /* 写真を差し替えたら上げる（immutableキャッシュ対策） */
   var PHOTOS = [
-    ['gift_main', '段ボール箱を開けて、COLLEGRANCEのコットンポーチを両手で取り出すところ。箱の中に香水の小箱・黒の香水ケース・thank youカード'],
     ['gift_contents', 'セットの中身：コットンポーチ・香水の小箱3つ・お試し香水3本・黒の香水ケース・thank youカード'],
+    ['gift_main', '段ボール箱を開けて、COLLEGRANCEのコットンポーチを両手で取り出すところ。箱の中に香水の小箱・黒の香水ケース・thank youカード'],
     ['gift_card', 'メッセージカードとお試し香水3本・香水ケース'],
     ['gift_case', '香水ケース（ネイビー）']
   ];
   var CFG = null, picks = [], caseId = '', direct = false;
   var PRESETS = [
-    ['定番', ['030', '018', '014']],
-    ['はじめての人へ', ['030', '018', '021']],
-    ['男性へ', ['014', '039', '015']],
-    ['甘い香りが好きな人へ', ['013', '039', '021']],
-    ['大人っぽく', ['040', '006', '024']]
+    ['定番', ['030', '018', '014'], '迷ったらこれ。石けん・グリーン・スパイシーの人気3本'],
+    ['はじめての人へ', ['030', '018', '021'], 'やわらかく親しみやすい、石けん・グリーン・果実の3本'],
+    ['男性へ', ['014', '039', '015'], 'きりっと・甘く深く・木の香り。雰囲気の違う3本'],
+    ['甘い香りが好きな人へ', ['013', '039', '021'], 'バニラ・アンバーと果実。甘さの違う3本'],
+    ['大人っぽく', ['040', '006', '024'], '肌になじむ、静かで清潔な3本']
   ];
+  function ga(name, p){ try { gtag('event', name, p || {}); } catch(e){} }
   /* LINEのシナリオから来たとき（?to=family|partner|friend|work&lfid=<friend_id>）。
      lfid は index.html と同じキー（clg_line_friend_id）に保存＝カート（index.html）の決済で metadata.line_friend_id に載る */
   var PRESET_BY_TO = { family: '定番', partner: '大人っぽく', friend: 'はじめての人へ', work: '定番' };
@@ -508,13 +539,13 @@ function toggleMobileNav(){
         var b = document.createElement('button'); b.type = 'button'; b.className = 'fr'; b.id = 'fr-' + s.no;
         b.innerHTML = bottle(s.no) + '<span class="t"><b>' + esc(s.name) + '</b>'
           + (s.scene ? '<span class="sc">' + esc(s.scene) + '</span>' : '')
-          + (s.notes ? '<span class="nt">' + esc(s.notes) + '</span>' : '')
           + '<span class="mt">' + esc(s.family) + '・'
           + (s.soldOut ? '<span class="so">品切れ中</span>' : '<span class="add">' + (s.surcharge ? '+' + s.surcharge + '円' : '追加なし') + '</span>')
           + '</span></span><span class="cnt" hidden></span>';
         b.disabled = !!s.soldOut;
         b.addEventListener('click', function(){
           if(s.soldOut) return;
+          ga('gift_scent_click', { scent: s.no, full: picks.length >= CFG.picks });
           if(picks.length < CFG.picks){ picks.push(s.no); render(true); }
           else openSwap(s.no, b);
         });
@@ -532,7 +563,7 @@ function toggleMobileNav(){
         + '<span class="cn">' + esc(c.name) + (c.soldOut ? '<br>品切れ' : '') + '</span>';
       b.disabled = !!c.soldOut;
       b.addEventListener('click', function(){
-        caseId = c.id; render();
+        caseId = c.id; render(); ga('gift_case_click', { case_id: c.id });
         /* 選んだ色のケース写真をメインに出す（ギャラリーのサムネイルは選択解除＝押せば戻れる） */
         if(c.photo){ showMain(c.photo, '香水ケース（' + c.name + '）', true); setThumb(-1); }
       });
@@ -546,13 +577,15 @@ function toggleMobileNav(){
     }).join('');
     /* 贈る相手で選ぶ（押すと3本が置き換わる。売り止めの香りを含む案は押せない） */
     PRESETS.forEach(function(pr){
-      var b = document.createElement('button'); b.type = 'button';
-      b.textContent = pr[0];
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'pc';
+      b.innerHTML = '<span class="pb">' + pr[1].map(bottle).join('') + '</span><b>' + esc(pr[0]) + '</b><span class="pd">' + esc(pr[2]) + '</span>'
+        + '<span class="pn">' + pr[1].map(function(no){ return byNo[no] ? esc(byNo[no].short || byNo[no].name) : no; }).join('・') + '</span>'
+        + '<span class="pp">' + (pr[1].every(function(no){ return byNo[no]; }) ? yen(priceOf(pr[1])) : '') + '</span>';
       b.dataset.set = pr[1].slice().sort().join(',');
       var ok = pr[1].every(function(no){ return byNo[no] && !byNo[no].soldOut; });
       b.disabled = !ok;
       b.setAttribute('aria-label', pr[0] + '：' + pr[1].map(function(no){ return byNo[no] ? byNo[no].name : no; }).join('、') + (ok ? '' : '（品切れの香りを含みます）'));
-      b.addEventListener('click', function(){ if(ok){ picks = pr[1].slice(); render(true); } });
+      b.addEventListener('click', function(){ if(ok){ picks = pr[1].slice(); render(true); ga('gift_preset_click', { preset: pr[0] }); } });
       $('presets').appendChild(b);
     });
     /* 初期状態：見本として追加料金なしの3本を選択済み（品切れの香りは除く） */
@@ -562,6 +595,8 @@ function toggleMobileNav(){
       var tp = PRESETS.find(function(pr){ return pr[0] === toPreset; });
       if(tp && tp[1].every(function(no){ return byNo[no] && !byNo[no].soldOut; })) picks = tp[1].slice();
     }
+    $('scent-n').textContent = available.length;
+    $('pick-more').addEventListener('toggle', function(){ if($('pick-more').open) ga('gift_list_open', {}); });
     render();
     try { gtag('event', 'view_item', { currency: 'JPY', value: CFG.basePrice, items: [{ item_id: String(CFG.productId), item_name: CFG.name, item_brand: 'COLLEGRANCE', item_category: 'gift', price: CFG.basePrice, quantity: 1 }] }); } catch(e){}
   }
@@ -583,8 +618,8 @@ function toggleMobileNav(){
     } catch(e){}
   })();
 
-  $('d-self').onclick = function(){ direct = false; render(); };
-  $('d-direct').onclick = function(){ direct = true; render(); };
+  $('d-self').onclick = function(){ direct = false; render(); ga('gift_delivery', { mode: 'self' }); };
+  $('d-direct').onclick = function(){ direct = true; render(); ga('gift_delivery', { mode: 'direct' }); };
   /* 印字できない文字を除く（プレビューとカート保存で同じものを使う）。
      絵文字（Extended_Pictographic・異体字セレクタ・ZWJ・肌色・国旗・タグ）、制御文字、外字（私用領域）を消す。
      日本語・英数・全角記号（！？。、・ー〜♪★♡※→ など）と改行は残す。
@@ -690,6 +725,7 @@ function toggleMobileNav(){
     renderCard();
 
     var full = picks.length === CFG.picks;
+    if(!full && $('pick-more') && !$('pick-more').open) $('pick-more').open = true;
     var fill = CFG.scents.filter(function(s){ return !s.soldOut; }).map(function(s){ return s.no; });
     var shown = full ? picks : picks.concat(fill.slice(0, CFG.picks - picks.length));
     var p = shown.length === CFG.picks ? priceOf(shown) : CFG.basePrice;
@@ -699,8 +735,8 @@ function toggleMobileNav(){
     var left = CFG.picks - picks.length;
     var ok = full && !!kase && !CFG.soldOut;
     $('bar-s').textContent = CFG.soldOut ? '現在お取り扱いを停止しています'
-      : picks.length ? picks.map(function(n){ return byNo[n].short || byNo[n].name; }).join('・') : '香りを3本えらんでください';
-    $('cta2').textContent = (full || CFG.soldOut) ? 'カートに入れる' : 'あと' + left + '本えらぶ';
+      : picks.length ? (presetName() ? '「' + presetName() + '」の3本：' : '') + picks.map(function(n){ return byNo[n].short || byNo[n].name; }).join('・') : '香りを3本えらんでください';
+    $('cta2').textContent = (full || CFG.soldOut) ? 'この内容で贈る' : 'あと' + left + '本えらぶ';
     $('sumline').textContent = CFG.soldOut ? '現在お取り扱いを停止しています。'
       : full ? picks.map(function(n){ return byNo[n].name; }).join('／') + '　ケース：' + (kase ? kase.name : '—')
       : 'あと' + left + '本選ぶと、カートに入れられます。';
@@ -709,7 +745,35 @@ function toggleMobileNav(){
     $('cta2').disabled = CFG.soldOut || (full && !ok);
   }
 
-  function addToCart(){
+  function presetName(){
+    if(!CFG || picks.length !== CFG.picks) return '';
+    var cur = picks.slice().sort().join(',');
+    var hit = PRESETS.find(function(pr){ return pr[1].slice().sort().join(',') === cur; });
+    return hit ? hit[0] : '';
+  }
+  /* 固定バーから入れる時は、中身を1枚で確かめてからカートへ */
+  function closeConfirm(){
+    var bg = document.querySelector('.cf-bg'), sh = document.querySelector('.cf');
+    if(bg) bg.remove(); if(sh) sh.remove();
+  }
+  function openConfirm(){
+    closeConfirm();
+    var kase = CFG.cases.find(function(c){ return c.id === caseId; });
+    var bg = document.createElement('div'); bg.className = 'swap-bg cf-bg'; bg.onclick = closeConfirm;
+    var sh = document.createElement('div'); sh.className = 'swap cf';
+    sh.setAttribute('role', 'dialog'); sh.setAttribute('aria-modal', 'true'); sh.setAttribute('aria-labelledby', 'cf-h');
+    sh.innerHTML = '<h3 id="cf-h">この内容で贈りますか？</h3>'
+      + '<div class="cf-picks">' + picks.map(function(no){ var x = byNo[no]; return '<div>' + bottle(no) + '<span>' + esc(x.name) + (x.surcharge ? '<small>+' + x.surcharge + '円</small>' : '') + '</span></div>'; }).join('') + '</div>'
+      + '<dl class="cf-dl"><dt>ケースの色</dt><dd>' + (kase ? esc(kase.name) : '—') + '</dd><dt>お届け</dt><dd>' + (direct ? '相手に直接送る（お届け先は決済画面で入力）' : '自分に届ける（手渡し）') + '</dd><dt>カード</dt><dd>' + esc(cleanCardText($('msg').value).trim() || 'あなたに似合う香りが、見つかりますように。') + '</dd><dt>合計</dt><dd><b>' + yen(priceOf(picks)) + '</b>（送料込み）</dd></dl>'
+      + '<button type="button" class="cta cf-ok">この内容でカートに入れる</button>'
+      + '<button type="button" class="cancel cf-edit">ケースの色・お届け方法・カードを変える</button>';
+    sh.querySelector('.cf-ok').onclick = function(){ closeConfirm(); addToCart('bar_confirm'); };
+    sh.querySelector('.cf-edit').onclick = function(){ closeConfirm(); ga('gift_confirm_edit', {}); $('step2').scrollIntoView({ block: 'start' }); };
+    document.body.append(bg, sh);
+    ga('gift_confirm_open', { preset: presetName() || 'custom' });
+    sh.querySelector('.cf-ok').focus();
+  }
+  function addToCart(from){
     if(!CFG || picks.length !== CFG.picks || !caseId) return;
     var nos = picks.slice().sort();
     var key = 'gs:' + nos.join('-') + ':' + caseId;
@@ -725,18 +789,19 @@ function toggleMobileNav(){
       $('toast').textContent = 'カートに保存できませんでした。ブラウザの設定（プライベートモード等）をご確認ください。';
       return;
     }
-    try { gtag('event', 'add_to_cart', { currency: 'JPY', value: priceOf(picks), items: [{ item_id: String(CFG.productId), item_name: CFG.name, item_brand: 'COLLEGRANCE', item_category: 'gift', item_variant: nos.join(',') + '|' + caseId, price: priceOf(picks), quantity: 1 }] }); } catch(e){}
+    try { gtag('event', 'add_to_cart', { currency: 'JPY', value: priceOf(picks), items: [{ item_id: String(CFG.productId), item_name: CFG.name, item_brand: 'COLLEGRANCE', item_category: 'gift', item_variant: nos.join(',') + '|' + caseId, price: priceOf(picks), quantity: 1 }], placement: (typeof from === 'string' ? from : 'main_cta'), preset: presetName() || 'custom', delivery: direct ? 'direct' : 'self' }); } catch(e){}
     $('toast').textContent = 'カートに入れました。カートを開きます…';
     location.href = '/?cart=1';
   }
-  $('cta').onclick = addToCart;
+  $('cta').onclick = function(){ addToCart('main_cta'); };
   $('cta2').onclick = function(){
     if(CFG && picks.length < CFG.picks){
       var smooth = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      $('pick-more').open = true;
       $('step1').scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
       return;
     }
-    addToCart();
+    openConfirm();
   };
 
   updateBadge();

@@ -1880,7 +1880,7 @@
           <button type="button" onclick="applyCouponManual()" style="padding:8px 12px;background:var(--accent);color:#fff;border:none;font-family:var(--font);font-size:.6rem;letter-spacing:.08em;cursor:pointer;border-radius:2px">適用</button>
         </div>
         <div id="coupon-input-msg" style="margin-top:4px;font-size:.55rem"></div>
-        <div id="coupon-scope-note" style="margin-top:2px;font-size:.55rem;color:var(--sub);text-align:center">クーポンはフルボトルのご注文にお使いいただけます（ギフトセット・お試しは対象外）</div>
+        <div id="coupon-scope-note" style="margin-top:2px;font-size:.55rem;color:var(--sub);text-align:center">クーポンはフルボトルにお使いいただけます（ギフトセット・お試しの分は割引されません）</div>
       </div>
       <div id="ship-msg"></div>
       <div class="cart-assure">
@@ -3190,7 +3190,7 @@ function updateCouponScopeMsg(){
   if(code && hasOther){
     cm.style.color = '#a0522d';
     cm.textContent = hasFull
-      ? 'ギフトセット・お試しが入っているため、このご注文ではクーポン（' + code + '）は使われません。クーポンを使う場合は、フルボトルだけでご注文ください。'
+      ? 'クーポン（' + code + '）はフルボトルの分にだけ割引されます（ギフトセット・お試しの分は対象外）。'
       : 'クーポン（' + code + '）はフルボトルのご注文にお使いいただけます。ギフトセット・お試しのご注文では割引されません。';
     cm.setAttribute('data-scope', '1');
   } else if(cm.getAttribute('data-scope') === '1'){

@@ -271,6 +271,8 @@ exports.handler = async (event) => {
     }
     // クーポンを使えるカートか（フルボトルだけ）。ギフトラッピングは line_items 側で足すので resolved には入らない
     const couponEligibleCart = resolved.length > 0 && resolved.every((r) => r.kind === 'fullbottle');
+    // フルボトルとお試し・ギフトが混ざったカートは、クーポンをフルボトルの分だけに効かせる（2026-11-17 四宮さん指示）
+    const fullbottleSubtotal = resolved.filter((r) => r.kind === 'fullbottle').reduce((s, r) => s + r.unitAmount * r.quantity, 0);
 
     // Build line_items from cart
     const line_items = resolved.map((item) => {
@@ -355,17 +357,39 @@ exports.handler = async (event) => {
             const promo = list.data[0];
             const grandfathered = typeof promo.created === 'number' && promo.created < COUPON_FULLBOTTLE_ONLY_SINCE;
             // 2026-11-17 お試し（サイト販売は11/15〜）は、11/16より前に発行したクーポンでも対象外（旧クーポンでお試しが¥330になった事故の対策）
-            if (!couponEligibleCart && (!grandfathered || sampleCount > 0)) {
-              // フルボトル以外が入ったカート → 適用しない（決済は止めない）
-              console.log('[coupon] not applied (cart has non-fullbottle items):', normalizedCode);
+            if (!couponEligibleCart && fullbottleSubtotal > 0) {
+              // フルボトル＋お試し/ギフトの混在カート：元のクーポンと同じ値引き額（％なら フルボトル分×％）を、
+              // フルボトルの小計を上限にした1回限りのクーポンとして作って当てる。元のコードは決済完了時に stripe-webhook.js が無効化する（1回限りのコードのみ）
+              const cid = (promo.coupon && (promo.coupon.id || promo.coupon)) || (promo.promotion && promo.promotion.coupon);
+              const base = typeof cid === 'string' ? await stripe.coupons.retrieve(cid) : cid;
+              const minAmt = promo.restrictions && promo.restrictions.minimum_amount;
+              if (!base || base.valid === false || (minAmt && fullbottleSubtotal < minAmt)) {
+                throw Object.assign(new Error('coupon_not_eligible'), { skip: true });
+              }
+              const off = base.amount_off
+                ? Math.min(base.amount_off, fullbottleSubtotal)
+                : Math.floor(fullbottleSubtotal * (base.percent_off || 0) / 100);
+              if (!(off > 0)) throw Object.assign(new Error('coupon_not_eligible'), { skip: true });
+              const partial = await stripe.coupons.create({
+                amount_off: off, currency: 'jpy', duration: 'once', max_redemptions: 1,
+                name: ('クーポン ' + promo.code + '（フルボトル分）').slice(0, 40),
+                metadata: { source_promotion_code: promo.id, code: promo.code, scope: 'fullbottle_only' },
+              });
+              discounts = [{ coupon: partial.id }];
+              appliedCouponInfo = { code: promo.code, id: promo.id, coupon_id: partial.id, partial: true, single: promo.max_redemptions === 1 };
+              console.log('[coupon] partial (fullbottle only):', normalizedCode, off);
+            } else if (!couponEligibleCart && (!grandfathered || sampleCount > 0)) {
+              // フルボトルが入っていないカート → 適用しない（決済は止めない）。お試しは発行日に関係なく対象外（2026-11-17）
+              console.log('[coupon] not applied (no fullbottle in cart):', normalizedCode);
               throw Object.assign(new Error('coupon_not_eligible'), { skip: true });
-            }
+            } else {
             discounts = [{ promotion_code: promo.id }];
             appliedCouponInfo = {
               code: promo.code,
               id: promo.id,
               coupon_id: promo.coupon && promo.coupon.id,
             };
+            }
             console.log('[coupon] pre-applied:', normalizedCode, '→', promo.id);
           } else {
             // 見つからないけど、Stripe checkout の手入力欄を残すので致命的ではない
@@ -422,6 +446,7 @@ exports.handler = async (event) => {
       diagnosis_session_id: (metadata && metadata.diagnosis_session_id) || '',
       ...(lineFriendId ? { line_friend_id: lineFriendId } : {}),
       ...(appliedCouponInfo ? { applied_coupon_code: appliedCouponInfo.code } : {}),
+      ...(appliedCouponInfo && appliedCouponInfo.partial ? { coupon_scope: 'fullbottle_only', coupon_promo_id: appliedCouponInfo.id, coupon_promo_single: appliedCouponInfo.single ? '1' : '0' } : {}),
       ...(couponCode && !appliedCouponInfo && !couponEligibleCart ? { coupon_skipped: 'not_fullbottle_only' } : {}),
     };
 

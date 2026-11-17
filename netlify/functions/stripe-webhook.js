@@ -118,6 +118,11 @@ exports.handler = async (event) => {
       const customerEmail = fullSession.customer_details?.email || '不明';
       const paymentIntent = fullSession.payment_intent || '';
       const metadata = fullSession.metadata || {};
+      // 混在カートでフルボトル分だけ値引きした時は、元の1回限りのクーポンコードをここで使用済みにする（2026-11-17）
+      if (metadata.coupon_scope === 'fullbottle_only' && metadata.coupon_promo_id && metadata.coupon_promo_single === '1') {
+        try { await stripe.promotionCodes.update(metadata.coupon_promo_id, { active: false }); console.log('[coupon] source promo deactivated:', metadata.coupon_promo_id); }
+        catch (e) { console.error('[coupon] deactivate failed:', metadata.coupon_promo_id, e.message); }
+      }
 
       // Build product lines
       const lineItems = fullSession.line_items?.data || [];

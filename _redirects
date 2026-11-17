@@ -9,6 +9,9 @@
 # 安定したら 302 → 301 に変える予定（301 はブラウザに永久保存され戻せないため、まず 302 で様子見）。
 /assets/images/*    https://images.collegrance.com/assets/images/:splat    302!
 
+# Google Merchant Center の商品データ（2026-11-17）。下の /* 404 より前に置く
+/feeds/google-merchant.tsv    /.netlify/functions/merchant-feed    200!
+
 # 特定商取引法ページへのクリーンURL対応
 /tokushoho    /tokushoho.html    200
 

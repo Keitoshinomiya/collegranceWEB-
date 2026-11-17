@@ -1,5 +1,6 @@
 // Google Merchant Center 用の商品データ（TSV）。2026-11-17 作成。
-// URL: https://collegrance.com/feeds/google-merchant.tsv （netlify.toml のリダイレクトでこの関数へ）
+// URL: https://collegrance.com/feeds/google-merchant.tsv （_redirects でこの関数へ。netlify.toml より _redirects が先に効く）
+// 写真は images.collegrance.com を直接指す（/assets/images/ は Cloudflare へ302転送しているため）
 // data/samples.json・products.json・data/gift-set.json から毎回作るので、価格・品切れの変更は自動で反映される。
 //
 // 載せるもの：サイトで買えるお試し1.5mL（品切れは out_of_stock）と、選べる3本ギフトセット。
@@ -44,7 +45,7 @@ function rows() {
         + 'を、当社（合同会社ヤシノミ）が自社の製造所で独自に1.5mLへ詰め替えた商品です。ブランドとは関係ありません。'
         + '全品送料無料。お試しはまとめ買いで' + bundleText() + '＋300円で香水ケース付き（12色）も選べます。',
       link: SITE + '/?from=recommend&product=' + sid + '&utm_source=google&utm_medium=shopping&utm_campaign=merchant',
-      image_link: SITE + '/' + c.img + '.jpg',
+      image_link: 'https://images.collegrance.com/' + c.img + '.jpg',
       availability: c.soldOut ? 'out_of_stock' : 'in_stock',
       price: price + ' JPY',
       brand: 'COLLEGRANCE',
@@ -63,7 +64,7 @@ function rows() {
       description: '香りの好みが分からない人に、3つ試せる香水ギフト。お試し香水1.5mLを3本（香りは選べます）、香水ケース1個（12色）、ロゴ入りコットンポーチ、印字メッセージカードをギフト包装でお届けします。'
         + '香水は並行輸入品を当社（合同会社ヤシノミ）が独自に詰め替えたもので、ブランドとは関係ありません。送料込み・金額の分かる明細なし・ポストに届くネコポス。価格は香りの組み合わせで変わります（最安' + GIFT.basePrice + '円）。',
       link: SITE + '/gift-set.html?utm_source=google&utm_medium=shopping&utm_campaign=merchant',
-      image_link: SITE + '/assets/images/gift/gift_contents.jpg',
+      image_link: 'https://images.collegrance.com/assets/images/gift/gift_contents.jpg',
       availability: GIFT.soldOut ? 'out_of_stock' : 'in_stock',
       price: GIFT.basePrice + ' JPY',
       brand: 'COLLEGRANCE',

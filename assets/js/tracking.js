@@ -22,9 +22,11 @@
     //    「クリック」の計測はGA4側(linkUrl × sessionSource)で完結済み。
     // ⚠ 本人・家族・従業員・取引先がこのリンク経由で購入することは規約違反（参加要件6(u)）
     associateTag: 'collegrance-22',
-    // Amazonで買えなくなった小分け（2026-11-14〜）は、記事などのAmazonリンクをサイトのお試し購入へ向け直す（2026-11-15）
-    // ASIN → products.json の id。data/samples.json の amazon:false と揃える
-    siteSampleByAsin: { 'B0FSKSJVDC': 1, 'B0FSKQBBXN': 3 },
+    // 記事などの小分け（お試し）のAmazonリンクを、サイトのお試し購入へ向け直す。
+    // 2026-11-15 はAmazonで買えなくなった2香りだけ → 2026-11-17 四宮さん判断で23香りすべてに拡大。
+    // ASIN → products.json の id（data/samples.json にある香りだけ）。サイトで品切れの香りは、
+    // data/samples.json を読んだあとでAmazonリンクに戻す。Amazonでも買える香りは、ボタンの下に「Amazonでも購入できます」を小さく残す
+    siteSampleByAsin: {"B0FSKSJVDC": 1, "B0FSKQGK6Z": 2, "B0FSKQBBXN": 3, "B0FSKMB6HG": 4, "B0FSKNWSN5": 5, "B0FSKQ8QV8": 6, "B0FRG5XX2Q": 7, "B0G2Q33XRD": 8, "B0FSKRV7C1": 9, "B0FSKPQPZ7": 10, "B0FSKRCH5G": 11, "B0FSKQW44P": 12, "B0FSKQWRJM": 13, "B0FSKRJKJ7": 14, "B0FSKSG813": 15, "B0FSKMB6HR": 16, "B0FSKNF4QC": 17, "B0FSKNWDG8": 18, "B0FSKM6THP": 19, "B0FSKPTWMH": 20, "B0FSKT7V2N": 21, "B0FSKQL8SR": 22, "B0FSKR3FTS": 23},
 
     // 入口別のトラッキングID（2026-09-24 作成）。アソシエイトの「トラッキングID別」レポートで
     // 入口ごとの Amazon 売上が分かる。どれにも当たらない入口（direct・referral 等）は associateTag
@@ -437,17 +439,76 @@
       const current = a.href;
       try {
         const asin = AmazonTracker.extractASIN(current);
-        const sid = asin && CONFIG.siteSampleByAsin ? CONFIG.siteSampleByAsin[asin] : null;
+        const sid = asin && CONFIG.siteSampleByAsin && !a.hasAttribute('data-clg-keep-amazon') ? CONFIG.siteSampleByAsin[asin] : null;
         if (sid) {
+          a.setAttribute('data-amazon-href', current);
           a.setAttribute('href', 'https://collegrance.com/?from=recommend&product=' + sid + '&utm_source=site&utm_medium=article&utm_campaign=sample_site');
           a.removeAttribute('target');
           a.setAttribute('data-site-sample', String(sid));
+          /* 記事の「小分けで試す ¥…」ボタンは、サイトのお試し画面へ行くことが分かる文言に（値段は行き先で最新を表示） */
+          if (a.classList && a.classList.contains('pci-btn-sample') && !a.hasAttribute('data-clg-label')) {
+            a.setAttribute('data-clg-label', a.textContent);
+            a.textContent = 'お試し1.5mLを見る ›';
+          }
+          SiteSample.queue(a, channel);
           return;
         }
       } catch(e) { /* noop */ }
       const next = AmazonTracker.addTrackingParams(current, channel);
       // 変化が無ければ触らない（attributes 監視の再発火で無限ループしないための条件でもある）
       if (next && next !== current) a.setAttribute('href', next);
+    }
+  };
+
+  // ============================================================
+  // サイトのお試しへ向けたリンクの後処理（data/samples.json を1回だけ読む）
+  //   品切れ → Amazonリンクに戻す ／ Amazonでも買える → ボタンの下に小さく「Amazonでも購入できます」
+  // ============================================================
+  const SiteSample = {
+    cfg: null, loading: false, pending: [],
+    queue(a, channel) {
+      this.pending.push([a, channel]);
+      if (this.cfg) return this.flush();
+      if (this.loading) return;
+      this.loading = true;
+      const self = this;
+      try {
+        fetch('/data/samples.json', { cache: 'no-cache' }).then(function(r) { return r.json(); })
+          .then(function(d) { self.cfg = (d && d.items) || {}; self.flush(); })
+          .catch(function() { /* 読めなければ何もしない（サイトのお試しへ向いたまま） */ });
+      } catch(e) { /* noop */ }
+    },
+    flush() {
+      const list = this.pending; this.pending = [];
+      for (let i = 0; i < list.length; i++) {
+        const a = list[i][0], channel = list[i][1];
+        try {
+          if (a.hasAttribute('data-clg-done')) continue;
+          a.setAttribute('data-clg-done', '1');
+          const sid = a.getAttribute('data-site-sample');
+          const orig = a.getAttribute('data-amazon-href');
+          const c = this.cfg[sid];
+          if (!orig) continue;
+          if (!c || c.soldOut) {
+            /* サイトで売っていない／品切れ → 元のAmazonリンクに戻す */
+            a.setAttribute('data-clg-keep-amazon', '1');
+            a.removeAttribute('data-site-sample');
+            if (a.hasAttribute('data-clg-label')) a.textContent = a.getAttribute('data-clg-label');
+            a.setAttribute('target', '_blank');
+            a.setAttribute('href', AmazonTracker.addTrackingParams(orig, channel) || orig);
+            continue;
+          }
+          if (c.amazon !== false && a.classList && a.classList.contains('pci-btn-sample')) {
+            const sub = document.createElement('a');
+            sub.setAttribute('data-clg-keep-amazon', '1');
+            sub.href = AmazonTracker.addTrackingParams(orig, channel) || orig;
+            sub.target = '_blank'; sub.rel = 'noopener';
+            sub.textContent = 'Amazonでも購入できます';
+            sub.style.cssText = 'display:block;text-align:center;font-size:11px;color:#888;text-decoration:underline;margin:6px 0 0;padding:4px 0';
+            a.insertAdjacentElement('afterend', sub);
+          }
+        } catch(e) { /* noop */ }
+      }
     }
   };
 

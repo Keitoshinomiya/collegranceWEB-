@@ -354,7 +354,8 @@ exports.handler = async (event) => {
           if (list.data.length > 0) {
             const promo = list.data[0];
             const grandfathered = typeof promo.created === 'number' && promo.created < COUPON_FULLBOTTLE_ONLY_SINCE;
-            if (!couponEligibleCart && !grandfathered) {
+            // 2026-11-17 お試し（サイト販売は11/15〜）は、11/16より前に発行したクーポンでも対象外（旧クーポンでお試しが¥330になった事故の対策）
+            if (!couponEligibleCart && (!grandfathered || sampleCount > 0)) {
               // フルボトル以外が入ったカート → 適用しない（決済は止めない）
               console.log('[coupon] not applied (cart has non-fullbottle items):', normalizedCode);
               throw Object.assign(new Error('coupon_not_eligible'), { skip: true });

@@ -3665,22 +3665,33 @@ if(location.search.includes('ok=1')){
       var ov = document.createElement('div');
       ov.id = 'clg-thanks';
       ov.style.cssText = 'position:fixed;inset:0;background:rgba(20,20,20,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+      /* 発送連絡をLINEで受け取る（2026-11-17）。LINE経由で来た人はもう結ばれているので案内だけ。それ以外は注文とLINEを結ぶ入口へ */
+      var _sid = ''; try { _sid = new URLSearchParams(location.search).get('session_id') || ''; } catch(e){}
+      var _fid = ''; try { _fid = localStorage.getItem('clg_line_friend_id') || ''; } catch(e){}
+      var _lineBlock = _fid
+        ? '<div style="background:#eef7f0;border-radius:5px;padding:11px 12px;font-size:12px;color:#2f6b3a;text-align:center;margin-bottom:8px">発送したら、COLLEGRANCEのLINEに追跡番号をお送りします</div>'
+        : (/^cs_(live|test)_/.test(_sid)
+          ? '<a href="https://line-crm-worker.shinomiya-keito.workers.dev/order/track?sid=' + encodeURIComponent(_sid) + '" onclick="try{ga4Event(\'thanks_line_track_click\',{})}catch(e){}" style="display:block;background:#06C755;color:#fff;text-align:center;padding:13px;border-radius:5px;text-decoration:none;font-size:13px;font-weight:700;margin-bottom:6px">LINEで追跡番号を受け取る</a>'
+            + '<div style="font-size:11px;color:#888;text-align:center;margin-bottom:10px">LINEでログインして友だちに追加すると、発送のお知らせが届きます</div>'
+          : '<a href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" style="display:block;background:#06C755;color:#fff;text-align:center;padding:12px;border-radius:5px;text-decoration:none;font-size:12.5px;font-weight:700;margin-bottom:8px">COLLEGRANCEのLINEを友だちに追加する</a>');
       ov.innerHTML =
-        '<div style="background:#faf9f7;border-radius:8px;max-width:420px;width:100%;max-height:88vh;overflow-y:auto;padding:28px 22px;text-align:left;font-size:13px;line-height:1.8">'
+        '<div style="background:#faf9f7;border-radius:8px;max-width:420px;width:100%;max-height:88vh;max-height:88dvh;overflow-y:auto;padding:28px 22px;text-align:left;font-size:13px;line-height:1.8">'
         + '<div style="text-align:center;font-size:11px;letter-spacing:.22em;color:#999">THANK YOU</div>'
         + '<div style="text-align:center;font-weight:700;font-size:16px;letter-spacing:.1em;margin:6px 0 14px">ご注文ありがとうございます</div>'
-        + '<img src="/assets/images/collegrance-packing.jpg" alt="梱包の様子" style="width:100%;border-radius:6px;margin-bottom:12px">'
-        + '<div style="font-size:12px;color:#555;margin-bottom:14px">ご注文のフルボトルは、<b style="color:#1a1a1a">COLLEGRANCE専用段ボール</b>に緩衝材を敷き詰めて、大切にお届けします。</div>'
-        + '<div style="border-top:1px dashed #ddd;padding-top:12px;font-size:12px;color:#555">'
+        + '<img src="/assets/images/collegrance-packing.jpg" alt="梱包の様子" style="width:100%;height:120px;object-fit:cover;border-radius:6px;margin-bottom:12px">'
+        + '<div style="font-size:12px;color:#555;margin-bottom:14px">ご注文の商品は、ひとつずつ確かめて<b style="color:#1a1a1a">丁寧に梱包</b>し、大切にお届けします。</div>'
+        + _lineBlock
+        + '<div style="border-top:1px dashed #ddd;padding-top:12px;margin-top:6px;font-size:12px;color:#555">'
         + '<div style="margin-bottom:8px"><b style="color:#1a1a1a">1. ご注文確認</b>　確認メールをお送りしました</div>'
         + '<div style="margin-bottom:8px"><b style="color:#1a1a1a">2. 丁寧に梱包</b>　1〜2営業日で梱包します</div>'
-        + '<div style="margin-bottom:8px"><b style="color:#1a1a1a">3. 発送のお知らせ</b>　配送会社（ヤマト運輸または佐川急便）の追跡番号をメールでお知らせします</div>'
-        + '<div style="margin-bottom:12px"><b style="color:#1a1a1a">4. お届け</b>　発送から1〜2日で宅配便にてお届けします</div>'
+        + '<div style="margin-bottom:8px"><b style="color:#1a1a1a">3. 発送のお知らせ</b>　' + (_fid ? '追跡番号をLINEでお知らせします' : '上のボタンからLINEを登録すると、追跡番号がLINEに届きます') + '</div>'
+        + '<div style="margin-bottom:12px"><b style="color:#1a1a1a">4. お届け</b>　発送から1〜3日でお届けします（お試し・ギフトセットはポストに届きます）</div>'
         + '</div>'
-        + '<a href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" style="display:block;background:#06C755;color:#fff;text-align:center;padding:12px;border-radius:5px;text-decoration:none;font-size:12.5px;font-weight:700;margin-bottom:8px">LINE登録で発送通知をLINEでも受け取る</a>'
         + '<button onclick="document.getElementById(\'clg-thanks\').remove()" style="display:block;width:100%;background:none;border:1px solid #ddd;border-radius:5px;padding:10px;font-size:12px;color:#666;cursor:pointer">閉じる</button>'
         + '</div>';
       document.body.appendChild(ov);
+      /* 完了画面を見た人のうち、LINEのボタンを押した割合を測る（2026-11-18） */
+      try { ga4Event('thanks_view', { line_linked: _fid ? 'yes' : 'no', has_session: /^cs_(live|test)_/.test(_sid) ? 'yes' : 'no' }); } catch(e){}
     })();
     history.replaceState(null, '', '/');
   });

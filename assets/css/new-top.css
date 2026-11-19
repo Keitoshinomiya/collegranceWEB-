@@ -1,0 +1,97 @@
+/* 新しいトップ（2026-11・見本ブランチ）。今のトップの作りはそのままに、入場演出・最初の画面・コンセプト・まとめ買い・フルボトルとギフトの入口を足す。
+   戻す時は index.html の new-top.css / new-top.js の読み込みと、nt- で始まる区画を消す。 */
+:root{--nt-pink:#ffc3b9;--nt-teal:#5ab9be;--nt-cream:#faf5be;--nt-yellow:#ebe65f;--nt-paper:#fffdf7}
+
+/* 入った瞬間の演出：4色がにじんで広がり、ロゴが出て、霧が晴れるように消える（その訪問で1回だけ） */
+#nt-intro{position:fixed;inset:0;z-index:10000;background:var(--nt-paper);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;overflow:hidden}
+.nt-intro-on #nt-intro{display:flex}
+#nt-intro i{position:absolute;width:150vmax;height:150vmax;border-radius:50%;transform:scale(0)}
+#nt-intro .c1{left:-75vmax;top:-80vmax;background:radial-gradient(circle,var(--nt-pink) 0,var(--nt-pink) 30%,transparent 68%)}
+#nt-intro .c2{right:-80vmax;top:-60vmax;background:radial-gradient(circle,var(--nt-teal) 0,var(--nt-teal) 22%,transparent 66%)}
+#nt-intro .c3{left:-85vmax;bottom:-75vmax;background:radial-gradient(circle,var(--nt-cream) 0,var(--nt-cream) 34%,transparent 70%)}
+#nt-intro .c4{right:-75vmax;bottom:-85vmax;background:radial-gradient(circle,var(--nt-yellow) 0,var(--nt-yellow) 24%,transparent 66%)}
+#nt-intro .glow{position:absolute;width:150vw;height:260px;background:radial-gradient(closest-side,rgba(255,253,247,.96),rgba(255,253,247,.75) 45%,rgba(255,253,247,0));opacity:0}
+#nt-intro .lg{position:relative;width:min(70vw,320px);aspect-ratio:1149/107;background:url("../newtop/logo_t.png") center/contain no-repeat}
+#nt-intro .tg{position:relative;font-family:var(--font);font-size:13px;letter-spacing:.2em;color:#1a1a1a;opacity:0;margin-top:6px}
+
+/* 最初の画面：今の作り（スライド・2つのボタン・丸い点）はそのまま。写真を4色のものに替え、くっきり見える大きさの額＋ぼかした背景にする */
+.shop-hero.nt-hero{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;min-height:0;padding:0;background:var(--nt-paper);text-align:center}
+.nt-hero .hero-slides{position:relative;inset:auto;height:min(42svh,380px);min-height:270px;overflow:hidden}
+.nt-hero .hero-slide{transform:none;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.nt-hero .hero-slide>i{position:absolute;inset:-12%;background:center/cover;filter:blur(26px) saturate(1.1);transform:scale(1.15)}
+.nt-hero .hero-slide>b{position:relative;width:min(56vw,250px);aspect-ratio:1/1;border-radius:999px 999px 10px 10px;background:center/cover;box-shadow:0 22px 50px rgba(26,26,26,.16)}
+.nt-hero .hero-slides::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:70px;background:linear-gradient(transparent,var(--nt-paper));z-index:1}
+.nt-hero .hero-dots{position:absolute;top:calc(max(min(42svh,380px),270px) - 30px);bottom:auto}
+.nt-hero .hero-dot{background:rgba(26,26,26,.25)}
+.nt-hero .hero-dot.active{background:#1a1a1a}
+.nt-hero .shop-hero-content{padding:4px 24px 32px;max-width:680px;margin:0 auto}
+.nt-hero .nt-kicker{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#1a1a1a;opacity:.7;margin-bottom:12px}
+.shop-hero.nt-hero h1{font-weight:700;font-size:clamp(1.9rem,7.6vw,2.8rem);line-height:1.5;letter-spacing:.04em;text-transform:none;color:#1a1a1a;text-shadow:none;margin-bottom:12px}
+.shop-hero.nt-hero p{color:#1a1a1a;opacity:.85;font-size:.86rem}
+.shop-hero.nt-hero .hero-sub{color:#666;opacity:1;font-size:.7rem}
+.nt-hero .hero-ai-btn{background:#1a1a1a;color:#fff;box-shadow:none}
+.nt-hero .hero-ai-btn:hover{background:#000;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.nt-hero .hero-rank-btn{color:#1a1a1a;border-color:#1a1a1a}
+.nt-hero .hero-rank-btn:hover{background:rgba(26,26,26,.06);border-color:#1a1a1a}
+@media(min-width:900px){
+  .shop-hero.nt-hero{flex-direction:row;align-items:center;min-height:560px}
+  .nt-hero .hero-slides{flex:1 1 50%;height:560px}
+  .nt-hero .hero-slides::after{display:none}
+  .nt-hero .hero-slide>b{width:340px}
+  .nt-hero .shop-hero-content{flex:1 1 50%;text-align:left;padding:40px 56px}
+  .nt-hero .hero-btn-row{justify-content:flex-start}
+  .nt-hero .hero-dots{top:auto;bottom:24px;left:25%}
+}
+
+/* コンセプト：1画面だけ。4本の瓶の写真の上に、言葉を1つ */
+.nt-one{position:relative;min-height:min(84svh,640px);display:flex;align-items:flex-end;padding:28px 20px;overflow:hidden;isolation:isolate}
+.nt-one .bg{position:absolute;inset:-6% 0;z-index:-1;background:url("../newtop/hero.jpg") 50% 40%/cover;transform:scale(var(--z,1));will-change:transform}
+.nt-glass{width:100%;max-width:520px;margin:0 auto;background:rgba(255,255,255,.74);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border-radius:6px;padding:22px 22px 24px;box-shadow:0 10px 40px rgba(26,26,26,.08)}
+.nt-glass small{display:block;font-size:11px;letter-spacing:.26em;color:#666;margin-bottom:8px}
+.nt-glass p{font-size:clamp(1.35rem,5.8vw,1.8rem);font-weight:700;line-height:1.75;letter-spacing:.04em;color:#1a1a1a;margin:0}
+.nt-glass a{display:inline-block;margin-top:14px;padding:10px 0 4px;font-size:13px;font-weight:700;letter-spacing:.08em;color:#1a1a1a;text-decoration:none;border-bottom:1px solid #1a1a1a}
+
+/* まとめ買いの階段 */
+.nt-bundle{background:#fdfbe6;padding:44px 20px}
+.nt-in{max-width:720px;margin:0 auto}
+.nt-bundle h2,.nt-tiles h2{font-size:1.4rem;font-weight:var(--brand-heading-weight,800);line-height:1.5;color:#1a1a1a;margin:0 0 4px}
+.nt-steps{display:flex;gap:4px;margin-top:20px}
+.nt-steps div{flex:1;min-width:0;text-align:center;padding:10px 0 9px;border:1px solid #1a1a1a;border-radius:2px;background:#fff}
+.nt-steps small{display:block;font-size:11px;color:#666}
+.nt-steps b{font-size:16px}
+.nt-steps div:last-child{background:#1a1a1a;color:#fff}
+.nt-steps div:last-child small{color:#fff;opacity:.85}
+.nt-pic{margin-top:18px;border-radius:6px;aspect-ratio:3/2;background:center/cover}
+.nt-bundle .gift{font-size:14px;font-weight:700;margin-top:12px;text-align:center;color:#1a1a1a}
+.nt-bundle .eg{font-size:13px;line-height:1.9;color:#666;margin-top:12px}
+
+/* フルボトルとギフトの入口 */
+.nt-tiles{padding:44px 20px;background:#fff}
+.nt-tilegrid{display:grid;gap:14px;margin-top:18px}
+@media(min-width:760px){.nt-tilegrid{grid-template-columns:1fr 1fr}}
+.nt-tile{display:grid;grid-template-columns:1fr 132px;min-height:176px;border-radius:6px;overflow:hidden;background:#f7f7f7;color:#1a1a1a;text-decoration:none;cursor:pointer;border:0;padding:0;text-align:left;font-family:var(--font)}
+.nt-tile .tx{padding:18px 4px 18px 18px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.nt-tile b{font-size:18px;line-height:1.5}
+.nt-tile span{font-size:13px;color:#666;line-height:1.7}
+.nt-tile u{text-decoration:none;font-size:13px;font-weight:700;border-bottom:1px solid #1a1a1a;align-self:flex-start;margin-top:6px;padding-bottom:2px}
+.nt-tile .im{background:center/cover}
+.nt-tile.full .im{background-color:#f1f1ef;background-size:auto 92%;background-repeat:no-repeat;mix-blend-mode:multiply}
+.nt-tile.gift{background:#eaf6f7}
+
+/* 動き：ふわっと出る1種類だけ */
+@media (prefers-reduced-motion:no-preference){
+  #nt-intro i{animation:nt-bloom 1.7s cubic-bezier(.2,.8,.2,1) forwards}
+  #nt-intro .c2{animation-delay:.14s}#nt-intro .c3{animation-delay:.28s}#nt-intro .c4{animation-delay:.42s}
+  #nt-intro .glow{animation:nt-show 1s ease forwards .35s}
+  #nt-intro .lg{clip-path:inset(0 100% 0 0);animation:nt-wipe 1.05s cubic-bezier(.3,.7,.2,1) forwards .55s}
+  #nt-intro .tg{animation:nt-show .8s ease forwards 1.35s}
+  .nt-intro-out #nt-intro{animation:nt-mist .85s cubic-bezier(.6,0,.3,1) forwards}
+  .nt-hero .hero-slide.active>b{animation:nt-kb 6s ease-out both}
+  .nt-js .nt-rv{opacity:0;transform:translateY(22px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.8,.2,1)}
+  .nt-js .nt-rv.nt-in-view{opacity:1;transform:none}
+}
+@keyframes nt-bloom{to{transform:scale(1)}}
+@keyframes nt-show{to{opacity:1}}
+@keyframes nt-wipe{to{clip-path:inset(0 0 0 0)}}
+@keyframes nt-mist{to{opacity:0;transform:scale(1.25);visibility:hidden}}
+@keyframes nt-kb{from{transform:scale(.94) translateY(10px)}to{transform:scale(1.03)}}

@@ -539,6 +539,7 @@ details p{font-size:13px;color:var(--sub);margin-top:8px}
     root.classList.remove('intro-on','intro-out'); void intro.offsetWidth; playIntro();
   });
   playIntro();
+  setTimeout(function(){ var h=(location.hash||'').slice(1); if(['about','journal','article'].indexOf(h)>-1){ endIntro(); go(h); } }, 0);
 
   /* スクロールの進み具合の線と、写真のゆるい視差 */
   var pin = document.querySelector('.pin'), pinImg = document.querySelector('.pinbg div');

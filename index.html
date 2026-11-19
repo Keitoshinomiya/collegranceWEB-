@@ -1022,8 +1022,12 @@
 .pc .pc-peek em{font-size:11px}
 .pc .tag{font-size:11px;letter-spacing:.12em}
 </style>
+<link rel="stylesheet" href="/assets/css/new-top.css?v=20261120a">
 </head>
 <body>
+
+  <!-- 新しいトップ：入った瞬間の演出 -->
+  <div id="nt-intro" aria-hidden="true"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><span class="glow"></span><div class="lg"></div><div class="tg">香りはえらべる。もっと自由に。</div></div>
 
   <!-- HEADER -->
   <header class="site-header">
@@ -1193,17 +1197,16 @@
   </nav>
 
   <!-- HERO -->
-  <section class="shop-hero">
-    <div class="hero-slides">
-      <div class="hero-slide active" style="background-image:image-set(url('assets/images/hero-golden-portrait.webp') type('image/webp'),url('assets/images/hero-golden-portrait.jpg') type('image/jpeg'));background-position:center 35%"></div>
-      <div class="hero-slide" style="background-image:image-set(url('assets/images/hero-pastel-bottles.webp') type('image/webp'),url('assets/images/hero-pastel-bottles.jpg') type('image/jpeg'))"></div>
-      <div class="hero-slide" style="background-image:image-set(url('assets/images/hero-leather-case.webp') type('image/webp'),url('assets/images/hero-leather-case.jpg') type('image/jpeg'))"></div>
-      <div class="hero-slide" style="background-image:image-set(url('assets/images/blog_image_sauvage.webp') type('image/webp'),url('assets/images/blog_image_sauvage.jpg') type('image/jpeg'))"></div>
-      <div class="hero-slide" style="background-image:image-set(url('assets/images/blog_image_fleur_de_peau.webp') type('image/webp'),url('assets/images/blog_image_fleur_de_peau.jpg') type('image/jpeg'))"></div>
+  <section class="shop-hero nt-hero">
+    <div class="hero-slides" role="img" aria-label="レモン、バニラ、石けん、バラと一緒に写した、色ちがいの小さな瓶の写真">
+      <div class="hero-slide active"><i style="background-image:url('/assets/newtop/p_d.jpg')"></i><b style="background-image:url('/assets/newtop/p_d.jpg')"></b></div>
+      <div class="hero-slide"><i style="background-image:url('/assets/newtop/p_a.jpg')"></i><b style="background-image:url('/assets/newtop/p_a.jpg')"></b></div>
+      <div class="hero-slide"><i style="background-image:url('/assets/newtop/p_c.jpg')"></i><b style="background-image:url('/assets/newtop/p_c.jpg')"></b></div>
+      <div class="hero-slide"><i style="background-image:url('/assets/newtop/p_b.jpg')"></i><b style="background-image:url('/assets/newtop/p_b.jpg')"></b></div>
     </div>
-    <div class="shop-hero-overlay"></div>
     <div class="shop-hero-content">
-      <h1 class="fade-up">Your Fragrance Collection</h1>
+      <div class="nt-kicker fade-up">Your Fragrance Collection</div>
+      <h1 class="fade-up">香りはえらべる。<br>もっと自由に。</h1>
       <p class="fade-up delay-1">憧れのブランド香水を、1.5mL・¥750からお試し。全品送料無料</p>
       <p class="hero-sub fade-up delay-1">130種類以上のブランド香水（並行輸入品）を、当社が独自に詰め替えてお届け</p>
       <div class="hero-btn-row fade-up delay-2">
@@ -1236,6 +1239,16 @@
     </div>
   </div>
 
+  <!-- 新しいトップ：コンセプト（1画面だけ） -->
+  <section class="nt-one">
+    <div class="bg" role="img" aria-label="大理石の上に並んだ、色ちがいの4本の小さな瓶"></div>
+    <div class="nt-glass nt-rv">
+      <small>CONCEPT</small>
+      <p>気になる香りを、<br>カジュアルに<br>トライしてみる。</p>
+      <a href="/preview/new-top/#about">ABOUT COLLEGRANCE &rarr;</a>
+    </div>
+  </section>
+
   <!-- A. POPULAR PICKS -->
   <section class="popular-section">
     <div class="popular-inner">
@@ -1245,6 +1258,28 @@
       </div>
       <div class="popular-scroll" id="popular-scroll">
         <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 新しいトップ：まとめ買いの階段 -->
+  <section class="nt-bundle">
+    <div class="nt-in">
+      <h2><span class="sec-en">Collect</span>いくつか比べるほど、お得になります</h2>
+      <div class="nt-steps nt-rv"><div><small>2本</small><b>5%</b></div><div><small>3本</small><b>10%</b></div><div><small>4本</small><b>15%</b></div><div><small>5本</small><b>20%</b></div><div><small>6本〜</small><b>25%</b></div></div>
+      <div class="nt-pic nt-rv" style="background-image:url('/assets/newtop/p_cases.jpg')" role="img" aria-label="色ちがいの香水ケース"></div>
+      <p class="gift">お試し6本以上で、香水ケースを1個プレゼント</p>
+      <p class="eg">香りは、比べてみると違いがよく分かります。朝用と夜用、仕事の日と休みの日。気分で選べるように、いくつか手元に置いてみてください。</p>
+    </div>
+  </section>
+
+  <!-- 新しいトップ：フルボトルとギフトの入口 -->
+  <section class="nt-tiles">
+    <div class="nt-in">
+      <h2><span class="sec-en">More Ways</span>お試しの、その先へ</h2>
+      <div class="nt-tilegrid">
+        <button type="button" class="nt-tile full nt-rv" onclick="setMode('fullbottle');window.scrollTo({top:document.getElementById('grid').offsetTop-80,behavior:'smooth'});typeof gtag!=='undefined'&&gtag('event','nt_tile_click',{event_category:'new_top',event_label:'fullbottle'});"><div class="tx"><b>気に入ったら、<br>フルボトルへ</b><span>お試しで見つけた香りを、通常サイズで。</span><u>フルボトルを見る &rarr;</u></div><div class="im" style="background-image:url('/assets/newtop/f_full.jpg')" role="img" aria-label="フルボトルの香水"></div></button>
+        <a class="nt-tile gift nt-rv" href="/gift-set.html?utm_source=site&amp;utm_medium=top_tile&amp;utm_campaign=giftset" onclick="typeof gtag!=='undefined'&&gtag('event','nt_tile_click',{event_category:'new_top',event_label:'gift'});"><div class="tx"><b>贈りものに</b><span>選べる3本ギフトセット ¥2,980<br>お試し3本＋香水ケース＋コットンポーチ</span><u>ギフトセットを見る &rarr;</u></div><div class="im" style="background-image:url('/assets/newtop/f_gift.jpg')" role="img" aria-label="ギフトセットの中身"></div></a>
       </div>
     </div>
   </section>
@@ -4985,5 +5020,6 @@ window.addEventListener('beforeunload', function(){
 <div class="review-modal-overlay" id="review-modal-overlay" onclick="if(event.target===this)closeReviewModal()">
   <div class="review-modal" id="review-modal"></div>
 </div>
+<script src="/assets/js/new-top.js?v=20261120a" defer></script>
 </body>
 </html>

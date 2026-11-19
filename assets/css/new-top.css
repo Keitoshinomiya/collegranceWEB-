@@ -69,6 +69,7 @@
 .nt-tiles{padding:44px 20px;background:#fff}
 .nt-tilegrid{display:grid;gap:14px;margin-top:18px}
 @media(min-width:760px){.nt-tilegrid{grid-template-columns:1fr 1fr}}
+@media(min-width:900px){.nt-one{min-height:600px;align-items:center;justify-content:flex-end;padding:40px 8vw}.nt-one .bg{background-position:30% 62%}.nt-glass{margin:0;max-width:440px}}
 .nt-tile{display:grid;grid-template-columns:1fr 132px;min-height:176px;border-radius:6px;overflow:hidden;background:#f7f7f7;color:#1a1a1a;text-decoration:none;cursor:pointer;border:0;padding:0;text-align:left;font-family:var(--font)}
 .nt-tile .tx{padding:18px 4px 18px 18px;display:flex;flex-direction:column;justify-content:center;gap:6px}
 .nt-tile b{font-size:18px;line-height:1.5}

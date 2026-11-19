@@ -1,0 +1,45 @@
+/* 読みもの（一覧・記事）を、新しいトップと同じ家のものに見せる（2026-11・見本ブランチ）。
+   読む場所なので静かに：白いまま・演出なし。4色は見出しの短い線と分類の印だけ。文字は11px以上、本文16px。
+   brand-tokens.css の先頭で読み込む＝全記事に1か所で効く。戻す時は brand-tokens.css の @import の1行を消す。 */
+body .article-header{background:radial-gradient(60% 90% at 100% 100%,rgba(255,195,185,.45),transparent 70%),radial-gradient(50% 80% at 0 0,rgba(235,230,95,.28),transparent 70%),#fffdf7}
+body .article-category,body .journal-card-cat,body .jh-pick-cat,body .cg-rel-cat{display:inline-flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.14em;color:#666;background:none;padding:0;border-radius:0;text-transform:uppercase}
+body .article-category::before,body .journal-card-cat::before,body .jh-pick-cat::before,body .cg-rel-cat::before{content:"";width:18px;height:4px;border-radius:2px;flex:none;background:linear-gradient(90deg,#ffc3b9 0 25%,#5ab9be 25% 50%,#faf5be 50% 75%,#ebe65f 75%)}
+body .article-title{font-family:var(--brand-font,'Noto Sans JP'),sans-serif;font-weight:var(--brand-heading-weight,800);letter-spacing:.02em;line-height:1.6}
+body .article-meta{font-size:12px;letter-spacing:.06em}
+body .article-body{font-size:16px;line-height:2}
+body .article-body h2{font-family:var(--brand-font,'Noto Sans JP'),sans-serif;border-bottom:0;position:relative;padding-bottom:14px}
+body .article-body h2::after{content:"";position:absolute;left:0;bottom:0;width:64px;height:4px;border-radius:2px;background:linear-gradient(90deg,#ffc3b9 0 25%,#5ab9be 25% 50%,#faf5be 50% 75%,#ebe65f 75%)}
+body .article-body h3{font-family:var(--brand-font,'Noto Sans JP'),sans-serif;border-left-color:#5ab9be}
+body .article-image{border-radius:6px;box-shadow:none}
+body .cta-box{background:#fdfbe6;border-left:0;border-radius:6px;padding:18px 20px}
+body .product-card-inline{background:#f7f7f5;border-color:#e8e8e8;border-radius:6px}
+body .product-card-inline .pci-brand{font-size:11px}
+body .product-card-inline .pci-name{font-size:16px;font-weight:700}
+body .product-card-inline .pci-price{font-size:13px}
+body .product-card-inline .pci-btns a{font-size:13px;padding:11px 16px;border-radius:2px}
+body .cg-cta{border:0;border-radius:6px;background:radial-gradient(60% 90% at 100% 0,rgba(255,195,185,.5),transparent 70%),radial-gradient(60% 90% at 0 100%,rgba(235,230,95,.4),transparent 70%),#fffdf7}
+body .cg-cta-lead{font-size:1.15rem;line-height:1.7}
+body .cg-cta-sub{font-size:13px;color:#666}
+body .cg-cta-btns a{font-size:13px;padding:14px 20px;border-radius:2px}
+body .cg-rel-title{font-size:14px;font-weight:700}
+body .cg-hub-chips a{font-size:13px;padding:9px 16px}
+body .cg-bc{font-size:11px}
+body .share-bar-label{font-size:11px}
+/* 読みもの一覧 */
+body .page-header{padding:120px 0 36px;background:radial-gradient(50% 90% at 100% 100%,rgba(255,195,185,.45),transparent 70%),radial-gradient(45% 80% at 0 0,rgba(235,230,95,.3),transparent 70%),#fffdf7}
+body .page-title{font-size:2.2rem;font-weight:700;letter-spacing:.14em}
+body .jh-hero-cat{font-size:11px}
+body .jh-hero-title{font-weight:700}
+body .jh-hero-excerpt{font-size:13px}
+body .jh-section-label,body .jh-all-label{font-size:11px}
+body .jh-pick-title{font-size:14px;font-weight:700}
+body #journal-search{font-size:16px;padding:12px 16px}
+body .journal-tab{font-size:13px;padding:14px 18px}
+body .journal-card-date{font-size:12px}
+body .journal-card-title{font-size:15px;font-weight:700}
+body .journal-card-excerpt{font-size:13px}
+@media(max-width:767px){
+  body .article-title{font-size:1.5rem}
+  body .page-header{padding:96px 0 28px}
+  body .jh-hero-title{font-size:1rem}
+}

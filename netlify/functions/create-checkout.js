@@ -269,6 +269,15 @@ exports.handler = async (event) => {
         r.name += `（まとめ買い${pct}%引き）`;
       }
     }
+    // お試しが freeCase.min 本以上なら、香水ケースを1個プレゼント（2026-11-19）。色はお客さまがカートで選ぶ。
+    // 選んだ色が不正・品切れの時は、品切れでない最初の色にする（決済は止めない）。値段は付けない＝session metadata の free_case に色を入れる
+    let freeCase = null;
+    const freeCaseMin = SAMPLES && SAMPLES.freeCase && SAMPLES.freeCase.min;
+    if (freeCaseMin && sampleCount >= freeCaseMin && giftSetLib && giftSetLib.CASE_BY_ID) {
+      const want = body.freeCase != null ? String(body.freeCase) : '';
+      const picked = want ? giftSetLib.CASE_BY_ID[want] : null;
+      freeCase = (picked && !picked.soldOut) ? picked : (Object.values(giftSetLib.CASE_BY_ID).find((k) => !k.soldOut) || null);
+    }
     // クーポンを使えるカートか（フルボトルだけ）。ギフトラッピングは line_items 側で足すので resolved には入らない
     const couponEligibleCart = resolved.length > 0 && resolved.every((r) => r.kind === 'fullbottle');
     // フルボトルとお試し・ギフトが混ざったカートは、クーポンをフルボトルの分だけに効かせる（2026-11-17 四宮さん指示）
@@ -442,6 +451,7 @@ exports.handler = async (event) => {
       ...(hasGiftSet ? { gift_set_count: String(giftSetRows.length) } : {}),
       ...(sampleCount ? { sample_count: String(sampleCount), smp: sampleRows.map((r) => `${r.sampleNo}x${r.quantity}`).join(',').slice(0, 500) } : {}),
       ...(bundleDiscount ? { sample_bundle_rate: String(bundleRate), sample_bundle_discount: String(bundleDiscount) } : {}),
+      ...(freeCase ? { free_case: freeCase.id } : {}),
       ...Object.fromEntries(giftSetRows.map((v, i) => [`gs${i + 1}`, v.slice(0, 500)])),
       diagnosis_session_id: (metadata && metadata.diagnosis_session_id) || '',
       ...(lineFriendId ? { line_friend_id: lineFriendId } : {}),
@@ -467,6 +477,8 @@ exports.handler = async (event) => {
       // ⚠️ consent_collection.promotions は日本のアカウントでは使えない（Stripe が "not available in your country" で
       //    セッション作成ごと拒否する＝全決済が止まる。2026-10-05 実測）。Stripe のカゴ落ちメール回収は日本では不可
       metadata: sessionMetadata,
+      // 決済画面の支払いボタンの上に、プレゼントの中身を出す
+      ...(freeCase ? { custom_text: { submit: { message: `プレゼント：香水ケース（${freeCase.name}）を1個お入れします。` } } } : {}),
       payment_intent_data: {
         metadata: sessionMetadata,
         receipt_email: undefined, // Will use customer email from checkout form

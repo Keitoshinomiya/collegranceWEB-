@@ -1836,6 +1836,7 @@
     <div class="cart-foot">
       <div class="cart-row-sm"><span>小計</span><span id="c-sub">&yen;0</span></div>
       <div class="cart-row-sm" id="c-bundle-row" style="display:none;color:#a0522d"><span id="c-bundle-label">まとめ買い割引</span><span id="c-bundle">-&yen;0</span></div>
+      <div id="c-freecase" style="display:none"></div>
       <div class="cart-row-sm"><span>送料</span><span id="c-ship">&yen;0</span></div>
       <div class="cart-row-sm" id="gift-wrap-row" style="margin-top:8px">
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.62rem;color:var(--sub)">
@@ -1974,7 +1975,7 @@ async function loadProducts(){
     populateJournalPicks();
     /* 小分け1.5mLのサイト販売の設定（2026-11-15）。読めなければ従来どおりAmazonへのボタンを出す */
     try {
-      const sr = await fetch('data/samples.json?v=20261119a');
+      const sr = await fetch('data/samples.json?v=20261119b');
       if(sr.ok) SAMPLE_CFG = await sr.json();
     } catch(e){ console.warn('Failed to load samples.json', e); }
     buildGrid();
@@ -2659,7 +2660,42 @@ function sampleBundleDiscount(){
 }
 function sampleBundleNote(){
   var t = sampleBundleTiers(); if(!t.length) return '';
-  return t.map(function(x, i){ return x.min + '本' + (i === t.length - 1 ? '以上' : '') + 'で' + Math.round(x.rate * 100) + '%'; }).join('・') + '引き';
+  return t.map(function(x, i){ return x.min + '本' + (i === t.length - 1 ? '以上' : '') + 'で' + Math.round(x.rate * 100) + '%'; }).join('・') + '引き' + (freeCaseMin() ? '。' + freeCaseMin() + '本以上で香水ケースを1個プレゼント' : '');
+}
+/* お試しが freeCase.min 本以上で、香水ケースを1個プレゼント（2026-11-19）。色はカートで選ぶ。決済側（create-checkout.js）が同じ設定で確かめ直す */
+function freeCaseMin(){ return (SAMPLE_CFG && SAMPLE_CFG.freeCase && SAMPLE_CFG.freeCase.min) || 0; }
+function freeCaseEligible(){ var m = freeCaseMin(); return !!m && sampleBottleCount() >= m; }
+function freeCaseList(){ return ((GIFT_SET && GIFT_SET.cases) || []).filter(function(k){ return !k.soldOut; }); }
+function freeCaseGet(){
+  var l = freeCaseList(); if(!l.length) return null;
+  var id = ''; try { id = localStorage.getItem('clg_free_case') || ''; } catch(e){}
+  return l.find(function(k){ return k.id === id; }) || l[0];
+}
+function freeCasePick(id){
+  try { localStorage.setItem('clg_free_case', id); } catch(e){}
+  try { ga4Event('free_case_pick', { case_id: id }); } catch(e){}
+  refreshCart();
+}
+function renderFreeCase(){
+  var box = document.getElementById('c-freecase'); if(!box) return;
+  var min = freeCaseMin(), n = sampleBottleCount(), list = freeCaseList();
+  if(!min || !list.length || n < min - 1){ box.style.display = 'none'; box.innerHTML = ''; return; }
+  if(n === min - 1){
+    box.style.display = '';
+    box.innerHTML = '<div style="font-size:12px;color:#a0522d;line-height:1.6;padding:8px 0">お試しをあと1本で ' + Math.round(sampleBundleRate(min) * 100) + '%引き＋香水ケースを1個プレゼント</div>';
+    return;
+  }
+  var cur = freeCaseGet();
+  box.style.display = '';
+  box.innerHTML = '<div style="border:1px solid #e8e8e8;border-radius:4px;background:#faf9f7;padding:12px 12px 10px;margin:8px 0">'
+    + '<div style="font-size:13px;font-weight:700;color:#1a1a1a">プレゼント：香水ケース 1個</div>'
+    + '<div style="font-size:12px;color:#666;line-height:1.6;margin:2px 0 10px">お試し' + min + '本以上のおまけです。お好きな色をお選びください。<br>選択中：<b style="color:#1a1a1a">' + cur.name + '</b></div>'
+    + '<div style="display:flex;flex-wrap:wrap;gap:8px">'
+    + list.map(function(k){
+        var on = k.id === cur.id;
+        return '<button type="button" onclick="freeCasePick(\'' + k.id + '\')" aria-label="' + k.name + '" aria-pressed="' + (on ? 'true' : 'false') + '" style="width:40px;height:40px;border-radius:50%;padding:0;cursor:pointer;background:' + (k.hex || '#ccc') + ';border:1px solid rgba(0,0,0,.18);' + (on ? 'outline:2px solid #1a1a1a;outline-offset:2px' : '') + '"></button>';
+      }).join('')
+    + '</div></div>';
 }
 function sampleBundleShort(){
   var t = sampleBundleTiers(); if(!t.length) return '送料無料';
@@ -3398,6 +3434,7 @@ function refreshCart(){
       document.getElementById('c-bundle').textContent = '-\u00a5' + bd.amount.toLocaleString();
     }
   } catch(e){}
+  try { renderFreeCase(); } catch(e){}
 
   document.getElementById('cart-count').textContent = count;
   document.getElementById('c-sub').textContent  = '\u00a5' + sub.toLocaleString();
@@ -3603,6 +3640,7 @@ async function doCheckout(){
         items: items,
         giftWrap: giftWrap,
         metadata: metadata,
+        freeCase: (function(){ try { var k = freeCaseEligible() ? freeCaseGet() : null; return k ? k.id : ''; } catch(e){ return ''; } })(),
         couponCode: getStoredCoupon() || null
       })
     });

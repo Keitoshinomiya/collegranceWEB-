@@ -69,6 +69,13 @@
 .nt-steps div:last-child{background:#1a1a1a;color:#fff}
 .nt-steps div:last-child small{color:#fff;opacity:.85}
 .nt-pic{margin-top:18px;border-radius:6px;aspect-ratio:3/2;background:center/cover}
+/* ケースを身につけた写真（12色）。スマホは横に送る、広い画面は6列×2段 */
+.nt-cases{display:flex;gap:10px;margin:18px -20px 0;padding:0 20px 6px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.nt-cases::-webkit-scrollbar{display:none}
+.nt-cases figure{flex:0 0 46%;max-width:220px;margin:0;scroll-snap-align:start}
+.nt-cases img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:6px;background:#eee}
+.nt-cases figcaption{font-size:12px;color:#666;margin-top:6px;text-align:center;letter-spacing:.04em}
+@media(min-width:760px){.nt-cases{display:grid;grid-template-columns:repeat(6,1fr);margin:18px 0 0;padding:0;overflow:visible}.nt-cases figure{max-width:none}}
 .nt-bundle .gift{font-size:14px;font-weight:700;margin-top:12px;text-align:center;color:#1a1a1a}
 .nt-bundle .eg{font-size:13px;line-height:1.9;color:#666;margin-top:12px}
 

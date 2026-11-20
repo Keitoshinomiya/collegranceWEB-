@@ -41,7 +41,7 @@ function rows() {
     out.push({
       id: 'sample-' + sid,
       title: 'お試し香水 1.5mL 原材料：' + p.brand + ' ' + nm + conc + ' | COLLEGRANCE',
-      description: 'COLLEGRANCEのお試し香水1.5mL（約20プッシュ・約1週間分）。並行輸入品の' + p.brand + '「' + nm + '」' + conc.trim()
+      description: 'COLLEGRANCEのお試し香水1.5mL（1回1プッシュで約20〜25回分）。並行輸入品の' + p.brand + '「' + nm + '」' + conc.trim()
         + 'を、当社（合同会社ヤシノミ）が自社の製造所で独自に1.5mLへ詰め替えた商品です。ブランドとは関係ありません。'
         + '全品送料無料。お試しはまとめ買いで' + bundleText() + '＋300円で香水ケース付き（12色）も選べます。',
       link: SITE + '/?from=recommend&product=' + sid + '&utm_source=google&utm_medium=shopping&utm_campaign=merchant',

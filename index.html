@@ -1022,7 +1022,7 @@
 .pc .pc-peek em{font-size:11px}
 .pc .tag{font-size:11px;letter-spacing:.12em}
 </style>
-<link rel="stylesheet" href="/assets/css/new-top.css?v=20261120h">
+<link rel="stylesheet" href="/assets/css/new-top.css?v=20261120i">
 </head>
 <body>
 
@@ -1269,7 +1269,7 @@
       <div class="nt-plans nt-rv">
         <div class="nt-plan"><small>まず</small><b>1本</b><span>¥750〜</span><i>送料無料</i></div>
         <div class="nt-plan rec"><em>おすすめ</em><small>比べる</small><b>3本</b><span>15%引き</span><i>違いが分かる</i></div>
-        <div class="nt-plan"><small>じっくり</small><b>6本</b><span>25%引き</span><i>＋ケース1個</i></div>
+        <div class="nt-plan"><small>じっくり</small><b>6本</b><span>25%引き</span><i>＋ケース（通常＋300円）</i></div>
       </div>
       <div class="nt-steps-t">まとめるほど、割引が大きくなります</div>
       <div class="nt-steps nt-rv"><div><small>2本</small><b>5%</b></div><div><small>3本</small><b>15%</b></div><div><small>4本</small><b>20%</b></div><div><small>5本</small><b>25%</b></div><div><small>6本〜</small><b>25%</b></div></div>
@@ -1292,7 +1292,7 @@
         <button type="button" class="nt-cases-next" aria-label="次の色を見る">&rarr;</button>
       </div>
       <div class="nt-cases-bar" aria-hidden="true"><i></i></div>
-      <p class="gift">お試し6本以上で、香水ケースを1個プレゼント（12色から選べます）</p>
+      <p class="gift">お試し6本以上で、香水ケース（通常＋300円）を1個プレゼント<br><span>12色から選べます</span></p>
       <p class="eg">香りは、比べてみると違いがよく分かります。朝用と夜用、仕事の日と休みの日。気分で選べるように、いくつか手元に置いてみてください。</p>
     </div>
   </section>
@@ -2705,7 +2705,7 @@ function sampleBundleDiscount(){
 }
 function sampleBundleNote(){
   var t = sampleBundleTiers(); if(!t.length) return '';
-  return t.map(function(x, i){ return x.min + '本' + (i === t.length - 1 ? '以上' : '') + 'で' + Math.round(x.rate * 100) + '%'; }).join('・') + '引き' + (freeCaseMin() ? '。' + freeCaseMin() + '本以上で香水ケースを1個プレゼント' : '');
+  return t.map(function(x, i){ return x.min + '本' + (i === t.length - 1 ? '以上' : '') + 'で' + Math.round(x.rate * 100) + '%'; }).join('・') + '引き' + (freeCaseMin() ? '。' + freeCaseMin() + '本以上で香水ケース（通常＋' + sampleCasePrice().toLocaleString() + '円）を1個プレゼント' : '');
 }
 /* まとめ買いの「階段」（2026-11-19）。何本でどれだけ割引になるかを、文章ではなく段で見せる。cur＝いまのお試しの本数（0なら説明用） */
 function bundleStepsHtml(cur){
@@ -2717,7 +2717,7 @@ function bundleStepsHtml(cur){
       + '<div style="font-size:11px;line-height:1.3;opacity:.85">' + x.min + '本' + (last ? '〜' : '') + '</div>'
       + '<div style="font-size:14px;font-weight:700;line-height:1.3">' + Math.round(x.rate * 100) + '%</div></div>';
   }).join('') + '</div>'
-  + (fmin ? '<div style="font-size:11px;color:#666;line-height:1.6;margin-top:6px;text-align:center">' + fmin + '本以上は、香水ケースも1個プレゼント</div>' : '');
+  + (fmin ? '<div style="font-size:11px;color:#666;line-height:1.6;margin-top:6px;text-align:center">' + fmin + '本以上は、香水ケース（通常＋' + sampleCasePrice().toLocaleString() + '円）も1個プレゼント</div>' : '');
 }
 function renderBundleSteps(){
   var box = document.getElementById('c-steps'); if(!box) return;
@@ -2730,10 +2730,10 @@ function renderBundleSteps(){
     var cur = sampleBundleDiscount().amount;
     var at = cart.filter(function(c){ return c.sample; }).reduce(function(sum, c){ return sum + (c.sellPrice - Math.round(c.sellPrice * (1 - next.rate))) * c.qty; }, 0);
     var gain = Math.max(0, at - cur), need = next.min - n;
-    msg = 'いま<b style="color:#1a1a1a">' + n + '本</b>' + (rate ? '（' + Math.round(rate * 100) + '%引き）' : '') + '。あと<b style="color:#1a1a1a">' + need + '本</b>で <b style="color:#a0522d">' + Math.round(next.rate * 100) + '%引き' + (freeCaseMin() && next.min >= freeCaseMin() ? '＋香水ケース1個' : '') + '</b>'
+    msg = 'いま<b style="color:#1a1a1a">' + n + '本</b>' + (rate ? '（' + Math.round(rate * 100) + '%引き）' : '') + '。あと<b style="color:#1a1a1a">' + need + '本</b>で <b style="color:#a0522d">' + (next.rate > rate ? Math.round(next.rate * 100) + '%引き' : '') + (freeCaseMin() && next.min >= freeCaseMin() ? (next.rate > rate ? '＋' : '') + '香水ケース（通常＋' + sampleCasePrice().toLocaleString() + '円）を1個プレゼント' : '') + '</b>'
       + (gain ? '<br>いまのカートの分だけで、さらに &yen;' + gain.toLocaleString() + ' おトクになります' : '');
   } else {
-    msg = 'いま<b style="color:#1a1a1a">' + n + '本</b>：<b style="color:#a0522d">' + Math.round(rate * 100) + '%引き' + (freeCaseEligible() ? '＋香水ケース1個プレゼント' : '') + '</b><br>割引はここがいちばん大きい段です';
+    msg = 'いま<b style="color:#1a1a1a">' + n + '本</b>：<b style="color:#a0522d">' + Math.round(rate * 100) + '%引き' + (freeCaseEligible() ? '＋香水ケース（通常＋' + sampleCasePrice().toLocaleString() + '円）1個プレゼント' : '') + '</b><br>割引はここがいちばん大きい段です';
   }
   box.style.display = '';
   box.innerHTML = '<div style="padding:2px 0 14px;margin-bottom:10px;border-bottom:1px solid #e8e8e8">'
@@ -2767,8 +2767,8 @@ function renderFreeCase(){
   box.innerHTML = '<div style="border:1px solid #e8e8e8;border-radius:4px;background:#faf9f7;padding:12px 12px 12px;margin:8px 0">'
     + '<div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">'
     + (cp ? '<img src="' + cp + '" alt="" width="84" height="84" style="width:84px;height:84px;object-fit:cover;border-radius:6px;flex:none;background:' + (cur.hex || '#ccc') + '">' : '')
-    + '<div><div style="font-size:13px;font-weight:700;color:#1a1a1a">プレゼント：香水ケース 1個</div>'
-    + '<div style="font-size:12px;color:#666;line-height:1.6;margin-top:2px">お試し' + min + '本以上のおまけです。お好きな色をお選びください。<br>選択中：<b style="color:#1a1a1a">' + cur.name + '</b></div></div></div>'
+    + '<div><div style="font-size:13px;font-weight:700;color:#1a1a1a">プレゼント：香水ケース 1個（通常＋' + sampleCasePrice().toLocaleString() + '円）</div>'
+    + '<div style="font-size:12px;color:#666;line-height:1.6;margin-top:2px">お試し' + min + '本以上のご注文に、ふだんは＋' + sampleCasePrice().toLocaleString() + '円でお付けしているケースを1個お入れします。お好きな色をお選びください。<br>選択中：<b style="color:#1a1a1a">' + cur.name + '</b></div></div></div>'
     + '<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px">'
     + list.map(function(k){
         var on = k.id === cur.id, ph = casePhoto(k.id);
@@ -5017,6 +5017,6 @@ window.addEventListener('beforeunload', function(){
   <div class="review-modal" id="review-modal"></div>
 </div>
 <script src="/assets/js/new-top.js?v=20261120c" defer></script>
-<script src="/assets/js/new-sheet.js?v=20261120c" defer></script>
+<script src="/assets/js/new-sheet.js?v=20261120d" defer></script>
 </body>
 </html>

@@ -112,7 +112,7 @@
     var three = '<button type="button" class="ntp rec" onclick="ntSheet.set(' + p.id + ',[' + need.map(function(x){ return x.id; }).join(',') + '])">' +
         '<em>おすすめ</em><span class="ntp-l"><b>比べる3本</b><small>' + cols.map(function(x){ return shortName(x); }).join('・') + '</small></span>' +
         '<span class="ntp-r"><b>' + yen(pw.total) + '</b>' + (save > 0 ? '<small>' + save.toLocaleString() + '円お得（' + Math.round(pw.rate*100) + '%引き）</small>' : '') + '</span></button>';
-    var six = '<button type="button" class="ntp" onclick="ntSheet.more()"><span class="ntp-l"><b>じっくり' + top.min + '本</b><small>好きな香りを' + top.min + '本。香水ケースも1個プレゼント</small></span><span class="ntp-r"><b>' + Math.round(top.rate*100) + '%引き</b><small>香りを選ぶ &rarr;</small></span></button>';
+    var six = '<button type="button" class="ntp" onclick="ntSheet.more()"><span class="ntp-l"><b>じっくり' + top.min + '本</b><small>好きな香りを' + top.min + '本。香水ケース（通常＋' + sampleCasePrice().toLocaleString() + '円）も1個プレゼント</small></span><span class="ntp-r"><b>' + Math.round(top.rate*100) + '%引き</b><small>香りを選ぶ &rarr;</small></span></button>';
     return '<section class="ntc" id="ntc"><div class="ps-sec-title">比べるなら、この3本</div>' +
       '<p class="ntc-sub">香りは、2〜3本を並べてつけると違いが分かります。同じ便で届き、送料は無料です。</p>' +
       '<div class="ntc-grid" style="--n:' + cols.length + '">' + head + rows + '<div class="ntc-ax"></div>' + foot + '</div>' +

@@ -52,3 +52,8 @@
   .header-nav{display:none!important}
   .hamburger{display:block}
 }
+
+/* メニューの開き方をトップとそろえる（2026-11-20）：マウスが少し外れてもすぐ閉じない／メニューとの隙間でも閉じない */
+.mega-drop{transition-delay:.25s}
+.header-nav>li:hover .mega-drop{transition-delay:0s}
+.mega-drop::before{content:'';position:absolute;top:-18px;left:-12px;right:-12px;height:18px}

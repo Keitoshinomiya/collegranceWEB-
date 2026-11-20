@@ -1,0 +1,20 @@
+/* マウスを乗せた時の動きを、全ページで3種類にそろえる（2026-11・見本ブランチ）。
+   ① 箱（商品・記事・入口のタイル）＝3px浮いて影がつき、写真が少し寄る
+   ② 一覧の行（読みもの一覧）＝地の色がうっすら変わるだけ
+   ③ ボタン＝黒いボタンは少し明るく／線のボタンは線と文字が濃く。動かさない（浮いているLINE・AI・ギフトのボタンだけは今までどおり浮く）
+   速さはどれも .3s。マウスのあるパソコン幅だけに効かせる（スマホは今までどおり）。
+   brand-tokens.css の先頭で読み込む。戻す時はその @import の1行を消す。 */
+@media (hover:hover) and (min-width:768px){
+  body .product-card,body .popular-item,body .jp-card,body .jh-pick,body .cg-rel-card,body .nt-tile{transition:transform .3s cubic-bezier(.4,0,.2,1),box-shadow .3s cubic-bezier(.4,0,.2,1),border-color .3s}
+  body .product-card:hover,body .popular-item:hover,body .jp-card:hover,body .jh-pick:hover,body .cg-rel-card:hover,body .nt-tile:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.1);border-color:transparent}
+  body .product-card .img-wrap img,body .popular-item img,body .jp-card-img,body .jh-pick-img,body .cg-rel-card img,body .nt-tile .im{transition:transform .6s cubic-bezier(.4,0,.2,1)}
+  body .product-card:hover .img-wrap img,body .popular-item:hover img,body .jp-card:hover .jp-card-img,body .jh-pick:hover .jh-pick-img,body .cg-rel-card:hover img,body .nt-tile:hover .im{transform:scale(1.04)}
+  body .nt-tile.nt-rv.nt-in-view{transition:transform .3s cubic-bezier(.4,0,.2,1),box-shadow .3s cubic-bezier(.4,0,.2,1),opacity 1s ease}
+  body .nt-tile.nt-rv.nt-in-view:hover{transform:translateY(-3px)}
+  body .journal-card{transition:background .3s}
+  body .journal-card:hover{background:#faf9f7}
+  body .hero-ai-btn:hover,body .nt-hero .hero-ai-btn:hover,body .load-more-btn:hover,body .checkout-btn:hover,body .gift-btn:hover,body .sticky-cart-btn:hover,body .product-card-inline .pci-btns a.pci-btn-shop:hover,body .cg-cta-btns a.cg-cta-shop:hover{background:#333;color:#fff;opacity:1;transform:none;box-shadow:none}
+  body .hero-rank-btn:hover,body .nt-hero .hero-rank-btn:hover,body .product-card-inline .pci-btns a.pci-btn-sample:hover,body .cg-cta-btns a.cg-cta-diag:hover,body .cg-hub-chips a:hover,body .quick-guide-btn:not(.ai-btn):hover,body .brand-tile:hover{border-color:#1a1a1a;color:#1a1a1a;background:rgba(26,26,26,.04);opacity:1;transform:none}
+  body .nt-glass a,body .nt-tile u{transition:opacity .3s}
+  body .nt-glass a:hover{opacity:.6}
+}

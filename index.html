@@ -1022,7 +1022,7 @@
 .pc .pc-peek em{font-size:11px}
 .pc .tag{font-size:11px;letter-spacing:.12em}
 </style>
-<link rel="stylesheet" href="/assets/css/new-top.css?v=20261120f">
+<link rel="stylesheet" href="/assets/css/new-top.css?v=20261120g">
 </head>
 <body>
 
@@ -2531,7 +2531,7 @@ function renderProductSheet(p){
   if(sell){
     sampleBlock = '<div class="ps-blk' + (pick === 'sample' ? ' on' : '') + '">' +
       '<div class="ps-blk-head">' + (sampleImg(p) ? '<img src="' + sampleImg(p) + '" alt="" width="28" height="38">' : '') +
-        '<span class="ps-opt-txt"><b>お試し 1.5mL</b><small>約20プッシュ・約1週間。まずは肌で確かめたい方に</small></span><span class="ps-opt-price">&yen;' + sPrice.toLocaleString() + '</span></div>' +
+        '<span class="ps-opt-txt"><b>お試し 1.5mL</b><small>1回1プッシュで約20〜25回分。まずは肌で確かめたい方に</small></span><span class="ps-opt-price">&yen;' + sPrice.toLocaleString() + '</span></div>' +
       (sampleBundleNote() ? '<div style="margin:2px 0 12px"><div style="font-size:12px;font-weight:700;color:#1a1a1a;text-align:center;margin-bottom:6px">まとめて試すほど、割引が大きくなります</div>' + bundleStepsHtml(sampleBottleCount()) + '</div>' : '') +
       '<button type="button" class="' + (pick === 'sample' ? 'ps-main' : 'ps-sub') + '" onclick="closeSampleLP();addSampleCart(' + p.id + ',\'sheet\')">お試しをカートへ &yen;' + sPrice.toLocaleString() + '</button>' +
       '<button type="button" class="ps-sub" onclick="closeSampleLP();openCasePicker(' + p.id + ',\'sheet\')">ケース付きで &yen;' + (sPrice + sampleCasePrice()).toLocaleString() + '（12色から選ぶ）</button>' +
@@ -5044,5 +5044,6 @@ window.addEventListener('beforeunload', function(){
   <div class="review-modal" id="review-modal"></div>
 </div>
 <script src="/assets/js/new-top.js?v=20261120c" defer></script>
+<script src="/assets/js/new-sheet.js?v=20261120a" defer></script>
 </body>
 </html>

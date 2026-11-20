@@ -125,3 +125,43 @@
 @keyframes nt-wipe{to{clip-path:inset(0 0 0 0)}}
 @keyframes nt-mist{to{opacity:0;transform:scale(1.25);visibility:hidden}}
 @keyframes nt-kb{from{transform:scale(.94) translateY(10px)}to{transform:scale(1.03)}}
+
+/* 商品の画面：あわせて比べたい香り／入れたあとの案内／下にいつも出るボタン（new-sheet.js） */
+.sample-lp.nt-has-bar{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+#nt-bar{position:fixed;left:0;right:0;bottom:0;z-index:10000;display:flex;justify-content:center;pointer-events:none}
+.nt-bar-in{pointer-events:auto;width:100%;max-width:480px;background:rgba(255,255,255,.97);border-top:1px solid #e8e8e8;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 20px rgba(0,0,0,.06)}
+.nt-bar-in .ps-main,.nt-bar-in .ps-sub{min-height:50px;font-size:14px;letter-spacing:.06em;font-weight:700;margin-top:0}
+.nt-bar-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.nt-bar-pg{font-size:12px;color:#666;text-align:center;margin-bottom:8px;line-height:1.5}
+.nt-bar-pg b,.ntd-pg b{color:#1a1a1a}
+.ntd{border-radius:6px;padding:14px 14px 12px;margin:10px 0 2px;background:radial-gradient(70% 120% at 100% 0,rgba(255,195,185,.45),transparent 70%),radial-gradient(70% 120% at 0 100%,rgba(235,230,95,.35),transparent 70%),#fffdf7}
+.ntd-ok{font-size:15px;font-weight:700;color:#1a1a1a}
+.ntd-pg{font-size:13px;color:#666;margin-top:2px;line-height:1.6}
+.ntd-next{display:flex;align-items:center;gap:10px;width:100%;margin-top:10px;padding:10px 12px;background:#fff;border:1px solid #e8e8e8;border-radius:6px;cursor:pointer;text-align:left;font-family:var(--font);color:#1a1a1a}
+.ntd-next img{width:30px;height:40px;object-fit:contain;flex:none;mix-blend-mode:multiply}
+.ntd-next span{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.ntd-next small{font-size:11px;color:#666;letter-spacing:.06em}
+.ntd-next b{font-size:14px}
+.ntd-next em{font-style:normal;font-size:12px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ntd-next i{font-style:normal;font-size:16px;flex:none}
+.ntc{margin:22px 0 6px;padding-top:20px;border-top:1px solid #e8e8e8}
+.ntc .ps-sec-title{font-size:15px;font-weight:var(--brand-heading-weight,800);margin-bottom:4px}
+.ntc-sub{font-size:12px;color:#666;line-height:1.7;margin:0 0 12px}
+.ntc-grid{display:grid;grid-template-columns:52px repeat(var(--n,3),1fr);column-gap:6px;row-gap:8px;align-items:center}
+.ntc-grid>.ntc-col:first-child{grid-column:2}
+.ntc-col{align-self:stretch;text-align:center;padding:10px 4px 8px;border-radius:6px;background:#f7f7f5;min-width:0}
+.ntc-col.me{background:#fdfbe6}
+.ntc-col img{width:42px;height:56px;object-fit:contain;mix-blend-mode:multiply}
+.ntc-br{font-size:11px;color:#767676;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+.ntc-nm{font-size:13px;font-weight:700;line-height:1.4;color:#1a1a1a}
+.ntc-one{font-size:11px;color:#666;line-height:1.5;margin-top:4px}
+.ntc-ax{font-size:11px;color:#666;letter-spacing:.04em}
+.ntc-cell{text-align:center;min-width:0}
+.ntc-dots{display:inline-flex;gap:3px}
+.ntc-dots i{width:9px;height:9px;border-radius:50%;background:#dedede}
+.ntc-dots i.on{background:#1a1a1a}
+.ntc-pr{font-size:13px;font-weight:700;color:#1a1a1a;margin:2px 0 6px}
+.ntc-tag{display:inline-block;font-size:11px;color:#666;line-height:1.4}
+.ntc-add{display:block;width:100%;min-height:44px;background:#fff;border:1px solid #1a1a1a;border-radius:2px;font-family:var(--font);font-size:13px;font-weight:700;color:#1a1a1a;cursor:pointer}
+.ntc-see{display:block;width:100%;min-height:36px;background:none;border:0;font-family:var(--font);font-size:12px;color:#666;text-decoration:underline;cursor:pointer}
+.ntc-pair{margin-top:14px;min-height:52px;font-size:14px;font-weight:700;letter-spacing:.04em}

@@ -20,4 +20,4 @@
 })(document);
 
 /* 全ページ共通のメニュー（site-nav.js）を読み込む。このファイルはほぼ全ページが読んでいるので、ここ1か所で足りる（2026-11-20） */
-(function(d){ try{ var n=d.createElement("script"); n.src="/assets/js/site-nav.js?v=20261120b"; n.defer=true; (d.head||d.documentElement).appendChild(n); }catch(e){} })(document);
+(function(d){ try{ var n=d.createElement("script"); n.src="/assets/js/site-nav.js?v=20261120c"; n.defer=true; (d.head||d.documentElement).appendChild(n); }catch(e){} })(document);

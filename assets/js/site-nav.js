@@ -14,6 +14,7 @@
     ['コレグランスについて', '名前の由来と、中身のこと', '/about.html']
   ];
   var SUB = [['お問い合わせ','/contact.html'],['配送・返品','/tokushoho.html#shipping'],['特定商取引法','/tokushoho.html'],['LINEで相談', LINE]];
+  var ANN = '<a class="nt-ann" id="nt-ann" href="/#nt-bundle"><span class="nt-ann-in"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 20V7M12 7H8.5a2.5 2.5 0 110-5C11 2 12 7 12 7zM12 7h3.5a2.5 2.5 0 100-5C13 2 12 7 12 7z"/></svg><b>お試し6本以上で、香水ケースを1個プレゼント</b><em>通常＋300円・12色から選べます</em><i aria-hidden="true">&rarr;</i></span></a>';
   var sparkle = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10.5 5Q12.20 11.80 19 13.5Q12.20 15.20 10.5 22Q8.80 15.20 2 13.5Q8.80 11.80 10.5 5ZM19 1.5Q19.80 4.70 23 5.5Q19.80 6.30 19 9.5Q18.20 6.30 15 5.5Q18.20 4.70 19 1.5Z"/></svg>';
   function ev(n, o){ try{ if(typeof gtag !== 'undefined') gtag('event', n, o || {}); }catch(e){} }
 
@@ -60,6 +61,15 @@
   function toggle(){ if(nav && nav.classList.contains('open')) close(); else open(); }
 
   function init(){
+    /* お知らせの帯：トップとショップにはHTMLで入れてある。ほかのページには、ここで同じものを足す（キャンペーン用のページ・ABOUT・管理用は除く） */
+    try{
+      if(!document.getElementById('nt-ann') && document.querySelector('.site-header') && !/campaign|members-catalog|admin|about\.html/.test(location.pathname)){
+        var t = document.createElement('div'); t.innerHTML = ANN; var bar = t.firstChild, hd = document.querySelector('.site-header');
+        hd.parentNode.insertBefore(bar, hd);
+      }
+      var ann = document.getElementById('nt-ann');
+      if(ann) ann.addEventListener('click', function(){ ev('nt_announce_click', {event_label: location.pathname}); });
+    }catch(e){}
     /* 今までのスマホのメニューは閉じたままにして、ボタンを新しいメニューにつなぐ */
     window.toggleMobileNav = toggle;
     document.documentElement.classList.add('ntn-ready');

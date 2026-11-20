@@ -1,0 +1,64 @@
+/* 全ページ共通のメニューの見た目（2026-11）。brand-tokens.css の先頭で読み込む。戻す時はその @import の1行と、brand-fonts.js の最後の読み込みを消す。
+   スマホ：全画面のメニュー（大きな文字・押しやすい高さ・上に「香りをえらぶ」と「AIで診断する」）
+   パソコン：メニューの文字を読める大きさに・開いた箱の上に4色の線 */
+
+/* ---- ハンバーガー（3本線） ---- */
+body .hamburger{width:44px;height:44px;padding:0;background:none;border:0;cursor:pointer;flex:none;display:none;align-items:center;justify-content:center;flex-direction:column;gap:6px}
+body .hamburger span{display:block;width:24px;height:2px;margin:0;background:#1a1a1a;border-radius:1px;transition:none;transform:none!important;opacity:1!important}
+@media(max-width:1023px){
+  body .site-header .header-nav{display:none!important}
+  body .hamburger{display:flex}
+  body .mobile-nav{display:none!important}
+}
+.gh-bar{position:relative}
+.gh-bar .hamburger{position:absolute;right:8px;top:50%;margin-top:-22px}
+
+/* ---- スマホのメニュー ---- */
+html.ntn-lock,html.ntn-lock body{overflow:hidden}
+#nt-nav{position:fixed;inset:0;z-index:9990;display:flex;flex-direction:column;font-family:var(--brand-font,'Noto Sans JP'),sans-serif;color:#1a1a1a;
+  background:radial-gradient(70% 45% at 100% 0,rgba(255,195,185,.55),transparent 70%),radial-gradient(70% 45% at 0 100%,rgba(235,230,95,.45),transparent 70%),radial-gradient(50% 30% at 100% 100%,rgba(90,185,190,.22),transparent 70%),#fffdf7;
+  opacity:0;transform:translateY(-12px);transition:opacity .3s ease,transform .3s cubic-bezier(.2,.8,.2,1)}
+#nt-nav[hidden]{display:none}
+#nt-nav.open{opacity:1;transform:none}
+.ntn-head{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 10px 0 20px;flex:none;border-bottom:3px solid transparent;border-image:linear-gradient(90deg,#ffc3b9,#5ab9be,#faf5be,#ebe65f) 1}
+.ntn-logo{display:block;width:170px;aspect-ratio:1149/107;background:url("/assets/newtop/logo_t.png") left center/contain no-repeat}
+.ntn-close{position:relative;width:48px;height:48px;border:0;background:none;cursor:pointer}
+.ntn-close span{position:absolute;left:12px;top:23px;width:24px;height:2px;background:#1a1a1a;border-radius:1px;transform:rotate(45deg)}
+.ntn-close span+span{transform:rotate(-45deg)}
+.ntn-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:22px 20px calc(36px + env(safe-area-inset-bottom,0px));max-width:560px;width:100%;margin:0 auto;box-sizing:border-box}
+.ntn-cta{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ntn-b1,.ntn-b2{display:flex;align-items:center;justify-content:center;gap:7px;min-height:54px;border-radius:2px;font-family:inherit;font-size:15px;font-weight:700;letter-spacing:.04em;text-decoration:none;cursor:pointer;box-sizing:border-box}
+.ntn-b1{background:#1a1a1a;color:#fff;border:1px solid #1a1a1a}
+.ntn-b2{background:rgba(255,255,255,.8);color:#1a1a1a;border:1px solid #1a1a1a}
+.ntn-main{list-style:none;margin:22px 0 0;padding:0}
+.ntn-main li{border-bottom:1px solid rgba(26,26,26,.12)}
+.ntn-main li:first-child{border-top:1px solid rgba(26,26,26,.12)}
+.ntn-main a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:68px;padding:10px 2px;color:#1a1a1a;text-decoration:none}
+.ntn-main span{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ntn-main b{font-size:19px;font-weight:700;letter-spacing:.03em;line-height:1.4}
+.ntn-main small{font-size:12px;color:#666;line-height:1.5}
+.ntn-main i{font-style:normal;font-size:18px;flex:none}
+.ntn-sub{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.ntn-sub a{display:flex;align-items:center;min-height:48px;font-size:14px;color:#1a1a1a;text-decoration:none;border-bottom:1px solid rgba(26,26,26,.1)}
+@media (prefers-reduced-motion:no-preference){
+  #nt-nav.open .ntn-cta,#nt-nav.open .ntn-main li,#nt-nav.open .ntn-sub{animation:ntn-in .5s cubic-bezier(.2,.8,.2,1) both}
+  #nt-nav.open .ntn-main li:nth-child(1){animation-delay:.05s}#nt-nav.open .ntn-main li:nth-child(2){animation-delay:.09s}#nt-nav.open .ntn-main li:nth-child(3){animation-delay:.13s}
+  #nt-nav.open .ntn-main li:nth-child(4){animation-delay:.17s}#nt-nav.open .ntn-main li:nth-child(5){animation-delay:.21s}#nt-nav.open .ntn-main li:nth-child(6){animation-delay:.25s}
+  #nt-nav.open .ntn-sub{animation-delay:.3s}
+}
+@keyframes ntn-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---- パソコンのメニュー ---- */
+@media(min-width:1024px){
+  body .header-nav>li>a{font-size:12px;letter-spacing:.16em;padding:0 18px;color:#555}
+  body .header-nav>li>a.active,body .header-nav>li>a:hover,body .header-nav>li:hover>a{color:#1a1a1a}
+  body .mega-drop{border:0;border-radius:0 0 6px 6px;padding:26px 30px 24px;min-width:300px;box-shadow:0 18px 44px rgba(26,26,26,.12);
+    background:linear-gradient(90deg,#ffc3b9,#5ab9be,#faf5be,#ebe65f) top/100% 3px no-repeat,#fff}
+  body .mega-drop-grid.cols-2{min-width:460px;gap:0 40px}
+  body .mega-drop-col h4,body .mega-drop-title{font-size:11px;letter-spacing:.14em;color:#767676;font-weight:500;margin-bottom:6px}
+  body .mega-drop a{font-size:14px;font-weight:500;color:#1a1a1a;padding:9px 0;letter-spacing:.02em}
+  body .mega-drop a .mega-sub{font-size:11px;font-weight:400;color:#767676;margin-top:2px}
+  body .mega-drop a:hover{color:#1a1a1a;opacity:.6}
+  body .mega-drop .mega-feat-link{font-size:13px;font-weight:700}
+  body .cart-btn,body .cart-link{font-size:12px}
+}

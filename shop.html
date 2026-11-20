@@ -783,6 +783,7 @@
     ]
   }
   </script>
+<link rel="stylesheet" href="/assets/css/new-top.css?v=20261120k">
 </head>
 <body>
 
@@ -954,22 +955,24 @@
   </nav>
 
   <!-- HERO -->
-  <section class="shop-hero">
-    <div class="hero-slides">
-      <div class="hero-slide active" style="background-image:image-set(url('assets/images/hero-golden-portrait.webp') type('image/webp'),url('assets/images/hero-golden-portrait.jpg') type('image/jpeg'));background-position:center 35%"></div>
-      <div class="hero-slide" style="background-image:image-set(url('assets/images/hero-pastel-bottles.webp') type('image/webp'),url('assets/images/hero-pastel-bottles.jpg') type('image/jpeg'))"></div>
-      <div class="hero-slide" style="background-image:image-set(url('assets/images/hero-leather-case.webp') type('image/webp'),url('assets/images/hero-leather-case.jpg') type('image/jpeg'))"></div>
-      <div class="hero-slide" style="background-image:image-set(url('assets/images/blog_image_sauvage.webp') type('image/webp'),url('assets/images/blog_image_sauvage.jpg') type('image/jpeg'))"></div>
-      <div class="hero-slide" style="background-image:image-set(url('assets/images/blog_image_fleur_de_peau.webp') type('image/webp'),url('assets/images/blog_image_fleur_de_peau.jpg') type('image/jpeg'))"></div>
+  <section class="shop-hero nt-hero">
+    <div class="hero-slides" role="img" aria-label="レモン、バニラ、石けん、バラと一緒に写した、色ちがいの小さな瓶の写真">
+      <div class="hero-slide active"><i style="background-image:url('/assets/newtop/p_d.jpg')"></i><b style="background-image:url('/assets/newtop/p_d.jpg')"></b></div>
+      <div class="hero-slide"><i style="background-image:url('/assets/newtop/p_a.jpg')"></i><b style="background-image:url('/assets/newtop/p_a.jpg')"></b></div>
+      <div class="hero-slide"><i style="background-image:url('/assets/newtop/p_c.jpg')"></i><b style="background-image:url('/assets/newtop/p_c.jpg')"></b></div>
+      <div class="hero-slide"><i style="background-image:url('/assets/newtop/p_b.jpg')"></i><b style="background-image:url('/assets/newtop/p_b.jpg')"></b></div>
     </div>
-    <div class="shop-hero-overlay"></div>
     <div class="shop-hero-content">
-      <h1 class="fade-up">Your Fragrance Collection</h1>
-      <p class="fade-up delay-1">小分けで試して、気に入ったらフルボトルへ。</p>
+      <div class="nt-kicker fade-up">Your Fragrance Collection</div>
+      <h1 class="fade-up">香りはえらべる。<br>もっと自由に。</h1>
+      <p class="fade-up delay-1">憧れのブランド香水を、1.5mL・¥750からお試し。全品送料無料</p>
       <p class="hero-sub fade-up delay-1">130種類以上のブランド香水（並行輸入品）を、当社が独自に詰め替えてお届け</p>
-      <button class="hero-ai-btn fade-up delay-2" onclick="openDiagnosis()">
+      <div class="hero-btn-row fade-up delay-2">
+      <button class="hero-ai-btn" onclick="openDiagnosis()">
         <svg class="ai-sparkle" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M10.5 5.0Q12.20 11.80 19.0 13.5Q12.20 15.20 10.5 22.0Q8.80 15.20 2.0 13.5Q8.80 11.80 10.5 5.0ZM19 1.5Q19.80 4.70 23 5.5Q19.80 6.30 19 9.5Q18.20 6.30 15 5.5Q18.20 4.70 19 1.5Z"/></svg> AIが最適な香りを診断
       </button>
+      <button class="hero-rank-btn" onclick="document.getElementById('popular-scroll').scrollIntoView({behavior:'smooth',block:'start'});typeof gtag!=='undefined'&&gtag('event','hero_rank_click',{'event_category':'hero'});">人気の香りから選ぶ</button>
+      </div>
     </div>
     <div class="hero-dots" id="hero-dots"></div>
   </section>
@@ -3162,5 +3165,6 @@ window.addEventListener('beforeunload', function(){
 <div class="sample-lp-overlay" id="sample-lp-overlay" onclick="if(event.target===this)closeSampleLP()">
   <div class="sample-lp" id="sample-lp"></div>
 </div>
+<script src="/assets/js/new-top.js?v=20261120c" defer></script>
 </body>
 </html>

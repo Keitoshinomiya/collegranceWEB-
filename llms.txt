@@ -17,6 +17,7 @@
 
 ## 主要ページ
 - トップ（ショップ）: https://collegrance.com/
+- コレグランスについて（名前の由来・中身は並行輸入品を当社が詰め替えた商品であること）: https://collegrance.com/about.html
 - ブランドストーリー: https://collegrance.com/brand-story.html
 - ジャーナル（ブログ）: https://collegrance.com/journal.html
 - AI香水診断: https://collegrance.com/ （ページ内機能）

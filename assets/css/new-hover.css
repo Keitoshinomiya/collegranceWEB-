@@ -24,3 +24,7 @@
 .hero-ai-btn .ai-sparkle{width:18px;height:18px}
 body .quick-guide-btn.ai-btn .ai-sparkle{color:#fff;margin-right:6px}
 body .mega-feat-link svg{color:#1a1a1a;opacity:1}
+
+/* ヘッダーのロゴ：元の logo.png は640px四方で余白が多く、36pxの高さだと文字が約30pxしか無かった。文字だけの横長のロゴに差し替えて読める大きさにする（全ページ共通） */
+body .header-logo img{content:url("/assets/newtop/logo_t.png");height:19px;width:auto;display:block}
+@media(max-width:767px){body .header-logo img{height:15px}}

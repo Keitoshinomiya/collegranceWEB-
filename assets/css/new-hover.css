@@ -22,5 +22,5 @@
 /* AIを示すきらめきのアイコン：全ページで同じ形（塗り）。文字と上下の中心をそろえる */
 .ai-sparkle,.mega-feat-link svg,.floating-cta-icon svg{flex:none;vertical-align:-.18em}
 .hero-ai-btn .ai-sparkle{width:18px;height:18px}
-body .quick-guide-btn.ai-btn .ai-sparkle{opacity:1;color:#fff;margin-right:6px;animation:none}
+body .quick-guide-btn.ai-btn .ai-sparkle{color:#fff;margin-right:6px}
 body .mega-feat-link svg{color:#1a1a1a;opacity:1}

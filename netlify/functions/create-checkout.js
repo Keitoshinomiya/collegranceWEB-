@@ -478,7 +478,7 @@ exports.handler = async (event) => {
       //    セッション作成ごと拒否する＝全決済が止まる。2026-10-05 実測）。Stripe のカゴ落ちメール回収は日本では不可
       metadata: sessionMetadata,
       // 決済画面の支払いボタンの上に、プレゼントの中身を出す
-      ...(freeCase ? { custom_text: { submit: { message: `プレゼント：香水ケース（${freeCase.name}）を1個お入れします。` } } } : {}),
+      ...(freeCase ? { custom_text: { submit: { message: `プレゼント：香水ケース（${freeCase.name}・通常＋${((SAMPLES && SAMPLES.casePrice) || 300).toLocaleString()}円）を1個お入れします。` } } } : {}),
       payment_intent_data: {
         metadata: sessionMetadata,
         receipt_email: undefined, // Will use customer email from checkout form

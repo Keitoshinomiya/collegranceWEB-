@@ -72,7 +72,20 @@
 /* ケースを身につけた写真（12色）。スマホは横に送る、広い画面は6列×2段 */
 .nt-cases{display:flex;gap:10px;margin:18px -20px 0;padding:0 20px 6px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .nt-cases::-webkit-scrollbar{display:none}
-.nt-cases figure{flex:0 0 46%;max-width:220px;margin:0;scroll-snap-align:start}
+.nt-cases figure{flex:0 0 40%;max-width:200px;margin:0;scroll-snap-align:start}
+/* 横に送れることを伝える：見出しの右に「横に送って見る →」、右端に次へのボタン、下に進み具合の線。3枚目を半分のぞかせる */
+.nt-cases-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:22px;font-size:13px;font-weight:700;color:#1a1a1a}
+.nt-swipe{font-size:12px;font-weight:500;color:#666;white-space:nowrap}
+.nt-swipe i{display:inline-block;font-style:normal}
+.nt-cases-wrap{position:relative}
+.nt-cases-wrap .nt-cases{margin-top:10px}
+.nt-cases-wrap::after{content:"";position:absolute;top:10px;right:-20px;bottom:30px;width:56px;background:linear-gradient(90deg,rgba(253,251,230,0),#fdfbe6);pointer-events:none;transition:opacity .3s}
+.nt-cases-wrap.end::after{opacity:0}
+.nt-cases-next{position:absolute;right:-8px;top:calc(50% - 36px);z-index:1;width:44px;height:44px;border-radius:50%;border:0;background:#1a1a1a;color:#fff;font-size:18px;line-height:1;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.2);transition:opacity .3s}
+.nt-cases-wrap.end .nt-cases-next{opacity:0;pointer-events:none}
+.nt-cases-bar{height:3px;background:rgba(26,26,26,.12);border-radius:2px;margin-top:10px;overflow:hidden}
+.nt-cases-bar i{display:block;height:100%;width:22%;background:#1a1a1a;border-radius:2px;transform:translateX(var(--x,0%));transition:transform .15s linear}
+@media(min-width:760px){.nt-swipe,.nt-cases-next,.nt-cases-bar,.nt-cases-wrap::after{display:none}}
 .nt-cases img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:6px;background:#eee}
 .nt-cases figcaption{font-size:12px;color:#666;margin-top:6px;text-align:center;letter-spacing:.04em}
 @media(min-width:760px){.nt-cases{display:grid;grid-template-columns:repeat(6,1fr);margin:18px 0 0;padding:0;overflow:visible}.nt-cases figure{max-width:none}}
@@ -102,9 +115,11 @@
   #nt-intro .tg{animation:nt-show .8s ease forwards 1.35s}
   .nt-intro-out #nt-intro{animation:nt-mist .85s cubic-bezier(.6,0,.3,1) forwards}
   .nt-hero .hero-slide.active>b{animation:nt-kb 6s ease-out both}
+  .nt-swipe i{animation:nt-nudge 1.4s ease-in-out infinite}
   .nt-js .nt-rv{opacity:0;transform:translateY(22px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.8,.2,1)}
   .nt-js .nt-rv.nt-in-view{opacity:1;transform:none}
 }
+@keyframes nt-nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
 @keyframes nt-bloom{to{transform:scale(1)}}
 @keyframes nt-show{to{opacity:1}}
 @keyframes nt-wipe{to{clip-path:inset(0 0 0 0)}}

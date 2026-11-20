@@ -40,4 +40,26 @@
       });
     }, {passive:true});
   }
+
+  /* ケースの列：横に送れることを伝える（進み具合の線・次へのボタン・最初に一度だけ少し動いて戻る） */
+  var row = document.querySelector('.nt-cases'), wrap = document.querySelector('.nt-cases-wrap');
+  if(row && wrap){
+    var bar = document.querySelector('.nt-cases-bar i'), next = wrap.querySelector('.nt-cases-next'), moved = false;
+    function sync(){
+      var max = row.scrollWidth - row.clientWidth, t = max > 0 ? row.scrollLeft / max : 0;
+      if(bar) bar.style.setProperty('--x', (t * (100/0.22 - 100)).toFixed(1) + '%');
+      wrap.classList.toggle('end', max <= 0 || t > 0.98);
+    }
+    row.addEventListener('scroll', function(){ moved = true; sync(); }, {passive:true});
+    if(next) next.addEventListener('click', function(){ row.scrollBy({left: row.clientWidth * 0.8, behavior: calm ? 'auto' : 'smooth'}); });
+    sync();
+    if(!calm && 'IntersectionObserver' in window){
+      var peek = new IntersectionObserver(function(es){
+        if(!es[0].isIntersecting) return; peek.disconnect();
+        setTimeout(function(){ if(moved || row.scrollWidth <= row.clientWidth) return;
+          row.scrollTo({left:70, behavior:'smooth'}); setTimeout(function(){ row.scrollTo({left:0, behavior:'smooth'}); }, 650); }, 500);
+      }, {threshold:.6});
+      peek.observe(row);
+    }
+  }
 })();

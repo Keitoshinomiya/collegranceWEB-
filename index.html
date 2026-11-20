@@ -524,9 +524,9 @@
     .case-close{position:absolute;top:8px;right:10px;background:none;border:none;font-size:1.4rem;line-height:1;cursor:pointer;color:var(--sub);padding:6px}
     .case-title{font-size:.8rem;letter-spacing:.08em;margin-bottom:6px}
     .case-sub{font-size:.58rem;color:var(--sub);line-height:1.7;margin-bottom:14px}
-    .case-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .case-sw{background:none;border:1px solid var(--border);border-radius:6px;padding:6px 4px;cursor:pointer;font-family:var(--font);font-size:.5rem;color:var(--text);display:flex;flex-direction:column;align-items:center;gap:4px;min-height:44px}
-    .case-sw img{width:44px;height:44px;object-fit:cover;border-radius:50%}
+    .case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .case-sw{background:none;border:1px solid var(--border);border-radius:6px;padding:0 0 7px;overflow:hidden;cursor:pointer;font-family:var(--font);font-size:12px;color:var(--text);display:flex;flex-direction:column;align-items:center;gap:4px;min-height:44px}
+    .case-sw img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:0;display:block}
     .case-sw.is-out{opacity:.4;cursor:default}
     .case-total{margin-top:14px;font-size:.6rem;text-align:center;color:var(--text)}
     .cart-add-case{display:block;margin:4px 0 2px;padding:4px 0;background:none;border:none;color:var(--accent);font-family:var(--font);font-size:.55rem;text-decoration:underline;cursor:pointer;text-align:left}
@@ -1022,7 +1022,7 @@
 .pc .pc-peek em{font-size:11px}
 .pc .tag{font-size:11px;letter-spacing:.12em}
 </style>
-<link rel="stylesheet" href="/assets/css/new-top.css?v=20261120e">
+<link rel="stylesheet" href="/assets/css/new-top.css?v=20261120f">
 </head>
 <body>
 
@@ -1267,6 +1267,8 @@
     <div class="nt-in">
       <h2><span class="sec-en">Collect</span>いくつか比べるほど、お得になります</h2>
       <div class="nt-steps nt-rv"><div><small>2本</small><b>5%</b></div><div><small>3本</small><b>10%</b></div><div><small>4本</small><b>15%</b></div><div><small>5本</small><b>20%</b></div><div><small>6本〜</small><b>25%</b></div></div>
+      <div class="nt-cases-head"><span>香水ケース 全12色</span><span class="nt-swipe" aria-hidden="true">横に送って見る <i>&rarr;</i></span></div>
+      <div class="nt-cases-wrap">
       <div class="nt-cases nt-rv" role="list" aria-label="香水ケースを身につけた写真（12色）">
         <figure role="listitem"><img src="/assets/newtop/cases/c01.jpg" alt="香水ケース ブラック" loading="lazy" width="560" height="560"><figcaption>ブラック</figcaption></figure>
         <figure role="listitem"><img src="/assets/newtop/cases/c02.jpg" alt="香水ケース エクリュ" loading="lazy" width="560" height="560"><figcaption>エクリュ</figcaption></figure>
@@ -1281,6 +1283,9 @@
         <figure role="listitem"><img src="/assets/newtop/cases/c11.jpg" alt="香水ケース カーキ" loading="lazy" width="560" height="560"><figcaption>カーキ</figcaption></figure>
         <figure role="listitem"><img src="/assets/newtop/cases/c12.jpg" alt="香水ケース グレー" loading="lazy" width="560" height="560"><figcaption>グレー</figcaption></figure>
       </div>
+        <button type="button" class="nt-cases-next" aria-label="次の色を見る">&rarr;</button>
+      </div>
+      <div class="nt-cases-bar" aria-hidden="true"><i></i></div>
       <p class="gift">お試し6本以上で、香水ケースを1個プレゼント（12色から選べます）</p>
       <p class="eg">香りは、比べてみると違いがよく分かります。朝用と夜用、仕事の日と休みの日。気分で選べるように、いくつか手元に置いてみてください。</p>
     </div>
@@ -2766,6 +2771,8 @@ function renderBundleSteps(){
 /* お試しが freeCase.min 本以上で、香水ケースを1個プレゼント（2026-11-19）。色はカートで選ぶ。決済側（create-checkout.js）が同じ設定で確かめ直す */
 function freeCaseMin(){ return (SAMPLE_CFG && SAMPLE_CFG.freeCase && SAMPLE_CFG.freeCase.min) || 0; }
 function freeCaseEligible(){ var m = freeCaseMin(); return !!m && sampleBottleCount() >= m; }
+/* ケースを身につけた写真（色ごと）。無い色は色見本に戻る */
+function casePhoto(id){ var m={BLK:1,ECR:2,BRN:3,NVY:4,RED:5,PNK:6,LBL:7,YEL:8,SLV:9,GLD:10,KHK:11,KHA:11,GRY:12}; return m[id] ? '/assets/newtop/cases/c' + ('0' + m[id]).slice(-2) + '.jpg' : ''; }
 function freeCaseList(){ return ((GIFT_SET && GIFT_SET.cases) || []).filter(function(k){ return !k.soldOut; }); }
 function freeCaseGet(){
   var l = freeCaseList(); if(!l.length) return null;
@@ -2783,13 +2790,16 @@ function renderFreeCase(){
   if(!min || !list.length || n < min){ box.style.display = 'none'; box.innerHTML = ''; return; }
   var cur = freeCaseGet();
   box.style.display = '';
-  box.innerHTML = '<div style="border:1px solid #e8e8e8;border-radius:4px;background:#faf9f7;padding:12px 12px 10px;margin:8px 0">'
-    + '<div style="font-size:13px;font-weight:700;color:#1a1a1a">プレゼント：香水ケース 1個</div>'
-    + '<div style="font-size:12px;color:#666;line-height:1.6;margin:2px 0 10px">お試し' + min + '本以上のおまけです。お好きな色をお選びください。<br>選択中：<b style="color:#1a1a1a">' + cur.name + '</b></div>'
-    + '<div style="display:flex;flex-wrap:wrap;gap:8px">'
+  var cp = casePhoto(cur.id);
+  box.innerHTML = '<div style="border:1px solid #e8e8e8;border-radius:4px;background:#faf9f7;padding:12px 12px 12px;margin:8px 0">'
+    + '<div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">'
+    + (cp ? '<img src="' + cp + '" alt="" width="84" height="84" style="width:84px;height:84px;object-fit:cover;border-radius:6px;flex:none;background:' + (cur.hex || '#ccc') + '">' : '')
+    + '<div><div style="font-size:13px;font-weight:700;color:#1a1a1a">プレゼント：香水ケース 1個</div>'
+    + '<div style="font-size:12px;color:#666;line-height:1.6;margin-top:2px">お試し' + min + '本以上のおまけです。お好きな色をお選びください。<br>選択中：<b style="color:#1a1a1a">' + cur.name + '</b></div></div></div>'
+    + '<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px">'
     + list.map(function(k){
-        var on = k.id === cur.id;
-        return '<button type="button" onclick="freeCasePick(\'' + k.id + '\')" aria-label="' + k.name + '" aria-pressed="' + (on ? 'true' : 'false') + '" style="width:40px;height:40px;border-radius:50%;padding:0;cursor:pointer;background:' + (k.hex || '#ccc') + ';border:1px solid rgba(0,0,0,.18);' + (on ? 'outline:2px solid #1a1a1a;outline-offset:2px' : '') + '"></button>';
+        var on = k.id === cur.id, ph = casePhoto(k.id);
+        return '<button type="button" onclick="freeCasePick(\'' + k.id + '\')" aria-label="' + k.name + '" title="' + k.name + '" aria-pressed="' + (on ? 'true' : 'false') + '" style="aspect-ratio:1/1;min-height:44px;border-radius:6px;padding:0;cursor:pointer;background:' + (k.hex || '#ccc') + (ph ? ' url(' + ph + ') center/cover' : '') + ';border:1px solid rgba(0,0,0,.12);' + (on ? 'outline:2px solid #1a1a1a;outline-offset:2px' : '') + '"></button>';
       }).join('')
     + '</div></div>';
 }
@@ -2866,7 +2876,7 @@ function openCasePicker(id, from, cartItemKey){
     '<div class="case-sub">' + (p.nameJa || p.name) + ' のお試し1.5mLを、ケースに入れてお届けします（+&yen;' + addPrice.toLocaleString() + '）。バッグや鍵に付けて持ち歩けます</div>' +
     '<div class="case-grid">' + GIFT_SET.cases.map(function(k){
       return '<button type="button" class="case-sw' + (k.soldOut ? ' is-out' : '') + '"' + (k.soldOut ? ' disabled' : '') + ' onclick="chooseCase(\'' + k.id + '\')">' +
-        '<img src="' + k.swatch + '.jpg" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'" style="background:' + (k.hex || '#ccc') + '">' +
+        '<img src="' + (casePhoto(k.id) || (k.swatch + '.jpg')) + '" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'" style="background:' + (k.hex || '#ccc') + '">' +
         '<span>' + k.name + (k.soldOut ? '（品切れ）' : '') + '</span></button>';
     }).join('') + '</div>' +
     '<div class="case-total">お試し &yen;' + p.samplePrice.toLocaleString() + ' ＋ ケース &yen;' + addPrice.toLocaleString() + ' ＝ <b>&yen;' + (p.samplePrice + addPrice).toLocaleString() + '</b>（税込・送料無料）</div>' +
@@ -5033,6 +5043,6 @@ window.addEventListener('beforeunload', function(){
 <div class="review-modal-overlay" id="review-modal-overlay" onclick="if(event.target===this)closeReviewModal()">
   <div class="review-modal" id="review-modal"></div>
 </div>
-<script src="/assets/js/new-top.js?v=20261120a" defer></script>
+<script src="/assets/js/new-top.js?v=20261120b" defer></script>
 </body>
 </html>

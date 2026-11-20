@@ -4,13 +4,14 @@
   var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   root.classList.add('nt-js');
 
-  /* 入場演出：その訪問で1回だけ（?intro=1 で何度でも見られる）。画面を押すとすぐ消える */
+  /* 入場演出：1日に1回まで（?intro=1 で何度でも見られる）。画面を押すとすぐ消える */
   var intro = document.getElementById('nt-intro'), seen = false, force = /[?&]intro=1/.test(location.search);
-  try{ seen = sessionStorage.getItem('ntIntro') === '1'; }catch(e){}
+  var d = new Date(), today = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();   /* お客さまの端末の日付で、1日に1回まで */
+  try{ seen = localStorage.getItem('ntIntroDay') === today || sessionStorage.getItem('ntIntro') === '1'; }catch(e){}
   function end(){ root.classList.remove('nt-intro-on','nt-intro-out'); }
   if(intro && !calm && (force || !seen)){
     root.classList.add('nt-intro-on');
-    try{ sessionStorage.setItem('ntIntro','1'); }catch(e){}
+    try{ localStorage.setItem('ntIntroDay', today); }catch(e){}
     setTimeout(function(){ root.classList.add('nt-intro-out'); }, 1950);
     setTimeout(end, 2800);
     intro.addEventListener('click', end);

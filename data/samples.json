@@ -1,5 +1,5 @@
 {
- "_comment": "小分け1.5mLのサイト販売の設定（2026-11-15）。ここに載っている香りだけがサイトのカートに入る。価格は products.json の samplePrice（ページ・決済が同じ値を読む）。soldOut=true で一時的に売らない。amazon=false はAmazonで買えない香り（サイトのボタンだけ出す）。short は伝票・Slackの短い名前。nekoposMax を超える本数の注文は宅配便。casePrice=ケース付きの追加料金（Amazonのケース付きと同じ＋300円）。ケースの色と品切れは data/gift-set.json の cases を使う。img＝お試しの瓶の画像（拡張子なし。.webp と .jpg がある・元はAmazon用 assets/images/amazon/scents/{no}/main.jpg を幅360に縮小）。bundle＝お試しのまとめ買い割引（カートのお試しの合計本数で率が決まる・お試しの行だけ・1本ずつ四捨五入）。決済とカートが同じ表を読む。freeCase＝お試しが min 本以上の注文に香水ケースを1個プレゼント（色はお客さまがカートで選ぶ・ケースの色と品切れは data/gift-set.json の cases・2026-11-19）",
+ "_comment": "小分け1.5mLのサイト販売の設定（2026-11-15）。ここに載っている香りだけがサイトのカートに入る。価格は products.json の samplePrice（ページ・決済が同じ値を読む）。soldOut=true で一時的に売らない。amazon=false はAmazonで買えない香り（サイトのボタンだけ出す）。short は伝票・Slackの短い名前。nekoposMax を超える本数の注文は宅配便。casePrice=ケース付きの追加料金（Amazonのケース付きと同じ＋300円）。ケースの色と品切れは data/gift-set.json の cases を使う。img＝お試しの瓶の画像（拡張子なし。.webp と .jpg がある・元はAmazon用 assets/images/amazon/scents/{no}/main.jpg を幅360に縮小）。bundle＝お試しのまとめ買い割引（カートのお試しの合計本数で率が決まる・お試しの行だけ・1本ずつ四捨五入・2026-11-20〜 2本5%/3本15%/4本20%/5本25%/6本以上25%）。決済とカートが同じ表を読む。freeCase＝お試しが min 本以上の注文に香水ケースを1個プレゼント（色はお客さまがカートで選ぶ・ケースの色と品切れは data/gift-set.json の cases・2026-11-19）",
  "size": "1.5ml",
  "nekoposMax": 10,
  "items": {
@@ -172,15 +172,15 @@
   },
   {
    "min": 3,
-   "rate": 0.1
-  },
-  {
-   "min": 4,
    "rate": 0.15
   },
   {
-   "min": 5,
+   "min": 4,
    "rate": 0.2
+  },
+  {
+   "min": 5,
+   "rate": 0.25
   },
   {
    "min": 6,

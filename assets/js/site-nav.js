@@ -62,6 +62,7 @@
   function init(){
     /* 今までのスマホのメニューは閉じたままにして、ボタンを新しいメニューにつなぐ */
     window.toggleMobileNav = toggle;
+    document.documentElement.classList.add('ntn-ready');
     var old = document.getElementById('mobile-nav'); if(old){ old.classList.remove('open'); old.setAttribute('aria-hidden', 'true'); }
     var burgers = document.querySelectorAll('.hamburger');
     if(!burgers.length){

@@ -4,11 +4,13 @@
 
 /* ---- ハンバーガー（3本線） ---- */
 body .hamburger{width:44px;height:44px;padding:0;background:none;border:0;cursor:pointer;flex:none;display:none;align-items:center;justify-content:center;flex-direction:column;gap:6px}
-body .hamburger span{display:block;width:24px;height:2px;margin:0;background:#1a1a1a;border-radius:1px;transition:none;transform:none!important;opacity:1!important}
+body .hamburger span{display:block;width:24px;height:2px;margin:0;background:#1a1a1a;border-radius:1px}
+html.ntn-ready body .hamburger span{transition:none;transform:none!important;opacity:1!important}
 @media(max-width:1023px){
   body .site-header .header-nav{display:none!important}
   body .hamburger{display:flex}
-  body .mobile-nav{display:none!important}
+  /* 新しいメニューの仕組みが読み込めた時だけ、今までのメニューを隠す（読み込めなかった時は、今までのメニューがそのまま開く） */
+  html.ntn-ready body .mobile-nav{display:none!important}
 }
 .gh-bar{position:relative}
 .gh-bar .hamburger{position:absolute;right:8px;top:50%;margin-top:-22px}

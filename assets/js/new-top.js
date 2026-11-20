@@ -67,4 +67,58 @@
       peek.observe(row);
     }
   }
+
+  /* ひと吹き：最初の画面の写真にふれると、白い霧が出る */
+  var slides = document.querySelector('.nt-hero .hero-slides'), hint = document.getElementById('nt-puff-hint');
+  if(slides){
+    if(calm && hint) hint.style.display = 'none';
+    slides.addEventListener('pointerdown', function(e){
+      if(calm) return;
+      var r = slides.getBoundingClientRect();
+      for(var i = 0; i < 4; i++){
+        var s = document.createElement('span'); s.className = 'nt-puff';
+        s.style.left = (e.clientX - r.left + (i - 1.5) * 16) + 'px'; s.style.top = (e.clientY - r.top - i * 12) + 'px'; s.style.animationDelay = (i * 0.07) + 's';
+        slides.appendChild(s); s.addEventListener('animationend', function(){ this.remove(); });
+      }
+      if(hint && !hint.classList.contains('gone')){ hint.classList.add('gone'); if(typeof gtag !== 'undefined'){ try{ gtag('event','nt_puff',{event_category:'new_top'}); }catch(err){} } }
+    });
+  }
+
+  /* 今日の1本：押すと瓶が次々に入れ替わって、香りが1つ出る（来るたび・ひくたびに違う香り） */
+  var tBtn = document.getElementById('nt-today-btn'), tStage = document.getElementById('nt-today-stage'), tImg = document.getElementById('nt-today-img'), tInfo = document.getElementById('nt-today-info'), tLast = 0, tBusy = false;
+  var TINT = { citrus:'#f6f2c9', floral:'#fde9e4', sweet:'#fde9e4', woody:'#fdfbe2', oriental:'#e4f3f4' }, DOTS = ['#ffc3b9','#5ab9be','#faf5be','#ebe65f','#ffc3b9','#5ab9be'];
+  function tList(){ try{ return PRODUCTS.filter(function(p){ return p.type === 'sample_and_fullbottle' && sampleSellable(p) && sampleImg(p); }); }catch(e){ return []; } }
+  function tEv(n, o){ try{ ga4Event(n, o || {}); }catch(e){} }
+  function tShow(p){
+    var prof = (window.ntProfile && window.ntProfile[p.id]) || null;
+    tStage.style.setProperty('--nt-tint', TINT[(p.tags || [])[0]] || '#fdfbe6');
+    tImg.src = sampleImg(p); tImg.alt = (p.nameJa || p.name) + ' のお試しの瓶';
+    tInfo.innerHTML = '<div class="nt-today-br">' + p.brand + '</div><div class="nt-today-nm">' + (p.nameJa || p.name) + '</div>' +
+      (prof ? '<p class="nt-today-one">' + prof[4] + '</p>' : '') +
+      '<div class="nt-today-pr">お試し 1.5mL &yen;' + p.samplePrice.toLocaleString() + '</div>' +
+      '<div class="nt-today-acts"><button type="button" class="nt-today-see">この香りを見る</button><button type="button" class="nt-today-add">カートへ</button></div>';
+    tInfo.querySelector('.nt-today-see').addEventListener('click', function(){ tEv('nt_today_view', { product_id: p.id }); openProductSheet(p.id, 'today'); });
+    tInfo.querySelector('.nt-today-add').addEventListener('click', function(){ tEv('nt_today_add', { product_id: p.id }); addSampleCart(p.id, 'today'); });
+    tStage.querySelectorAll('i.dot').forEach(function(d){ d.remove(); });
+    if(!calm) DOTS.forEach(function(col, i){ var d = document.createElement('i'); d.className = 'dot'; d.style.background = col; var a = (i / DOTS.length) * Math.PI * 2; d.style.setProperty('--bx', Math.round(Math.cos(a) * 80) + 'px'); d.style.setProperty('--by', Math.round(Math.sin(a) * 80) + 'px'); tStage.appendChild(d); });
+    tStage.classList.remove('spin'); void tStage.offsetWidth; tStage.classList.add('hit');
+    tBtn.textContent = 'もう一度ひく'; tBtn.classList.add('again'); tBtn.disabled = false; tBusy = false;
+  }
+  if(tBtn && tStage){
+    tBtn.addEventListener('click', function(){
+      if(tBusy) return;
+      var list = tList(); if(!list.length){ return; }
+      var pool = list.filter(function(p){ return p.id !== tLast; }), pick = pool[Math.floor(Math.random() * pool.length)]; tLast = pick.id;
+      tEv('nt_today_draw', { product_id: pick.id });
+      if(calm){ tShow(pick); return; }
+      tBusy = true; tBtn.disabled = true; tStage.classList.remove('hit'); tStage.classList.add('spin');
+      tInfo.innerHTML = '<p class="nt-today-wait">えらんでいます…</p>';
+      var n = 0, total = 14;
+      (function step(){
+        if(n >= total){ tShow(pick); return; }
+        tImg.src = sampleImg(list[Math.floor(Math.random() * list.length)]); n++;
+        setTimeout(step, 70 + n * n * 1.4);
+      })();
+    });
+  }
 })();

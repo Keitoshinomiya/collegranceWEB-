@@ -96,7 +96,14 @@
 .nt-tiles{padding:44px 20px;background:#fff}
 .nt-tilegrid{display:grid;gap:14px;margin-top:18px}
 @media(min-width:760px){.nt-tilegrid{grid-template-columns:1fr 1fr}}
-@media(min-width:900px){.nt-one{min-height:600px;align-items:center;justify-content:flex-end;padding:40px 8vw}.nt-one .bg{background-position:30% 62%}.nt-glass{margin:0;max-width:440px}}
+.nt-one .ph{display:none}
+/* 広い画面：写真を画面いっぱいに引き伸ばさない（元が1,200pxなので粗くなる）。くっきり見える大きさで左に置き、背景は同じ写真をぼかして敷く。言葉は右 */
+@media(min-width:900px){
+  .nt-one{min-height:0;display:grid;grid-template-columns:minmax(0,520px) minmax(0,420px);gap:64px;justify-content:center;align-items:center;padding:80px 6vw}
+  .nt-one .bg{inset:-12%;background-position:50% 50%;filter:blur(44px) saturate(1.05);transform:scale(1.15)!important;opacity:.85}
+  .nt-one .ph{display:block;aspect-ratio:1/1;border-radius:6px;background:url("../newtop/hero.jpg") center/cover;box-shadow:0 24px 60px rgba(26,26,26,.16)}
+  .nt-glass{margin:0;max-width:none;background:rgba(255,255,255,.86);padding:32px 32px 34px}
+}
 .nt-tile{display:grid;grid-template-columns:1fr 132px;min-height:176px;border-radius:6px;overflow:hidden;background:#f7f7f7;color:#1a1a1a;text-decoration:none;cursor:pointer;border:0;padding:0;text-align:left;font-family:var(--font)}
 .nt-tile .tx{padding:18px 4px 18px 18px;display:flex;flex-direction:column;justify-content:center;gap:6px}
 .nt-tile b{font-size:18px;line-height:1.5}

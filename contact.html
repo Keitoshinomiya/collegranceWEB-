@@ -60,7 +60,7 @@
     <script src="/assets/js/brand-fonts.js" defer></script>
 <!-- CSS -->
     <link rel="stylesheet" href="assets/css/styles.css?v=2">
-    <link rel="stylesheet" href="assets/css/contact.css">
+    <link rel="stylesheet" href="assets/css/contact.css?v=20261120b">
     
     <!-- Favicon -->
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
@@ -253,28 +253,33 @@
 
                 <!-- Contact Form -->
                 <div class="contact-form">
-                    <form id="contactForm" class="form" name="contact" method="POST" data-netlify="true" action="/contact.html">
+                <div class="cf-quick">
+                    <div class="cf-quick-t">お急ぎの方へ</div>
+                    <a href="/tokushoho.html#shipping"><b>配送・返品について</b><span>届く日の目安、返品・交換の条件</span></a>
+                    <a href="https://line.me/R/ti/p/@711rocrx" target="_blank" rel="noopener"><b>LINEで相談する</b><span>ご注文後のお問い合わせは、LINEが早くお返事できます</span></a>
+                </div>
+                    <form id="contactForm" class="form" name="contact" method="POST" data-netlify="true" action="/contact.html" novalidate>
                         <input type="hidden" name="form-name" value="contact" />
                         <div class="form-header">
                             <h2>お問い合わせフォーム</h2>
-                            <p>下記のフォームに必要事項をご記入ください</p>
+                            <p>通常、48時間以内（土日祝を除く）にメールでお返事します。</p>
                         </div>
                         
                         <div class="form-group">
                             <label for="name" class="form-label">お名前 <span class="required">*</span></label>
-                            <input type="text" id="name" name="name" class="form-input" required>
+                            <input type="text" id="name" name="name" class="form-input" autocomplete="name" placeholder="例：山田 花子" required>
                             <div class="error-message" id="nameError"></div>
                         </div>
                         
                         <div class="form-group">
                             <label for="email" class="form-label">メールアドレス <span class="required">*</span></label>
-                            <input type="email" id="email" name="email" class="form-input" required>
+                            <input type="email" id="email" name="email" class="form-input" autocomplete="email" inputmode="email" placeholder="例：hanako@example.com" required>
                             <div class="error-message" id="emailError"></div>
                         </div>
                         
                         <div class="form-group">
                             <label for="phone" class="form-label">お電話番号</label>
-                            <input type="tel" id="phone" name="phone" class="form-input">
+                            <input type="tel" id="phone" name="phone" class="form-input" autocomplete="tel" inputmode="tel" placeholder="例：090-1234-5678">
                             <div class="form-help">任意：お急ぎの場合はご記入ください</div>
                         </div>
                         
@@ -297,7 +302,7 @@
                         <!-- Order Number Field (Hidden by default) -->
                         <div class="form-group" id="orderNumberGroup" style="display: none;">
                             <label for="order_number" class="form-label">注文番号</label>
-                            <input type="text" id="order_number" name="order_number" class="form-input" placeholder="例: #1001">
+                            <input type="text" id="order_number" name="order_number" class="form-input" autocomplete="off" placeholder="ご注文確認メールに記載の番号">
                             <div class="form-help">既にご注文済みの方はご記入ください</div>
                         </div>
                         

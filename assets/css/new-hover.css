@@ -1,22 +1,34 @@
-/* マウスを乗せた時の動きを、全ページで3種類にそろえる（2026-11・見本ブランチ）。
-   ① 箱（商品・記事・入口のタイル）＝3px浮いて影がつき、写真が少し寄る
-   ② 一覧の行（読みもの一覧）＝地の色がうっすら変わるだけ
-   ③ ボタン＝黒いボタンは少し明るく／線のボタンは線と文字が濃く。動かさない（浮いているLINE・AI・ギフトのボタンだけは今までどおり浮く）
-   速さはどれも .3s。マウスのあるパソコン幅だけに効かせる（スマホは今までどおり）。
-   brand-tokens.css の先頭で読み込む。戻す時はその @import の1行を消す。 */
+/* マウスを乗せた時の動きを、全ページで同じ決まりにそろえる（2026-11-20 全ページ版。151種類あった指定を6つの型に）
+   ① 箱（押すと詳細や別ページが開くカード）＝3px浮いて影がつき、中の写真が少し寄る
+   ② 一覧の行＝地の色がうっすら変わるだけ
+   ③ 黒いボタン＝少し明るく（#333）。動かさない
+   ④ 線のボタン・選択肢の札＝線と文字が濃くなり、地がうっすら色づく。動かさない（選択中のものは変えない）
+   ⑤ 文字のリンク・閉じるボタン＝少し薄くなる（色は変えない）
+   ⑥ 浮いているボタン（LINE・AI・ギフト）＝今までどおり少し浮く（ここでは触らない）
+   速さはどれも .3s。マウスのあるパソコン幅だけ（スマホは今までどおり）。
+   brand-tokens.css の先頭で読み込む。戻す時はその @import の1行を消す。
+   ※ LINEのキャンペーン用のページなど、別の色で作ってあるページのボタン（.btn-primary 等の共通名）は、色が変わってしまうので対象にしていない */
 @media (hover:hover) and (min-width:768px){
-  body .product-card,body .popular-item,body .jp-card,body .jh-pick,body .cg-rel-card,body .nt-tile{transition:transform .3s cubic-bezier(.4,0,.2,1),box-shadow .3s cubic-bezier(.4,0,.2,1),border-color .3s}
-  body .product-card:hover,body .popular-item:hover,body .jp-card:hover,body .jh-pick:hover,body .cg-rel-card:hover,body .nt-tile:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.1);border-color:transparent}
-  body .product-card .img-wrap img,body .popular-item img,body .jp-card-img,body .jh-pick-img,body .cg-rel-card img,body .nt-tile .im{transition:transform .6s cubic-bezier(.4,0,.2,1)}
-  body .product-card:hover .img-wrap img,body .popular-item:hover img,body .jp-card:hover .jp-card-img,body .jh-pick:hover .jh-pick-img,body .cg-rel-card:hover img,body .nt-tile:hover .im{transform:scale(1.04)}
+  /* ① 箱 */
+  body .product-card,body .popular-item,body .jp-card,body .jh-pick,body .cg-rel-card,body .nt-tile,body .also-card,body .ranking-card,body .voice-card,body .related-article-card,body .search-result-item,body .review-card,body .quiz-option-card,body .internal-link-card,body .featured-card,body .brand-card,body .gh-card{transition:transform .3s cubic-bezier(.4,0,.2,1),box-shadow .3s cubic-bezier(.4,0,.2,1),border-color .3s,background-color .3s,opacity .3s}
+  body .product-card:hover,body .popular-item:hover,body .jp-card:hover,body .jh-pick:hover,body .cg-rel-card:hover,body .nt-tile:hover,body .also-card:hover,body .ranking-card:hover,body .voice-card:hover,body .related-article-card:hover,body .search-result-item:hover,body .review-card:hover,body .quiz-option-card:hover,body .internal-link-card:hover,body .featured-card:hover,body .brand-card:hover,body .gh-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.1);border-color:transparent;opacity:1}
   body .nt-tile.nt-rv.nt-in-view{transition:transform .3s cubic-bezier(.4,0,.2,1),box-shadow .3s cubic-bezier(.4,0,.2,1),opacity 1s ease}
   body .nt-tile.nt-rv.nt-in-view:hover{transform:translateY(-3px)}
-  body .journal-card{transition:background .3s}
+  body .product-card .img-wrap img,body .popular-item img,body .jp-card-img,body .jh-pick-img,body .cg-rel-card img,body .nt-tile .im,body .also-card .also-img img,body .related-article-card img,body .ranking-card img,body .gh-card img{transition:transform .6s cubic-bezier(.4,0,.2,1)}
+  body .product-card:hover .img-wrap img,body .popular-item:hover img,body .jp-card:hover .jp-card-img,body .jh-pick:hover .jh-pick-img,body .cg-rel-card:hover img,body .nt-tile:hover .im,body .also-card:hover .also-img img,body .related-article-card:hover img,body .ranking-card:hover img,body .gh-card:hover img{transform:scale(1.04)}
+  /* ② 一覧の行 */
+  body .journal-card,body .faq-item,body .contact-item,body .ntp{transition:background-color .3s,border-color .3s}
   body .journal-card:hover{background:#faf9f7}
-  body .hero-ai-btn:hover,body .nt-hero .hero-ai-btn:hover,body .load-more-btn:hover,body .checkout-btn:hover,body .gift-btn:hover,body .sticky-cart-btn:hover,body .product-card-inline .pci-btns a.pci-btn-shop:hover,body .cg-cta-btns a.cg-cta-shop:hover{background:#333;color:#fff;opacity:1;transform:none;box-shadow:none}
-  body .hero-rank-btn:hover,body .nt-hero .hero-rank-btn:hover,body .product-card-inline .pci-btns a.pci-btn-sample:hover,body .cg-cta-btns a.cg-cta-diag:hover,body .cg-hub-chips a:hover,body .quick-guide-btn:not(.ai-btn):hover,body .brand-tile:hover{border-color:#1a1a1a;color:#1a1a1a;background:rgba(26,26,26,.04);opacity:1;transform:none}
-  body .nt-glass a,body .nt-tile u{transition:opacity .3s}
-  body .nt-glass a:hover{opacity:.6}
+  body .ntp:hover{border-color:#1a1a1a}
+  /* ③ 黒いボタン */
+  body .hero-ai-btn,body .load-more-btn,body .checkout-btn,body .gift-btn,body .sticky-cart-btn,body .pc-btn,body .add-btn,body .ps-main,body .sample-lp-btn-main,body .review-modal-cta,body .form-submit,body .btn-line-concierge,body .ntn-b1,body .b1,body .header-cta{transition:background-color .3s,color .3s,border-color .3s,opacity .3s}
+  body .hero-ai-btn:hover,body .nt-hero .hero-ai-btn:hover,body .load-more-btn:not(:disabled):hover,body .checkout-btn:hover,body .gift-btn:hover,body .sticky-cart-btn:hover,body .pc-btn:hover,body .add-btn:hover,body .ps-main:hover,body .sample-lp-btn-main:hover,body .review-modal-cta:hover,body .form-submit:not(:disabled):hover,body .btn-line-concierge:hover,body .ntn-b1:hover,body .b1:hover,body .product-card-inline .pci-btns a.pci-btn-shop:hover,body .cg-cta-btns a.cg-cta-shop:hover{background:#333;border-color:#333;color:#fff;opacity:1;transform:none;box-shadow:none}
+  /* ④ 線のボタン・選択肢の札（選択中のものは変えない） */
+  body .hero-rank-btn,body .quick-guide-btn,body .brand-tile,body .filter-btn,body .price-chip,body .variant-btn,body .ps-sub,body .pc-btn2,body .sample-btn,body .diag-opt,body .diag-result-btns a,body .diag-result-btns button,body .btn-restart,body .presets button,body .fr,body .view-tabs button,body .main-toggle button,body .qty-btn,body .share-bar a,body .share-bar button,body .ntn-b2,body .ntc-add,body .tt-try,body .search-brand-btn,body .variant-tab,body .b2,body .cg-hub-chips a,body .btn-back{transition:background-color .3s,color .3s,border-color .3s,opacity .3s}
+  body .hero-rank-btn:hover,body .nt-hero .hero-rank-btn:hover,body .quick-guide-btn:not(.ai-btn):not(.active):hover,body .brand-tile:not(.active):hover,body .filter-btn:not(.active):hover,body .price-chip:not(.active):hover,body .variant-btn:not(.active):hover,body .ps-sub:hover,body .pc-btn2:hover,body .sample-btn:hover,body .diag-opt:not(.selected):not(.active):hover,body .diag-result-btns a:hover,body .diag-result-btns button:hover,body .btn-restart:hover,body .presets button:not(.on):not(.active):hover,body .fr:not(.on):not(.active):hover,body .view-tabs button:not(.active):hover,body .main-toggle button:not(.active):hover,body .qty-btn:hover,body .share-bar a:hover,body .share-bar button:hover,body .ntn-b2:hover,body .ntc-add:hover,body .tt-try:hover,body .search-brand-btn:hover,body .variant-tab:not(.active):hover,body .b2:hover,body .cg-hub-chips a:hover,body .btn-back:hover,body .product-card-inline .pci-btns a.pci-btn-sample:hover,body .cg-cta-btns a.cg-cta-diag:hover{border-color:#1a1a1a;color:#1a1a1a;background:rgba(26,26,26,.04);opacity:1;transform:none;box-shadow:none}
+  /* ⑤ 文字のリンク・閉じるボタン */
+  body .footer-links a,body .jp-more a,body .popular-header a,body .social-proof-cta a,body .cg-bc a,body .ps-link,body .ntc-see,body .nt-glass a,body .more-link,body .journal-link,body .back-link,body .toc a,body .privacy-link,body .faq-q,body .faq-question,body .cart-xsell,body .sub-nav-links a,body .quick-guide-close,body .voice-meta-product,body .journal-tab,body .cart-close,body .lb-close,body .lb-nav,body .review-modal-close,body .sample-lp-close,body .case-close,body .ntn-close,body .cart-btn,body .cart-link,body .ntn-main a,body .ntn-sub a,body .top .shop,body .abfoot a{transition:opacity .3s,color .3s}
+  body .footer-links a:hover,body .jp-more a:hover,body .popular-header a:hover,body .social-proof-cta a:hover,body .cg-bc a:hover,body .ps-link:hover,body .ntc-see:hover,body .nt-glass a:hover,body .more-link:hover,body .journal-link:hover,body .back-link:hover,body .toc a:hover,body .privacy-link:hover,body .faq-q:hover,body .faq-question:hover,body .cart-xsell:hover,body .sub-nav-links a:hover,body .quick-guide-close:hover,body .voice-meta-product:hover,body .journal-tab:not(.active):hover,body .cart-close:hover,body .lb-close:hover,body .lb-nav:hover,body .review-modal-close:hover,body .sample-lp-close:hover,body .case-close:hover,body .ntn-close:hover,body .cart-btn:hover,body .cart-link:hover,body .ntn-main a:hover,body .ntn-sub a:hover,body .top .shop:hover,body .abfoot a:hover{opacity:.6}
 }
 
 /* AIを示すきらめきのアイコン：全ページで同じ形（塗り）。文字と上下の中心をそろえる */

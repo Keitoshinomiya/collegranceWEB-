@@ -494,3 +494,53 @@
 @media (max-width: 768px) {
   .contact-form { padding-bottom: 140px; }
 }
+
+
+/* ===== フォームを新しいトップの見た目にそろえる（2026-11-20）=====
+   文字は16px（スマホで入力時に画面が拡大しない）・入力欄は52pxの高さ・必須は「必須」の札・エラーは赤い枠と文・
+   チェックはキーボードでも選べる・送信ボタンは四角い黒 */
+.contact-form{border:0;border-radius:6px;padding:40px 44px 44px;background:#fff;box-shadow:0 10px 40px rgba(26,26,26,.06)}
+.form-header{text-align:left;margin-bottom:28px}
+.form-header h2{font-family:var(--brand-font,'Noto Sans JP'),sans-serif;font-weight:var(--brand-heading-weight,800);font-size:1.4rem;letter-spacing:.04em;margin-bottom:6px}
+.form-header p{font-size:13px;color:#666}
+.form-group{margin-bottom:22px}
+.form-label{font-family:var(--brand-font,'Noto Sans JP'),sans-serif;font-size:14px;font-weight:700;color:#1a1a1a;letter-spacing:.02em;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.form-label .required,.checkbox-label .required{font-size:0;line-height:0}
+.form-label .required::after,.checkbox-label .required::after{content:"必須";display:inline-block;font-size:11px;line-height:1;font-weight:700;letter-spacing:.06em;color:#fff;background:#b3302f;border-radius:2px;padding:4px 6px}
+.form-input,.form-select,.form-textarea{font-family:var(--brand-font,'Noto Sans JP'),sans-serif;font-size:16px;color:#1a1a1a;min-height:52px;padding:13px 14px;border:1px solid #cfcfcb;border-radius:2px;background:#fff;box-sizing:border-box;transition:border-color .3s,box-shadow .3s}
+.form-input::placeholder,.form-textarea::placeholder{color:#a8a8a4}
+.form-input:hover,.form-select:hover,.form-textarea:hover{border-color:#8c8c88}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:#1a1a1a;box-shadow:0 0 0 3px rgba(90,185,190,.35)}
+.form-select{appearance:none;-webkit-appearance:none;padding-right:42px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none' stroke='%231a1a1a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l6 6 6-6'/%3E%3C/svg%3E") right 15px center no-repeat}
+.form-textarea{min-height:160px;line-height:1.8}
+.form-help{font-size:12px;color:#767676;margin-top:6px}
+.error-message{font-size:13px;font-weight:500;color:#b3302f;margin-top:6px}
+.form-input.error,.form-select.error,.form-textarea.error{border-color:#b3302f;box-shadow:0 0 0 3px rgba(179,48,47,.12)}
+.character-counter{font-size:12px!important;color:#767676!important}
+.checkbox-label{gap:12px;font-size:14px;color:#1a1a1a;align-items:center;min-height:44px;position:relative;flex-wrap:wrap}
+.checkbox-label input[type="checkbox"]{display:block;position:absolute;opacity:0;width:24px;height:24px;margin:0;left:0;top:50%;transform:translateY(-50%);cursor:pointer}
+.checkmark{width:24px;height:24px;border:1px solid #8c8c88;border-radius:2px}
+.checkbox-label input[type="checkbox"]:focus-visible + .checkmark{box-shadow:0 0 0 3px rgba(90,185,190,.45);border-color:#1a1a1a}
+.checkbox-label input[type="checkbox"]:checked + .checkmark::after{width:6px;height:11px}
+.privacy-link{color:#1a1a1a;text-decoration:underline}
+.form-submit{min-height:56px;font-family:var(--brand-font,'Noto Sans JP'),sans-serif;font-size:15px;font-weight:700;letter-spacing:.08em;border-radius:2px;background:#1a1a1a;border-color:#1a1a1a;margin-top:6px}
+.form-submit:hover{background:#333;color:#fff;border-color:#333}
+.form-submit:focus-visible{outline:3px solid rgba(90,185,190,.6);outline-offset:2px}
+.cf-quick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 22px}
+.cf-quick-t{grid-column:1/-1;font-size:11px;letter-spacing:.14em;color:#767676}
+.cf-quick a{display:flex;flex-direction:column;gap:3px;padding:14px 16px;border-radius:6px;background:#fdfbe6;color:#1a1a1a;text-decoration:none;transition:background-color .3s}
+.cf-quick a:nth-of-type(2){background:#eaf6f7}
+.cf-quick a:hover{background:#f6f2c9}
+.cf-quick a:nth-of-type(2):hover{background:#d9eef0}
+.cf-quick b{font-size:14px}
+.cf-quick span{font-size:12px;color:#666;line-height:1.6}
+@media(max-width:767px){
+  .contact-form{padding:26px 18px 30px;box-shadow:none;border:1px solid #e8e8e8}
+  .form-header h2{font-size:1.25rem}
+  .cf-quick{grid-template-columns:1fr}
+}
+/* チェックの行：文字が箱の下に回り込まないように */
+.checkbox-label{display:block;padding:10px 0 10px 36px;line-height:1.7}
+.checkbox-label .checkmark{position:absolute;left:0;top:10px}
+.checkbox-label input[type="checkbox"]{top:10px;transform:none}
+.checkbox-label .required{margin-left:6px}

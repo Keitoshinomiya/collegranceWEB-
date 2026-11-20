@@ -4,14 +4,18 @@
   var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   root.classList.add('nt-js');
 
-  /* 入場演出：1日に1回まで（?intro=1 で何度でも見られる）。画面を押すとすぐ消える */
-  var intro = document.getElementById('nt-intro'), seen = false, force = /[?&]intro=1/.test(location.search);
-  var d = new Date(), today = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();   /* お客さまの端末の日付で、1日に1回まで */
-  try{ seen = localStorage.getItem('ntIntroDay') === today || sessionStorage.getItem('ntIntro') === '1'; }catch(e){}
+  /* 入場演出：来るたびに出す（?intro=1 でも見られる）。画面を押すとすぐ消える */
+  var intro = document.getElementById('nt-intro'), force = /[?&]intro=1/.test(location.search), seen = false;
+  /* 来るたびに出す。ただし、サイトの中の別のページから戻ってきた時と、ブラウザの「戻る」で戻った時は出さない（買い物の途中で何度も出ると邪魔になるため） */
+  try{
+    var nav = (performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || null;
+    var back = nav && nav.type === 'back_forward';
+    var inside = document.referrer && document.referrer.indexOf(location.origin) === 0 && !(nav && nav.type === 'reload');
+    seen = !!(back || inside);
+  }catch(e){}
   function end(){ root.classList.remove('nt-intro-on','nt-intro-out'); }
   if(intro && !calm && (force || !seen)){
     root.classList.add('nt-intro-on');
-    try{ localStorage.setItem('ntIntroDay', today); }catch(e){}
     setTimeout(function(){ root.classList.add('nt-intro-out'); }, 1950);
     setTimeout(end, 2800);
     intro.addEventListener('click', end);

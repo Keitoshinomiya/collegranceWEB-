@@ -281,11 +281,11 @@ def build_article_html(article: Dict[str, Any], image_path: str, category: str) 
 
     <!-- Fonts & CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/brand-tokens.css?v=2">
+    <link rel="stylesheet" href="/assets/css/brand-tokens.css?v=20261120d">
     <script src="/assets/js/brand-fonts.js" defer></script>
 <link rel="stylesheet" href="assets/css/styles.css?v=2">
     <link rel="icon" href="assets/images/logo.png" type="image/png">
-      <link rel="stylesheet" href="assets/css/header.css">
+      <link rel="stylesheet" href="assets/css/header.css?v=20261120d">
   <style>
     :root{{--text:#1a1a1a;--sub:#666;--light:#999;--bg:#fff;--border:#e8e8e8;--header-h:64px}}
     .product-card-inline{{display:flex;gap:14px;align-items:center;background:#faf9f7;border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin:16px 0}}

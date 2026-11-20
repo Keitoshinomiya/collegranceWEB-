@@ -64,7 +64,8 @@
 [[headers]]
   for = "/assets/css/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    # 2026-11-20：1年間取り直さない設定だと、住所（?v=）を変え忘れたCSSが前に来た人へ届かない（帯・ロゴ・メニューが崩れた）。毎回「変わった？」だけ確かめる設定にする（変わっていなければ中身は送らない）
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 # JSファイル（articles.js等は更新されるので短期キャッシュ）
 [[headers]]

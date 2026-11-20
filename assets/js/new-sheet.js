@@ -50,6 +50,29 @@
         return { p:x, s: share*2 - d + (x.salesCount ? Math.min(1, x.salesCount/500) : 0) };
       }).sort(function(u,v){ return v.s - u.s; }).slice(0, n).map(function(u){ return u.p; });
   }
+  /* 比べる3本：2本目＝いちばん近い香り、3本目＝よく選ばれていて、少し方向が違う香り */
+  function trio(p){
+    var near = picks(p, 1)[0]; if(!near) return [];
+    var a = PROFILE[p.id];
+    var far = PRODUCTS.filter(function(x){ return x.id !== p.id && x.id !== near.id && sell(x) && PROFILE[x.id] && !inCart(x.id); })
+      .map(function(x){ var b = PROFILE[x.id], d = 0; for(var i=0;i<4;i++) d += Math.abs(a[i]-b[i]); return { p:x, d:d }; })
+      .filter(function(u){ return u.d >= 3; })
+      .sort(function(u,v){ return (v.p.salesCount || 0) - (u.p.salesCount || 0); })[0];
+    return far ? [near, far.p] : picks(p, 2);
+  }
+  /* いま見ている香りと比べて、どう違うかを一言で（物差しの差がいちばん大きい所を言う） */
+  function shortName(p){ var c = (typeof sampleCfg === 'function') ? sampleCfg(p) : null; return (c && c.short) || (p.nameJa || p.name); }
+  /* skip＝もう使った物差し（2つ目と3つ目が同じ言い方にならないように） */
+  function relAxis(p, x, skip){
+    var a = PROFILE[p.id], b = PROFILE[x.id], best = -1, bd = 0;
+    for(var i=0;i<4;i++){ if(i === skip) continue; var d = b[i]-a[i]; if(Math.abs(d) > Math.abs(bd)){ bd = d; best = i; } }
+    return { i: best, d: bd };
+  }
+  function relText(p, x, skip){
+    var up = ['もう少し甘い','もっと爽やか','深みがある','長く香る'], dn = ['甘さひかえめ','爽やかさは控えめ','軽やか','ふんわり短め'];
+    var r = relAxis(p, x, skip), nm = shortName(p);
+    return r.i < 0 ? nm + 'にとても近い' : nm + 'より、' + (r.d > 0 ? up[r.i] : dn[r.i]);
+  }
   function dots(v){ var h=''; for(var i=1;i<=5;i++) h += '<i' + (i<=v ? ' class="on"' : '') + '></i>'; return '<span class="ntc-dots" role="img" aria-label="5段階の' + v + '">' + h + '</span>'; }
   /* 今のカートに k 本足したときの、その香りたちの合計と割引の率 */
   function priceWith(list){
@@ -65,37 +88,43 @@
   }
 
   function compareHtml(p){
-    var others = picks(p, 2); if(!others.length) return '';
+    var others = trio(p); if(!others.length) return '';
     var cols = [p].concat(others);
     var head = cols.map(function(x, i){
       return '<div class="ntc-col' + (i ? '' : ' me') + '">' +
         (sampleImg(x) ? '<img src="' + sampleImg(x) + '" alt="" width="42" height="56" loading="lazy">' : '') +
         '<div class="ntc-br">' + x.brand + '</div><div class="ntc-nm">' + (x.nameJa || x.name) + '</div>' +
+        (i ? '<div class="ntc-rel">' + relText(p, x, i === 2 ? relAxis(p, cols[1]).i : -1) + '</div>' : '<div class="ntc-rel me">いま見ている香り</div>') +
         '<div class="ntc-one">' + PROFILE[x.id][4] + '</div></div>';
     }).join('');
     var rows = AXES.map(function(ax, k){
       return '<div class="ntc-ax">' + ax + '</div>' + cols.map(function(x){ return '<div class="ntc-cell">' + dots(PROFILE[x.id][k]) + '</div>'; }).join('');
     }).join('');
     var foot = cols.map(function(x, i){
-      if(!i) return '<div class="ntc-cell"><span class="ntc-tag">いま見ている香り</span><div class="ntc-pr">' + yen(x.samplePrice) + '</div></div>';
-      return '<div class="ntc-cell"><div class="ntc-pr">' + yen(x.samplePrice) + '</div>' +
-        '<button type="button" class="ntc-add" onclick="ntSheet.add(' + x.id + ',' + p.id + ')">＋ 入れる</button>' +
-        '<button type="button" class="ntc-see" onclick="ntSheet.see(' + x.id + ')">くわしく見る</button></div>';
+      return '<div class="ntc-cell"><div class="ntc-pr">' + yen(x.samplePrice) + '</div>' + (i ? '<button type="button" class="ntc-see" onclick="ntSheet.see(' + x.id + ')">くわしく見る</button>' : '') + '</div>';
     }).join('');
-    var pair = [others[0]]; if(!inCart(p.id)) pair.unshift(p);
-    var pw = priceWith(pair);
-    var label = (pair.length === 2 ? 'この2本をまとめてカートへ ' : (others[0].nameJa || others[0].name) + ' もカートへ ') + yen(pw.total) + (pw.rate ? '（' + Math.round(pw.rate*100) + '%引き）' : '');
-    return '<section class="ntc" id="ntc"><div class="ps-sec-title">あわせて比べたい香り</div>' +
+    /* えらび方は3つ：この1本／比べる3本（おすすめ）／6本（いちばんお得）。割引の階段は下に全部見せる */
+    var need = cols.filter(function(x){ return !inCart(x.id); });
+    var pw = priceWith(need), full = need.reduce(function(t, x){ return t + x.samplePrice; }, 0), save = full - pw.total;
+    var tiers = sampleBundleTiers(), top = tiers[tiers.length - 1] || { min: 6, rate: .25 };
+    var one = inCart(p.id) ? '' :
+      '<button type="button" class="ntp" onclick="ntSheet.add(' + p.id + ',' + p.id + ')"><span class="ntp-l"><b>この1本</b><small>まずはこの香りだけ。1本から送料無料</small></span><span class="ntp-r"><b>' + yen(p.samplePrice) + '</b></span></button>';
+    var three = '<button type="button" class="ntp rec" onclick="ntSheet.set(' + p.id + ',[' + need.map(function(x){ return x.id; }).join(',') + '])">' +
+        '<em>おすすめ</em><span class="ntp-l"><b>比べる3本</b><small>' + cols.map(function(x){ return shortName(x); }).join('・') + '</small></span>' +
+        '<span class="ntp-r"><b>' + yen(pw.total) + '</b>' + (save > 0 ? '<small>' + save.toLocaleString() + '円お得（' + Math.round(pw.rate*100) + '%引き）</small>' : '') + '</span></button>';
+    var six = '<button type="button" class="ntp" onclick="ntSheet.more()"><span class="ntp-l"><b>じっくり' + top.min + '本</b><small>好きな香りを' + top.min + '本。香水ケースも1個プレゼント</small></span><span class="ntp-r"><b>' + Math.round(top.rate*100) + '%引き</b><small>香りを選ぶ &rarr;</small></span></button>';
+    return '<section class="ntc" id="ntc"><div class="ps-sec-title">比べるなら、この3本</div>' +
       '<p class="ntc-sub">香りは、2〜3本を並べてつけると違いが分かります。同じ便で届き、送料は無料です。</p>' +
       '<div class="ntc-grid" style="--n:' + cols.length + '">' + head + rows + '<div class="ntc-ax"></div>' + foot + '</div>' +
-      '<button type="button" class="ps-main ntc-pair" onclick="ntSheet.pair(' + p.id + ',' + others[0].id + ')">' + label + '</button></section>';
+      '<div class="ntp-title">えらび方</div><div class="ntp-list">' + one + three + six + '</div>' +
+      '<div class="ntp-steps"><div class="ntp-steps-t">まとめるほど、割引が大きくなります</div>' + bundleStepsHtml(sampleBottleCount()) + '</div></section>';
   }
   function doneHtml(p){
     if(!added[p.id]) return '';
     var nx = picks(p, 1)[0];
     return '<div class="ntd" id="ntd"><div class="ntd-ok">カートに入れました</div>' + (progress() ? '<div class="ntd-pg">' + progress() + '</div>' : '') +
       (nx ? '<button type="button" class="ntd-next" onclick="ntSheet.see(' + nx.id + ')">' + (sampleImg(nx) ? '<img src="' + sampleImg(nx) + '" alt="" width="30" height="40">' : '') +
-        '<span><small>次に見るなら</small><b>' + (nx.nameJa || nx.name) + '</b><em>' + PROFILE[nx.id][4] + '</em></span><i>&rarr;</i></button>' : '') + '</div>';
+        '<span><small>次に見るなら・' + relText(p, nx) + '</small><b>' + (nx.nameJa || nx.name) + '</b><em>' + PROFILE[nx.id][4] + '</em></span><i>&rarr;</i></button>' : '') + '</div>';
   }
   function bar(p){
     var ov = document.getElementById('sample-lp-overlay'), b = document.getElementById('nt-bar');
@@ -139,6 +168,12 @@
       var p = current(sheetId); if(p){ renderProductSheet(p); var d = document.getElementById('ntd'); if(d) d.scrollIntoView({block:'center', behavior:'smooth'}); }
     },
     see: function(id){ ev('nt_next_view', { product_id: id }); openProductSheet(id, 'sheet_compare'); },
+    set: function(sheetId, ids){
+      ids.forEach(function(id){ if(!inCart(id)) addSampleCart(id, 'sheet_set3'); }); added[sheetId] = true;
+      ev('nt_set3_add', { product_id: sheetId, count: ids.length });
+      var p = current(sheetId); if(p){ renderProductSheet(p); var d = document.getElementById('ntd'); if(d) d.scrollIntoView({block:'center', behavior:'smooth'}); }
+    },
+    more: function(){ ev('nt_six_click', {}); closeSampleLP(); if(typeof setMode === 'function') setMode('sample'); var g = document.getElementById('grid'); if(g) window.scrollTo({top: g.offsetTop - 80, behavior:'smooth'}); },
     toCompare: function(){ var c = document.getElementById('ntc'); if(c) c.scrollIntoView({block:'start', behavior:'smooth'}); }
   };
 })();

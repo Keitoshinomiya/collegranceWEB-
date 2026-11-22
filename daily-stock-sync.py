@@ -128,6 +128,10 @@ def parse_xlsx(path):
     return result
 
 
+AUTO_RESTOCK = False  # True にすると卸の入荷で自動的に在庫ありへ戻す（2026-11-22 停止）
+AUTO_REPRICE = False  # True にすると値付けルールを割った商品を自動で値上げする（2026-11-22 四宮さんの確認待ちで保留）
+
+
 def floor_price(cost):
     """ルール充足に必要な最低売価（10円切上）"""
     return math.ceil(((cost + SHIP_COST) / FLOOR_RATE + COUPON) / 10) * 10
@@ -159,6 +163,7 @@ def main():
 
     products = json.load(open(PRODUCTS_JSON))
     stock_off, stock_on, cost_upd, repriced, missing = [], [], 0, [], []
+    restock_held, reprice_held = [], []
 
     for p in products:
         if p.get('source') != 'wholesale':
@@ -180,8 +185,13 @@ def main():
             p['inStock'] = False
             stock_off.append(name)
         elif not p.get('inStock') and new_in:
-            p['inStock'] = True
-            stock_on.append(name)
+            # 2026-11-22 四宮さん判断: 卸で入荷しても自動では売り場に戻さない
+            # （人気の香水だけに絞る方針）。戻す時は products.json を手で直す。
+            if AUTO_RESTOCK:
+                p['inStock'] = True
+                stock_on.append(name)
+            else:
+                restock_held.append(name)
 
     # 値付けルール適用（在庫ありのみ・手動据置は除外）
     for p in products:
@@ -194,7 +204,11 @@ def main():
             continue
         if (sell - COUPON) * FLOOR_RATE < cost + SHIP_COST:
             new = floor_price(cost)
-            repriced.append(f"{p.get('brand','')} {p.get('nameJa') or p.get('name')} {p.get('size','')} ¥{sell:,}→¥{new:,}")
+            line = f"{p.get('brand','')} {p.get('nameJa') or p.get('name')} {p.get('size','')} ¥{sell:,}→¥{new:,}"
+            if not AUTO_REPRICE:
+                reprice_held.append(line)
+                continue
+            repriced.append(line)
             p['sellPrice'] = new
 
     changed = bool(stock_off or stock_on or cost_upd or repriced)
@@ -206,7 +220,9 @@ def main():
         return
 
     if DRY_RUN:
-        log(f'[dry-run] 在庫OFF{len(stock_off)} ON{len(stock_on)} 原価{cost_upd} 値上げ{len(repriced)}')
+        log(f'[dry-run] 在庫OFF{len(stock_off)} ON{len(stock_on)} 原価{cost_upd} 値上げ{len(repriced)} 入荷見送り{len(restock_held)} 値上げ保留{len(reprice_held)}')
+        for r in reprice_held:
+            log('  (保留) ' + r)
         for r in repriced:
             log('  ' + r)
         return
@@ -296,6 +312,11 @@ def main():
         lines += ['　- ' + r for r in repriced[:10]]
         if len(repriced) > 10:
             lines.append(f'　…ほか{len(repriced) - 10}件')
+    if restock_held:
+        lines.append(f'・卸に在庫あり・サイトは止めたまま: {len(restock_held)}件')
+    if reprice_held:
+        lines.append(f'・値付けルールを下回っている（値上げは保留中）: {len(reprice_held)}件')
+        lines += ['　- ' + r for r in reprice_held[:10]]
     if stock_on:
         lines.append('・入荷: ' + ' / '.join(stock_on[:5]) + ('…' if len(stock_on) > 5 else ''))
     slack('\n'.join(lines))

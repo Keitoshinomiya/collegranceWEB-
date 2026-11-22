@@ -164,6 +164,7 @@ def main():
     products = json.load(open(PRODUCTS_JSON))
     stock_off, stock_on, cost_upd, repriced, missing = [], [], 0, [], []
     restock_held, reprice_held = [], []
+    old_cost = {}
 
     for p in products:
         if p.get('source') != 'wholesale':
@@ -178,6 +179,7 @@ def main():
             continue
         stock, tanka = wholesale[code]
         if tanka is not None and tanka != p.get('cost'):
+            old_cost[p['id']] = p.get('cost')
             p['cost'] = tanka
             cost_upd += 1
         new_in = stock > 0
@@ -206,7 +208,11 @@ def main():
             new = floor_price(cost)
             line = f"{p.get('brand','')} {p.get('nameJa') or p.get('name')} {p.get('size','')} ¥{sell:,}→¥{new:,}"
             if not AUTO_REPRICE:
+                # 値段を変えない間は原価も前のまま（原価だけ上げると check-prices が止める）
                 reprice_held.append(line)
+                if p['id'] in old_cost:
+                    p['cost'] = old_cost[p['id']]
+                    cost_upd -= 1
                 continue
             repriced.append(line)
             p['sellPrice'] = new

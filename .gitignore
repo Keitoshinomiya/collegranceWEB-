@@ -11,3 +11,4 @@ collegranceWEB-
 .last_makeup_check
 ga4-service-account.json
 .stock_sync_state.json
+.stock_sync_alert.json

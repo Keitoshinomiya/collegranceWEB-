@@ -20,7 +20,7 @@ COLLEGRANCE 在庫自動同期スクリプト（2026-08-04 作成）
 手動: cd ~/GitHub/collegranceWEB- && python3 daily-stock-sync.py [--dry-run] [--file 価格リスト.xlsx]
 """
 from __future__ import annotations
-import os, sys, json, math, re, glob, pickle, base64, subprocess, tempfile, datetime
+import os, sys, json, math, re, glob, pickle, base64, subprocess, tempfile, datetime, hashlib
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 os.chdir(SCRIPT_DIR)
@@ -29,6 +29,7 @@ PRODUCTS_JSON = 'products.json'
 CATALOG_JSON = 'catalog_full.json'
 TOKEN_FILE = 'gmail_token.pickle'
 STATE_FILE = '.stock_sync_state.json'
+ALERT_FILE = '.stock_sync_alert.json'  # 今出ている警告の控え（同じ警告を毎日送らないため）
 SENDER = 'yamamoto@makeup-inc.com'
 SLACK_CHANNEL = 'C091LDC8MKN'
 
@@ -63,6 +64,35 @@ def slack(text):
     requests.post('https://slack.com/api/chat.postMessage',
                   json={'channel': SLACK_CHANNEL, 'text': text},
                   headers={'Authorization': f'Bearer {token}'}, timeout=15)
+
+
+def alert(kind, key, text):
+    """警告は「新しく起きた時」だけ送る。同じ内容が続く間は送らない（2026-11-23 四宮さん「日々鬱陶しい」）"""
+    h = hashlib.md5(f'{kind}|{key}'.encode()).hexdigest()
+    last = {}
+    if os.path.exists(ALERT_FILE):
+        try:
+            last = json.load(open(ALERT_FILE))
+        except Exception:
+            last = {}
+    if last.get('hash') == h:
+        log(f'同じ警告は通知済みのため送らない（{kind}・{last.get("since", "")}〜）')
+        return
+    slack(text + '\n_同じ内容が続く間は、もう通知しません。直ったら1回だけお知らせします。_')
+    json.dump({'hash': h, 'kind': kind, 'since': datetime.datetime.now().strftime('%m/%d %H:%M')},
+              open(ALERT_FILE, 'w'), ensure_ascii=False)
+
+
+def alert_clear():
+    """正常に終わった時に呼ぶ。警告が出ていたなら「直りました」を1回送る"""
+    if not os.path.exists(ALERT_FILE):
+        return
+    try:
+        since = json.load(open(ALERT_FILE)).get('since', '')
+    except Exception:
+        since = ''
+    os.remove(ALERT_FILE)
+    slack(f'✅ 在庫同期が直りました（{since} から出ていた警告は解消）')
 
 
 def get_latest_pricelist():
@@ -158,7 +188,7 @@ def main():
     wholesale = parse_xlsx(xlsx)
     log(f'卸リスト {len(wholesale)}件')
     if len(wholesale) < 100:  # 壊れたファイル対策
-        slack(f'⚠️ 在庫同期: 卸リストの件数が異常に少ない（{len(wholesale)}件）ため中止。ファイルを確認してください: {subject}')
+        alert('few', '', f'⚠️ 在庫同期: 卸リストの件数が異常に少ない（{len(wholesale)}件）ため中止。ファイルを確認してください: {subject}')
         return
 
     products = json.load(open(PRODUCTS_JSON))
@@ -221,6 +251,13 @@ def main():
     if not changed:
         log('変更なし')
         if not DRY_RUN:
+            # 前の回でコミットだけ済んでpushできていない分があれば、ここで出す
+            ahead = subprocess.run(['git', 'rev-list', '--count', 'origin/main..HEAD'], capture_output=True, text=True).stdout.strip()
+            if ahead not in ('', '0'):
+                if subprocess.run(['git', 'push', 'origin', 'main'], capture_output=True, text=True).returncode != 0:
+                    log('未pushのコミットが残っている（pushに失敗）')
+                    return
+            alert_clear()
             json.dump({'last_message_id': msg_id, 'processed_at': datetime.datetime.now().isoformat()},
                       open(STATE_FILE, 'w'))
         return
@@ -292,7 +329,8 @@ def main():
 
     if has_error:
         err_tail = check.stdout[-800:]
-        slack(f'🚨 在庫同期（{subject}）: 価格チェックにエラーがあるためデプロイを中止しました。手動確認が必要です。\n```{err_tail}```')
+        err_key = '|'.join(sorted(l.strip() for l in check.stdout.split('\n') if l.strip().startswith('[') and 'Excel' not in l and '割高' not in l))
+        alert('check', err_key, f'🚨 在庫同期（{subject}）: 価格チェックにエラーがあるため反映を中止しました。手動確認が必要です。\n```{err_tail}```')
         subprocess.run(['git', 'checkout', '--', PRODUCTS_JSON, CATALOG_JSON] + glob.glob('article-*.html'))
         return
 
@@ -304,8 +342,13 @@ def main():
     subprocess.run(['git', 'commit', '-m', body], check=True)
     push = subprocess.run(['git', 'push', 'origin', 'main'], capture_output=True, text=True)
     if push.returncode != 0:
-        slack(f'🚨 在庫同期: git pushに失敗しました。\n```{push.stderr[-400:]}```')
-        return
+        # 別の処理と同時にpushすると「失敗」と返るのに実際は届いていることがある（2026-11-22）。届いていれば成功扱い
+        head = subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
+        remote = subprocess.run(['git', 'ls-remote', 'origin', 'refs/heads/main'], capture_output=True, text=True).stdout.split('\t')[0].strip()
+        if not head or head != remote:
+            alert('push', '', f'🚨 在庫同期: git pushに失敗しました。次の回でもう一度試します。\n```{push.stderr[-400:]}```')
+            return
+        log('pushは失敗と返ったが、本番には届いていた')
 
     json.dump({'last_message_id': msg_id, 'processed_at': datetime.datetime.now().isoformat()},
               open(STATE_FILE, 'w'))
@@ -325,6 +368,7 @@ def main():
         lines += ['　- ' + r for r in reprice_held[:10]]
     if stock_on:
         lines.append('・入荷: ' + ' / '.join(stock_on[:5]) + ('…' if len(stock_on) > 5 else ''))
+    alert_clear()
     slack('\n'.join(lines))
     log('完了')
 
@@ -335,5 +379,5 @@ if __name__ == '__main__':
     except Exception as e:
         import traceback
         traceback.print_exc()
-        slack(f'🚨 在庫自動同期がエラーで停止しました: {e}')
+        alert('exc', type(e).__name__, f'🚨 在庫自動同期がエラーで停止しました: {e}')
         sys.exit(1)

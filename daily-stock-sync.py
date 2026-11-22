@@ -159,7 +159,7 @@ def parse_xlsx(path):
 
 
 AUTO_RESTOCK = False  # True にすると卸の入荷で自動的に在庫ありへ戻す（2026-11-22 停止）
-AUTO_REPRICE = False  # True にすると値付けルールを割った商品を自動で値上げする（2026-11-22 四宮さんの確認待ちで保留）
+AUTO_REPRICE = True  # 値付けルールを割った商品を自動で値上げする（2026-11-23 四宮さんOK「値上げしておいて」）
 
 
 def floor_price(cost):

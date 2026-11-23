@@ -11,7 +11,7 @@
     NODE_VERSION = "18"
 
 [functions]
-  included_files = ["catalog_full.json", "products.json", "data/samples.json", "data/gift-set.json"]
+  included_files = ["catalog_full.json", "products.json", "data/samples.json", "data/gift-set.json", "data/diagnosis-scents.json"]
 
 # Google Merchant Center の商品データ（2026-11-17）
 [[redirects]]

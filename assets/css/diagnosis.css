@@ -1,0 +1,144 @@
+/* AI診断（2026-11-22 作り替え）
+   スマホは下から上がる全画面のシート、PCは中央のカード。色と書体は brand-tokens.css のものだけを使う。
+   文字は12px以上。動きは「入る時に1回」だけにして、動きを減らす設定の端末では止める。 */
+#diagnosis-overlay{display:none;position:fixed;inset:0;background:rgba(20,20,18,.52);z-index:300;animation:dgFade .28s ease both}
+#diagnosis-modal{display:none;position:fixed;z-index:301;background:#fff;color:var(--brand-ink,#1a1a1a);font-family:var(--brand-font,sans-serif);
+  left:0;right:0;bottom:0;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;overflow:hidden;
+  animation:dgSheet .36s cubic-bezier(.2,.8,.2,1) both}
+.dg{display:flex;flex-direction:column;height:100%;min-height:0}
+.dg-top{flex:0 0 auto;display:flex;align-items:center;gap:14px;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;border-bottom:1px solid var(--brand-line,#e6e5e1)}
+.dg-brand{font-size:11px;letter-spacing:.2em;color:var(--brand-mute,#9a9a96);white-space:nowrap}
+#diag-progress{flex:1;height:2px;background:var(--brand-line,#e6e5e1);overflow:hidden;visibility:hidden}
+#diag-progress[style*="block"]{visibility:visible}
+#diag-progress{display:block !important}
+#diag-progress-bar{height:100%;width:0;background:var(--brand-ink,#1a1a1a);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.dg-x{flex:0 0 auto;width:40px;height:40px;margin-right:-8px;border:0;background:none;font-size:24px;line-height:1;color:var(--brand-sub,#5f5f5c);cursor:pointer}
+.dg-body{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:26px 20px 32px}
+.dg-in{max-width:520px;margin:0 auto}
+
+/* 質問の画面 */
+.diag-step{display:none;animation:dgRise .34s cubic-bezier(.2,.8,.2,1) both}
+.dg-num{font-size:11px;letter-spacing:.18em;color:var(--brand-mute,#9a9a96);margin-bottom:10px;font-variant-numeric:tabular-nums}
+.dg-q{font-size:20px;font-weight:700;line-height:1.5;margin:0 0 8px;letter-spacing:.01em}
+.dg-help{font-size:13px;line-height:1.8;color:var(--brand-sub,#5f5f5c);margin:0 0 18px}
+.dg-opts{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.dg-opts.row{flex-direction:row}
+.dg-opts.row .diag-opt{flex:1;justify-content:center;text-align:center;padding:13px 6px}
+#diagnosis-modal .diag-opt{width:100%;min-height:54px;padding:13px 16px;background:#fff;border:1px solid var(--brand-line,#e6e5e1);border-radius:6px;
+  font-family:inherit;font-size:15px;line-height:1.5;color:var(--brand-ink,#1a1a1a);text-align:left;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;
+  transition:border-color .18s,background .18s,color .18s,transform .18s;animation:dgRise .4s cubic-bezier(.2,.8,.2,1) both}
+#diagnosis-modal .diag-opt small{font-size:12px;color:var(--brand-sub,#5f5f5c);line-height:1.6}
+#diagnosis-modal .diag-opt:active{transform:scale(.985)}
+#diagnosis-modal .diag-opt.selected,#diagnosis-modal .diag-opt:hover{border-color:var(--brand-ink,#1a1a1a)}
+#diagnosis-modal .diag-opt.selected{background:var(--brand-ink,#1a1a1a);color:#fff}
+#diagnosis-modal .diag-opt.selected small{color:rgba(255,255,255,.75)}
+.dg-opts .diag-opt:nth-child(2){animation-delay:.04s}.dg-opts .diag-opt:nth-child(3){animation-delay:.08s}.dg-opts .diag-opt:nth-child(4){animation-delay:.12s}
+.dg-opts .diag-opt:nth-child(5){animation-delay:.16s}.dg-opts .diag-opt:nth-child(6){animation-delay:.2s}.dg-opts .diag-opt:nth-child(7){animation-delay:.24s}
+.dg-label{font-size:12px;letter-spacing:.08em;color:var(--brand-sub,#5f5f5c);margin:22px 0 0}
+.dg-label + .dg-opts{margin-top:8px}
+.dg-field{width:100%;box-sizing:border-box;margin-top:8px;padding:13px 14px;border:1px solid var(--brand-line,#e6e5e1);border-radius:6px;font-family:inherit;font-size:16px;line-height:1.7;color:var(--brand-ink,#1a1a1a);background:#fff}
+textarea.dg-field{min-height:110px;resize:vertical}
+.dg-go{width:100%;min-height:54px;margin-top:22px;border:0;border-radius:6px;background:var(--brand-ink,#1a1a1a);color:#fff;font-family:inherit;font-size:15px;font-weight:700;letter-spacing:.06em;cursor:pointer;transition:opacity .2s}
+.dg-go:disabled{opacity:.3;cursor:default}
+#diagnosis-modal :focus-visible{outline:2px solid var(--brand-teal,#1a9fae);outline-offset:2px}
+
+/* はじめの画面 */
+.dg-intro{padding-top:6vh;text-align:left}
+.dg-intro .sec-en{margin-bottom:10px}
+.dg-intro h3{font-size:24px;font-weight:800;line-height:1.45;margin:0 0 14px}
+.dg-intro p{font-size:14px;line-height:1.9;color:var(--brand-sub,#5f5f5c);margin:0}
+.dg-facts{display:flex;gap:0;margin:26px 0 4px;border-top:1px solid var(--brand-line,#e6e5e1);border-bottom:1px solid var(--brand-line,#e6e5e1)}
+.dg-facts div{flex:1;padding:14px 4px;text-align:center;font-size:12px;color:var(--brand-sub,#5f5f5c);line-height:1.6}
+.dg-facts div + div{border-left:1px solid var(--brand-line,#e6e5e1)}
+.dg-facts b{display:block;font-size:17px;color:var(--brand-ink,#1a1a1a);font-weight:700}
+
+/* 待っている間 */
+.dg-wait{padding-top:5vh}
+.dg-wait .sec-en{margin-bottom:10px}
+.dg-wait-t{font-size:20px;font-weight:700;line-height:1.5;min-height:60px;margin:0 0 20px;transition:opacity .3s}
+.dg-wait-ans{display:flex;flex-wrap:wrap;gap:8px;min-height:40px}
+.dg-chip{display:inline-block;font-size:12.5px;line-height:1.5;padding:5px 12px;border:1px solid var(--brand-line,#e6e5e1);border-radius:99px;color:var(--brand-ink,#1a1a1a);background:#fff;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dg-wait-ans .dg-chip{animation:dgRise .45s cubic-bezier(.2,.8,.2,1) both}
+.dg-dots{display:grid;grid-template-columns:repeat(8,1fr);gap:14px 0;margin:34px 0 14px;justify-items:center}
+.dg-dots i{width:9px;height:9px;border-radius:50%;background:var(--brand-ink,#1a1a1a);transition:opacity .9s ease,transform .9s ease,background .5s}
+.dg-dots i.off{opacity:.12;transform:scale(.7)}
+.dg-dots i.hit{background:var(--brand-teal,#1a9fae);transform:scale(1.7)}
+.dg-wait-n{font-size:12px;color:var(--brand-mute,#9a9a96);font-variant-numeric:tabular-nums}
+
+/* 結果 */
+.dg-res-head .sec-en{margin-bottom:8px}
+.dg-res-h{font-size:20px;font-weight:800;line-height:1.55;margin:0 0 14px}
+.dg-res-ans{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.dg-res-ans .dg-chip{font-size:12px;padding:3px 10px;color:var(--brand-sub,#5f5f5c)}
+.dg-res-note{font-size:12px;color:var(--brand-mute,#9a9a96);margin:0 0 4px}
+.dg-cards{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+.dg-card{border:1px solid var(--brand-line,#e6e5e1);border-radius:8px;padding:18px 16px 14px;background:#fff;animation:dgRise .5s cubic-bezier(.2,.8,.2,1) both}
+.dg-card:nth-child(2){animation-delay:.14s}.dg-card:nth-child(3){animation-delay:.28s}
+.dg-card.first{border-color:var(--brand-ink,#1a1a1a)}
+.dg-role{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--brand-teal,#1a9fae);margin-bottom:12px}
+.dg-pd{display:flex;gap:14px;align-items:center}
+.dg-pd img{width:54px;height:72px;object-fit:contain;flex:0 0 auto}
+.dg-pd-t{flex:1;min-width:0}
+.dg-pd-b{font-size:11px;letter-spacing:.14em;color:var(--brand-mute,#9a9a96);text-transform:uppercase}
+.dg-pd-n{font-size:17px;font-weight:700;line-height:1.45;margin-top:2px}
+.dg-pd-l{font-size:12.5px;color:var(--brand-sub,#5f5f5c);line-height:1.6;margin-top:3px}
+.dg-pd-p{flex:0 0 auto;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dg-pd-p small{display:block;font-size:11px;font-weight:400;color:var(--brand-mute,#9a9a96);text-align:right}
+.dg-why{margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.dg-why div{display:block}
+.dg-why dt{display:inline-block;max-width:100%;font-size:12px;line-height:1.5;padding:2px 10px;border-radius:99px;background:#f3f2ee;color:var(--brand-ink,#1a1a1a);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:top}
+.dg-why dt::before{content:"あなたの答え　";color:var(--brand-mute,#9a9a96)}
+.dg-why dd{margin:5px 0 0;font-size:14px;line-height:1.75}
+.dg-bars{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;margin-top:16px;padding-top:14px;border-top:1px solid var(--brand-line,#e6e5e1)}
+.dg-bar{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:8px;font-size:12px;color:var(--brand-sub,#5f5f5c)}
+.dg-bar span{display:flex;gap:3px}
+.dg-bar span i{flex:1;height:4px;border-radius:2px;background:var(--brand-line,#e6e5e1)}
+.dg-bar span i.on{background:var(--brand-ink,#1a1a1a);animation:dgBar .5s ease both}
+.dg-bar span i.on:nth-child(2){animation-delay:.06s}.dg-bar span i.on:nth-child(3){animation-delay:.12s}.dg-bar span i.on:nth-child(4){animation-delay:.18s}.dg-bar span i.on:nth-child(5){animation-delay:.24s}
+.dg-care{margin-top:14px;padding:10px 12px;background:#f8f7f4;border-radius:6px;font-size:13px;line-height:1.75;color:var(--brand-sub,#5f5f5c)}
+.dg-care b{display:block;font-size:12px;font-weight:700;color:var(--brand-ink,#1a1a1a);margin-bottom:2px}
+.dg-acts{display:flex;gap:6px;margin-top:10px}
+.dg-acts button{flex:1;min-height:44px;border:0;background:none;font-family:inherit;font-size:13px;color:var(--brand-ink,#1a1a1a);text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.dg-acts button.added{color:var(--brand-teal,#1a9fae);text-decoration:none}
+.dg-full{display:block;width:100%;margin-top:14px;padding:14px;border:1px solid var(--brand-line,#e6e5e1);border-radius:8px;background:#fff;font-family:inherit;font-size:13.5px;line-height:1.6;color:var(--brand-ink,#1a1a1a);text-align:left;cursor:pointer}
+.dg-sec{margin-top:26px;padding-top:22px;border-top:1px solid var(--brand-line,#e6e5e1)}
+.dg-sec-t{font-size:15px;font-weight:700;margin:0 0 4px}
+.dg-sec-p{font-size:13px;line-height:1.8;color:var(--brand-sub,#5f5f5c);margin:0 0 12px}
+.dg-two{display:flex;gap:8px}
+.dg-two button,.dg-reasons button{flex:1;min-height:48px;border:1px solid var(--brand-line,#e6e5e1);border-radius:6px;background:#fff;font-family:inherit;font-size:14px;color:var(--brand-ink,#1a1a1a);cursor:pointer;transition:border-color .18s}
+.dg-two button:hover,.dg-reasons button:hover{border-color:var(--brand-ink,#1a1a1a)}
+.dg-reasons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dg-reasons button{padding:10px 8px;line-height:1.5}
+.dg-line{display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;border-radius:6px;background:#06C755;color:#fff;font-size:14px;font-weight:700;text-decoration:none;transition:opacity .2s}
+.dg-line-n{font-size:12px;color:var(--brand-mute,#9a9a96);margin-top:6px;text-align:center}
+.dg-links{display:flex;justify-content:center;gap:22px;margin-top:22px}
+.dg-links button{min-height:44px;border:0;background:none;font-family:inherit;font-size:13px;color:var(--brand-sub,#5f5f5c);text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+
+/* 結果の下に固定するカートの帯 */
+.dg-foot{flex:0 0 auto;display:none;border-top:1px solid var(--brand-line,#e6e5e1);background:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));animation:dgRise .5s .45s cubic-bezier(.2,.8,.2,1) both}
+.dg-foot.on{display:block}
+.dg-foot-in{max-width:520px;margin:0 auto}
+.dg-sum{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:12.5px;color:var(--brand-sub,#5f5f5c);margin-bottom:8px;font-variant-numeric:tabular-nums}
+.dg-sum b{font-size:19px;color:var(--brand-ink,#1a1a1a);font-weight:800}
+.dg-sum s{color:var(--brand-mute,#9a9a96);margin-right:6px}
+.dg-foot .dg-go{margin-top:0}
+
+@media (min-width:720px){
+  #diagnosis-modal{left:50%;right:auto;bottom:auto;top:50%;width:560px;height:auto;max-height:88vh;border-radius:12px;transform:translate(-50%,-50%);animation:dgPop .32s cubic-bezier(.2,.8,.2,1) both;box-shadow:0 24px 70px rgba(0,0,0,.22)}
+  .dg{max-height:88vh}
+  .dg-body{padding:30px 34px 36px}
+  .dg-intro,.dg-wait{padding-top:8px}
+  .dg-foot{padding:14px 34px 16px;border-radius:0 0 12px 12px}
+}
+@keyframes dgFade{from{opacity:0}to{opacity:1}}
+@keyframes dgSheet{from{transform:translateY(28px);opacity:0}to{transform:none;opacity:1}}
+@keyframes dgPop{from{transform:translate(-50%,-48%);opacity:0}to{transform:translate(-50%,-50%);opacity:1}}
+@keyframes dgRise{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+@keyframes dgBar{from{transform:scaleX(0);transform-origin:left}to{transform:none;transform-origin:left}}
+@media (prefers-reduced-motion:reduce){
+  #diagnosis-overlay,#diagnosis-modal,.diag-step,#diagnosis-modal .diag-opt,.dg-card,.dg-foot,.dg-wait-ans .dg-chip,.dg-bar span i.on{animation:none !important}
+  .dg-dots i,#diag-progress-bar{transition:none}
+}
+
+#diagnosis-modal [hidden]{display:none !important}
+#diagnosis-modal h3[tabindex]:focus,#diagnosis-modal .dg-wait-t:focus{outline:none}

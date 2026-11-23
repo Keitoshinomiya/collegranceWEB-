@@ -1023,6 +1023,7 @@
 .pc .tag{font-size:11px;letter-spacing:.12em}
 </style>
 <link rel="stylesheet" href="/assets/css/new-top.css?v=20261120n">
+  <link rel="stylesheet" href="/assets/css/diagnosis.css?v=20261122a">
 </head>
 <body>
 
@@ -1616,271 +1617,225 @@
     <button type="button" class="gift-float-x" aria-label="ギフトの案内を閉じる" tabindex="-1">&times;</button>
   </div>
 
-  <!-- AI DIAGNOSIS MODAL -->
-  <div id="diagnosis-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" onclick="closeDiagnosis()"></div>
-  <div id="diagnosis-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90vw;max-width:520px;max-height:85vh;max-height:85dvh;background:#fff;z-index:301;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow-y:auto">
-    <div style="padding:28px 28px 24px;position:relative">
-      <!-- Close -->
-      <button onclick="closeDiagnosis()" style="position:absolute;top:16px;right:18px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:#999;padding:4px;z-index:1">&times;</button>
-
-      <!-- Progress -->
-      <div id="diag-progress" style="display:none;width:100%;height:3px;background:#eee;border-radius:3px;margin-bottom:20px;overflow:hidden">
-        <div id="diag-progress-bar" style="height:100%;background:linear-gradient(90deg,#6366f1,#8b5cf6);width:0%;transition:width .4s ease;border-radius:3px"></div>
+  <!-- AI DIAGNOSIS MODAL（2026-11-22 作り替え。見た目は assets/css/diagnosis.css、結果と待ち時間の動きは assets/js/diagnosis.js） -->
+  <div id="diagnosis-overlay" onclick="closeDiagnosis()"></div>
+  <div id="diagnosis-modal" role="dialog" aria-modal="true" aria-label="香りの診断">
+    <div class="dg">
+      <div class="dg-top">
+        <span class="dg-brand">SCENT FINDER</span>
+        <div id="diag-progress"><div id="diag-progress-bar"></div></div>
+        <button class="dg-x" type="button" onclick="closeDiagnosis()" aria-label="閉じる">&times;</button>
       </div>
+      <div class="dg-body" id="dg-body"><div class="dg-in" id="diag-steps">
 
-      <!-- Step container -->
-      <div id="diag-steps">
-        <!-- Step 0: Intro -->
-        <div class="diag-step" id="diag-s0">
-          <div style="text-align:center;margin-bottom:20px">
-            <div style="margin-bottom:10px"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M10.5 5.0Q12.20 11.80 19.0 13.5Q12.20 15.20 10.5 22.0Q8.80 15.20 2.0 13.5Q8.80 11.80 10.5 5.0ZM19 1.5Q19.80 4.70 23 5.5Q19.80 6.30 19 9.5Q18.20 6.30 15 5.5Q18.20 4.70 19 1.5Z"/></svg></div>
-            <h3 style="font-size:.96rem;font-weight:400;letter-spacing:.1em;margin-bottom:8px">AI Scent Concierge</h3>
-            <p style="font-size:.66rem;color:#666;line-height:1.8"><strong>4つの質問</strong>に答えるだけ。<br>香水が初めての方でも、AIが「まず試す1本」と「気に入ったら次の1本」を1.5mlのお試しからご提案します。</p>
-            <div style="display:flex;justify-content:center;gap:16px;margin-top:16px;font-size:.54rem;color:#999">
-              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg> 約1分</span>
-              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h16M4 14h10M4 18h12"/></svg> 4問だけ</span>
-              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h.01M15 9h.01M9 15h6"/></svg> AI分析</span>
+        <div class="diag-step dg-intro" id="diag-s0">
+          <span class="sec-en">Scent Finder</span>
+          <h3>4つの質問から、<br>あなたに合う3本を選びます</h3>
+          <p>香水にくわしくなくても大丈夫です。COLLEGRANCEが扱うのは、長く選ばれてきた人気の香水だけ。その中から、身近な香りの好みを聞いて、お試し1.5mLを3本ご提案します。なぜその香りなのかも、あなたの答えと並べてお見せします。</p>
+          <div class="dg-facts"><div><b>約1分</b>かかる時間</div><div><b>4問</b>質問の数</div><div><b>3本</b>ご提案</div></div>
+          <button class="dg-go" type="button" onclick="diagNext(0);document.getElementById('diag-progress').style.display='block'">はじめる</button>
+        </div>
+
+        <div class="diag-step" id="diag-s1">
+          <div class="dg-num">1</div>
+          <h3 class="dg-q">COLLEGRANCEのお試しを、使ったことはありますか？</h3>
+          <div class="dg-opts">
+            <button class="diag-opt" type="button" onclick="diagSetRepeater(false)">はじめてです<small>4つの質問から3本を選びます</small></button>
+            <button class="diag-opt" type="button" onclick="diagSetRepeater(true)">使ったことがあります<small>前の香りの感想をもとに、次の3本を選びます</small></button>
+          </div>
+        </div>
+
+        <div class="diag-step" id="diag-r2">
+          <div class="dg-num">2 / 7</div>
+          <h3 class="dg-q">前に試した香りを教えてください</h3>
+          <select id="diag-prev-product" class="dg-field"><option value="">選んでください</option></select>
+          <button id="diag-r2-next" class="dg-go" type="button" onclick="diagRepeaterNext2()" disabled>次へ</button>
+        </div>
+
+        <div class="diag-step" id="diag-r3">
+          <div class="dg-num">3 / 7</div>
+          <h3 class="dg-q">その香りは、いかがでしたか？</h3>
+          <div class="dg-opts">
+            <button class="diag-opt" type="button" onclick="diagRepeaterFeeling('大好き！似た系統でもっと探したい')">大好き<small>似た香りをもっと探したい</small></button>
+            <button class="diag-opt" type="button" onclick="diagRepeaterFeeling('良かったけど、次は違う系統を試したい')">良かった<small>次はちがう系統を試したい</small></button>
+            <button class="diag-opt" type="button" onclick="diagRepeaterFeeling('あまり好みではなかった')">あまり好みではなかった<small>別の方向から選び直します</small></button>
+          </div>
+        </div>
+
+        <div class="diag-step" id="diag-r4">
+          <div class="dg-num">4 / 7</div>
+          <h3 class="dg-q">次は、どうされたいですか？</h3>
+          <div class="dg-opts">
+            <button class="diag-opt" type="button" onclick="diagRepeaterWish('別の香りを小分けで試したい')">別の香りを、お試しで比べたい</button>
+            <button class="diag-opt" type="button" onclick="diagRepeaterWish('気に入った香りのフルボトルが欲しい')">気に入った香りのフルボトルがほしい<small>フルボトルのご案内と、次に試す3本をお出しします</small></button>
+            <button class="diag-opt" type="button" onclick="diagRepeaterWish('おすすめを全部見たい')">おまかせで選んでほしい</button>
+          </div>
+        </div>
+
+        <div class="diag-step" id="diag-n2">
+          <div class="dg-num">2 / 5</div>
+          <h3 class="dg-q">ふだん「いい香り」と感じるのは、どれに近いですか？</h3>
+          <p class="dg-help">香水の知識はいりません。身近なもので、いちばん近いものを選んでください。</p>
+          <div class="dg-opts">
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('smell','洗いたての洗濯物・石けん')">洗いたての洗濯物・石けん<small>清潔でやわらかい</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('smell','レモン・ミント・炭酸水')">レモン・ミント・炭酸水<small>すっきり爽やか</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('smell','紅茶・緑茶・ハーブ')">紅茶・緑茶・ハーブ<small>落ち着く、上品</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('smell','木・お香・古い本')">木・お香・古い本<small>深みがあってあたたかい</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('smell','花・化粧品売り場')">花・化粧品売り場<small>華やか</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('smell','バニラ・焼き菓子')">バニラ・焼き菓子<small>甘くてやさしい</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('smell','わからない・特にない')">わからない・特にない<small>ほかの答えから選びます</small></button>
+          </div>
+        </div>
+
+        <div class="diag-step" id="diag-n3">
+          <div class="dg-num">3 / 5</div>
+          <h3 class="dg-q">香りで、どう見られたいですか？</h3>
+          <div class="dg-opts">
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('impression','清潔感・好印象')">清潔感・好印象<small>職場でも安心</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('impression','ナチュラル・自然体')">ナチュラル・自然体<small>つけている感じを出さない</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('impression','知的・洗練')">知的・洗練<small>大人っぽく</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('impression','セクシー・色気')">色気<small>印象に残したい</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('impression','個性的・唯一無二')">個性的<small>人とかぶりたくない</small></button>
+          </div>
+        </div>
+
+        <div class="diag-step" id="diag-n4">
+          <div class="dg-num">4 / 5</div>
+          <h3 class="dg-q">香水について、いちばん近い気持ちは？</h3>
+          <div class="dg-opts">
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('distance','強い香りが苦手')">強い香りが苦手<small>近くの人にだけ、ほのかに香るものを選びます</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('distance','周りにどう思われるか不安')">周りにどう思われるか、少し不安<small>主張しすぎない香りから選びます</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('distance','選び方がわからない')">興味はあるけれど、選び方がわからない<small>試しやすい香りから始めます</small></button>
+            <button class="diag-opt" type="button" onclick="diagNewAnswer('distance','香水が好き・もっと知りたい')">香水は好き。もっと知りたい<small>少し個性のある香りも候補に入れます</small></button>
+          </div>
+        </div>
+
+        <div class="diag-step" id="diag-n5">
+          <div class="dg-num">5 / 5</div>
+          <h3 class="dg-q">最後に、よろしければ教えてください</h3>
+          <p class="dg-help">どれも答えなくて大丈夫です。このまま結果に進めます。</p>
+          <div class="dg-label">性別</div>
+          <div class="dg-opts row">
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'gender','女性')">女性</button>
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'gender','男性')">男性</button>
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'gender','どちらでも')">どちらも</button>
+          </div>
+          <div class="dg-label">年代</div>
+          <div class="dg-opts row">
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'age','10〜20代')">10〜20代</button>
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'age','30代')">30代</button>
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'age','40代以上')">40代以上</button>
+          </div>
+          <div class="dg-label">ひとこと</div>
+          <textarea id="diag-free-new" class="dg-field" placeholder="例：柔軟剤の香りが好き／職場でも気にならない程度がいい／昔使っていた香水が忘れられない"></textarea>
+          <button class="dg-go" type="button" onclick="submitDiagnosis()">3本を選んでもらう</button>
+        </div>
+
+        <div class="diag-step" id="diag-c1">
+          <div class="dg-num" id="diag-c1-step"></div>
+          <h3 class="dg-q">香りの強さと、使いたい季節</h3>
+          <div class="dg-label">香りの強さ</div>
+          <div class="dg-opts row">
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'strength','ほのかに')">ほのかに</button>
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'strength','ほどよく')">ほどよく</button>
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'strength','しっかり')">しっかり</button>
+          </div>
+          <div class="dg-label">使いたい季節</div>
+          <div class="dg-opts row">
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'season','春夏')">春夏</button>
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'season','秋冬')">秋冬</button>
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'season','オールシーズン')">一年中</button>
+          </div>
+          <button id="diag-c1-next" class="dg-go" type="button" onclick="diagCommon1Next()" disabled>次へ</button>
+        </div>
+
+        <div class="diag-step" id="diag-c2">
+          <div class="dg-num" id="diag-c2-step"></div>
+          <h3 class="dg-q">あなたについて</h3>
+          <div class="dg-label">性別</div>
+          <div class="dg-opts row">
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'gender','女性')">女性</button>
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'gender','男性')">男性</button>
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'gender','どちらでも')">どちらも</button>
+          </div>
+          <div class="dg-label">年代</div>
+          <div class="dg-opts row">
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'age','10〜20代')">10〜20代</button>
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'age','30代')">30代</button>
+            <button class="diag-opt" type="button" onclick="selectMulti(this,'age','40代以上')">40代以上</button>
+          </div>
+          <button id="diag-c2-next" class="dg-go" type="button" onclick="diagCommon2Next()" disabled>次へ</button>
+        </div>
+
+        <div class="diag-step" id="diag-final">
+          <div class="dg-num" id="diag-final-step"></div>
+          <h3 class="dg-q">最後に、伝えておきたいことはありますか？</h3>
+          <p class="dg-help">書いていただいた内容は、3本を選ぶ時にそのまま読みます。空のままでも進めます。</p>
+          <textarea id="diag-free" class="dg-field" placeholder="例：甘すぎない香りがいい／職場でも使いたい／前のより長く香ってほしい"></textarea>
+          <button class="dg-go" type="button" onclick="submitDiagnosis()">3本を選んでもらう</button>
+        </div>
+
+        <div class="diag-step dg-wait" id="diag-loading" aria-live="polite">
+          <span class="sec-en">Finding</span>
+          <p class="dg-wait-t" id="dg-wait-t">あなたの答えを読んでいます</p>
+          <div class="dg-wait-ans" id="dg-wait-ans"></div>
+          <div class="dg-dots" id="dg-dots" aria-hidden="true"></div>
+          <div class="dg-wait-n" id="dg-wait-n"></div>
+        </div>
+
+        <div class="diag-step" id="diag-result">
+          <div class="dg-res-head">
+            <span class="sec-en">Your Three</span>
+            <h3 class="dg-res-h" id="dg-res-h"></h3>
+            <div class="dg-res-note">あなたの答え</div>
+            <div class="dg-res-ans" id="dg-res-ans"></div>
+          </div>
+          <div class="dg-cards" id="diag-result-list"></div>
+          <div id="dg-full-slot"></div>
+
+          <div class="dg-sec" id="diag-feedback">
+            <div id="diag-feedback-q">
+              <p class="dg-sec-t">この3本、しっくりきましたか？</p>
+              <p class="dg-sec-p">ちがうと感じたら、どこがちがうかを教えてください。その場で選び直します。</p>
             </div>
-          </div>
-          <button onclick="diagNext(0);document.getElementById('diag-progress').style.display='block'" style="width:100%;padding:14px;background:linear-gradient(135deg,#1a1a1a,#333);color:#fff;border:none;font-family:var(--font);font-size:.72rem;letter-spacing:.14em;cursor:pointer;border-radius:4px">診断スタート</button>
-        </div>
-
-        <!-- Step 1: Branching — Repeater or New? -->
-        <div class="diag-step" id="diag-s1" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 1</div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">COLLEGRANCEで香水を試したことはありますか？</h3>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagSetRepeater(true)">
-              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> はい、試したことがある<br><span style="font-size:.52rem;color:#999">前回の体験をもとに次の香りをご提案します</span></div>
-            </button>
-            <button class="diag-opt" onclick="diagSetRepeater(false)">
-              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg> いいえ、初めてです<br><span style="font-size:.52rem;color:#999">4つの質問で、まず試す1本をご提案します</span></div>
-            </button>
-          </div>
-        </div>
-
-        <!-- REPEATER Step 2R: Which product? -->
-        <div class="diag-step" id="diag-r2" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 2</div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">前回試した香水を教えてください</h3>
-          <select id="diag-prev-product" style="width:100%;padding:12px;border:1px solid #e8e8e8;font-family:var(--font);font-size:.68rem;border-radius:4px;margin-bottom:12px;outline:none;appearance:none;-webkit-appearance:none;background:var(--bg) url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E&quot;) no-repeat right 12px center">
-            <option value="">選択してください</option>
-          </select>
-          <button id="diag-r2-next" onclick="diagRepeaterNext2()" disabled style="width:100%;padding:12px;background:#111;color:#fff;border:none;font-family:var(--font);font-size:.64rem;cursor:pointer;border-radius:2px;opacity:.35">次へ</button>
-        </div>
-
-        <!-- REPEATER Step 3R: How was it? -->
-        <div class="diag-step" id="diag-r3" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 3</div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">その香り、いかがでしたか？</h3>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagRepeaterFeeling('大好き！似た系統でもっと探したい')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg> 大好き！似た系統でもっと探したい</button>
-            <button class="diag-opt" onclick="diagRepeaterFeeling('良かったけど、次は違う系統を試したい')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg> 良かったけど、次は違う系統を試したい</button>
-            <button class="diag-opt" onclick="diagRepeaterFeeling('あまり好みではなかった')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8a2 2 0 012-2h13a2 2 0 012 2v8.5a2 2 0 01-2 2h-13a2 2 0 01-2-2V8zM4.8 7.6l7.2 5.4 7.2-5.4"/></svg> あまり好みではなかった</button>
-          </div>
-        </div>
-
-        <!-- REPEATER Step 4R: Next wish -->
-        <div class="diag-step" id="diag-r4" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 4</div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">次はどうされたいですか？</h3>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagRepeaterWish('気に入った香りのフルボトルが欲しい')">
-              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="9" width="8" height="12" rx="2.2"/><path d="M10.5 9V7h3v2"/><rect x="10.2" y="3.6" width="3.6" height="2.4" rx="0.8"/></svg> 気に入った香りのフルボトルが欲しい<br><span style="font-size:.52rem;color:#999">フルサイズ（並行輸入品）を自社サイトで購入</span></div>
-            </button>
-            <button class="diag-opt" onclick="diagRepeaterWish('別の香りを小分けで試したい')">
-              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg> 別の香りを小分けで試したい<br><span style="font-size:.52rem;color:#999">新しい香りをAmazonでお試し</span></div>
-            </button>
-            <button class="diag-opt" onclick="diagRepeaterWish('おすすめを全部見たい')">
-              <div style="flex:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> おすすめを全部見たい<br><span style="font-size:.52rem;color:#999">フルボトルも小分けも含めて提案</span></div>
-            </button>
-          </div>
-        </div>
-
-        <!-- NEW Step 2N: 知っている匂いで選ぶ（2026-09-11: 香りの系統を聞くのをやめた） -->
-        <div class="diag-step" id="diag-n2" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 2 / 5</div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:6px">ふだん「いい匂い」と感じるのはどれですか？</h3>
-          <p style="font-size:.56rem;color:#999;line-height:1.7;margin-bottom:14px">香水の知識は不要です。身近な匂いで、いちばん近いものを選んでください。</p>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagNewAnswer('smell','洗いたての洗濯物・石けん')">🧺 洗いたての洗濯物・石けん <span style="font-size:.54rem;color:#999">— 清潔でやわらかい</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('smell','レモン・ミント・炭酸水')">🍋 レモン・ミント・炭酸水 <span style="font-size:.54rem;color:#999">— すっきり爽やか</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('smell','紅茶・緑茶・ハーブ')">🍵 紅茶・緑茶・ハーブ <span style="font-size:.54rem;color:#999">— 落ち着く・上品</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('smell','木・お香・古い本')">🪵 木・お香・古い本 <span style="font-size:.54rem;color:#999">— 深みがあって温かい</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('smell','花・化粧品売り場')">💐 花・化粧品売り場 <span style="font-size:.54rem;color:#999">— 華やか</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('smell','バニラ・焼き菓子')">🍮 バニラ・焼き菓子 <span style="font-size:.54rem;color:#999">— 甘くてやさしい</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('smell','わからない・特にない')">🤷 わからない・特にない <span style="font-size:.54rem;color:#999">— 定番から選びます</span></button>
-          </div>
-        </div>
-
-        <!-- NEW Step 3N: 印象 -->
-        <div class="diag-step" id="diag-n3" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 3 / 5</div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">香りで、どう見られたいですか？</h3>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagNewAnswer('impression','清潔感・好印象')">清潔感・好印象 <span style="font-size:.54rem;color:#999">— 職場でも安心</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('impression','ナチュラル・自然体')">ナチュラル・自然体 <span style="font-size:.54rem;color:#999">— つけている感を出さない</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('impression','知的・洗練')">知的・洗練 <span style="font-size:.54rem;color:#999">— 大人っぽく</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('impression','セクシー・色気')">セクシー・色気 <span style="font-size:.54rem;color:#999">— 印象に残したい</span></button>
-            <button class="diag-opt" onclick="diagNewAnswer('impression','個性的・唯一無二')">個性的・唯一無二 <span style="font-size:.54rem;color:#999">— 人とかぶりたくない</span></button>
-          </div>
-        </div>
-
-        <!-- NEW Step 4N: 香水との距離（避けてきた理由） -->
-        <div class="diag-step" id="diag-n4" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 4 / 5</div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">香水について、いちばん近い気持ちは？</h3>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="diag-opt" onclick="diagNewAnswer('distance','強い香りが苦手')"><div style="flex:1">強い香りが苦手<br><span style="font-size:.52rem;color:#999">近くの人にだけ、ほのかに香る1本を選びます</span></div></button>
-            <button class="diag-opt" onclick="diagNewAnswer('distance','周りにどう思われるか不安')"><div style="flex:1">周りにどう思われるか少し不安<br><span style="font-size:.52rem;color:#999">「いい匂い」と言われやすい定番から選びます</span></div></button>
-            <button class="diag-opt" onclick="diagNewAnswer('distance','選び方がわからない')"><div style="flex:1">興味はあるけど、選び方がわからない<br><span style="font-size:.52rem;color:#999">失敗しにくい1本から始めます</span></div></button>
-            <button class="diag-opt" onclick="diagNewAnswer('distance','香水が好き・もっと知りたい')"><div style="flex:1">香水は好き。もっと知りたい<br><span style="font-size:.52rem;color:#999">少し個性のある香りも候補に入れます</span></div></button>
-          </div>
-        </div>
-
-        <!-- NEW Step 5N: あなたについて（任意）＋ひとこと → 診断 -->
-        <div class="diag-step" id="diag-n5" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px">Step 5 / 5</div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:4px">最後に、よろしければ教えてください</h3>
-          <p style="font-size:.56rem;color:#999;line-height:1.7;margin-bottom:14px">すべて任意です。そのまま診断に進めます。</p>
-          <div style="margin-bottom:12px">
-            <div style="font-size:.58rem;color:#999;margin-bottom:6px">性別</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button class="diag-opt" onclick="selectMulti(this,'gender','女性')" style="flex:1;min-width:80px">女性</button>
-              <button class="diag-opt" onclick="selectMulti(this,'gender','男性')" style="flex:1;min-width:80px">男性</button>
-              <button class="diag-opt" onclick="selectMulti(this,'gender','どちらでも')" style="flex:1;min-width:80px">どちらでも</button>
+            <div class="dg-two" id="diag-feedback-btns">
+              <button type="button" onclick="sendDiagFeedback('good')">しっくりきた</button>
+              <button type="button" onclick="sendDiagFeedback('bad')">どこかちがう</button>
             </div>
-          </div>
-          <div style="margin-bottom:12px">
-            <div style="font-size:.58rem;color:#999;margin-bottom:6px">年代</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button class="diag-opt" onclick="selectMulti(this,'age','10〜20代')" style="flex:1;min-width:60px">10〜20代</button>
-              <button class="diag-opt" onclick="selectMulti(this,'age','30代')" style="flex:1;min-width:60px">30代</button>
-              <button class="diag-opt" onclick="selectMulti(this,'age','40代以上')" style="flex:1;min-width:60px">40代以上</button>
-            </div>
-          </div>
-          <div style="font-size:.58rem;color:#999;margin-bottom:6px">ひとこと（任意）</div>
-          <textarea id="diag-free-new" placeholder="例:&#10;・柔軟剤の香りが好き&#10;・職場でも嫌味にならない程度がいい&#10;・プレゼント用に考えています" style="width:100%;height:84px;border:1px solid #e8e8e8;padding:12px;font-family:var(--font);font-size:.66rem;resize:none;border-radius:4px;outline:none;margin-bottom:14px;line-height:1.8"></textarea>
-          <button onclick="submitDiagnosis()" style="width:100%;padding:14px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;font-family:var(--font);font-size:.72rem;letter-spacing:.1em;cursor:pointer;border-radius:4px">まず試す1本を提案してもらう</button>
-        </div>
-
-        <!-- COMMON: Strength + Season -->
-        <div class="diag-step" id="diag-c1" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px" id="diag-c1-step"></div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">香りの強さと季節</h3>
-          <div style="margin-bottom:14px">
-            <div style="font-size:.58rem;color:#999;margin-bottom:6px">香りの強さ</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button class="diag-opt" onclick="selectMulti(this,'strength','ほのかに')" style="flex:1;min-width:80px">ほのか</button>
-              <button class="diag-opt" onclick="selectMulti(this,'strength','ほどよく')" style="flex:1;min-width:80px">ほどよく</button>
-              <button class="diag-opt" onclick="selectMulti(this,'strength','しっかり')" style="flex:1;min-width:80px">しっかり</button>
-            </div>
-          </div>
-          <div style="margin-bottom:14px">
-            <div style="font-size:.58rem;color:#999;margin-bottom:6px">使いたい季節</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button class="diag-opt" onclick="selectMulti(this,'season','春夏')" style="flex:1;min-width:60px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg> 春夏</button>
-              <button class="diag-opt" onclick="selectMulti(this,'season','秋冬')" style="flex:1;min-width:60px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 019.8 6.9C15.5 4.9 17 2 17 2s2 4 2 8-1.2 8-3.5 10.2"/><path d="M11 13V7"/><path d="M7 10l4 3M15 10l-4 3"/></svg> 秋冬</button>
-              <button class="diag-opt" onclick="selectMulti(this,'season','オールシーズン')" style="flex:1;min-width:80px"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M10.5 5.0Q12.20 11.80 19.0 13.5Q12.20 15.20 10.5 22.0Q8.80 15.20 2.0 13.5Q8.80 11.80 10.5 5.0ZM19 1.5Q19.80 4.70 23 5.5Q19.80 6.30 19 9.5Q18.20 6.30 15 5.5Q18.20 4.70 19 1.5Z"/></svg> 通年</button>
-            </div>
-          </div>
-          <button id="diag-c1-next" onclick="diagCommon1Next()" disabled style="width:100%;padding:12px;background:#111;color:#fff;border:none;font-family:var(--font);font-size:.64rem;cursor:pointer;border-radius:2px;opacity:.35">次へ</button>
-        </div>
-
-        <!-- COMMON: Gender + Age -->
-        <div class="diag-step" id="diag-c2" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px" id="diag-c2-step"></div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:16px">あなたについて</h3>
-          <div style="margin-bottom:14px">
-            <div style="font-size:.58rem;color:#999;margin-bottom:6px">性別</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button class="diag-opt" onclick="selectMulti(this,'gender','女性')" style="flex:1;min-width:80px">女性</button>
-              <button class="diag-opt" onclick="selectMulti(this,'gender','男性')" style="flex:1;min-width:80px">男性</button>
-              <button class="diag-opt" onclick="selectMulti(this,'gender','どちらでも')" style="flex:1;min-width:80px">どちらでも</button>
-            </div>
-          </div>
-          <div style="margin-bottom:14px">
-            <div style="font-size:.58rem;color:#999;margin-bottom:6px">年代</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button class="diag-opt" onclick="selectMulti(this,'age','10〜20代')" style="flex:1;min-width:60px">10〜20代</button>
-              <button class="diag-opt" onclick="selectMulti(this,'age','30代')" style="flex:1;min-width:60px">30代</button>
-              <button class="diag-opt" onclick="selectMulti(this,'age','40代以上')" style="flex:1;min-width:60px">40代以上</button>
-            </div>
-          </div>
-          <button id="diag-c2-next" onclick="diagCommon2Next()" disabled style="width:100%;padding:12px;background:#111;color:#fff;border:none;font-family:var(--font);font-size:.64rem;cursor:pointer;border-radius:2px;opacity:.35">次へ</button>
-        </div>
-
-        <!-- COMMON: Free text (final) -->
-        <div class="diag-step" id="diag-final" style="display:none">
-          <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:8px" id="diag-final-step"></div>
-          <h3 style="font-size:.88rem;font-weight:500;margin-bottom:10px">最後に、何かお伝えしたいことはありますか？</h3>
-          <p style="font-size:.58rem;color:#999;line-height:1.7;margin-bottom:14px">ここに書いていただいた内容をAIコンシェルジュがしっかり読んで、あなただけのご提案に反映します。</p>
-          <textarea id="diag-free" placeholder="例:&#10;・柔軟剤のLazy Sunday Morningと同じ香りが好き&#10;・職場でも嫌味にならない程度の香りがいい&#10;・彼女の誕生日プレゼントに考えています&#10;・甘すぎない、でも温かみのある香りが理想&#10;・なんでもいいのでおすすめを教えてほしい" style="width:100%;height:120px;border:1px solid #e8e8e8;padding:12px;font-family:var(--font);font-size:.66rem;resize:none;border-radius:4px;outline:none;margin-bottom:14px;line-height:1.8"></textarea>
-          <button onclick="submitDiagnosis()" style="width:100%;padding:14px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;font-family:var(--font);font-size:.72rem;letter-spacing:.1em;cursor:pointer;border-radius:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M10.5 5.0Q12.20 11.80 19.0 13.5Q12.20 15.20 10.5 22.0Q8.80 15.20 2.0 13.5Q8.80 11.80 10.5 5.0ZM19 1.5Q19.80 4.70 23 5.5Q19.80 6.30 19 9.5Q18.20 6.30 15 5.5Q18.20 4.70 19 1.5Z"/></svg> AIコンシェルジュに診断してもらう</button>
-        </div>
-
-        <!-- Loading -->
-        <div class="diag-step" id="diag-loading" style="display:none;text-align:center;padding:40px 0">
-          <div style="width:36px;height:36px;border:3px solid #eee;border-top:3px solid #111;border-radius:50%;margin:0 auto 16px;animation:spin .8s linear infinite"></div>
-          <p style="font-size:.72rem;color:#666;letter-spacing:.04em">AIがあなたに最適な香りを<br>分析しています...</p>
-          <style>@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}</style>
-        </div>
-
-        <!-- Result -->
-        <div class="diag-step" id="diag-result" style="display:none">
-          <div style="text-align:center;margin-bottom:16px">
-            <div style="font-size:.48rem;letter-spacing:.15em;color:#999;text-transform:uppercase;margin-bottom:4px">Your Scent Profile</div>
-            <div id="diag-profile-type" style="font-size:1rem;font-weight:500;letter-spacing:.08em"></div>
-          </div>
-          <!-- Personal Message from AI -->
-          <div id="diag-personal-msg" style="font-size:.66rem;color:#444;line-height:1.9;padding:16px;background:#fafafa;border-left:3px solid #6366f1;border-radius:0 4px 4px 0;margin-bottom:20px"></div>
-          <div style="font-size:.52rem;letter-spacing:.12em;color:#999;text-transform:uppercase;margin-bottom:12px">Recommendations</div>
-          <div id="diag-result-list"></div>
-          <!-- 💬 主CTA: LINEで診断結果と特典を受け取る（2026-09-11: 初めての1本＋LINE導線に変更） -->
-          <div id="diag-line-save" style="margin-top:18px;padding:16px;background:#f2fbf4;border:1px solid #b9e6c4;border-radius:6px;text-align:center">
-            <div style="font-size:.48rem;letter-spacing:.18em;color:#1f8a3a;text-transform:uppercase;margin-bottom:6px;font-weight:600">Next Step</div>
-            <div style="font-size:.78rem;font-weight:500;color:#1a1a1a;margin-bottom:6px">この結果をLINEに残しておきませんか？</div>
-            <div style="font-size:.54rem;color:#555;line-height:1.75;margin-bottom:12px">おすすめの1.5mlお試しリンクと、気に入ったときに使えるフルボトル10%OFF（30日間）がトークに届きます。<br>お試しが手元に届いた後にも見返せます。</div>
-            <a id="diag-line-save-btn" href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" onclick="trackDiagLineSave()" data-ready="0" style="display:block;text-align:center;padding:14px;background:#06C755;color:#fff;border-radius:4px;text-decoration:none;font-size:.68rem;font-weight:600;letter-spacing:.04em;opacity:.55;pointer-events:none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg> LINEで診断結果と特典を受け取る</a>
-            <div id="diag-line-save-note" style="font-size:.48rem;color:#999;margin-top:6px;line-height:1.5">準備中…</div>
-          </div>
-          <!-- 📝 結果の自己評価（当たり外れの計測） -->
-          <div id="diag-feedback" style="margin-top:14px;padding:12px 14px;border:1px solid #eee;border-radius:6px">
-            <div id="diag-feedback-q" style="font-size:.58rem;color:#444;margin-bottom:8px;text-align:center">この提案、しっくりきましたか？</div>
-            <div id="diag-feedback-btns" style="display:flex;gap:6px">
-              <button onclick="sendDiagFeedback('good')" style="flex:1;padding:9px 4px;background:var(--bg);border:1px solid #e0e0e0;font-family:var(--font);font-size:.56rem;cursor:pointer;border-radius:3px;color:#333">😊 しっくりきた</button>
-              <button onclick="sendDiagFeedback('so_so')" style="flex:1;padding:9px 4px;background:var(--bg);border:1px solid #e0e0e0;font-family:var(--font);font-size:.56rem;cursor:pointer;border-radius:3px;color:#333">🤔 半分くらい</button>
-              <button onclick="sendDiagFeedback('bad')" style="flex:1;padding:9px 4px;background:var(--bg);border:1px solid #e0e0e0;font-family:var(--font);font-size:.56rem;cursor:pointer;border-radius:3px;color:#333">😐 ちがう気がする</button>
-            </div>
-            <div id="diag-feedback-reasons" style="display:none;margin-top:10px">
-              <div style="font-size:.52rem;color:#666;margin-bottom:6px;text-align:center">どのあたりが違いましたか？（任意）</div>
-              <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">
-                <button onclick="sendDiagFeedbackReason('系統が違う')" style="padding:6px 10px;background:#fff;border:1px solid #ddd;font-family:var(--font);font-size:.5rem;cursor:pointer;border-radius:12px;color:#444">香りの系統が違う</button>
-                <button onclick="sendDiagFeedbackReason('知らない商品')" style="padding:6px 10px;background:#fff;border:1px solid #ddd;font-family:var(--font);font-size:.5rem;cursor:pointer;border-radius:12px;color:#444">知らない商品ばかり</button>
-                <button onclick="sendDiagFeedbackReason('価格が高い')" style="padding:6px 10px;background:#fff;border:1px solid #ddd;font-family:var(--font);font-size:.5rem;cursor:pointer;border-radius:12px;color:#444">価格が高い</button>
-                <button onclick="sendDiagFeedbackReason('質問が答えにくい')" style="padding:6px 10px;background:#fff;border:1px solid #ddd;font-family:var(--font);font-size:.5rem;cursor:pointer;border-radius:12px;color:#444">質問が答えにくかった</button>
-                <button onclick="sendDiagFeedbackReason('その他')" style="padding:6px 10px;background:#fff;border:1px solid #ddd;font-family:var(--font);font-size:.5rem;cursor:pointer;border-radius:12px;color:#444">その他</button>
+            <div id="diag-feedback-reasons" hidden>
+              <p class="dg-sec-t">どのあたりがちがいましたか？</p>
+              <p class="dg-sec-p" id="dg-retry-note">選ぶと、3本を選び直します。</p>
+              <div class="dg-reasons">
+                <button type="button" onclick="sendDiagFeedbackReason('系統が違う')">香りの系統がちがう</button>
+                <button type="button" onclick="sendDiagFeedbackReason('もっと軽い香りがいい')">もっと軽い香りがいい</button>
+                <button type="button" onclick="sendDiagFeedbackReason('もっと甘さがほしい')">もっと甘さがほしい</button>
+                <button type="button" onclick="sendDiagFeedbackReason('もっと個性がほしい')">もっと個性がほしい</button>
+                <button type="button" onclick="sendDiagFeedbackReason('知っているブランドがいい')">知っているブランドがいい</button>
+                <button type="button" onclick="sendDiagFeedbackReason('その他')">その他</button>
               </div>
             </div>
-            <div id="diag-feedback-thanks" style="display:none;font-size:.54rem;color:#3a7d44;text-align:center;line-height:1.6">ありがとうございます。提案の精度改善に使わせていただきます。</div>
+            <p class="dg-sec-p" id="diag-feedback-thanks" hidden>ありがとうございます。これからの選び方に生かします。</p>
           </div>
-          <!-- 🎁 クーポン（控えめ表示・30日間有効） -->
-          <div id="diag-coupon-box" style="display:none;margin-top:14px;padding:12px 14px;background:#fafafa;border:1px dashed #d4c4a8;border-radius:6px;text-align:center">
-            <div style="font-size:.56rem;color:#333;margin-bottom:6px">気に入ったらフルボトル <strong style="color:#8b6914">10% OFF</strong></div>
-            <div id="diag-coupon-code" style="display:inline-block;font-family:'SF Mono','Courier New',monospace;font-size:.86rem;font-weight:600;letter-spacing:.08em;color:#1a1a1a;background:#fff;padding:8px 14px;border-radius:4px;border:1px solid #d4c4a8;margin-bottom:6px;cursor:pointer;user-select:all" onclick="copyDiagCoupon()">読み込み中...</div>
-            <button onclick="copyDiagCoupon()" id="diag-coupon-copy-btn" style="display:block;margin:0 auto;padding:5px 12px;background:#8b6914;color:#fff;border:none;font-family:var(--font);font-size:.5rem;cursor:pointer;border-radius:3px;letter-spacing:.06em">コードをコピー</button>
-            <div id="diag-coupon-timer" style="font-size:.48rem;color:#8b6914;margin-top:6px;font-weight:500"></div>
-            <div style="font-size:.46rem;color:#999;margin-top:4px;line-height:1.5">お会計時に自動で適用されます（1回限り）。LINEに保存しておくと後から見返せます。</div>
+
+          <div class="dg-sec" id="diag-line-save">
+            <p class="dg-sec-t">この結果をLINEに残す</p>
+            <p class="dg-sec-p">選んだ3本を、あとからトークで見返せます。</p>
+            <a id="diag-line-save-btn" class="dg-line" href="https://lin.ee/BTytLdX" target="_blank" rel="noopener" onclick="trackDiagLineSave()" data-ready="0">LINEに残す</a>
+            <div class="dg-line-n" id="diag-line-save-note">準備中…</div>
           </div>
-          <div style="display:flex;gap:8px;margin-top:12px">
-            <button onclick="restartDiagnosis()" style="flex:1;padding:12px;background:none;border:1px solid #e8e8e8;font-family:var(--font);font-size:.62rem;cursor:pointer;border-radius:2px">もう一度診断</button>
-            <button onclick="shareDiagLine()" style="flex:1;padding:12px;background:none;border:1px solid #06C755;color:#06C755;font-family:var(--font);font-size:.62rem;cursor:pointer;border-radius:2px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06C755" stroke-width="1.25" style="vertical-align:middle" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8a2 2 0 012-2h13a2 2 0 012 2v8.5a2 2 0 01-2 2h-13a2 2 0 01-2-2V8zM4.8 7.6l7.2 5.4 7.2-5.4"/></svg> 友だちにシェア</button>
+
+          <div class="dg-links">
+            <button type="button" onclick="restartDiagnosis()">はじめからやり直す</button>
+            <button type="button" onclick="closeDiagnosis()">ショップにもどる</button>
           </div>
-          <div style="text-align:center;margin-top:10px">
-            <button onclick="closeDiagnosis()" style="background:none;border:none;font-family:var(--font);font-size:.58rem;color:#999;cursor:pointer;letter-spacing:.06em">ショップに戻る</button>
-          </div>
+          <span id="diag-profile-type" hidden></span><span id="diag-personal-msg" hidden></span>
         </div>
-      </div>
+
+      </div></div>
+      <div class="dg-foot" id="dg-foot"><div class="dg-foot-in">
+        <div class="dg-sum"><span id="dg-sum-l"></span><span><s id="dg-sum-was"></s><b id="dg-sum-now"></b></span></div>
+        <button class="dg-go" type="button" id="dg-add-all" onclick="diagAddAll()">この3本をカートに入れる</button>
+      </div></div>
     </div>
   </div>
 
@@ -5035,5 +4990,6 @@ window.addEventListener('beforeunload', function(){
 </div>
 <script src="/assets/js/new-top.js?v=20261120e" defer></script>
 <script src="/assets/js/new-sheet.js?v=20261120e" defer></script>
+<script src="/assets/js/diagnosis.js?v=20261122a" defer></script>
 </body>
 </html>

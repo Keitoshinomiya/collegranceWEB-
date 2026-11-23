@@ -1,426 +1,352 @@
+/**
+ * AI診断（2026-11-22 作り替え）
+ *
+ * 出口をお試し1.5mLの3本にそろえ、「なぜこの香りか」をお客さまの答えと結んで返す。
+ *   - 候補は data/samples.json に載っている（＝サイトで買える）お試しだけ。売れ筋の順では渡さない
+ *   - 理由の材料は data/diagnosis-scents.json に書いてあることだけ（AIの知識で香りを語らせない）
+ *   - 3本の役割: closest＝いちばん近い / similar＝同じ系統で少しちがう / adventure＝少しだけ冒険
+ *   - AIが失敗しても、香りの特徴の近さで3本を選んで必ず返す
+ *
+ * 入力: { answers, retry?: { reason, excludeIds } }
+ * 出力: { headline, picks:[{role, productId, why:[{key, point}], caution}], fullbottleId?,
+ *         recommendations:[…]（LINE保存・計測用に前の形も残す）, source: 'ai' | 'fallback' }
+ */
 const Anthropic = require("@anthropic-ai/sdk");
 const fs = require("fs");
 const path = require("path");
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+/* Netlify の関数は10秒で切られる。AIが遅い時は8.5秒であきらめて、下の「AIを使わない選び方」で必ず返す */
+const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, timeout: 8500, maxRetries: 0 });
 
-// Load catalog dynamically (will be updated weekly with inventory)
-let PRODUCT_CATALOG = "";
-let VALID_IDS = new Set(); // バリデーション用: カタログに存在するIDセット
-let VALID_ID_LIST = ""; // プロンプト埋め込み用IDリスト文字列
-let SAMPLE_IDS = new Set(); // 小分けあり（Amazon送客対象）IDセット
-let SAMPLE_PRODUCTS_BY_POPULARITY = []; // 売上順の小分け商品（フォールバック用）
-let ALL_PRODUCTS_BY_POPULARITY = []; // 売上順の全カタログ商品（不足時の補完用）
-let CATALOG_BY_ID = new Map(); // ID → 商品オブジェクト（高速参照用）
-let NEW_USER_PRODUCTS = []; // 新規向け候補（小分けあり×販売実績あり・売上順）
-let NEW_USER_IDS = new Set();
-let NEW_USER_CATALOG = "";
-try {
-  // Netlifyでは included_files で catalog_full.json をバンドル
-  // __dirname相対 or process.cwd()相対で読み込む
+/* 外から何度も呼ばれないようにする（自社サイトと確認用の画面だけ・同じ所から1時間に30回まで） */
+const ALLOWED_ORIGIN_RE = /^https:\/\/((www\.)?collegrance\.com|[a-z0-9-]+--[a-z0-9-]+\.netlify\.app)$|^http:\/\/localhost(:\d+)?$/;
+const RATE_MAX = 30, RATE_WINDOW_MS = 60 * 60 * 1000;
+const rateStore = new Map();
+function rateOk(ip) {
+  const now = Date.now();
+  if (rateStore.size > 2000) for (const [k, v] of rateStore) if (v.resetAt < now) rateStore.delete(k);
+  const r = rateStore.get(ip) || { count: 0, resetAt: now + RATE_WINDOW_MS };
+  if (r.resetAt < now) { r.count = 0; r.resetAt = now + RATE_WINDOW_MS; }
+  r.count += 1; rateStore.set(ip, r);
+  return r.count <= RATE_MAX;
+}
+const MODEL = process.env.DIAG_MODEL || "claude-sonnet-5-5";
+const EFFORT = process.env.DIAG_EFFORT || "low";
+/* 待ち時間を短くするため、考える時間は既定で切る（Haiku 5.5 は disabled、Sonnet 5.5 は between_tools と書く） */
+const THINKING = process.env.DIAG_THINKING === "on" ? null
+  : (/sonnet-5-5/.test(MODEL) ? { type: "between_tools" } : (/haiku-5-5/.test(MODEL) ? { type: "disabled" } : null));
+
+function loadJson(rel) {
   const candidates = [
-    path.join(__dirname, "../../catalog_full.json"),
-    path.join(__dirname, "catalog_full.json"),
-    path.join(process.cwd(), "catalog_full.json"),
-    "/var/task/catalog_full.json",
+    path.join(__dirname, "../../", rel),
+    path.join(__dirname, rel),
+    path.join(process.cwd(), rel),
+    path.join("/var/task", rel),
   ];
-  const catalogPath = candidates.find((p) => fs.existsSync(p));
-  if (!catalogPath) throw new Error("catalog_full.json not found in: " + candidates.join(", "));
-  const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
-  const filtered = catalog.filter((p) => p.sellPrice >= 3000);
-  // バリデーション用IDセット構築
-  filtered.forEach((p) => {
-    const id = String(p.productsJsonId || p.code);
-    VALID_IDS.add(id);
-    CATALOG_BY_ID.set(id, p);
-    // 小分けあり商品も別途記録（Amazon送客のため、診断結果に必ず1つ含める）
-    if (p.samplePrice && p.amazonAsin) {
-      SAMPLE_IDS.add(id);
-    }
-  });
-  // フォールバック用: 小分けあり商品を売上順にソート
-  SAMPLE_PRODUCTS_BY_POPULARITY = filtered
-    .filter((p) => p.samplePrice && p.amazonAsin)
-    .sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
-  // 全商品を売上順にソート（3本未満時の補完用）
-  ALL_PRODUCTS_BY_POPULARITY = filtered
-    .slice()
-    .sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
-
-  // 2026-09-11: 新規のお客様向けカタログ = 小分けあり × 販売実績あり（初めての1本は実績のある香りから選ぶ）
-  NEW_USER_PRODUCTS = SAMPLE_PRODUCTS_BY_POPULARITY.filter((p) => (p.salesCount || 0) > 0);
-  NEW_USER_PRODUCTS.forEach((p) => NEW_USER_IDS.add(String(p.productsJsonId || p.code)));
-  NEW_USER_CATALOG = NEW_USER_PRODUCTS.map((p, idx) => {
-    const id = p.productsJsonId || p.code;
-    return `[${idx + 1}] id=${id} ${p.brandEn || p.brand} - ${p.nameEn || p.name} (${p.spec || ""} 小分け¥${p.samplePrice} / フルボトル¥${p.sellPrice.toLocaleString()} | 小分け販売${p.salesCount}個)\n      Notes: ${p.notes} | ${p.description}`;
-  }).join("\n\n");
-
-  // プロンプト内のプレースホルダーにIDリストを埋め込む
-  VALID_ID_LIST = [...VALID_IDS].join(", ");
-  const lines = filtered
-    .map((p, idx) => {
-      const catalogId = p.productsJsonId || p.code;
-      const sampleInfo = p.samplePrice
-        ? ` / 小分け¥${p.samplePrice}`
-        : "";
-      const salesInfo = p.salesCount ? ` | 販売${p.salesCount}個` : "";
-      const type =
-        p.existsInProductsJson && p.samplePrice
-          ? "【小分け+フルボトル】"
-          : "【フルボトルのみ】";
-      return `[${idx + 1}] id=${catalogId} ${type} ${p.brandEn || p.brand} - ${p.nameEn || p.name} (${p.spec || ""} ${p.size} ¥${p.sellPrice.toLocaleString()}${sampleInfo})\n      Notes: ${p.notes} | ${p.description}${salesInfo}`;
-    });
-  PRODUCT_CATALOG = `\n\n══════════════════════════════════════════\n⚠️ 以下のリストに掲載されている商品「のみ」から選んでください。\nこのリスト以外の商品は絶対に推薦しないでください。\n存在しないブランド・商品を推薦した場合、お客様が購入できず信頼を失います。\n══════════════════════════════════════════\n\nCOLLEGRANCEの全取扱商品カタログ（${lines.length}商品）:\n\n${lines.join("\n\n")}\n\n══════════════════════════════════════════\n以上が全${lines.length}商品です。上記以外の商品は取り扱いがありません。\nAcqua di Parma, Creed, Tom Ford Tobacco Vanille, Le Labo等、\n上記リストにないブランド・商品は絶対に推薦禁止です。\n══════════════════════════════════════════`;
-} catch (e) {
-  console.error("Catalog load error:", e.message);
-  PRODUCT_CATALOG = "カタログ読み込みエラー: " + e.message;
+  const p = candidates.find((c) => fs.existsSync(c));
+  if (!p) throw new Error(rel + " not found");
+  return JSON.parse(fs.readFileSync(p, "utf8"));
 }
 
-const SYSTEM_PROMPT = `あなたはCOLLEGRANCE（コレグランス）のAI香りコンシェルジュです。
-高級ブランド香水の小分けお試し・フルボトル販売を行う専門店の接客担当として、お客様一人ひとりに最適な香りを提案してください。
+/* ── 候補（お試しで買える香り） ── */
+let SCENTS = []; // {id, brand, name, nameJa, conc, price, family, notes, line, sweet, fresh, deep, last}
+let BY_ID = new Map();
+let LOAD_ERROR = "";
+try {
+  const products = loadJson("products.json");
+  const samples = loadJson("data/samples.json");
+  const prof = loadJson("data/diagnosis-scents.json").scents;
+  Object.keys(samples.items || {}).forEach((k) => {
+    const it = samples.items[k];
+    const p = products.find((x) => String(x.id) === String(k));
+    const f = prof[String(k)];
+    if (!p || !f || it.soldOut || p.inStock === false || !p.samplePrice) return;
+    SCENTS.push({
+      id: String(k), brand: p.brand, name: p.name, nameJa: p.nameJa || p.name,
+      conc: p.concentration || "", price: p.samplePrice,
+      family: f.family, notes: f.notes, line: f.line,
+      sweet: f.sweet, fresh: f.fresh, deep: f.deep, last: f.last,
+    });
+  });
+  SCENTS.sort((a, b) => Number(a.id) - Number(b.id));
+  SCENTS.forEach((s) => BY_ID.set(s.id, s));
+} catch (e) {
+  LOAD_ERROR = e.message;
+  console.error("Diagnosis data load error:", e.message);
+}
 
-あなたの役割:
-- 香水のプロフェッショナルとして、お客様の好みと状況を深く理解する
-- 単なる商品リストではなく、「パーソナルレター」として結果を届ける
-- お客様の自由記述には必ず共感と具体的なアドバイスで応える
+const CATALOG = SCENTS.map((s) =>
+  `id=${s.id}｜${s.nameJa}（${s.brand}）｜系統: ${s.family}｜香りの中身（つけてすぐ→まん中→最後）: ${s.notes.join("→")}｜ひとこと: ${s.line}｜甘さ${s.sweet} 爽やかさ${s.fresh} 深み${s.deep} 持続${s.last}`
+).join("\n");
 
-🚨🚨🚨 最重要ルール（絶対厳守・違反は致命的エラー）🚨🚨🚨
+/* お客さまの答えのうち、理由に使ってよい項目（画面ではお客さまの言葉のまま出す） */
+const ANSWER_LABELS = {
+  smell: "いい匂いと感じる身近な匂い",
+  impression: "香りでどう見られたいか",
+  distance: "香水との距離感",
+  strength: "香りの強さ",
+  season: "季節",
+  previousProduct: "前に試した香り",
+  previousFeeling: "その感想",
+  nextWish: "次の希望",
+  freeText: "コメント",
+};
 
-あなたが使用できるproductIdは以下の数値のみです。これ以外のIDは絶対に使用禁止:
-ALLOWED_IDS: [VALID_ID_PLACEHOLDER]
+const SYSTEM_PROMPT = `あなたは香水のお試し専門店 COLLEGRANCE の店員です。お客さまの答えを読んで、お試し1.5mLを3本選び、なぜその香りなのかを、お客さまが自分の答えと見比べて納得できるように説明します。
 
-ルール:
-1. 推薦する3本は「必ず」下記カタログに掲載されている商品のみから選ぶこと
-2. productIdには上記ALLOWED_IDSに含まれる数値のみを記入すること
-3. あなたの一般知識にある香水でも、カタログに載っていなければ絶対に推薦禁止
-4. 存在しない商品名・ブランド名を創作してはならない。カタログのname, brandを正確にコピーすること
-5. 推薦前チェックリスト:
-   ✅ この商品はカタログに掲載されているか？
-   ✅ このproductIdはALLOWED_IDSに含まれるか？
-   ✅ このブランド名・商品名はカタログの記載と完全一致するか？
-   → 3つ全てYESでなければ、その商品は推薦してはならない
+このお店のお客さまの多くは香水にくわしくありません。結果の画面では、お客さまの答えた言葉の横に、あなたが書いた理由が1行ずつ並びます。お客さまはそれを読んで「たしかに自分はこう答えた、だからこの香りなのか」と確かめます。理由があいまいだったり、どの香りにも言える言葉だったりすると、「自分のために選んでくれた」とは感じてもらえず、買ってもらえません。
 
-その他のルール:
-- 【リピーター】の場合: 前回試した商品の感想を踏まえて、次の体験を提案
-  - 「大好き」+「フルボトルが欲しい」→ 1位は必ずその同じ商品のフルボトルを推薦。2位3位で似た系統の別の香りを提案
-  - 「大好き」+「別の小分け」→ 似た系統 + 少しだけ冒険の提案
-  - 「違う系統希望」→ 対照的な香りを提案しつつ、好みの要素は残す
-  - 「好みじゃなかった」→ なぜ合わなかったかを推測し、別方向を提案
-- 【新規】の場合: シーン・好み・印象から最適な香りを導く
-- フルボトル購入を基本の推薦とし、小分けがある商品は「まず試してみる」選択肢も提示
-- 予算、季節、年代、性別、用途すべて考慮する
-- プレゼントの場合はギフトとしての魅力も説明
-- 自由記述の内容には必ず直接触れて共感+知識を示すこと
+# 候補（この中からだけ選ぶ）
+各行は、id｜名前｜系統｜香りの中身｜ひとこと｜4つの数字（各1〜5。甘さ・爽やかさ・深み・持続）です。
+${CATALOG}
 
-🎁 重要な販売戦略ルール（必須）:
-- 推薦する3本のうち、**最低1本は必ず【小分け+フルボトル】タグの商品**を選んでください
-- 理由: 小分け（¥750〜¥1,800）からまず気軽に試せるため、初めての方でも購入ハードルが低く、
-  「気に入ればフルボトルへ」という自然なステップを提供できます
-- お客様の好みに最もマッチする小分け商品を選ぶことが理想ですが、
-  完璧にマッチしなくても近い系統の【小分け+フルボトル】商品を1本は含めてください
-- 【小分け+フルボトル】商品を含める位置は1〜3位のどこでも構いません
-  （1位ベストマッチがフルボトルのみなら、2位 or 3位に小分け商品を入れる）
+# 選び方
+3本にはそれぞれ役割があります。
+- closest: お客さまの答えにいちばん近い1本。
+- similar: closest と同じ方向で、少しだけちがう1本。
+- adventure: 答えから少しだけ外れた1本。ただしお客さまが苦手と言ったものには踏み込みません。強い香りが苦手な方に、甘さや深みが4以上の香りを冒険として出すのは行き過ぎです。
+答えに合う香りを素直に選んでください。有名かどうか、よく売れているかどうかは考えません。同じ3本を誰にでも出すことになっていないか、選ぶ前に答えを読み直してください。
+前に試した香りがある方には、その香り自体は選びません（お客さまはもう知っているので）。感想が「好みではなかった」なら、その香りと数字が近いものも避けます。
 
-トーンとスタイル:
-- 百貨店の香水フロアのプロの販売員のように、温かく知的に
-- 専門用語は使わず、香りのイメージが伝わる表現を使う
-- 「〜ですね」「〜いかがでしょうか」の丁寧語で
+# 理由の書き方（why）
+- key には、その理由が応えているお客さまの答えの項目を1つ入れます。
+- point には、その答えに応える香りの事実を1文で書きます。使ってよいのは、候補の行に書いてあること（香りの中身・ひとこと・系統・4つの数字が表す性質）だけです。あなたが知っているその香水の評判や歴史、行に書いていない香りの成分は書きません。まちがった説明をひとつでも読むと、お客さまは全部を疑います。
+- 数字はそのまま見せず、言葉にします（爽やかさ5→「とても爽やか」、持続2→「香りは長く残りません」など）。
+- 当てはまる答えだけを書きます。1本につき1〜3個。こじつけになるなら1個で構いません。
+- 香りの事実と結びつかない答え（季節や強さなど）に、むりに理由をつけません。「どの季節にも合います」のような、どの香りにも言える文は書かないでください。
+- adventure では、答えから外れている点を隠さず、「あえてここを外した」ことが伝わるように書きます。
+- 香水の専門用語は使いません（トップノート、シアージュ、ウッディ、などは「つけてすぐ」「香りの広がり」「木の香り」のように言いかえる）。
 
-出力フォーマット（厳守・JSON）:
-{
-  "personalMessage": "お客様への個人的なメッセージ（3〜5文）。自由記述への共感、香りの知識を交えたアドバイス、なぜこの3本を選んだかの概要。ここが最も重要。",
-  "profileType": "香りタイプ（4〜8文字のキャッチーな表現。例: ナチュラルクリーン系、スモーキーセクシー系）",
-  "recommendations": [
-    {
-      "rank": 1,
-      "productId": "ALLOWED_IDSに含まれるIDのみ使用可。例: 58, 101 等の数値",
-      "name": "カタログに記載されている商品名をそのままコピー",
-      "brand": "カタログに記載されているブランド名をそのままコピー",
-      "reason": "推薦理由（4〜5文。お客様の回答に具体的に触れながら、なぜこの香りがぴったりなのかを説明）",
-      "scene": "こんなシーンで: 具体的な使用シーン提案（1文）",
-      "matchScore": 95
+# 合わないかもしれない点（caution）
+1本につき1文。良いことしか言わない店員より、合わない点も先に言う店員のほうが信じてもらえますし、届いてからのがっかりも減ります。このお客さまの答えと照らして、気になりそうな点を候補の行の事実から正直に書きます（例：お茶の香りを望む方に、お茶が入っていない香りを出すなら、そう書く）。おどかす書き方はしません。
+
+# headline
+3本をどういう考えで選んだかを、お客さまの答えにふれて1文（40字以内）で。「〜な香りを中心に選びました」のように。
+
+# 書き方
+です・ます調で、やさしい言葉で、短く。「香り」と書き、「匂い」とは書きません（お客さまの答えを引用する場合を除く）。記号や絵文字、％の数字は使いません。`;
+
+function buildSchema(answerKeys) {
+  return {
+    type: "object",
+    properties: {
+      headline: { type: "string" },
+      picks: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            role: { type: "string", enum: ["closest", "similar", "adventure"] },
+            productId: { type: "string", enum: SCENTS.map((s) => s.id) },
+            why: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  key: { type: "string", enum: answerKeys },
+                  point: { type: "string" },
+                },
+                required: ["key", "point"],
+                additionalProperties: false,
+              },
+            },
+            caution: { type: "string" },
+          },
+          required: ["role", "productId", "why", "caution"],
+          additionalProperties: false,
+        },
+      },
     },
-    {
-      "rank": 2,
-      "reason": "2〜3文。1位との違いも交えて",
-      ...
-    },
-    {
-      "rank": 3,
-      "reason": "2〜3文。新しい発見としての提案",
-      ...
-    }
-  ]
-}`;
+    required: ["headline", "picks"],
+    additionalProperties: false,
+  };
+}
+
+function usableKeys(answers) {
+  return Object.keys(ANSWER_LABELS).filter((k) => {
+    const v = answers[k];
+    if (typeof v !== "string" || !v.trim()) return false;
+    if (k === "smell" && /わからない/.test(v)) return false;
+    if (k === "freeText" && /^（.*の記事を読んで/.test(v.trim())) return false; // 記事からの自動メモだけの時
+    /* はじめての方の「強さ」「季節」は画面が自動で入れた値で、ご本人の答えではないので理由に使わない */
+    if (!answers.isRepeater && (k === "strength" || k === "season")) return false;
+    if (k === "nextWish") return false; // 次の希望は選ぶ手がかりにだけ使う（香りの事実と結びつけにくく、こじつけになる）
+    return true;
+  });
+}
+
+function buildUserMessage(answers, keys, retry) {
+  const lines = keys.map((k) => `- ${k}（${ANSWER_LABELS[k]}）: ${String(answers[k]).slice(0, 400)}`);
+  if (answers.scentType && answers.scentType !== "おまかせ（定番）") lines.push(`- （参考）系統でいうと: ${answers.scentType}`);
+  if (answers.gender) lines.push(`- （参考）性別: ${answers.gender}`);
+  if (answers.age) lines.push(`- （参考）年代: ${answers.age}`);
+  if (answers.nextWish) lines.push(`- （参考）次の希望: ${answers.nextWish}${/フルボトル/.test(answers.nextWish) ? "（フルボトルは画面で別にご案内するので、ここでは次に試すお試し3本を選ぶ）" : ""}`);
+  let msg = `${answers.isRepeater ? "前に当店のお試しを使ったことのあるお客さまです。" : "はじめてのお客さまです。"}\n\nお客さまの答え:\n${lines.join("\n")}\n\n（参考）の行は選ぶ時の手がかりにだけ使い、why の key には使いません。`;
+  if (retry && retry.reason) {
+    msg += `\n\nこのお客さまには一度3本をお見せしましたが、「${String(retry.reason).slice(0, 60)}」とのことでした。前にお見せした香り（id: ${(retry.excludeIds || []).join(", ")}）は選ばず、この声に応える3本を選び直してください。headline では、声を受けて選び直したことにふれてください。`;
+  }
+  return msg + "\n\n3本（closest, similar, adventure を1本ずつ）を選んでください。";
+}
+
+/* ── AIを使わない選び方（AIが失敗した時と、足りない分の補い） ── */
+const TYPE_TARGET = {
+  "シトラス・フレッシュ": { sweet: 1, fresh: 5, deep: 1 },
+  "ティー・グリーン": { sweet: 2, fresh: 4, deep: 2 },
+  "ムスク・クリーン": { sweet: 2, fresh: 4, deep: 2 },
+  "フローラル": { sweet: 3, fresh: 3, deep: 2 },
+  "ウッディ・スパイシー": { sweet: 2, fresh: 2, deep: 4 },
+  "スイート・グルマン": { sweet: 4, fresh: 2, deep: 4 },
+};
+function dist(a, b) {
+  return Math.abs(a.sweet - b.sweet) + Math.abs(a.fresh - b.fresh) + Math.abs(a.deep - b.deep);
+}
+function nearest(target, excludeIds, n) {
+  return SCENTS.filter((s) => !excludeIds.has(s.id))
+    .map((s) => ({ s, d: dist(s, target) }))
+    .sort((x, y) => x.d - y.d || Number(x.s.id) - Number(y.s.id))
+    .slice(0, n).map((x) => x.s);
+}
+function findPrevious(answers) {
+  const prev = String(answers.previousProduct || "");
+  if (!prev) return null;
+  return SCENTS.find((s) => prev.includes(s.name) || prev.includes(s.nameJa)) || null;
+}
+function fallbackPick(answers, excludeIds, slot) {
+  const prev = findPrevious(answers);
+  let target = TYPE_TARGET[answers.scentType] || (prev ? prev : { sweet: 2, fresh: 4, deep: 2 });
+  if (/苦手|ほのか/.test(String(answers.distance || "") + String(answers.strength || ""))) {
+    target = { sweet: Math.min(target.sweet, 2), fresh: Math.max(target.fresh, 4), deep: Math.min(target.deep, 2) };
+  }
+  if (slot === "adventure") target = { sweet: target.sweet + 1, fresh: target.fresh - 1, deep: target.deep + 1 };
+  const s = nearest(target, excludeIds, 1)[0];
+  if (!s) return null;
+  return {
+    role: slot, productId: s.id, why: [], caution: "",
+    plain: `${s.line}です。`, isFallback: true,
+  };
+}
+
+function cleanText(t, max) {
+  return String(t || "").replace(/\s+/g, " ").replace(/匂い/g, "香り").trim().slice(0, max);
+}
 
 exports.handler = async (event) => {
+  const H = event.headers || {};
+  const origin = H.origin || H.Origin || "";
+  const referer = H.referer || H.Referer || "";
+  const refOrigin = (referer.match(/^https?:\/\/[^/]+/) || [""])[0];
+  const okOrigin = ALLOWED_ORIGIN_RE.test(origin) ? origin : (ALLOWED_ORIGIN_RE.test(refOrigin) ? refOrigin : "");
   const headers = {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": okOrigin || "https://collegrance.com",
+    "Vary": "Origin",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Content-Type": "application/json",
   };
+  if (event.httpMethod === "OPTIONS") return { statusCode: 200, headers, body: "" };
+  if (event.httpMethod !== "POST") return { statusCode: 405, headers, body: JSON.stringify({ error: "Method not allowed" }) };
 
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 200, headers, body: "" };
-  }
-
-  if (event.httpMethod !== "POST") {
-    return {
-      statusCode: 405,
-      headers,
-      body: JSON.stringify({ error: "Method not allowed" }),
-    };
-  }
+  if (!okOrigin) return { statusCode: 403, headers, body: JSON.stringify({ error: "forbidden" }) };
+  const ip = String(H["x-nf-client-connection-ip"] || H["x-forwarded-for"] || H["client-ip"] || "unknown").split(",")[0].trim();
+  if (!rateOk(ip)) return { statusCode: 429, headers, body: JSON.stringify({ error: "too_many" }) };
 
   try {
-    const { answers } = JSON.parse(event.body);
-
+    if ((event.body || "").length > 6000) return { statusCode: 400, headers, body: JSON.stringify({ error: "too_long" }) };
+    const body = JSON.parse(event.body || "{}");
+    const answers = body.answers;
     if (!answers || typeof answers !== "object") {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: "Invalid answers" }),
-      };
+      return { statusCode: 400, headers, body: JSON.stringify({ error: "Invalid answers" }) };
     }
+    if (SCENTS.length < 3) throw new Error("no scents: " + LOAD_ERROR);
 
-    // Build user message based on whether repeater or new
-    let userMessage = "";
+    const retry = body.retry && typeof body.retry === "object" ? {
+      reason: String(body.retry.reason || "").slice(0, 60),
+      excludeIds: (Array.isArray(body.retry.excludeIds) ? body.retry.excludeIds : []).map(String).filter((id) => BY_ID.has(id)).slice(0, 9),
+    } : null;
 
-    if (answers.isRepeater) {
-      userMessage = `【リピーターのお客様】
-- 前回試した香水: ${answers.previousProduct || "未選択"}
-- 感想: ${answers.previousFeeling || "未回答"}
-- 次の希望: ${answers.nextWish || "未回答"}
-- 香りの強さ: ${answers.strength || "未回答"}
-- 季節: ${answers.season || "未回答"}
-- 性別: ${answers.gender || "未回答"}
-- 年代: ${answers.age || "未回答"}
-${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
+    const keys = usableKeys(answers);
+    const prev = findPrevious(answers);
+    const banned = new Set(retry ? retry.excludeIds : []);
+    if (prev) banned.add(prev.id);
 
-前回の体験を踏まえて、次に試すべき香水を3本推薦してください。必ずカタログに掲載されている商品のみから選び、productIdにはカタログのid値を正確に記入してください。`;
-    } else {
-      const newIdList = [...NEW_USER_IDS].join(", ");
-      userMessage = `【初めてのお客様（香水初心者）】
-- ふだん「いい匂い」と感じる身近な匂い: ${answers.smell || "未回答"}（系統でいうと: ${answers.scentType || "おまかせ"}）
-- 香りでどう見られたいか: ${answers.impression || "未回答"}
-- 香水との距離感: ${answers.distance || "未回答"}
-- 香りの強さ（距離感から推定）: ${answers.strength || "ほどよく"}
-- 性別: ${answers.gender || "未回答（不明なら性別を問わない香りを優先）"}
-- 年代: ${answers.age || "未回答"}
-${answers.freeText ? "- お客様のコメント: " + answers.freeText : ""}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔰 初めてのお客様向けの特別ルール（上記の一般ルールより優先）
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. 推薦は「2本だけ」。rank1 = 「まず試す1本」（失敗しにくく、身近な匂いの答えに最も近い定番）、rank2 = 「気に入ったら次の1本」（rank1 と同じ方向で少しだけ違う／少し個性を足した香り）
-2. 候補は下記【初心者向け候補】の ${NEW_USER_PRODUCTS.length} 商品のみ。使用できる productId: [${newIdList}]。この外の商品は絶対に推薦しない
-3. 「強い香りが苦手」「周りにどう思われるか不安」の方には、香りが穏やかで清潔感のある商品を rank1 にする
-4. 「わからない・特にない」の方には、小分け販売数が最も多い定番を rank1 にする
-5. reason は香水用語を使わず、身近な匂いの答えと「どう見られたいか」に必ず触れて、3〜4文で。personalMessage は「初めてでも大丈夫」という安心感を1文入れる
-6. 出力は指定のJSON形式のまま（recommendations は2要素）
-7. 「販売◯個」などの販売数や順位は文章に書かない（候補リストの数字は選定の参考にとどめる）
-
-【初心者向け候補（小分け1.5mlあり・販売実績あり・売上順）】
-${NEW_USER_CATALOG}
-
-以上の2本を推薦してください。`;
-    }
-
-    // バリデーション付きでAI呼び出し（最大2回リトライ）
-    let result = null;
-    const MAX_ATTEMPTS = 2;
-    const isNewUser = !answers.isRepeater;
-    const ALLOWED = isNewUser && NEW_USER_IDS.size > 0 ? NEW_USER_IDS : VALID_IDS; // 新規は初心者向け候補のみ
-    const TARGET_COUNT = isNewUser ? 2 : 3; // 新規は「まず試す1本＋次の1本」
-
-    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-      const messages = [{ role: "user", content: userMessage }];
-
-      // 2回目以降はリトライ指示を追加
-      if (attempt > 1) {
-        messages.push(
-          { role: "assistant", content: JSON.stringify(result) },
-          { role: "user", content: `エラー: 推薦した商品のproductIdが候補に存在しません。以下のIDのみ使用可能です: ${[...ALLOWED].join(', ')}\n\n必ず候補内のIDのみを使って、もう一度推薦してください。` }
-        );
+    let ai = null, usage = null, source = "ai";
+    if (keys.length > 0) {
+      try {
+        const message = await client.messages.create({
+          model: MODEL,
+          max_tokens: 4000,
+          system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
+          messages: [{ role: "user", content: buildUserMessage(answers, keys, retry) }],
+          output_config: { effort: EFFORT, format: { type: "json_schema", schema: buildSchema(keys) } },
+          ...(THINKING ? { thinking: THINKING } : {}),
+        });
+        usage = message.usage;
+        if (message.stop_reason === "end_turn") {
+          const textBlock = message.content.find((b) => b.type === "text");
+          if (textBlock) ai = JSON.parse(textBlock.text);
+        } else {
+          console.warn("[DIAG] stop_reason:", message.stop_reason);
+        }
+      } catch (e) {
+        console.error("[DIAG] AI call failed:", e.status || "", e.message);
       }
+    }
 
-      // プレースホルダーを実際のIDリストに置換
-      const systemText = (SYSTEM_PROMPT + "\n\n" + PRODUCT_CATALOG).replace("VALID_ID_PLACEHOLDER", VALID_ID_LIST);
-
-      const message = await client.messages.create({
-        model: "claude-haiku-4-5-20251001",
-        max_tokens: 2000,
-        system: [
-          {
-            type: "text",
-            text: systemText,
-            cache_control: { type: "ephemeral" }
-          }
-        ],
-        messages,
+    /* ── 確かめて、足りない分を補う ── */
+    const picks = [];
+    const used = new Set(banned);
+    const roles = ["closest", "similar", "adventure"];
+    if (ai && Array.isArray(ai.picks)) {
+      roles.forEach((role) => {
+        const p = ai.picks.find((x) => x && x.role === role && BY_ID.has(String(x.productId)) && !used.has(String(x.productId)));
+        if (!p) return;
+        used.add(String(p.productId));
+        const seen = new Set();
+        const why = (Array.isArray(p.why) ? p.why : [])
+          .filter((w) => w && keys.includes(w.key) && !seen.has(w.key) && seen.add(w.key) && String(w.point || "").trim())
+          .slice(0, 3)
+          .map((w) => ({ key: w.key, point: cleanText(w.point, 110) }));
+        picks.push({ role, productId: String(p.productId), why, caution: cleanText(p.caution, 120) });
       });
-
-      const responseText = message.content[0].text;
-      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) {
-        if (attempt === MAX_ATTEMPTS) {
-          return {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({ error: "AI response parse error" }),
-          };
-        }
-        continue;
-      }
-
-      result = JSON.parse(jsonMatch[0]);
-
-      // バリデーション: 全推薦商品のIDがカタログに存在するか確認
-      if (result.recommendations && Array.isArray(result.recommendations)) {
-        const invalidRecs = result.recommendations.filter((rec) => {
-          const id = String(rec.productId || "").replace(/^id=/, "");
-          return !ALLOWED.has(id);
-        });
-
-        if (invalidRecs.length === 0) {
-          // 全商品がカタログ内 → OK
-          break;
-        }
-
-        console.warn(`[CATALOG_VIOLATION] Attempt ${attempt}: Invalid productIds detected`, {
-          invalidIds: invalidRecs.map(r => r.productId),
-          invalidNames: invalidRecs.map(r => `${r.brand} - ${r.name}`),
-          totalCount: invalidRecs.length,
-          attempt,
-        });
-
-        if (attempt === MAX_ATTEMPTS) {
-          // 最終試行でもダメ → カタログ外の推薦を除外し、有効なもののみ返す
-          const removedCount = invalidRecs.length;
-          result.recommendations = result.recommendations.filter((rec) => {
-            const id = String(rec.productId || "").replace(/^id=/, "");
-            return ALLOWED.has(id);
-          });
-          // ランクを振り直す
-          result.recommendations.forEach((rec, i) => { rec.rank = i + 1; });
-          console.warn(`[CATALOG_VIOLATION] Final cleanup: removed ${removedCount} invalid recommendations, ${result.recommendations.length} remaining`);
-        }
-      } else {
-        break;
-      }
     }
+    if (picks.length < 3) source = picks.length === 0 ? "fallback" : "ai_partial";
+    roles.forEach((role) => {
+      if (picks.find((p) => p.role === role)) return;
+      const f = fallbackPick(answers, used, role);
+      if (f) { used.add(f.productId); picks.push(f); }
+    });
+    picks.sort((a, b) => roles.indexOf(a.role) - roles.indexOf(b.role));
+    /* 画面で使う香りの材料を添える（ひとこと・中身・4つの数字） */
+    picks.forEach((p) => {
+      const s = BY_ID.get(p.productId);
+      p.line = s.line; p.notes = s.notes; p.family = s.family;
+      p.profile = { sweet: s.sweet, fresh: s.fresh, deep: s.deep, last: s.last };
+    });
 
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // 🛡️ 最終保証ロジック（3段階）
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    if (result && Array.isArray(result.recommendations)) {
-      // ─── Step 1: カタログ内のIDのみに最終フィルタ（防御的二重チェック）───
-      const beforeFilter = result.recommendations.length;
-      result.recommendations = result.recommendations.filter((rec) => {
-        const id = String(rec.productId || "").replace(/^id=/, "");
-        return ALLOWED.has(id);
-      });
-      if (beforeFilter !== result.recommendations.length) {
-        console.warn(`[FINAL_GUARD] Filter removed ${beforeFilter - result.recommendations.length} non-catalog items in final guard`);
-      }
+    const result = {
+      headline: cleanText(ai && ai.headline, 60) || "答えに近い香りから、3本を選びました",
+      picks,
+      source,
+      scentCount: SCENTS.length,
+      /* 前の形（LINE保存・計測・古い画面用） */
+      recommendations: picks.map((p, i) => {
+        const s = BY_ID.get(p.productId);
+        return {
+          rank: i + 1, productId: p.productId, name: s.name, brand: s.brand,
+          reason: p.why.length ? p.why.map((w) => w.point).join(" ") : (p.plain || s.line),
+          scene: "",
+        };
+      }),
+      profileType: "",
+      personalMessage: cleanText(ai && ai.headline, 60),
+    };
+    if (prev && /フルボトル/.test(String(answers.nextWish || ""))) result.fullbottleId = prev.id;
+    if (process.env.DIAG_DEBUG) result._usage = usage;
 
-      // ─── Step 2: 3本に満たない場合、人気商品で補完 ───
-      const recIdSet = new Set(
-        result.recommendations.map((r) => String(r.productId || "").replace(/^id=/, ""))
-      );
-      // 新規は2本を超えた分を切り捨てる（AIが3本返した場合）
-      if (result.recommendations.length > TARGET_COUNT) result.recommendations = result.recommendations.slice(0, TARGET_COUNT);
-      let filledCount = 0;
-      const FILLER_POOL = isNewUser ? NEW_USER_PRODUCTS : ALL_PRODUCTS_BY_POPULARITY;
-      while (result.recommendations.length < TARGET_COUNT) {
-        // 重複しない人気商品を取得
-        const filler = FILLER_POOL.find((p) => {
-          const fId = String(p.productsJsonId || p.code);
-          return !recIdSet.has(fId);
-        });
-        if (!filler) break; // カタログに残り商品がない（極めて稀）
-        const fillerId = String(filler.productsJsonId || filler.code);
-        recIdSet.add(fillerId);
-        result.recommendations.push({
-          rank: result.recommendations.length + 1,
-          productId: fillerId,
-          name: filler.nameEn || filler.name,
-          brand: filler.brandEn || filler.brand,
-          reason: `多くの方にご好評いただいている人気商品です。${filler.notes ? `${filler.notes}という構成で、` : ""}幅広い方におすすめできる一本です。`,
-          scene: "様々なシーンでお楽しみいただけます。",
-          matchScore: 75,
-          isFillerPick: true, // 補完商品マーカー
-        });
-        filledCount++;
-      }
-      if (filledCount > 0) {
-        console.warn(`[FINAL_GUARD] Filled ${filledCount} missing slots with popular products`);
-      }
-
-      // ─── Step 3: 小分けあり商品が0個の場合、ランク3を人気の小分け商品に置換 ───
-      const finalRecIds = result.recommendations.map((r) =>
-        String(r.productId || "").replace(/^id=/, "")
-      );
-      const hasSample = finalRecIds.some((id) => SAMPLE_IDS.has(id));
-
-      if (!isNewUser && !hasSample && SAMPLE_PRODUCTS_BY_POPULARITY.length > 0) {
-        const finalRecIdSet = new Set(finalRecIds);
-        const sampleFallback = SAMPLE_PRODUCTS_BY_POPULARITY.find((p) => {
-          const fbId = String(p.productsJsonId || p.code);
-          return !finalRecIdSet.has(fbId);
-        });
-
-        if (sampleFallback) {
-          const fbId = String(sampleFallback.productsJsonId || sampleFallback.code);
-          const sampleRec = {
-            rank: 3,
-            productId: fbId,
-            name: sampleFallback.nameEn || sampleFallback.name,
-            brand: sampleFallback.brandEn || sampleFallback.brand,
-            reason: `まずは小分け（¥${sampleFallback.samplePrice}）から気軽にお試しいただける人気商品です。多くの方にご好評いただいており、香りを実際に肌で確かめてから判断できます。気に入っていただけたら、そのままフルボトルへとステップアップいただけます。`,
-            scene: "初めての香水購入や、新しい香りに挑戦したい時にぴったりの1本です。",
-            matchScore: 80,
-            isPopularSamplePick: true,
-          };
-
-          if (result.recommendations.length >= 3) {
-            result.recommendations[2] = sampleRec;
-          } else {
-            result.recommendations.push({ ...sampleRec, rank: result.recommendations.length + 1 });
-          }
-          console.log(`[FINAL_GUARD] Injected popular sample product (no sample in original recs): id=${fbId} ${sampleFallback.nameEn || sampleFallback.name}`);
-        }
-      }
-
-      // ─── Step 4: 最終的なランクを正規化（必ず1,2,3になる）───
-      result.recommendations.forEach((rec, i) => { rec.rank = i + 1; });
-
-      // ─── 統合チェック・ログ出力 ───
-      const finalIds = result.recommendations.map((r) => String(r.productId).replace(/^id=/, ""));
-      const allInCatalog = finalIds.every((id) => VALID_IDS.has(id));
-      const sampleInRecs = finalIds.filter((id) => SAMPLE_IDS.has(id)).length;
-      console.log(`[FINAL_GUARD] Result: ${result.recommendations.length}件, カタログ内: ${allInCatalog ? "✅" : "❌"}, 小分けあり: ${sampleInRecs}件`);
-
-      if (!allInCatalog || result.recommendations.length < TARGET_COUNT || sampleInRecs === 0) {
-        console.error(`[FINAL_GUARD_FAIL] ⚠️ 保証条件を満たせなかった！`, {
-          recommendations: result.recommendations,
-          allInCatalog,
-          count: result.recommendations.length,
-          sampleCount: sampleInRecs,
-        });
-      }
-    }
-
+    console.log(`[DIAG] model=${MODEL} source=${source} picks=${picks.map((p) => p.productId).join(",")} keys=${keys.length}${retry ? " retry" : ""}`);
     return { statusCode: 200, headers, body: JSON.stringify(result) };
   } catch (err) {
     console.error("AI Diagnosis Error:", err.stack || err);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: err.message || "Internal server error", stack: err.stack }),
-    };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: "diagnosis_failed" }) };
   }
 };

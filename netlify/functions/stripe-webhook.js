@@ -220,7 +220,7 @@ exports.handler = async (event) => {
       const sampleLines = sampleBottles > 0
         ? [`:test_tube: *小分け1.5mL* 計${sampleBottles}本 → ${sampleNekopos ? '*ネコポス*' : `*宅配便*（${nekoposMax}本を超える・または他の商品と一緒）`}`,
           ...(sampleCases.length ? [`　　:large_green_circle: *ケース付き* ${sampleCases.join('、')}（瓶をケースに入れて同梱）`] : []),
-          ...(freeCaseId ? [`　　:gift: *プレゼントのケース* ${caseNames[freeCaseId] || freeCaseId}×1（お試し6本以上のおまけ・空のまま同梱）`] : [])]
+          ...(freeCaseId ? [`　　:gift: *プレゼントのケース* ${caseNames[freeCaseId] || freeCaseId}×1（お試しまとめ買いのおまけ・空のまま同梱）`] : [])]
         : [];
       const shipLines = (giftOnly || sampleNekopos)
         ? [

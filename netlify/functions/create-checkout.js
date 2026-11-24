@@ -33,6 +33,16 @@ try {
 // 小分け1.5mL（2026-11-15）。data/samples.json に載っている香りだけ。価格は products.json の samplePrice
 let SAMPLES = null;
 try { SAMPLES = require('../../data/samples.json'); } catch (e) { console.error('[sample] samples.json load failed:', e.message); }
+// 期間限定セール（2026-11-24）。sale の start〜end（endは含まない）の間だけ bundle と freeCase を置き換える。画面（index.html の applySampleSale）と同じ判定
+function sampleTerms() {
+  const base = { bundle: (SAMPLES && SAMPLES.bundle) || [], freeCase: (SAMPLES && SAMPLES.freeCase) || null, sale: null };
+  const sl = SAMPLES && SAMPLES.sale;
+  const now = Date.now();
+  if (sl && sl.bundle && now >= Date.parse(sl.start) && now < Date.parse(sl.end)) {
+    return { bundle: sl.bundle, freeCase: sl.freeCase || base.freeCase, sale: sl };
+  }
+  return base;
+}
 const isSampleItem = (item) => !!item && item.variant === 'sample';
 
 /** index.html の doCheckout() と同じ組み立てで商品名を作る（伝票の品名もここから作られる） */
@@ -257,7 +267,8 @@ exports.handler = async (event) => {
     const sampleRows = resolved.filter((r) => r.kind === 'sample');
     const sampleCount = sampleRows.reduce((n, r) => n + r.quantity, 0);
     // まとめ買い割引（お試しの合計本数で率が決まる。お試しの行だけ・1本ずつ四捨五入＝カートの表示と同じ計算）
-    const bundleRate = ((SAMPLES && SAMPLES.bundle) || [])
+    const terms = sampleTerms();
+    const bundleRate = (terms.bundle || [])
       .filter((t) => sampleCount >= t.min).reduce((r, t) => Math.max(r, t.rate), 0);
     let bundleDiscount = 0;
     if (bundleRate > 0) {
@@ -266,13 +277,13 @@ exports.handler = async (event) => {
         const discounted = Math.round(r.unitAmount * (1 - bundleRate));
         bundleDiscount += (r.unitAmount - discounted) * r.quantity;
         r.unitAmount = discounted;
-        r.name += `（まとめ買い${pct}%引き）`;
+        r.name += terms.sale ? `（${terms.sale.name}${pct}%引き）` : `（まとめ買い${pct}%引き）`;
       }
     }
     // お試しが freeCase.min 本以上なら、香水ケースを1個プレゼント（2026-11-19）。色はお客さまがカートで選ぶ。
     // 選んだ色が不正・品切れの時は、品切れでない最初の色にする（決済は止めない）。値段は付けない＝session metadata の free_case に色を入れる
     let freeCase = null;
-    const freeCaseMin = SAMPLES && SAMPLES.freeCase && SAMPLES.freeCase.min;
+    const freeCaseMin = terms.freeCase && terms.freeCase.min;
     if (freeCaseMin && sampleCount >= freeCaseMin && giftSetLib && giftSetLib.CASE_BY_ID) {
       const want = body.freeCase != null ? String(body.freeCase) : '';
       const picked = want ? giftSetLib.CASE_BY_ID[want] : null;
@@ -451,6 +462,7 @@ exports.handler = async (event) => {
       ...(hasGiftSet ? { gift_set_count: String(giftSetRows.length) } : {}),
       ...(sampleCount ? { sample_count: String(sampleCount), smp: sampleRows.map((r) => `${r.sampleNo}x${r.quantity}`).join(',').slice(0, 500) } : {}),
       ...(bundleDiscount ? { sample_bundle_rate: String(bundleRate), sample_bundle_discount: String(bundleDiscount) } : {}),
+      ...(terms.sale && sampleCount > 0 ? { sample_sale: String(terms.sale.name).slice(0, 40) } : {}),
       ...(freeCase ? { free_case: freeCase.id } : {}),
       ...Object.fromEntries(giftSetRows.map((v, i) => [`gs${i + 1}`, v.slice(0, 500)])),
       diagnosis_session_id: (metadata && metadata.diagnosis_session_id) || '',

@@ -15,6 +15,10 @@
   ];
   var SUB = [['お問い合わせ','/contact.html'],['配送・返品','/tokushoho.html#shipping'],['特定商取引法','/tokushoho.html'],['LINEで相談', LINE]];
   var ANN = '<a class="nt-ann" id="nt-ann" href="/#nt-bundle"><span class="nt-ann-in"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 20V7M12 7H8.5a2.5 2.5 0 110-5C11 2 12 7 12 7zM12 7h3.5a2.5 2.5 0 100-5C13 2 12 7 12 7z"/></svg><b>お試し6本以上で、香水ケースを1個プレゼント</b><em>通常＋300円・12色から選べます</em><i aria-hidden="true">&rarr;</i></span></a>';
+  /* 期間限定セール中は、お知らせ帯の文をセールに替える（期間と文は data/samples.json の sale と同じにする・2026-11-24） */
+  (function(){ var n = Date.now(); if(n >= Date.parse('2026-12-01T00:00:00+09:00') && n < Date.parse('2026-12-07T00:00:00+09:00')){
+    ANN = ANN.replace(/<b>[^<]*<\/b><em>[^<]*<\/em>/, '<b>12月のお試しセール：お試し1本から5%OFF</b><em>12/1（火）〜12/6（日）・5本で30%OFF＋ケース</em>');
+  } })();
   var sparkle = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10.5 5Q12.20 11.80 19 13.5Q12.20 15.20 10.5 22Q8.80 15.20 2 13.5Q8.80 11.80 10.5 5ZM19 1.5Q19.80 4.70 23 5.5Q19.80 6.30 19 9.5Q18.20 6.30 15 5.5Q18.20 4.70 19 1.5Z"/></svg>';
   function ev(n, o){ try{ if(typeof gtag !== 'undefined') gtag('event', n, o || {}); }catch(e){} }
 

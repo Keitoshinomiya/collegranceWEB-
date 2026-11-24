@@ -1022,7 +1022,7 @@
 .pc .pc-peek em{font-size:11px}
 .pc .tag{font-size:11px;letter-spacing:.12em}
 </style>
-<link rel="stylesheet" href="/assets/css/new-top.css?v=20261120n">
+<link rel="stylesheet" href="/assets/css/new-top.css?v=20261124s">
   <link rel="stylesheet" href="/assets/css/diagnosis.css?v=20261122a">
 </head>
 <body>
@@ -1223,6 +1223,16 @@
     <div class="hero-dots" id="hero-dots"></div>
   </section>
 
+  <!-- 期間限定セールの帯（2026-11-24）。samples.json の sale の期間だけ applySampleSale が表示する。画像（スマホ1080×720・PC2400×600）が届いたら picture を足す -->
+  <a class="nt-sale" id="nt-sale" href="#nt-bundle" hidden onclick="typeof gtag!=='undefined'&&gtag('event','sale_banner_click',{event_category:'sale',event_label:'2612_sample'});">
+    <span class="nt-sale-in">
+      <small id="nt-sale-date"></small>
+      <b id="nt-sale-name"></b>
+      <span id="nt-sale-steps"></span>
+      <em>お試しの香りを選ぶ &rarr;</em>
+    </span>
+  </a>
+
   <!-- TRUST BAR -->
   <div class="trust-bar">
     <div class="trust-bar-item">
@@ -1284,13 +1294,13 @@
   <section class="nt-bundle" id="nt-bundle">
     <div class="nt-in">
       <h2><span class="sec-en">Collect</span>いくつか比べるほど、お得になります</h2>
-      <div class="nt-plans nt-rv">
+      <div class="nt-plans nt-rv" id="nt-plans">
         <div class="nt-plan"><small>まず</small><b>1本</b><span>¥750〜</span><i>送料無料</i></div>
         <div class="nt-plan rec"><em>おすすめ</em><small>比べる</small><b>3本</b><span>15%引き</span><i>違いが分かる</i></div>
         <div class="nt-plan"><small>じっくり</small><b>6本</b><span>25%引き</span><i>＋ケース（通常＋300円）</i></div>
       </div>
       <div class="nt-steps-t">まとめるほど、割引が大きくなります</div>
-      <div class="nt-steps nt-rv"><div><small>2本</small><b>5%</b></div><div><small>3本</small><b>15%</b></div><div><small>4本</small><b>20%</b></div><div><small>5本</small><b>25%</b></div><div><small>6本〜</small><b>25%</b></div></div>
+      <div class="nt-steps nt-rv" id="nt-steps"><div><small>2本</small><b>5%</b></div><div><small>3本</small><b>15%</b></div><div><small>4本</small><b>20%</b></div><div><small>5本</small><b>25%</b></div><div><small>6本〜</small><b>25%</b></div></div>
       <div class="nt-cases-head"><span>香水ケース 全12色</span><span class="nt-swipe" aria-hidden="true">横に送って見る <i>&rarr;</i></span></div>
       <div class="nt-cases-wrap">
       <div class="nt-cases nt-rv" role="list" aria-label="香水ケースを身につけた写真（12色）">
@@ -1310,7 +1320,7 @@
         <button type="button" class="nt-cases-next" aria-label="次の色を見る">&rarr;</button>
       </div>
       <div class="nt-cases-bar" aria-hidden="true"><i></i></div>
-      <p class="gift">お試し6本以上で、香水ケース（通常＋300円）を1個プレゼント<br><span>12色から選べます</span></p>
+      <p class="gift" id="nt-bundle-gift">お試し6本以上で、香水ケース（通常＋300円）を1個プレゼント<br><span>12色から選べます</span></p>
       <p class="eg">香りは、比べてみると違いがよく分かります。朝用と夜用、仕事の日と休みの日。気分で選べるように、いくつか手元に置いてみてください。</p>
     </div>
   </section>
@@ -1992,8 +2002,8 @@ async function loadProducts(){
     populateJournalPicks();
     /* 小分け1.5mLのサイト販売の設定（2026-11-15）。読めなければ従来どおりAmazonへのボタンを出す */
     try {
-      const sr = await fetch('data/samples.json?v=20261119b');
-      if(sr.ok) SAMPLE_CFG = await sr.json();
+      const sr = await fetch('data/samples.json?v=20261124s');
+      if(sr.ok) SAMPLE_CFG = applySampleSale(await sr.json());
     } catch(e){ console.warn('Failed to load samples.json', e); }
     buildGrid();
     /* 選べる3本ギフトセットの定義（失敗してもショップは続行。カート内のギフトセットだけ復元されない） */
@@ -2661,6 +2671,40 @@ var GIFT_SET = null;
    定義は data/samples.json（create-checkout.js・shipping-csv.js と共通）。価格は products.json の samplePrice。
    決済金額はサーバーが samplePrice から決め直す。Amazonで買えない香り（amazon:false）はサイトのボタンだけ出す */
 var SAMPLE_CFG = null;
+/* 期間限定セール（2026-11-24）。samples.json の sale の start〜end（endは含まない）の間だけ、bundle と freeCase を置き換える。決済（create-checkout.js）も同じ判定 */
+function applySampleSale(cfg){
+  try {
+    var sl = cfg && cfg.sale, now = Date.now();
+    if(sl && sl.bundle && now >= Date.parse(sl.start) && now < Date.parse(sl.end)){
+      cfg.bundle = sl.bundle; if(sl.freeCase) cfg.freeCase = sl.freeCase; cfg.saleActive = sl;
+      renderSaleTop(sl);
+    }
+  } catch(e){}
+  return cfg;
+}
+/* セールの間だけ、トップの帯・お知らせ帯・割引の案内をセールの表に書き換える（期間外は何もしない＝元の表示のまま） */
+function renderSaleTop(sl){
+  try {
+    var pct = function(r){ return Math.round(r * 100) + '%'; }, t = sl.bundle, last = t[t.length - 1], cm = sl.freeCase && sl.freeCase.min;
+    var rateAt = function(n){ return t.filter(function(x){ return n >= x.min; }).reduce(function(r, x){ return Math.max(r, x.rate); }, 0); };
+    var el = function(id){ return document.getElementById(id); };
+    if(el('nt-sale')){
+      el('nt-sale-date').textContent = sl.label + ' 期間限定';
+      el('nt-sale-name').textContent = sl.name;
+      el('nt-sale-steps').innerHTML = '<span style="display:inline-block">お試しは1本から' + pct(t[0].rate) + 'OFF。</span><span style="display:inline-block">' + last.min + '本で' + pct(last.rate) + 'OFF' + (cm ? '＋香水ケース付き' : '') + '</span>';
+      el('nt-sale').hidden = false;
+    }
+    var ann = el('nt-ann');
+    if(ann){ var b = ann.querySelector('b'), em = ann.querySelector('em'); if(b) b.textContent = sl.name + '：お試し1本から' + pct(t[0].rate) + 'OFF'; if(em) em.textContent = sl.label + '・' + last.min + '本で' + pct(last.rate) + 'OFF＋ケース'; }
+    if(el('nt-plans')) el('nt-plans').innerHTML =
+      '<div class="nt-plan"><small>まず</small><b>1本</b><span>' + pct(rateAt(1)) + '引き</span><i>送料無料</i></div>'
+      + '<div class="nt-plan rec"><em>おすすめ</em><small>比べる</small><b>3本</b><span>' + pct(rateAt(3)) + '引き</span><i>違いが分かる</i></div>'
+      + '<div class="nt-plan"><small>じっくり</small><b>' + (cm || last.min) + '本</b><span>' + pct(rateAt(cm || last.min)) + '引き</span><i>＋ケース（通常＋300円）</i></div>';
+    if(el('nt-steps')) el('nt-steps').innerHTML = t.map(function(x, i){ return '<div><small>' + x.min + '本' + (i === t.length - 1 ? '〜' : '') + '</small><b>' + pct(x.rate) + '</b></div>'; }).join('');
+    if(el('nt-bundle-gift') && cm) el('nt-bundle-gift').innerHTML = 'お試し' + cm + '本以上で、香水ケース（通常＋300円）を1個プレゼント<br><span>' + sl.label + 'のセール中だけ。12色から選べます</span>';
+  } catch(e){}
+}
+function sampleSaleActive(){ return (SAMPLE_CFG && SAMPLE_CFG.saleActive) || null; }
 function sampleCfg(p){ return (SAMPLE_CFG && SAMPLE_CFG.items && p) ? SAMPLE_CFG.items[String(p.id)] || null : null; }
 function sampleSellable(p){ var c = sampleCfg(p); return !!(c && !c.soldOut && p.samplePrice > 0); }
 function sampleOnAmazon(p){ var c = sampleCfg(p); return !!(p && p.amazonAsin && (!c || c.amazon !== false)); }
@@ -3481,7 +3525,7 @@ function refreshCart(){
     var bRow = document.getElementById('c-bundle-row');
     if(bRow){
       bRow.style.display = bd.amount > 0 ? '' : 'none';
-      document.getElementById('c-bundle-label').textContent = 'まとめ買い割引（お試し' + sampleBottleCount() + '本で' + Math.round(bd.rate * 100) + '%引き）';
+      document.getElementById('c-bundle-label').textContent = (sampleSaleActive() ? sampleSaleActive().name : 'まとめ買い割引') + '（お試し' + sampleBottleCount() + '本で' + Math.round(bd.rate * 100) + '%引き）';
       document.getElementById('c-bundle').textContent = '-\u00a5' + bd.amount.toLocaleString();
     }
   } catch(e){}

@@ -956,5 +956,24 @@
     "description": "",
     "existsInProductsJson": true,
     "productsJsonId": 135
+  },
+  {
+    "code": "P_13",
+    "brand": "DIPTYQUE",
+    "brandEn": "DIPTYQUE",
+    "name": "フルールドゥポー",
+    "nameEn": "Fleur de Peau",
+    "spec": "EDP",
+    "size": "75ml",
+    "gender": "",
+    "cost": 21500,
+    "sellPrice": 30800,
+    "notes": "Pink Pepper, Iris, Musk",
+    "description": "",
+    "existsInProductsJson": true,
+    "productsJsonId": 13,
+    "samplePrice": 1350,
+    "salesCount": 21,
+    "amazonAsin": "B0FSKQWRJM"
   }
 ]

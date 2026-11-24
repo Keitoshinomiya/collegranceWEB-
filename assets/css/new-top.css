@@ -259,3 +259,38 @@
 .nt-sale-in>span{font-size:14px}
 .nt-sale em{font-style:normal;font-size:13px;margin-top:6px;padding:8px 18px;border:1px solid #fff;border-radius:2px}
 @media(min-width:768px){.nt-sale-in{flex-direction:row;justify-content:center;gap:18px;padding:16px 24px}.nt-sale em{margin-top:0}}
+/* 2026-11-24 本数カードを押せるように・階段のケースの段・ケースは縦に並べる */
+button.nt-plan{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;appearance:none;width:100%}
+.nt-plan u{display:block;text-decoration:none;font-size:10px;color:#888;margin-top:6px;letter-spacing:.04em}
+.nt-plan u::after{content:" ▾"}
+.nt-plan.on{border-color:#1a1a1a;background:#fffdf3}
+.nt-plan.on u::after{content:" ▴"}
+.nt-plan .nt-plan-case{display:flex;align-items:center;justify-content:center;gap:4px;font-weight:700;color:#8a6a1f}
+.nt-plan-case img{width:22px;height:22px;border-radius:50%;object-fit:cover}
+.nt-plan-detail{background:#fff;border:1px solid #1a1a1a;border-radius:4px;padding:16px 16px 14px;margin-top:10px;text-align:center;color:#1a1a1a}
+.nt-plan-detail[hidden]{display:none}
+.nt-plan-detail .h{font-size:14px;font-weight:700;margin:0 0 8px}
+.nt-plan-detail .ex{font-size:13px;line-height:1.8;margin:0 0 8px;color:#444}
+.nt-plan-detail .ex s{color:#999}
+.nt-plan-detail .ex b{font-size:17px;color:#b3302f}
+.nt-plan-detail .kase{display:flex;align-items:center;gap:10px;text-align:left;font-size:12px;line-height:1.7;background:#fdf6e3;border-radius:4px;padding:8px 10px;margin:0 0 10px}
+.nt-plan-detail .kase img{width:44px;height:44px;border-radius:6px;object-fit:cover;flex:none}
+.nt-plan-detail .hint{font-size:12px;color:#8a6a1f;margin:0 0 10px}
+.nt-plan-detail .go{font:inherit;font-size:13px;font-weight:700;background:#1a1a1a;color:#fff;border:0;border-radius:2px;padding:11px 18px;width:100%;cursor:pointer}
+.nt-steps div{position:relative}
+.nt-steps div.gift{background:#1a1a1a;color:#fff;border-color:#1a1a1a;padding-bottom:28px}
+.nt-steps div.gift small{color:#fff;opacity:.85}
+.nt-steps div:last-child:not(.gift){background:#fff;color:#1a1a1a}
+.nt-steps div:last-child:not(.gift) small{color:#666;opacity:1}
+.nt-step-case{position:absolute;left:0;right:0;bottom:6px;display:flex;align-items:center;justify-content:center;gap:3px;font-size:10px;font-weight:700;color:#f3d98b;white-space:nowrap}
+.nt-step-case img{width:16px;height:16px;border-radius:50%;object-fit:cover}
+.nt-steps{align-items:stretch}
+/* ケース全12色は、横に送らず縦に並べる（スマホ3列・PCは6列のまま） */
+.nt-cases-wrap::after{display:none}
+.nt-cases{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 8px;margin:10px 0 0;padding:0;overflow:visible;scroll-snap-type:none}
+.nt-cases figure{max-width:none}
+@media(min-width:760px){.nt-cases{grid-template-columns:repeat(6,1fr)}}
+.nt-steps div.gift{flex:1.7;padding-bottom:8px;background:#1a1a1a}
+.nt-step-case{position:static;margin-top:3px;font-size:11px;gap:4px}
+.nt-step-case img{width:18px;height:18px}
+.nt-steps div.gift .nt-step-case{display:inline-flex;margin:4px auto 0;padding:2px 8px 2px 2px;border-radius:999px;background:#f3d98b;color:#1a1a1a;font-size:11px;font-weight:700}

@@ -956,21 +956,5 @@
     "description": "",
     "existsInProductsJson": true,
     "productsJsonId": 135
-  },
-  {
-    "code": "P_144",
-    "brand": "CLEAN",
-    "brandEn": "CLEAN",
-    "name": "クラシック フラワーフレッシュ",
-    "nameEn": "クラシック フラワーフレッシュ",
-    "spec": "EDP",
-    "size": "30mL",
-    "gender": "",
-    "cost": 1750,
-    "sellPrice": 5320,
-    "notes": "Peony, Lily, White Musk",
-    "description": "",
-    "existsInProductsJson": true,
-    "productsJsonId": 144
   }
 ]

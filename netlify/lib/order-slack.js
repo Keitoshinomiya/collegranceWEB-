@@ -2,7 +2,8 @@
  * #collegrance-発送 に出す「新規注文」の投稿文を作る（2026-11-25 短い形に変更・発送スタッフの要望）
  *
  * 載せるのは「詰めるのに要るもの」だけ：お届け先の名前（送り状との照合用）・送り方・商品と同梱物・CSVリンク。
- * メール・電話・住所・金額・手順の説明・Stripeリンクは載せない（住所はB2／e飛伝のCSVに入っている）。
+ * メール・電話・住所・手順の説明・Stripeリンクは載せない（住所はB2／e飛伝のCSVに入っている）。
+ * 金額は、値段の付け間違いなどに気づけるよう、商品ごとの金額と合計だけ載せる（2026-11-25 スタッフの要望で戻した）。
  * 絵文字は商品の行の頭だけ：🧴フルボトル 🧪小分け（お試し） 👝ケース
  * 本数は「*1本*」「*1個*」と太字、ケースは「*ケース 色 1個*」と行ごと太字（見落とし防止・2026-11-25 スタッフの要望）。
  * Slackの太字は * の前後が空白か行末でないと効かないので、前後の半角スペースを消さないこと。
@@ -17,6 +18,7 @@
 const CASE_NAMES = { BLK: 'ブラック', ECR: 'エクリュ', BRN: 'ブラウン', NVY: 'ネイビー', RED: 'レッド', PNK: 'ピンク', LBL: 'ライトブルー', YEL: 'イエロー', SLV: 'シルバー', GLD: 'ゴールド', KHK: 'カーキ', GRY: 'グレー' };
 const HEADER = '【要対応・発送】';
 
+const yen = (n) => `¥${Number(n || 0).toLocaleString('ja-JP')}`;
 const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 /**
@@ -94,16 +96,17 @@ function buildOrderSlackText({ session, sessionId, giftSetLib, giftCardLib, neko
   const shipName = shipToName(session);
   const lines = [`${HEADER}新規注文｜${esc(shipName)} 様｜${carrier === 'nekopos' ? 'ネコポス' : '佐川'}`];
 
-  // 商品（ギフトセットの中身は下でまとめて出す）
+  // 商品（ギフトセットの中身は下でまとめて出す）。金額は割引後・その行の合計（ケース付きはケース代込み）
   for (const item of shipItems) {
     if (isGiftSetItem(item) && giftSetKeys.length) continue;
     const qty = item.quantity || 1;
+    const price = yen(item.amount_total);
     if (isSample(item)) {
-      lines.push(`🧪 ${esc(shortName(descOf(item)))} *${qty}本*`);
+      lines.push(`🧪 ${esc(shortName(descOf(item)))} *${qty}本* ${price}`);
       const c = prodMeta(item).case;
       if (c) lines.push(`👝 *ケース ${esc(CASE_NAMES[c] || c)} ${qty}個* （↑の瓶を入れる）`);
     } else {
-      lines.push(`🧴 ${esc(shortName(descOf(item)))} *${qty}本*`);
+      lines.push(`🧴 ${esc(shortName(descOf(item)))} *${qty}本* ${price}`);
     }
   }
   if (metadata.free_case) {
@@ -113,18 +116,24 @@ function buildOrderSlackText({ session, sessionId, giftSetLib, giftCardLib, neko
 
   // 選べる3本ギフトセット。gs1, gs2… = "030,018,039|エクリュ[|x2]"
   if (giftSetKeys.length) {
+    // ギフトセットの金額：セットの行（決済の明細）と gs1, gs2… が同じ数なら1つずつ、違えばまとめて1行で出す
+    const giftItems = shipItems.filter(isGiftSetItem);
+    const perSet = giftItems.length === giftSetKeys.length;
+    let gi = 0;
     for (const k of giftSetKeys) {
+      const setPrice = perSet ? ` ${yen(giftItems[gi++].amount_total)}` : '';
       const v = metadata[k];
       let g = null;
       try { g = giftSetLib ? giftSetLib.parseMetaValue(v) : null; } catch (e) { g = null; }
       if (g && g.scents && g.scents.length) {
         const q = g.qty > 1 ? g.qty : 1;
-        lines.push(`🧪 ${esc(g.scents.map((s) => s.name).join('／'))} *各${q}本*`);
+        lines.push(`🧪 ${esc(g.scents.map((s) => s.name).join('／'))} *各${q}本*${setPrice}`);
         lines.push(`👝 *ケース ${esc(g.caseName)} ${q}個*`);
       } else {
-        lines.push(`🧪 ギフトセット ${esc(v)}`);
+        lines.push(`🧪 ギフトセット ${esc(v)}${setPrice}`);
       }
     }
+    if (!perSet && giftItems.length) lines.push(`ギフトセット代 ${yen(giftItems.reduce((n, it) => n + (it.amount_total || 0), 0))}`);
     let cardLink = '';
     try { cardLink = giftCardLib ? giftCardLib.cardUrl(sessionId) : ''; } catch (e) { cardLink = ''; }
     const cardText = metadata.gift_message ? `カード「${esc(metadata.gift_message)}」` : 'カード（記入なし → 「あなたに似合う香りが、見つかりますように。」）';
@@ -134,8 +143,10 @@ function buildOrderSlackText({ session, sessionId, giftSetLib, giftCardLib, neko
   }
 
   // ギフトラッピングは「あり」の時だけ出す
+  const wrapItems = lineItems.filter((item) => /ギフトラッピング/.test(item.description || ''));
   if (metadata.gift_wrap === 'yes') {
     const mode = metadata.gift_mode || '';
+    if (wrapItems.length) lines.push(`ギフトラッピング代 ${yen(wrapItems.reduce((n, it) => n + (it.amount_total || 0), 0))}`);
     if (mode === 'direct') {
       lines.push(`ギフトラッピングあり（相手に直送）：カードに記入して同梱＋巾着／文面 ${metadata.gift_message ? `「${esc(metadata.gift_message)}」` : '記入なし → 未記入カード'}／贈り主 ${esc(metadata.gift_sender || '記入なし')}`);
       lines.push('※金額の分かる書類は入れない（配送先は贈り先）');
@@ -150,6 +161,13 @@ function buildOrderSlackText({ session, sessionId, giftSetLib, giftCardLib, neko
   if (carrier === 'sagawa' && /沖縄/.test(shipToState(session))) {
     lines.push('※沖縄宛て：佐川の見積もり外（別料金）。出す前に四宮さんに確認');
   }
+
+  // 送料は0円でない時だけ。合計はお客さまが支払った金額（送料・ラッピング込み）
+  const td = session.total_details || {};
+  const shippingAmount = td.amount_shipping != null ? td.amount_shipping
+    : (session.shipping_cost && session.shipping_cost.amount_total) || 0;
+  if (shippingAmount > 0) lines.push(`送料 ${yen(shippingAmount)}`);
+  lines.push(`合計 *${yen(session.amount_total)}*`);
 
   lines.push(`<https://collegrance.com/.netlify/functions/shipping-csv?session=${sessionId}|CSVをダウンロード>`);
   return { text: lines.join('\n'), carrier, shipName };

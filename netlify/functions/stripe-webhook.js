@@ -5,6 +5,8 @@ try { giftSetLib = require('../lib/gift-set'); } catch (e) { console.error('[gif
 // メッセージカード印刷ページのリンク（2026-10-08）
 let giftCardLib = null;
 try { giftCardLib = require('../lib/gift-card'); } catch (e) { console.error('[giftcard] lib load failed:', e.message); }
+// 発送チャンネルの「新規注文」の文面（2026-11-25）
+const orderSlack = require('../lib/order-slack');
 
 // 2026-09-14 発送専用チャンネル #collegrance-発送 (C0C1NLCNYRJ) に分離（旧 #line-連絡 と混ざってややこしいため）。Netlify env SLACK_CHANNEL_ID で上書き可
 const SLACK_CHANNEL = process.env.SLACK_CHANNEL_ID || 'C0C1NLCNYRJ';
@@ -124,145 +126,21 @@ exports.handler = async (event) => {
         catch (e) { console.error('[coupon] deactivate failed:', metadata.coupon_promo_id, e.message); }
       }
 
-      // Build product lines
-      const lineItems = fullSession.line_items?.data || [];
-      let subtotal = 0;
-      let shippingAmount = 0;
-      const productLines = [];
-      let hasGiftWrap = metadata.gift_wrap === 'yes';
-
-      for (const item of lineItems) {
-        const name = item.description || item.price?.product?.name || '商品';
-        const qty = item.quantity || 1;
-        const amount = item.amount_total || 0;
-
-        productLines.push(`• ${name} x ${qty}  ¥${amount.toLocaleString()}`);
-        subtotal += amount;
-      }
-
-      // Get shipping cost from session
-      if (fullSession.total_details?.amount_shipping != null) {
-        shippingAmount = fullSession.total_details.amount_shipping;
-      } else if (fullSession.shipping_cost?.amount_total != null) {
-        shippingAmount = fullSession.shipping_cost.amount_total;
-      }
-
-      const total = fullSession.amount_total || 0;
-      const shippingAddress = formatAddress(fullSession.shipping_details);
-
-      // 顧客電話番号
-      const customerPhone = fullSession.customer_details?.phone || '未入力';
-
-      // 配送ラベル発行用の追加情報
-      // 2026-10-06〜 宅配便は佐川 e飛伝Ⅲ（このURLの既定）。ヤマトB2は &carrier=yamato の予備
-      const shippingCsvUrl = `https://collegrance.com/.netlify/functions/shipping-csv?session=${session.id}`;
-      const isOkinawa = /沖縄/.test(fullSession.shipping_details?.address?.state || '');
-      const stripeUrl = `https://dashboard.stripe.com/payments/${paymentIntent}`;
-
-      // ギフトのお渡し方法（2026-09-18 追加）。発送担当が「カードに書くのか・未記入で入れるのか」を迷わないよう明示する
-      const giftLines = [];
-      // 選べる3本ギフトセット（2026-10-07）。gs1, gs2… = "030,018,039|エクリュ[|x2]"
-      const giftSetKeys = Object.keys(metadata).filter((k) => /^gs\d+$/.test(k)).sort((a, b) => parseInt(a.slice(2), 10) - parseInt(b.slice(2), 10));
-      if (giftSetKeys.length) {
-        giftLines.push(':gift: *選べる3本ギフトセット* → お試し1.5ml×3＋香水ケース＋巾着＋メッセージカード（*ネコポス*）');
-        for (const k of giftSetKeys) {
-          const v = metadata[k];
-          if (giftSetLib) {
-            const g = giftSetLib.parseMetaValue(v);
-            giftLines.push(`　　${k}: ${g.scents.map((s) => `${s.no} ${s.name}`).join('／')} ｜ ケース: *${g.caseName}*${g.qty > 1 ? ` ×${g.qty}セット` : ''}`);
-          } else {
-            giftLines.push(`　　${k}: ${v}`);
-          }
-        }
-        const gm = metadata.gift_mode === 'direct' ? 'direct' : 'self';
-        giftLines.push(gm === 'direct'
-          ? '　　お届け: *相手に直送*（配送先は贈り先）'
-          : '　　お届け: *ご本人が受け取って手渡し*');
-        giftLines.push(`　　メッセージカード（印字）: ${metadata.gift_message ? `「${metadata.gift_message}」` : '（記入なし → 「あなたに似合う香りが、見つかりますように。」のカード）'}`);
-        if (gm === 'direct') giftLines.push(`　　贈り主: ${metadata.gift_sender || '（記入なし）'}`);
-        const cardLink = giftCardLib ? giftCardLib.cardUrl(session.id) : '';
-        giftLines.push(cardLink
-          ? `　　<${cardLink}|:printer: メッセージカードを印刷>（A4マルチカード10面・倍率100%）`
-          : '　　:printer: メッセージカード印刷リンクを作れませんでした（文面は上記）');
-        giftLines.push('　　:warning: 金額の分かる書類は入れない');
-      }
-      if (hasGiftWrap) {
-        const giftMode = metadata.gift_mode || '';
-        if (giftMode === 'direct') {
-          giftLines.push(':gift: *ギフト：相手に直送* → *メッセージカードに記入して同梱*＋巾着');
-          giftLines.push(`　　カードの文面: ${metadata.gift_message ? `「${metadata.gift_message}」` : '（記入なし → 未記入カードを同梱）'}`);
-          giftLines.push(`　　贈り主: ${metadata.gift_sender || '（記入なし）'}`);
-          giftLines.push('　　:warning: 金額の分かる書類は入れない（配送先は贈り先）');
-        } else if (giftMode === 'self') {
-          giftLines.push(':gift: *ギフト：ご本人が受け取って手渡し* → *メッセージカードは未記入のまま同梱*＋巾着');
-          giftLines.push('　　:warning: 金額の分かる書類は入れない');
-        } else {
-          // 旧ページからの注文（お渡し方法の選択UIが出る前のキャッシュ）
-          giftLines.push(':gift: *ギフト：お渡し方法は未選択* → 注文者と配送先が同じなら未記入カード＋巾着');
-        }
-      }
-
-      // 発送・伝票のリンク（2026-10-08〜 宅配便は佐川。選べる3本ギフトセットだけの注文はネコポス＝ヤマトB2のまま）
-      const shipItems = lineItems.filter((item) => !/送料|ギフトラッピング/.test(item.description || ''));
-      const giftOnly = giftSetKeys.length > 0 && shipItems.length > 0
-        && shipItems.every((item) => /選べる3本ギフトセット/.test(item.description || item.price?.product?.name || ''));
-      // 小分け1.5mL（2026-11-15）。shipping-csv.js と同じ規則で、小分けだけ・上限本数以内ならネコポス
-      const isSample = (item) => (item.price?.product?.metadata || {}).variant === 'sample';
-      const sampleBottles = shipItems.filter(isSample).reduce((n, item) => n + (item.quantity || 1), 0);
-      const sampleOnly = shipItems.length > 0 && shipItems.every(isSample);
+      // 発送チャンネルへの投稿文（2026-11-25 短い形に変更。文面は netlify/lib/order-slack.js）
       let nekoposMax = 10;
       try { nekoposMax = require('../../data/samples.json').nekoposMax || 10; } catch (e) {}
-      const sampleNekopos = sampleOnly && sampleBottles <= nekoposMax;
-      const caseNames = { BLK: 'ブラック', ECR: 'エクリュ', BRN: 'ブラウン', NVY: 'ネイビー', RED: 'レッド', PNK: 'ピンク', LBL: 'ライトブルー', YEL: 'イエロー', SLV: 'シルバー', GLD: 'ゴールド', KHK: 'カーキ', GRY: 'グレー' };
-      const sampleCases = shipItems.filter((item) => isSample(item) && (item.price?.product?.metadata || {}).case)
-        .map((item) => `${caseNames[item.price.product.metadata.case] || item.price.product.metadata.case}×${item.quantity || 1}`);
-      const freeCaseId = ((fullSession && fullSession.metadata) || session.metadata || {}).free_case || '';
-      const sampleLines = sampleBottles > 0
-        ? [`:test_tube: *小分け1.5mL* 計${sampleBottles}本 → ${sampleNekopos ? '*ネコポス*' : `*宅配便*（${nekoposMax}本を超える・または他の商品と一緒）`}`,
-          ...(sampleCases.length ? [`　　:large_green_circle: *ケース付き* ${sampleCases.join('、')}（瓶をケースに入れて同梱）`] : []),
-          ...(freeCaseId ? [`　　:gift: *プレゼントのケース* ${caseNames[freeCaseId] || freeCaseId}×1（お試しまとめ買いのおまけ・空のまま同梱）`] : [])]
-        : [];
-      const shipLines = (giftOnly || sampleNekopos)
-        ? [
-          `<${shippingCsvUrl}|:arrow_down: ヤマトB2クラウド用CSV（ネコポス）をダウンロード>`,
-          '_↑ ギフトセットだけ・小分けだけの注文はネコポス＝ヤマトのまま。B2クラウドの「ファイル取り込み」にアップロード_',
-        ]
-        : [
-          `<${shippingCsvUrl}|:arrow_down: 佐川（e飛伝Ⅲ）用CSVをダウンロード>`,
-          '_↑ e飛伝Ⅲ「送り状データ取込」→ 共通テンプレート「標準_飛脚宅配便_CSV_ヘッダ有」→ 直接取込 → 印刷 → 荷物受渡書も当日中に印刷_',
-          ...(isOkinawa ? [':warning: *沖縄宛て* → 佐川の見積もり外（別料金）。出す前に四宮さんに確認'] : []),
-          `<${shippingCsvUrl}&carrier=yamato|（予備）ヤマトB2クラウド用CSV>`,
-        ];
-
-      // Build Slack message
-      const slackMsg = [
-        '🔴【要対応・発送】 :shopping_cart: *新規注文*',
-        '',
-        `*注文者:* ${customerName}`,
-        `*メール:* ${customerEmail}`,
-        `*電話:* ${customerPhone}`,
-        '',
-        '*商品:*',
-        ...productLines,
-        '',
-        `小計: ¥${subtotal.toLocaleString()}`,
-        `送料: ¥${shippingAmount.toLocaleString()}`,
-        `ギフトラッピング: ${hasGiftWrap ? 'あり' : 'なし'}`,
-        ...giftLines,
-        ...sampleLines,
-        `*合計: ¥${total.toLocaleString()}*`,
-        '',
-        '*配送先:*',
-        shippingAddress,
-        '',
-        '━━━━━━━━━━━━━━━━━━━━━━',
-        ':package: *発送・伝票発行*',
-        ...shipLines,
-        '',
-        `<${stripeUrl}|:credit_card: Stripeダッシュボードで詳細確認>`,
-        '',
-        '対応したら ✅ を付けてください',
-      ].join('\n');
+      let slackMsg;
+      try {
+        slackMsg = orderSlack.buildOrderSlackText({ session: fullSession, sessionId: session.id, giftSetLib, giftCardLib, nekoposMax }).text;
+      } catch (buildErr) {
+        // 文面づくりで失敗しても、注文があったことだけは必ず知らせる
+        console.error('[Slack] order text build failed:', buildErr);
+        slackMsg = [
+          `【要対応・発送】新規注文｜${customerName} 様｜送り方はCSVで確認`,
+          '※商品の表示に失敗しました。中身はCSVで確認し、四宮さんに知らせてください。',
+          `<https://collegrance.com/.netlify/functions/shipping-csv?session=${session.id}|CSVをダウンロード>`,
+        ].join('\n');
+      }
 
       await sendSlackMessage(slackMsg);
 

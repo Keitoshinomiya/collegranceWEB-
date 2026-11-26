@@ -830,22 +830,6 @@
     "productsJsonId": 60
   },
   {
-    "code": "P_85",
-    "brand": "Dolce & Gabbana",
-    "brandEn": "Dolce & Gabbana",
-    "name": "NEWドルチェ＆ガッバーナ ライトブルー",
-    "nameEn": "NEWドルチェ＆ガッバーナ ライトブルー",
-    "spec": "EDT",
-    "size": "30mL",
-    "gender": "",
-    "cost": 2800,
-    "sellPrice": 6550,
-    "notes": "",
-    "description": "",
-    "existsInProductsJson": true,
-    "productsJsonId": 85
-  },
-  {
     "code": "P_109",
     "brand": "LOEWE",
     "brandEn": "LOEWE",
@@ -924,22 +908,6 @@
     "description": "",
     "existsInProductsJson": true,
     "productsJsonId": 34
-  },
-  {
-    "code": "P_93",
-    "brand": "Jimmy Choo",
-    "brandEn": "Jimmy Choo",
-    "name": "ジミーチュウ",
-    "nameEn": "Jimmy Choo EDP",
-    "spec": "EDP",
-    "size": "40mL",
-    "gender": "",
-    "cost": 2800,
-    "sellPrice": 6550,
-    "notes": "",
-    "description": "",
-    "existsInProductsJson": true,
-    "productsJsonId": 93
   },
   {
     "code": "P_135",

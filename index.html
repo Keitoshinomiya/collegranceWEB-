@@ -3020,6 +3020,7 @@ function restoreCart(){
   try {
     if(location.search.includes('ok=1')){ localStorage.removeItem(CART_STORAGE_KEY); return; }
     /* LINE内ブラウザから引き継いだカートがあればそれを優先（URLのカートで置き換える） */
+    if(applyReorderFromUrl()) return;
     if(applyHandoffFromUrl()) return;
     var saved = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || 'null');
     if(!saved || !saved.items || !saved.updated_at) return;
@@ -3190,6 +3191,40 @@ function showHandoffSheet(){
 
 /* 受け側: ?handoff=1&hc=ID.数量_ID.数量… を読んでカートを置き換え、クーポン・ギフト指定も復元してカートを開く。
    処理したら true（以降の通常のカート復元は行わない）。不正・空なら false。 */
+/* 前回と同じ香りをカートに入れる（2026-11-27）。LINE → /.netlify/functions/reorder?f=友だち番号 → /?ro=s30.2_s12KRO.1_15.1
+   お試しは s<id>[ケース色].<本数>、フルボトルは <id>.<本数>。今のカートは置き換える。在庫切れ・販売終了の香りは入れない（ケースの色だけ切れていればケース無しで入れる） */
+function applyReorderFromUrl(){
+  var params;
+  try { params = new URLSearchParams(location.search); } catch(e){ return false; }
+  var ro = params.get('ro');
+  if(!ro) return false;
+  try { params.delete('ro'); var qs = params.toString(); history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash); } catch(e){}
+  var toast = function(t){ try { var el = document.getElementById('cart-toast'), m = document.getElementById('cart-toast-msg'); m.textContent = t; el.classList.add('show'); setTimeout(function(){ el.classList.remove('show'); }, 5000); } catch(e){} };
+  if(ro === 'none'){ toast('前回のご注文が見つかりませんでした。お手数ですが、香りを選び直してください'); ga4Event('reorder_open', { result: 'none' }); return false; }
+  var items = [], want = 0;
+  String(ro).split('_').slice(0, 20).forEach(function(tok){
+    var sm = /^s(\d{1,6})([A-Z]{3})?\.(\d{1,2})$/.exec(tok);
+    if(sm){
+      want++;
+      var si = makeSampleItem(parseInt(sm[1], 10), parseInt(sm[3], 10), sm[2] || '') || (sm[2] ? makeSampleItem(parseInt(sm[1], 10), parseInt(sm[3], 10), '') : null);
+      if(si && !items.find(function(x){ return cartKey(x) === si.key; })) items.push(si);
+      return;
+    }
+    var m = /^(\d{1,6})\.(\d{1,2})$/.exec(tok);
+    if(!m) return;
+    want++;
+    var id = parseInt(m[1], 10), p = PRODUCTS.find(function(x){ return x.id === id; });
+    if(!p || p.inStock === false || items.find(function(x){ return cartKey(x) === String(id); })) return;
+    items.push(Object.assign({}, p, { qty: Math.min(Math.max(parseInt(m[2], 10) || 1, 1), 20) }));
+  });
+  ga4Event('reorder_open', { result: items.length ? 'ok' : 'empty', requested: want, restored: items.length });
+  if(!items.length){ toast('前回の香りは、いま在庫がありません。ほかの香りからお選びください'); return false; }
+  cart = items;
+  refreshCart();
+  setTimeout(function(){ try { openCart(); } catch(e){} }, 300);
+  if(items.length < want) toast('前回の香りのうち、在庫のあるものだけカートに入れました');
+  return true;
+}
 function applyHandoffFromUrl(){
   var params;
   try { params = new URLSearchParams(location.search); } catch(e){ return false; }

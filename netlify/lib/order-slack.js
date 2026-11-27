@@ -4,6 +4,8 @@
  * 載せるのは「詰めるのに要るもの」だけ：お届け先の名前（送り状との照合用）・送り方・商品と同梱物・CSVリンク。
  * メール・電話・住所・手順の説明・Stripeリンクは載せない（住所はB2／e飛伝のCSVに入っている）。
  * 金額は、値段の付け間違いなどに気づけるよう、商品ごとの金額と合計だけ載せる（2026-11-25 スタッフの要望で戻した）。
+ * ギフト（選べる3本ギフトセット・ギフトラッピング）は、2行目に必ずお渡し方法を太字で出す（2026-11-27 スタッフの要望）：
+ *   「注文者が受け取って手渡し」か「プレゼントする相手に直送」か（直送は 注文者 → お届け先 の名前も）。
  * 絵文字は商品の行の頭だけ：🧴フルボトル 🧪小分け（お試し） 👝ケース
  * 本数は「*1本*」「*1個*」と太字、ケースは「*ケース 色 1個*」と行ごと太字（見落とし防止・2026-11-25 スタッフの要望）。
  * Slackの太字は * の前後が空白か行末でないと効かないので、前後の半角スペースを消さないこと。
@@ -96,6 +98,20 @@ function buildOrderSlackText({ session, sessionId, giftSetLib, giftCardLib, neko
   const shipName = shipToName(session);
   const lines = [`${HEADER}新規注文｜${esc(shipName)} 様｜${carrier === 'nekopos' ? 'ネコポス' : '佐川'}`];
 
+  // ギフトのお渡し方法（2行目・太字）。gift_mode: self＝注文者が受け取って手渡し / direct＝相手に直送
+  const isGift = giftSetKeys.length > 0 || metadata.gift_wrap === 'yes';
+  const giftMode = metadata.gift_mode || '';
+  if (isGift) {
+    const buyer = ((session.customer_details && session.customer_details.name) || '').trim();
+    if (giftMode === 'direct') {
+      lines.push(`*ギフト：プレゼントする相手に直送* （注文者 ${esc(buyer || '不明')} 様 → お届け先 ${esc(shipName)} 様）`);
+    } else if (giftMode === 'self') {
+      lines.push('*ギフト：注文者が受け取って手渡し* （お届け先は注文者ご本人）');
+    } else {
+      lines.push('*ギフト：お渡し方法の指定なし* （注文者とお届け先が同じなら手渡し扱い）');
+    }
+  }
+
   // 商品（ギフトセットの中身は下でまとめて出す）。金額は割引後・その行の合計（ケース付きはケース代込み）
   for (const item of shipItems) {
     if (isGiftSetItem(item) && giftSetKeys.length) continue;
@@ -138,8 +154,7 @@ function buildOrderSlackText({ session, sessionId, giftSetLib, giftCardLib, neko
     try { cardLink = giftCardLib ? giftCardLib.cardUrl(sessionId) : ''; } catch (e) { cardLink = ''; }
     const cardText = metadata.gift_message ? `カード「${esc(metadata.gift_message)}」` : 'カード（記入なし → 「あなたに似合う香りが、見つかりますように。」）';
     lines.push(`ギフトセット：巾着＋${cardText}${cardLink ? ` <${cardLink}|カードを印刷>` : '（印刷リンクを作れませんでした）'}`);
-    if (metadata.gift_mode === 'direct') lines.push(`相手に直送（贈り主: ${esc(metadata.gift_sender || '記入なし')}）`);
-    lines.push('※金額の分かる書類は入れない');
+    if (giftMode === 'direct') lines.push(`カードの贈り主: ${esc(metadata.gift_sender || '記入なし')}`);
   }
 
   // ギフトラッピングは「あり」の時だけ出す
@@ -148,15 +163,12 @@ function buildOrderSlackText({ session, sessionId, giftSetLib, giftCardLib, neko
     const mode = metadata.gift_mode || '';
     if (wrapItems.length) lines.push(`ギフトラッピング代 ${yen(wrapItems.reduce((n, it) => n + (it.amount_total || 0), 0))}`);
     if (mode === 'direct') {
-      lines.push(`ギフトラッピングあり（相手に直送）：カードに記入して同梱＋巾着／文面 ${metadata.gift_message ? `「${esc(metadata.gift_message)}」` : '記入なし → 未記入カード'}／贈り主 ${esc(metadata.gift_sender || '記入なし')}`);
-      lines.push('※金額の分かる書類は入れない（配送先は贈り先）');
-    } else if (mode === 'self') {
-      lines.push('ギフトラッピングあり（手渡し）：未記入カード＋巾着を同梱');
-      lines.push('※金額の分かる書類は入れない');
+      lines.push(`ギフトラッピング：カードに記入して同梱＋巾着／文面 ${metadata.gift_message ? `「${esc(metadata.gift_message)}」` : '記入なし → 未記入カード'}／贈り主 ${esc(metadata.gift_sender || '記入なし')}`);
     } else {
-      lines.push('ギフトラッピングあり（お渡し方法は未選択）：注文者と配送先が同じなら未記入カード＋巾着');
+      lines.push('ギフトラッピング：未記入カード＋巾着を同梱');
     }
   }
+  if (isGift) lines.push(giftMode === 'direct' ? '※金額の分かる書類は入れない（お届け先は贈り先）' : '※金額の分かる書類は入れない');
 
   if (carrier === 'sagawa' && /沖縄/.test(shipToState(session))) {
     lines.push('※沖縄宛て：佐川の見積もり外（別料金）。出す前に四宮さんに確認');

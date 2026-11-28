@@ -96,7 +96,7 @@
   "14": {
    "no": "019",
    "short": "イッセイ",
-   "soldOut": false,
+   "soldOut": true,
    "amazon": true,
    "img": "assets/images/samples/019"
   },

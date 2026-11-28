@@ -2001,7 +2001,7 @@ async function loadProducts(){
     populateJournalPicks();
     /* 小分け1.5mLのサイト販売の設定（2026-11-15）。読めなければ従来どおりAmazonへのボタンを出す */
     try {
-      const sr = await fetch('data/samples.json?v=20261124s');
+      const sr = await fetch('data/samples.json?v=20261128a');
       if(sr.ok) SAMPLE_CFG = applySampleSale(await sr.json());
       renderBundleTop();
     } catch(e){ console.warn('Failed to load samples.json', e); }

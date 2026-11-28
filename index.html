@@ -1967,7 +1967,7 @@ function imgPicture(src, alt, opts){
 /* ===== LOAD PRODUCTS ===== */
 async function loadProducts(){
   try {
-    const r = await fetch('products.json?v=20260514-coupons');
+    const r = await fetch('products.json?v=20261128a');
     if(!r.ok) throw new Error('HTTP ' + r.status);
     PRODUCTS = await r.json();
     PRODUCTS.forEach(p => {
@@ -5117,7 +5117,7 @@ window.addEventListener('beforeunload', function(){
   <div class="review-modal" id="review-modal"></div>
 </div>
 <script src="/assets/js/new-top.js?v=20261120e" defer></script>
-<script src="/assets/js/new-sheet.js?v=20261120e" defer></script>
+<script src="/assets/js/new-sheet.js?v=20261128a" defer></script>
 <script src="/assets/js/diagnosis.js?v=20261122a" defer></script>
 </body>
 </html>

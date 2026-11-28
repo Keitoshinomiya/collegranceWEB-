@@ -1901,6 +1901,9 @@
         <span class="cart-total-label">合計（税込）</span>
         <span class="cart-total-price" id="c-total">&yen;0</span>
       </div>
+      <!-- 2026-11-28 年末年始も休まず発送（四宮さん）。配送会社が混むので 12/24〜1/5 だけ一文を出す（日付は約束しない） -->
+      <p id="cart-yearend" hidden style="margin:6px 0 0;font-size:.58rem;color:#8a6d1f;line-height:1.6;text-align:center">年末年始は、配送に通常より日数がかかる場合があります。</p>
+      <script>(function(){try{var d=new Date(Date.now()+9*3600000),m=d.getUTCMonth()+1,t=d.getUTCDate();if((m===12&&t>=24)||(m===1&&t<=5))document.getElementById('cart-yearend').hidden=false;}catch(e){}})();</script>
       <!-- クーポン手入力欄 (URLで自動適用されなかった場合のフォールバック) -->
       <div id="coupon-input-wrap" style="margin:10px 0 8px;font-size:.6rem">
         <div id="coupon-toggle" onclick="toggleCouponInput()" style="cursor:pointer;color:var(--sub);text-align:center;padding:4px 0;letter-spacing:.05em">

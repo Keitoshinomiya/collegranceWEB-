@@ -616,6 +616,9 @@ function toggleMobileNav(){
       $('eta').textContent = range + '頃ポストにお届け';
       $('eta-sub').hidden = false;
       $('faq-eta').textContent = '（今日のご注文なら ' + range + '頃）';
+      /* 2026-11-28 年末年始も休まず発送。12/24〜1/5 だけ一文を添える */
+      var jd = new Date(Date.now() + 9 * 3600000), jm = jd.getUTCMonth() + 1, jt = jd.getUTCDate();
+      if((jm === 12 && jt >= 24) || (jm === 1 && jt <= 5)) $('eta-sub').textContent += '。年末年始は、配送に通常より日数がかかる場合があります';
     } catch(e){}
   })();
 

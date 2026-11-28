@@ -120,6 +120,10 @@
     .cart-badge{background:var(--accent);color:#fff;font-size:.5rem;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
     .cart-badge.bounce{transform:scale(1.5)}
     /* カート追加トースト */
+    .cart-toast #cart-toast-msg{display:flex;flex-direction:column;gap:2px;white-space:normal;max-width:min(78vw,320px)}
+    .cart-toast .ct-sub{font-size:.62rem;color:#f3d98b;letter-spacing:.02em}
+    .cart-toast .ct-go{font-size:.6rem;color:#bbb;text-decoration:underline;text-underline-offset:2px}
+    .cart-toast.show{cursor:pointer}
     .cart-toast{position:fixed;bottom:-80px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:12px 24px;border-radius:8px;font-family:var(--font);font-size:.68rem;letter-spacing:.04em;display:flex;align-items:center;gap:10px;z-index:10001;box-shadow:0 4px 20px rgba(0,0,0,.25);transition:bottom .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap}
     .cart-toast.show{bottom:100px}
     .cart-toast svg{flex-shrink:0}
@@ -2004,6 +2008,7 @@ async function loadProducts(){
       const sr = await fetch('data/samples.json?v=20261128a');
       if(sr.ok) SAMPLE_CFG = applySampleSale(await sr.json());
       renderBundleTop();
+      populatePopular(); /* お試しの写真に描き直す（設定を読む前に一度描いているため） */
     } catch(e){ console.warn('Failed to load samples.json', e); }
     buildGrid();
     /* 選べる3本ギフトセットの定義（失敗してもショップは続行。カート内のギフトセットだけ復元されない） */
@@ -2072,10 +2077,14 @@ function populatePopular(){
   if(!container || !popular.length) return;
   container.innerHTML = popular.map(function(p, i){
     /* Popular Picks: 上位4枚はeager loading（above-the-fold想定） */
-    var imgHtml = p.img
+    /* お試しを売っている香りは、お試しの小さな瓶の写真にする（2026-11-28 Y0⑫。お試しの値段なのに元のボトル＝ブランドのロゴが写っていた） */
+    var smp = sampleSellable(p) ? sampleCfg(p) : null;
+    var imgHtml = smp && smp.img
+      ? imgPicture(smp.img + '.jpg', p.brand + ' ' + p.name + ' お試し1.5mL', { eager: i < 4 })
+      : p.img
       ? imgPicture(p.img, p.brand + ' ' + p.name, { eager: i < 4 })
       : '<div style="width:100%;aspect-ratio:4/5;background:#f7f7f7;display:flex;align-items:center;justify-content:center;opacity:.15"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="9" width="8" height="12" rx="2.2"/><path d="M10.5 9V7h3v2"/><rect x="10.2" y="3.6" width="3.6" height="2.4" rx="0.8"/></svg></div>';
-    var priceLabel = p.type === 'sample_and_fullbottle' && p.samplePrice
+    var priceLabel = (smp || p.type === 'sample_and_fullbottle') && p.samplePrice
       ? 'お試し &yen;' + p.samplePrice.toLocaleString() + '〜'
       : '&yen;' + p.sellPrice.toLocaleString();
     return '<div class="popular-item" onclick="openProductSheet(' + p.id + ',\'popular\')">' +
@@ -3503,6 +3512,7 @@ function showShareToast(msg){
   icon.innerHTML = '<path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>';
   icon.setAttribute('stroke', '#60a5fa');
   msgEl.textContent = msg;
+  toast.onclick = null; /* カート追加の表示から引き継がない */
   if(shareToastTimer) clearTimeout(shareToastTimer);
   toast.classList.add('show');
   shareToastTimer = setTimeout(function(){
@@ -3518,6 +3528,24 @@ function showCartToast(productName){
   var toast = document.getElementById('cart-toast');
   var msg = document.getElementById('cart-toast-msg');
   msg.textContent = productName ? productName + ' をカートに追加しました' : 'カートに追加しました';
+  /* カートに入れた直後の次の一歩（2026-11-28 Y0④）：お試しなら「あと◯本で◯%引き」と「カートを見る」。押すとカートが開く */
+  var hint = '';
+  try {
+    var bc = sampleBottleCount();
+    if(bc > 0){
+      var tiers = sampleBundleTiers(), nextT = tiers.filter(function(t){ return t.min > bc; })[0];
+      var nowT = tiers.filter(function(t){ return t.min <= bc; }).pop();
+      hint = nextT ? 'お試し' + bc + '本・あと' + (nextT.min - bc) + '本で' + Math.round(nextT.rate * 100) + '%引き'
+                   : 'お試し' + bc + '本' + (nowT ? '・' + Math.round(nowT.rate * 100) + '%引きになっています' : '');
+    }
+  } catch(e){}
+  if(hint){
+    var sub = document.createElement('span'); sub.className = 'ct-sub'; sub.textContent = hint;
+    msg.appendChild(sub);
+  }
+  var go = document.createElement('span'); go.className = 'ct-go'; go.textContent = 'カートを見る ›';
+  msg.appendChild(go);
+  toast.onclick = function(){ toast.classList.remove('show'); try { openCart(); } catch(e){} try { if(typeof gtag==='function') gtag('event','cart_toast_open',{has_hint: hint ? 1 : 0}); } catch(e){} };
   if(cartToastTimer) clearTimeout(cartToastTimer);
   toast.classList.add('show');
   /* カートバッジのバウンス */
@@ -3526,7 +3554,7 @@ function showCartToast(productName){
   void badge.offsetWidth; /* reflow */
   badge.classList.add('bounce');
   setTimeout(function(){ badge.classList.remove('bounce'); }, 400);
-  cartToastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 2500);
+  cartToastTimer = setTimeout(function(){ toast.classList.remove('show'); }, hint ? 4500 : 3000);
 }
 
 /* id は通常商品なら商品ID、ギフトセットなら組み合わせのキー（cartKey）。どちらも文字列で比較する */

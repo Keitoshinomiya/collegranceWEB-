@@ -93,6 +93,12 @@
       var params = new URLSearchParams(window.location.search);
       var utms = [];
       params.forEach(function(v,k){ if(k.lastIndexOf('utm_',0)===0) utms.push([k,v]); });
+      // UTMが無いときは参照元から入口を補う（2026-11-28 プロフィールのリンクにUTMが無い場合の保険）
+      if(!utms.length){
+        var ref = document.referrer || '';
+        var src = /threads\.(net|com)/i.test(ref) ? 'threads' : (/instagram\.com/i.test(ref) ? 'instagram' : '');
+        if(src) utms = [['utm_source', src], ['utm_medium', 'social'], ['utm_campaign', 'profile']];
+      }
       if(!utms.length) return;
       document.querySelectorAll('a.btn').forEach(function(a){
         try{
